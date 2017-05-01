@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Innovator.Client</id>
+    <version>2017.3.15.347</version>
+    <authors>Eric Domke</authors>
+    <owners>Eric Domke</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/erdomke/Innovator.Client</projectUrl>
+    <description>Client library for communicating with Aras Innovator</description>
+    <tags>aras innovator</tags>
+    <language>en-US</language>
+    <dependencies>
+      <group targetFramework=".NETFramework3.5">
+        <dependency id="HttpClientPolyfill" version="1.0.0.6" exclude="Build,Analyzers" />
+        <dependency id="TaskParallelLibrary" version="1.0.2856" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="HttpClientPolyfill" version="1.0.0.6" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETFramework4.5" />
+      <group targetFramework=".NETFramework4.6" />
+      <group targetFramework=".NETStandard1.1">
+        <dependency id="NETStandard.Library" version="1.6.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.NETCore.Portable.Compatibility" version="1.0.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="NETStandard.Library" version="1.6.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.NETCore.Portable.Compatibility" version="1.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

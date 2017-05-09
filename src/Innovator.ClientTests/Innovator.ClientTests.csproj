@@ -94,7 +94,6 @@
     <Compile Include="Aml\SqlBatchWriterTests.cs" />
     <Compile Include="Aml\SubSelectTests.cs" />
     <Compile Include="CommandTests.cs" />
-    <Compile Include="Connection\AuthenticationSchemeTests.cs" />
     <Compile Include="Connection\ConnectionExtensionsTests.cs" />
     <Compile Include="Connection\ConnectionPreferencesTests.cs" />
     <Compile Include="Scratchpad.cs" />

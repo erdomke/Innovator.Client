@@ -714,10 +714,39 @@ namespace Innovator.Client
     {
       return new AmlReader(elem);
     }
+
     public static XmlReader CreateReader(this IReadOnlyResult elem)
     {
       return new AmlReader(elem);
     }
+
+    public static IEnumerable<IReadOnlyElement> Parents(this IReadOnlyElement elem)
+    {
+      if (!elem.Exists)
+        yield break;
+      var curr = elem.Parent;
+      while (curr.Exists)
+      {
+        yield return curr;
+        curr = curr.Parent;
+      }
+    }
+
+    public static IEnumerable<IReadOnlyElement> ParentsAndSelf(this IReadOnlyElement elem)
+    {
+      if (!elem.Exists)
+        yield break;
+
+      yield return elem;
+
+      var curr = elem.Parent;
+      while (curr.Exists)
+      {
+        yield return curr;
+        curr = curr.Parent;
+      }
+    }
+
 #if XMLLEGACY
     public static IAmlXPath XPath(this IReadOnlyElement elem)
     {

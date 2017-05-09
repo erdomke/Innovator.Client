@@ -506,6 +506,11 @@ namespace Innovator.Client
     {
       return new Property("source_id", content);
     }
+    /// <summary>Create a new <c>team_id</c> property</summary>
+    public IProperty TeamId(params object[] content)
+    {
+      return new Property("team_id", content);
+    }
     /// <summary>Create a new <c>type</c> attribute</summary>
     /// <remarks>type [String] The ItemType name for which the Item is an instance.</remarks>
     public IAttribute Type(string value)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -9,6 +10,8 @@ namespace Innovator.Client
   /// <summary>
   /// Wraps an Aras item so that additional functionality can be provided
   /// </summary>
+  [DebuggerTypeProxy(typeof(ItemDebugView))]
+  [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public abstract class ItemWrapper : IReadOnlyItem
   {
     private IReadOnlyItem _item;
@@ -16,6 +19,16 @@ namespace Innovator.Client
     public ItemWrapper(IReadOnlyItem item)
     {
       _item = item;
+    }
+
+    private string DebuggerDisplay
+    {
+      get
+      {
+        if (!_item.Exists)
+          return "{null:" + _item.GetType().Name + "}";
+        return _item.ToAml();
+      }
     }
 
     /// <inheritdoc/>
@@ -102,6 +115,24 @@ namespace Innovator.Client
     public string TypeName()
     {
       return _item.TypeName();
+    }
+
+    private class ItemDebugView
+    {
+      private IReadOnlyItem _item;
+
+      public ElementFactory AmlContext { get { return _item.AmlContext; } }
+      public IEnumerable<IReadOnlyAttribute> Attributes { get { return _item.Attributes().ToArray(); } }
+      public IEnumerable<IReadOnlyElement> Elements { get { return _item.Elements().ToArray(); } }
+      public bool Exists { get { return _item.Exists; } }
+      public string Name { get { return _item.Name; } }
+      public IReadOnlyElement Parent { get { return _item.Parent; } }
+      public string Value { get { return _item.Value; } }
+
+      public ItemDebugView(ItemWrapper item)
+      {
+        _item = item._item;
+      }
     }
   }
 }

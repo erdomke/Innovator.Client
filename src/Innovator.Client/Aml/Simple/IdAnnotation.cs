@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml;
 
 namespace Innovator.Client
 {
+  [DebuggerDisplay("{DebuggerDisplay,nq}")]
   class IdAnnotation : IReadOnlyProperty, IReadOnlyAttribute, ILinkedAnnotation
   {
     private ILinkedAnnotation _next;
@@ -30,6 +32,11 @@ namespace Innovator.Client
     {
       _parent = parent;
       _value = value;
+    }
+
+    private string DebuggerDisplay
+    {
+      get { return "id='" + _value.ToArasId() + "'"; }
     }
 
     public Guid? AsGuid()

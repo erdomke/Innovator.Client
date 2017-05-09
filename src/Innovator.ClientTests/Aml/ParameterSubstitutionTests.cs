@@ -60,11 +60,11 @@ namespace Innovator.Client.Tests
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (2)</sql>", aml);
 
-      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", null);
+      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", (object[])null);
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (null)</sql>", aml);
 
-      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", null);
+      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", (object[])null);
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (null)</sql>", aml);
     }

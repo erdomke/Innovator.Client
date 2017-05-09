@@ -225,6 +225,7 @@ namespace Innovator.Client
         {
           elem.RemoveNode(this);
         }
+        this.Parent = AmlElement.NullElem;
       }
     }
     internal void RemoveAttribute(Attribute attr)

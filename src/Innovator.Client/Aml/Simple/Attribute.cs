@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Innovator.Client
 {
+  [DebuggerDisplay("{DebuggerDisplay,nq}")]
   class Attribute : IAttribute, ILinkedAnnotation
   {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -34,6 +35,11 @@ namespace Innovator.Client
           : _parent.AmlContext.LocalizationContext.Format(_content);
       }
       set { Set(value); }
+    }
+
+    private string DebuggerDisplay
+    {
+      get { return string.Format("{0}='{1}'", _name, _content); }
     }
 
     public Attribute(string name)
@@ -193,7 +199,7 @@ namespace Innovator.Client
 
     public override string ToString()
     {
-      return string.Format("{0}='{1}'", _name, _content);
+      return Value;
     }
   }
 }

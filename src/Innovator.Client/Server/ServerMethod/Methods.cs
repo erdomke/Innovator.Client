@@ -17,7 +17,7 @@ namespace Innovator.Server
   }
   public interface IMultipleItemContext : IContext
   {
-    IEnumerable<IReadOnlyItem> Items { get; }
+    IEnumerable<IItem> Items { get; }
   }
   public interface IValidationContext : IContext
   {
@@ -152,7 +152,7 @@ namespace Innovator.Server
   }
   public interface IAfterGet
   {
-    IEnumerable<IReadOnlyItem> Execute(IMultipleItemContext arg);
+    void Execute(IMultipleItemContext arg);
   }
   public interface IOnAction
   {

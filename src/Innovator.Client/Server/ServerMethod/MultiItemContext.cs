@@ -9,19 +9,19 @@ namespace Innovator.Server
   public class MultiItemContext : IMultipleItemContext
   {
     private IServerConnection _conn;
-    private IEnumerable<IReadOnlyItem> _items;
-    
+    private IEnumerable<IItem> _items;
+
     public IServerConnection Conn
     {
       get { return _conn; }
     }
 
-    public IEnumerable<IReadOnlyItem> Items
+    public IEnumerable<IItem> Items
     {
       get { return _items; }
     }
 
-    public MultiItemContext(IServerConnection conn, IEnumerable<IReadOnlyItem> items)
+    public MultiItemContext(IServerConnection conn, IEnumerable<IItem> items)
     {
       _conn = conn;
       _items = items;

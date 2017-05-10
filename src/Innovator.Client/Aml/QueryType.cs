@@ -7,6 +7,7 @@ namespace Innovator.Client
 {
   public enum QueryType
   {
+    Current,
     Effective,
     Latest,
     Released

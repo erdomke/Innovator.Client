@@ -9,7 +9,7 @@ using Innovator.Client.Queryable;
 using LinqToQuerystring;
 using System.Collections;
 using Linq2Rest;
-using System.Collections.Specialized;
+using Innovator.Client.Model;
 
 namespace Innovator.Client.Tests
 {
@@ -29,29 +29,22 @@ namespace Innovator.Client.Tests
     {
       var conn = new TestConnection();
       var query = conn.Queryable<IIndexedItem>("ItemType");
-      var intermediate = query.LinqToQuerystring(queryString, true);
-      var result = intermediate.Apply();
+      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), queryString, true);
+      var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       //((IEnumerable)query.LinqToQuerystring(queryString, true)).OfType<object>().ToArray();
-      return intermediate.ToString();
+      return conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
     }
 
-    //private string TestQuery2Rest(string queryString)
-    //{
-    //  var conn = new TestConnection();
-    //  var query = conn.Queryable("ItemType");
-
-    //  var queryCol = new NameValueCollection();
-    //  foreach (var pair in queryString.TrimStart('?')
-    //    .Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries)
-    //    .Select(k => k.Split('='))
-    //    .Where(k => k.Length == 2))
-    //  {
-    //    queryCol.Add(pair[0], pair[1]);
-    //  }
-    //  var result = query.Filter(queryCol).ToArray();
-    //  //((IEnumerable)query.LinqToQuerystring(queryString, true)).OfType<object>().ToArray();
-    //  return conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
-    //}
+    [TestMethod()]
+    public void Queryable_Attributes()
+    {
+      var conn = new TestConnection();
+      var query = conn.Queryable<ItemType>()
+        .Where(i => i.NameProp().Value == "Part")
+        .Select(i => new { Name = i.NameProp().Value });
+      var result = query.Apply();
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name\"><name>Part</name></Item>", query.ToString());
+    }
 
     [TestMethod()]
     public void Queryable_Basic()
@@ -313,6 +306,32 @@ namespace Innovator.Client.Tests
       aml = TestQueryString("?$filter=Name eq 'Apple'&$top=2&$skip=4");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" page=\"3\" pagesize=\"2\"><name>Apple</name></Item>", aml);
     }
+
+    [TestMethod()]
+    public void QueryString_Ordering()
+    {
+      var aml = TestQueryString("?$orderby=Name");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name\" />", aml);
+
+      aml = TestQueryString("?$orderby=Name asc");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name\" />", aml);
+
+      aml = TestQueryString("?$orderby=Name desc");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name DESC\" />", aml);
+    }
+
+    //[TestMethod()]
+    //public void QueryString_Projection()
+    //{
+    //  var aml = TestQueryString("?$select=Name");
+    //  Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name\" />", aml);
+
+    //  aml = TestQueryString("?$select=name,id");
+    //  Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name,id\" />", aml);
+
+    //  aml = TestQueryString("?$select=name,id&$orderby=name");
+    //  Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name,id\" orderBy=\"name\" />", aml);
+    //}
   }
 }
 #endif

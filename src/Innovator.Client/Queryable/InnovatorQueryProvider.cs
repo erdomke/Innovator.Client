@@ -14,10 +14,12 @@ namespace Innovator.Client.Queryable
   internal class InnovatorQueryProvider : QueryProvider
   {
     private IConnection _conn;
+    private QuerySettings _settings;
 
-    public InnovatorQueryProvider(IConnection conn)
+    public InnovatorQueryProvider(IConnection conn, QuerySettings settings)
     {
       _conn = conn;
+      _settings = settings;
     }
 
     public override object Execute(Expression expression)
@@ -56,7 +58,7 @@ namespace Innovator.Client.Queryable
     internal AmlQuery Translate(Expression expression)
     {
       expression = Evaluator.PartialEval(expression);
-      return new QueryTranslator(_conn.AmlContext).Translate(expression);
+      return new QueryTranslator(_conn.AmlContext, _settings).Translate(expression);
     }
 
     private class Projector<T> : IReadOnlyResult<T>

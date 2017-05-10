@@ -10,6 +10,6 @@ namespace Innovator.Client.Queryable
   {
     public QueryableItem(IReadOnlyItem item) : base(item) { }
 
-    public object this[string name] { get { return base.Property(name).Value; } }
+    public object this[string name] { get { return base.Property(name.ToLowerInvariant()).Value; } }
   }
 }

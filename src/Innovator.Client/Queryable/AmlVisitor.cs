@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
+using Innovator.Client.Model;
 
 namespace Innovator.Client.Queryable
 {
@@ -33,7 +34,8 @@ namespace Innovator.Client.Queryable
         VisitProperty("id");
         return true;
       }
-      else if (m.Method.DeclaringType.IsGenericType && m.Method.DeclaringType.GetGenericTypeDefinition() == typeof(IReadOnlyProperty_Item<>) && m.Method.Name == "AsItem")
+      else if (m.Method.DeclaringType.IsGenericType && m.Method.DeclaringType.GetGenericTypeDefinition() == typeof(IReadOnlyProperty_Item<>)
+        && (m.Method.Name == "AsItem" || m.Method.Name == "AsModel"))
       {
         Visit(m.Object);
         VisitItem();
@@ -131,6 +133,15 @@ namespace Innovator.Client.Queryable
             throw new NotSupportedException();
         }
         return true;
+      }
+      else
+      {
+        var nameAttr = m.Method.GetCustomAttributes(false).OfType<ArasNameAttribute>().FirstOrDefault();
+        if (nameAttr != null)
+        {
+          VisitProperty(nameAttr.Name);
+          return true;
+        }
       }
 
       return false;

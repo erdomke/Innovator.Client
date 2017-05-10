@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ItemType </summary>
+  [ArasName("ItemType")]
   public class ItemType : Item
   {
     protected ItemType() { }
@@ -131,6 +132,7 @@ namespace Innovator.Client.Model
       return this.Property("maxrecords");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");

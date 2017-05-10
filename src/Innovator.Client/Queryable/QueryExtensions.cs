@@ -5,19 +5,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using Innovator.Client.Queryable;
+using Innovator.Client.Model;
 
 namespace Innovator.Client
 {
   public static class QueryExtensions
   {
-    public static IQueryable<IReadOnlyItem> Queryable(this IConnection conn, string itemType)
+    public static IQueryable<IReadOnlyItem> Queryable(this IConnection conn, string itemType, QuerySettings settings = null)
     {
-      return new InnovatorQuery<IReadOnlyItem>(new InnovatorQueryProvider(conn)) { Type = itemType };
+      return new InnovatorQuery<IReadOnlyItem>(new InnovatorQueryProvider(conn, settings)) { Type = itemType };
     }
 
-    public static IQueryable<T> Queryable<T>(this IConnection conn, string itemType)
+    public static IQueryable<T> Queryable<T>(this IConnection conn, string itemType = null, QuerySettings settings = null)
     {
-      return new InnovatorQuery<T>(new InnovatorQueryProvider(conn)) { Type = itemType };
+      if (string.IsNullOrEmpty(itemType))
+      {
+        var nameAttr = typeof(T).GetCustomAttributes(false).OfType<ArasNameAttribute>().FirstOrDefault();
+        if (nameAttr == null)
+          throw new ArgumentNullException("itemType", "The name of the item type must be specified");
+        itemType = nameAttr.Name;
+      }
+      return new InnovatorQuery<T>(new InnovatorQueryProvider(conn, settings)) { Type = itemType };
     }
 
     public static IReadOnlyResult<T> Apply<T>(this IQueryable<T> query)

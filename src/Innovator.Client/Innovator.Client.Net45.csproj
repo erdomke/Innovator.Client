@@ -405,6 +405,7 @@
     <Compile Include="Connection\DefaultVaultFactory.cs" />
     <Compile Include="Queryable\AmlQuery.cs" />
     <Compile Include="Queryable\AmlVisitor.cs" />
+    <Compile Include="Queryable\ArasNameAttribute.cs" />
     <Compile Include="Queryable\Evaluator.cs" />
     <Compile Include="Queryable\ExpressionVisitor.cs" />
     <Compile Include="Queryable\IIndexedItem.cs" />
@@ -415,6 +416,7 @@
     <Compile Include="Queryable\QueryableItem.cs" />
     <Compile Include="Queryable\QueryExtensions.cs" />
     <Compile Include="Queryable\QueryProvider.cs" />
+    <Compile Include="Queryable\QuerySettings.cs" />
     <Compile Include="Queryable\QueryTranslator.cs" />
     <Compile Include="Queryable\SelectVisitor.cs" />
     <Compile Include="Queryable\TypeHelper.cs" />

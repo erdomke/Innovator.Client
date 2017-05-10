@@ -17,10 +17,12 @@ namespace Innovator.Client.Queryable
     private IItem _query;
     private IElement _curr;
     private LambdaExpression _projector;
+    private QuerySettings _settings;
 
-    public QueryTranslator(ElementFactory factory)
+    public QueryTranslator(ElementFactory factory, QuerySettings settings)
     {
       _aml = factory;
+      _settings = settings ?? new QuerySettings();
     }
 
     private static Expression StripQuotes(Expression e)
@@ -325,7 +327,10 @@ namespace Innovator.Client.Queryable
 
     protected override void VisitItem()
     {
-      PushElement(_aml.Item(_aml.Action("get")));
+      var item = _aml.Item(_aml.Action("get"));
+      if (_settings.QueryType != QueryType.Current)
+        item.Add(_aml.QueryType(_settings.QueryType), _aml.QueryDate(_settings.QueryDate ?? DateTime.Now));
+      PushElement(item);
     }
 
     protected override Expression VisitUnary(UnaryExpression u)

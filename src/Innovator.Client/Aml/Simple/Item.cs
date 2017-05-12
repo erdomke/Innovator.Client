@@ -53,6 +53,16 @@ namespace Innovator.Client
         case "Innovator.Client.IItem":
           return (T)_nullItems[typeof(Item)];
       }
+
+      // Force a call to the static constructor
+      try
+      {
+        var temp = Activator.CreateInstance(typeof(T), ElementFactory.Local);
+        if (_nullItems.TryGetValue(typeof(T), out result))
+          return (T)result;
+      }
+      catch (Exception) { }
+
       return default(T);
     }
 

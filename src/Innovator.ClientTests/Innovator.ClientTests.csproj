@@ -85,6 +85,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Aml\AmlReaderTests.cs" />
+    <Compile Include="Aml\AmlSqlWriterTests.cs" />
     <Compile Include="Aml\ElementFactoryTests.cs" />
     <Compile Include="Aml\ItemExtensionsTests.cs" />
     <Compile Include="Aml\ItemTests.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="CommandTests.cs" />
     <Compile Include="Connection\ConnectionExtensionsTests.cs" />
     <Compile Include="Connection\ConnectionPreferencesTests.cs" />
+    <Compile Include="QueryableTests.cs" />
     <Compile Include="Scratchpad.cs" />
     <Compile Include="TestConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

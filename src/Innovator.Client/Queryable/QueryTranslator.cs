@@ -328,8 +328,8 @@ namespace Innovator.Client.Queryable
     protected override void VisitItem()
     {
       var item = _aml.Item(_aml.Action("get"));
-      if (_settings.QueryType != QueryType.Current)
-        item.Add(_aml.QueryType(_settings.QueryType), _aml.QueryDate(_settings.QueryDate ?? DateTime.Now));
+      if (_settings.ModifyQuery != null)
+        _settings.ModifyQuery(item);
       PushElement(item);
     }
 

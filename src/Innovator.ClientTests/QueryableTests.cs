@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Innovator.Client.Queryable;
 using LinqToQuerystring;
 using System.Collections;
@@ -29,7 +28,7 @@ namespace Innovator.Client.Tests
     {
       var conn = new TestConnection();
       var query = conn.Queryable<IIndexedItem>("ItemType");
-      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), queryString, true);
+      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), Uri.UnescapeDataString(queryString), true);
       var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       //((IEnumerable)query.LinqToQuerystring(queryString, true)).OfType<object>().ToArray();
       return conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
@@ -286,6 +285,13 @@ namespace Innovator.Client.Tests
 
       aml = TestQueryString("?$filter=generation ge 3 or id eq guid'4F1AC04A-2B48-4F3A-BA4E-20DB63808A88' or created_on eq datetime'2002-01-01T00:00'");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><or><created_on>2002-01-01T00:00:00</created_on><generation condition=\"ge\">3</generation><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></or></Item>", aml);
+    }
+
+    [TestMethod()]
+    public void QueryString_Functions()
+    {
+      var aml = TestQueryString("?$callback=jQuery112304312923812233427_1494592722830&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(name)%2C%27c%27)");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><name condition=\"like\">c*</name></Item>", aml);
     }
 
     [TestMethod()]

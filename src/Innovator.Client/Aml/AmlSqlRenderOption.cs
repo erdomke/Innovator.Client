@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
-  public class QuerySettings
+  public enum AmlSqlRenderOption
   {
-    public Action<IItem> ModifyQuery { get; set; }
+    SelectQuery,
+    CountQuery,
+    WhereClause
   }
 }

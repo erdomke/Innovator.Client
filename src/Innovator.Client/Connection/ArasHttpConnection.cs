@@ -103,6 +103,9 @@ namespace Innovator.Client.Connection
     /// </summary>
     public Stream Process(Command request)
     {
+      if (string.IsNullOrEmpty(_httpDatabase))
+        throw new Exception("You are no longer connected to Aras. Please log in again.");
+
       var upload = request as UploadCommand;
       if (upload == null)
       {

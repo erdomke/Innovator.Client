@@ -167,7 +167,7 @@ namespace Innovator.Client
       return new DateTimeOffset(result, _timeZone.GetUtcOffset(result));
     }
     /// <summary>
-    /// Coerse an <see cref="object"/> to a <see cref="DateTime?"/> in the UTC timezone.
+    /// Coerce an <see cref="object"/> to a <see cref="DateTime?"/> in the UTC timezone.
     /// Handles <see cref="DateTime"/> or <see cref="string"/> values
     /// </summary>
     public DateTime? AsDateTimeUtc(object value)

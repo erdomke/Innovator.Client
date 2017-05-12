@@ -102,6 +102,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Aml\AmlReaderTests.cs" />
+    <Compile Include="Aml\AmlSqlWriterTests.cs" />
     <Compile Include="Aml\ElementFactoryTests.cs" />
     <Compile Include="Aml\ItemExtensionsTests.cs" />
     <Compile Include="Aml\ItemTests.cs" />

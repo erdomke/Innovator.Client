@@ -49,15 +49,20 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aml\AmlSqlPermissionOption.cs" />
+    <Compile Include="Aml\AmlSqlRenderOption.cs" />
+    <Compile Include="Aml\AmlSqlWriter.cs" />
     <Compile Include="Aml\AmlWriterSettings.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
+    <Compile Include="Aml\ConnectedAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\Core.cs" />
     <Compile Include="Aml\DateMagnitude.cs" />
     <Compile Include="Aml\DefaultItemFactory.cs" />
     <Compile Include="Aml\DynamicDateTimeRange.cs" />
     <Compile Include="Aml\ElementFactory.cs" />
     <Compile Include="Aml\IAmlNode.cs" />
+    <Compile Include="Aml\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
     <Compile Include="Aml\IAttribute.cs" />
     <Compile Include="Aml\IElement.cs" />

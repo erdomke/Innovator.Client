@@ -326,6 +326,22 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name DESC\" />", aml);
     }
 
+
+    [TestMethod()]
+    public void QueryString_ModifyQuery()
+    {
+      var conn = new TestConnection();
+      var query = conn.Queryable<IIndexedItem>("ItemType", new QuerySettings() { ModifyQuery = i =>
+      {
+        i.Action().Set("GetOData");
+        i.MaxRecords().Set(10);
+      }});
+      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), Uri.UnescapeDataString("?$orderby=Name"), true);
+      var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
+      var aml = conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
+      Assert.AreEqual("<Item action=\"GetOData\" type=\"ItemType\" orderBy=\"name\" maxRecords=\"10\" />", aml);
+    }
+
     //[TestMethod()]
     //public void QueryString_Projection()
     //{

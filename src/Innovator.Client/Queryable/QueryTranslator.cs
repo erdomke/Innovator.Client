@@ -96,6 +96,9 @@ namespace Innovator.Client.Queryable
         toFlatten = NonItemDescendants(item).FirstOrDefault(CanFlatten);
       }
 
+      if (_settings.ModifyQuery != null)
+        _settings.ModifyQuery(item);
+
       foreach (var childItem in DescendantItems(item))
       {
         SimplifyConditionals(childItem);
@@ -327,10 +330,7 @@ namespace Innovator.Client.Queryable
 
     protected override void VisitItem()
     {
-      var item = _aml.Item(_aml.Action("get"));
-      if (_settings.ModifyQuery != null)
-        _settings.ModifyQuery(item);
-      PushElement(item);
+      PushElement(_aml.Item(_aml.Action("get")));
     }
 
     protected override Expression VisitUnary(UnaryExpression u)

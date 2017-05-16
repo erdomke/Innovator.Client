@@ -26,6 +26,13 @@ namespace Innovator.Client
       }
     }
 
+    public override IElement Add(object content)
+    {
+      if (!Exists && this.Parent != null)
+        Parent.Add(this);
+      return base.Add(content);
+    }
+
     public IEnumerable<IReadOnlyItem> ByType(string type)
     {
       return Elements().OfType<IReadOnlyItem>().Where(i => i.TypeName() == type);

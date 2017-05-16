@@ -562,5 +562,25 @@ namespace Innovator.Client.Tests
       result = aml.FromXml(withMessage);
       Assert.AreEqual(83, result.ItemsWithNoAccessCount());
     }
+
+
+    [TestMethod()]
+    public void RelationshipAdd()
+    {
+      var expected = @"<Item type=""List"" id=""D7D72BF68937462B947DAC6BE7E28322""><Relationships><Item type=""Value"" /></Relationships></Item>";
+
+      var aml = ElementFactory.Local;
+      var input = @"<Item type=""List"" id=""D7D72BF68937462B947DAC6BE7E28322""></Item>";
+      var item = aml.FromXml(input).AssertItem();
+      item.Relationships().Add(aml.Item(aml.Type("Value")));
+      Assert.AreEqual(expected, item.ToAml());
+
+      item = aml.Item(aml.Type("List"), aml.Id("D7D72BF68937462B947DAC6BE7E28322"),
+        aml.Relationships(
+          aml.Item(aml.Type("Value"))
+        )
+      );
+      Assert.AreEqual(expected, item.ToAml());
+    }
   }
 }

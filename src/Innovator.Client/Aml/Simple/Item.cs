@@ -98,7 +98,7 @@ namespace Innovator.Client
           }
         }
       }
-      return new Relationships();
+      return new Relationships(this);
     }
 
     public IEnumerable<IItem> Relationships(string type)

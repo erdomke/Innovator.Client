@@ -49,6 +49,6 @@ namespace Innovator.Client
 
   public interface ILogical : IElement { }
   public interface IReadOnlyLogical : IReadOnlyElement { }
-  public interface IRelationships : IElement { }
-  public interface IReadOnlyRelationships : IReadOnlyElement { }
+  public interface IRelationships : IElement, IEnumerable<IItem> { }
+  public interface IReadOnlyRelationships : IReadOnlyElement, IEnumerable<IReadOnlyItem> { }
 }

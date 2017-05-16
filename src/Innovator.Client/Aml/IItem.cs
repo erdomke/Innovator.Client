@@ -41,7 +41,7 @@ namespace Innovator.Client
     /// <param name="lang">Language of the (multilingual) property</param>
     new IProperty Property(string name, string lang);
     /// <summary>Returns the set of relationships associated with this item</summary>
-    new IEnumerable<IItem> Relationships();
+    new IRelationships Relationships();
     /// <summary>Returns the set of relationships associated with this item of the specified type</summary>
     /// <param name="type">Name of the ItemType for the relationships you wish to retrieve</param>
     new IEnumerable<IItem> Relationships(string type);

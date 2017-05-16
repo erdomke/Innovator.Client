@@ -84,7 +84,7 @@ namespace Innovator.Client
         ?? Client.Property.NullProp;
     }
 
-    public IEnumerable<IItem> Relationships()
+    public IRelationships Relationships()
     {
       if (Exists)
       {
@@ -94,11 +94,11 @@ namespace Innovator.Client
           var rel = LinkedListOps.Find(elem, "Relationships") as Relationships;
           if (rel != null)
           {
-            return rel.Elements().OfType<IItem>();
+            return rel;
           }
         }
       }
-      return Enumerable.Empty<IItem>();
+      return new Relationships();
     }
 
     public IEnumerable<IItem> Relationships(string type)

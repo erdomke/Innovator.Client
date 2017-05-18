@@ -52,5 +52,12 @@ namespace Innovator.Client
     {
       return Elements().OfType<IReadOnlyItem>().GetEnumerator();
     }
+
+    protected override Element Clone(IElement newParent)
+    {
+      var result = new Relationships(newParent);
+      result.CopyData(this);
+      return result;
+    }
   }
 }

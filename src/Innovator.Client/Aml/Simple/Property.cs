@@ -45,6 +45,12 @@ namespace Innovator.Client
       _name = name;
       _parent = parent;
     }
+    private Property(IElement parent, Property clone)
+    {
+      _name = clone._name;
+      _parent = parent;
+      CopyData(clone);
+    }
 
     private static Property _nullProp;
     private static Property _defaultGeneration;
@@ -259,6 +265,11 @@ namespace Innovator.Client
     IReadOnlyItem IReadOnlyProperty_Item<IReadOnlyItem>.AsItem()
     {
       return AsItem();
+    }
+
+    protected override Element Clone(IElement newParent)
+    {
+      return new Property(newParent, this);
     }
   }
 }

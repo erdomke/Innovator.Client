@@ -26,7 +26,7 @@ namespace Innovator.Client
       set { _parent = value; }
     }
 
-    private AmlElement() { }
+    internal AmlElement() { }
     public AmlElement(ElementFactory amlContext, string name, params object[] content)
     {
       _amlContext = amlContext;
@@ -40,11 +40,11 @@ namespace Innovator.Client
       _name = name;
       _parent = parent;
     }
-    public AmlElement(IElement parent, IReadOnlyElement elem) : base()
+    internal AmlElement(IElement newParent, IReadOnlyElement elem) : base()
     {
-      _amlContext = parent.AmlContext;
+      _amlContext = newParent.AmlContext;
       _name = elem.Name;
-      _parent = parent;
+      _parent = newParent;
       CopyData(elem);
     }
 

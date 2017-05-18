@@ -123,5 +123,14 @@ namespace Innovator.Client.Tests
       offset = item.Property("end_date").AsDateTimeOffset();
       Assert.AreEqual(new DateTimeOffset(DateTime.Parse("2016-01-12T20:13:54"), TimeSpan.FromHours(-6)), offset.Value);
     }
+
+    [TestMethod]
+    public void PropertyClone()
+    {
+      var aml = ElementFactory.Local;
+      var item = aml.Item(aml.Property("prop1", aml.Attribute("keyed_name", "some name"), "value1"), aml.Property("prop2", aml.Attribute("keyed_name", "another name"), "value2"));
+      var item2 = aml.Item(item.Property("prop1"));
+      Assert.AreEqual("some name", item2.Property("prop1").KeyedName().Value);
+    }
   }
 }

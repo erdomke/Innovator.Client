@@ -91,11 +91,11 @@ namespace Innovator.Client
     }
 
     public Element() { }
-    public Element(IReadOnlyElement elem)
-    {
-      CopyData(elem);
-    }
 
+    protected virtual Element Clone(IElement newParent)
+    {
+      return new AmlElement(newParent, this);
+    }
     protected void CopyData(IReadOnlyElement elem)
     {
       Add(elem.Attributes());
@@ -176,14 +176,16 @@ namespace Innovator.Client
         var item = value as Item;
         if (item != null)
           return (ILinkedElement)item.Clone();
+
+        var el = value as Element;
+        if (el != null)
+          return el.Clone(newParent);
         return new AmlElement(newParent, (IReadOnlyElement)impl);
       }
 
       var elem = value as IReadOnlyElement;
       if (elem != null)
-      {
         return new AmlElement(newParent, elem);
-      }
 
       return null;
     }

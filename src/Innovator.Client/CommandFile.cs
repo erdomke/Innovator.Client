@@ -12,6 +12,7 @@ namespace Innovator.Client
   internal class CommandFile
   {
     private string _aml;
+    private string _checksum;
     private byte[] _data;
     private string _id;
     private long _length;
@@ -30,6 +31,12 @@ namespace Innovator.Client
       if (!File.Exists(_path)) throw new IOException("File " + _path + " does not exist");
       _aml = GetFileItem(id, path, vaultId, isNew);
       _length = new FileInfo(_path).Length;
+
+      using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+      using (var mD = System.Security.Cryptography.MD5.Create())
+      {
+        _checksum = mD.ComputeHash(fileStream).HexString().ToUpperInvariant();
+      }
 #else
       throw new NotSupportedException();
 #endif
@@ -48,6 +55,7 @@ namespace Innovator.Client
       data.Read(_data, 0, _data.Length);
       _aml = GetFileItem(id, path, vaultId, isNew);
       _length = _data.Length;
+      _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
     }
 
     private string GetFileItem(string id, string path, string vaultId, bool isNew)
@@ -66,6 +74,7 @@ namespace Innovator.Client
         xml.WriteElementString("actual_filename", path);
         xml.WriteElementString("checkedout_path", System.IO.Path.GetDirectoryName(path));
         xml.WriteElementString("filename", System.IO.Path.GetFileName(path));
+        xml.WriteElementString("checksum", _checksum);
 
         xml.WriteStartElement("Relationships");
         xml.WriteStartElement("Item");

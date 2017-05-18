@@ -28,7 +28,7 @@ namespace Innovator.Client.Tests
     {
       var conn = new TestConnection();
       var query = conn.Queryable<IIndexedItem>("ItemType");
-      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), Uri.UnescapeDataString(queryString), true);
+      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), Uri.UnescapeDataString(queryString.Replace('+', ' ')), true);
       var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       //((IEnumerable)query.LinqToQuerystring(queryString, true)).OfType<object>().ToArray();
       return conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
@@ -328,6 +328,14 @@ namespace Innovator.Client.Tests
 
 
     [TestMethod()]
+    public void QueryString_Random()
+    {
+      var aml = TestQueryString("?$callback=jQuery1124032885557251554487_1494968811401&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(keyed_name)%2C%27kent+ypma%27)");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name\" />", aml);
+    }
+
+
+    [TestMethod()]
     public void QueryString_ModifyQuery()
     {
       var conn = new TestConnection();
@@ -341,6 +349,8 @@ namespace Innovator.Client.Tests
       var aml = conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
       Assert.AreEqual("<Item action=\"GetOData\" type=\"ItemType\" orderBy=\"name\" maxRecords=\"10\" />", aml);
     }
+
+
 
     //[TestMethod()]
     //public void QueryString_Projection()

@@ -369,5 +369,20 @@ namespace Innovator.Client
       return true;
     }
 
+    internal static TextWriter Append(this TextWriter writer, string value)
+    {
+      writer.Write(value);
+      return writer;
+    }
+    internal static TextWriter Append(this TextWriter writer, char value)
+    {
+      writer.Write(value);
+      return writer;
+    }
+    internal static TextWriter Append(this TextWriter writer, int value)
+    {
+      writer.Write(value);
+      return writer;
+    }
   }
 }

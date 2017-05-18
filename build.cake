@@ -12,7 +12,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var version = DateTime.Now.ToString("yyyy.MM.dd.hhmm");
+var version = DateTime.Now.ToString("yyyy.MM.dd.HHmm");
 
 private string[] MergeCompileLines(string[] file, string[] newCompiles)
 {

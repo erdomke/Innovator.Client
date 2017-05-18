@@ -10,6 +10,7 @@ namespace Innovator.Client
   {
     SelectQuery,
     CountQuery,
+    OffsetQuery,
     WhereClause
   }
 }

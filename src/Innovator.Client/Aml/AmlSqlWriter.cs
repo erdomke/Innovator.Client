@@ -147,21 +147,21 @@ namespace Innovator.Client
               ).Append(")");
           }
 
-          if (_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction)
-          {
-            if (clause.Length > 0)
-              clause.Append(" and ");
-            clause.Append("( SELECT p FROM innovator.[GetDiscoverPermissions] ('can_get', ")
-              .Append(_lastItem.Alias).Append(".permission_id, ")
-              .Append(_lastItem.Alias).Append(".created_by_id, ")
-              .Append(_lastItem.Alias).Append(".managed_by_id, ")
-              .Append(_lastItem.Alias).Append(".owned_by_id, ")
-              .Append(_lastItem.Alias).Append(".team_id, '")
-              .Append(_settings.IdentityList)
-              .Append("', null, '")
-              .Append(_settings.UserId)
-              .Append("', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0");
-          }
+          //if (_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction)
+          //{
+          //  if (clause.Length > 0)
+          //    clause.Append(" and ");
+          //  clause.Append("( SELECT p FROM innovator.[GetDiscoverPermissions] ('can_get', ")
+          //    .Append(_lastItem.Alias).Append(".permission_id, ")
+          //    .Append(_lastItem.Alias).Append(".created_by_id, ")
+          //    .Append(_lastItem.Alias).Append(".managed_by_id, ")
+          //    .Append(_lastItem.Alias).Append(".owned_by_id, ")
+          //    .Append(_lastItem.Alias).Append(".team_id, '")
+          //    .Append(_settings.IdentityList)
+          //    .Append("', null, '")
+          //    .Append(_settings.UserId)
+          //    .Append("', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0");
+          //}
           break;
         default:
           string condition;
@@ -180,24 +180,17 @@ namespace Innovator.Client
 
           if (_criteriaItem != null)
           {
-            _lastItem.From
-                .Append(" left join innovator.")
-                .Append(_criteriaItem.TableName);
-            if (_criteriaItem.Alias != _criteriaItem.TableName)
-              _lastItem.From
-                .Append(" as ")
-                .Append(_criteriaItem.Alias);
-            _lastItem.From
-              .Append(" on ")
-              .Append(_criteriaItem.Alias)
-              .Append(".id = ")
-              .Append(_lastItem.Alias)
-              .Append(".")
-              .Append(AssertPropertyName(curr.Name));
-            _lastItem.Where
-              .Append('(')
-              .Append(_criteriaItem.Where.ToString())
-              .Append(')');
+            var table = _criteriaItem.From.First();
+            table.OuterJoin = true;
+            table.Criteria = table.Alias + ".id = " + _lastItem.Alias + "." + AssertPropertyName(curr.Name);
+            _lastItem.From.Add(table);
+
+            _lastItem.RelatedWhere.Add(new RelatedWhere()
+            {
+              Index = clause.Length,
+              Alias = _criteriaItem.Alias,
+              Criteria = _criteriaItem.Where.ToString()
+            });
           }
           else
           {
@@ -500,21 +493,6 @@ namespace Innovator.Client
             select.Append("*");
           }
           _lastItem.TableName = type;
-          _lastItem.From.Append("from ")
-            .Append(_settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction ? "secured" : "innovator")
-            .Append(".").Append(type);
-
-          if (_settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction)
-          {
-            _lastItem.From.Append("('can_get','")
-              .Append(_settings.IdentityList)
-              .Append("',null,'")
-              .Append(_settings.UserId)
-              .Append("',null)");
-          }
-
-          if (alias != type)
-            _lastItem.From.Append(" as ").Append(alias);
 
           if (curr.Attributes.TryGetValue("where", out buffer))
             throw new NotSupportedException("`where` attributes are currently not supported");
@@ -535,41 +513,202 @@ namespace Innovator.Client
     {
       return ToString(AmlSqlRenderOption.SelectQuery);
     }
+
     public string ToString(AmlSqlRenderOption renderOption)
     {
-      var builder = new StringBuilder();
+      using (var writer = new StringWriter())
+      {
+        ToString(writer, renderOption);
+        writer.Flush();
+        return writer.ToString();
+      }
+    }
+    public void ToString(TextWriter writer, AmlSqlRenderOption renderOption)
+    {
+      string buffer;
       switch (renderOption)
       {
         case AmlSqlRenderOption.SelectQuery:
-          builder.Append(_lastItem.Select.ToString())
-            .Append(' ')
-            .Append(_lastItem.From.ToString())
-            .Append(" where ");
+          writer.Append(_lastItem.Select.ToString());
+          AppendFromClause(writer, _lastItem.From, _settings.PermissionOption);
+          writer.Append(" where ");
+          AppendWhereClause(writer, _lastItem, true);
+
+          var first = true;
+          foreach (var col in GetOrderBy(_lastItem))
+          {
+            if (first)
+              writer.Append(" order by ");
+            else
+              writer.Append(", ");
+            first = false;
+
+            writer.Append(_lastItem.Alias).Append('.');
+            writer.Append(col.Name);
+
+            if (col.Descending)
+              writer.Append(" DESC");
+          }
+
+          if (!_lastItem.Attributes.TryGetValue("maxRecords", out buffer)
+            && _lastItem.Attributes.TryGetValue("pagesize", out buffer))
+          {
+            var pageSize = int.Parse(buffer);
+            var page = int.Parse(_lastItem.Attributes["page"]);
+            writer.Append(" offset ")
+              .Append(pageSize * (page - 1))
+              .Append(" rows fetch next ")
+              .Append(pageSize)
+              .Append(" rows only");
+          }
+
           break;
         case AmlSqlRenderOption.CountQuery:
-          builder.Append("select count(")
-            .Append(_lastItem.Alias)
-            .Append(".id) ")
-            .Append(_lastItem.From.ToString())
-            .Append(" where ");
+          writer.Append("select isnull(sum(cnt), 0) count from (select ")
+            .Append(_lastItem.Alias).Append(".permission_id, ")
+            .Append(_lastItem.Alias).Append(".created_by_id, ")
+            .Append(_lastItem.Alias).Append(".managed_by_id, ")
+            .Append(_lastItem.Alias).Append(".owned_by_id, ")
+            .Append(_lastItem.Alias).Append(".team_id, count(*) cnt");
+          AppendFromClause(writer, _lastItem.From, _settings.PermissionOption);
+          writer.Append(" where ");
+          AppendWhereClause(writer, _lastItem, false);
+          writer.Append(" group by ")
+            .Append(_lastItem.Alias).Append(".permission_id, ")
+            .Append(_lastItem.Alias).Append(".created_by_id, ")
+            .Append(_lastItem.Alias).Append(".managed_by_id, ")
+            .Append(_lastItem.Alias).Append(".owned_by_id, ")
+            .Append(_lastItem.Alias).Append(".team_id) perm where ");
+          AppendPermissionCheck(writer, "perm");
+          break;
+        case AmlSqlRenderOption.OffsetQuery:
+          if (!_lastItem.Attributes.TryGetValue("offsetId", out buffer))
+            throw new InvalidOperationException("No `offsetId` attribute was specified");
+
+          writer.Append("select isnull(sum(cnt), 0) offset from (select ")
+            .Append(_lastItem.Alias).Append(".permission_id, ")
+            .Append(_lastItem.Alias).Append(".created_by_id, ")
+            .Append(_lastItem.Alias).Append(".managed_by_id, ")
+            .Append(_lastItem.Alias).Append(".owned_by_id, ")
+            .Append(_lastItem.Alias).Append(".team_id, count(*) cnt");
+          var tables = _lastItem.From.ToList();
+          tables.Insert(1, new Table() { Alias = "offset", Name = tables.First().Name });
+
+          var criteria = new StringBuilder()
+            .Append("offset.id = '").Append(buffer.Replace("'", "''")).Append("'");
+          criteria.Append(" and (");
+
+          var cols = GetOrderBy(_lastItem).ToArray();
+          for (var i = 0; i < cols.Length; i++)
+          {
+            if (i > 0)
+              criteria.Append(" or ");
+            criteria.Append('(');
+            for (var j = 0; j < i; j++)
+            {
+              criteria.Append(tables[0].Alias).Append('.').Append(cols[j].Name).Append(" = ")
+                .Append("offset.").Append(cols[j].Name).Append(" and ");
+            }
+            criteria.Append(tables[0].Alias).Append('.').Append(cols[i].Name)
+              .Append(cols[i].Descending ? " > " : " < ")
+              .Append("offset.").Append(cols[i].Name)
+              .Append(')');
+          }
+          criteria.Append(')');
+
+          tables[1].OuterJoin = false;
+          tables[1].Criteria = criteria.ToString();
+          AppendFromClause(writer, tables, _settings.PermissionOption);
+
+          writer.Append(" where ");
+          AppendWhereClause(writer, _lastItem, false);
+          writer.Append(" group by ")
+            .Append(_lastItem.Alias).Append(".permission_id, ")
+            .Append(_lastItem.Alias).Append(".created_by_id, ")
+            .Append(_lastItem.Alias).Append(".managed_by_id, ")
+            .Append(_lastItem.Alias).Append(".owned_by_id, ")
+            .Append(_lastItem.Alias).Append(".team_id) perm where ");
+          AppendPermissionCheck(writer, "perm");
+
+          break;
+        default:
+          AppendWhereClause(writer, _lastItem, false);
           break;
       }
-      builder.Append(_lastItem.Where.ToString());
+    }
+
+    private void AppendFromClause(TextWriter builder, IEnumerable<Table> tables, AmlSqlPermissionOption permission)
+    {
+      var first = true;
+      foreach (var table in tables)
+      {
+        if (first)
+          builder.Append(" from ");
+        else
+          builder.Append(table.OuterJoin ? " left" : " inner").Append(" join ");
+
+        builder.Append(permission == AmlSqlPermissionOption.SecuredFunction ? "secured" : "innovator")
+          .Append('.').Append(table.Name);
+
+        if (permission == AmlSqlPermissionOption.SecuredFunction)
+        {
+          builder.Append("('can_get','")
+            .Append(_settings.IdentityList)
+            .Append("',null,'")
+            .Append(_settings.UserId)
+            .Append("',null)");
+        }
+
+        if (table.Alias != table.Name)
+          builder.Append(" as ").Append(table.Alias);
+
+        if (!string.IsNullOrEmpty(table.Criteria))
+          builder.Append(" on ").Append(table.Criteria);
+
+        first = false;
+      }
+    }
+    private void AppendWhereClause(TextWriter builder, ItemTag tag, bool addPermissionChecks)
+    {
+      var start = 0;
+      var hasWhere = tag.RelatedWhere.Any() || tag.Where.Length > 0;
+      foreach (var related in tag.RelatedWhere)
+      {
+        builder.Append(tag.Where.ToString(start, related.Index - start))
+          .Append('(')
+          .Append(related.Criteria);
+        if (addPermissionChecks && _settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction)
+        {
+          if (!string.IsNullOrEmpty(related.Criteria))
+            builder.Append(" and ");
+          AppendPermissionCheck(builder, related.Alias);
+        }
+        builder.Append(')');
+        start = related.Index;
+      }
+      builder.Append(tag.Where.ToString(start, tag.Where.Length - start));
+
+      if (addPermissionChecks && _settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction)
+      {
+        if (hasWhere)
+          builder.Append(" and ");
+        AppendPermissionCheck(builder, tag.Alias);
+        hasWhere = true;
+      }
 
       string queryType;
-      if (!_lastItem.Attributes.TryGetValue("queryType", out queryType))
+      if (!tag.Attributes.TryGetValue("queryType", out queryType))
         queryType = "current";
 
       if (string.Equals(queryType, "current", StringComparison.OrdinalIgnoreCase))
       {
-        if (_lastItem.Where.Length > 0)
-          builder.Append(" and");
-        builder.Append(' ')
-          .Append(_lastItem.TableName)
+        if (hasWhere)
+          builder.Append(" and ");
+        builder.Append(tag.TableName)
           .Append(".is_current = '1'");
       }
       else if (string.Equals(queryType, "latest", StringComparison.OrdinalIgnoreCase)
-        && builder.ToString().IndexOf(_lastItem.Alias + ".is_active_rev", StringComparison.OrdinalIgnoreCase) >= 0)
+        && tag.Where.ToString().IndexOf(tag.Alias + ".is_active_rev", StringComparison.OrdinalIgnoreCase) >= 0)
       {
         // all good here
       }
@@ -577,80 +716,76 @@ namespace Innovator.Client
       {
         throw new NotSupportedException("The `queryType` of `" + queryType + "` is not supported");
       }
+    }
 
-      if (renderOption == AmlSqlRenderOption.SelectQuery)
+    private void AppendPermissionCheck(TextWriter builder, string alias)
+    {
+      builder.Append("( SELECT p FROM innovator.[")
+        .Append(_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction ? "GetDiscoverPermissions" : "EvaluatePermissions")
+        .Append("] ('can_get', ")
+        .Append(alias).Append(".permission_id, ")
+        .Append(alias).Append(".created_by_id, ")
+        .Append(alias).Append(".managed_by_id, ")
+        .Append(alias).Append(".owned_by_id, ")
+        .Append(alias).Append(".team_id, '")
+        .Append(_settings.IdentityList)
+        .Append("', null, '")
+        .Append(_settings.UserId)
+        .Append("', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0");
+    }
+
+    private IEnumerable<OrderByColumn> GetOrderBy(ItemTag item)
+    {
+      string buffer;
+      if (item.Attributes.TryGetValue("orderBy", out buffer) && !string.IsNullOrEmpty(buffer))
       {
-        builder.Append(" order by ");
 
-        string buffer;
-        if (_lastItem.Attributes.TryGetValue("orderBy", out buffer) && !string.IsNullOrEmpty(buffer))
+        var columns = buffer.Split(',')
+          .Select(c => c.Trim());
+        foreach (var col in columns)
         {
+          var parts = col.Split(' ');
+          if (parts.Length >= 2)
+            throw new InvalidOperationException("Invalid `orderBy` column: `" + col + "`");
 
-          var columns = buffer.Split(',')
-            .Select(c => c.Trim());
-          var first = true;
-          foreach (var col in columns)
+          if (parts.Length == 1)
           {
-            if (!first)
-              builder.Append(", ");
-            first = false;
-
-            var parts = col.Split(' ');
-            if (parts.Length >= 2)
-              throw new InvalidOperationException("Invalid `orderBy` column: `" + col + "`");
-            builder.Append(_lastItem.Alias).Append('.');
-            builder.Append(AssertPropertyName(parts[0]));
-
-            if (parts.Length == 2)
+            yield return new OrderByColumn()
             {
-              switch (parts[1].ToLowerInvariant())
-              {
-                case "asc":
-                case "desc":
-                  builder.Append(parts[1]);
-                  break;
-                default:
-                  throw new InvalidOperationException("Invalid `orderBy` column: `" + col + "`");
-              }
+              Name = AssertPropertyName(parts[0])
+            };
+          }
+          else if (parts.Length == 2)
+          {
+            switch (parts[1].ToLowerInvariant())
+            {
+              case "asc":
+              case "desc":
+                yield return new OrderByColumn()
+                {
+                  Name = AssertPropertyName(parts[0]),
+                  Descending = string.Equals(parts[1], "desc", StringComparison.OrdinalIgnoreCase)
+                };
+                break;
+              default:
+                throw new InvalidOperationException("Invalid `orderBy` column: `" + col + "`");
             }
           }
         }
-        else
-        {
-          var props = _settings.GetProperties(_lastItem.Attributes["type"]).Values;
-          var orderProps = props
-            .Where(p => p.OrderBy().HasValue())
-            .OrderBy(p => p.OrderBy().AsInt(int.MaxValue));
-          var first = true;
-          foreach (var prop in orderProps)
-          {
-            if (!first)
-              builder.Append(", ");
-            first = false;
-            builder.Append(_lastItem.Alias).Append('.');
-            builder.Append(prop.NameProp().Value);
-          }
-
-          if (!first)
-            builder.Append(", ");
-          builder.Append(_lastItem.Alias).Append('.');
-          builder.Append("id");
-        }
-
-        if (!_lastItem.Attributes.TryGetValue("maxRecords", out buffer)
-          && _lastItem.Attributes.TryGetValue("pagesize", out buffer))
-        {
-          var pageSize = int.Parse(buffer);
-          var page = int.Parse(_lastItem.Attributes["page"]);
-          builder.Append(" offset ")
-            .Append(pageSize * (page - 1))
-            .Append(" rows fetch next ")
-            .Append(pageSize)
-            .Append(" rows only");
-        }
       }
+      else
+      {
+        var props = _settings.GetProperties(item.Attributes["type"]).Values;
+        var orderProps = props
+          .Where(p => p.OrderBy().HasValue())
+          .OrderBy(p => p.OrderBy().AsInt(int.MaxValue));
+        foreach (var prop in orderProps)
+        {
+          yield return new OrderByColumn() { Name = prop.NameProp().Value };
+        }
 
-      return builder.ToString();
+        yield return new OrderByColumn() { Name = "id" };
+      }
     }
 
     private class Tag
@@ -664,15 +799,47 @@ namespace Innovator.Client
 
     private class ItemTag : Tag
     {
+      private List<Table> _tables = new List<Table>() { new Table() };
+      private List<RelatedWhere> _relatedWhere = new List<RelatedWhere>();
+
       private StringBuilder _select = new StringBuilder();
-      private StringBuilder _from = new StringBuilder();
       private StringBuilder _where = new StringBuilder();
 
-      public string Alias { get; set; }
-      public string TableName { get; set; }
+      public string Alias
+      {
+        get { return _tables[0].Alias; }
+        set { _tables[0].Alias = value; }
+      }
+      public string TableName
+      {
+        get { return _tables[0].Name; }
+        set { _tables[0].Name = value; }
+      }
       public StringBuilder Select { get { return _select; } }
-      public StringBuilder From { get { return _from; } }
+      public IList<Table> From { get { return _tables; } }
+      public IList<RelatedWhere> RelatedWhere { get { return _relatedWhere; } }
       public StringBuilder Where { get { return _where; } }
+    }
+
+    private class Table
+    {
+      public string Name { get; set; }
+      public string Alias { get; set; }
+      public bool OuterJoin { get; set; }
+      public string Criteria { get; set; }
+    }
+
+    private class RelatedWhere
+    {
+      public int Index { get; set; }
+      public string Alias { get; set; }
+      public string Criteria { get; set; }
+    }
+
+    private class OrderByColumn
+    {
+      public string Name { get; set; }
+      public bool Descending { get; set; }
     }
 
     private string AssertInt(string value)

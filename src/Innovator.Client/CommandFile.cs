@@ -29,14 +29,15 @@ namespace Innovator.Client
       _id = id;
       _path = NormalizePath(path);
       if (!File.Exists(_path)) throw new IOException("File " + _path + " does not exist");
-      _aml = GetFileItem(id, path, vaultId, isNew);
-      _length = new FileInfo(_path).Length;
 
       using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
       using (var mD = System.Security.Cryptography.MD5.Create())
       {
         _checksum = mD.ComputeHash(fileStream).HexString().ToUpperInvariant();
       }
+
+      _aml = GetFileItem(id, path, vaultId, isNew);
+      _length = new FileInfo(_path).Length;
 #else
       throw new NotSupportedException();
 #endif
@@ -53,9 +54,9 @@ namespace Innovator.Client
       if (data.CanSeek) data.Position = 0;
       _data = new byte[data.Length];
       data.Read(_data, 0, _data.Length);
+      _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
       _aml = GetFileItem(id, path, vaultId, isNew);
       _length = _data.Length;
-      _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
     }
 
     private string GetFileItem(string id, string path, string vaultId, bool isNew)

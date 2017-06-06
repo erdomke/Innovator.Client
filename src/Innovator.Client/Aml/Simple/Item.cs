@@ -91,11 +91,12 @@ namespace Innovator.Client
         var elem = _content as ILinkedElement;
         if (elem != null)
         {
-          var rel = LinkedListOps.Find(elem, "Relationships") as Relationships;
+          var rel = LinkedListOps.FindAll(elem, "Relationships")
+            .OfType<Relationships>()
+            .OrderByDescending(r => r.Elements().OfType<IReadOnlyItem>().Count())
+            .FirstOrDefault();
           if (rel != null)
-          {
             return rel;
-          }
         }
       }
       return new Relationships(this);
@@ -103,19 +104,9 @@ namespace Innovator.Client
 
     public IEnumerable<IItem> Relationships(string type)
     {
-      if (Exists)
-      {
-        var elem = _content as ILinkedElement;
-        if (elem != null)
-        {
-          var rel = LinkedListOps.Find(elem, "Relationships") as Relationships;
-          if (rel != null)
-          {
-            return rel.ByType(type).OfType<IItem>();
-          }
-        }
-      }
-      return Enumerable.Empty<IItem>();
+      return Relationships()
+        .Elements().OfType<IItem>()
+        .Where(i => i.TypeName() == type);
     }
 
     public IItem Clone()

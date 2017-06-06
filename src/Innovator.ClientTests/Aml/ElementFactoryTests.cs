@@ -68,6 +68,52 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item type=\"Method\" action=\"GetMultiple\"><Relationships><Item type=\"thing\" id=\"1234\" /><Item type=\"thing\" id=\"5678\" /><Item type=\"thing\" id=\"9012\" /></Relationships></Item>", query.ToAml());
     }
 
+    [TestMethod()]
+    public void ExtraRelationshipsTags()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item type='Tree Node'>
+  <itemtype_id />
+  <classification>Tree Node/TocCategory</classification>
+  <name>Administration</name>
+  <label>Administration</label>
+  <Relationships>
+    <Item type='Tree Node Child'>
+      <related_id>
+        <Item type='Tree Node'>
+          <itemtype_id>B19D349CC6FC44BC97D50A6D70AE79CB</itemtype_id>
+          <open_icon>../images/WorkflowMap.svg</open_icon>
+          <close_icon>../images/WorkflowMap.svg</close_icon>
+          <name>Administration/Workflow Map</name>
+          <label>Workflow Maps</label>
+          <classification>Tree Node/ItemTypeInToc</classification>
+        </Item>
+      </related_id>
+    </Item>
+    <Item type='Tree Node Child'>
+      <related_id>
+        <Item type='Tree Node'>
+          <itemtype_id>261EAC08AE9144FC95C49182ACE0D3FE</itemtype_id>
+          <open_icon>../images/WorkflowProcess.svg</open_icon>
+          <close_icon>../images/WorkflowProcess.svg</close_icon>
+          <name>Administration/Workflow Process</name>
+          <label>Workflow Processes</label>
+          <classification>Tree Node/ItemTypeInToc</classification>
+        </Item>
+      </related_id>
+    </Item>
+  </Relationships>
+  <Relationships />
+  <Relationships />
+  <Relationships />
+  <Relationships />
+  <Relationships />
+  <Relationships />
+  <Relationships />
+  <Relationships />
+</Item>").AssertItem();
+      Assert.AreEqual(2, item.Relationships().Count());
+    }
+
     private IEnumerable<IReadOnlyItem> GetItems()
     {
       var aml = ElementFactory.Local;

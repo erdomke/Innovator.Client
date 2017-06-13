@@ -15,6 +15,10 @@ namespace Innovator.Server
   {
     IReadOnlyItem Item { get; }
   }
+  public interface IMutableItemContext : IContext
+  {
+    IItem Item { get; }
+  }
   public interface IMultipleItemContext : IContext
   {
     IEnumerable<IItem> Items { get; }
@@ -148,7 +152,7 @@ namespace Innovator.Server
   }
   public interface IBeforeGet
   {
-    IReadOnlyItem Execute(ISingleItemContext arg);
+    void Execute(IMutableItemContext arg);
   }
   public interface IAfterGet
   {

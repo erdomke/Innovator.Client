@@ -477,6 +477,7 @@
     <Compile Include="Server\ServerMethod\DelegateContext.cs" />
     <Compile Include="Server\ServerMethod\Methods.cs" />
     <Compile Include="Server\ServerMethod\MultiItemContext.cs" />
+    <Compile Include="Server\ServerMethod\MutableItemContext.cs" />
     <Compile Include="Server\ServerMethod\PromotionContext.cs" />
     <Compile Include="Server\ServerMethod\SingleItemContext.cs" />
     <Compile Include="Server\ServerMethod\ValidationContext.cs" />

@@ -27,13 +27,7 @@ namespace Innovator.Client
     /// </example>
     public static IReadOnlyResult Apply(this IConnection conn, Command query, params object[] parameters)
     {
-      if (parameters != null)
-      {
-        for (var i = 0; i < parameters.Length; i++)
-        {
-          query.WithParam(i.ToString(), parameters[i]);
-        }
-      }
+      query.WithAml(query.Aml, parameters);
       if (query.Action == CommandAction.ApplySQL)
         return ElementFactory.Utc.FromXml(conn.Process(query), query, conn);
       return conn.AmlContext.FromXml(conn.Process(query), query, conn);
@@ -70,13 +64,7 @@ namespace Innovator.Client
     private static IPromise<IReadOnlyResult> ApplyAsyncInt(this IAsyncConnection conn, Command query, CancellationToken ct, params object[] parameters)
     {
       var result = new Promise<IReadOnlyResult>();
-      if (parameters != null)
-      {
-        for (var i = 0; i < parameters.Length; i++)
-        {
-          query.WithParam(i.ToString(), parameters[i]);
-        }
-      }
+      query.WithAml(query.Aml, parameters);
 
       ct.Register(() => result.Cancel());
 
@@ -117,18 +105,10 @@ namespace Innovator.Client
     /// <returns>A read-only result</returns>
     public static IReadOnlyResult ApplySql(this IConnection conn, Command sql, params object[] parameters)
     {
-      if (parameters != null)
-      {
-        for (var i = 0; i < parameters.Length; i++)
-        {
-          sql.WithParam(i.ToString(), parameters[i]);
-        }
-      }
-      if (!sql.Aml.TrimStart().StartsWith("<"))
-      {
-        sql.Aml = "<sql>" + ServerContext.XmlEscape(sql.Aml) + "</sql>";
-      }
-      return conn.Apply(sql.WithAction(CommandAction.ApplySQL));
+      var aml = sql.Aml;
+      if (!aml.TrimStart().StartsWith("<"))
+        aml = "<sql>" + ServerContext.XmlEscape(aml) + "</sql>";
+      return conn.Apply(sql.WithAml(aml, parameters).WithAction(CommandAction.ApplySQL));
     }
     /// <summary>
     /// Get the result of executing the specified SQL query
@@ -140,9 +120,7 @@ namespace Innovator.Client
     public static IPromise<IReadOnlyResult> ApplySql(this IAsyncConnection conn, Command sql, bool async)
     {
       if (!sql.Aml.TrimStart().StartsWith("<"))
-      {
         sql.Aml = "<sql>" + ServerContext.XmlEscape(sql.Aml) + "</sql>";
-      }
       return ApplyAsyncInt(conn, sql.WithAction(CommandAction.ApplySQL), default(CancellationToken));
     }
 

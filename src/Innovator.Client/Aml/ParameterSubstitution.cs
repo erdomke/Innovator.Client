@@ -62,7 +62,7 @@ namespace Innovator.Client
     }
     public void AddParameter(string name, object value)
     {
-      _parameters.Add(name, value);
+      _parameters[name] = value;
     }
 
     public void ClearParameters()

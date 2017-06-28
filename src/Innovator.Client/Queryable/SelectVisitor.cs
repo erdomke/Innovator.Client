@@ -56,6 +56,12 @@ namespace Innovator.Client.Queryable
     {
       _buffer.Add(name);
     }
+
+    protected override MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
+    {
+      FlushBuffer();
+      return base.VisitMemberAssignment(assignment);
+    }
   }
 }
 #endif

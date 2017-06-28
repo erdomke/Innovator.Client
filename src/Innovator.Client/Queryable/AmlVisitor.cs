@@ -11,18 +11,19 @@ namespace Innovator.Client.Queryable
   {
     protected bool VisitAmlMethod(MethodCallExpression m)
     {
-      if ((m.Method.DeclaringType == typeof(IReadOnlyItem) && m.Method.Name == "Property")
-        || (m.Method.DeclaringType == typeof(IIndexedItem) && m.Method.Name == "get_Item"))
+      if ((m.Method.DeclaringType == typeof(IReadOnlyItem) && m.Method.Name == "Property"))
       {
         Visit(m.Object);
-        var propName = ((ConstantExpression)m.Arguments[0]).Value.ToString().ToLowerInvariant();
+        var arg = _paramStack.TrySimplify(m.Arguments[0]);
+        var propName = ((ConstantExpression)arg).Value.ToString().ToLowerInvariant();
         VisitProperty(propName);
         return true;
       }
       else if (m.Method.DeclaringType == typeof(IReadOnlyElement) && m.Method.Name == "Attribute")
       {
         Visit(m.Object);
-        var propName = ((ConstantExpression)m.Arguments[0]).Value.ToString().ToLowerInvariant();
+        var arg = _paramStack.TrySimplify(m.Arguments[0]);
+        var propName = ((ConstantExpression)arg).Value.ToString().ToLowerInvariant();
         if (propName != "id")
           throw new NotSupportedException(string.Format("Unsupported attribute '{0}'", propName));
         VisitProperty("id");

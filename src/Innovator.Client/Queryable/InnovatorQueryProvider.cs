@@ -48,10 +48,6 @@ namespace Innovator.Client.Queryable
         var func = query.Projection.Compile();
         return Activator.CreateInstance(typeof(Projector<>).MakeGenericType(elementType), result, func);
       }
-      else if (typeof(IIndexedItem).IsAssignableFrom(elementType))
-      {
-        return new Projector<IIndexedItem>(result, i => new QueryableItem(i));
-      }
       return new Projector<IReadOnlyItem>(result, null);
     }
 

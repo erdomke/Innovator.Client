@@ -420,12 +420,10 @@
     <Compile Include="Queryable\ArasNameAttribute.cs" />
     <Compile Include="Queryable\Evaluator.cs" />
     <Compile Include="Queryable\ExpressionVisitor.cs" />
-    <Compile Include="Queryable\IIndexedItem.cs" />
     <Compile Include="Queryable\IInnovatorQuery.cs" />
     <Compile Include="Queryable\InnovatorQuery.cs" />
     <Compile Include="Queryable\InnovatorQueryProvider.cs" />
     <Compile Include="Queryable\IReadOnlyResult.cs" />
-    <Compile Include="Queryable\QueryableItem.cs" />
     <Compile Include="Queryable\QueryExtensions.cs" />
     <Compile Include="Queryable\QueryProvider.cs" />
     <Compile Include="Queryable\QuerySettings.cs" />
@@ -487,6 +485,7 @@
     <Compile Include="Server\ServerMethod\DelegateContext.cs" />
     <Compile Include="Server\ServerMethod\Methods.cs" />
     <Compile Include="Server\ServerMethod\MultiItemContext.cs" />
+    <Compile Include="Server\ServerMethod\MutableItemContext.cs" />
     <Compile Include="Server\ServerMethod\PromotionContext.cs" />
     <Compile Include="Server\ServerMethod\SingleItemContext.cs" />
     <Compile Include="Server\ServerMethod\ValidationContext.cs" />

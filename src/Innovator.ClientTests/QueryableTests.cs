@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Innovator.Client.Queryable;
-using LinqToQuerystring;
 using System.Collections;
-using Linq2Rest;
 using Innovator.Client.Model;
+using ODataToolkit;
 
 namespace Innovator.Client.Tests
 {
@@ -27,8 +26,8 @@ namespace Innovator.Client.Tests
     private string TestQueryString(string queryString)
     {
       var conn = new TestConnection();
-      var query = conn.Queryable<IIndexedItem>("ItemType");
-      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), Uri.UnescapeDataString(queryString.Replace('+', ' ')), true);
+      var query = conn.Queryable<IReadOnlyItem>("ItemType");
+      var intermediate = query.ExecuteOData(typeof(IReadOnlyItem), queryString, (obj, key) => ((IReadOnlyItem)obj).Property(key).Value);
       var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       //((IEnumerable)query.LinqToQuerystring(queryString, true)).OfType<object>().ToArray();
       return conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
@@ -221,13 +220,13 @@ namespace Innovator.Client.Tests
       aml = TestQueryString("?$filter='Part' eq Name");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><name>Part</name></Item>", aml);
 
-      aml = TestQueryString("?$filter=not Name eq 'Apple'");
+      aml = TestQueryString("?$filter=not (Name eq 'Apple')");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><not><name>Apple</name></not></Item>", aml);
 
       aml = TestQueryString("?$filter=Name ne 'Apple'");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><name condition=\"ne\">Apple</name></Item>", aml);
 
-      aml = TestQueryString("?$filter=not Name ne 'Apple'");
+      aml = TestQueryString("?$filter=not (Name ne 'Apple')");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><not><name condition=\"ne\">Apple</name></not></Item>", aml);
     }
 
@@ -284,7 +283,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><or><generation condition=\"ge\">3</generation><and><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_on>2002-01-01T00:00:00</created_on></and></or></Item>", aml);
 
       aml = TestQueryString("?$filter=generation ge 3 or id eq guid'4F1AC04A-2B48-4F3A-BA4E-20DB63808A88' or created_on eq datetime'2002-01-01T00:00'");
-      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><or><created_on>2002-01-01T00:00:00</created_on><generation condition=\"ge\">3</generation><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></or></Item>", aml);
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><or><generation condition=\"ge\">3</generation><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_on>2002-01-01T00:00:00</created_on></or></Item>", aml);
     }
 
     [TestMethod()]
@@ -331,7 +330,7 @@ namespace Innovator.Client.Tests
     public void QueryString_Random()
     {
       var aml = TestQueryString("?$callback=jQuery1124032885557251554487_1494968811401&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(keyed_name)%2C%27kent+ypma%27)");
-      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name\" />", aml);
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><keyed_name condition=\"like\">kent ypma*</keyed_name></Item>", aml);
     }
 
 
@@ -339,31 +338,32 @@ namespace Innovator.Client.Tests
     public void QueryString_ModifyQuery()
     {
       var conn = new TestConnection();
-      var query = conn.Queryable<IIndexedItem>("ItemType", new QuerySettings() { ModifyQuery = i =>
+      var query = conn.Queryable<IReadOnlyItem>("ItemType", new QuerySettings() { ModifyQuery = i =>
       {
         i.Action().Set("GetOData");
         i.MaxRecords().Set(10);
       }});
-      var intermediate = query.LinqToQuerystring(typeof(IIndexedItem), Uri.UnescapeDataString("?$orderby=Name"), true);
+      var intermediate = query.ExecuteOData(typeof(IReadOnlyItem), Uri.UnescapeDataString("?$orderby=Name"), (obj, key) => ((IReadOnlyItem)obj).Property(key).Value);
       var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       var aml = conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
       Assert.AreEqual("<Item action=\"GetOData\" type=\"ItemType\" orderBy=\"name\" maxRecords=\"10\" />", aml);
     }
 
+    [TestMethod()]
+    public void QueryString_Projection()
+    {
+      var aml = TestQueryString("?$select=Name");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name\" />", aml);
 
+      aml = TestQueryString("?$select=name,id");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name,id\" />", aml);
 
-    //[TestMethod()]
-    //public void QueryString_Projection()
-    //{
-    //  var aml = TestQueryString("?$select=Name");
-    //  Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name\" />", aml);
+      aml = TestQueryString("?$select=name,id&$orderby=name");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name\" select=\"name,id\" />", aml);
 
-    //  aml = TestQueryString("?$select=name,id");
-    //  Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name,id\" />", aml);
-
-    //  aml = TestQueryString("?$select=name,id&$orderby=name");
-    //  Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name,id\" orderBy=\"name\" />", aml);
-    //}
+      aml = TestQueryString("?$select=name,id&$orderby=name,created_on desc");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name,created_on DESC\" select=\"name,id\" />", aml);
+    }
   }
 }
 #endif

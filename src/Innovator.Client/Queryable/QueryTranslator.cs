@@ -18,6 +18,7 @@ namespace Innovator.Client.Queryable
     private IElement _curr;
     private LambdaExpression _projector;
     private QuerySettings _settings;
+    private Stack<ExpressionType> _lastBinary = new Stack<ExpressionType>();
 
     public QueryTranslator(ElementFactory factory, QuerySettings settings)
     {
@@ -345,8 +346,18 @@ namespace Innovator.Client.Queryable
           _curr = _curr.Parent;
           break;
         case ExpressionType.Convert:
-          // Do nothing
           this.Visit(u.Operand);
+
+          var isComparison = (_lastBinary.Count > 0 &&
+            (_lastBinary.Peek() == ExpressionType.Equal
+            || _lastBinary.Peek() == ExpressionType.NotEqual
+            || _lastBinary.Peek() == ExpressionType.LessThan
+            || _lastBinary.Peek() == ExpressionType.LessThanOrEqual
+            || _lastBinary.Peek() == ExpressionType.GreaterThan
+            || _lastBinary.Peek() == ExpressionType.GreaterThanOrEqual));
+
+          if (u.Type == typeof(bool) && !isComparison)
+            SetValue(true);
           break;
         default:
           throw new NotSupportedException(string.Format("The unary operator '{0}' is not supported", u.NodeType));
@@ -369,83 +380,104 @@ namespace Innovator.Client.Queryable
 
     protected override Expression VisitBinary(BinaryExpression b)
     {
-      var left = b.Left;
-      var right = b.Right;
-      if (b.Left is ConstantExpression && !(b.Right is ConstantExpression))
-      {
-        left = b.Right;
-        right = b.Left;
-      }
+      _lastBinary.Push(b.NodeType);
 
-      var constExpr = right as ConstantExpression;
-      var isNull = constExpr != null && constExpr.Value == null;
-      var depth = GetDepth();
-
-      switch (b.NodeType)
+      try
       {
-        case ExpressionType.OrElse:
-        case ExpressionType.AndAlso:
-          var newParent = PushElement(b.NodeType == ExpressionType.OrElse ? _aml.Or() : _aml.And());
-          this.Visit(left);
-          this.Visit(right);
-          break;
-        case ExpressionType.Equal:
-          if (left.NodeType == ExpressionType.Parameter && constExpr != null && constExpr.Value is IReadOnlyItem)
-          {
-            _curr.Add(_aml.IdProp(((IReadOnlyItem)constExpr.Value).Id()));
-          }
-          else if (isNull)
-          {
-            this.Visit(left);
-            _curr.Add(_aml.Condition(Condition.IsNull));
-            this.Visit(right);
-          }
-          else
-          {
+
+        var left = b.Left;
+        var right = b.Right;
+        if (b.Left is ConstantExpression && !(b.Right is ConstantExpression))
+        {
+          left = b.Right;
+          right = b.Left;
+        }
+
+        var constExpr = right as ConstantExpression;
+        var isNull = constExpr != null && constExpr.Value == null;
+        var depth = GetDepth();
+
+        switch (b.NodeType)
+        {
+          case ExpressionType.OrElse:
+          case ExpressionType.AndAlso:
+            var newParent = PushElement(b.NodeType == ExpressionType.OrElse ? _aml.Or() : _aml.And());
             this.Visit(left);
             this.Visit(right);
-          }
-          break;
-        case ExpressionType.NotEqual:
-          if (left.NodeType == ExpressionType.Parameter && constExpr != null && constExpr.Value is IReadOnlyItem)
-          {
-            _curr.Add(_aml.IdProp(_aml.Condition(Condition.NotEqual), ((IReadOnlyItem)constExpr.Value).Id()));
-          }
-          else
-          {
-            this.Visit(left);
-            if (isNull)
-              _curr.Add(_aml.Condition(Condition.IsNotNull));
+            break;
+          case ExpressionType.Equal:
+            if (left.NodeType == ExpressionType.Parameter && constExpr != null && constExpr.Value is IReadOnlyItem)
+            {
+              _curr.Add(_aml.IdProp(((IReadOnlyItem)constExpr.Value).Id()));
+            }
+            else if (isNull)
+            {
+              this.Visit(left);
+              _curr.Add(_aml.Condition(Condition.IsNull));
+              this.Visit(right);
+            }
+            else if ((left.NodeType == ExpressionType.Equal
+                || left.NodeType == ExpressionType.NotEqual
+                || left.NodeType == ExpressionType.LessThan
+                || left.NodeType == ExpressionType.LessThanOrEqual
+                || left.NodeType == ExpressionType.GreaterThan
+                || left.NodeType == ExpressionType.GreaterThanOrEqual)
+              && constExpr != null && constExpr.Value is bool)
+            {
+              // Simplify the expression that was build because there is a not followed by a parenthetical
+              this.Visit(left);
+            }
             else
-              _curr.Add(_aml.Condition(Condition.NotEqual));
+            {
+              this.Visit(left);
+              this.Visit(right);
+            }
+            break;
+          case ExpressionType.NotEqual:
+            if (left.NodeType == ExpressionType.Parameter && constExpr != null && constExpr.Value is IReadOnlyItem)
+            {
+              _curr.Add(_aml.IdProp(_aml.Condition(Condition.NotEqual), ((IReadOnlyItem)constExpr.Value).Id()));
+            }
+            else
+            {
+              this.Visit(left);
+              if (isNull)
+                _curr.Add(_aml.Condition(Condition.IsNotNull));
+              else
+                _curr.Add(_aml.Condition(Condition.NotEqual));
+              this.Visit(right);
+            }
+            break;
+          default:
+            this.Visit(left);
+            switch (b.NodeType)
+            {
+              case ExpressionType.LessThan:
+                _curr.Add(_aml.Condition(Condition.LessThan));
+                break;
+              case ExpressionType.LessThanOrEqual:
+                _curr.Add(_aml.Condition(Condition.LessThanEqual));
+                break;
+              case ExpressionType.GreaterThan:
+                _curr.Add(_aml.Condition(Condition.GreaterThan));
+                break;
+              case ExpressionType.GreaterThanOrEqual:
+                _curr.Add(_aml.Condition(Condition.GreaterThanEqual));
+                break;
+              default:
+                throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported", b.NodeType));
+            }
             this.Visit(right);
-          }
-          break;
-        default:
-          this.Visit(left);
-          switch (b.NodeType)
-          {
-            case ExpressionType.LessThan:
-              _curr.Add(_aml.Condition(Condition.LessThan));
-              break;
-            case ExpressionType.LessThanOrEqual:
-              _curr.Add(_aml.Condition(Condition.LessThanEqual));
-              break;
-            case ExpressionType.GreaterThan:
-              _curr.Add(_aml.Condition(Condition.GreaterThan));
-              break;
-            case ExpressionType.GreaterThanOrEqual:
-              _curr.Add(_aml.Condition(Condition.GreaterThanEqual));
-              break;
-            default:
-              throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported", b.NodeType));
-          }
-          this.Visit(right);
-          break;
-      }
+            break;
+        }
 
-      PopElements(depth);
-      return b;
+        PopElements(depth);
+        return b;
+      }
+      finally
+      {
+        _lastBinary.Pop();
+      }
     }
 
     protected override Expression VisitConstant(ConstantExpression c)
@@ -461,13 +493,18 @@ namespace Innovator.Client.Queryable
       }
       else
       {
-        var prop = _curr as IProperty;
-        if (prop != null)
-          prop.Set(c.Value);
-        else
-          _curr.Add(c.Value);
+        SetValue(c.Value);
       }
       return c;
+    }
+
+    private void SetValue(object value)
+    {
+      var prop = _curr as IProperty;
+      if (prop != null)
+        prop.Set(value);
+      else
+        _curr.Add(value);
     }
 
     private void PopElements(int origDepth)

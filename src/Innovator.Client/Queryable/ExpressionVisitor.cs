@@ -2,12 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Innovator.Client.Queryable
 {
   internal abstract class ExpressionVisitor
   {
+    protected ParameterStack _paramStack = new ParameterStack();
+
     protected ExpressionVisitor() { }
 
     protected virtual Expression Visit(Expression exp)
@@ -569,14 +572,26 @@ namespace Innovator.Client.Queryable
 
     }
 
-
-
     protected virtual Expression VisitInvocation(InvocationExpression iv)
     {
 
-      IEnumerable<Expression> args = this.VisitExpressionList(iv.Arguments);
+      var args = iv.Arguments; // this.VisitExpressionList();
 
-      Expression expr = this.Visit(iv.Expression);
+      var lambda = iv.Expression as LambdaExpression;
+      Expression expr;
+      try
+      {
+        if (lambda != null)
+          _paramStack.Push(lambda.Parameters, iv.Arguments);
+
+        expr = this.Visit(iv.Expression);
+      }
+      finally
+      {
+        if (lambda != null)
+          _paramStack.Pop();
+      }
+
 
       if (args != iv.Arguments || expr != iv.Expression)
       {
@@ -589,6 +604,48 @@ namespace Innovator.Client.Queryable
 
     }
 
+    protected class ParameterStack
+    {
+      private List<KeyValuePair<ParameterExpression, Expression>> _variables =
+        new List<KeyValuePair<ParameterExpression, Expression>>();
+      private Stack<int> _variableCounts = new Stack<int>();
+
+      public Expression TrySimplify(Expression expr)
+      {
+        var param = expr as ParameterExpression;
+        if (param != null)
+        {
+          for (var i = _variables.Count - 1; i >= 0; i--)
+          {
+            if (_variables[i].Key.Name == param.Name)
+              return _variables[i].Value;
+          }
+        }
+        return expr;
+      }
+
+      public void Push(IEnumerable<ParameterExpression> parameters, IEnumerable<Expression> values)
+      {
+        var p = parameters.ToArray();
+        var v = values.ToArray();
+
+        var count = Math.Min(v.Length, p.Length);
+        for (var i = 0; i < count; i++)
+        {
+          _variables.Add(new KeyValuePair<ParameterExpression, Expression>(p[i], v[i]));
+        }
+        _variableCounts.Push(count);
+      }
+
+      public void Pop()
+      {
+        var toRemove = _variableCounts.Pop();
+        for (var i = 0; i < toRemove; i++)
+        {
+          _variables.RemoveAt(_variables.Count - 1);
+        }
+      }
+    }
   }
 }
 #endif

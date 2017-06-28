@@ -14,6 +14,7 @@ namespace Innovator.Server
     private bool _existingLoaded;
     private IResult _result;
 
+    /// <inheritdoc/>
     public IItem Item
     {
       get { return _changes; }

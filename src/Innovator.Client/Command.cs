@@ -20,6 +20,7 @@ namespace Innovator.Client
     /// What MIME type the client should accept for the request
     /// </summary>
     public string AcceptMimeType { get; set; }
+
     /// <summary>
     /// SOAP action to use with the AML
     /// </summary>

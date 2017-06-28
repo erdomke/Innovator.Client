@@ -7,22 +7,56 @@ using Innovator.Client.Model;
 
 namespace Innovator.Server
 {
+  /// <summary>
+  /// Base interface for a server method context argument
+  /// </summary>
   public interface IContext
   {
+    /// <summary>
+    /// Connection to the database
+    /// </summary>
     IServerConnection Conn { get; }
   }
+
+  /// <summary>
+  /// Context for a server method which is called with a single item
+  /// </summary>
   public interface ISingleItemContext : IContext
   {
+    /// <summary>
+    /// Item that method should act on
+    /// </summary>
     IReadOnlyItem Item { get; }
   }
+
+  /// <summary>
+  /// Context for a server method which is called with a single item
+  /// that must be modified to alter Aras behavior
+  /// </summary>
   public interface IMutableItemContext : IContext
   {
+    /// <summary>
+    /// Item that method should act on
+    /// </summary>
     IItem Item { get; }
   }
+
+  /// <summary>
+  /// Context for a server method which is called with multiple
+  /// items that must be modified to alter Aras behavior
+  /// </summary>
   public interface IMultipleItemContext : IContext
   {
+    /// <summary>
+    /// Items that the method should act on
+    /// </summary>
     IEnumerable<IItem> Items { get; }
   }
+
+  /// <summary>
+  /// Context for a server method which is used on before add
+  /// or update of an item.
+  /// </summary>
   public interface IValidationContext : IContext
   {
     /// <summary>
@@ -79,6 +113,7 @@ namespace Innovator.Server
     /// </summary>
     Action<IItem> QueryDefaults { get; set; }
   }
+
   public interface IVersionContext : IContext
   {
     IReadOnlyItem OldVersion { get; }
@@ -89,6 +124,7 @@ namespace Innovator.Server
     /// </summary>
     Action<IItem> QueryDefaults { get; set; }
   }
+
   public interface IPromotionContext : ISingleItemContext
   {
     /// <summary>
@@ -96,6 +132,7 @@ namespace Innovator.Server
     /// </summary>
     LifeCycleTransition Transition { get; }
   }
+
   public interface IWorkflowContext : IContext
   {
     /// <summary>
@@ -123,17 +160,20 @@ namespace Innovator.Server
     /// </summary>
     Action<IItem> QueryDefaults { get; set; }
   }
+
   public interface IVoteContext : IWorkflowContext
   {
     /// <summary>
     /// Which assignment the event pertains to
     /// </summary>
     IReadOnlyItem Assignment { get; }
+
     /// <summary>
     /// The workflow path being voted for
     /// </summary>
     string Path { get; }
   }
+
   public interface IDelegateContext : IWorkflowContext
   {
     /// <summary>

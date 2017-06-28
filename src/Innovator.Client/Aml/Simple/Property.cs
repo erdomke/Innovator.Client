@@ -133,7 +133,7 @@ namespace Innovator.Client
     {
       if (!this.Exists || _content == null) return null;
       var str = _content.ToString();
-      if (str.StartsWith(Utils.VaultPicturePrefix))
+      if (str.StartsWith(Utils.VaultPicturePrefix, StringComparison.OrdinalIgnoreCase))
         str = str.Substring(Utils.VaultPicturePrefix.Length);
       return new Guid(str);
     }
@@ -174,7 +174,9 @@ namespace Innovator.Client
           item.Add(aml.IdProp(aml.Type(typeAttr.Value), AsGuid()));
         }
       }
-      else if (item == null && _content is string && ((string)_content).StartsWith(Utils.VaultPicturePrefix))
+      else if (item == null
+        && _content is string
+        && ((string)_content).StartsWith(Utils.VaultPicturePrefix, StringComparison.OrdinalIgnoreCase))
       {
         var aml = AmlContext ?? ElementFactory.Local;
         var id = ((string)_content).Substring(Utils.VaultPicturePrefix.Length);

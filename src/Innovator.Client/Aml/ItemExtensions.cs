@@ -13,6 +13,65 @@ namespace Innovator.Client
   /// </summary>
   public static class ItemExtensions
   {
+    public static object AsClrValue(this IReadOnlyProperty_Base prop, Model.Property meta)
+    {
+      while (meta.DataType().Value == "foreign" && meta.ForeignProperty().HasValue())
+        meta = (Model.Property)meta.ForeignProperty().AsItem();
+
+      switch (meta.DataType().Value)
+      {
+        case "boolean":
+          return ((IReadOnlyProperty_Boolean)prop).AsBoolean();
+        case "integer":
+          return ((IReadOnlyProperty_Number)prop).AsInt();
+        case "decimal":
+          if (meta.Prec().HasValue()
+            && meta.Scale().HasValue()
+            && meta.Prec().Value == meta.Scale().Value)
+          {
+            if (meta.Scale().AsInt(int.MaxValue) <= 9)
+              return ((IReadOnlyProperty_Number)prop).AsInt();
+            return ((IReadOnlyProperty_Number)prop).AsLong();
+          }
+          return ((IReadOnlyProperty_Number)prop).AsDouble();
+        case "float":
+          return ((IReadOnlyProperty_Number)prop).AsDouble();
+        case "date":
+          return ((IReadOnlyProperty_Date)prop).AsDateTime();
+        case "mv_list":
+          if (prop.HasValue())
+            return prop.Value.Split(',');
+          return null;
+        case "item":
+          if (!prop.HasValue())
+            return null;
+          if (prop.Name == "id" || prop.Name == "config_id")
+            return prop.Value;
+
+          var aml = prop.AmlContext;
+          var propItem = ((IReadOnlyProperty_Item<IReadOnlyItem>)prop).AsItem();
+          if (!propItem.Exists && meta.DataSource().HasValue())
+            propItem = aml.Item(aml.TypeId(meta.DataSource().Value), aml.Id(prop.Value), aml.KeyedName(prop.KeyedName().Value));
+
+          return propItem;
+        case "image":
+          if (!prop.HasValue())
+            return null;
+          if (prop.Value.StartsWith(Utils.VaultPicturePrefix, StringComparison.OrdinalIgnoreCase))
+            return ((IReadOnlyProperty_Image)prop).AsItem();
+          return new Uri(prop.Value, UriKind.RelativeOrAbsolute);
+        case "federated":
+          if (!prop.HasValue())
+            return null;
+          DateTime dateValue;
+          return DateTime.TryParse(prop.Value, out dateValue) ? (object)dateValue : prop.Value;
+        default:
+          if (!prop.HasValue())
+            return null;
+          return prop.Value;
+      }
+    }
+
     /// <summary>
     /// Convert an item to a result object so that it can be more easily
     /// returned from a server method
@@ -122,7 +181,7 @@ namespace Innovator.Client
       }
 
       var url = prop.AsString("");
-      if (url.StartsWith(Utils.VaultPicturePrefix))
+      if (url.StartsWith(Utils.VaultPicturePrefix, StringComparison.OrdinalIgnoreCase))
       {
         var id = url.Substring(Utils.VaultPicturePrefix.Length);
         var cmd = new Command("<Item type='File' action='get' id='@0' />", id).WithAction(CommandAction.DownloadFile);

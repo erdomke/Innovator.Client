@@ -5,7 +5,7 @@ namespace Innovator.Client.Queryable
 {
   internal class AmlQuery
   {
-    public IElement Aml { get; set; }
+    public IItem Aml { get; set; }
     public LambdaExpression Projection { get; set; }
   }
 }

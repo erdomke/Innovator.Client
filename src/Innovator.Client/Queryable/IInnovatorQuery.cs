@@ -3,9 +3,13 @@ using System.Linq;
 
 namespace Innovator.Client.Queryable
 {
-  internal interface IInnovatorQuery : IQueryable
+  public interface IInnovatorQuery : IQueryable, IAmlNode
   {
-    string Type { get; set; }
+    string ItemType { get; }
+
+    IQueryResult Apply();
+    IPromise<IQueryResult> ApplyAsync();
+    IInnovatorQuery Include(string path);
   }
 }
 #endif

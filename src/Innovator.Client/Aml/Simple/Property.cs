@@ -220,6 +220,9 @@ namespace Innovator.Client
 
     public override IElement Add(object content)
     {
+      if (!Exists && _parent != null)
+        _parent.Add(this);
+
       var result = base.Add(content);
       var isNull = this.IsNull();
       if (_content == null

@@ -11,29 +11,33 @@ namespace Innovator.Client.Queryable
   /// <summary>
   /// A default implementation of IQueryable for use with QueryProvider
   /// </summary>
-  internal class InnovatorQuery<T> : IQueryable<T>, IInnovatorQuery, IEnumerable<T>, IEnumerable, IOrderedQueryable<T>, IOrderedQueryable, IAmlNode
+  public class InnovatorQuery<T> : IQueryable<T>, IInnovatorQuery, IEnumerable<T>, IEnumerable, IOrderedQueryable<T>, IOrderedQueryable
   {
-    Expression _expression;
-    IQueryProvider _provider;
-    IReadOnlyResult<T> _result;
+    private Expression _expression;
+    private IQueryProvider _provider;
+    private IQueryResult<T> _result;
 
     public Expression Expression { get { return this._expression; } }
     public Type ElementType { get { return typeof(T); } }
     public IQueryProvider Provider { get { return this._provider; } }
-    public IReadOnlyResult<T> Result
+    public string ItemType { get; }
+
+    private IQueryResult<T> Result
     {
       get
       {
         if (_result == null)
-          _result = (IReadOnlyResult<T>)this._provider.Execute(this._expression);
+          _result = (IQueryResult<T>)this._provider.Execute(this._expression);
         return _result;
       }
     }
-    public string Type { get; set; }
 
-    public InnovatorQuery(IQueryProvider provider) : this(provider, null) { }
+    public InnovatorQuery(IQueryProvider provider, string itemType) : this(provider, default(Type))
+    {
+      this.ItemType = itemType;
+    }
 
-    public InnovatorQuery(IQueryProvider provider, Type staticType)
+    internal InnovatorQuery(IQueryProvider provider, Type staticType)
     {
       if (provider == null)
       {
@@ -43,7 +47,7 @@ namespace Innovator.Client.Queryable
       this._expression = staticType != null ? Expression.Constant(this, staticType) : Expression.Constant(this);
     }
 
-    public InnovatorQuery(QueryProvider provider, Expression expression)
+    internal InnovatorQuery(QueryProvider provider, Expression expression)
     {
       if (provider == null)
       {
@@ -61,7 +65,12 @@ namespace Innovator.Client.Queryable
       this._expression = expression;
     }
 
-    public IPromise<IReadOnlyResult<T>> GetResultAsync()
+    public IQueryResult<T> Apply()
+    {
+      return Result;
+    }
+
+    public IPromise<IQueryResult<T>> ApplyAsync()
     {
       var innProvider = _provider as InnovatorQueryProvider;
       if (_result != null || innProvider == null)
@@ -70,9 +79,17 @@ namespace Innovator.Client.Queryable
       return innProvider.ExecuteAsync(this._expression)
         .Convert(o =>
         {
-          _result = _result ?? (IReadOnlyResult<T>)o;
+          _result = _result ?? (IQueryResult<T>)o;
           return _result;
         });
+    }
+
+    public InnovatorQuery<T> Include(string path)
+    {
+      var innProvider = _provider as InnovatorQueryProvider;
+      if (innProvider != null)
+        innProvider.Include(path);
+      return this;
     }
 
     public IEnumerator<T> GetEnumerator()
@@ -95,6 +112,21 @@ namespace Innovator.Client.Queryable
       var innProvider = (InnovatorQueryProvider)_provider;
       var query = innProvider.Translate(this._expression);
       query.Aml.ToAml(writer, settings);
+    }
+
+    IQueryResult IInnovatorQuery.Apply()
+    {
+      return Apply();
+    }
+
+    IPromise<IQueryResult> IInnovatorQuery.ApplyAsync()
+    {
+      return ApplyAsync().Convert(r => (IQueryResult)r);
+    }
+
+    IInnovatorQuery IInnovatorQuery.Include(string path)
+    {
+      return Include(path);
     }
   }
 }

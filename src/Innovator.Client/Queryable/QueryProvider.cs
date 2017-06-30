@@ -1,5 +1,6 @@
 ﻿#if REFLECTION
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -11,6 +12,9 @@ namespace Innovator.Client.Queryable
   /// </summary>
   internal abstract class QueryProvider : IQueryProvider
   {
+    private static Dictionary<Type, Func<QueryProvider, Expression, IQueryable>> _constructorCache
+      = new Dictionary<Type, Func<QueryProvider, Expression, IQueryable>>();
+
     protected QueryProvider()
     {
     }
@@ -25,7 +29,20 @@ namespace Innovator.Client.Queryable
       Type elementType = TypeHelper.GetElementType(expression.Type);
       try
       {
-        return (IQueryable)Activator.CreateInstance(typeof(InnovatorQuery<>).MakeGenericType(elementType), new object[] { this, expression });
+        var lambda = default(Func<QueryProvider, Expression, IQueryable>);
+        if (!_constructorCache.TryGetValue(elementType, out lambda))
+        {
+          var constructor = typeof(InnovatorQuery<>).MakeGenericType(elementType)
+            .GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(QueryProvider), typeof(Expression) }, null);
+          var paramProvider = Expression.Parameter(typeof(QueryProvider), "p");
+          var exprProvider = Expression.Parameter(typeof(Expression), "e");
+          lambda = Expression.Lambda<Func<QueryProvider, Expression, IQueryable>>(
+            Expression.New(constructor, paramProvider, exprProvider), paramProvider, exprProvider
+          ).Compile();
+          _constructorCache[elementType] = lambda;
+        }
+
+        return lambda(this, expression);
       }
       catch (TargetInvocationException tie)
       {

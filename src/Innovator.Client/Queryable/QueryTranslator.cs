@@ -485,7 +485,7 @@ namespace Innovator.Client.Queryable
       var q = c.Value as IInnovatorQuery;
       if (q != null)
       {
-        _curr.Attribute("type").Set(q.Type);
+        _curr.Attribute("type").Set(q.ItemType);
       }
       else if (c.Value == null)
       {

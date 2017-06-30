@@ -15,6 +15,7 @@ namespace Innovator.Client.Queryable
   {
     private IConnection _conn;
     private QuerySettings _settings;
+    private List<string> _includePaths = new List<string>();
 
     public InnovatorQueryProvider(IConnection conn, QuerySettings settings)
     {
@@ -28,7 +29,7 @@ namespace Innovator.Client.Queryable
       var result = _conn.Apply(query.Aml.ToAml());
       return ConvertResult(result, expression, query);
     }
-
+    
     public IPromise<object> ExecuteAsync(Expression expression)
     {
       var asyncConn = _conn as IAsyncConnection;
@@ -51,13 +52,37 @@ namespace Innovator.Client.Queryable
       return new Projector<IReadOnlyItem>(result, null);
     }
 
+    public void Include(string path)
+    {
+      _includePaths.Add(path);
+    }
+
     internal AmlQuery Translate(Expression expression)
     {
       expression = Evaluator.PartialEval(expression);
-      return new QueryTranslator(_conn.AmlContext, _settings).Translate(expression);
+      var result = new QueryTranslator(_conn.AmlContext, _settings).Translate(expression);
+
+      // Add AML for force propery expansion
+      if (_includePaths.Any())
+      {
+        var aml = result.Aml.AmlContext;
+        foreach (var path in _includePaths)
+        {
+          var parts = path.Split(new char[] { '.', '/' });
+          var currItem = result.Aml;
+          foreach (var part in parts)
+          {
+            var prop = currItem.Property(part);
+            if (!prop.HasValue())
+              prop.Add(aml.Item(aml.Action("get")));
+            currItem = prop.AsItem();
+          }
+        }
+      }
+      return result;
     }
 
-    private class Projector<T> : IReadOnlyResult<T>
+    private class Projector<T> : IQueryResult<T>
     {
       private IReadOnlyResult _result;
       private Delegate _projection;

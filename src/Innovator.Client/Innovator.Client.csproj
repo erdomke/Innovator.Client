@@ -413,7 +413,7 @@
     <Compile Include="Queryable\IInnovatorQuery.cs" />
     <Compile Include="Queryable\InnovatorQuery.cs" />
     <Compile Include="Queryable\InnovatorQueryProvider.cs" />
-    <Compile Include="Queryable\IReadOnlyResult.cs" />
+    <Compile Include="Queryable\IQueryResult.cs" />
     <Compile Include="Queryable\QueryExtensions.cs" />
     <Compile Include="Queryable\QueryProvider.cs" />
     <Compile Include="Queryable\QuerySettings.cs" />

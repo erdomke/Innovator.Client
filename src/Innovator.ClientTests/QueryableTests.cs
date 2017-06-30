@@ -14,12 +14,12 @@ namespace Innovator.Client.Tests
   [TestClass()]
   public class QueryableTests
   {
-    private string TestAml(Func<IQueryable<IReadOnlyItem>, IQueryable> expression)
+    private string TestAml(Func<InnovatorQuery<IReadOnlyItem>, IQueryable> expression)
     {
       var conn = new TestConnection();
       var query = conn.Queryable("ItemType");
       var intermediate = expression(query);
-      var rendered = intermediate.OfType<object>().Apply();
+      var rendered = intermediate.OfType<object>().ToArray();
       return intermediate.ToString();
     }
 
@@ -27,7 +27,7 @@ namespace Innovator.Client.Tests
     {
       var conn = new TestConnection();
       var query = conn.Queryable<IReadOnlyItem>("ItemType");
-      var intermediate = query.ExecuteOData(typeof(IReadOnlyItem), queryString, (obj, key) => ((IReadOnlyItem)obj).Property(key).Value);
+      var intermediate = query.ExecuteOData(queryString, new ExecutionSettings().WithDynamicAccessor((obj, key) => ((IReadOnlyItem)obj).Property(key).Value));
       var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       //((IEnumerable)query.LinqToQuerystring(queryString, true)).OfType<object>().ToArray();
       return conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
@@ -40,7 +40,7 @@ namespace Innovator.Client.Tests
       var query = conn.Queryable<ItemType>()
         .Where(i => i.NameProp().Value == "Part")
         .Select(i => new { Name = i.NameProp().Value });
-      var result = query.Apply();
+      var result = query.ToArray();
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" select=\"name\"><name>Part</name></Item>", query.ToString());
     }
 
@@ -343,7 +343,7 @@ namespace Innovator.Client.Tests
         i.Action().Set("GetOData");
         i.MaxRecords().Set(10);
       }});
-      var intermediate = query.ExecuteOData(typeof(IReadOnlyItem), Uri.UnescapeDataString("?$orderby=Name"), (obj, key) => ((IReadOnlyItem)obj).Property(key).Value);
+      var intermediate = query.ExecuteOData("?$orderby=Name", new ExecutionSettings().WithDynamicAccessor((obj, key) => ((IReadOnlyItem)obj).Property(key).Value));
       var result = ((IEnumerable)intermediate).OfType<object>().ToArray();
       var aml = conn.LastRequest.ToNormalizedAml(conn.AmlContext.LocalizationContext);
       Assert.AreEqual("<Item action=\"GetOData\" type=\"ItemType\" orderBy=\"name\" maxRecords=\"10\" />", aml);
@@ -363,6 +363,21 @@ namespace Innovator.Client.Tests
 
       aml = TestQueryString("?$select=name,id&$orderby=name,created_on desc");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name,created_on DESC\" select=\"name,id\" />", aml);
+    }
+
+
+    [TestMethod()]
+    public void Queryable_Include()
+    {
+      var aml = TestAml(q => q.Include("created_by_id").Where(i => i.Id() == "4F1AC04A2B484F3ABA4E20DB63808A88"));
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
+    }
+
+    [TestMethod()]
+    public void QueryString_Include()
+    {
+      var aml = TestQueryString("?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
     }
   }
 }

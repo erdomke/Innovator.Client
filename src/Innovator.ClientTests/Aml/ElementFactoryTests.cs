@@ -257,5 +257,13 @@ namespace Innovator.Client.Tests
         new Command("<Item action='get' type='Part'><created_on condition='between' origDateRange='Dynamic|Week|-2|Year|1000'>random query</created_on></Item>")
           .ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
+
+    [TestMethod()]
+    public void FormatEarlyDate()
+    {
+      var str = "0018-03-07T00:00:00";
+      var date = DateTime.Parse("0018-03-07T00:00:00");
+      Assert.AreEqual(str, ElementFactory.Local.LocalizationContext.Format(date));
+    }
   }
 }

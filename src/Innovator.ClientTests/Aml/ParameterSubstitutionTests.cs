@@ -110,6 +110,12 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
         new Command((FormattableString)$"<Item><name>{name}</name><is_current>{isCurrent}</is_current><date>{date:yyyy-MM-dd}</date></Item>").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
+        new Command((FormattableString)$@"<Item>
+  <name>{name}</name>
+  <is_current>{isCurrent}</is_current>
+  <date>{date:yyyy-MM-dd}</date>
+</Item>").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 #endif
 

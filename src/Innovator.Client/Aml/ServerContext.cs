@@ -379,10 +379,6 @@ namespace Innovator.Client
       {
         converted = TimeZoneData.ConvertTime(value, TimeZoneData.Local, _timeZone);
       }
-#if DBDATA
-      if (converted < SqlDateTime.MinValue.Value
-        || converted > SqlDateTime.MaxValue.Value) return null;
-#endif
       return converted.ToString("s");
     }
 

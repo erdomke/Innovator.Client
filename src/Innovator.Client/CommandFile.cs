@@ -36,8 +36,8 @@ namespace Innovator.Client
         _checksum = mD.ComputeHash(fileStream).HexString().ToUpperInvariant();
       }
 
-      _aml = GetFileItem(id, path, vaultId, isNew);
       _length = new FileInfo(_path).Length;
+      _aml = GetFileItem(id, path, vaultId, isNew);
 #else
       throw new NotSupportedException();
 #endif
@@ -55,8 +55,8 @@ namespace Innovator.Client
       _data = new byte[data.Length];
       data.Read(_data, 0, _data.Length);
       _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
-      _aml = GetFileItem(id, path, vaultId, isNew);
       _length = _data.Length;
+      _aml = GetFileItem(id, path, vaultId, isNew);
     }
 
     private string GetFileItem(string id, string path, string vaultId, bool isNew)
@@ -76,6 +76,7 @@ namespace Innovator.Client
         xml.WriteElementString("checkedout_path", System.IO.Path.GetDirectoryName(path));
         xml.WriteElementString("filename", System.IO.Path.GetFileName(path));
         xml.WriteElementString("checksum", _checksum);
+        xml.WriteElementString("file_size", _length.ToString());
 
         xml.WriteStartElement("Relationships");
         xml.WriteStartElement("Item");

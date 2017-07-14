@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SERIALIZATION;DBDATA;XMLLEGACY;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;TIMEZONEINFO</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -383,7 +383,8 @@
     <Compile Include="Aml\StaticDateTimeRange.cs" />
     <Compile Include="Aml\SubSelect.cs" />
     <Compile Include="Aml\TimeZoneData.cs" />
-    <Compile Include="Aml\TimeZoneData.Records.cs" />
+    <Compile Include="Aml\TimeZoneInfo.cs" />
+    <Compile Include="Aml\TimeZoneInfo.Records.cs" />
     <Compile Include="Aml\ValidationException.cs" />
     <Compile Include="Aml\ValidationReportException.cs" />
     <Compile Include="Aml\XmlUtils.cs" />

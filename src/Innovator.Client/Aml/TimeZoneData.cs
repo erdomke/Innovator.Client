@@ -75,109 +75,165 @@ namespace Innovator.Client
     private static readonly TimeZoneData _local = new TimeZoneData() { _timeZone = TimeZoneInfo.Local };
     private static readonly TimeZoneData _utc = new TimeZoneData() { _timeZone = TimeZoneInfo.Utc };
 #else
-    private TzRecord _timeZone;
-    private string _id;
+    private Innovator.Client.Time.TimeZoneInfo _timeZone;
 
     public string Id
     {
-      get { return _id; }
-    }
-
-    public static TimeZoneData ById(string value)
-    {
-      return new TimeZoneData()
-      {
-        _timeZone = _data[value],
-        _id = value
-      };
+      get { return _timeZone.Id; }
     }
 
     public TimeSpan GetUtcOffset(DateTime dateTime)
     {
-      return dateTime - ConvertFromLocal(dateTime, this);
+      return _timeZone.GetUtcOffset(dateTime);
     }
 
     public override int GetHashCode()
     {
-      return _timeZone.GetHashCode() ^ _id.GetHashCode();
+      return _timeZone.GetHashCode();
     }
     public bool Equals(TimeZoneData other)
     {
-      return _timeZone.Equals(other._timeZone) && _id.Equals(other._id);
+      return _timeZone.Equals(other._timeZone);
     }
 
     public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
     {
-      return ConvertToLocal(ConvertFromLocal(value, from), to);
+      return Time.TimeZoneInfo.ConvertTime(value, from._timeZone, to._timeZone);
+    }
+
+    public static TimeZoneData ById(string value)
+    {
+      return new TimeZoneData() { _timeZone = Time.TimeZoneInfo.ById(value) };
     }
 
     public static DateTimeOffset ConvertTime(DateTimeOffset value, TimeZoneData to)
     {
-      var universal = value.ToUniversalTime().DateTime;
-      var result = ConvertToLocal(universal, to);
-      return new DateTimeOffset(result, result - universal);
+      return Time.TimeZoneInfo.ConvertTime(value, to._timeZone);
     }
 
-    private static DateTime ConvertToLocal(DateTime value, TimeZoneData data)
+    private static readonly TimeZoneData _local = new TimeZoneData()
     {
-      var record = data._timeZone;
-      var hist = record.History.Single(h => value >= h.TransitionStart && value < h.TransitionEnd);
-      var result = value.AddSeconds(record.Offset + hist.DeltaSeconds);
-
-      if (TimeZoneInfo.Local.StandardName == data._id)
-        return DateTime.SpecifyKind(result, DateTimeKind.Local);
-      return DateTime.SpecifyKind(result, DateTimeKind.Unspecified);
-    }
-
-    private static DateTime ConvertFromLocal(DateTime value, TimeZoneData data)
+      _timeZone = Time.TimeZoneInfo.ByStandardName(TimeZoneInfo.Local.StandardName)
+    };
+    private static readonly TimeZoneData _utc = new TimeZoneData()
     {
-      var record = data._timeZone;
-
-      //Presented local date can be located near transition dates, we should check 2 boundary periods
-      //to get their delta_seconds offsets and check if local date falls in unexisting time interval,
-      //to raise an error or if date is ambiguous we assume that it belongs to latest period and use its offset.
-      var valueSt = value.AddSeconds(-1 * record.Offset);
-      var hist1 = record.History.Single(h => valueSt >= h.TransitionStart && valueSt < h.TransitionEnd);
-
-      var valueSt2 = valueSt.AddSeconds(-1 * hist1.DeltaSeconds);
-      var hist2 = record.History.Single(h => valueSt2 >= h.TransitionStart && valueSt2 < h.TransitionEnd);
-
-      var transEnd1 = (DateTime.MaxValue - hist1.TransitionEnd).TotalSeconds > hist1.DeltaSeconds
-        ? hist1.TransitionEnd.AddSeconds(hist1.DeltaSeconds) : DateTime.MaxValue;
-      var transEnd2 = (DateTime.MaxValue - hist2.TransitionEnd).TotalSeconds > hist2.DeltaSeconds
-        ? hist2.TransitionEnd.AddSeconds(hist2.DeltaSeconds) : DateTime.MaxValue;
-
-      if ((valueSt >= transEnd1 && valueSt < hist2.TransitionStart.AddSeconds(hist2.DeltaSeconds))
-        || (valueSt >= transEnd2 && valueSt < hist1.TransitionStart.AddSeconds(hist1.DeltaSeconds)))
-        throw new InvalidOperationException("Specified local time " + value.ToString() + " is invalid for '" + data._id + "' timezone.");
-
-      return DateTime.SpecifyKind(valueSt.AddSeconds(-1 * hist2.DeltaSeconds), DateTimeKind.Utc);
-    }
-
-    private struct TzRecord
-    {
-      public int Offset { get; set; }
-      public TzHistory[] History { get; set; }
-    }
-
-    private struct TzHistory
-    {
-      public DateTime TransitionStart { get; set; }
-      public DateTime TransitionEnd { get; set; }
-      public int DeltaSeconds { get; set; }
-    }
-
-    static TimeZoneData()
-    {
-      _local = TimeZoneData.ById(TimeZoneInfo.Local.StandardName);
-      _utc = TimeZoneData.ById("UTC");
-    }
-
-    private static readonly TimeZoneData _local;
-    private static readonly TimeZoneData _utc;
+      _timeZone = Time.TimeZoneInfo.ById("UTC")
+    };
 #endif
 
     public static TimeZoneData Local { get { return _local; } }
     public static TimeZoneData Utc { get { return _utc; } }
   }
+
+#if DEBUG && TIMEZONEINFO
+  /// <summary>
+  /// Used to generate the timezone data
+  /// Innovator.Client.TzUtils.GenerateRecords(@"C:\Users\eric.domke\Documents\Code\Innovator.Client\src\Innovator.Client\Aml\TimeZoneData.Records.cs")
+  /// </summary>
+  public class TzUtils
+  {
+    public static void GenerateRecords(string path)
+    {
+      using (var writer = new System.IO.StreamWriter(path))
+      {
+        writer.Write(@"#if !TIMEZONEINFO
+using System;
+using System.Collections.Generic;
+
+namespace Innovator.Client.Time
+{
+  internal sealed partial class TimeZoneInfo
+  {
+    private static Dictionary<string, TimeZoneInfo> _cache = new Dictionary<string, TimeZoneInfo>(StringComparer.OrdinalIgnoreCase)
+    {
+");
+        foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
+        {
+          //TimeZoneInfo.CreateCustomTimeZone(tz.Id, tz.BaseUtcOffset, tz.DisplayName, tz.StandardName, tz.DaylightName, tz.GetAdjustmentRules(), !tz.SupportsDaylightSavingTime);
+          writer.Write("      { \"");
+          writer.Write(tz.Id);
+          writer.Write("\", TimeZoneInfo.CreateCustomTimeZone(\"");
+          writer.Write(tz.Id);
+          writer.Write("\", TimeSpan.FromSeconds(");
+          writer.Write(tz.BaseUtcOffset.TotalSeconds.ToString());
+          writer.Write("), \"");
+          writer.Write(tz.DisplayName);
+          writer.Write("\", \"");
+          writer.Write(tz.StandardName);
+          writer.Write("\", \"");
+          writer.Write(tz.DaylightName);
+          writer.WriteLine("\", new AdjustmentRule [] {");
+          foreach (var rule in tz.GetAdjustmentRules())
+          {
+            var prop = rule.GetType().GetProperty("BaseUtcOffsetDelta", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var baseOffset = (TimeSpan)prop.GetValue(rule);
+
+            writer.Write("    AdjustmentRule.CreateAdjustmentRule(new DateTime(");
+            writer.Write("{0:yyyy, M, d, H, m, s}, DateTimeKind.Unspecified), new DateTime(", rule.DateStart);
+            writer.Write("{0:yyyy, M, d, H, m, s}, DateTimeKind.Unspecified), ", rule.DateEnd);
+            writer.Write("TimeSpan.FromSeconds(");
+            writer.Write(rule.DaylightDelta.TotalSeconds);
+            writer.Write("), ");
+            AppendTransition(rule.DaylightTransitionStart, writer);
+            writer.Write(", ");
+            AppendTransition(rule.DaylightTransitionEnd, writer);
+            if (baseOffset != TimeSpan.Zero)
+            {
+              writer.Write(", TimeSpan.FromSeconds(");
+              writer.Write(rule.DaylightDelta.TotalSeconds);
+              writer.Write(")");
+            }
+            writer.WriteLine("),");
+          }
+          writer.Write("      }, ");
+          writer.Write(tz.SupportsDaylightSavingTime ? "false" : "true");
+          writer.WriteLine(") },");
+        }
+
+        writer.WriteLine(@"    };
+
+    private static Dictionary<string, string> _standardNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+    {
+");
+
+        foreach (var tz in TimeZoneInfo.GetSystemTimeZones())
+        {
+          writer.Write("      {\"");
+          writer.Write(tz.StandardName);
+          writer.Write("\", \"");
+          writer.Write(tz.Id);
+          writer.WriteLine("\" },");
+        }
+        writer.WriteLine(@"    };");
+        writer.WriteLine("  }");
+        writer.WriteLine("}");
+        writer.WriteLine("#endif");
+      }
+    }
+
+    private static void AppendTransition(TimeZoneInfo.TransitionTime trans, System.IO.TextWriter writer)
+    {
+      if (trans.IsFixedDateRule)
+      {
+        writer.Write("TransitionTime.CreateFixedDateRule(new DateTime(");
+        writer.Write("{0:yyyy, M, d, H, m, s}, DateTimeKind.Unspecified), ", trans.TimeOfDay);
+        writer.Write(trans.Month);
+        writer.Write(", ");
+        writer.Write(trans.Day);
+        writer.Write(")");
+      }
+      else
+      {
+        writer.Write("TransitionTime.CreateFloatingDateRule(new DateTime(");
+        writer.Write("{0:yyyy, M, d, H, m, s}, DateTimeKind.Unspecified), ", trans.TimeOfDay);
+        writer.Write(trans.Month);
+        writer.Write(", ");
+        writer.Write(trans.Week);
+        writer.Write(", DayOfWeek.");
+        writer.Write(trans.DayOfWeek);
+        writer.Write(")");
+      }
+    }
+  }
+#endif
 }

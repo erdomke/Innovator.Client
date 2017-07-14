@@ -178,12 +178,9 @@ namespace Innovator.Client
                   attrs.Add(condition);
                 }
 
-                if (dateRange.StartOffset.HasValue && !dateRange.EndOffset.HasValue)
-                  condition.Value = "ge";
-                else if (!dateRange.StartOffset.HasValue && dateRange.EndOffset.HasValue)
-                  condition.Value = "le";
-                else if (dateRange.StartOffset.HasValue && dateRange.EndOffset.HasValue)
-                  condition.Value = "between";
+                var dateCondition = dateRange.Condition();
+                if (dateCondition != Condition.Undefined)
+                  condition.Value = context.Format(dateCondition);
               }
 
               foreach (var attr in attrs)
@@ -221,6 +218,22 @@ namespace Innovator.Client
               break;
             case XmlNodeType.Text:
               param = RenderValue((string)condition, dateRange == null ? xmlReader.Value : _context.Format(dateRange));
+
+              var dynRange = param.Original as DynamicDateTimeRange;
+              var statRange = param.Original as StaticDateTimeRange;
+              if (dynRange != null)
+              {
+                if (!attrs.Any(p => p.Name == "condition"))
+                  xmlWriter.WriteAttributeString("condition", context.Format(dynRange.Condition()));
+                if (!attrs.Any(p => p.Name == "origDateRange"))
+                  xmlWriter.WriteAttributeString("origDateRange", dynRange.Serialize());
+              }
+              else if (statRange != null)
+              {
+                if (!attrs.Any(p => p.Name == "condition"))
+                  xmlWriter.WriteAttributeString("condition", context.Format(statRange.Condition()));
+              }
+
               if (param.IsRaw)
               {
                 xmlWriter.WriteRaw(param.Value);
@@ -251,6 +264,7 @@ namespace Innovator.Client
       }
       else if (TryFillParameter(content, param) && TryGetParamValue(param.Name, out value))
       {
+        param.Original = value;
         if (param.IsRaw) return param.WithValue((value ?? "").ToString());
 
         switch (context)
@@ -553,6 +567,7 @@ namespace Innovator.Client
       public bool IsRaw { get; set; }
       public string Name { get; set; }
       public string NsUri { get; set; }
+      public object Original { get; set; }
       public string Prefix { get; set; }
       public string Value { get; set; }
 

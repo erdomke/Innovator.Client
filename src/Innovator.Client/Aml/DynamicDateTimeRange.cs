@@ -39,6 +39,17 @@ namespace Innovator.Client
       return result;
     }
 
+    public Condition Condition()
+    {
+      if (StartOffset.HasValue && !EndOffset.HasValue)
+        return Client.Condition.GreaterThanEqual;
+      else if (!StartOffset.HasValue && EndOffset.HasValue)
+        return Client.Condition.LessThanEqual;
+      else if (StartOffset.HasValue && EndOffset.HasValue)
+        return Client.Condition.Between;
+      return Client.Condition.Undefined;
+    }
+
     public static DynamicDateTimeRange Deserialize(string value)
     {
       DynamicDateTimeRange result;
@@ -145,6 +156,7 @@ namespace Innovator.Client
       if (isEndDate) return result.Date.AddMilliseconds(-1);
       return result.Date;
     }
+
     internal static DateTimeOffset GetWeekStart(DateTimeOffset value, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
     {
       var offset = (int)firstDayOfWeek - (int)value.DayOfWeek;

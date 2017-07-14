@@ -13,8 +13,6 @@ namespace Innovator.Client
 
     public StaticDateTimeRange()
     {
-      this.EndDate = DateTime.Now;
-      this.StartDate = this.EndDate;
       this.TimeZone = TimeZoneData.Local;
     }
 
@@ -26,6 +24,18 @@ namespace Innovator.Client
       result.StartDate = StartDate.HasValue ? TimeZoneData.ConvertTime(StartDate.Value, this.TimeZone, timeZone) : (DateTime?)null;
       result.TimeZone = timeZone;
       return result;
+    }
+
+
+    public Condition Condition()
+    {
+      if (StartDate.HasValue && !EndDate.HasValue)
+        return Client.Condition.GreaterThanEqual;
+      else if (!StartDate.HasValue && EndDate.HasValue)
+        return Client.Condition.LessThanEqual;
+      else if (StartDate.HasValue && EndDate.HasValue)
+        return Client.Condition.Between;
+      return Client.Condition.Undefined;
     }
   }
 }

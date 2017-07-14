@@ -70,10 +70,7 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void TimeZoneTests()
     {
-      var zonesToIgnore = new HashSet<string>(new[] { "UTC", "Mid-Atlantic Standard Time", "Morocco Standard Time"
-        , "Turkey Standard Time", "Omsk Standard Time", "Magallanes Standard Time"
-        , "Saratov Standard Time", "W. Mongolia Standard Time", "Ulaanbaatar Standard Time", "UTC+13"
-        , "Tonga Standard Time"});
+      var zonesToIgnore = new HashSet<string>();
 
       foreach (var zone in TimeZoneInfo.GetSystemTimeZones().Where(t => !zonesToIgnore.Contains(t.Id)))
       {

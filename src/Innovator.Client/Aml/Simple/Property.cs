@@ -223,6 +223,25 @@ namespace Innovator.Client
       if (!Exists && _parent != null)
         _parent.Add(this);
 
+      return AddBase(content);
+    }
+
+    public void Set(object value)
+    {
+      AssertModifiable();
+      if (!Exists)
+      {
+        if (_parent == null)
+          throw new InvalidOperationException();
+        _parent.Add(this);
+      }
+
+      _content = null;
+      AddBase(value);
+    }
+
+    private IElement AddBase(object content)
+    {
       var result = base.Add(content);
       var isNull = this.IsNull();
       if (_content == null
@@ -236,35 +255,20 @@ namespace Innovator.Client
       else
       {
         isNull.Remove();
+
+        var dynRange = _content as DynamicDateTimeRange;
+        var statRange = _content as StaticDateTimeRange;
+        if (dynRange != null && dynRange.Condition() != Condition.Undefined)
+        {
+          this.Condition().Set(dynRange.Condition());
+          this.Attribute("origDateRange").Set(dynRange.Serialize());
+        }
+        else if (statRange != null && statRange.Condition() != Condition.Undefined)
+        {
+          this.Condition().Set(statRange.Condition());
+        }
       }
       return result;
-    }
-
-    public void Set(object value)
-    {
-      AssertModifiable();
-      if (!Exists)
-      {
-        if (_parent == null)
-          throw new InvalidOperationException();
-        _parent.Add(this);
-      }
-
-      var isNull = this.IsNull();
-      if (value == null
-#if DBDATA
-        || value == DBNull.Value
-#endif
-      )
-      {
-        isNull.Set(true);
-      }
-      else
-      {
-        isNull.Remove();
-      }
-      _content = null;
-      base.Add(value);
     }
 
     IReadOnlyItem IReadOnlyProperty_Item<IReadOnlyItem>.AsItem()

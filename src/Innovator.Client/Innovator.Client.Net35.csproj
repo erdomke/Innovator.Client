@@ -390,7 +390,8 @@
     <Compile Include="Aml\StaticDateTimeRange.cs" />
     <Compile Include="Aml\SubSelect.cs" />
     <Compile Include="Aml\TimeZoneData.cs" />
-    <Compile Include="Aml\TimeZoneData.Records.cs" />
+    <Compile Include="Aml\TimeZoneInfo.cs" />
+    <Compile Include="Aml\TimeZoneInfo.Records.cs" />
     <Compile Include="Aml\ValidationException.cs" />
     <Compile Include="Aml\ValidationReportException.cs" />
     <Compile Include="Aml\XmlUtils.cs" />

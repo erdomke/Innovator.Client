@@ -18,6 +18,8 @@ namespace Innovator.Client
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public sealed class ServerContext : IServerContext
   {
+    internal static Func<DateTimeOffset> _clock = () => DateTimeOffset.UtcNow;
+
     private const string DoubleFixedPoint = "0.###################################################################################################################################################################################################################################################################################################################################################";
     private readonly static Regex TimeZoneMatch = new Regex(@"(^|\s)[+-]\d{1,2}(:\d{1,2})?($|\s)");
     private TimeZoneData _timeZone;
@@ -325,27 +327,21 @@ namespace Innovator.Client
       {
         return Render((DateTime)value);
       }
-      else if (value is StaticDateTimeRange)
+      else if (value is Range<DateOffset>)
       {
-        var range = ((StaticDateTimeRange)value).ToTimeZone(_timeZone);
-        if (range.StartDate.HasValue && range.EndDate.HasValue)
-          return stringRenderer(range.StartDate.Value.ToString("s") + " and " + range.EndDate.Value.ToString("s"));
-        else if (range.StartDate.HasValue)
-          return stringRenderer(range.StartDate.Value.ToString("s"));
-        else if (range.EndDate.HasValue)
-          return stringRenderer(range.EndDate.Value.ToString("s"));
-        return "";
+        var statDates = ((Range<DateOffset>)value).AsDateRange(this.Now());
+        return stringRenderer(statDates.Minimum.ToString("s") + " and " + statDates.Maximum.ToString("s"));
       }
-      else if (value is DynamicDateTimeRange)
+      else if (value is IRange)
       {
-        var range = ((DynamicDateTimeRange)value).ToStatic(_timeZone);
-        if (range.StartDate.HasValue && range.EndDate.HasValue)
-          return stringRenderer(range.StartDate.Value.ToString("s") + " and " + range.EndDate.Value.ToString("s"));
-        else if (range.StartDate.HasValue)
-          return stringRenderer(range.StartDate.Value.ToString("s"));
-        else if (range.EndDate.HasValue)
-          return stringRenderer(range.EndDate.Value.ToString("s"));
-        return "";
+        var range = (IRange)value;
+        return Format(range.Minimum, numberRenderer, stringRenderer)
+          + " and "
+          + Format(range.Maximum, numberRenderer, stringRenderer);
+      }
+      else if (value is DateOffset)
+      {
+        return ((DateOffset)value).AsDate(this.Now()).ToString("s");
       }
       else if (value is IReadOnlyItem)
       {

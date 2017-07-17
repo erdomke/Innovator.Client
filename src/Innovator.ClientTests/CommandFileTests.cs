@@ -24,6 +24,7 @@ namespace Innovator.ClientTests
       Console.WriteLine(testFileSize);
     }
 
+#if NETFULL
     [TestMethod]
     public void CommandFile_ByPath_TestLength()
     {
@@ -33,6 +34,7 @@ namespace Innovator.ClientTests
       Assert.IsTrue(file.Aml.Contains(testFileSize.ToString()));
       Console.WriteLine(file.Aml);
     }
+#endif
 
     [TestMethod]
     public void CommandFile_ByPathAndStream_TestLength()

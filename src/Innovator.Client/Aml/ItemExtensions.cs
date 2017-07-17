@@ -13,63 +13,185 @@ namespace Innovator.Client
   /// </summary>
   public static class ItemExtensions
   {
+    /// <summary>
+    /// Return the value of a property parsed into the appropriate CLR type
+    /// </summary>
     public static object AsClrValue(this IReadOnlyProperty_Base prop, Model.Property meta)
     {
       while (meta.DataType().Value == "foreign" && meta.ForeignProperty().HasValue())
         meta = (Model.Property)meta.ForeignProperty().AsItem();
 
-      switch (meta.DataType().Value)
+      if (!prop.HasValue())
+        return null;
+
+      var range = prop.Attribute("origDateRange").Value;
+      DateOffset? offsetStart;
+      DateOffset? offsetEnd;
+      if (!string.IsNullOrEmpty(range)
+        && ParameterSubstitution.TryDeserializeDateRange(range, out offsetStart, out offsetEnd))
       {
-        case "boolean":
-          return ((IReadOnlyProperty_Boolean)prop).AsBoolean();
-        case "integer":
-          return ((IReadOnlyProperty_Number)prop).AsInt();
-        case "decimal":
-          if (meta.Prec().HasValue()
-            && meta.Scale().HasValue()
-            && meta.Prec().Value == meta.Scale().Value)
-          {
-            if (meta.Scale().AsInt(int.MaxValue) <= 9)
-              return ((IReadOnlyProperty_Number)prop).AsInt();
-            return ((IReadOnlyProperty_Number)prop).AsLong();
-          }
-          return ((IReadOnlyProperty_Number)prop).AsDouble();
-        case "float":
-          return ((IReadOnlyProperty_Number)prop).AsDouble();
-        case "date":
-          return ((IReadOnlyProperty_Date)prop).AsDateTime();
-        case "mv_list":
-          if (prop.HasValue())
-            return prop.Value.Split(',');
-          return null;
-        case "item":
-          if (!prop.HasValue())
-            return null;
-          if (prop.Name == "id" || prop.Name == "config_id")
-            return prop.Value;
-
-          var aml = prop.AmlContext;
-          var propItem = ((IReadOnlyProperty_Item<IReadOnlyItem>)prop).AsItem();
-          if (!propItem.Exists && meta.DataSource().HasValue())
-            propItem = aml.Item(aml.TypeId(meta.DataSource().Value), aml.Id(prop.Value), aml.KeyedName(prop.KeyedName().Value));
-
-          return propItem;
-        case "image":
-          if (!prop.HasValue())
-            return null;
-          if (prop.Value.StartsWith(Utils.VaultPicturePrefix, StringComparison.OrdinalIgnoreCase))
-            return ((IReadOnlyProperty_Image)prop).AsItem();
-          return new Uri(prop.Value, UriKind.RelativeOrAbsolute);
-        case "federated":
-          if (!prop.HasValue())
-            return null;
-          DateTime dateValue;
-          return DateTime.TryParse(prop.Value, out dateValue) ? (object)dateValue : prop.Value;
-        default:
-          if (!prop.HasValue())
-            return null;
-          return prop.Value;
+        if (offsetStart.HasValue && offsetEnd.HasValue)
+          return new Range<DateOffset>(offsetStart.Value, offsetEnd.Value);
+        else if (offsetStart.HasValue)
+          return offsetStart.Value;
+        else
+          return offsetEnd.Value;
       }
+
+      switch (prop.Condition().Value)
+      {
+        case "in":
+          switch (meta.DataType().Value)
+          {
+            case "boolean":
+              throw new NotSupportedException();
+            case "integer":
+              return AsList(prop, (v, c) => c.AsInt(v).Value);
+            case "decimal":
+              if (meta.Prec().HasValue()
+                && meta.Scale().HasValue()
+                && meta.Prec().Value == meta.Scale().Value)
+              {
+                if (meta.Scale().AsInt(int.MaxValue) <= 9)
+                  return AsList(prop, (v, c) => c.AsInt(v).Value);
+                return AsList(prop, (v, c) => c.AsLong(v).Value);
+              }
+              return AsList(prop, (v, c) => c.AsDouble(v).Value);
+            case "float":
+              return AsList(prop, (v, c) => c.AsDouble(v).Value);
+            case "date":
+              return AsList(prop, (v, c) => c.AsDateTime(v).Value);
+            default:
+              return AsList(prop, (v, c) => v);
+          }
+        case "between":
+          switch (meta.DataType().Value)
+          {
+            case "boolean":
+              throw new NotSupportedException();
+            case "integer":
+              return AsRange(prop, (v, c) => c.AsInt(v).Value);
+            case "decimal":
+              if (meta.Prec().HasValue()
+                && meta.Scale().HasValue()
+                && meta.Prec().Value == meta.Scale().Value)
+              {
+                if (meta.Scale().AsInt(int.MaxValue) <= 9)
+                  return AsRange(prop, (v, c) => c.AsInt(v).Value);
+                return AsRange(prop, (v, c) => c.AsLong(v).Value);
+              }
+              return AsRange(prop, (v, c) => c.AsDouble(v).Value);
+            case "float":
+              return AsRange(prop, (v, c) => c.AsDouble(v).Value);
+            case "date":
+              return AsRange(prop, (v, c) => c.AsDateTime(v).Value);
+            default:
+              return AsRange(prop, (v, c) => v);
+          }
+        default:
+          switch (meta.DataType().Value)
+          {
+            case "boolean":
+              return ((IReadOnlyProperty_Boolean)prop).AsBoolean();
+            case "integer":
+              return ((IReadOnlyProperty_Number)prop).AsInt();
+            case "decimal":
+              if (meta.Prec().HasValue()
+                && meta.Scale().HasValue()
+                && meta.Prec().Value == meta.Scale().Value)
+              {
+                if (meta.Scale().AsInt(int.MaxValue) <= 9)
+                  return ((IReadOnlyProperty_Number)prop).AsInt();
+                return ((IReadOnlyProperty_Number)prop).AsLong();
+              }
+              return ((IReadOnlyProperty_Number)prop).AsDouble();
+            case "float":
+              return ((IReadOnlyProperty_Number)prop).AsDouble();
+            case "date":
+              return ((IReadOnlyProperty_Date)prop).AsDateTime();
+            case "mv_list":
+              return prop.Value.Split(',');
+            case "item":
+              if (prop.Name == "id" || prop.Name == "config_id")
+                return prop.Value;
+
+              var aml = prop.AmlContext;
+              var propItem = ((IReadOnlyProperty_Item<IReadOnlyItem>)prop).AsItem();
+              if (!propItem.Exists && meta.DataSource().HasValue())
+                propItem = aml.Item(aml.TypeId(meta.DataSource().Value), aml.Id(prop.Value), aml.KeyedName(prop.KeyedName().Value));
+
+              return propItem;
+            case "image":
+              if (prop.Value.StartsWith(Utils.VaultPicturePrefix, StringComparison.OrdinalIgnoreCase))
+                return ((IReadOnlyProperty_Image)prop).AsItem();
+              return new Uri(prop.Value, UriKind.RelativeOrAbsolute);
+            case "federated":
+              DateTime dateValue;
+              return DateTime.TryParse(prop.Value, out dateValue) ? (object)dateValue : prop.Value;
+            default:
+              return prop.Value;
+          }
+      }
+    }
+
+    private static T[] AsList<T>(IReadOnlyProperty_Base prop, Func<string, IServerContext, T> convert)
+    {
+      var list = new List<T>();
+      var inQuote = false;
+      var start = 0;
+      var chars = prop.Value;
+      if (chars.TrimStart()[0] == '(')
+        throw new NotSupportedException("SQL in clause parameters are not supported");
+      var context = prop.AmlContext.LocalizationContext;
+
+      for (var i = 0; i < chars.Length; i++)
+      {
+        if (inQuote)
+        {
+          if (chars[i] == '\'')
+          {
+            if (i + 1 < chars.Length && chars[i + 1] == '\'')
+              i++;
+            else
+              inQuote = false;
+          }
+        }
+        else
+        {
+          if (chars[i] == '\'')
+          {
+            inQuote = true;
+          }
+          else if (chars[i] == ',')
+          {
+            var sub = chars.Substring(start, i - start).Trim();
+            if (sub.Length > 0 && sub[0] == '\'')
+              sub = sub.Trim('\'').Replace("''", "'");
+            list.Add(convert(sub, context));
+            start = i + 1;
+          }
+
+        }
+
+        if (chars[i] == '\'')
+        {
+          if (inQuote && i + 1 < chars.Length && chars[i + 1] == '\'')
+            i++;
+          else
+            inQuote = !inQuote;
+        }
+      }
+
+      return list.ToArray();
+    }
+
+    private static Range<T> AsRange<T>(IReadOnlyProperty_Base prop, Func<string, IServerContext, T> convert) where T : IComparable
+    {
+      var parts = prop.Value.Split(new string[] { " and " }, StringSplitOptions.None);
+      if (parts.Length != 2)
+        throw new InvalidOperationException();
+      var context = prop.AmlContext.LocalizationContext;
+      return new Range<T>(convert(parts[0], context), convert(parts[1], context));
     }
 
     /// <summary>
@@ -249,6 +371,7 @@ namespace Innovator.Client
       var query = editItem.ToString();
       return aml.FromXml(conn.Process(query), query, conn);
     }
+
     /// <summary>
     /// Retrieve the lock status from the database
     /// </summary>
@@ -358,6 +481,22 @@ namespace Innovator.Client
       return attr.Exists && !string.IsNullOrEmpty(attr.Value);
     }
 
+    /// <summary>
+    /// Returns the total number of items founds including those
+    /// returned on other pages
+    /// </summary>
+    public static int ItemMax(this IReadOnlyResult result)
+    {
+      var count = result.Items().FirstOrNullItem().Attribute("itemmax").AsInt();
+      if (count.HasValue)
+        return count.Value;
+      return result.Items().Count();
+    }
+
+    /// <summary>
+    /// Returns the number of matching items which the user does
+    /// not have access to see
+    /// </summary>
     public static int? ItemsWithNoAccessCount(this IReadOnlyResult result)
     {
       var ex = result.Exception as NoItemsFoundException;
@@ -380,6 +519,11 @@ namespace Innovator.Client
       }
       return null;
     }
+
+    /// <summary>
+    /// Returns the number of matching items which the user does
+    /// not have access to see
+    /// </summary>
     public static int? ItemsWithNoAccessCount(this NoItemsFoundException ex)
     {
       if (ex == null)
@@ -398,7 +542,9 @@ namespace Innovator.Client
       return null;
     }
 
-
+    /// <summary>
+    /// Lock an item
+    /// </summary>
     public static void Lock(this IItemRef item, IConnection conn)
     {
       var result = conn.Lock(item.TypeName(), item.Id());
@@ -411,16 +557,24 @@ namespace Innovator.Client
       if (editable != null)
         editable.LockedById().Set(result.LockedById().Value);
     }
+
+    /// <summary>
+    /// Determine the lock status of an item based on the data loaded into
+    /// memory.
+    /// </summary>
+    /// <remarks>A call will not be made to the database</remarks>
     public static LockStatusType LockStatus(this IReadOnlyItem item, IConnection conn)
     {
       if (!item.LockedById().HasValue()) return LockStatusType.NotLocked;
       if (item.LockedById().Value == conn.UserId) return LockStatusType.LockedByUser;
       return LockStatusType.LockedByOther;
     }
+
     public static IElement Add(this IElement elem, params object[] content)
     {
       return elem.Add((object)content);
     }
+
     /// <summary>
     /// Promote the itme to the specified state
     /// </summary>
@@ -450,6 +604,10 @@ namespace Innovator.Client
       }
       return doc.Root;
     }
+
+    /// <summary>
+    /// Unlock an item
+    /// </summary>
     public static void Unlock(this IItemRef item, IConnection conn)
     {
       conn.Unlock(item.TypeName(), item.Id());
@@ -754,6 +912,7 @@ namespace Innovator.Client
                                       </AML>", act.Id(), assignmentId, path.Id(), pathName,
                                              comment));
     }
+
     public static void SetDurationByDate(this Model.Activity act, IConnection conn, DateTime dueDate, int minDuration = 1,
                                   int maxDuration = int.MaxValue)
     {
@@ -764,6 +923,7 @@ namespace Innovator.Client
                                       minDuration), maxDuration);
       act.Edit(conn, conn.AmlContext.Property("expected_duration", duration)).AssertNoError();
     }
+
     public static void SetIsAuto(this Model.Activity act, IConnection conn, bool isAuto)
     {
       act.Edit(conn, conn.AmlContext.Property("is_auto", isAuto)).AssertNoError();
@@ -816,5 +976,23 @@ namespace Innovator.Client
       return new AmlNavigator(elem);
     }
 #endif
+
+    public static Range<DateTime> AsDateRange(this Range<DateOffset> range, DateTimeOffset todaysDate)
+    {
+      return new Range<DateTime>(range.Minimum.AsDate(todaysDate), range.Maximum.AsDate(todaysDate, true));
+    }
+
+    public static Range<DateTime> AsDateRange(this Range<DateOffset> range, IServerContext context)
+    {
+      return new Range<DateTime>(range.Minimum.AsDate(context.Now()), range.Maximum.AsDate(context.Now(), true));
+    }
+
+    /// <summary>
+    /// Return the system time expressed in the timezone of the server
+    /// </summary>
+    public static DateTimeOffset Now(this IServerContext context)
+    {
+      return context.AsDateTimeOffset(ServerContext._clock()).Value;
+    }
   }
 }

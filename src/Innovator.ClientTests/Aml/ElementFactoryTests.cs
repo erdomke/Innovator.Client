@@ -234,7 +234,7 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void FormatAmlTest_DynamicDate()
     {
-      DynamicDateTimeRange._clock = () => DateTimeOffset.FromFileTime(131109073341417792);
+      ServerContext._clock = () => DateTimeOffset.FromFileTime(131109073341417792);
       Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on origDateRange=\"Dynamic|Month|-1|Month|-1\" condition=\"between\">2016-05-01T00:00:00 and 2016-05-31T23:59:59</created_on></Item>",
         new Command("<Item action='get' type='Part'><created_on origDateRange='Dynamic|Month|-1|Month|-1'>random query</created_on></Item>")
           .ToNormalizedAml(ElementFactory.Local.LocalizationContext));
@@ -242,78 +242,51 @@ namespace Innovator.Client.Tests
         new Command("<Item action='get' type='Part'><created_on origDateRange='Month|-1|Month|-1|Sunday'>random query</created_on></Item>")
           .ToNormalizedAml(ElementFactory.Local.LocalizationContext));
       Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"between\" origDateRange=\"Month|-1|Month|-1|Sunday\">2016-05-01T00:00:00 and 2016-05-31T23:59:59</created_on></Item>",
-        new Command("<Item action='get' type='Part'><created_on>@0</created_on></Item>", new DynamicDateTimeRange()
-        {
-          EndMagnitude = DateMagnitude.Month,
-          EndOffset = -1,
-          StartMagnitude = DateMagnitude.Month,
-          StartOffset = -1
-        }).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        new Command("<Item action='get' type='Part'><created_on>@0</created_on></Item>", new Range<DateOffset>(
+          new DateOffset(-1, DateMagnitude.Month), new DateOffset(-1, DateMagnitude.Month)))
+        .ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 
     [TestMethod()]
     public void FormatAmlTest_DynamicDate2()
     {
-      DynamicDateTimeRange._clock = () => DateTimeOffset.FromFileTime(131232574142744075);
+      ServerContext._clock = () => DateTimeOffset.FromFileTime(131232574142744075);
 
       Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"le\" origDateRange=\"Dynamic|Year|-1000|Week|2\">2016-11-26T23:59:59</created_on></Item>",
         new Command("<Item action='get' type='Part'><created_on condition='between' origDateRange='Dynamic|Year|-1000|Week|2'>random query</created_on></Item>")
           .ToNormalizedAml(ElementFactory.Local.LocalizationContext));
-      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"le\" origDateRange=\"Dynamic|Year|-1000|Week|2\">2016-11-26T23:59:59</created_on></Item>",
-        new Command("<Item action='get' type='Part'><created_on>@0</created_on></Item>", new DynamicDateTimeRange()
-        {
-          EndMagnitude = DateMagnitude.Week,
-          EndOffset = 2,
-        }).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"le\" origDateRange=\"Year||Week|2|Sunday\">2016-11-26T23:59:59</created_on></Item>",
+        new Command("<Item action='get' type='Part'><created_on condition='le'>@0</created_on></Item>", new DateOffset(2, DateMagnitude.Week)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"lt\" origDateRange=\"Year||Week|2|Sunday\">2016-11-27T00:00:00</created_on></Item>",
+        new Command("<Item action='get' type='Part'><created_on condition='lt'>@0</created_on></Item>", new DateOffset(2, DateMagnitude.Week)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 
     [TestMethod()]
     public void FormatAmlTest_DynamicDate3()
     {
-      DynamicDateTimeRange._clock = () => DateTimeOffset.FromFileTime(131232574142744075);
+      ServerContext._clock = () => DateTimeOffset.FromFileTime(131232574142744075);
       Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"ge\" origDateRange=\"Dynamic|Week|-2|Year|1000\">2016-10-23T00:00:00</created_on></Item>",
         new Command("<Item action='get' type='Part'><created_on condition='between' origDateRange='Dynamic|Week|-2|Year|1000'>random query</created_on></Item>")
           .ToNormalizedAml(ElementFactory.Local.LocalizationContext));
-      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"ge\" origDateRange=\"Dynamic|Week|-2|Year|1000\">2016-10-23T00:00:00</created_on></Item>",
-        new Command("<Item action='get' type='Part'><created_on>@0</created_on></Item>", new DynamicDateTimeRange()
-        {
-          StartMagnitude = DateMagnitude.Week,
-          StartOffset = -2,
-        }).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"ge\" origDateRange=\"Week|-2|Year||Sunday\">2016-10-23T00:00:00</created_on></Item>",
+        new Command("<Item action='get' type='Part'><created_on condition='ge'>@0</created_on></Item>", new DateOffset(-2, DateMagnitude.Week)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 
     [TestMethod()]
     public void CreateAmlTest_DateRangeProp()
     {
-      DynamicDateTimeRange._clock = () => DateTimeOffset.FromFileTime(131109073341417792);
+      ServerContext._clock = () => DateTimeOffset.FromFileTime(131109073341417792);
 
       var aml = ElementFactory.Local;
-      var item = aml.Item(aml.Action("get"), aml.Type("Part"), aml.CreatedOn(new DynamicDateTimeRange() {
-        StartMagnitude = DateMagnitude.Month,
-        StartOffset = -1,
-        EndMagnitude = DateMagnitude.Month,
-        EndOffset = -1
-      }));
+      var item = aml.Item(aml.Action("get"), aml.Type("Part")
+        , aml.CreatedOn(new Range<DateOffset>(new DateOffset(-1, DateMagnitude.Month), new DateOffset(-1, DateMagnitude.Month)))
+      );
       Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"between\" origDateRange=\"Month|-1|Month|-1|Sunday\">2016-05-01T00:00:00 and 2016-05-31T23:59:59</created_on></Item>", item.ToAml());
 
-      item = aml.Item(aml.Action("get"), aml.Type("Part"), aml.CreatedOn(new StaticDateTimeRange()
-      {
-        StartDate = DateTime.Parse("2017-01-01"),
-        EndDate = DateTime.Parse("2017-01-31")
-      }));
+      item = aml.Item(aml.Action("get"), aml.Type("Part")
+        , aml.CreatedOn(new Range<DateTime>(DateTime.Parse("2017-01-01"), DateTime.Parse("2017-01-31")))
+      );
       Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"between\">2017-01-01T00:00:00 and 2017-01-31T00:00:00</created_on></Item>", item.ToAml());
-
-      item = aml.Item(aml.Action("get"), aml.Type("Part"), aml.CreatedOn(new StaticDateTimeRange()
-      {
-        StartDate = DateTime.Parse("2017-01-01")
-      }));
-      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"ge\">2017-01-01T00:00:00</created_on></Item>", item.ToAml());
-
-      item = aml.Item(aml.Action("get"), aml.Type("Part"), aml.CreatedOn(new StaticDateTimeRange()
-      {
-        EndDate = DateTime.Parse("2017-01-31")
-      }));
-      Assert.AreEqual("<Item action=\"get\" type=\"Part\"><created_on condition=\"le\">2017-01-31T00:00:00</created_on></Item>", item.ToAml());
     }
 
     [TestMethod()]

@@ -121,7 +121,8 @@ namespace Innovator.Client
       using (var xmlReader = XmlReader.Create(reader))
       {
         Parameter condition = null;
-        DynamicDateTimeRange dateRange = null;
+        DateOffset? offsetStart = null;
+        DateOffset? offsetEnd = null;
         var tagNames = new List<string>();
         string tagName;
         Parameter param;
@@ -141,7 +142,9 @@ namespace Innovator.Client
               xmlWriter.WriteComment(xmlReader.Value);
               break;
             case XmlNodeType.Element:
-              dateRange = null;
+              offsetStart = null;
+              offsetEnd = null;
+
               xmlWriter.WriteStartElement(xmlReader.Prefix, xmlReader.LocalName
                 , xmlReader.NamespaceURI);
               tagName = xmlReader.LocalName;
@@ -163,24 +166,28 @@ namespace Innovator.Client
                 {
                   condition = param;
                 }
-                else if (xmlReader.LocalName == "origDateRange" && !DynamicDateTimeRange.TryDeserialize(xmlReader.Value, out dateRange))
+                else if (xmlReader.LocalName == "origDateRange" && !TryDeserializeDateRange(xmlReader.Value, out offsetStart, out offsetEnd))
                 {
-                  dateRange = null;
+                  offsetStart = null;
+                  offsetEnd = null;
                 }
               }
 
               // Deal with date ranges
-              if (dateRange != null)
+              if (offsetStart != null || offsetEnd != null)
               {
                 if (condition == null)
                 {
-                  condition = new Parameter() { ContextName = "condition", Value = "between" };
+                  condition = new Parameter() { ContextName = "condition" };
                   attrs.Add(condition);
                 }
 
-                var dateCondition = dateRange.Condition();
-                if (dateCondition != Condition.Undefined)
-                  condition.Value = context.Format(dateCondition);
+                if (offsetStart != null && offsetEnd != null)
+                  condition.Value = "between";
+                else if (offsetStart != null)
+                  condition.Value = "ge";
+                else
+                  condition.Value = "le";
               }
 
               foreach (var attr in attrs)
@@ -217,21 +224,37 @@ namespace Innovator.Client
               xmlWriter.WriteWhitespace(xmlReader.Value);
               break;
             case XmlNodeType.Text:
-              param = RenderValue((string)condition, dateRange == null ? xmlReader.Value : _context.Format(dateRange));
+              var value = xmlReader.Value;
+              if (offsetStart != null && offsetEnd != null)
+                value = _context.Format(new Range<DateOffset>(offsetStart.Value, offsetEnd.Value));
+              else if (offsetStart != null)
+                value = _context.Format(offsetStart.Value.AsDate(_context.Now()));
+              else if (offsetEnd != null)
+                value = _context.Format(offsetEnd.Value.AsDate(_context.Now(), true));
+              param = RenderValue((string)condition, value);
 
-              var dynRange = param.Original as DynamicDateTimeRange;
-              var statRange = param.Original as StaticDateTimeRange;
-              if (dynRange != null)
+              var range = param.Original as IRange;
+              if (range != null)
               {
-                if (!attrs.Any(p => p.Name == "condition"))
-                  xmlWriter.WriteAttributeString("condition", context.Format(dynRange.Condition()));
-                if (!attrs.Any(p => p.Name == "origDateRange"))
-                  xmlWriter.WriteAttributeString("origDateRange", dynRange.Serialize());
+                if (param.Original is Range<DateOffset>)
+                {
+                  if (condition == null)
+                    xmlWriter.WriteAttributeString("condition", "between");
+                  if (!attrs.Any(p => p.Name == "origDateRange"))
+                    xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange((Range<DateOffset>)param.Original));
+                }
+                else
+                {
+                  if (condition == null)
+                    xmlWriter.WriteAttributeString("condition", "between");
+                }
               }
-              else if (statRange != null)
+              else if (param.Original is DateOffset && condition != null)
               {
-                if (!attrs.Any(p => p.Name == "condition"))
-                  xmlWriter.WriteAttributeString("condition", context.Format(statRange.Condition()));
+                if (condition.Value == "le" || condition.Value == "lt")
+                  xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange(null, (DateOffset)param.Original));
+                else
+                  xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange((DateOffset)param.Original, null));
               }
 
               if (param.IsRaw)
@@ -247,6 +270,79 @@ namespace Innovator.Client
 
         }
       }
+    }
+
+    internal static string SerializeDateRange(DateOffset? start, DateOffset? end)
+    {
+      var parts = new string[5];
+      if (start.HasValue)
+      {
+        parts[0] = start.Value.Magnitude.ToString();
+        parts[1] = start.Value.Offset.ToString();
+      }
+      else
+      {
+        parts[0] = DateMagnitude.Year.ToString();
+      }
+
+      if (end.HasValue)
+      {
+        parts[2] = end.Value.Magnitude.ToString();
+        parts[3] = end.Value.Offset.ToString();
+      }
+      else
+      {
+        parts[2] = DateMagnitude.Year.ToString();
+      }
+
+      parts[4] = (start ?? end).Value.FirstDayOfWeek.ToString();
+
+      return string.Join("|", parts);
+    }
+    internal static string SerializeDateRange(Range<DateOffset> range)
+    {
+      return SerializeDateRange(range.Minimum, range.Maximum);
+    }
+
+    internal static bool TryDeserializeDateRange(string value, out DateOffset? start, out DateOffset? end)
+    {
+      start = null;
+      end = null;
+
+      var parts = value.Split('|');
+      if (parts[0] == "Static")
+        return false;
+      if (parts[0] == "Dynamic")
+        parts = parts.Skip(1).Concat(new string[] { DayOfWeek.Sunday.ToString() }).ToArray();
+      if (parts.Length != 5) return false;
+
+
+      try
+      {
+        var firstDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), parts[4]);
+        if (!string.IsNullOrEmpty(parts[1]))
+        {
+          start = new DateOffset(short.Parse(parts[1]), (DateMagnitude)Enum.Parse(typeof(DateMagnitude), parts[0]))
+          {
+            FirstDayOfWeek = firstDay
+          };
+          if (start.Value.Magnitude == DateMagnitude.Year && Math.Abs(start.Value.Offset) > 900)
+            start = null;
+        }
+
+        if (!string.IsNullOrEmpty(parts[3]))
+        {
+          end = new DateOffset(short.Parse(parts[3]), (DateMagnitude)Enum.Parse(typeof(DateMagnitude), parts[2]))
+          {
+            FirstDayOfWeek = firstDay
+          };
+          if (end.Value.Magnitude == DateMagnitude.Year && Math.Abs(end.Value.Offset) > 900)
+            end = null;
+        }
+        return true;
+      }
+      catch (ArgumentException) { return false; }
+      catch (OverflowException) { return false; }
     }
 
     internal string RenderParameter(string name, IServerContext context)
@@ -265,7 +361,11 @@ namespace Innovator.Client
       else if (TryFillParameter(content, param) && TryGetParamValue(param.Name, out value))
       {
         param.Original = value;
-        if (param.IsRaw) return param.WithValue((value ?? "").ToString());
+        if (param.IsRaw) return param.WithValue((param.Original ?? "").ToString());
+        if (context == "le" && value is DateOffset)
+          value = ((DateOffset)value).AsDate(_context.Now(), true);
+        else if (context == "lt" && value is DateOffset)
+          value = ((DateOffset)value).AsDate(_context.Now(), true).AddMilliseconds(1);
 
         switch (context)
         {

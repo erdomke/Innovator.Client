@@ -256,16 +256,14 @@ namespace Innovator.Client
       {
         isNull.Remove();
 
-        var dynRange = _content as DynamicDateTimeRange;
-        var statRange = _content as StaticDateTimeRange;
-        if (dynRange != null && dynRange.Condition() != Condition.Undefined)
+        var range = _content as IRange;
+        if (range != null)
         {
-          this.Condition().Set(dynRange.Condition());
-          this.Attribute("origDateRange").Set(dynRange.Serialize());
-        }
-        else if (statRange != null && statRange.Condition() != Condition.Undefined)
-        {
-          this.Condition().Set(statRange.Condition());
+          this.Condition().Set(Condition.Between);
+
+          if (_content is Range<DateOffset>)
+            this.Attribute("origDateRange")
+              .Set(ParameterSubstitution.SerializeDateRange((Range<DateOffset>)_content));
         }
       }
       return result;

@@ -101,6 +101,7 @@
     <Compile Include="Scratchpad.cs" />
     <Compile Include="TestConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CommandFileTests.cs" />
     <Compile Include="UploadCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>

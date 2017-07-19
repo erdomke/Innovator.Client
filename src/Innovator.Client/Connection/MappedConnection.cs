@@ -13,11 +13,11 @@ namespace Innovator.Client.Connection
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   class MappedConnection : IRemoteConnection
   {
+    private Func<INetCredentials, string, bool, IPromise<ICredentials>> _authCallback;
     private IRemoteConnection _current;
     private IEnumerable<ServerMapping> _mappings;
     private ICredentials _lastCredentials;
     private Action<IHttpRequest> _settings;
-    private bool _allowAuth;
 
     public ElementFactory AmlContext { get { return _current == null ? ElementFactory.Local : _current.AmlContext; } }
     public string Database { get { return _current == null ? null : _current.Database; } }
@@ -36,10 +36,11 @@ namespace Innovator.Client.Connection
       }
     }
 
-    public MappedConnection(IEnumerable<ServerMapping> mappings, bool allowAuth)
+    public MappedConnection(IEnumerable<ServerMapping> mappings
+      , Func<INetCredentials, string, bool, IPromise<ICredentials>> authCallback)
     {
       _mappings = mappings;
-      _allowAuth = allowAuth;
+      _authCallback = authCallback;
     }
 
     public UploadCommand CreateUploadCommand()
@@ -78,68 +79,14 @@ namespace Innovator.Client.Connection
       IPromise<ICredentials> credPromise;
 
       var endpoint = credentials is WindowsCredentials
-        ? mapping.Endpoints.AuthWin.Concat(mapping.Endpoints.Auth).First()
-        : mapping.Endpoints.Auth.First();
+        ? mapping.Endpoints.AuthWin.Concat(mapping.Endpoints.Auth).FirstOrDefault()
+        : mapping.Endpoints.Auth.FirstOrDefault();
 
-      if (netCred != null && _allowAuth && !string.IsNullOrEmpty(endpoint))
-      {
-        var handler = new SyncClientHandler();
-        handler.Credentials = netCred.Credentials;
-        handler.PreAuthenticate = true;
-        var http = new SyncHttpClient(handler);
-        var promise = new Promise<ICredentials>();
-        credPromise = promise;
-
-        var endpointUri = new Uri(endpoint + "?db=" + credentials.Database);
-        var trace = new LogData(4, "Innovator: Authenticate user via mapping", Factory.LogListener)
-        {
-          { "database", credentials.Database },
-          { "user_name", netCred.Credentials.GetCredential(endpointUri, null).UserName },
-          { "url", endpointUri },
-        };
-        http.GetPromise(endpointUri, async, trace)
-          .Done(r =>
-          {
-            var res = r.AsXml().DescendantsAndSelf("Result").FirstOrDefault();
-            var user = res.Element("user").Value;
-            var pwd = res.Element("password").Value;
-            if (pwd.IsNullOrWhiteSpace())
-              promise.Reject(new ArgumentException("Failed to authenticate with Innovator server '" + mapping.Url + "'. Original error: " + user, "credentials"));
-            var needHash = !string.Equals(res.Element("hash").Value, "false", StringComparison.OrdinalIgnoreCase);
-            if (needHash)
-            {
-              promise.Resolve(new ExplicitCredentials(netCred.Database, user, pwd));
-            }
-            else
-            {
-              promise.Resolve(new ExplicitHashCredentials(netCred.Database, user, pwd));
-            }
-          }).Fail(ex =>
-          {
-            // Only hard fail for problems which aren't time outs and not found issues.
-            var webEx = ex as HttpException;
-            if (webEx != null && webEx.Response.StatusCode == HttpStatusCode.NotFound)
-            {
-              promise.Resolve(credentials);
-            }
-            else if (webEx != null && webEx.Response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-              promise.Reject(ElementFactory.Local.ServerException("Invalid username or password"));
-            }
-            else if (ex is TaskCanceledException)
-            {
-              promise.Resolve(credentials);
-            }
-            else
-            {
-              promise.Reject(ex);
-            }
-          }).Always(trace.Dispose);
-      }
+      if (netCred != null && _authCallback != null && !string.IsNullOrEmpty(endpoint))
+        credPromise = _authCallback(netCred, endpoint, async);
       else
-      {
         credPromise = Promises.Resolved(credentials);
-      }
+
       _current = mapping.Connection;
       if (_settings != null)
         _current.DefaultSettings(_settings);
@@ -177,7 +124,7 @@ namespace Innovator.Client.Connection
 
     public IPromise<IRemoteConnection> Clone(bool async)
     {
-      var newConn = new MappedConnection(_mappings, _allowAuth);
+      var newConn = new MappedConnection(_mappings, _authCallback);
       return newConn.Login(_lastCredentials, async)
         .Convert(u => (IRemoteConnection)newConn);
     }

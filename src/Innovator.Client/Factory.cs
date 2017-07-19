@@ -200,7 +200,7 @@ namespace Innovator.Client
                 {
                   server.Factory = connFactory;
                 }
-                result.Resolve(new MappedConnection(servers, preferences.AllowAuthPreCheck));
+                result.Resolve(new MappedConnection(servers, preferences.AuthCallback));
               }
             }
             catch (XmlException)

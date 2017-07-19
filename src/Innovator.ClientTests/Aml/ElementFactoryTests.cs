@@ -296,5 +296,13 @@ namespace Innovator.Client.Tests
       var date = DateTime.Parse("0018-03-07T00:00:00");
       Assert.AreEqual(str, ElementFactory.Local.LocalizationContext.Format(date));
     }
+
+    [TestMethod()]
+    public void RandomXmlResponse()
+    {
+      var str = "<a><b>Value</b></a>";
+      var result = ElementFactory.Local.FromXml(str);
+      Assert.AreEqual(null, result.Value);
+    }
   }
 }

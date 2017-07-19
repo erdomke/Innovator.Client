@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 #if SECURESTRING
 using System.Security.Cryptography;
@@ -18,10 +20,11 @@ namespace Innovator.Client
     private ArasHeaders _headers;
 
     /// <summary>
-    /// Allow a connection to a URL with a mapping file to send login requests to an authentication
-    /// service
+    /// By default, connections to URLs with mapping files will send login requests to
+    /// any defined authentication service.  If the callback is overriden, it will be used
+    /// instead.  If undefined, no authentication process will be called
     /// </summary>
-    public bool AllowAuthPreCheck { get; set; }
+    public Func<INetCredentials, string, bool, IPromise<ICredentials>> AuthCallback { get; set; }
     /// <summary>
     /// Default credentials used for immediate log in
     /// </summary>
@@ -42,13 +45,90 @@ namespace Innovator.Client
     public ConnectionPreferences()
     {
       _headers = new ArasHeaders();
-      this.AllowAuthPreCheck = true;
+      this.AuthCallback = DefaultAuthCallback;
     }
     public ConnectionPreferences(Action<XmlWriter> xml) : this()
     {
       var writer = new PreferencesWriter(this);
       xml.Invoke(writer);
       writer.Flush();
+    }
+
+    private IPromise<ICredentials> DefaultAuthCallback(INetCredentials netCred, string endpoint, bool async)
+    {
+      var promise = new Promise<ICredentials>();
+
+      if (string.IsNullOrEmpty(endpoint))
+      {
+        promise.Resolve(netCred);
+      }
+      else
+      {
+        var handler = new SyncClientHandler();
+        handler.Credentials = netCred.Credentials;
+        handler.PreAuthenticate = true;
+        var http = new SyncHttpClient(handler);
+
+        var endpointUri = new Uri(endpoint + "?db=" + netCred.Database);
+        var trace = new LogData(4, "Innovator: Authenticate user via mapping", Factory.LogListener)
+        {
+          { "database", netCred.Database },
+          { "user_name", netCred.Credentials.GetCredential(endpointUri, null).UserName },
+          { "url", endpointUri },
+        };
+        http.GetPromise(endpointUri, async, trace)
+          .Done(r =>
+          {
+            var res = r.AsXml().DescendantsAndSelf("Result").FirstOrDefault();
+            var user = res.Element("user").Value;
+            var pwd = res.Element("password").Value;
+            if (pwd.IsNullOrWhiteSpace())
+              promise.Reject(new ArgumentException("Failed to authenticate with Innovator server '" + endpoint + "'. Original error: " + user, "credentials"));
+
+            var needHash = !string.Equals(res.Element("hash").Value, "false", StringComparison.OrdinalIgnoreCase);
+            if (needHash)
+              promise.Resolve(new ExplicitCredentials(netCred.Database, user, pwd));
+            else
+              promise.Resolve(new ExplicitHashCredentials(netCred.Database, user, pwd));
+          }).Fail(ex =>
+          {
+            // Only hard fail for problems which aren't time outs and not found issues.
+            var webEx = ex as HttpException;
+            if (webEx != null && webEx.Response.StatusCode == HttpStatusCode.NotFound)
+            {
+              promise.Resolve(netCred);
+            }
+            else if (webEx != null && webEx.Response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+              promise.Reject(ElementFactory.Local.ServerException("Invalid username or password"));
+            }
+            else if (webEx != null)
+            {
+              try
+              {
+                var result = ElementFactory.Local.FromXml(webEx.Response.AsStream);
+                if (result.Exception != null)
+                  promise.Reject(result.Exception);
+                else
+                  promise.Reject(ex);
+              }
+              catch (Exception)
+              {
+                promise.Reject(ex);
+              }
+            }
+            else if (ex is TaskCanceledException)
+            {
+              promise.Resolve(netCred);
+            }
+            else
+            {
+              promise.Reject(ex);
+            }
+          }).Always(trace.Dispose);
+      }
+
+      return promise;
     }
 
     private class PreferencesWriter : XmlWriter

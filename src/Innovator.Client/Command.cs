@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -268,6 +269,39 @@ namespace Innovator.Client
         return _sub.Substitute(aml, context);
       return aml;
     }
+
+    /// <summary>
+    /// Perform parameter substitutions and return the resulting AML
+    /// </summary>
+    public void ToNormalizedAml(IServerContext context, TextWriter writer)
+    {
+      var aml = this.Aml;
+      if (_sub.ParamCount > 0 || aml.IndexOf("origDateRange") > 0)
+        _sub.Substitute(aml, context, writer);
+      else
+        writer.Write(aml);
+    }
+
+    /// <summary>
+    /// Perform parameter substitutions and return the resulting AML
+    /// </summary>
+    public void ToNormalizedAml(IServerContext context, XmlWriter writer)
+    {
+      var aml = this.Aml;
+      if (_sub.ParamCount > 0 || aml.IndexOf("origDateRange") > 0)
+      {
+        _sub.Substitute(aml, context, writer);
+      }
+      else
+      {
+        using (var reader = new StringReader(aml))
+        using (var xml = XmlReader.Create(reader))
+        {
+          xml.CopyTo(writer);
+        }
+      }
+    }
+
     /// <summary>
     /// Return the AML string
     /// </summary>

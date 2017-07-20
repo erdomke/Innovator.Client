@@ -70,49 +70,79 @@ namespace Innovator.Client
       _parameters.Clear();
     }
 
-    public void Substitute(string query, IServerContext context, XmlWriter writer)
-    {
-      if (_context != context)
-      {
-        _context = context;
-        _sqlFormatter = new SqlFormatter(context);
-      }
-
-      if (string.IsNullOrEmpty(query)) return;
-      var i = 0;
-      while (i < query.Length && char.IsWhiteSpace(query[i])) i++;
-      if (i >= query.Length) return;
-
-      SubstituteAml(query, context, writer);
-    }
     public string Substitute(string query, IServerContext context)
     {
+      if (string.IsNullOrEmpty(query))
+        return query;
+      var builder = new StringBuilder(query.Length);
+      using (var writer = new StringWriter(builder))
+      {
+        Substitute(query, context, writer);
+        writer.Flush();
+        return writer.ToString();
+      }
+    }
+
+    public void Substitute(string query, IServerContext context, XmlWriter writer)
+    {
+      switch (InitializeSubstitute(query, context))
+      {
+        case QueryType.Aml:
+          SubstituteAml(query, context, writer);
+          break;
+        case QueryType.Sql:
+          throw new NotSupportedException("Cannot write a SQL command to an XmlWriter");
+      }
+    }
+
+    public void Substitute(string query, IServerContext context, StringBuilder builder)
+    {
+      using (var writer = new StringWriter(builder))
+      {
+        Substitute(query, context, writer);
+      }
+    }
+
+    public void Substitute(string query, IServerContext context, TextWriter writer)
+    {
+      switch (InitializeSubstitute(query, context))
+      {
+        case QueryType.Aml:
+          using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings() { OmitXmlDeclaration = true }))
+          {
+            SubstituteAml(query, context, xmlWriter);
+          }
+          break;
+        case QueryType.Sql:
+          SqlReplace(query, writer);
+          break;
+      }
+    }
+
+    private enum QueryType
+    {
+      Empty,
+      Aml,
+      Sql
+    }
+
+    private QueryType InitializeSubstitute(string query, IServerContext context)
+    {
+      if (string.IsNullOrEmpty(query)) return QueryType.Empty;
+      var i = 0;
+      while (i < query.Length && char.IsWhiteSpace(query[i])) i++;
+      if (i >= query.Length) return QueryType.Empty;
+
+
       if (_context != context)
       {
         _context = context;
         _sqlFormatter = new SqlFormatter(context);
       }
 
-      if (string.IsNullOrEmpty(query)) return query;
-      var i = 0;
-      while (i < query.Length && char.IsWhiteSpace(query[i])) i++;
-      if (i >= query.Length) return query;
-
-      if (query[i] == '<' && this.Mode == ParameterSubstitutionMode.Aml)
-      {
-        var builder = new StringBuilder(query.Length);
-        using (var writer = new StringWriter(builder))
-        using (var xmlWriter = XmlWriter.Create(writer, new XmlWriterSettings() { OmitXmlDeclaration = true }))
-        {
-          SubstituteAml(query, context, xmlWriter);
-        }
-
-        return builder.ToString();
-      }
-      else
-      {
-        return SqlReplace(query);
-      }
+      return query[i] == '<' && this.Mode == ParameterSubstitutionMode.Aml
+        ? QueryType.Aml
+        : QueryType.Sql;
     }
 
     private void SubstituteAml(string query, IServerContext context, XmlWriter xmlWriter)
@@ -532,8 +562,16 @@ namespace Innovator.Client
 
     private string SqlReplace(string query)
     {
-      var builder = new StringBuilder(query.Length);
+      using (var writer = new StringWriter())
+      {
+        SqlReplace(query, writer);
+        writer.Flush();
+        return writer.ToString();
+      }
+    }
 
+    private void SqlReplace(string query, TextWriter builder)
+    {
       SqlReplace(query, '@', builder, p =>
       {
         object value;
@@ -585,10 +623,9 @@ namespace Innovator.Client
           return "@" + p;
         }
       });
-      return builder.ToString();
     }
 
-    private void SqlReplace(string sql, char paramPrefix, StringBuilder builder, Func<string, string> replace)
+    private void SqlReplace(string sql, char paramPrefix, TextWriter builder, Func<string, string> replace)
     {
       char endChar = '\0';
       int i = 0;

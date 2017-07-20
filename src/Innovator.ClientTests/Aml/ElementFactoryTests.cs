@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Xml.Linq;
 
 namespace Innovator.Client.Tests
 {
@@ -296,6 +297,28 @@ namespace Innovator.Client.Tests
       var date = DateTime.Parse("0018-03-07T00:00:00");
       Assert.AreEqual(str, ElementFactory.Local.LocalizationContext.Format(date));
     }
+
+    [TestMethod()]
+    public void FormatAmlTest_XmlWriter()
+    {
+      var doc = new XDocument();
+      var cmd = new Command("<Item><name>@0</name><is_current>@1</is_current><date>@2</date></Item>");
+      using (var writer = doc.CreateWriter())
+      {
+        cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext, writer);
+      }
+      Assert.AreEqual("<Item>\r\n  <name>@0</name>\r\n  <is_current>@1</is_current>\r\n  <date>@2</date>\r\n</Item>", doc.ToString());
+
+      doc = new XDocument();
+      cmd = new Command("<Item><name>@0</name><is_current>@1</is_current><date>@2</date></Item>",
+        "first & second > third", true, new DateTime(2015, 1, 1));
+      using (var writer = doc.CreateWriter())
+      {
+        cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext, writer);
+      }
+      Assert.AreEqual("<Item>\r\n  <name>first &amp; second &gt; third</name>\r\n  <is_current>1</is_current>\r\n  <date>2015-01-01T00:00:00</date>\r\n</Item>", doc.ToString());
+    }
+
 
     [TestMethod()]
     public void RandomXmlResponse()

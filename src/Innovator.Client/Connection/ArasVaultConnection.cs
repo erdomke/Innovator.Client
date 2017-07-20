@@ -42,7 +42,7 @@ namespace Innovator.Client.Connection
 
     public IPromise<Stream> Download(Command request, bool async)
     {
-      var parsedAml = _conn.AmlContext.FromXml(request.ToNormalizedAml(_conn.AmlContext.LocalizationContext));
+      var parsedAml = _conn.AmlContext.FromXml(request);
       var file = (IReadOnlyItem)parsedAml.AssertItem("File");
       var hasVaults = file.Relationships("Located")
                           .Select(r => r.RelatedId().AsItem())

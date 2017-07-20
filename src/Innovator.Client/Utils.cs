@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Security;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Innovator.Client
@@ -383,6 +384,68 @@ namespace Innovator.Client
     {
       writer.Write(value);
       return writer;
+    }
+
+    internal static void CopyTo(this XmlReader xml, XmlWriter writer)
+    {
+      var num = (xml.NodeType == XmlNodeType.None) ? -1 : xml.Depth;
+      do
+      {
+        switch (xml.NodeType)
+        {
+          case XmlNodeType.Element:
+            writer.WriteStartElement(xml.Prefix, xml.LocalName, xml.NamespaceURI);
+            var empty = xml.IsEmptyElement;
+            if (xml.MoveToFirstAttribute())
+            {
+              do
+              {
+                writer.WriteStartAttribute(xml.Prefix, xml.LocalName, xml.NamespaceURI);
+                while (xml.ReadAttributeValue())
+                {
+                  if (xml.NodeType == XmlNodeType.EntityReference)
+                  {
+                    writer.WriteEntityRef(xml.Name);
+                  }
+                  else
+                  {
+                    writer.WriteString(xml.Value);
+                  }
+                }
+                writer.WriteEndAttribute();
+              }
+              while (xml.MoveToNextAttribute());
+            }
+            if (empty)
+            {
+              writer.WriteEndElement();
+            }
+            break;
+          case XmlNodeType.Text:
+            writer.WriteString(xml.Value);
+            break;
+          case XmlNodeType.CDATA:
+            writer.WriteCData(xml.Value);
+            break;
+          case XmlNodeType.EntityReference:
+            writer.WriteEntityRef(xml.Name);
+            break;
+          case XmlNodeType.SignificantWhitespace:
+            writer.WriteWhitespace(xml.Value);
+            break;
+          case XmlNodeType.EndElement:
+            writer.WriteFullEndElement();
+            break;
+
+            //Just ignore the following
+            //case XmlNodeType.Whitespace:
+            //case XmlNodeType.ProcessingInstruction:
+            //case XmlNodeType.XmlDeclaration:
+            //case XmlNodeType.Comment:
+            //case XmlNodeType.DocumentType:
+        }
+      }
+      while (xml.Read() && (num < xml.Depth || (num == xml.Depth && xml.NodeType == XmlNodeType.EndElement)));
     }
   }
 }

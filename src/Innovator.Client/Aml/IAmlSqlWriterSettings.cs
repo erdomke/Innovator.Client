@@ -14,6 +14,7 @@ namespace Innovator.Client
     /// How to handle permissions with the query
     /// </summary>
     AmlSqlPermissionOption PermissionOption { get; }
+    AmlSqlRenderOption RenderOption { get; }
     string UserId { get; }
 
     IDictionary<string, Model.Property> GetProperties(string itemType);

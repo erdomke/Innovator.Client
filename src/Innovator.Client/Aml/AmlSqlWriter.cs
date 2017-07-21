@@ -18,11 +18,17 @@ namespace Innovator.Client
     private HashSet<string> _aliases = new HashSet<string>();
     private ItemTag _criteriaItem;
     private IAmlSqlWriterSettings _settings;
+    private TextWriter _writer;
 
     public override WriteState WriteState { get { return WriteState.Start; } }
 
     public AmlSqlWriter(IAmlSqlWriterSettings settings)
     {
+      _settings = settings;
+    }
+    public AmlSqlWriter(TextWriter writer, IAmlSqlWriterSettings settings)
+    {
+      _writer = writer;
       _settings = settings;
     }
 
@@ -46,6 +52,9 @@ namespace Innovator.Client
       _aliases.Clear();
       _criteriaItem = null;
       _tags.Clear();
+
+      if (_writer != null)
+        ToString(_writer, _settings.RenderOption);
     }
 
     public override string LookupPrefix(string ns)
@@ -511,7 +520,7 @@ namespace Innovator.Client
 
     public override string ToString()
     {
-      return ToString(AmlSqlRenderOption.SelectQuery);
+      return ToString(_settings.RenderOption);
     }
 
     public string ToString(AmlSqlRenderOption renderOption)
@@ -630,6 +639,9 @@ namespace Innovator.Client
             .Append(_lastItem.Alias).Append(".team_id) perm where ");
           AppendPermissionCheck(writer, "perm");
 
+          break;
+        case AmlSqlRenderOption.FromClause:
+          AppendFromClause(writer, _lastItem.From, _settings.PermissionOption);
           break;
         default:
           AppendWhereClause(writer, _lastItem, false);

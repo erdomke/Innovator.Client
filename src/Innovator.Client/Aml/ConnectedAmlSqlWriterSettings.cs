@@ -27,6 +27,7 @@ namespace Innovator.Client
       }
     }
     public AmlSqlPermissionOption PermissionOption { get; set; }
+    public AmlSqlRenderOption RenderOption { get; set; }
     public string UserId { get { return _conn.UserId; } }
 
     public ConnectedAmlSqlWriterSettings(IConnection conn)

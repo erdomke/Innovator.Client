@@ -8,10 +8,10 @@ namespace Innovator.Client
   /// <summary>
   /// Class for parsing and storing AML select attributes
   /// </summary>
-  public class SubSelect : IEnumerable<SubSelect>
+  public class SelectNode : ICollection<SelectNode>
   {
     private string _name;
-    private List<SubSelect> _children;
+    private List<SelectNode> _children;
 
     /// <summary>
     /// Number of child columns
@@ -31,10 +31,13 @@ namespace Innovator.Client
     {
       get { return _name; }
     }
+
+    bool ICollection<SelectNode>.IsReadOnly { get { return false; } }
+
     /// <summary>
     /// Access a child sub-select by index
     /// </summary>
-    public SubSelect this[int index]
+    public SelectNode this[int index]
     {
       get
       {
@@ -43,31 +46,44 @@ namespace Innovator.Client
       }
     }
 
-    public SubSelect() { }
-    public SubSelect(string name)
+    public SelectNode() { }
+    public SelectNode(string name)
     {
       _name = name;
     }
-    internal SubSelect(string name, IEnumerable<SubSelect> children)
+    internal SelectNode(string name, IEnumerable<SelectNode> children)
     {
       _name = name;
       _children = children.ToList();
     }
-    internal SubSelect(IEnumerable<SubSelect> children)
+    internal SelectNode(IEnumerable<SelectNode> children)
     {
       _children = children.ToList();
     }
 
     /// <summary>
-    /// Add a child <c>SubSelect</c> to this instance
+    /// Add a child <see cref="SelectNode"/> to this instance
     /// </summary>
-    /// <param name="child"></param>
-    public void Add(SubSelect child)
+    /// <param name="item"></param>
+    public void Add(SelectNode item)
     {
-      if (child == null) return;
-      if (_children == null) _children = new List<SubSelect>();
-      _children.Add(child);
+      if (item == null) return;
+      if (_children == null) _children = new List<SelectNode>();
+
+      var existing = _children.FirstOrDefault(c => c.Name == item.Name);
+      if (existing == null)
+      {
+        _children.Add(item);
+      }
+      else
+      {
+        foreach (var child in item)
+        {
+          existing.Add(child);
+        }
+      }
     }
+
     /// <summary>
     /// Ensure that the path of properties exists in the select statement
     /// </summary>
@@ -76,6 +92,7 @@ namespace Innovator.Client
     {
       EnsurePath((IEnumerable<string>)path);
     }
+
     /// <summary>
     /// Ensure that the path of properties exists in the select statement
     /// </summary>
@@ -83,20 +100,29 @@ namespace Innovator.Client
     public void EnsurePath(IEnumerable<string> path)
     {
       if (!path.Any()) return;
-      if (_children == null) _children = new List<SubSelect>();
+      if (_children == null) _children = new List<SelectNode>();
       var name = path.First();
       var match = _children.FirstOrDefault(c => c.Name == name);
       if (match == null)
       {
-        match = new SubSelect(name);
+        match = new SelectNode(name);
         _children.Add(match);
       }
       match.EnsurePath(path.Skip(1));
     }
 
-    public IEnumerator<SubSelect> GetEnumerator()
+    /// <summary>
+    /// Union the children of two select nodes
+    /// </summary>
+    public void UnionWith(SelectNode item)
     {
-      if (_children == null) return Enumerable.Empty<SubSelect>().GetEnumerator();
+      foreach (var child in item)
+        Add(child);
+    }
+
+    public IEnumerator<SelectNode> GetEnumerator()
+    {
+      if (_children == null) return Enumerable.Empty<SelectNode>().GetEnumerator();
       return _children.GetEnumerator();
     }
 
@@ -120,7 +146,7 @@ namespace Innovator.Client
       return this.GetEnumerator();
     }
 
-    public static implicit operator SubSelect(string select)
+    public static implicit operator SelectNode(string select)
     {
       return FromString(select);
     }
@@ -151,7 +177,7 @@ namespace Innovator.Client
       return builder;
     }
 
-    public static string ToString(IEnumerable<SubSelect> items)
+    public static string ToString(IEnumerable<SelectNode> items)
     {
       return Write(new StringBuilder(), items).ToString();
     }
@@ -159,13 +185,13 @@ namespace Innovator.Client
     /// <summary>
     /// Parse an AML select statement into a <c>SubSelect structure</c>
     /// </summary>
-    public static SubSelect FromString(string select)
+    public static SelectNode FromString(string select)
     {
-      var result = new SubSelect();
+      var result = new SelectNode();
       if (string.IsNullOrEmpty(select))
         return result;
 
-      var path = new Stack<SubSelect>();
+      var path = new Stack<SelectNode>();
       path.Push(result);
       var start = 0;
       for (var i = 0; i < select.Length; i++)
@@ -174,13 +200,13 @@ namespace Innovator.Client
         {
           case ',':
             if (i - start > 0)
-              path.Peek().Add(new SubSelect(select.Substring(start, i - start).Trim()));
+              path.Peek().Add(new SelectNode(select.Substring(start, i - start).Trim()));
             start = i + 1;
             break;
           case '(':
             if (i - start > 0)
             {
-              var curr = new SubSelect(select.Substring(start, i - start).Trim());
+              var curr = new SelectNode(select.Substring(start, i - start).Trim());
               path.Peek().Add(curr);
               path.Push(curr);
             }
@@ -188,7 +214,7 @@ namespace Innovator.Client
             break;
           case ')':
             if (i - start > 0)
-              path.Peek().Add(new SubSelect(select.Substring(start, i - start).Trim()));
+              path.Peek().Add(new SelectNode(select.Substring(start, i - start).Trim()));
             path.Pop();
             start = i + 1;
             break;
@@ -197,12 +223,12 @@ namespace Innovator.Client
 
       if (start < select.Length)
       {
-        result.Add(new SubSelect(select.Substring(start, select.Length - start).Trim()));
+        result.Add(new SelectNode(select.Substring(start, select.Length - start).Trim()));
       }
       return result;
     }
 
-    private static StringBuilder Write(StringBuilder builder, IEnumerable<SubSelect> items)
+    private static StringBuilder Write(StringBuilder builder, IEnumerable<SelectNode> items)
     {
       var first = true;
       foreach (var item in items)
@@ -212,6 +238,26 @@ namespace Innovator.Client
         first = false;
       }
       return builder;
+    }
+
+    public void Clear()
+    {
+      _children.Clear();
+    }
+
+    public bool Contains(SelectNode item)
+    {
+      return _children.Contains(item);
+    }
+
+    public void CopyTo(SelectNode[] array, int arrayIndex)
+    {
+      _children.CopyTo(array, arrayIndex);
+    }
+
+    public bool Remove(SelectNode item)
+    {
+      return _children.Remove(item);
     }
   }
 }

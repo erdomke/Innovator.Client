@@ -629,7 +629,7 @@ namespace Innovator.Client
     /// <param name="mapper">Function which creates a new object by referencing values from the item</param>
     public static T LazyMap<T>(this IReadOnlyItem item, IConnection conn, Func<IReadOnlyItem, T> mapper)
     {
-      var select = new SubSelect();
+      var select = new SelectNode();
       var missingProps = false;
       var watched = new ItemWatcher(item, "", (path, exists) => {
         select.EnsurePath(path.Split('/'));
@@ -844,9 +844,9 @@ namespace Innovator.Client
       }
     }
 
-    private static SubSelect MissingProperties(IReadOnlyItem item, string propName, IEnumerable<SubSelect> properties)
+    private static SelectNode MissingProperties(IReadOnlyItem item, string propName, IEnumerable<SelectNode> properties)
     {
-      var result = new SubSelect(propName);
+      var result = new SelectNode(propName);
       IReadOnlyProperty itemProp;
       foreach (var prop in properties)
       {

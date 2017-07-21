@@ -427,9 +427,9 @@ namespace Innovator.Client
       return new Attribute("select", value);
     }
     /// <summary>Create a new <c>select</c> attribute</summary>
-    public IAttribute Select(params SubSelect[] properties)
+    public IAttribute Select(params SelectNode[] properties)
     {
-      return new Attribute("select", SubSelect.ToString(properties));
+      return new Attribute("select", SelectNode.ToString(properties));
     }
     /// <summary>Create a new <c>serverEvents</c> attribute</summary>
     public IAttribute ServerEvents(bool value)

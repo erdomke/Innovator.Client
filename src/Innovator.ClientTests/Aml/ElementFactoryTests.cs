@@ -45,19 +45,28 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
-    public void SubSelect_EnsurePath()
+    public void SelectNode_EnsurePath()
     {
-      var subSelect = new SubSelect();
-      subSelect.EnsurePath("first");
-      subSelect.EnsurePath("second", "thing");
-      subSelect.EnsurePath("second", "another2", "id");
-      subSelect.EnsurePath("second", "another2", "config_id");
-      subSelect.EnsurePath("no_paren");
-      subSelect.EnsurePath("third");
-      subSelect.EnsurePath("third", "stuff");
-      subSelect.EnsurePath("another", "id");
-      var actual = subSelect.ToString();
+      var node = new SelectNode();
+      node.EnsurePath("first");
+      node.EnsurePath("second", "thing");
+      node.EnsurePath("second", "another2", "id");
+      node.EnsurePath("second", "another2", "config_id");
+      node.EnsurePath("no_paren");
+      node.EnsurePath("third");
+      node.EnsurePath("third", "stuff");
+      node.EnsurePath("another", "id");
+      var actual = node.ToString();
       Assert.AreEqual("first,second(thing,another2(id,config_id)),no_paren,third(stuff),another(id)", actual);
+    }
+
+    [TestMethod()]
+    public void SelectNode_UnionWith()
+    {
+      var node = SelectNode.FromString("first,second(thing,another2(id,config_id))");
+      var add = SelectNode.FromString("second(thing,another2(id,config_id)),no_paren,third(stuff),another(id)");
+      node.UnionWith(add);
+      Assert.AreEqual("first,second(thing,another2(id,config_id)),no_paren,third(stuff),another(id)", node.ToString());
     }
 
     [TestMethod()]

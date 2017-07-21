@@ -483,7 +483,7 @@ namespace Innovator.Client
 
           if (curr.Attributes.TryGetValue("select", out buffer))
           {
-            var cols = SubSelect.FromString(buffer);
+            var cols = SelectNode.FromString(buffer);
             var first = true;
             foreach (var col in cols)
             {

@@ -381,7 +381,7 @@
     <Compile Include="Aml\Simple\ResultWriter.cs" />
     <Compile Include="Aml\SqlBatchWriter.cs" />
     <Compile Include="Aml\SqlFormatter.cs" />
-    <Compile Include="Aml\SubSelect.cs" />
+    <Compile Include="Aml\SelectNode.cs" />
     <Compile Include="Aml\TimeZoneData.cs" />
     <Compile Include="Aml\TimeZoneInfo.cs" />
     <Compile Include="Aml\TimeZoneInfo.Records.cs" />

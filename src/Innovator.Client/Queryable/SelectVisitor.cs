@@ -7,12 +7,12 @@ namespace Innovator.Client.Queryable
 {
   internal class SelectVisitor : AmlVisitor
   {
-    private SubSelect _select;
+    private SelectNode _select;
     private List<string> _buffer = new List<string>();
 
-    public SubSelect GetSelect(Expression e)
+    public SelectNode GetSelect(Expression e)
     {
-      _select = new SubSelect();
+      _select = new SelectNode();
       _buffer.Clear();
       Visit(e);
       FlushBuffer();

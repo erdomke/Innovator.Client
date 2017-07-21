@@ -12,22 +12,22 @@ namespace Innovator.Client
   {
     #region "Property Attributes"
     /// <summary>Retrieve the <c>condition</c> attribute of the property</summary>
-    public static IAttribute Condition(this IProperty item)
+    public static IAttribute Condition(this IProperty_Base item)
     {
       return item.Attribute("condition");
     }
     /// <summary>Retrieve the <c>is_null</c> attribute of the property</summary>
-    public static IAttribute IsNull(this IProperty item)
+    public static IAttribute IsNull(this IProperty_Base item)
     {
       return item.Attribute("is_null");
     }
     /// <summary>Retrieve the <c>keyed_name</c> attribute of the property</summary>
-    public static IAttribute KeyedName(this IProperty item)
+    public static IAttribute KeyedName(this IProperty_Base item)
     {
       return item.Attribute("keyed_name");
     }
     /// <summary>Retrieve the <c>type</c> attribute of the property</summary>
-    public static IAttribute Type(this IProperty item)
+    public static IAttribute Type(this IProperty_Base item)
     {
       return item.Attribute("type");
     }

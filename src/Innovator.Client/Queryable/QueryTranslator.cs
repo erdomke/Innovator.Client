@@ -152,7 +152,7 @@ namespace Innovator.Client.Queryable
 
       if (m.Method.DeclaringType == typeof(System.Linq.Queryable))
       {
-        SubSelect subSelect;
+        SelectNode subSelect;
         switch (m.Method.Name)
         {
           case "Where":

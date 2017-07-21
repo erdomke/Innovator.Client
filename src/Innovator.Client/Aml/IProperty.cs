@@ -126,7 +126,7 @@ namespace Innovator.Client
   /// <summary>
   /// Very base property interface used to flag elements which are properties
   /// </summary>
-  public interface IProperty_Base : IElement
+  public interface IProperty_Base : IElement, IReadOnlyProperty_Base
   {
     /// <summary>
     /// Set the value of the property

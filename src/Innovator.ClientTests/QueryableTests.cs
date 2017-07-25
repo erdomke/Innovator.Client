@@ -379,6 +379,14 @@ namespace Innovator.Client.Tests
       var aml = TestQueryString("?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id");
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
     }
+
+
+    [TestMethod()]
+    public void QueryString_Nested()
+    {
+      var aml = TestQueryString("?$filter=created_by_id/keyed_name eq 'Test'");
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name></Item></created_by_id></Item>", aml);
+    }
   }
 }
 #endif

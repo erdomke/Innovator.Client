@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: NeutralResourcesLanguage("en")]
 
 [assembly: InternalsVisibleTo("Innovator.ClientTests")]
+[assembly: InternalsVisibleTo("Innovator.ClientTests.NetFull")]

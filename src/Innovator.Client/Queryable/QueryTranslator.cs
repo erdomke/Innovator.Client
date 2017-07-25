@@ -326,6 +326,8 @@ namespace Innovator.Client.Queryable
 
     protected override void VisitProperty(string name)
     {
+      if (_curr is IReadOnlyProperty)
+        VisitItem();
       PushElement(_aml.Property(name));
     }
 
@@ -482,6 +484,9 @@ namespace Innovator.Client.Queryable
 
     protected override Expression VisitConstant(ConstantExpression c)
     {
+      if (_inInvocationArguments)
+        return c;
+
       var q = c.Value as IInnovatorQuery;
       if (q != null)
       {

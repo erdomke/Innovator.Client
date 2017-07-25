@@ -114,13 +114,13 @@
     <Compile Include="UploadCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Innovator.Client\Innovator.Client.Net45.csproj">
-      <Project>{8d6e268f-e271-48b9-9e24-2a0b9f9ff6b9}</Project>
-      <Name>Innovator.Client.NetFull</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Innovator.Client\Innovator.Client.Net45.csproj">
+      <Project>{8d6e268f-e271-48b9-9e24-2a0b9f9ff6b9}</Project>
+      <Name>Innovator.Client.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

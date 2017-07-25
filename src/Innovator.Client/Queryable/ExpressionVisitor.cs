@@ -10,6 +10,7 @@ namespace Innovator.Client.Queryable
   internal abstract class ExpressionVisitor
   {
     protected ParameterStack _paramStack = new ParameterStack();
+    protected bool _inInvocationArguments;
 
     protected ExpressionVisitor() { }
 
@@ -574,8 +575,16 @@ namespace Innovator.Client.Queryable
 
     protected virtual Expression VisitInvocation(InvocationExpression iv)
     {
-
-      var args = iv.Arguments; // this.VisitExpressionList();
+      _inInvocationArguments = true;
+      ReadOnlyCollection<Expression> args;
+      try
+      {
+        args = this.VisitExpressionList(iv.Arguments);
+      }
+      finally
+      {
+        _inInvocationArguments = false;
+      }
 
       var lambda = iv.Expression as LambdaExpression;
       Expression expr;

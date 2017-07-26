@@ -26,7 +26,7 @@ insert into innovator._sync_mes_entity_tester (id, item_number, classification, 
 
       sql = new SqlBatchWriter(conn);
       sql.Command("insert into @tableVar values (@0, @1, @2);", 1, null, true);
-      Assert.AreEqual(@"<sql>insert into @tableVar values (1, null, N&apos;1&apos;);
+      Assert.AreEqual(@"<sql>insert into @tableVar values (1, null, &apos;1&apos;);
 </sql>", sql.ToString());
     }
   }

@@ -175,6 +175,9 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item><name condition=\"in\">N'1',N'2',N'3'</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
         new Command("<Item><name condition='in'>@0</name><is_current>@1</is_current><date>@2</date></Item>",
           new string[] { "1", "2", "3" }, true, new DateTime(2015, 1, 1)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual("<Item><name condition=\"in\">'50125872408B4D47BF76DAA546910228','E982510949EB484EBB6DE1A72F3242F2'</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
+        new Command("<Item><name condition='in'>@0</name><is_current>@1</is_current><date>@2</date></Item>",
+          new string[] { "50125872408B4D47BF76DAA546910228", "E982510949EB484EBB6DE1A72F3242F2" }, true, new DateTime(2015, 1, 1)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 
     [TestMethod()]
@@ -228,7 +231,7 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void FormatAmlTest_WhereClause()
     {
-      Assert.AreEqual(@"<Item type=""Method"" action=""Get Address Book"" where=""[user_id] = N'2D246C5838644C1C8FD34F8D2796E327'"" />",
+      Assert.AreEqual(@"<Item type=""Method"" action=""Get Address Book"" where=""[user_id] = '2D246C5838644C1C8FD34F8D2796E327'"" />",
         new Command(@"<Item type='Method' action='Get Address Book' where=""[user_id] = @0""></Item>",
         "2D246C5838644C1C8FD34F8D2796E327").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }

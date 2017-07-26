@@ -25,24 +25,43 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void SubstituteSqlString()
+    {
+      Assert.AreEqual(@"<sql>SELECT 5.46</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", 5.46).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual(@"<sql>SELECT '1'</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", true).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual(@"<sql>SELECT '0'</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", false).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual(@"<sql>SELECT '2017-01-01T17:00:00'</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", DateTime.Parse("2017-01-01T12:00:00")).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual(@"<sql>SELECT '3373C6B037F14CFABF9968BF9FEA5056'</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", new Guid("3373C6B037F14CFABF9968BF9FEA5056")).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual(@"<sql>SELECT '3373C6B037F14CFABF9968BF9FEA5056'</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", "3373C6B037F14CFABF9968BF9FEA5056").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual(@"<sql>SELECT N'Some string'</sql>"
+        , new Command(@"<sql>SELECT @0</sql>", "Some string").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+    }
+
+    [TestMethod()]
     public void SubstituteSqlInClause()
     {
       var ids = new string[] { "3373C6B037F14CFABF9968BF9FEA5056", "C23BE7B25F8C4E8AB9A8293F6D4D2CC7" };
       var cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", ids);
       var aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
-      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (N'3373C6B037F14CFABF9968BF9FEA5056',N'C23BE7B25F8C4E8AB9A8293F6D4D2CC7')</sql>", aml);
+      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in ('3373C6B037F14CFABF9968BF9FEA5056','C23BE7B25F8C4E8AB9A8293F6D4D2CC7')</sql>", aml);
 
       cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", ids);
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
-      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (N'3373C6B037F14CFABF9968BF9FEA5056',N'C23BE7B25F8C4E8AB9A8293F6D4D2CC7')</sql>", aml);
+      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in ('3373C6B037F14CFABF9968BF9FEA5056','C23BE7B25F8C4E8AB9A8293F6D4D2CC7')</sql>", aml);
 
       cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", "3373C6B037F14CFABF9968BF9FEA5056", "C23BE7B25F8C4E8AB9A8293F6D4D2CC7");
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
-      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (N'3373C6B037F14CFABF9968BF9FEA5056')</sql>", aml);
+      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in ('3373C6B037F14CFABF9968BF9FEA5056')</sql>", aml);
 
       cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", "3373C6B037F14CFABF9968BF9FEA5056", "C23BE7B25F8C4E8AB9A8293F6D4D2CC7");
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
-      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (N'3373C6B037F14CFABF9968BF9FEA5056')</sql>", aml);
+      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in ('3373C6B037F14CFABF9968BF9FEA5056')</sql>", aml);
 
       cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", new int[] { 2, 3 });
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
@@ -97,7 +116,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(true, result.AssertItem().Property("notes").AsBoolean());
       Assert.AreEqual("Point 1", result.AssertItem().Property("tag_name").Value);
       var query = result.AssertItem().ToAml();
-      Assert.AreEqual("<Item type=\"Measurements\" action=\"add\"><cavity>1</cavity><extradate>2015-10-12T14:53:51</extradate><measurement>27.878</measurement><notes>1</notes><opperator>6DBCE2E15B6D405793B322355A9E1D9C</opperator><session_id></session_id><source>7DFEF415AB7444BFB9D529665C44D444</source><tag_name>Point 1</tag_name></Item>", query);
+      Assert.AreEqual("<Item type=\"Measurements\" action=\"add\"><cavity>1</cavity><extradate>2015-10-12T14:53:51</extradate><measurement>27.878</measurement><notes>1</notes><opperator>6DBCE2E15B6D405793B322355A9E1D9C</opperator><session_id /><source>7DFEF415AB7444BFB9D529665C44D444</source><tag_name>Point 1</tag_name></Item>", query);
     }
 
 #if NET46

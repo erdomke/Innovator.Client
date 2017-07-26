@@ -312,53 +312,7 @@ namespace Innovator.Client.Time
     {
       return this.m_id.ToUpperInvariant().GetHashCode();
     }
-
-    ///// <summary>Returns a sorted collection of all the time zones about which information is available on the local system.</summary>
-    ///// <returns>A read-only collection of <see cref="T:System.TimeZoneInfo" /> objects.</returns>
-    ///// <exception cref="T:System.OutOfMemoryException">There is insufficient memory to store all time zone information.</exception>
-    ///// <exception cref="T:System.Security.SecurityException">The user does not have permission to read from the registry keys that contain time zone information.</exception>
-    //[SecuritySafeCritical]
-    //[__DynamicallyInvokable]
-    //public static ReadOnlyCollection<TimeZoneInfo> GetSystemTimeZones()
-    //{
-    //  TimeZoneInfo.CachedData cachedData = TimeZoneInfo.s_cachedData;
-    //  TimeZoneInfo.CachedData obj = cachedData;
-    //  lock (obj)
-    //  {
-    //    if (cachedData.m_readOnlySystemTimeZones == null)
-    //    {
-    //      PermissionSet permissionSet = new PermissionSet(PermissionState.None);
-    //      permissionSet.AddPermission(new RegistryPermission(RegistryPermissionAccess.Read, "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones"));
-    //      permissionSet.Assert();
-    //      using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones", RegistryKeyPermissionCheck.Default, RegistryRights.ExecuteKey))
-    //      {
-    //        if (registryKey != null)
-    //        {
-    //          foreach (string id in registryKey.GetSubKeyNames())
-    //          {
-    //            TimeZoneInfo timeZoneInfo;
-    //            Exception ex;
-    //            TimeZoneInfo.TryGetTimeZone(id, false, out timeZoneInfo, out ex, cachedData);
-    //          }
-    //        }
-    //        cachedData.m_allSystemTimeZonesRead = true;
-    //      }
-    //      List<TimeZoneInfo> list;
-    //      if (cachedData.m_systemTimeZones != null)
-    //      {
-    //        list = new List<TimeZoneInfo>(cachedData.m_systemTimeZones.Values);
-    //      }
-    //      else
-    //      {
-    //        list = new List<TimeZoneInfo>();
-    //      }
-    //      list.Sort(new TimeZoneInfo.TimeZoneInfoComparer());
-    //      cachedData.m_readOnlySystemTimeZones = new ReadOnlyCollection<TimeZoneInfo>(list);
-    //    }
-    //  }
-    //  return cachedData.m_readOnlySystemTimeZones;
-    //}
-
+    
     /// <summary>Indicates whether the current object and another <see cref="T:System.TimeZoneInfo" /> object have the same adjustment rules.</summary>
     /// <returns>true if the two time zones have identical adjustment rules and an identical base offset; otherwise, false.</returns>
     /// <param name="other">A second object to compare with the current <see cref="T:System.TimeZoneInfo" /> object.   </param>

@@ -59,11 +59,18 @@ namespace Innovator.Client
       }
       else
       {
-        return "N'" + Render(arg,
+        return Quote(Render(arg,
           n => n.ToString(formatString, CultureInfo.InvariantCulture),
-          s => SqlEscape(arg, formatString)) + "'";
+          s => SqlEscape(arg, formatString)));
       }
 
+    }
+
+    internal static string Quote(string value)
+    {
+      if (value.IsGuid())
+        return "'" + value + "'";
+      return "N'" + value + "'";
     }
 
     private static string SqlEscape(object obj, string format)

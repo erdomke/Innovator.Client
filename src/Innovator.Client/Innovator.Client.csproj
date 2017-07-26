@@ -35,10 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />
     <Compile Include="Aml\AmlSqlRenderOption.cs" />
     <Compile Include="Aml\AmlSqlWriter.cs" />

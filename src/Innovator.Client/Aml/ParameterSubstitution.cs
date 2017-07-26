@@ -516,15 +516,13 @@ namespace Innovator.Client
 
     private string RenderSqlEnum(object value, bool quoteStrings, Func<object, string> format)
     {
+      if (value is string)
+        return format.Invoke(value);
+
       IEnumerable enumerable = value as IEnumerable;
       bool first = true;
       var builder = new StringBuilder();
-      if (value is string)
-      {
-        // Deal with strings which technically are enumerables
-        builder.Append(format.Invoke(value));
-      }
-      else if ((!quoteStrings && enumerable != null) || TryGetNumericEnumerable(value, out enumerable))
+      if ((!quoteStrings && enumerable != null) || TryGetNumericEnumerable(value, out enumerable))
       {
         foreach (var item in enumerable)
         {
@@ -541,7 +539,7 @@ namespace Innovator.Client
           foreach (var item in enumerable)
           {
             if (!first) builder.Append(",");
-            builder.Append("N'").Append(format.Invoke(item)).Append("'");
+            builder.Append(SqlFormatter.Quote(format.Invoke(item)));
             first = false;
           }
 
@@ -549,12 +547,12 @@ namespace Innovator.Client
           // Therefore, write a bogus value to match zero results
           if (quoteStrings && first)
           {
-            builder.Append("N'").Append(format.Invoke("`EMTPY_VALUE_LIST`")).Append("'");
+            return "N'" + format.Invoke("`EMTPY_VALUE_LIST`") + "'";
           }
         }
         else
         {
-          builder.Append(format.Invoke(value));
+          return format.Invoke(value);
         }
       }
       return builder.ToString();
@@ -605,17 +603,21 @@ namespace Innovator.Client
           {
             return finalAction(_sqlFormatter.Format(num));
           }
-          else if(value is string)
+          else if (value is string)
           {
-            return finalAction("N'" + RenderSqlEnum(value, false, o => _sqlFormatter.Format(o)) + "'");
+            return finalAction(SqlFormatter.Quote(RenderSqlEnum(value, false, o => _sqlFormatter.Format(o))));
           }
           else if (inClause && value is IEnumerable)
           {
             return finalAction(RenderSqlEnum(value, true, o => _sqlFormatter.Format(o)));
           }
+          else if (value is DateTime || value is bool || value is Guid)
+          {
+            return finalAction("'" + RenderSqlEnum(value, false, o => _sqlFormatter.Format(o)) + "'");
+          }
           else
           {
-            return finalAction("N'" + RenderSqlEnum(value, false, o => _sqlFormatter.Format(o)) + "'");
+            return finalAction(SqlFormatter.Quote(RenderSqlEnum(value, false, o => _sqlFormatter.Format(o))));
           }
         }
         else

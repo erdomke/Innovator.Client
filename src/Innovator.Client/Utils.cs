@@ -354,18 +354,37 @@ namespace Innovator.Client
 
     public static bool IsGuid(this string value)
     {
-      if (string.IsNullOrEmpty(value)) return false;
-      if (value.Length != 32) return false;
+      if (value == null || value.Length != 32) return false;
       for (var i = 0; i < value.Length; i++)
       {
-        if (!char.IsDigit(value[i])
-          && value[i] != 'A' && value[i] != 'B'
-          && value[i] != 'C' && value[i] != 'D'
-          && value[i] != 'E' && value[i] != 'F'
-          && value[i] != 'a' && value[i] != 'b'
-          && value[i] != 'c' && value[i] != 'd'
-          && value[i] != 'e' && value[i] != 'f')
-          return false;
+        switch (value[i])
+        {
+          case '0':
+          case '1':
+          case '2':
+          case '3':
+          case '4':
+          case '5':
+          case '6':
+          case '7':
+          case '8':
+          case '9':
+          case 'A':
+          case 'B':
+          case 'C':
+          case 'D':
+          case 'E':
+          case 'F':
+          case 'a':
+          case 'b':
+          case 'c':
+          case 'd':
+          case 'e':
+          case 'f':
+            break;
+          default:
+            return false;
+        }
       }
       return true;
     }

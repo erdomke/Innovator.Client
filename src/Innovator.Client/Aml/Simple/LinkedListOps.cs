@@ -13,6 +13,10 @@ namespace Innovator.Client
       {
         newLink.Next = newLink;
       }
+      else if (object.ReferenceEquals(lastLink, newLink))
+      {
+        return lastLink;
+      }
       else
       {
         newLink.Next = lastLink.Next;

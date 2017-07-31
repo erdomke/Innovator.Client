@@ -582,5 +582,15 @@ namespace Innovator.Client.Tests
       );
       Assert.AreEqual(expected, item.ToAml());
     }
+
+    [TestMethod()]
+    public void ItemCopyProperty()
+    {
+      var conn = new TestConnection();
+      var user = conn.Apply(@"<Item type='User' action='get' id='8227040ABF0A46A8AF06C18ABD3967B3' />").AssertItem();
+      var aml = conn.AmlContext;
+      var newItem = aml.Item(user.Property("first_name"), user.Property("owned_by_id"));
+      Assert.AreEqual("<Item><first_name>First</first_name><owned_by_id is_null=\"1\" /></Item>", newItem.ToAml());
+    }
   }
 }

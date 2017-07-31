@@ -365,7 +365,6 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\" orderBy=\"name,created_on DESC\" select=\"name,id\" />", aml);
     }
 
-
     [TestMethod()]
     public void Queryable_Include()
     {
@@ -380,12 +379,14 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
     }
 
-
     [TestMethod()]
     public void QueryString_Nested()
     {
-      var aml = TestQueryString("?$filter=created_by_id/keyed_name eq 'Test'");
-      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name></Item></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name></Item></created_by_id></Item>"
+        , TestQueryString("?$filter=created_by_id/keyed_name eq 'Test'"));
+
+      Assert.AreEqual("<Item action=\"get\" type=\"ItemType\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name><state>Something</state></Item></created_by_id></Item>"
+        , TestQueryString("?$filter=created_by_id/keyed_name eq 'Test' and created_by_id/state eq 'Something'"));
     }
   }
 }

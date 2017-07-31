@@ -66,8 +66,8 @@
       <HintPath>..\lib\IOM.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ODataToolkit, Version=0.7.6389.37919, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ODataToolkit.0.7.6389.37919\lib\net40\ODataToolkit.dll</HintPath>
+    <Reference Include="ODataToolkit, Version=0.7.6418.35238, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ODataToolkit.0.7.6418.35238\lib\net40\ODataToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -114,13 +114,13 @@
     <Compile Include="UploadCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Innovator.Client\Innovator.Client.Net45.csproj">
       <Project>{8d6e268f-e271-48b9-9e24-2a0b9f9ff6b9}</Project>
       <Name>Innovator.Client.Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

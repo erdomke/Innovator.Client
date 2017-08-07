@@ -287,13 +287,16 @@ namespace Innovator.Client
                   xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange((DateOffset)param.Original, null));
               }
 
-              if (param.IsRaw)
+              if (param.Value != null)
               {
-                xmlWriter.WriteRaw(param.Value);
-              }
-              else
-              {
-                xmlWriter.WriteValue(param.Value);
+                if (param.IsRaw)
+                {
+                  xmlWriter.WriteRaw(param.Value);
+                }
+                else
+                {
+                  xmlWriter.WriteValue(param.Value);
+                }
               }
               break;
           }

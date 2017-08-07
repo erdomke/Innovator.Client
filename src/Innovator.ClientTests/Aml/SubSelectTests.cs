@@ -1,10 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Innovator.Client;
-using System;
-using System.Collections.Generic;
+﻿using Innovator.Client;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Innovator.Client.Tests
 {

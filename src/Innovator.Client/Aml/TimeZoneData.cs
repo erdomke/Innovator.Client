@@ -166,7 +166,7 @@ namespace Innovator.Client.Time
           foreach (var rule in tz.GetAdjustmentRules())
           {
             var prop = rule.GetType().GetProperty("BaseUtcOffsetDelta", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var baseOffset = (TimeSpan)prop.GetValue(rule);
+            var baseOffset = (TimeSpan)prop.GetValue(rule, null);
 
             writer.Write("    AdjustmentRule.CreateAdjustmentRule(new DateTime(");
             writer.Write("{0:yyyy, M, d, H, m, s}, DateTimeKind.Unspecified), new DateTime(", rule.DateStart);

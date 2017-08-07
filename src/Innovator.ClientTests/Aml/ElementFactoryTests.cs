@@ -1,10 +1,7 @@
-﻿using Innovator.Client;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
 
 namespace Innovator.Client.Tests
@@ -147,6 +144,18 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
         new Command("<Item><name>@0</name><is_current>@1</is_current><date>@2</date></Item>",
           "first & second > third", true, new DateTime(2015, 1, 1)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+    }
+
+    [TestMethod()]
+    public void FormatAmlTest_null()
+    {
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date /></Item>",
+        new Command("<Item><name>@0</name><is_current>@1</is_current><date>@2</date></Item>",
+          "first & second > third", true, null).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+
+      var conn = new TestConnection();
+      var company = conn.Apply("<Item type='Company' action='get' id='0E086FFA6C4646F6939B74C43D094182'><thing>@0</thing><prop>@1</prop></Item>", 2, null).AssertItem();
+      Assert.AreEqual("0E086FFA6C4646F6939B74C43D094182", company.Id());
     }
 
     /*[TestMethod()]

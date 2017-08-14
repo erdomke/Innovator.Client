@@ -81,6 +81,10 @@ namespace Innovator.Client.Tests
       cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", (object[])null);
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (null)</sql>", aml);
+
+      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", new string[] { });
+      aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
+      Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (N'`EMTPY_LIST_MUST_MATCH_0_ITEMS!`')</sql>", aml);
     }
 
     [TestMethod()]

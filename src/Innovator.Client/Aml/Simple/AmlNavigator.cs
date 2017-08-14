@@ -271,7 +271,7 @@ namespace Innovator.Client
         _stack.Peek().MoveNext();
         return SetCurrent(_stack.Peek().Current);
       }
-      else if (!string.IsNullOrEmpty(_current.Value))
+      else if (!string.IsNullOrEmpty(_current.Value) && _node != XPathNodeType.Text)
       {
         _node = XPathNodeType.Text;
         return true;

@@ -27,6 +27,8 @@ namespace Innovator.Client
   /// parameter name ends with an exclamtion mark (e.g. @fileItem!)</remarks>
   public class ParameterSubstitution : IEnumerable<KeyValuePair<string, object>>
   {
+    private const string EmptyListMatch = "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`";
+
     private IServerContext _context;
     private SqlFormatter _sqlFormatter;
     private Dictionary<string, object> _parameters = new Dictionary<string, object>();
@@ -533,6 +535,9 @@ namespace Innovator.Client
           builder.Append(format.Invoke(item));
           first = false;
         }
+
+        if (first)
+          return format.Invoke(EmptyListMatch);
       }
       else
       {
@@ -550,7 +555,7 @@ namespace Innovator.Client
           // Therefore, write a bogus value to match zero results
           if (quoteStrings && first)
           {
-            return "N'" + format.Invoke("`EMTPY_VALUE_LIST`") + "'";
+            return "N'" + format.Invoke(EmptyListMatch) + "'";
           }
         }
         else

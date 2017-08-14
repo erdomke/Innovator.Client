@@ -195,6 +195,10 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item idlist=\"1,2,3\"><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
         new Command("<Item idlist='@0'><is_current>@1</is_current><date>@2</date></Item>",
           new string[] { "1", "2", "3" }, true, new DateTime(2015, 1, 1)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+
+      Assert.AreEqual("<Item idlist=\"`EMTPY_LIST_MUST_MATCH_0_ITEMS!`\"><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
+        new Command("<Item idlist='@0'><is_current>@1</is_current><date>@2</date></Item>",
+          new string[] { }, true, new DateTime(2015, 1, 1)).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 
     [TestMethod()]

@@ -45,7 +45,7 @@ namespace Innovator.Client.Tests
           , new string[] { });
       var factory = ElementFactory.Local;
       var query = cmd.ToNormalizedAml(factory.LocalizationContext);
-      Assert.AreEqual("<Item type=\"Measurements\" action=\"get\"><simple>Matt,Eric</simple><in_clause condition=\"in\">N'Matt',N'Eric'</in_clause><no_values condition=\"in\">N'`EMTPY_VALUE_LIST`'</no_values></Item>", query);
+      Assert.AreEqual("<Item type=\"Measurements\" action=\"get\"><simple>Matt,Eric</simple><in_clause condition=\"in\">N'Matt',N'Eric'</in_clause><no_values condition=\"in\">N'`EMTPY_LIST_MUST_MATCH_0_ITEMS!`'</no_values></Item>", query);
     }
 
     [TestMethod]

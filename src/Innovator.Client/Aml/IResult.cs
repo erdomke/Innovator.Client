@@ -13,7 +13,7 @@ namespace Innovator.Client
   ///     <term>Single Item</term><description>To access the item, use the <see cref="AssertItem(string)"/> method</description>
   ///   </item>
   ///   <item>
-  ///     <term>Item Collection</term><description>To access the items, use the <see cref="Items"/> method</description>
+  ///     <term>Item Collection</term><description>To access the items, use the <see cref="IReadOnlyResult.Items"/> method</description>
   ///   </item>
   ///   <item>
   ///     <term>String Result</term><description>To access the string, use the <see cref="Value"/> property</description>

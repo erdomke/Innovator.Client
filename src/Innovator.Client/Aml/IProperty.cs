@@ -12,7 +12,7 @@ namespace Innovator.Client
   /// </summary>
   public interface IReadOnlyProperty_Boolean : IReadOnlyProperty_Base
   {
-    /// <summary>Value converted to a <see cref="bool?"/>.
+    /// <summary>Value converted to a <see cref="Nullable{Boolean}"/>.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="bool"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="bool"/></exception>
@@ -30,7 +30,7 @@ namespace Innovator.Client
   /// </summary>
   public interface IReadOnlyProperty_Date : IReadOnlyProperty_Base
   {
-    /// <summary>Value converted to a <see cref="DateTime?"/> in the local timezone.
+    /// <summary>Value converted to a <see cref="Nullable{DateTime}"/> in the local timezone.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="DateTime"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
@@ -50,7 +50,7 @@ namespace Innovator.Client
     /// </code>
     /// </example>
     DateTime AsDateTime(DateTime defaultValue);
-    /// <summary>Value converted to a <see cref="DateTime?"/> in the UTC timezone.
+    /// <summary>Value converted to a <see cref="Nullable{DateTime}"/> in the UTC timezone.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="DateTime"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
@@ -61,7 +61,7 @@ namespace Innovator.Client
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
     DateTime AsDateTimeUtc(DateTime defaultValue);
-    /// <summary>Value converted to a <see cref="DateTimeOffset?"/> in the local timezone.
+    /// <summary>Value converted to a <see cref="Nullable{DateTimeOffset}"/> in the local timezone.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="DateTimeOffset"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTimeOffset"/></exception>
@@ -79,7 +79,7 @@ namespace Innovator.Client
   /// </summary>
   public interface IReadOnlyProperty_Number : IReadOnlyProperty_Base
   {
-    /// <summary>Value converted to a <see cref="double?"/>.
+    /// <summary>Value converted to a <see cref="Nullable{Double}"/>.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="double"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
@@ -90,7 +90,7 @@ namespace Innovator.Client
     /// <returns>A <see cref="double"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
     double AsDouble(double defaultValue);
-    /// <summary>Value converted to a <see cref="int?"/>.
+    /// <summary>Value converted to a <see cref="Nullable{Int32}"/>.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="int"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
@@ -101,7 +101,7 @@ namespace Innovator.Client
     /// <returns>A <see cref="int"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
     int AsInt(int defaultValue);
-    /// <summary>Value converted to a <see cref="long?"/>.
+    /// <summary>Value converted to a <see cref="Nullable{Int64}"/>.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="long"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="long"/></exception>
@@ -119,7 +119,7 @@ namespace Innovator.Client
   /// </summary>
   public interface IReadOnlyProperty_Item<in T> : IReadOnlyProperty_Base
   {
-    /// <summary>Value converted to a <see cref="Guid?"/>.
+    /// <summary>Value converted to a <see cref="Nullable{Guid}"/>.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="Guid"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="Guid"/></exception>
@@ -143,7 +143,7 @@ namespace Innovator.Client
     /// </code>
     /// the structure of <c>creator</c> will be
     /// <code lang="XML">
-    ///&lt;Item type='User'& id='A5CE5E3B4E3846D8A15C1C9300EAF7B4'gt;
+    ///&lt;Item type='User' id='A5CE5E3B4E3846D8A15C1C9300EAF7B4'gt;
     ///  &lt;id keyed_name="John Smith" type="User"&gt;A5CE5E3B4E3846D8A15C1C9300EAF7B4&lt;/id&gt;
     ///  &lt;keyed_name&gt;John Smith&lt;/keyed_name&gt;
     ///&lt;/Item&gt;
@@ -230,7 +230,7 @@ namespace Innovator.Client
     /// </code>
     /// the structure of <c>creator</c> will be
     /// <code lang="XML">
-    ///&lt;Item type='User'& id='A5CE5E3B4E3846D8A15C1C9300EAF7B4'gt;
+    ///&lt;Item type='User' id='A5CE5E3B4E3846D8A15C1C9300EAF7B4'gt;
     ///  &lt;id keyed_name="John Smith" type="User"&gt;A5CE5E3B4E3846D8A15C1C9300EAF7B4&lt;/id&gt;
     ///  &lt;keyed_name&gt;John Smith&lt;/keyed_name&gt;
     ///&lt;/Item&gt;

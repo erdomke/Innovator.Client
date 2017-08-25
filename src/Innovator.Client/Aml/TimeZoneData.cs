@@ -107,7 +107,7 @@ namespace Innovator.Client
     /// not exist because of a time zone's adjustment rules).</exception>
     /// <exception cref="ArgumentNullException">The <paramref name="from"/>parameter is null.
     /// -or-
-    /// The <param name="to"> parameter is null.
+    /// The <paramref name="to"/> parameter is null.
     /// </exception>
     public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
     {
@@ -220,7 +220,7 @@ namespace Innovator.Client
     /// not exist because of a time zone's adjustment rules).</exception>
     /// <exception cref="ArgumentNullException">The <paramref name="from"/>parameter is null.
     /// -or-
-    /// The <param name="to"> parameter is null.
+    /// The <paramref name="to"/> parameter is null.
     /// </exception>
     public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
     {

@@ -67,7 +67,7 @@ namespace Innovator.Client
     /// Say you have a nullable <see cref="IReadOnlyItem"/> variable and you want to make sure it is never null.
     /// <code lang="C#">
     /// IReadOnlyItem parameter = null;
-    /// var item = parameter ?? Item.GetNullItem<IReadOnlyItem>()
+    /// var item = parameter ?? Item.GetNullItem&lt;IReadOnlyItem&gt;()
     /// </code>
     /// </example>
     public static T GetNullItem<T>() where T : IReadOnlyItem

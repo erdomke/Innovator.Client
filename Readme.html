@@ -1,0 +1,276 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Innovator.Client </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Innovator.Client ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="innovatorclient">Innovator.Client</h1>
+
+<p><a href="https://www.myget.org/"><img src="https://www.myget.org/BuildSource/Badge/innovator-client?identifier=cb689f79-0412-4d27-b7ca-e6be3283d4e9" alt="innovator-client MyGet Build Status"></a>
+<a href="https://www.nuget.org/packages/Innovator.Client/"><img src="https://img.shields.io/nuget/v/Innovator.Client.svg" alt="NuGet"></a></p>
+<p>Innovator.Client is a library for connecting to <a href="http://www.aras.com/">Aras Innovator</a> installations.
+It is a replacement for the IOM library provided by Aras.  It is not a drop-in replacement, but rather
+aims to provide an API which is easier to use.</p>
+<h1 id="api-example">API Example</h1>
+<pre><code class="lang-csharp">/// &lt;summary&gt;
+/// Edit and release components of a given classification
+/// &lt;/summary&gt;
+/// &lt;param name=&quot;classification&quot;&gt;Classification of parts to release&lt;/param&gt;
+private void ReleaseByType(string classification)
+{
+  var conn = Factory.GetConnection(&quot;URL&quot;, &quot;USER_AGENT&quot;);
+  conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, &quot;PASSWORD&quot;));
+
+  // Get preliminary parts which have existed for a little bit of time
+  var components = conn.Apply(@&quot;&lt;Item type=&#39;Part&#39; action=&#39;get&#39;&gt;
+                                  &lt;classification&gt;@0&lt;/classification&gt;
+                                  &lt;created_on condition=&#39;lt&#39;&gt;@1&lt;/created_on&gt;
+                                  &lt;state&gt;Preliminary&lt;/state&gt;
+                                &lt;/Item&gt;&quot;, classification, DateTime.Now.AddMinutes(-20)).Items();
+
+  var aml = conn.AmlContext;
+  // Iterate through the components
+  foreach (var comp in components)
+  {
+    // Append the value &quot; - Released&quot; to the end of the name
+    var edits = aml.Item(aml.Type(&quot;Part&quot;), aml.Action(&quot;edit&quot;), aml.Id(comp.Id()),
+      aml.Property(&quot;name&quot;, comp.Property(&quot;name&quot;).AsString(&quot;&quot;) + &quot; - Released&quot;)
+    );
+    // If the part was created after 2016-01-01, put the name of the creator in the description
+    if (comp.CreatedOn().AsDateTime(DateTime.MaxValue) &gt; new DateTime(2016, 1, 1))
+    {
+        edits.Property(&quot;description&quot;).Set(&quot;Created by: &quot; + comp.CreatedById().KeyedName().Value);
+    }
+    // Apply the changes. Throw an exception if an error occurs.
+    edits.Apply(conn).AssertNoError();
+
+    // Promote the item. Throw an exception if an error occurs.
+    comp.Promote(conn, &quot;Released&quot;).AssertNoError();
+  }
+}
+</code></pre><h1 id="installing">Installing</h1>
+<p>Get it via <a href="https://www.nuget.org/packages/Innovator.Client/">NuGet</a> using the command</p>
+<pre><code>PM&gt; Install-Package Innovator.Client
+</code></pre><p>This will install the package in your Visual Studio solution</p>
+<h1 id="compatibility">Compatibility</h1>
+<h2 id="net">.Net</h2>
+<p>Innovator.Client has builds for .Net 3.5+ and .Net Standard 1.1+.  It is worth noting that the .Net 
+Standard builds are largely untested while the full .Net builds are currently used in production
+deployments</p>
+<h2 id="aras">Aras</h2>
+<p>The IOM is not backwards-compatible.  For example, v11.0 of the IOM cannot be used with a v9.3
+Aras Innovator vault.  Innovator.Client strives to be compatible with all versions &gt;= 9.3</p>
+<h1 id="why-a-new-iom">Why a new IOM?</h1>
+<p>The reasons for a complete rewrite and numerous.  Some problems could not be easily solved without
+an overhaul while others reasons deal more with preference and/or coding efficiency.  A number of 
+the reasons are included below:</p>
+<h2 id="aml-in-code-should-look-like-aml">AML in code should look like AML</h2>
+<p>In <code>Innovator.Client</code>, there are two ways to include AML in code.  In the first (and preferred)
+way, AML is embedded directly, preferably as a multi-line string:</p>
+<pre><code class="lang-csharp">// Get preliminary parts which have existed for a little bit of time
+var components = conn.Apply(@&quot;&lt;Item type=&#39;Part&#39; action=&#39;get&#39;&gt;
+                                &lt;classification&gt;@0&lt;/classification&gt;
+                                &lt;created_on condition=&#39;lt&#39;&gt;@1&lt;/created_on&gt;
+                                &lt;state&gt;Preliminary&lt;/state&gt;
+                              &lt;/Item&gt;&quot;, classification, DateTime.Now.AddMinutes(-20)).Items();
+</code></pre><p>Notice that parameters can be prefixed with an <code>@</code> symbol.  Parameters can of any .Net supported
+type.  Core types (e.g. <code>int</code>, <code>bool</code>, <code>DateTime</code>, <code>double</code>, etc.) will all be serialized 
+according to AML conventions.  (This includes converting time zones where necessary so that a
+local date is rendered in the corporate AML time zone.)  This prevents having to remember AML
+conventions and also helps prevent &quot;AML-injection&quot; attacks on your code.  Since Innovator Admin
+supports parameters, these queries can be copied and pasted back and forth between your code
+editor and Innovator Admin during debugging.</p>
+<p>In the second method, modifiable AML is composed using a method very similar to Linq-to-XML:</p>
+<pre><code class="lang-csharp">// Append the value &quot; - Released&quot; to the end of the name
+var aml = conn.AmlContext;
+var edits = aml.Item(aml.Type(&quot;Part&quot;), aml.Action(&quot;edit&quot;), aml.Id(comp.Id()),
+    aml.Property(&quot;name&quot;, comp.Property(&quot;name&quot;).AsString(&quot;&quot;) + &quot; - Released&quot;)
+);
+</code></pre><p>This coding style allows the nesting and structure of the AML to be preserved as it is being
+composed.</p>
+<h2 id="parsing-and-serialization-should-be-handled-by-the-library">Parsing and serialization should be handled by the library</h2>
+<p>Besides the handling of .Net types as describe above, AML can also be parsed by the library
+using culture and time zone aware methods. For example, the <code>created_on</code> property can be returned
+as either a <code>Nullable&lt;DateTime&gt;</code> or a <code>DateTime</code> based on which overload of the <code>AsDateTime</code> 
+method is called:</p>
+<pre><code class="lang-csharp">comp.CreatedOn().AsDateTime(); // Get Nullable&lt;DateTime&gt;
+comp.CreatedOn().AsDateTime(DateTime.MinValue); // Get DateTime
+</code></pre><h2 id="full-support-for-asynchronous-calls">Full support for asynchronous calls</h2>
+<p>The IOM does not come with generic support for asynchronous calls (e.g. of AML statements) or
+single file uploads or downloads.  In this library, asynchronous calls can be performed in 
+.Net 3.5+ using the Promise pattern or in .Net 4+ using the async pattern.  For example:</p>
+<pre><code class="lang-csharp">// .Net 3.5
+var promise = conn.ApplyAsync(&quot;MY_QUERY&quot;, true, false)
+    .Done(result =&gt; {});
+
+// .Net 4
+var result = await conn.ApplyAsync(&quot;MY_QUERY&quot;, true, false).ToTask();
+</code></pre><h2 id="support-vault-access-via-streams">Support vault access via streams</h2>
+<p>Requiring that files be read from/written to disk requires accessing the slowest, most error-prone
+memory accessible on a computer.  This is particular a problem for server-based code.</p>
+<pre><code class="lang-csharp">// Upload a file
+var memStream = new System.IO.MemoryStream(Encoding.UTF8.GetBytes(&quot;FILE_CONTENT&quot;));
+var upload = conn.CreateUploadCommand();
+var sourceId = &quot;DOCUMENT_ID&quot;;
+var fileAml = upload.AddFile(@&quot;C:\DUMMY_FILE_NAME.EXTENSION&quot;, memStream);
+upload.WithAml(@&quot;&lt;Item type=&#39;Document File&#39; action=&#39;add&#39;&gt;
+                    &lt;source_id&gt;@0&lt;/source_id&gt;
+                    &lt;related_id&gt;@1!&lt;/related_id&gt;
+                &lt;/Item&gt;&quot;, sourceId, fileAml);
+var fileId = conn.Apply(upload).AssertItem().RelatedId().Value;
+
+// Download a file
+var stream = conn.Process(new Command(&quot;&lt;Item type=&#39;File&#39; action=&#39;get&#39; id=&#39;@0&#39; /&gt;&quot;, fileId)
+    .WithAction(CommandAction.DownloadFile));
+</code></pre><h2 id="stop-not-a-single-item-exceptions">Stop &#39;Not a single item&#39; exceptions</h2>
+<p>Results come back from the server as an <code>IReadOnlyResult</code> object.  From this object, you can 
+assert that the server should have returned a single item, graph any items returned by the server,
+access the returned error, etc.  However, once you obtain and <code>IReadOnlyItem</code> object, you are
+guaranteed throughout the code that it actually represents an <code>&lt;Item /&gt;</code> tag.</p>
+<pre><code class="lang-csharp">var result = conn.Apply(&quot;MY_QUERY&quot;);
+result.AssertNoError(); // Do nothing other than throw an exception if there is an error
+                        // other than &#39;No Items Found&#39;
+result.AssertItem();    // Return a single item.  If that is not possible, throw an appropriate
+                        // exception (e.g. the exception returned by the server where possible)
+result.Items();         // Return an enumerable of items.  Throw an exception if there is 
+                        // an error other than &#39;No Items Found&#39;
+result.AssertItems();   // Return an enumerable of items.  Throw an exception for any error
+</code></pre><h2 id="stop-nullreferenceexceptions">Stop NullReferenceExceptions</h2>
+<p>When traversing a long tree, it nice not to have to deal with null reference exceptions.<br>Therefore, the library implements the null-object pattern.  Simply check the <code>Exists</code> property
+to determine if a retrieved property actually exists.</p>
+<pre><code class="lang-csharp">var firstNameProp = part.CreatedById().AsItem().Property(&quot;first_name&quot;);
+if (!firstNameProp.Exists)
+{
+    // Get the first_name by other means
+}
+</code></pre><h2 id="http-headers">HTTP Headers</h2>
+<p>The developer does not have control over HTTP headers when making calls to the server.  Use
+cases for this might include:</p>
+<ul>
+<li>Including a custom User-Agent so that the server knows about custom clients and their versions
+which are in use</li>
+<li>Changing the TIMEZONE_NAME and LOCALE headers used by Aras for testing and development
+purposes</li>
+<li>Including additional authentication headers used by proxies within an organization</li>
+</ul>
+<p>The code to achive this looks like</p>
+<pre><code class="lang-csharp">var conn = Factory.GetConnection(&quot;URL&quot;, &quot;USER_AGENT&quot;);
+conn.DefaultSettings(r =&gt; r.SetHeader(&quot;X-CUSTOM-HEADER&quot;, &quot;MY_VALUE&quot;));
+conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, &quot;PASSWORD&quot;));
+</code></pre><h2 id="a-net-library-should-support-net-features">A .Net library should support .Net features</h2>
+<h3 id="linq-and-ienumerablet">LINQ and IEnumerable<t></t></h3>
+<p>Enumerating through items is as simple as</p>
+<pre><code class="lang-csharp">var result = conn.Apply(&quot;MY_QUERY&quot;);
+
+foreach (var item in result.Items())
+{
+}
+</code></pre><p>Alternatively, leverage LINQ:</p>
+<pre><code class="lang-csharp">var result = conn.Apply(&quot;MY_QUERY&quot;)
+    .Items()
+    .Where(i =&gt; i.IsReleased().AsBoolean(false));
+</code></pre><h3 id="async-and-await">async and await</h3>
+<p>When using the .Net 4 version of the library, leverage the <code>async</code> and <code>await</code> keywords</p>
+<pre><code class="lang-csharp">var result = await conn.ApplyAsync(&quot;MY_QUERY&quot;, true, false);
+</code></pre><h3 id="securestring">SecureString</h3>
+<p>For security reasons, passwords are automatically stored in memory as <code>SecureString</code>.  In addition,
+passwords stored in this way can be passed to the <code>Login</code> methods</p>
+<h1 id="developing">Developing</h1>
+<p>To build the project, clone or fork the repository and run the <code>build.ps1</code> file.  The 
+<code>Innovator.Client.sln</code> solution file can be used to debug and develop the .Net Standard 1.1 build
+of the library.  To debug specific features of the other builds, consider using the 
+<code>Innovator.Client.Net35.sln</code> or the <code>Innovator.Client.Net45.sln</code> file.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/Readme.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

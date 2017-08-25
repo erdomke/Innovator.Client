@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Enum ElementAttributes
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Enum ElementAttributes
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.ElementAttributes">
+  
+  
+  <h1 id="Innovator_Client_ElementAttributes" data-uid="Innovator.Client.ElementAttributes" class="text-break">Enum ElementAttributes
+  </h1>
+  <div class="markdown level0 summary"><p>Attributes stored in AML elements for compact memory usage</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_ElementAttributes_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Flags]
+public enum ElementAttributes</code></pre>
+  </div>
+  <h3 id="fields">Fields
+  </h3>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    <thead>
+    <tbody>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_FromDataStore">FromDataStore</td>
+        <td><p>Indicates that the element came from a data store (e.g. from the server)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultAny">ItemDefaultAny</td>
+        <td><p>Mask indicating that the Item element contains one or more default properties</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultGeneration">ItemDefaultGeneration</td>
+        <td><p>Indicates that the Item element contains a default <code>generation</code> property (&lt;generation&gt;1&lt;/generation&gt;)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultIsCurrent">ItemDefaultIsCurrent</td>
+        <td><p>Indicates that the Item element contains a default <code>is_current</code> property (&lt;is_current&gt;1&lt;/is_current&gt;)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultIsReleased">ItemDefaultIsReleased</td>
+        <td><p>Indicates that the Item element contains a default <code>is_released</code> property (&lt;is_released&gt;0&lt;/is_released&gt;)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultMajorRev">ItemDefaultMajorRev</td>
+        <td><p>Indicates that the Item element contains a default <code>major_rev</code> property (&lt;major_rev&gt;A&lt;/major_rev&gt;)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultNewVersion">ItemDefaultNewVersion</td>
+        <td><p>Indicates that the Item element contains a default <code>new_version</code> property (&lt;new_version&gt;0&lt;/new_version&gt;)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ItemDefaultNotLockable">ItemDefaultNotLockable</td>
+        <td><p>Indicates that the Item element contains a default <code>not_lockable</code> property (&lt;not_lockable&gt;0&lt;/not_lockable&gt;)</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_Null">Null</td>
+        <td><p>Indicates that the element represents a null element</p>
+</td>
+      </tr>
+      <tr>
+        <td id="Innovator_Client_ElementAttributes_ReadOnly">ReadOnly</td>
+        <td><p>Indicates that the element is read-only and should not be modified</p>
+</td>
+      </tr>
+    </tbody>
+  </thead></thead></table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementAttributes.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementAttributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/ElementAttribute.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1167 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ServerContext
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ServerContext
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.ServerContext">
+  
+  
+  <h1 id="Innovator_Client_ServerContext" data-uid="Innovator.Client.ServerContext" class="text-break">Class ServerContext
+  </h1>
+  <div class="markdown level0 summary"><p>Context for serializing/deserializing native types (e.g. <code>DateTime</code>, <code>double</code>, <code>boolean</code>, etc.)</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ServerContext</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_ServerContext_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class ServerContext : IServerContext, IFormatProvider, ICustomFormatter</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext__ctor_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.%23ctor(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L73">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext__ctor_" data-uid="Innovator.Client.ServerContext.#ctor*"></a>
+  <h4 id="Innovator_Client_ServerContext__ctor_System_Boolean_" data-uid="Innovator.Client.ServerContext.#ctor(System.Boolean)">ServerContext(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Create a server context in either the local or UTC time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServerContext(bool utc)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">utc</span></td>
+        <td><p>Indicates the UTC time zone should be used. 
+Otherwise, the local time zone will be used</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext__ctor_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.%23ctor(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L81">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext__ctor_" data-uid="Innovator.Client.ServerContext.#ctor*"></a>
+  <h4 id="Innovator_Client_ServerContext__ctor_System_String_" data-uid="Innovator.Client.ServerContext.#ctor(System.String)">ServerContext(String)</h4>
+  <div class="markdown level1 summary"><p>Create a server context using the specified time zone name</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ServerContext(string timeZoneName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">timeZoneName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_DefaultLanguageCode.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.DefaultLanguageCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L33">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_DefaultLanguageCode_" data-uid="Innovator.Client.ServerContext.DefaultLanguageCode*"></a>
+  <h4 id="Innovator_Client_ServerContext_DefaultLanguageCode" data-uid="Innovator.Client.ServerContext.DefaultLanguageCode">DefaultLanguageCode</h4>
+  <div class="markdown level1 summary"><p>Gets the default language code configured for the Aras user</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DefaultLanguageCode { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_DefaultLanguageCode">IServerContext.DefaultLanguageCode</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_DefaultLanguageSuffix.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.DefaultLanguageSuffix%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L37">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_DefaultLanguageSuffix_" data-uid="Innovator.Client.ServerContext.DefaultLanguageSuffix*"></a>
+  <h4 id="Innovator_Client_ServerContext_DefaultLanguageSuffix" data-uid="Innovator.Client.ServerContext.DefaultLanguageSuffix">DefaultLanguageSuffix</h4>
+  <div class="markdown level1 summary"><p>Gets the default language suffix configured for the Aras user</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DefaultLanguageSuffix { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_DefaultLanguageSuffix">IServerContext.DefaultLanguageSuffix</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_LanguageCode.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.LanguageCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L41">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_LanguageCode_" data-uid="Innovator.Client.ServerContext.LanguageCode*"></a>
+  <h4 id="Innovator_Client_ServerContext_LanguageCode" data-uid="Innovator.Client.ServerContext.LanguageCode">LanguageCode</h4>
+  <div class="markdown level1 summary"><p>Gets the language code configured for the Aras user</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string LanguageCode { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_LanguageCode">IServerContext.LanguageCode</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_LanguageSuffix.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.LanguageSuffix%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L45">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_LanguageSuffix_" data-uid="Innovator.Client.ServerContext.LanguageSuffix*"></a>
+  <h4 id="Innovator_Client_ServerContext_LanguageSuffix" data-uid="Innovator.Client.ServerContext.LanguageSuffix">LanguageSuffix</h4>
+  <div class="markdown level1 summary"><p>Gets the language suffix configured for the Aras user</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string LanguageSuffix { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_LanguageSuffix">IServerContext.LanguageSuffix</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_Locale.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.Locale%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L49">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_Locale_" data-uid="Innovator.Client.ServerContext.Locale*"></a>
+  <h4 id="Innovator_Client_ServerContext_Locale" data-uid="Innovator.Client.ServerContext.Locale">Locale</h4>
+  <div class="markdown level1 summary"><p>Gets the locale configured for the user.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Locale { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_Locale">IServerContext.Locale</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_TimeZone.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.TimeZone%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L53">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_TimeZone_" data-uid="Innovator.Client.ServerContext.TimeZone*"></a>
+  <h4 id="Innovator_Client_ServerContext_TimeZone" data-uid="Innovator.Client.ServerContext.TimeZone">TimeZone</h4>
+  <div class="markdown level1 summary"><p>Gets the corporate time zone ID for the Aras installation</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string TimeZone { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_TimeZone">IServerContext.TimeZone</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsBoolean_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsBoolean(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L119">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsBoolean_" data-uid="Innovator.Client.ServerContext.AsBoolean*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsBoolean_System_Object_" data-uid="Innovator.Client.ServerContext.AsBoolean(System.Object)">AsBoolean(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Boolean</span> based on
+the locale and time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool ? AsBoolean(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.Boolean</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsBoolean_System_Object_">IServerContext.AsBoolean(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Boolean</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDateTime_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDateTime(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L154">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsDateTime_" data-uid="Innovator.Client.ServerContext.AsDateTime*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsDateTime_System_Object_" data-uid="Innovator.Client.ServerContext.AsDateTime(System.Object)">AsDateTime(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> representing a date in the corporate
+time zone to a <span class="xref">System.DateTime</span> in the local time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime? AsDateTime(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.DateTime</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.DateTime</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDateTime_System_Object_">IServerContext.AsDateTime(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.DateTime</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDateTimeOffset_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDateTimeOffset(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L189">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsDateTimeOffset_" data-uid="Innovator.Client.ServerContext.AsDateTimeOffset*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsDateTimeOffset_System_Object_" data-uid="Innovator.Client.ServerContext.AsDateTimeOffset(System.Object)">AsDateTimeOffset(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> representing a date in the corporate
+time zone to a <span class="xref">System.DateTimeOffset</span> in the local time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTimeOffset? AsDateTimeOffset(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.DateTimeOffset</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.DateTimeOffset</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDateTimeOffset_System_Object_">IServerContext.AsDateTimeOffset(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.DateTimeOffset</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDateTimeUtc_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDateTimeUtc(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L232">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsDateTimeUtc_" data-uid="Innovator.Client.ServerContext.AsDateTimeUtc*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsDateTimeUtc_System_Object_" data-uid="Innovator.Client.ServerContext.AsDateTimeUtc(System.Object)">AsDateTimeUtc(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> representing a date in the corporate
+time zone to a <span class="xref">System.DateTime</span> in the UTC time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public DateTime? AsDateTimeUtc(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.DateTime</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.DateTime</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDateTimeUtc_System_Object_">IServerContext.AsDateTimeUtc(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.DateTime</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDecimal_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDecimal(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L271">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsDecimal_" data-uid="Innovator.Client.ServerContext.AsDecimal*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsDecimal_System_Object_" data-uid="Innovator.Client.ServerContext.AsDecimal(System.Object)">AsDecimal(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Decimal</span> based on
+the locale and time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public decimal ? AsDecimal(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Decimal</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.Decimal</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDecimal_System_Object_">IServerContext.AsDecimal(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Decimal</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDouble_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDouble(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L291">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsDouble_" data-uid="Innovator.Client.ServerContext.AsDouble*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsDouble_System_Object_" data-uid="Innovator.Client.ServerContext.AsDouble(System.Object)">AsDouble(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Double</span> based on
+the locale and time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public double ? AsDouble(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Double</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.Double</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDouble_System_Object_">IServerContext.AsDouble(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Double</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsInt_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsInt(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L311">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsInt_" data-uid="Innovator.Client.ServerContext.AsInt*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsInt_System_Object_" data-uid="Innovator.Client.ServerContext.AsInt(System.Object)">AsInt(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Int32</span> based on
+the locale and time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int ? AsInt(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.Int32</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsInt_System_Object_">IServerContext.AsInt(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int32</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsLong_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsLong(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L331">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_AsLong_" data-uid="Innovator.Client.ServerContext.AsLong*"></a>
+  <h4 id="Innovator_Client_ServerContext_AsLong_System_Object_" data-uid="Innovator.Client.ServerContext.AsLong(System.Object)">AsLong(Object)</h4>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Int64</span> based on
+the locale and time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long ? AsLong(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
+        <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
+A <span class="xref">System.Int64</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+Otherwise, an exception is thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsLong_System_Object_">IServerContext.AsLong(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int64</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_Format_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.Format(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L349">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_Format_" data-uid="Innovator.Client.ServerContext.Format*"></a>
+  <h4 id="Innovator_Client_ServerContext_Format_System_Object_" data-uid="Innovator.Client.ServerContext.Format(System.Object)">Format(Object)</h4>
+  <div class="markdown level1 summary"><p>Serializes the value to a string.  Dates are converted to the
+corporate time zone</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Format(object value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The value to serialize.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>A string representing the value</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_Format_System_Object_">IServerContext.Format(Object)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_Format_System_String_System_Object_System_IFormatProvider_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.Format(System.String%2CSystem.Object%2CSystem.IFormatProvider)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L503">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_Format_" data-uid="Innovator.Client.ServerContext.Format*"></a>
+  <h4 id="Innovator_Client_ServerContext_Format_System_String_System_Object_System_IFormatProvider_" data-uid="Innovator.Client.ServerContext.Format(System.String,System.Object,System.IFormatProvider)">Format(String, Object, IFormatProvider)</h4>
+  <div class="markdown level1 summary"><p>Converts the value of a specified object to an equivalent string representation using specified format and culture-specific formatting information.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Format(string format, object arg, IFormatProvider formatProvider)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">format</span></td>
+        <td><p>A format string containing formatting specifications.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">arg</span></td>
+        <td><p>An object to format.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IFormatProvider</span></td>
+        <td><span class="parametername">formatProvider</span></td>
+        <td><p>An object that supplies format information about the current instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The string representation of the value of <code data-dev-comment-type="paramref" class="paramref">arg</code>, formatted as specified by <code data-dev-comment-type="paramref" class="paramref">format</code> and <code data-dev-comment-type="paramref" class="paramref">formatProvider</code>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.ICustomFormatter.Format(System.String, System.Object, System.IFormatProvider)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_GetFormat_System_Type_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.GetFormat(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L486">View Source</a>
+  </span>
+  <a id="Innovator_Client_ServerContext_GetFormat_" data-uid="Innovator.Client.ServerContext.GetFormat*"></a>
+  <h4 id="Innovator_Client_ServerContext_GetFormat_System_Type_" data-uid="Innovator.Client.ServerContext.GetFormat(System.Type)">GetFormat(Type)</h4>
+  <div class="markdown level1 summary"><p>Returns an object that provides formatting services for the specified type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public object GetFormat(Type formatType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Type</span></td>
+        <td><span class="parametername">formatType</span></td>
+        <td><p>An object that specifies the type of format object to return.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><p>An instance of the object specified by <code data-dev-comment-type="paramref" class="paramref">formatType</code>, if the <span class="xref">System.IFormatProvider</span> implementation can supply that type of object; otherwise, null.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IFormatProvider.GetFormat(System.Type)</span></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Now_Innovator_Client_IServerContext_">ItemExtensions.Now(IServerContext)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L21" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

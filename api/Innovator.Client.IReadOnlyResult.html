@@ -1,0 +1,466 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IReadOnlyResult
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IReadOnlyResult
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.IReadOnlyResult">
+  
+  
+  <h1 id="Innovator_Client_IReadOnlyResult" data-uid="Innovator.Client.IReadOnlyResult" class="text-break">Interface IReadOnlyResult
+  </h1>
+  <div class="markdown level0 summary"><p>Represents a read-only result of an Aras query that can either be a string, an exception, or zero or more items</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_IReadOnlyResult_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IReadOnlyResult : IAmlNode</code></pre>
+  </div>
+  <h5 id="Innovator_Client_IReadOnlyResult_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>The result of an Aras query might take one of the following forms:
+<table><tbody><tr><td>Single Item</td><td>To access the item, use the <a class="xref" href="Innovator.Client.IReadOnlyResult.html#Innovator_Client_IReadOnlyResult_AssertItem_System_String_">AssertItem(String)</a> method</td></tr><tr><td>Item Collection</td><td>To access the items, use the <a class="xref" href="Innovator.Client.IReadOnlyResult.html#Innovator_Client_IReadOnlyResult_Items">Items()</a> method</td></tr><tr><td>String Result</td><td>To access the string, use the <a class="xref" href="Innovator.Client.IReadOnlyResult.html#Innovator_Client_IReadOnlyResult_Value">Value</a> property</td></tr><tr><td>Error</td><td>To access the error, use the <a class="xref" href="Innovator.Client.IReadOnlyResult.html#Innovator_Client_IReadOnlyResult_Exception">Exception</a> property.  The other methods/properties will raise this exception if accessed.</td></tr></tbody></table></p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_Exception.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.Exception%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L85">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_Exception_" data-uid="Innovator.Client.IReadOnlyResult.Exception*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_Exception" data-uid="Innovator.Client.IReadOnlyResult.Exception">Exception</h4>
+  <div class="markdown level1 summary"><p>Return an exception (if there is one), otherwise, return <code>null</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">ServerException Exception { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_Message.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.Message%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L91">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_Message_" data-uid="Innovator.Client.IReadOnlyResult.Message*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_Message" data-uid="Innovator.Client.IReadOnlyResult.Message">Message</h4>
+  <div class="markdown level1 summary"><p>Get messages (such as permissions warnings) from the database</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IReadOnlyElement Message { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_Value.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.Value%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L93">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_Value_" data-uid="Innovator.Client.IReadOnlyResult.Value*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_Value" data-uid="Innovator.Client.IReadOnlyResult.Value">Value</h4>
+  <div class="markdown level1 summary"><p>Return the string value of the result</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">string Value { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_AssertItem_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.AssertItem(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L75">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_AssertItem_" data-uid="Innovator.Client.IReadOnlyResult.AssertItem*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_AssertItem_System_String_" data-uid="Innovator.Client.IReadOnlyResult.AssertItem(System.String)">AssertItem(String)</h4>
+  <div class="markdown level1 summary"><p>Return a single item.  If that is not possible, throw an appropriate
+exception (e.g. the exception returned by the server where possible)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IReadOnlyItem AssertItem(string type = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">type</span></td>
+        <td><p>If specified, throw an exception if the item doesn&apos;t have the specified type</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></td>
+        <td><p>A single <a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If the result does not represent exactly one item, either the exception returned from 
+the server or a new exception will be thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_AssertItems.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.AssertItems%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L79">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_AssertItems_" data-uid="Innovator.Client.IReadOnlyResult.AssertItems*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_AssertItems" data-uid="Innovator.Client.IReadOnlyResult.AssertItems">AssertItems()</h4>
+  <div class="markdown level1 summary"><p>Return an enumerable of items.  Throw an exception for any error including &apos;No items found&apos;</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerable&lt;IReadOnlyItem&gt; AssertItems()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If the result does not have at least one item, either the exception returned from 
+the server or a new exception will be thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_AssertNoError.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.AssertNoError%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L83">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_AssertNoError_" data-uid="Innovator.Client.IReadOnlyResult.AssertNoError*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_AssertNoError" data-uid="Innovator.Client.IReadOnlyResult.AssertNoError">AssertNoError()</h4>
+  <div class="markdown level1 summary"><p>Do nothing other than throw an exception if there is an error other than &apos;No Items Found&apos;</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IReadOnlyResult AssertNoError()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IReadOnlyResult.html">IReadOnlyResult</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If the exception returned from the server is anything other than
+<a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a>, the exception will be thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult_Items.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult.Items%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L89">View Source</a>
+  </span>
+  <a id="Innovator_Client_IReadOnlyResult_Items_" data-uid="Innovator.Client.IReadOnlyResult.Items*"></a>
+  <h4 id="Innovator_Client_IReadOnlyResult_Items" data-uid="Innovator.Client.IReadOnlyResult.Items">Items()</h4>
+  <div class="markdown level1 summary"><p>Return an enumerable of items.  Throw an exception if there is an error other than &apos;No Items Found&apos;</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerable&lt;IReadOnlyItem&gt; Items()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If the exception returned from the server is anything other than
+<a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a>, the exception will be thrown</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_AssertItem__1_Innovator_Client_IReadOnlyResult_">ItemExtensions.AssertItem&lt;T&gt;(IReadOnlyResult)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ItemMax_Innovator_Client_IReadOnlyResult_">ItemExtensions.ItemMax(IReadOnlyResult)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ItemsWithNoAccessCount_Innovator_Client_IReadOnlyResult_">ItemExtensions.ItemsWithNoAccessCount(IReadOnlyResult)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToXml_Innovator_Client_IAmlNode_">ItemExtensions.ToXml(IAmlNode)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_CreateReader_Innovator_Client_IReadOnlyResult_">ItemExtensions.CreateReader(IReadOnlyResult)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyResult.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyResult%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IResult.cs/#L67" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

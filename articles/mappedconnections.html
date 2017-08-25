@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mapped Connections </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Mapped Connections ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="mapped-connections">Mapped Connections</h1>
+
+<p>Mapped connections allow Aras administrators to configure how <code>Innovator.Client</code> connects to a given
+Aras installation.  In particular, it currently allows for</p>
+<ul>
+<li>Connections sent to a single URL can be redirected to other application servers based on the 
+database that is selected.</li>
+<li>An authentication service can be specified. If provided, credentials will first be sent to that 
+service.  The service will then respond with the credentials that the client will use to log in to 
+Innovator.</li>
+</ul>
+<h1 id="configuring">Configuring</h1>
+<p>No changes have to be made to client-side code to start using mapped connections.  Rather, the 
+@Innovator.Client.Factory.GetConnection code will look for a mapping file by default.  Mapping files 
+should be deployed at <code>http://{web_server_location}/Server/Mapping.xml</code>.  A sample mapping file 
+might look like</p>
+<pre><code class="lang-xml">&lt;Servers&gt;
+  &lt;Server url=&quot;https://prod_app_server.company.com/address&quot; auth=&quot;md5&quot;&gt;
+    &lt;endpoint action=&quot;Auth&quot;&gt;
+      &lt;uri&gt;https://authentication_service.company.com/address&lt;/uri&gt;
+    &lt;/endpoint&gt;
+    &lt;DB id=&quot;PROD&quot; /&gt;
+  &lt;/Server&gt;
+  &lt;Server url=&quot;https://dev_app_server.company.com/address&quot; auth=&quot;md5&quot;&gt;
+    &lt;endpoint action=&quot;Auth&quot;&gt;
+      &lt;uri&gt;https://authentication_service.company.com/address&lt;/uri&gt;
+    &lt;/endpoint&gt;
+    &lt;DB id=&quot;QA&quot; /&gt;
+    &lt;DB id=&quot;DEV&quot; /&gt;
+  &lt;/Server&gt;
+&lt;/Servers&gt;
+</code></pre><div class="NOTE"><h5>Note</h5><p>The <code>auth</code> attribute of <code>md5</code> simply indicates that the server is a standard Aras Innovator server 
+which leverages the MD5 hash of the password as its authentication mechanism</p>
+</div>
+<p>For this file, the Innovator.Client code will present the databases <code>PROD</code>, <code>QA</code>, and <code>DEV</code> to the 
+user.  Any connection to <code>PROD</code> will be sent to the URL <code>https://authentication_service.company.com/address</code> 
+while connections to <code>QA</code> or <code>DEV</code> will go to <code>https://dev_app_server.company.com/address</code>.  In 
+addition, all login requests will first be directed to <code>https://authentication_service.company.com/address</code></p>
+<h1 id="authentication-service">Authentication Service</h1>
+<p>If an authentication service is declared, it should be configured as follows:</p>
+<ul>
+<li>Credentials are sent to the authentication service using standard HTTP transport protocols.<br>Therefore, your service should respond to unauthenticated requests with a standard HTTP 401 
+authentication challenge looking for either Basic, Digest, or Windows (i.e. NTML/Kerberos) formatted 
+credentials.  Additionally, the database that the user is attempting to connect to will be provided 
+as a query string parameter.  The authentication service should respond to an authenticated request
+with XML that indicates the user name and password that the client should use when authenticating
+to Aras Innovator directly, as indicated below.  </li>
+</ul>
+<pre><code class="lang-xml">&lt;Result&gt;
+  &lt;user&gt;{username that will be sent to innovator}&lt;/user&gt;
+  &lt;password&gt;{username that will be sent to innovator}&lt;/password&gt;
+  &lt;hash&gt;{whether the password should be hashed 
+         before sending it to Aras; either &#39;true&#39; or &#39;false&#39;}&lt;/hash&gt;
+&lt;/Result&gt;
+</code></pre><p>Therefore, a sample exchange might consist of:</p>
+<p><strong>Client</strong></p>
+<pre><code>GET https://authentication_service.company.com/address?db=DEV
+</code></pre><p><strong>Server</strong></p>
+<pre><code>HTTP/1.1 401 Access Denied
+WWW-Authenticate: Basic realm=&quot;company.com&quot;
+Content-Length: 0
+</code></pre><p><strong>Client</strong></p>
+<pre><code>GET https://authentication_service.company.com/address?db=DEV
+Authorization: Basic bmFtZTpwYXNzd29yZA==
+</code></pre><p><strong>Server</strong></p>
+<pre><code class="lang-xml">&lt;Result&gt;
+  &lt;user&gt;name&lt;/user&gt;
+  &lt;password&gt;password&lt;/password&gt;
+  &lt;hash&gt;true&lt;/hash&gt;
+&lt;/Result&gt;
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/articles/mappedconnections.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

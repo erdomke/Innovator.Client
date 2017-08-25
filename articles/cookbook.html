@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Innovator.Client Cookbook </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Innovator.Client Cookbook ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="innovatorclient-cookbook">Innovator.Client Cookbook</h1>
+
+<p>Following many of the same examples as the <a href="http://www.aras.com/support/documentation/11.0%20SP5/Other%20Documentation/Aras%20Innovator%2011.0%20-%20Programmers%20Guide.pdf">Aras Programmers Guide</a>,
+this document describes how to perform a number of different actions in Aras using the 
+Innovator.Client library.</p>
+<h2 id="connecting-to-innovator">Connecting to Innovator</h2>
+<p>Connections are created from a factory which determine the best connection object to create for a 
+given URL.  Once the connection is established, you can login using one of the credential patterns
+ of <code>AnonymousCredentials</code>, <code>ExplicitCredentials</code>, <code>TokenCredentials</code>, or <code>WindowsCredentials</code>.<br><code>ExplicitCredentials</code> is universally supported while the other types currently have limited 
+support.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">using Innovator.Client;
+
+var conn = Factory.GetConnection(&quot;URL&quot;, &quot;USER_AGENT&quot;);
+conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, &quot;PASSWORD&quot;));
+</code></pre><h2 id="create-an-item-object">Create an Item Object</h2>
+<p>All Aras objects (items, results, exception, etc.) are created through an <code>ElementFactory</code>.  This 
+class handles the serialization of base data types relative to a particular connection (e.g. 
+handling timezone conversions for <code>DateTime</code> values).  An <code>ElementFactory</code> can be obtained for a 
+connection via the <code>AmlContext</code> property of the <code>IConnection</code> interface.  Alternatively, if you 
+want to manipulate AML outside of the context of a server connection, you can assume the local 
+timezone and use the local factory by calling <code>ElementFactory.Local</code>.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var aml = conn.AmlContext;
+IItem myItem = aml.Item(aml.Type(myType), aml.Action(myAction));
+IResult myResult = aml.Result(resultText);
+ServerException = aml.ServerException(errorMessage); 
+</code></pre><p>OR</p>
+<pre><code class="lang-cs">var aml = ElementFactory.Local;
+IItem myItem = aml.Item(aml.Type(myType), aml.Action(myAction));
+IResult myResult = aml.Result(resultText);
+ServerException = aml.ServerException(errorMessage); 
+</code></pre><h2 id="query-for-an-item">Query for an Item</h2>
+<p>There are a few ways to get an <code>IReadOnlyItem</code> when you know its id and type, the simplest being 
+the <code>IConnection.ItemById()</code> extension method. However, overuse of this method can lead to poor 
+performance as it select more data than you likely need.  Therefore, If you need to be granular 
+about your request then building the AML is required. This provides the ability to include 
+controls to limit the results and define the structure to be returned for the Items found.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var results = conn.Apply(@&quot;&lt;Item type=&#39;@0&#39; action=&#39;@1&#39; id=&#39;@2&#39; /&gt;&quot;, myType, myAction, myId);
+var item = results.AssertItem();
+// NOTE: An exception will be thrown if there is not a single item in the result
+</code></pre><p>OR</p>
+<pre><code class="lang-cs">var aml = conn.AmlContext;
+IItem qryItem = aml.Item(aml.Type(myType), aml.Action(myAction), aml.Id(myId));
+var results = qryItem.Apply(conn);
+var item = results.AssertItem();
+// NOTE: An exception will be thrown if there is not a single item in the result
+</code></pre><p>OR </p>
+<pre><code class="lang-cs">var item = conn.ItemById(myType, myId); 
+// NOTE: An exception will be thrown if there is not a single item in the result
+</code></pre><h2 id="query-and-iterate-over-a-set-of-items">Query and iterate over a set of items</h2>
+<p>There is no difference in setting up a query for a single Item or for many. Only the criteria 
+define the set size returned. In this recipe you apply an AML statement and iterate over the Items
+ returned producing a HTML <code>&lt;TABLE&gt;</code> fragment.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">// Configure and execute the query using one of the two methods below:
+var results = conn.Apply(@&quot;&lt;Item type=&#39;Part&#39; action=&#39;get&#39; select=&#39;item_number,description,cost&#39;&gt;
+                              &lt;cost condition=&#39;gt&#39;&gt;100&lt;/cost&gt;
+                           &lt;/Item&gt;&quot;);
+
+// Build the table
+var content = new System.Text.StringBuilder(&quot;&lt;table&gt;&quot;);
+foreach (var item in results.Items())
+{
+  content.Append(&quot;&lt;tr&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(item.Property(&quot;item_number&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(item.Property(&quot;description&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(item.Property(&quot;cost&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;/tr&gt;&quot;);
+}
+content.Append(&quot;&lt;/table&gt;&quot;);
+
+return aml.Result(content.ToString());
+</code></pre><h2 id="query-for-an-item-and-return-its-configuration">Query for an Item and return its configuration</h2>
+<p>To query for an Item and retrieve its structure you build the query as the structure you want 
+returned. Use the methods to add the relationships you want and build the structure in the Item. 
+The server returns the structure that follows the request structure. </p>
+<p>This recipe illustrates several related concepts together, which are how to get a set of Items 
+from an Item and how to iterate over the set, plus how to get the related Item from the 
+relationship Item.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">// Configure and execute the query using one of the two methods below:
+var results = conn.Apply(@&quot;&lt;Item type=&#39;Part&#39; action=&#39;get&#39; select=&#39;item_number,description,cost&#39; id=&#39;@0&#39;&gt;
+  &lt;Relationships&gt;
+    &lt;Item type=&#39;Part BOM&#39; action=&#39;get&#39; select=&#39;quantity,related_id(item_number,description,cost)&#39; /&gt;
+  &lt;/Relationships&gt;
+&lt;/Item&gt;&quot;, myId);
+
+// NOTE: No need to check for an error.  If there is not a single item in the result, an useful 
+// exception will be thrown which will tell you the error returned by the server (if there was 
+// one). However, if you are exception-adverse, you can always check to see if the
+// results.Exception property is null
+var bomItems = results.AssertItem().Relationships();
+
+// Create the results content
+var content = new System.Text.StringBuilder(@&quot;&lt;table border=&#39;1&#39;&gt; 
+  &lt;tr&gt;
+    &lt;td&gt;Part Number&lt;/td&gt;
+    &lt;td&gt;Description&lt;/td&gt;
+    &lt;td&gt;Cost&lt;/td&gt;
+    &lt;td&gt;Quantity&lt;/td&gt;
+  &lt;/tr&gt;&quot;);
+
+// Iterate over the BOM Items
+foreach (var bom in bomItems)
+{
+  var bomPart = bom.RelatedItem();
+  content.Append(&quot;&lt;tr&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(bomPart.Property(&quot;item_number&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(bomPart.Property(&quot;description&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(bomPart.Property(&quot;cost&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(bom.Property(&quot;quantity&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;/tr&gt;&quot;);
+}
+content.Append(&quot;&lt;/table&gt;&quot;);
+
+return aml.Result(content.ToString());
+</code></pre><h2 id="apply-a-generic-method">Apply a Generic Method</h2>
+<p>Generic methods can be applied by observing that all you need to do is set the <code>action</code> attribute 
+to the name of your method.  In this example, assume a server-side method named &quot;Reverse String&quot; 
+exists, and that it returns a result item containing the reversed contents of the <code>&lt;string&gt;</code> tag.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var results = conn.Apply(@&quot;&lt;Item type=&#39;Method&#39; action=&#39;Reverse String&#39;&gt;
+                             &lt;string&gt;abc&lt;/string&gt;
+                           &lt;/Item&gt;&quot;);
+return aml.Result(results.Value);
+</code></pre><h2 id="need-for-speed-applysql">Need for Speed: ApplySQL</h2>
+<p>Use the <code>IConnection.ApplySql()</code> extension method to submit SQL direct to the database. The format
+ of the XML returned by the <code>IConnection.ApplySql()</code> method when the SQL statement is a <code>select</code> 
+statement is:</p>
+<pre><code class="lang-xml">&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV=...&gt;
+  &lt;SOAP-ENV:Body&gt;
+    &lt;ApplySQLResponse&gt;
+      &lt;Item&gt;
+        &lt;A&gt;aval&lt;/A&gt;
+        &lt;B&gt;bval&lt;/B&gt;
+        �
+      &lt;/Item&gt;
+      &lt;Item&gt;
+      �
+      &lt;/Item&gt;
+      �
+    &lt;/ApplySQLResponse&gt;
+  &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;
+</code></pre><p>In case executed SQL statement doesn�t return a record set (e.g. update [table] �), the returned 
+AML either contains a <code>&lt;Fault&gt;</code> if SQL statement failed or looks like:</p>
+<pre><code class="lang-xml">&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV=...&gt;
+&lt;SOAP-ENV:Body&gt;
+ &lt;ApplySQLResponse&gt;
+ OK
+ &lt;/ApplySQLResponse&gt;
+&lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;
+</code></pre><p>This recipe returns the XML from the <code>ApplySQL()</code> method and forms HTML for a table to display the
+ data.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var results = conn.ApplySQL(@&quot;select login_name,first_name,last_name,email 
+  from [user] 
+  order by last_name,first_name&quot;);
+var content = new System.Text.StringBuilder(@&quot;&lt;style type=&#39;text/css&#39;&gt;
+  table {background:##000000;}
+  th {font:bold 10pt Verdana; background:##0000FF; color:##FFFFFF;}
+  td {font:normal 10pt Verdana; background:##FFFFFF;}
+  caption {font:bold 14pt Verdana; text-align:left;}
+  &lt;/style&gt;
+  &lt;table id=&#39;tbl&#39; border=&#39;0&#39; cellspacing=&#39;1&#39; cellpadding=&#39;2&#39; datasrc=&#39;##itemData&#39;&gt;
+  &lt;caption&gt;User Directory&lt;/caption&gt;
+  &lt;thead&gt;
+  &lt;tr&gt;
+  &lt;th&gt;Login Name&lt;/th&gt;
+  &lt;th&gt;First Name&lt;/th&gt;
+  &lt;th&gt;Last Name&lt;/th&gt;
+  &lt;th&gt;EMail&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;&quot;);
+
+foreach (var user in results.Items())
+{
+  content.Append(&quot;&lt;tr&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(user.Property(&quot;login_name&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(user.Property(&quot;first_name&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(user.Property(&quot;last_name&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;td&gt;&quot;).Append(user.Property(&quot;email&quot;).Value).Append(&quot;&lt;/td&gt;&quot;);
+  content.Append(&quot;&lt;/tr&gt;&quot;);
+}
+content.Append(&quot;&lt;/tbody&gt;&quot;);
+content.Append(&quot;&lt;/table&gt;&quot;);
+
+return conn.AmlContext.Result(content.ToString());
+</code></pre><h2 id="want-to-vault-a-file">Want to Vault a File</h2>
+<p>In order to have the AML submitted to the Vault server, you cannot use a simple <code>Command</code> object 
+(which was implicitly created from strings in all of the previous examples).  Rather, you need to 
+create an <code>UploadCommand</code> as shown in the code below.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var upload = conn.CreateUploadCommand();
+var fileAml = upload.AddFile(@&quot;C:\My Document.doc&quot;);
+// Note, the ! after the @0! tells the library to inject the raw XML without encoding it.
+upload.WithAml(@&quot;&lt;Item type=&#39;Document&#39; action=&#39;add&#39;&gt;
+                   &lt;item_number&gt;123&lt;/item_number&gt;
+                   &lt;Relationships&gt;
+                     &lt;Item type=&#39;Document File&#39; action=&#39;add&#39;&gt;
+                       &lt;related_id&gt;@0!&lt;/related_id&gt;
+                     &lt;/Item&gt;
+                   &lt;/Relationships&gt;
+                &lt;/Item&gt;&quot;, fileAml);
+conn.Apply(upload).AssertNoError();
+
+// You can also upload a file from a stream if it does not exist on disk:
+var memStream = new System.IO.MemoryStream(Encoding.UTF8.GetBytes(&quot;FILE_CONTENT&quot;));
+var upload = conn.CreateUploadCommand();
+var fileAml = upload.AddFile(@&quot;C:\My Document.doc&quot;, memStream);
+upload.WithAml(@&quot;&lt;Item type=&#39;Document&#39; action=&#39;add&#39;&gt;
+                   &lt;item_number&gt;123&lt;/item_number&gt;
+                   &lt;Relationships&gt;
+                     &lt;Item type=&#39;Document File&#39; action=&#39;add&#39;&gt;
+                       &lt;related_id&gt;@0!&lt;/related_id&gt;
+                     &lt;/Item&gt;
+                   &lt;/Relationships&gt;
+                &lt;/Item&gt;&quot;, fileAml);
+conn.Apply(upload).AssertNoError();
+</code></pre><h2 id="download-a-file">Download a file</h2>
+<p>To download a file, use the custom SOAP action of <code>DownloadFile</code>.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var stream = conn.Process(new Command(&quot;&lt;Item type=&#39;File&#39; action=&#39;get&#39; id=&#39;@0&#39; /&gt;&quot;, fileId)
+    .WithAction(CommandAction.DownloadFile));
+</code></pre><h2 id="want-to-get-an-existing-vaulted-file-and-save-it-with-a-new-document">Want to get an existing Vaulted File and save it with a new Document</h2>
+<p>This is similar to the last recipe, but uses the <code>ItemByKeyedName()</code> extension method to get an 
+existing File Item and <code>copyAsNew</code> action to create it as a new File Item.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">// Create the Document item
+var aml = conn.AmlContext;
+var docItem = aml.Item(aml.Type(&quot;Document&quot;), aml.Action(&quot;add&quot;), aml.Property(&quot;item_number&quot;, &quot;456&quot;));
+
+// Get the File Item.  An except will be thrown if necessary.
+var fileItem = conn.ItemByKeyedName(&quot;File&quot;, &quot;My Document.doc&quot;).AssertItem();
+
+// Duplicate File Item as files should be 1 to 1
+// You need to clone the item to get an editable one
+var fileCopyQuery = fileItem.Clone();
+fileCopyQuery.Action().Set(&quot;copyAsNew&quot;);
+// Create the Relationship 
+docItem.Add(aml.Relationships(
+  aml.Item(aml.Type(&quot;Document File&quot;), aml.Action(&quot;add&quot;), fileCopyQuery)
+));
+
+var results = docItem.Apply(conn);
+// Act on the results
+</code></pre><h2 id="need-to-reject-an-item-promote">Need to reject an Item Promote</h2>
+<p>Use the Pre Server Method on the Life Cycle Transition to call a server side Method to validate the 
+Item before it is promoted and if invalid rejects the Promote by returning an Error Item.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var item = arg.Item;
+if (item.Property(&quot;cost&quot;).AsDouble(0.0) &gt; 500) 
+{
+  throw arg.Conn.AmlContext.ServerException(&quot;Error promoting: Item costs more than $500.00&quot;);
+}
+return item;
+</code></pre><h2 id="how-to-handle-multilingual-properties">How to handle multilingual properties</h2>
+<p>** Not fully supported yet: In progress **</p>
+<h2 id="how-to-handle-date-properties">How to handle date properties</h2>
+<p>Use the library&#39;s ability to convert value for you.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">// Get yesterday&#39;s date
+var myDate = DateTime.Now.AddDays(-1);
+
+// Find all methods edited in the past 24 hours
+var results = conn.Apply(@&quot;&lt;Item type=&#39;Method&#39; action=&#39;get&#39; select=&#39;name&#39;&gt;
+                             &lt;modified_on condition=&#39;gt&#39;&gt;@0&lt;/modified_on&gt;
+                           &lt;/Item&gt;&quot;, myDate);
+
+// loop through the returned methods and return the list
+var methodList = new System.Text.StringBuilder();
+foreach (var method in results.Items())
+{
+  // Yes, this if statement isn&#39;t necessary, but it does demonstrate
+  // use of the code
+  if (method.ModifiedOn().AsDateTime(DateTime.MinValue) &gt; myDate)
+  {
+     methodList.Append(method.Property(&quot;name&quot;).Value).Append(&quot;, &quot;);
+  }
+}
+</code></pre><h2 id="execute-aml-asynchronously">Execute AML Asynchronously</h2>
+<p>In order to support .Net 3.5 without any external dependencies and to better match JQuery, the 
+library implements a Promise API for implementing asynchronous calls.  However, for better 
+compatibility with other async code, the .Net library also supports converting promises to Tasks. </p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">// .Net 3.5
+var promise = conn.ApplyAsync(&quot;MY_QUERY&quot;, true, false)
+  .Done(result =&gt; {})
+  .Fail(ex =&gt; {});
+
+// .Net 4
+var result = await conn.ApplyAsync(&quot;MY_QUERY&quot;, true, false);
+</code></pre><h2 id="avoiding-nullreferenceexceptions">Avoiding NullReferenceExceptions</h2>
+<p>When traversing a long tree, it nice not to have to deal with null reference exceptions.<br>Therefore, the library implements the null-object pattern. Simply check the Exists property to 
+determine if a retrieved property actually exists.</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var firstNameProp = part.CreatedById().AsItem().Property(&quot;first_name&quot;);
+if (!firstNameProp.Exists)
+{
+    // Get the first_name by other means
+}
+</code></pre><h2 id="modifying-the-http-headers">Modifying the HTTP Headers</h2>
+<p>You have control over the HTTP headers sent with each request to the server.  To modify particular
+ headers, follow a pattern similar to</p>
+<p><strong>C#</strong></p>
+<pre><code class="lang-cs">var conn = Factory.GetConnection(&quot;URL&quot;, &quot;USER_AGENT&quot;);
+conn.DefaultSettings(r =&gt; r.SetHeader(&quot;X-CUSTOM-HEADER&quot;, &quot;MY_VALUE&quot;));
+conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, &quot;PASSWORD&quot;));
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/articles/cookbook.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

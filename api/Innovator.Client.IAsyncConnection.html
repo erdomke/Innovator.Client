@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface IAsyncConnection
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface IAsyncConnection
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.IAsyncConnection">
+  
+  
+  <h1 id="Innovator_Client_IAsyncConnection" data-uid="Innovator.Client.IAsyncConnection" class="text-break">Interface IAsyncConnection
+  </h1>
+  <div class="markdown level0 summary"><p>Interface for a connection to an Aras Innovator instance that allows asynchronous calls</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_AmlContext">IConnection.AmlContext</a>
+    </div>
+    <div>
+      <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_Database">IConnection.Database</a>
+    </div>
+    <div>
+      <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_UserId">IConnection.UserId</a>
+    </div>
+    <div>
+      <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_Process_Innovator_Client_Command_">IConnection.Process(Command)</a>
+    </div>
+    <div>
+      <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_CreateUploadCommand">IConnection.CreateUploadCommand()</a>
+    </div>
+    <div>
+      <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_MapClientUrl_System_String_">IConnection.MapClientUrl(String)</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_IAsyncConnection_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public interface IAsyncConnection : IConnection</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IAsyncConnection_Process_Innovator_Client_Command_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.IAsyncConnection.Process(Innovator.Client.Command%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IAsyncConnection.cs/#L19">View Source</a>
+  </span>
+  <a id="Innovator_Client_IAsyncConnection_Process_" data-uid="Innovator.Client.IAsyncConnection.Process*"></a>
+  <h4 id="Innovator_Client_IAsyncConnection_Process_Innovator_Client_Command_System_Boolean_" data-uid="Innovator.Client.IAsyncConnection.Process(Innovator.Client.Command,System.Boolean)">Process(Command, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Calls a SOAP action asynchronously</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IPromise&lt;Stream&gt; Process(Command request, bool async)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
+        <td><span class="parametername">request</span></td>
+        <td><p>Request AML and possibly files <a class="xref" href="Innovator.Client.UploadCommand.html">UploadCommand</a></p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">async</span></td>
+        <td><p>Whether to perform this action asynchronously</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.IO.Stream</span>&gt;</td>
+        <td><p>A promise to return an XML SOAP response as a string</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Apply_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">ConnectionExtensions.Apply(IConnection, Command, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_System_Boolean_System_Object___">ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, Boolean, Boolean, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_System_Object___">ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">ConnectionExtensions.ApplySql(IConnection, Command, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_">ConnectionExtensions.ApplySql(IAsyncConnection, Command, Boolean)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_">ConnectionExtensions.ApplySql(IAsyncConnection, Command, CancellationToken)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemById(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__">ConnectionExtensions.ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByKeyedName_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemByKeyedName(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByQuery_Innovator_Client_IConnection_Innovator_Client_Command_">ConnectionExtensions.ItemByQuery(IConnection, Command)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByQuery_Innovator_Client_IConnection_Innovator_Client_Command_System_Boolean_">ConnectionExtensions.ItemByQuery(IConnection, Command, Boolean)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Lock_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.Lock(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_NextSequence_Innovator_Client_IConnection_System_String_">ConnectionExtensions.NextSequence(IConnection, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Promote_Innovator_Client_IConnection_System_String_System_String_System_String_System_String_">ConnectionExtensions.Promote(IConnection, String, String, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Unlock_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.Unlock(IConnection, String, String)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IAsyncConnection.md&amp;value=---%0Auid%3A%20Innovator.Client.IAsyncConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IAsyncConnection.cs/#L11" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

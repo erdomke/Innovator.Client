@@ -1,0 +1,1170 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class ArasHttpConnection
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class ArasHttpConnection
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.Connection.ArasHttpConnection">
+  
+  
+  <h1 id="Innovator_Client_Connection_ArasHttpConnection" data-uid="Innovator.Client.Connection.ArasHttpConnection" class="text-break">Class ArasHttpConnection
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">ArasHttpConnection</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.Connection.html">Innovator.Client.Connection</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_Connection_ArasHttpConnection_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class ArasHttpConnection : IRemoteConnection, IDisposable, IArasConnection, IAsyncConnection, IConnection</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection__ctor_System_Net_Http_HttpClient_System_String_Innovator_Client_IItemFactory_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.%23ctor(System.Net.Http.HttpClient%2CSystem.String%2CInnovator.Client.IItemFactory)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L75">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection__ctor_" data-uid="Innovator.Client.Connection.ArasHttpConnection.#ctor*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection__ctor_System_Net_Http_HttpClient_System_String_Innovator_Client_IItemFactory_" data-uid="Innovator.Client.Connection.ArasHttpConnection.#ctor(System.Net.Http.HttpClient,System.String,Innovator.Client.IItemFactory)">ArasHttpConnection(HttpClient, String, IItemFactory)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ArasHttpConnection(HttpClient service, string innovatorServerUrl, IItemFactory itemFactory)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Net.Http.HttpClient</span></td>
+        <td><span class="parametername">service</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">innovatorServerUrl</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IItemFactory.html">IItemFactory</a></td>
+        <td><span class="parametername">itemFactory</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_AmlContext.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.AmlContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L45">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_AmlContext_" data-uid="Innovator.Client.Connection.ArasHttpConnection.AmlContext*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_AmlContext" data-uid="Innovator.Client.Connection.ArasHttpConnection.AmlContext">AmlContext</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ElementFactory AmlContext { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_AmlContext">IConnection.AmlContext</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Compression.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Compression%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L49">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Compression_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Compression*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Compression" data-uid="Innovator.Client.Connection.ArasHttpConnection.Compression">Compression</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public CompressionType Compression { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.CompressionType.html">CompressionType</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.Connection.IArasConnection.html#Innovator_Client_Connection_IArasConnection_Compression">IArasConnection.Compression</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Database.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Database%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L54">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Database_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Database*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Database" data-uid="Innovator.Client.Connection.ArasHttpConnection.Database">Database</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Database { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_Database">IConnection.Database</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_ServerInfo.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.ServerInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L58">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_ServerInfo_" data-uid="Innovator.Client.Connection.ArasHttpConnection.ServerInfo*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_ServerInfo" data-uid="Innovator.Client.Connection.ArasHttpConnection.ServerInfo">ServerInfo</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;KeyValuePair&lt;string, string&gt;&gt; ServerInfo { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Collections.Generic.KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Url.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Url%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L62">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Url_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Url*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Url" data-uid="Innovator.Client.Connection.ArasHttpConnection.Url">Url</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Uri Url { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Uri</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_Url">IRemoteConnection.Url</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_UserId.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.UserId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L66">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_UserId_" data-uid="Innovator.Client.Connection.ArasHttpConnection.UserId*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_UserId" data-uid="Innovator.Client.Connection.ArasHttpConnection.UserId">UserId</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string UserId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_UserId">IConnection.UserId</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Version.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Version%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L70">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Version_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Version*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Version" data-uid="Innovator.Client.Connection.ArasHttpConnection.Version">Version</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int Version { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.Connection.IArasConnection.html#Innovator_Client_Connection_IArasConnection_Version">IArasConnection.Version</a></div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Clone_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Clone(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L429">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Clone_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Clone*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Clone_System_Boolean_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Clone(System.Boolean)">Clone(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IPromise&lt;IRemoteConnection&gt; Clone(bool async)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">async</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.IRemoteConnection.html">IRemoteConnection</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_Clone_System_Boolean_">IRemoteConnection.Clone(Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_CreateUploadCommand.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.CreateUploadCommand%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L142">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_CreateUploadCommand_" data-uid="Innovator.Client.Connection.ArasHttpConnection.CreateUploadCommand*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_CreateUploadCommand" data-uid="Innovator.Client.Connection.ArasHttpConnection.CreateUploadCommand">CreateUploadCommand()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public UploadCommand CreateUploadCommand()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.UploadCommand.html">UploadCommand</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_CreateUploadCommand">IConnection.CreateUploadCommand()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_DefaultSettings_System_Action_Innovator_Client_IHttpRequest__.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(System.Action%7BInnovator.Client.IHttpRequest%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L321">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_DefaultSettings_" data-uid="Innovator.Client.Connection.ArasHttpConnection.DefaultSettings*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_DefaultSettings_System_Action_Innovator_Client_IHttpRequest__" data-uid="Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(System.Action{Innovator.Client.IHttpRequest})">DefaultSettings(Action&lt;IHttpRequest&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DefaultSettings(Action&lt;IHttpRequest&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="Innovator.Client.IHttpRequest.html">IHttpRequest</a>&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_DefaultSettings_System_Action_Innovator_Client_IHttpRequest__">IRemoteConnection.DefaultSettings(Action&lt;IHttpRequest&gt;)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Dispose.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L395">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Dispose_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Dispose*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Dispose" data-uid="Innovator.Client.Connection.ArasHttpConnection.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IDisposable.Dispose()</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Equals_Innovator_Client_Connection_ArasHttpConnection_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Equals(Innovator.Client.Connection.ArasHttpConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L416">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Equals_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Equals*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Equals_Innovator_Client_Connection_ArasHttpConnection_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Equals(Innovator.Client.Connection.ArasHttpConnection)">Equals(ArasHttpConnection)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Equals(ArasHttpConnection conn)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.Connection.ArasHttpConnection.html">ArasHttpConnection</a></td>
+        <td><span class="parametername">conn</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Equals_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Equals(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L410">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Equals_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Equals*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Equals_System_Object_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Equals(System.Object)">Equals(Object)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool Equals(object obj)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">obj</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.Equals(System.Object)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_GetDatabases.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.GetDatabases%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L147">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_GetDatabases_" data-uid="Innovator.Client.Connection.ArasHttpConnection.GetDatabases*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_GetDatabases" data-uid="Innovator.Client.Connection.ArasHttpConnection.GetDatabases">GetDatabases()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IEnumerable&lt;string&gt; GetDatabases()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_GetDatabases">IRemoteConnection.GetDatabases()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_GetHashCode.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.GetHashCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L422">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_GetHashCode_" data-uid="Innovator.Client.Connection.ArasHttpConnection.GetHashCode*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_GetHashCode" data-uid="Innovator.Client.Connection.ArasHttpConnection.GetHashCode">GetHashCode()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int GetHashCode()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.GetHashCode()</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Login_Innovator_Client_ICredentials_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Login(Innovator.Client.ICredentials)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L171">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Login_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Login*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Login_Innovator_Client_ICredentials_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Login(Innovator.Client.ICredentials)">Login(ICredentials)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Login(ICredentials credentials)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ICredentials.html">ICredentials</a></td>
+        <td><span class="parametername">credentials</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_Login_Innovator_Client_ICredentials_">IRemoteConnection.Login(ICredentials)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Login_Innovator_Client_ICredentials_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Login(Innovator.Client.ICredentials%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L177">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Login_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Login*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Login_Innovator_Client_ICredentials_System_Boolean_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Login(Innovator.Client.ICredentials,System.Boolean)">Login(ICredentials, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IPromise&lt;string&gt; Login(ICredentials credentials, bool async)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ICredentials.html">ICredentials</a></td>
+        <td><span class="parametername">credentials</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">async</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_Login_Innovator_Client_ICredentials_System_Boolean_">IRemoteConnection.Login(ICredentials, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Logout_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Logout(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L302">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Logout_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Logout*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Logout_System_Boolean_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Logout(System.Boolean)">Logout(Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Logout(bool unlockOnLogout)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">unlockOnLogout</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_Logout_System_Boolean_">IRemoteConnection.Logout(Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Logout_System_Boolean_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Logout(System.Boolean%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L307">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Logout_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Logout*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Logout_System_Boolean_System_Boolean_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Logout(System.Boolean,System.Boolean)">Logout(Boolean, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Logout(bool unlockOnLogout, bool async)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">unlockOnLogout</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">async</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_Logout_System_Boolean_System_Boolean_">IRemoteConnection.Logout(Boolean, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_MapClientUrl_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.MapClientUrl(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L400">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_MapClientUrl_" data-uid="Innovator.Client.Connection.ArasHttpConnection.MapClientUrl*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_MapClientUrl_System_String_" data-uid="Innovator.Client.Connection.ArasHttpConnection.MapClientUrl(System.String)">MapClientUrl(String)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string MapClientUrl(string relativeUrl)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">relativeUrl</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_MapClientUrl_System_String_">IConnection.MapClientUrl(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Process_Innovator_Client_Command_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Process(Innovator.Client.Command)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L104">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Process_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Process*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Process_Innovator_Client_Command_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Process(Innovator.Client.Command)">Process(Command)</h4>
+  <div class="markdown level1 summary"><p>Process a command by crafting the appropriate HTTP request and returning the HTTP response stream</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Stream Process(Command request)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
+        <td><span class="parametername">request</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.Stream</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_Process_Innovator_Client_Command_">IConnection.Process(Command)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Process_Innovator_Client_Command_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Process(Innovator.Client.Command%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L122">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Process_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Process*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Process_Innovator_Client_Command_System_Boolean_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Process(Innovator.Client.Command,System.Boolean)">Process(Command, Boolean)</h4>
+  <div class="markdown level1 summary"><p>Process a command asynchronously by crafting the appropriate HTTP request and returning the HTTP response stream</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IPromise&lt;Stream&gt; Process(Command request, bool async)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
+        <td><span class="parametername">request</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">async</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.IO.Stream</span>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IAsyncConnection.html#Innovator_Client_IAsyncConnection_Process_Innovator_Client_Command_System_Boolean_">IAsyncConnection.Process(Command, Boolean)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_SetVaultStrategy_Innovator_Client_Connection_IVaultStrategy_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.SetVaultStrategy(Innovator.Client.Connection.IVaultStrategy)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L326">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_SetVaultStrategy_" data-uid="Innovator.Client.Connection.ArasHttpConnection.SetVaultStrategy*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_SetVaultStrategy_Innovator_Client_Connection_IVaultStrategy_" data-uid="Innovator.Client.Connection.ArasHttpConnection.SetVaultStrategy(Innovator.Client.Connection.IVaultStrategy)">SetVaultStrategy(IVaultStrategy)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SetVaultStrategy(IVaultStrategy strategy)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.Connection.IVaultStrategy.html">IVaultStrategy</a></td>
+        <td><span class="parametername">strategy</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_DefaultSettings.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Innovator%23Client%23Connection%23IArasConnection%23DefaultSettings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L405">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_DefaultSettings_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#DefaultSettings*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_DefaultSettings" data-uid="Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#DefaultSettings">IArasConnection.DefaultSettings</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">List&lt;Action&lt;IHttpRequest&gt;&gt; IArasConnection.DefaultSettings { get; }</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Action</span>&lt;<a class="xref" href="Innovator.Client.IHttpRequest.html">IHttpRequest</a>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.Connection.IArasConnection.html#Innovator_Client_Connection_IArasConnection_DefaultSettings">IArasConnection.DefaultSettings</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_System_Action_System_String_System_String__.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection.Innovator%23Client%23Connection%23IArasConnection%23SetDefaultHeaders(System.Action%7BSystem.String%2CSystem.String%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L386">View Source</a>
+  </span>
+  <a id="Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_" data-uid="Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders*"></a>
+  <h4 id="Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_System_Action_System_String_System_String__" data-uid="Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders(System.Action{System.String,System.String})">IArasConnection.SetDefaultHeaders(Action&lt;String, String&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void IArasConnection.SetDefaultHeaders(Action&lt;string, string&gt; writer)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.String</span>&gt;</td>
+        <td><span class="parametername">writer</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.Connection.IArasConnection.html#Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_System_Action_System_String_System_String__">IArasConnection.SetDefaultHeaders(Action&lt;String, String&gt;)</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Apply_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">ConnectionExtensions.Apply(IConnection, Command, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_System_Boolean_System_Object___">ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, Boolean, Boolean, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_System_Object___">ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">ConnectionExtensions.ApplySql(IConnection, Command, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_">ConnectionExtensions.ApplySql(IAsyncConnection, Command, Boolean)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_">ConnectionExtensions.ApplySql(IAsyncConnection, Command, CancellationToken)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemById(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__">ConnectionExtensions.ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByKeyedName_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemByKeyedName(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByQuery_Innovator_Client_IConnection_Innovator_Client_Command_">ConnectionExtensions.ItemByQuery(IConnection, Command)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByQuery_Innovator_Client_IConnection_Innovator_Client_Command_System_Boolean_">ConnectionExtensions.ItemByQuery(IConnection, Command, Boolean)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Lock_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.Lock(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_NextSequence_Innovator_Client_IConnection_System_String_">ConnectionExtensions.NextSequence(IConnection, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Promote_Innovator_Client_IConnection_System_String_System_String_System_String_System_String_">ConnectionExtensions.Promote(IConnection, String, String, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Unlock_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.Unlock(IConnection, String, String)</a>
+  </div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_ArasHttpConnection.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.ArasHttpConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ArasHttpConnection.cs/#L16" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

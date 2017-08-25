@@ -10,11 +10,11 @@
     <meta name="title" content="Innovator.Client ">
     <meta name="generator" content="docfx 2.23.1.0">
     
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="styles/docfx.vendor.css">
-    <link rel="stylesheet" href="styles/docfx.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <meta property="docfx:navrel" content="toc.html">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
     <meta property="docfx:tocrel" content="toc.html">
     
     
@@ -33,8 +33,8 @@
                 <span class="icon-bar"></span>
               </button>
               
-              <a class="navbar-brand" href="index.html">
-                <img id="logo" class="svg" src="logo.svg" alt="">
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -56,65 +56,61 @@
         </div>
       </header>
       <div role="main" class="container body-content hide-when-search">
-        <div class="article row grid">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
           <div class="col-md-10">
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="innovatorclient">Innovator.Client</h1>
 
-<p><a href="https://www.myget.org/"><img src="https://www.myget.org/BuildSource/Badge/innovator-client?identifier=cb689f79-0412-4d27-b7ca-e6be3283d4e9" alt="innovator-client MyGet Build Status"></a>
-<a href="https://www.nuget.org/packages/Innovator.Client/"><img src="https://img.shields.io/nuget/v/Innovator.Client.svg" alt="NuGet"></a></p>
-<p>Innovator.Client is a library for connecting to <a href="http://www.aras.com/">Aras Innovator</a> installations.
-It is a replacement for the IOM library provided by Aras.  It is not a drop-in replacement, but rather
-aims to provide an API which is easier to use.</p>
-<h1 id="first-show-me-the-code">First, show me the code</h1>
+<p>API documentation for the Innovator.Client library can be found here.  As a general pattern for 
+how to use the library, consider the following example:</p>
 <pre><code class="lang-csharp">/// &lt;summary&gt;
 /// Edit and release components of a given classification
 /// &lt;/summary&gt;
 /// &lt;param name=&quot;classification&quot;&gt;Classification of parts to release&lt;/param&gt;
 private void ReleaseByType(string classification)
 {
-    var conn = Factory.GetConnection(&quot;URL&quot;, &quot;USER_AGENT&quot;);
-    conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, &quot;PASSWORD&quot;));
+  var conn = Factory.GetConnection(&quot;URL&quot;, &quot;USER_AGENT&quot;);
+  conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, &quot;PASSWORD&quot;));
 
-    // Get preliminary parts which have existed for a little bit of time
-    var components = conn.Apply(@&quot;&lt;Item type=&#39;Part&#39; action=&#39;get&#39;&gt;
-                                &lt;classification&gt;@0&lt;/classification&gt;
-                                &lt;created_on condition=&#39;lt&#39;&gt;@1&lt;/created_on&gt;
-                                &lt;state&gt;Preliminary&lt;/state&gt;
-                                &lt;/Item&gt;&quot;, classification, DateTime.Now.AddMinutes(-20)).Items();
+  // Get preliminary parts which have existed for a little bit of time
+  var components = conn.Apply(@&quot;&lt;Item type=&#39;Part&#39; action=&#39;get&#39;&gt;
+    &lt;classification&gt;@0&lt;/classification&gt;
+    &lt;created_on condition=&#39;lt&#39;&gt;@1&lt;/created_on&gt;
+    &lt;state&gt;Preliminary&lt;/state&gt;
+  &lt;/Item&gt;&quot;, classification, DateTime.Now.AddMinutes(-20)).Items();
 
-    var aml = conn.AmlContext;
-    // Iterate through the components
-    foreach (var comp in components)
-    {
+  var aml = conn.AmlContext;
+  // Iterate through the components
+  foreach (var comp in components)
+  {
     // Append the value &quot; - Released&quot; to the end of the name
     var edits = aml.Item(aml.Type(&quot;Part&quot;), aml.Action(&quot;edit&quot;), aml.Id(comp.Id()),
-        aml.Property(&quot;name&quot;, comp.Property(&quot;name&quot;).AsString(&quot;&quot;) + &quot; - Released&quot;)
+      aml.Property(&quot;name&quot;, comp.Property(&quot;name&quot;).AsString(&quot;&quot;) + &quot; - Released&quot;)
     );
-    // If the part was created after 2016-01-01, put the name of the creator in the description
+
+    // If the part was created after 2016-01-01, put the name of the creator in 
+    // the description
     if (comp.CreatedOn().AsDateTime(DateTime.MaxValue) &gt; new DateTime(2016, 1, 1))
     {
-        edits.Property(&quot;description&quot;).Set(&quot;Created by: &quot; + comp.CreatedById().KeyedName().Value);
+      edits.Property(&quot;description&quot;)
+        .Set(&quot;Created by: &quot; + comp.CreatedById().KeyedName().Value);
     }
+
     // Apply the changes. Throw an exception if an error occurs.
     edits.Apply(conn).AssertNoError();
 
     // Promote the item. Throw an exception if an error occurs.
     comp.Promote(conn, &quot;Released&quot;).AssertNoError();
-    }
+  }
 }
-</code></pre><h1 id="i-want-it">I want it</h1>
-<p>Get it via <a href="https://www.nuget.org/packages/Innovator.Client/">NuGet</a> using the command</p>
-<pre><code>PM&gt; Install-Package Innovator.Client
-</code></pre><h1 id="compatibility">Compatibility</h1>
-<h2 id="net">.Net</h2>
-<p>Innovator.Client has builds for .Net 3.5+ and .Net Standard 1.1+.  It is worth noting that the .Net 
-Standard builds are largely untested while the full .Net builds are currently used in production
-deployments</p>
-<h2 id="aras">Aras</h2>
-<p>The IOM is not backwards-compatible.  For example, v11.0 of the IOM cannot be used with a v9.3
-Aras Innovator vault.  Innovator.Client strives to be compatible with all versions &gt;= 9.3</p>
-</article>
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
@@ -122,7 +118,7 @@ Aras Innovator vault.  Innovator.Client strives to be compatible with all versio
               <div class="contribution">
                 <ul class="nav">
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/index.md/#L1" class="contribution-link">Improve this Doc</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/api/index.md/#L1" class="contribution-link">Improve this Doc</a>
                   </li>
                 </ul>
               </div>
@@ -148,8 +144,8 @@ Aras Innovator vault.  Innovator.Client strives to be compatible with all versio
       </footer>
     </div>
     
-    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="styles/docfx.js"></script>
-    <script type="text/javascript" src="styles/main.js"></script>
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
   </body>
 </html>

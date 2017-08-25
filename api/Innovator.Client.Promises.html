@@ -1,0 +1,1586 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class Promises
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class Promises
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.Promises">
+  
+  
+  <h1 id="Innovator_Client_Promises" data-uid="Innovator.Client.Promises" class="text-break">Class Promises
+  </h1>
+  <div class="markdown level0 summary"><p>Various methods useful for interacting with promises</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">Promises</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_Promises_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class Promises</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_All_Innovator_Client_IPromise___.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.All(Innovator.Client.IPromise%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L31">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_All_" data-uid="Innovator.Client.Promises.All*"></a>
+  <h4 id="Innovator_Client_Promises_All_Innovator_Client_IPromise___" data-uid="Innovator.Client.Promises.All(Innovator.Client.IPromise[])">All(IPromise[])</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;IList&lt;object&gt;&gt; All(params IPromise[] promises)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise.html">IPromise</a>[]</td>
+        <td><span class="parametername">promises</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.Object</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_All__1_Innovator_Client_IPromise___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.All%60%601(Innovator.Client.IPromise%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L15">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_All_" data-uid="Innovator.Client.Promises.All*"></a>
+  <h4 id="Innovator_Client_Promises_All__1_Innovator_Client_IPromise___0__" data-uid="Innovator.Client.Promises.All``1(Innovator.Client.IPromise{``0})">All&lt;T1&gt;(IPromise&lt;T1&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T1&gt; All&lt;T1&gt;(IPromise&lt;T1&gt; promise1)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T1&gt;</td>
+        <td><span class="parametername">promise1</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T1&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_All__2_Innovator_Client_IPromise___0__Innovator_Client_IPromise___1__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.All%60%602(Innovator.Client.IPromise%7B%60%600%7D%2CInnovator.Client.IPromise%7B%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L19">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_All_" data-uid="Innovator.Client.Promises.All*"></a>
+  <h4 id="Innovator_Client_Promises_All__2_Innovator_Client_IPromise___0__Innovator_Client_IPromise___1__" data-uid="Innovator.Client.Promises.All``2(Innovator.Client.IPromise{``0},Innovator.Client.IPromise{``1})">All&lt;T1, T2&gt;(IPromise&lt;T1&gt;, IPromise&lt;T2&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;PromiseResult&lt;T1, T2&gt;&gt; All&lt;T1, T2&gt;(IPromise&lt;T1&gt; promise1, IPromise&lt;T2&gt; promise2)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T1&gt;</td>
+        <td><span class="parametername">promise1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T2&gt;</td>
+        <td><span class="parametername">promise2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.PromiseResult-2.html">PromiseResult</a>&lt;T1, T2&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_All__3_Innovator_Client_IPromise___0__Innovator_Client_IPromise___1__Innovator_Client_IPromise___2__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.All%60%603(Innovator.Client.IPromise%7B%60%600%7D%2CInnovator.Client.IPromise%7B%60%601%7D%2CInnovator.Client.IPromise%7B%60%602%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L23">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_All_" data-uid="Innovator.Client.Promises.All*"></a>
+  <h4 id="Innovator_Client_Promises_All__3_Innovator_Client_IPromise___0__Innovator_Client_IPromise___1__Innovator_Client_IPromise___2__" data-uid="Innovator.Client.Promises.All``3(Innovator.Client.IPromise{``0},Innovator.Client.IPromise{``1},Innovator.Client.IPromise{``2})">All&lt;T1, T2, T3&gt;(IPromise&lt;T1&gt;, IPromise&lt;T2&gt;, IPromise&lt;T3&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;PromiseResult&lt;T1, T2, T3&gt;&gt; All&lt;T1, T2, T3&gt;(IPromise&lt;T1&gt; promise1, IPromise&lt;T2&gt; promise2, IPromise&lt;T3&gt; promise3)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T1&gt;</td>
+        <td><span class="parametername">promise1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T2&gt;</td>
+        <td><span class="parametername">promise2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T3&gt;</td>
+        <td><span class="parametername">promise3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.PromiseResult-3.html">PromiseResult</a>&lt;T1, T2, T3&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_All__4_Innovator_Client_IPromise___0__Innovator_Client_IPromise___1__Innovator_Client_IPromise___2__Innovator_Client_IPromise___3__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.All%60%604(Innovator.Client.IPromise%7B%60%600%7D%2CInnovator.Client.IPromise%7B%60%601%7D%2CInnovator.Client.IPromise%7B%60%602%7D%2CInnovator.Client.IPromise%7B%60%603%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L27">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_All_" data-uid="Innovator.Client.Promises.All*"></a>
+  <h4 id="Innovator_Client_Promises_All__4_Innovator_Client_IPromise___0__Innovator_Client_IPromise___1__Innovator_Client_IPromise___2__Innovator_Client_IPromise___3__" data-uid="Innovator.Client.Promises.All``4(Innovator.Client.IPromise{``0},Innovator.Client.IPromise{``1},Innovator.Client.IPromise{``2},Innovator.Client.IPromise{``3})">All&lt;T1, T2, T3, T4&gt;(IPromise&lt;T1&gt;, IPromise&lt;T2&gt;, IPromise&lt;T3&gt;, IPromise&lt;T4&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;PromiseResult&lt;T1, T2, T3, T4&gt;&gt; All&lt;T1, T2, T3, T4&gt;(IPromise&lt;T1&gt; promise1, IPromise&lt;T2&gt; promise2, IPromise&lt;T3&gt; promise3, IPromise&lt;T4&gt; promise4)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T1&gt;</td>
+        <td><span class="parametername">promise1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T2&gt;</td>
+        <td><span class="parametername">promise2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T3&gt;</td>
+        <td><span class="parametername">promise3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T4&gt;</td>
+        <td><span class="parametername">promise4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.PromiseResult-4.html">PromiseResult</a>&lt;T1, T2, T3, T4&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T1</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T2</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T3</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T4</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Cancelled__1_Innovator_Client_IPromise___0__System_Action_System_OperationCanceledException__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Cancelled%60%601(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Action%7BSystem.OperationCanceledException%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L50">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Cancelled_" data-uid="Innovator.Client.Promises.Cancelled*"></a>
+  <h4 id="Innovator_Client_Promises_Cancelled__1_Innovator_Client_IPromise___0__System_Action_System_OperationCanceledException__" data-uid="Innovator.Client.Promises.Cancelled``1(Innovator.Client.IPromise{``0},System.Action{System.OperationCanceledException})">Cancelled&lt;T&gt;(IPromise&lt;T&gt;, Action&lt;OperationCanceledException&gt;)</h4>
+  <div class="markdown level1 summary"><p>Attach a callback that runs when the promise is canceled</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; Cancelled&lt;T&gt;(this IPromise&lt;T&gt; promise, Action&lt;OperationCanceledException&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.OperationCanceledException</span>&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_ConfigureAwait__1_Innovator_Client_IPromise___0__System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.ConfigureAwait%60%601(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L266">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_ConfigureAwait_" data-uid="Innovator.Client.Promises.ConfigureAwait*"></a>
+  <h4 id="Innovator_Client_Promises_ConfigureAwait__1_Innovator_Client_IPromise___0__System_Boolean_" data-uid="Innovator.Client.Promises.ConfigureAwait``1(Innovator.Client.IPromise{``0},System.Boolean)">ConfigureAwait&lt;T&gt;(IPromise&lt;T&gt;, Boolean)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ConfiguredTaskAwaitable&lt;T&gt; ConfigureAwait&lt;T&gt;(this IPromise&lt;T&gt; promise, bool continueOnCapturedContext)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">continueOnCapturedContext</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Runtime.CompilerServices.ConfiguredTaskAwaitable</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Continue__2_Innovator_Client_IPromise___0__System_Func___0_Innovator_Client_IPromise___1___.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Continue%60%602(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Func%7B%60%600%2CInnovator.Client.IPromise%7B%60%601%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L63">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Continue_" data-uid="Innovator.Client.Promises.Continue*"></a>
+  <h4 id="Innovator_Client_Promises_Continue__2_Innovator_Client_IPromise___0__System_Func___0_Innovator_Client_IPromise___1___" data-uid="Innovator.Client.Promises.Continue``2(Innovator.Client.IPromise{``0},System.Func{``0,Innovator.Client.IPromise{``1}})">Continue&lt;T, S&gt;(IPromise&lt;T&gt;, Func&lt;T, IPromise&lt;S&gt;&gt;)</h4>
+  <div class="markdown level1 summary"><p>Continue a promise chain by acting on the previous promise&apos;s result and returning a new promise</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;S&gt; Continue&lt;T, S&gt;(this IPromise&lt;T&gt; promise, Func&lt;T, IPromise&lt;S&gt;&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td><p>Previous promise</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;T, <a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;S&gt;&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td><p>Code to execute on resolution of the promise and returning a new promise</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;S&gt;</td>
+        <td><p>A new promise</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">S</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__System_Action___0_Innovator_Client_Promise___1___System_Action_System_Exception_Innovator_Client_Promise___1___.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Convert%60%602(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Action%7B%60%600%2CInnovator.Client.Promise%7B%60%601%7D%7D%2CSystem.Action%7BSystem.Exception%2CInnovator.Client.Promise%7B%60%601%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L110">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Convert_" data-uid="Innovator.Client.Promises.Convert*"></a>
+  <h4 id="Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__System_Action___0_Innovator_Client_Promise___1___System_Action_System_Exception_Innovator_Client_Promise___1___" data-uid="Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},System.Action{``0,Innovator.Client.Promise{``1}},System.Action{System.Exception,Innovator.Client.Promise{``1}})">Convert&lt;T, S&gt;(IPromise&lt;T&gt;, Action&lt;T, Promise&lt;S&gt;&gt;, Action&lt;Exception, Promise&lt;S&gt;&gt;)</h4>
+  <div class="markdown level1 summary"><p>Convert a promise by modifying the done/fail logic in addition to transforming the type.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;S&gt; Convert&lt;T, S&gt;(this IPromise&lt;T&gt; promise, Action&lt;T, Promise&lt;S&gt;&gt; doneCallback, Action&lt;Exception, Promise&lt;S&gt;&gt; failCallback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;T, <a class="xref" href="Innovator.Client.Promise-1.html">Promise</a>&lt;S&gt;&gt;</td>
+        <td><span class="parametername">doneCallback</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Exception</span>, <a class="xref" href="Innovator.Client.Promise-1.html">Promise</a>&lt;S&gt;&gt;</td>
+        <td><span class="parametername">failCallback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;S&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">S</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__System_Func___0___1__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Convert%60%602(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Func%7B%60%600%2C%60%601%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L88">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Convert_" data-uid="Innovator.Client.Promises.Convert*"></a>
+  <h4 id="Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__System_Func___0___1__" data-uid="Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},System.Func{``0,``1})">Convert&lt;T, S&gt;(IPromise&lt;T&gt;, Func&lt;T, S&gt;)</h4>
+  <div class="markdown level1 summary"><p>Convert a promise using a simple transformation to go from one type to another</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;S&gt; Convert&lt;T, S&gt;(this IPromise&lt;T&gt; promise, Func&lt;T, S&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;T, S&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;S&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">S</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Error__1_Innovator_Client_IPromise___0__System_Action_System_Exception__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Error%60%601(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Action%7BSystem.Exception%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L125">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Error_" data-uid="Innovator.Client.Promises.Error*"></a>
+  <h4 id="Innovator_Client_Promises_Error__1_Innovator_Client_IPromise___0__System_Action_System_Exception__" data-uid="Innovator.Client.Promises.Error``1(Innovator.Client.IPromise{``0},System.Action{System.Exception})">Error&lt;T&gt;(IPromise&lt;T&gt;, Action&lt;Exception&gt;)</h4>
+  <div class="markdown level1 summary"><p>Attach a callback that runs an error (other than a cancellation error) occurs</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; Error&lt;T&gt;(this IPromise&lt;T&gt; promise, Action&lt;Exception&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Exception</span>&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Error__2_Innovator_Client_IPromise___1__System_Action___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Error%60%602(Innovator.Client.IPromise%7B%60%601%7D%2CSystem.Action%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L132">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Error_" data-uid="Innovator.Client.Promises.Error*"></a>
+  <h4 id="Innovator_Client_Promises_Error__2_Innovator_Client_IPromise___1__System_Action___0__" data-uid="Innovator.Client.Promises.Error``2(Innovator.Client.IPromise{``1},System.Action{``0})">Error&lt;TErr, T&gt;(IPromise&lt;T&gt;, Action&lt;TErr&gt;)</h4>
+  <div class="markdown level1 summary"><p>Attach a callback that runs an error (other than a cancellation error) occurs</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; Error&lt;TErr, T&gt;(this IPromise&lt;T&gt; promise, Action&lt;TErr&gt; callback)where TErr : Exception</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;TErr&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">TErr</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_FailOver__1_Innovator_Client_IPromise___0__System_Func_Innovator_Client_IPromise___0___.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.FailOver%60%601(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Func%7BInnovator.Client.IPromise%7B%60%600%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L139">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_FailOver_" data-uid="Innovator.Client.Promises.FailOver*"></a>
+  <h4 id="Innovator_Client_Promises_FailOver__1_Innovator_Client_IPromise___0__System_Func_Innovator_Client_IPromise___0___" data-uid="Innovator.Client.Promises.FailOver``1(Innovator.Client.IPromise{``0},System.Func{Innovator.Client.IPromise{``0}})">FailOver&lt;T&gt;(IPromise&lt;T&gt;, Func&lt;IPromise&lt;T&gt;&gt;)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; FailOver&lt;T&gt;(this IPromise&lt;T&gt; promise, Func&lt;IPromise&lt;T&gt;&gt; callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;&gt;</td>
+        <td><span class="parametername">callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_GetAwaiter__1_Innovator_Client_IPromise___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.GetAwaiter%60%601(Innovator.Client.IPromise%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L262">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_GetAwaiter_" data-uid="Innovator.Client.Promises.GetAwaiter*"></a>
+  <h4 id="Innovator_Client_Promises_GetAwaiter__1_Innovator_Client_IPromise___0__" data-uid="Innovator.Client.Promises.GetAwaiter``1(Innovator.Client.IPromise{``0})">GetAwaiter&lt;T&gt;(IPromise&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Make it so that the user can directly <code>await</code> a promise</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static TaskAwaiter&lt;T&gt; GetAwaiter&lt;T&gt;(this IPromise&lt;T&gt; promise)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Runtime.CompilerServices.TaskAwaiter</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Pooled_System_Int32_System_Func_Innovator_Client_IPromise____.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Pooled(System.Int32%2CSystem.Func%7BInnovator.Client.IPromise%7D%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L41">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Pooled_" data-uid="Innovator.Client.Promises.Pooled*"></a>
+  <h4 id="Innovator_Client_Promises_Pooled_System_Int32_System_Func_Innovator_Client_IPromise____" data-uid="Innovator.Client.Promises.Pooled(System.Int32,System.Func{Innovator.Client.IPromise}[])">Pooled(Int32, Func&lt;IPromise&gt;[])</h4>
+  <div class="markdown level1 summary"><p>Return a promise that resolves upon completion of all the contained promises.  Only allow
+a select number of promises to be active at a given time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;IList&lt;object&gt;&gt; Pooled(int poolSize, params Func&lt;IPromise&gt;[] promises)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">poolSize</span></td>
+        <td><p>Number of promises that can be active simultaneously</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Func</span>&lt;<a class="xref" href="Innovator.Client.IPromise.html">IPromise</a>&gt;[]</td>
+        <td><span class="parametername">promises</span></td>
+        <td><p>Factory for creating the promises</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.Collections.Generic.IList</span>&lt;<span class="xref">System.Object</span>&gt;&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Rejected__1_System_Exception_.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Rejected%60%601(System.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L166">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Rejected_" data-uid="Innovator.Client.Promises.Rejected*"></a>
+  <h4 id="Innovator_Client_Promises_Rejected__1_System_Exception_" data-uid="Innovator.Client.Promises.Rejected``1(System.Exception)">Rejected&lt;T&gt;(Exception)</h4>
+  <div class="markdown level1 summary"><p>Create a new promise which is already rejected</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; Rejected&lt;T&gt;(Exception ex)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Exception</span></td>
+        <td><span class="parametername">ex</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Resolved__1___0_.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Resolved%60%601(%60%600)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L175">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Resolved_" data-uid="Innovator.Client.Promises.Resolved*"></a>
+  <h4 id="Innovator_Client_Promises_Resolved__1___0_" data-uid="Innovator.Client.Promises.Resolved``1(``0)">Resolved&lt;T&gt;(T)</h4>
+  <div class="markdown level1 summary"><p>Create a new promise which is already resolved</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; Resolved&lt;T&gt;(T data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_ToPromise__1_System_Threading_Tasks_Task___0__System_Threading_CancellationTokenSource_.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.ToPromise%60%601(System.Threading.Tasks.Task%7B%60%600%7D%2CSystem.Threading.CancellationTokenSource)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L236">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_ToPromise_" data-uid="Innovator.Client.Promises.ToPromise*"></a>
+  <h4 id="Innovator_Client_Promises_ToPromise__1_System_Threading_Tasks_Task___0__System_Threading_CancellationTokenSource_" data-uid="Innovator.Client.Promises.ToPromise``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationTokenSource)">ToPromise&lt;T&gt;(Task&lt;T&gt;, CancellationTokenSource)</h4>
+  <div class="markdown level1 summary"><p>Convert a .Net 4.0 Task to a promise</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; ToPromise&lt;T&gt;(this Task&lt;T&gt; task, CancellationTokenSource cts = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;T&gt;</td>
+        <td><span class="parametername">task</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationTokenSource</span></td>
+        <td><span class="parametername">cts</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_ToTask__1_Innovator_Client_IPromise___0__System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.ToTask%60%601(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L196">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_ToTask_" data-uid="Innovator.Client.Promises.ToTask*"></a>
+  <h4 id="Innovator_Client_Promises_ToTask__1_Innovator_Client_IPromise___0__System_Threading_CancellationToken_" data-uid="Innovator.Client.Promises.ToTask``1(Innovator.Client.IPromise{``0},System.Threading.CancellationToken)">ToTask&lt;T&gt;(IPromise&lt;T&gt;, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Convert a promise to a .Net 4.0 Task for use with the <code>async</code>/<code>await</code> keywords</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;T&gt; ToTask&lt;T&gt;(this IPromise&lt;T&gt; promise, CancellationToken ct = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">ct</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Threading.Tasks.Task</span>&lt;T&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_Wait__1_Innovator_Client_IPromise___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.Wait%60%601(Innovator.Client.IPromise%7B%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L287">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_Wait_" data-uid="Innovator.Client.Promises.Wait*"></a>
+  <h4 id="Innovator_Client_Promises_Wait__1_Innovator_Client_IPromise___0__" data-uid="Innovator.Client.Promises.Wait``1(Innovator.Client.IPromise{``0})">Wait&lt;T&gt;(IPromise&lt;T&gt;)</h4>
+  <div class="markdown level1 summary"><p>Block the current thread waiting for a promise to complete</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static T Wait&lt;T&gt;(this IPromise&lt;T&gt; promise)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td><p>The promise to wait for</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">T</span></td>
+        <td><p>The resolved value of the promise</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises_WithInvoker__1_Innovator_Client_IPromise___0__System_Action_System_Delegate_System_Object____.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises.WithInvoker%60%601(Innovator.Client.IPromise%7B%60%600%7D%2CSystem.Action%7BSystem.Delegate%2CSystem.Object%5B%5D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L185">View Source</a>
+  </span>
+  <a id="Innovator_Client_Promises_WithInvoker_" data-uid="Innovator.Client.Promises.WithInvoker*"></a>
+  <h4 id="Innovator_Client_Promises_WithInvoker__1_Innovator_Client_IPromise___0__System_Action_System_Delegate_System_Object____" data-uid="Innovator.Client.Promises.WithInvoker``1(Innovator.Client.IPromise{``0},System.Action{System.Delegate,System.Object[]})">WithInvoker&lt;T&gt;(IPromise&lt;T&gt;, Action&lt;Delegate, Object[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>Changes the invokation logic of the promise (e.g. to trigger invokation on the UI thread)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;T&gt; WithInvoker&lt;T&gt;(this IPromise&lt;T&gt; promise, Action&lt;Delegate, object[]&gt; invoker)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><span class="parametername">promise</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Delegate</span>, <span class="xref">System.Object</span>[]&gt;</td>
+        <td><span class="parametername">invoker</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;T&gt;</td>
+        <td><p>The original promise with the new invokation logic</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="typeParameters">Type Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">T</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Promises.md&amp;value=---%0Auid%3A%20Innovator.Client.Promises%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Promise/Promises.cs/#L13" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

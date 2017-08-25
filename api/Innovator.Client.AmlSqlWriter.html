@@ -1,0 +1,1743 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class AmlSqlWriter
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class AmlSqlWriter
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.AmlSqlWriter">
+  
+  
+  <h1 id="Innovator_Client_AmlSqlWriter" data-uid="Innovator.Client.AmlSqlWriter" class="text-break">Class AmlSqlWriter
+  </h1>
+  <div class="markdown level0 summary"><p>Generates a SQL statement from an AML query</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">System.Xml.XmlWriter</span></div>
+    <div class="level2"><span class="xref">AmlSqlWriter</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.IO.Stream)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.IO.Stream, System.Xml.XmlWriterSettings)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.IO.TextWriter)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.IO.TextWriter, System.Xml.XmlWriterSettings)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.Text.StringBuilder)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.Text.StringBuilder, System.Xml.XmlWriterSettings)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.Xml.XmlWriter)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Create(System.Xml.XmlWriter, System.Xml.XmlWriterSettings)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Dispose()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.FlushAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteAttributes(System.Xml.XmlReader, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteAttributesAsync(System.Xml.XmlReader, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteAttributeString(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteAttributeString(System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteAttributeString(System.String, System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteAttributeStringAsync(System.String, System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteBase64Async(System.Byte[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteBinHex(System.Byte[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteBinHexAsync(System.Byte[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteCDataAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteCharEntityAsync(System.Char)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteCharsAsync(System.Char[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteCommentAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteDocTypeAsync(System.String, System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteElementString(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteElementString(System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteElementString(System.String, System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteElementStringAsync(System.String, System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteEndAttributeAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteEndDocumentAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteEndElementAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteEntityRefAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteFullEndElementAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteName(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteNameAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteNmToken(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteNmTokenAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteNode(System.Xml.XmlReader, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteNodeAsync(System.Xml.XmlReader, System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteProcessingInstructionAsync(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteQualifiedName(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteQualifiedNameAsync(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteRawAsync(System.Char[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteRawAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartAttribute(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartAttribute(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartAttributeAsync(System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartDocumentAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartDocumentAsync(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartElement(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartElement(System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStartElementAsync(System.String, System.String, System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteStringAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteSurrogateCharEntityAsync(System.Char, System.Char)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Boolean)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.DateTimeOffset)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Decimal)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Double)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Int64)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.Single)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteValue(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.WriteWhitespaceAsync(System.String)</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.Settings</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.XmlLang</span>
+    </div>
+    <div>
+      <span class="xref">System.Xml.XmlWriter.XmlSpace</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_AmlSqlWriter_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class AmlSqlWriter : XmlWriter, IDisposable</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter__ctor_Innovator_Client_IAmlSqlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.%23ctor(Innovator.Client.IAmlSqlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L34">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter__ctor_" data-uid="Innovator.Client.AmlSqlWriter.#ctor*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter__ctor_Innovator_Client_IAmlSqlWriterSettings_" data-uid="Innovator.Client.AmlSqlWriter.#ctor(Innovator.Client.IAmlSqlWriterSettings)">AmlSqlWriter(IAmlSqlWriterSettings)</h4>
+  <div class="markdown level1 summary"><p>Creates an <span class="xref">System.Xml.XmlWriter</span> that will output a SQL statement from an AML query</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AmlSqlWriter(IAmlSqlWriterSettings settings)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IAmlSqlWriterSettings.html">IAmlSqlWriterSettings</a></td>
+        <td><span class="parametername">settings</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter__ctor_System_IO_TextWriter_Innovator_Client_IAmlSqlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.%23ctor(System.IO.TextWriter%2CInnovator.Client.IAmlSqlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L42">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter__ctor_" data-uid="Innovator.Client.AmlSqlWriter.#ctor*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter__ctor_System_IO_TextWriter_Innovator_Client_IAmlSqlWriterSettings_" data-uid="Innovator.Client.AmlSqlWriter.#ctor(System.IO.TextWriter,Innovator.Client.IAmlSqlWriterSettings)">AmlSqlWriter(TextWriter, IAmlSqlWriterSettings)</h4>
+  <div class="markdown level1 summary"><p>Creates an <span class="xref">System.Xml.XmlWriter</span> that will output a SQL statement from an AML query</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public AmlSqlWriter(TextWriter writer, IAmlSqlWriterSettings settings)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.TextWriter</span></td>
+        <td><span class="parametername">writer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IAmlSqlWriterSettings.html">IAmlSqlWriterSettings</a></td>
+        <td><span class="parametername">settings</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteState.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteState%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L29">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteState_" data-uid="Innovator.Client.AmlSqlWriter.WriteState*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteState" data-uid="Innovator.Client.AmlSqlWriter.WriteState">WriteState</h4>
+  <div class="markdown level1 summary"><p>Gets the state of the writer.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override WriteState WriteState { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Xml.WriteState</span></td>
+        <td><p>One of the <a class="xref" href="Innovator.Client.AmlSqlWriter.html#Innovator_Client_AmlSqlWriter_WriteState">WriteState</a> values.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteState</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_Dispose_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.Dispose(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L61">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_Dispose_" data-uid="Innovator.Client.AmlSqlWriter.Dispose*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_Dispose_System_Boolean_" data-uid="Innovator.Client.AmlSqlWriter.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <span class="xref">System.Xml.XmlWriter</span> and optionally releases the managed resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">disposing</span></td>
+        <td><p>true to release both managed and unmanaged resources; false to release only unmanaged resources.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.Dispose(System.Boolean)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_Flush.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.Flush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L69">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_Flush_" data-uid="Innovator.Client.AmlSqlWriter.Flush*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_Flush" data-uid="Innovator.Client.AmlSqlWriter.Flush">Flush()</h4>
+  <div class="markdown level1 summary"><p>Flushes whatever is in the buffer to the underlying streams and also flushes the underlying stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Flush()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.Flush()</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_LookupPrefix_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.LookupPrefix(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L87">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_LookupPrefix_" data-uid="Innovator.Client.AmlSqlWriter.LookupPrefix*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_LookupPrefix_System_String_" data-uid="Innovator.Client.AmlSqlWriter.LookupPrefix(System.String)">LookupPrefix(String)</h4>
+  <div class="markdown level1 summary"><p>Returns the closest prefix defined in the current namespace scope for the namespace URI.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string LookupPrefix(string ns)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">ns</span></td>
+        <td><p>The namespace URI whose prefix you want to find.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>The matching prefix or null if no matching namespace URI is found in the current scope.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.LookupPrefix(System.String)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">ns</code> is either null or String.Empty.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_ToString.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L641">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_ToString_" data-uid="Innovator.Client.AmlSqlWriter.ToString*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_ToString" data-uid="Innovator.Client.AmlSqlWriter.ToString">ToString()</h4>
+  <div class="markdown level1 summary"><p>Returns the generated SQL using the <a class="xref" href="Innovator.Client.IAmlSqlWriterSettings.html#Innovator_Client_IAmlSqlWriterSettings_RenderOption">RenderOption</a> 
+specified in the <a class="xref" href="Innovator.Client.IAmlSqlWriterSettings.html">IAmlSqlWriterSettings</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override string ToString()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><p>A <span class="xref">System.String</span> that represents this instance.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_ToString_Innovator_Client_AmlSqlRenderOption_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.ToString(Innovator.Client.AmlSqlRenderOption)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L650">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_ToString_" data-uid="Innovator.Client.AmlSqlWriter.ToString*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_ToString_Innovator_Client_AmlSqlRenderOption_" data-uid="Innovator.Client.AmlSqlWriter.ToString(Innovator.Client.AmlSqlRenderOption)">ToString(AmlSqlRenderOption)</h4>
+  <div class="markdown level1 summary"><p>Returns the generated SQL</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string ToString(AmlSqlRenderOption renderOption)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.AmlSqlRenderOption.html">AmlSqlRenderOption</a></td>
+        <td><span class="parametername">renderOption</span></td>
+        <td><p>Option specifying what SQL to generate</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_ToString_System_IO_TextWriter_Innovator_Client_AmlSqlRenderOption_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.ToString(System.IO.TextWriter%2CInnovator.Client.AmlSqlRenderOption)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L665">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_ToString_" data-uid="Innovator.Client.AmlSqlWriter.ToString*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_ToString_System_IO_TextWriter_Innovator_Client_AmlSqlRenderOption_" data-uid="Innovator.Client.AmlSqlWriter.ToString(System.IO.TextWriter,Innovator.Client.AmlSqlRenderOption)">ToString(TextWriter, AmlSqlRenderOption)</h4>
+  <div class="markdown level1 summary"><p>Returns the generated SQL</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ToString(TextWriter writer, AmlSqlRenderOption renderOption)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.TextWriter</span></td>
+        <td><span class="parametername">writer</span></td>
+        <td><p><span class="xref">System.IO.TextWriter</span> to write the SQL to</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.AmlSqlRenderOption.html">AmlSqlRenderOption</a></td>
+        <td><span class="parametername">renderOption</span></td>
+        <td><p>Option specifying what SQL to generate</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteBase64_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteBase64(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L112">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteBase64_" data-uid="Innovator.Client.AmlSqlWriter.WriteBase64*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteBase64_System_Byte___System_Int32_System_Int32_" data-uid="Innovator.Client.AmlSqlWriter.WriteBase64(System.Byte[],System.Int32,System.Int32)">WriteBase64(Byte[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Not supported</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Not supported&quot;)]
+public override void WriteBase64(byte[] buffer, int index, int count)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteBase64(System.Byte[], System.Int32, System.Int32)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteCData_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteCData(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L122">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteCData_" data-uid="Innovator.Client.AmlSqlWriter.WriteCData*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteCData_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteCData(System.String)">WriteCData(String)</h4>
+  <div class="markdown level1 summary"><p>Writes out a &lt;![CDATA[...]]&gt; block containing the specified text.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteCData(string text)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
+        <td><p>The text to place inside the CDATA block.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteCData(System.String)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteCharEntity_System_Char_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteCharEntity(System.Char)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L131">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteCharEntity_" data-uid="Innovator.Client.AmlSqlWriter.WriteCharEntity*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteCharEntity_System_Char_" data-uid="Innovator.Client.AmlSqlWriter.WriteCharEntity(System.Char)">WriteCharEntity(Char)</h4>
+  <div class="markdown level1 summary"><p>Forces the generation of a character entity for the specified Unicode character value.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteCharEntity(char ch)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Char</span></td>
+        <td><span class="parametername">ch</span></td>
+        <td><p>The Unicode character for which to generate a character entity.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteCharEntity(System.Char)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>The character is in the surrogate pair character range, 0xd800 - 0xdfff.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteChars_System_Char___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteChars(System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L146">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteChars_" data-uid="Innovator.Client.AmlSqlWriter.WriteChars*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteChars_System_Char___System_Int32_System_Int32_" data-uid="Innovator.Client.AmlSqlWriter.WriteChars(System.Char[],System.Int32,System.Int32)">WriteChars(Char[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Writes text one buffer at a time.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteChars(char[] buffer, int index, int count)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Char</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td><p>Character array containing the text to write.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td><p>The position in the buffer indicating the start of the text to write.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of characters to write.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteChars(System.Char[], System.Int32, System.Int32)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">buffer</code> is null.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">index</code> or <code data-dev-comment-type="paramref" class="paramref">count</code> is less than zero.-or-The buffer length minus <code data-dev-comment-type="paramref" class="paramref">index</code> is less than <code data-dev-comment-type="paramref" class="paramref">count</code>; the call results in surrogate pair characters being split or an invalid surrogate pair being written.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>The <code data-dev-comment-type="paramref" class="paramref">buffer</code> parameter value is not valid.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteComment_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteComment(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L154">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteComment_" data-uid="Innovator.Client.AmlSqlWriter.WriteComment*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteComment_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteComment(System.String)">WriteComment(String)</h4>
+  <div class="markdown level1 summary"><p>Does nothing</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteComment(string text)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteComment(System.String)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteDocType_System_String_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteDocType(System.String%2CSystem.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L162">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteDocType_" data-uid="Innovator.Client.AmlSqlWriter.WriteDocType*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteDocType_System_String_System_String_System_String_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteDocType(System.String,System.String,System.String,System.String)">WriteDocType(String, String, String, String)</h4>
+  <div class="markdown level1 summary"><p>Does nothing</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteDocType(string name, string pubid, string sysid, string subset)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">pubid</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">sysid</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">subset</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteDocType(System.String, System.String, System.String, System.String)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteEndAttribute.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteEndAttribute%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L169">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteEndAttribute_" data-uid="Innovator.Client.AmlSqlWriter.WriteEndAttribute*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteEndAttribute" data-uid="Innovator.Client.AmlSqlWriter.WriteEndAttribute">WriteEndAttribute()</h4>
+  <div class="markdown level1 summary"><p>Closes the previous <span class="xref">System.Xml.XmlWriter.WriteStartAttribute(System.String, System.String)</span> call.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteEndAttribute()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteEndAttribute()</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteEndDocument.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteEndDocument%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L178">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteEndDocument_" data-uid="Innovator.Client.AmlSqlWriter.WriteEndDocument*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteEndDocument" data-uid="Innovator.Client.AmlSqlWriter.WriteEndDocument">WriteEndDocument()</h4>
+  <div class="markdown level1 summary"><p>Does nothing</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteEndDocument()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteEndDocument()</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteEndElement.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteEndElement%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L186">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteEndElement_" data-uid="Innovator.Client.AmlSqlWriter.WriteEndElement*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteEndElement" data-uid="Innovator.Client.AmlSqlWriter.WriteEndElement">WriteEndElement()</h4>
+  <div class="markdown level1 summary"><p>Closes one element and pops the corresponding namespace scope.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteEndElement()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteEndElement()</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>This results in an invalid XML document.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteEntityRef_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteEntityRef(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L419">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteEntityRef_" data-uid="Innovator.Client.AmlSqlWriter.WriteEntityRef*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteEntityRef_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteEntityRef(System.String)">WriteEntityRef(String)</h4>
+  <div class="markdown level1 summary"><p>Writes out an entity reference as &amp;name;.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteEntityRef(string name)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td><p>The name of the entity reference.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteEntityRef(System.String)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">name</code> is either null or String.Empty.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteFullEndElement.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteFullEndElement%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L449">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteFullEndElement_" data-uid="Innovator.Client.AmlSqlWriter.WriteFullEndElement*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteFullEndElement" data-uid="Innovator.Client.AmlSqlWriter.WriteFullEndElement">WriteFullEndElement()</h4>
+  <div class="markdown level1 summary"><p>Closes one element and pops the corresponding namespace scope.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteFullEndElement()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteFullEndElement()</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteProcessingInstruction_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteProcessingInstruction(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L457">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteProcessingInstruction_" data-uid="Innovator.Client.AmlSqlWriter.WriteProcessingInstruction*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteProcessingInstruction_System_String_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteProcessingInstruction(System.String,System.String)">WriteProcessingInstruction(String, String)</h4>
+  <div class="markdown level1 summary"><p>Not supported</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Not supported&quot;)]
+public override void WriteProcessingInstruction(string name, string text)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">name</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteProcessingInstruction(System.String, System.String)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteRaw_System_Char___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteRaw(System.Char%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L475">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteRaw_" data-uid="Innovator.Client.AmlSqlWriter.WriteRaw*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteRaw_System_Char___System_Int32_System_Int32_" data-uid="Innovator.Client.AmlSqlWriter.WriteRaw(System.Char[],System.Int32,System.Int32)">WriteRaw(Char[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Not supported</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteRaw(char[] buffer, int index, int count)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Char</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">index</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteRaw(System.Char[], System.Int32, System.Int32)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteRaw_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteRaw(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L466">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteRaw_" data-uid="Innovator.Client.AmlSqlWriter.WriteRaw*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteRaw_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteRaw(System.String)">WriteRaw(String)</h4>
+  <div class="markdown level1 summary"><p>Not supported</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Obsolete(&quot;Not supported&quot;)]
+public override void WriteRaw(string data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteRaw(System.String)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteStartAttribute_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteStartAttribute(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L486">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteStartAttribute_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartAttribute*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteStartAttribute_System_String_System_String_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartAttribute(System.String,System.String,System.String)">WriteStartAttribute(String, String, String)</h4>
+  <div class="markdown level1 summary"><p>Writes the start of an attribute with the specified prefix, local name, and namespace URI.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteStartAttribute(string prefix, string localName, string ns)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td><p>The namespace prefix of the attribute.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">localName</span></td>
+        <td><p>The local name of the attribute.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">ns</span></td>
+        <td><p>The namespace URI for the attribute.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteStartAttribute(System.String, System.String, System.String)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Text.EncoderFallbackException</span></td>
+        <td><p>There is a character in the buffer that is a valid XML character but is not valid for the output encoding. For example, if the output encoding is ASCII, you should only use characters from the range of 0 to 127 for element and attribute names. The invalid character might be in the argument of this method or in an argument of previous methods that were writing to the buffer. Such characters are escaped by character entity references when possible (for example, in text nodes or attribute values). However, the character entity reference is not allowed in element and attribute names, comments, processing instructions, or CDATA sections. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteStartDocument.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteStartDocument%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L495">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteStartDocument_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartDocument*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteStartDocument" data-uid="Innovator.Client.AmlSqlWriter.WriteStartDocument">WriteStartDocument()</h4>
+  <div class="markdown level1 summary"><p>Does nothing</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteStartDocument()</code></pre>
+  </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteStartDocument()</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteStartDocument_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteStartDocument(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L503">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteStartDocument_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartDocument*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteStartDocument_System_Boolean_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartDocument(System.Boolean)">WriteStartDocument(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Does nothing</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteStartDocument(bool standalone)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">standalone</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteStartDocument(System.Boolean)</span></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteStartElement_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteStartElement(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L515">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteStartElement_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartElement*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteStartElement_System_String_System_String_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteStartElement(System.String,System.String,System.String)">WriteStartElement(String, String, String)</h4>
+  <div class="markdown level1 summary"><p>Writes the specified start tag and associates it with the given namespace and prefix.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteStartElement(string prefix, string localName, string ns)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">prefix</span></td>
+        <td><p>The namespace prefix of the element.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">localName</span></td>
+        <td><p>The local name of the element.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">ns</span></td>
+        <td><p>The namespace URI to associate with the element.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteStartElement(System.String, System.String, System.String)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>The writer is closed.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Text.EncoderFallbackException</span></td>
+        <td><p>There is a character in the buffer that is a valid XML character but is not valid for the output encoding. For example, if the output encoding is ASCII, you should only use characters from the range of 0 to 127 for element and attribute names. The invalid character might be in the argument of this method or in an argument of previous methods that were writing to the buffer. Such characters are escaped by character entity references when possible (for example, in text nodes or attribute values). However, the character entity reference is not allowed in element and attribute names, comments, processing instructions, or CDATA sections.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteString_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteString(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L540">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteString_" data-uid="Innovator.Client.AmlSqlWriter.WriteString*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteString_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteString(System.String)">WriteString(String)</h4>
+  <div class="markdown level1 summary"><p>Writes the given text content.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteString(string text)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">text</span></td>
+        <td><p>The text to write.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteString(System.String)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>The text string contains an invalid surrogate pair.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteSurrogateCharEntity_System_Char_System_Char_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteSurrogateCharEntity(System.Char%2CSystem.Char)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L550">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteSurrogateCharEntity_" data-uid="Innovator.Client.AmlSqlWriter.WriteSurrogateCharEntity*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteSurrogateCharEntity_System_Char_System_Char_" data-uid="Innovator.Client.AmlSqlWriter.WriteSurrogateCharEntity(System.Char,System.Char)">WriteSurrogateCharEntity(Char, Char)</h4>
+  <div class="markdown level1 summary"><p>Generates and writes the surrogate character entity for the surrogate character pair.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteSurrogateCharEntity(char lowChar, char highChar)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Char</span></td>
+        <td><span class="parametername">lowChar</span></td>
+        <td><p>The low surrogate. This must be a value between 0xDC00 and 0xDFFF.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Char</span></td>
+        <td><span class="parametername">highChar</span></td>
+        <td><p>The high surrogate. This must be a value between 0xD800 and 0xDBFF.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteSurrogateCharEntity(System.Char, System.Char)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>An invalid surrogate character pair was passed.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter_WriteWhitespace_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter.WriteWhitespace(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L559">View Source</a>
+  </span>
+  <a id="Innovator_Client_AmlSqlWriter_WriteWhitespace_" data-uid="Innovator.Client.AmlSqlWriter.WriteWhitespace*"></a>
+  <h4 id="Innovator_Client_AmlSqlWriter_WriteWhitespace_System_String_" data-uid="Innovator.Client.AmlSqlWriter.WriteWhitespace(System.String)">WriteWhitespace(String)</h4>
+  <div class="markdown level1 summary"><p>Writes out the given white space.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteWhitespace(string ws)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">ws</span></td>
+        <td><p>The string of white space characters.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Xml.XmlWriter.WriteWhitespace(System.String)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>The string contains non-white space characters.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlWriter</span> method was called before a previous asynchronous operation finished. In this case, <span class="xref">System.InvalidOperationException</span> is thrown with the message “An asynchronous operation is already in progress.”</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_AmlSqlWriter.md&amp;value=---%0Auid%3A%20Innovator.Client.AmlSqlWriter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/AmlSqlWriter.cs/#L14" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

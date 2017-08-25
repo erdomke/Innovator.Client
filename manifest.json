@@ -1,0 +1,6040 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/eric.domke/Documents/Code/Innovator.Client",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "Readme.md",
+      "output": {
+        ".html": {
+          "relative_path": "Readme.html",
+          "hash": "w11yruZQpNr85c4jaWVSdQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.AmlSqlPermissionOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.AmlSqlPermissionOption.html",
+          "hash": "F3nswCph8UuvH+cWUiB5Rw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.AmlSqlRenderOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.AmlSqlRenderOption.html",
+          "hash": "+/efg6u5Hhz7573jjKFuAg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.AmlSqlWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.AmlSqlWriter.html",
+          "hash": "N/FZ4iKqhYcrM7Fp8+5PMA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.AmlWriterSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.AmlWriterSettings.html",
+          "hash": "P9Kd3CFIBlGt5zrTMeo4rw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.AnonymousCredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.AnonymousCredentials.html",
+          "hash": "cWQUKUOyWy+0ewTRzP4CuA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ArasHeaders.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ArasHeaders.html",
+          "hash": "HfENep9XPUKZcRuIqkQN2A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Authentication.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Authentication.html",
+          "hash": "IQE6A6zG33/EebaEWlpEqA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Command.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Command.html",
+          "hash": "q8DDuBLpfKLYOvnLfcqbTA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.CommandAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.CommandAction.html",
+          "hash": "mEUz008OTpVTJlpt9mxF+Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.CompressionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.CompressionType.html",
+          "hash": "UlxDOMFkI5nrXcmUG3p7gA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Condition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Condition.html",
+          "hash": "lXaH2Mt6+DwhyvGNnZS/mw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ConnectedAmlSqlWriterSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ConnectedAmlSqlWriterSettings.html",
+          "hash": "xIMH2PqFSPxRVqTQXddgxw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.ArasHttpConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.ArasHttpConnection.html",
+          "hash": "5cBd07eMSeTSrYu7HE4oRQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.ArasVaultConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.ArasVaultConnection.html",
+          "hash": "eMDzqhVAKvYVbl2LykyNxw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.AuthenticationScheme.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.AuthenticationScheme.html",
+          "hash": "jkYggA2ftoPPwSRYDi3zxg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DbAdapter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DbAdapter.html",
+          "hash": "xmgn2YgG6IUWGKobGLS+cA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DbCommand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DbCommand.html",
+          "hash": "FXofdenYoa+8CG5+I6R+dw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DbConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DbConnection.html",
+          "hash": "MK1R1F3yr+HQbhIZoRk5SA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DbParameter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DbParameter.html",
+          "hash": "wECm+YD7glDQogUzTRcQRA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DbParams.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DbParams.html",
+          "hash": "9Cumy0n8Vve43BvIKhKrvw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DbReader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DbReader.html",
+          "hash": "uEOkp7tiJgKLlfAakHUsUA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DefaultVaultFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DefaultVaultFactory.html",
+          "hash": "BVTC5ps5b04SoW5eRkuF+g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.DefaultVaultStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.DefaultVaultStrategy.html",
+          "hash": "m9y12hpiFFaZMO5CL6KhKQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.IArasConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.IArasConnection.html",
+          "hash": "YTKHB9GSo1WXuYJZypmbIA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.IVaultFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.IVaultFactory.html",
+          "hash": "pfu88LViAzpmYhP4xsqx1w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.IVaultStrategy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.IVaultStrategy.html",
+          "hash": "81W3b9lYSQBPACh8NJKgEQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.ItemReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.ItemReference.html",
+          "hash": "jYlh6TSXrob1utLRgs0qBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.MemoryCache-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.MemoryCache-2.html",
+          "hash": "tMHEbUsi9FmejTtBHgyr/g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.PropDefn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.PropDefn.html",
+          "hash": "QY6/kVxFk+PuJcZct14l5w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.Tests.AuthenticationSchemeTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.Tests.AuthenticationSchemeTests.html",
+          "hash": "Sytq9CeVc7pTzUuXNS5vUQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.Tests.html",
+          "hash": "xlp+1wyUZsh9f3PILhG07A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Connection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Connection.html",
+          "hash": "a7mLrv16FYKQa6zhdIjndQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ConnectionExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ConnectionExtensions.html",
+          "hash": "KFy3L2TEku2s66SRx26KIg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ConnectionPool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ConnectionPool.html",
+          "hash": "t07MZ32SAWCmkXtSPlfKiA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ConnectionPreferences.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ConnectionPreferences.html",
+          "hash": "sbnXuDKmnM12GQLQN4BD6Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Core.html",
+          "hash": "o9UVud3ZE5BeA0hM4AZJNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.DateMagnitude.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.DateMagnitude.html",
+          "hash": "i48bp7zpDZ+TqxdAd2tGZw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.DateOffset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.DateOffset.html",
+          "hash": "xn4s4DHE3dkSS7LPH0YoZg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.DefaultItemFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.DefaultItemFactory.html",
+          "hash": "y2mH6RHfDj7fW9vZX+2iyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Digest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Digest.html",
+          "hash": "qqHa5Kln7l5oTKFBVRobeA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.DynamicDateTimeRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.DynamicDateTimeRange.html",
+          "hash": "aArHR3ovGH1J8dTSwMuT2A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Element.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Element.html",
+          "hash": "PTxHIWXyCKjafpWhXrQdAw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ElementAttributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ElementAttributes.html",
+          "hash": "cuKFK5F3YienZHCTDEN6Fg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ElementFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ElementFactory.html",
+          "hash": "Rk6HzMd6el2Az3ASc6q6nw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ExplicitCredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ExplicitCredentials.html",
+          "hash": "uZZQ6YXrl5ECf58YoOiv7w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ExplicitHashCredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ExplicitHashCredentials.html",
+          "hash": "GRqdWTnyQz/1IG10RKHShA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Extensions.html",
+          "hash": "Lqb1WzrOjLkZ5PeRdeIxIQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Factory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Factory.html",
+          "hash": "mSkhVYe/K+INRUYLrkmPCQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.HttpException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.HttpException.html",
+          "hash": "0LS1ILxqxF9kO7FEfb5mdA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.HttpTimeoutException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.HttpTimeoutException.html",
+          "hash": "NEbSA0izohmqaZhi64/dSg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IAmlNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IAmlNode.html",
+          "hash": "5E+Jm3LV9nPNDdn/+QJaFQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IAmlSqlWriterSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IAmlSqlWriterSettings.html",
+          "hash": "ijbPh5g9m26BLwI/tiI5HQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IAmlXPath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IAmlXPath.html",
+          "hash": "06J0Qi5girGgmxtDxiWORg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IAsyncConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IAsyncConnection.html",
+          "hash": "Jg3/QzZjQAzGv+p2UVxY5A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IAsyncScript.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IAsyncScript.html",
+          "hash": "L02C1N3ZjSPXo+YDZ0aASQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IAttribute.html",
+          "hash": "rDgFVzwbaQxXnJ3sH0Jf/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ICancelable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ICancelable.html",
+          "hash": "PpXfvGY2EyowF17pWB9r6g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IConnection.html",
+          "hash": "Bs3rq/xvoYhfNt/qE1d5ug=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ICredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ICredentials.html",
+          "hash": "DN1MldmzXp/PSX/jc/T4qA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IElement.html",
+          "hash": "U1uWGtHQeCNat6p94SghGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IErrorBuilder.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IErrorBuilder.html",
+          "hash": "E4RfnHi7R0Ndsn+G92rA+A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IHttpRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IHttpRequest.html",
+          "hash": "tpVEIdNBuRYt/CeXn8J0aA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IHttpResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IHttpResponse.html",
+          "hash": "K5V2GUI/0OA0V0MpVN6A1g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IItem.html",
+          "hash": "/QV3q/2zlhinGXTwA8/wCw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IItemFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IItemFactory.html",
+          "hash": "E/mw2RMvaGec5hytVDKtKA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IItemRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IItemRef.html",
+          "hash": "zuyY6yroLLXoT7ytJDVIUg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ILink-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ILink-1.html",
+          "hash": "fWp3WbVB0YVhP41mvecf5w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ILinkedElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ILinkedElement.html",
+          "hash": "dvrs4PyrFCS6uPpoFh5iag=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ILogical.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ILogical.html",
+          "hash": "+kNFoFtpAllyLLqP24N3Sw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.INetCredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.INetCredentials.html",
+          "hash": "E4+sdCbJk3fMdFPmbaJMpg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.INullRelationship-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.INullRelationship-1.html",
+          "hash": "BoeQ9pikppQAtchQOQ30rg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IPromise-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IPromise-1.html",
+          "hash": "FnEcTOxCem+iVfWwnf/1UA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IPromise.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IPromise.html",
+          "hash": "0qRh+PNW/PJLPFN7IMm1Rg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty.html",
+          "hash": "Pq3LsENtfkCd+++Q4c+2PA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Base.html",
+          "hash": "1gnnjce6Kj6RTfC3f/F9xw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Boolean.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Boolean.html",
+          "hash": "9L7vGCI2DGRQb/KpYZlkXw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Date.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Date.html",
+          "hash": "5kSTeJmCvKknxfi2Avq+zQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Image.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Image.html",
+          "hash": "ftNY+EV8tem5ECLQdhxeQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Item-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Item-1.html",
+          "hash": "0DmmPUsKbulDKf1zRYK1Yw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Number.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Number.html",
+          "hash": "6H5MuBZaAyC2XGPIGawSSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IProperty_Text.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IProperty_Text.html",
+          "hash": "qtbCr4pujd3X8IF6S+Uc3A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IRange.html",
+          "hash": "htyywjKWa+Sd/fA4zF72Cg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyAttribute.html",
+          "hash": "pWyMif6uiaboAXN4dK8FVA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyElement.html",
+          "hash": "/vK/MD/r2Ds1dWfPb0CW5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyItem.html",
+          "hash": "Ftq0zRnPWUPwUyiNxTEATg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyLogical.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyLogical.html",
+          "hash": "lqXkKPeKreLBRazLp6gUQA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty.html",
+          "hash": "EQL8MXDW2ywakQpbJ4XvbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Base.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Base.html",
+          "hash": "XiaFK2l4DqfM6lYBAuP7Qw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Boolean.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Boolean.html",
+          "hash": "UyeXJXAmdPCa8Pi37zjkdg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Date.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Date.html",
+          "hash": "Zl+5NXN2u5lIeLNe6Cm7Rg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Image.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Image.html",
+          "hash": "QqLQwGnpSoiZruy7U2rIjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Item-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Item-1.html",
+          "hash": "Jrx94xpsWFIr2buRhsri5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Number.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Number.html",
+          "hash": "+mU8zV4IISB6nt26L8xwRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyProperty_Text.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyProperty_Text.html",
+          "hash": "Em8ImyMcNTm1uPv25wrPWg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyRelationships.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyRelationships.html",
+          "hash": "CCyolvaBDdd2jrzLBVk0hg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IReadOnlyResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IReadOnlyResult.html",
+          "hash": "tow6jLM8xxyC1S3aAT7GWQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IRelationship-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IRelationship-1.html",
+          "hash": "HE81xZ43ZTs/Z+eczbNeog=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IRelationships.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IRelationships.html",
+          "hash": "tb+6JMvtEYUS7zID2da2PA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IRemoteConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IRemoteConnection.html",
+          "hash": "9MJQrl0HCEEGBRVizNBZFg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IResult.html",
+          "hash": "AEAtLCadfvIYHQNWo0tDhA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.IServerContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.IServerContext.html",
+          "hash": "+MwYyH/G71uaaAhs6noX2Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Item.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Item.html",
+          "hash": "MVIXF61JnVzoal24WFkXWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ItemExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ItemExtensions.html",
+          "hash": "fm8cShP5A028fA3j3sK7rQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ItemRef.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ItemRef.html",
+          "hash": "J1TVlGYEwX53wpRGqeLYkA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ItemWrapper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ItemWrapper.html",
+          "hash": "jlX80TGPO5cuW2Okq/HZqQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.JsonFormatter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.JsonFormatter.html",
+          "hash": "t7rquWPgzuoev5tJd6qIFg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.LockStatusType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.LockStatusType.html",
+          "hash": "0nia2cuinJ8aG6NtoHFzag=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.LoggedOutException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.LoggedOutException.html",
+          "hash": "tI5QcujifWutHM2Z664VpA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.MD5ChangedEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.MD5ChangedEventArgs.html",
+          "hash": "hswYMsNPyqbe31iY2d20FQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.MD5ChangingEventArgs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.MD5ChangingEventArgs.html",
+          "hash": "1rOSDPqgvJ7XxNgv7KB9Tg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.MD5Helper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.MD5Helper.html",
+          "hash": "7MWQoyBhADcKYwAkwUPjHQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.MD5InitializerConstant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.MD5InitializerConstant.html",
+          "hash": "EjSlWSXdgxxfnaUR6lVYHw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Access.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Access.html",
+          "hash": "c3VeioBjptaafAVBg4ksaA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Action.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Action.html",
+          "hash": "IvbQN630bsgPezu+kSH7HQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Activity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Activity.html",
+          "hash": "ccbDYKiezBDD/D2vMNe8yA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityAssignment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityAssignment.html",
+          "hash": "oaKEj/ZyHMq1HmAfQXIwCA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityEMail.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityEMail.html",
+          "hash": "OxOyNStfqHTdDQ50mjKtkg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityMethod.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityMethod.html",
+          "hash": "xnKFHsuhbg+QuXZ3TOXcHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTask.html",
+          "hash": "ZP7JlmLrOE3MwQ9s3b0m3w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTaskValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTaskValue.html",
+          "hash": "4fpRceOT4WeUa/O9svb88A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplate.html",
+          "hash": "dIA4GCXYVRCk9/UZkI0iUw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplateAssignment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplateAssignment.html",
+          "hash": "8m8sW+TG1FvsNKu4oBNOYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplateEMail.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplateEMail.html",
+          "hash": "UnkpcutWTasgJejS3hv7/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplateMethod.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplateMethod.html",
+          "hash": "5iFads+wlP1AIWaVUX10WA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplateTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplateTask.html",
+          "hash": "qRbdKWGOi6JgZn8P4YI7SA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplateTransition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplateTransition.html",
+          "hash": "PF5hAd7XREE1VaGZXuIRDA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTemplateVariable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTemplateVariable.html",
+          "hash": "ETqdz+q5VRtxUscLGQEE9w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityTransition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityTransition.html",
+          "hash": "S4rx5MIFeQlgJJ4T0NjKjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityVariable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityVariable.html",
+          "hash": "V+csg2IIc3N7RgDPmmNRKQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ActivityVariableValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ActivityVariableValue.html",
+          "hash": "FEGw8pxkMrcXjnMhG/lWGA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Alias.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Alias.html",
+          "hash": "051xHKyIx+rYeDuBNZwE+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.AllowedPermission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.AllowedPermission.html",
+          "hash": "ksnHpaZLspzrQbGV8m4kCw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.AllowedWorkflow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.AllowedWorkflow.html",
+          "hash": "KFK4+rZLUB8X3whK6zQ9ig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.AppliedUpdates.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.AppliedUpdates.html",
+          "hash": "Tpdai4htj9Zid1n6egh4mA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ArasNameAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ArasNameAttribute.html",
+          "hash": "IzrYF8/Op25HEwp2seDVYA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Board.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Board.html",
+          "hash": "icliok2GDS3tgv1UiVwDPA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Body.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Body.html",
+          "hash": "sd55UUOTEXkLfSLWSIzpyw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.BusinessCalendarException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.BusinessCalendarException.html",
+          "hash": "e3QQVijWEz4bEv8jZGjqgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.BusinessCalendarYear.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.BusinessCalendarYear.html",
+          "hash": "DgjltEjehYNaqmLEwAKFew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CanAdd.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CanAdd.html",
+          "hash": "f1p3YXJbFl1cz51Zo3IYsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Chart.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Chart.html",
+          "hash": "vfNYTneOZ75FmUwUpYHjsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ChartSeries.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ChartSeries.html",
+          "hash": "Ep9TisWsvg8FwZuYi9E/qg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ClientEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ClientEvent.html",
+          "hash": "EbGqZKx+OO7oqsQqDiENhw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ColumnEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ColumnEvent.html",
+          "hash": "FUGVDJavMJVG/S7HVuebCg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarButton.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarButton.html",
+          "hash": "8FSkvaB8Uw0dV2V8tRsdzA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarCheckbox.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarCheckbox.html",
+          "hash": "ULtNwRjfE61ctfZsYuab0A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarDropDown.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarDropDown.html",
+          "hash": "0Vmf+6lROG6v7QIt+IMhmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarItem.html",
+          "hash": "jwqLNON0oiEGYWkKO3KjdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarMenu.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarMenu.html",
+          "hash": "79QkvbWH31dnkkutoLWgjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarMenuButton.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarMenuButton.html",
+          "hash": "NVo5WhXqmBqbE1dFcbkp/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarMenuCheckbox.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarMenuCheckbox.html",
+          "hash": "wrr0+VkLj9BDWSRUZmccTw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarSection.html",
+          "hash": "bqIW4u3Xov75NXHa+t0h+w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarSectionItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarSectionItem.html",
+          "hash": "f16oLuF1RZ/O69SQSXRJ6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.CommandBarSeparator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.CommandBarSeparator.html",
+          "hash": "zq1RSZDFfjqD+x4hZ5TyTg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConfigurableGridEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConfigurableGridEvent.html",
+          "hash": "YO6nuXFx6qtCENGpZqp0kg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionRule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionRule.html",
+          "hash": "/r0h43PP6aLL+tmF757Exg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionRuleEventHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionRuleEventHandler.html",
+          "hash": "9rELaVlF6Q3nstdD74qXnQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionRuleEventTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionRuleEventTemplate.html",
+          "hash": "togz+iM7EJ1RqQbXb5d9oA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionRuleFileType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionRuleFileType.html",
+          "hash": "Aaq7uVCCfTfpcjw0L86psA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionServer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionServer.html",
+          "hash": "rTdkPqpq00OA2v/+j8RiHQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionServerConverterType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionServerConverterType.html",
+          "hash": "uWQsCJIAe37/jIYJczaQIQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionServerPriority.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionServerPriority.html",
+          "hash": "NspzLM/FVGtgWw0Iu5We4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionTask.html",
+          "hash": "V+CdTE9MKE4yN/Xu+GDvYw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionTaskDependency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionTaskDependency.html",
+          "hash": "JE9ZV2E3C7msvj0PDvKSxg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionTaskEventHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionTaskEventHandler.html",
+          "hash": "JISyNI0X+yMQv9AkLHpuYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionTaskHandlerError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionTaskHandlerError.html",
+          "hash": "3gJyEaeJSw5fD9tWXJGaeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConversionTaskResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConversionTaskResult.html",
+          "hash": "TT4kGekZPZs3+2HF7+XhBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ConverterType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ConverterType.html",
+          "hash": "QG0U5V+GHHLmz9iRz8ZFrw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Core_GlobalLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Core_GlobalLayout.html",
+          "hash": "colMYkkB+CRE+HWpaHqI4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Core_ItemGridLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Core_ItemGridLayout.html",
+          "hash": "d/YRMR3aonu/yhq9N1dJLw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Core_RelGridLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Core_RelGridLayout.html",
+          "hash": "lfQpHITB6BXgmk7nrknTIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Dashboard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Dashboard.html",
+          "hash": "Fp7vaHJhNa7bE2DTKg50Cw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DashboardChart.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DashboardChart.html",
+          "hash": "Pg67NBCACVAqJ43ers7UWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DatabaseUpgrade.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DatabaseUpgrade.html",
+          "hash": "/8rp7b8pDqy1nCdu9rtTPQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DatabaseUpgradeLogFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DatabaseUpgradeLogFile.html",
+          "hash": "rguGsRzAIZmcoC2M6ZBh6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DatabaseUpgradePatch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DatabaseUpgradePatch.html",
+          "hash": "4EN2btGprHQXqqHoVQ/N3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Desktop.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Desktop.html",
+          "hash": "qDMPJBqOim/nxwxKOpfy6w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Discussion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Discussion.html",
+          "hash": "T5WLTct2bhB0Z8I2+57QVQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DiscussionDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DiscussionDefinition.html",
+          "hash": "Hc6+LhqOQABxVue66SIupA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DiscussionDefinitionView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DiscussionDefinitionView.html",
+          "hash": "ROfOQO552ibRwN16jFeqCQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DiscussionTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DiscussionTemplate.html",
+          "hash": "LoHlsoJXV7jDkkJQo0oQgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.DiscussionTemplateView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.DiscussionTemplateView.html",
+          "hash": "JVZvNtcYmcSeD+sT3ggPNA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.EMailMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.EMailMessage.html",
+          "hash": "W5v0c32GnbSBrSJtxpd1dw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Exclusion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Exclusion.html",
+          "hash": "zp8dpx350vFqyLwa7M01nQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FeatureLicense.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FeatureLicense.html",
+          "hash": "neZOHJQS9yS55/WnM95HAg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Feed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Feed.html",
+          "hash": "1OVW0Zd0F6+duad4JTMOBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FeedTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FeedTemplate.html",
+          "hash": "0QSREFYp4+aRvNIWf4UjkA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Field.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Field.html",
+          "hash": "nbJX2tIQjckJ6kpYnFC9ww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FieldEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FieldEvent.html",
+          "hash": "h5Npgih+luaCmWL8z+sF7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.File.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.File.html",
+          "hash": "BmsJ8BQkemOFZkXbFTMLcA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileContainerItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileContainerItems.html",
+          "hash": "vVnn/nx+ZMNJhmlxlG2SdA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileContainerLocator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileContainerLocator.html",
+          "hash": "/7z/aA3cwRInlDV7g1F2cg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileExchangePackage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileExchangePackage.html",
+          "hash": "mG8+yNPknPD0AdBlEVhdmg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileExchangePackageFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileExchangePackageFile.html",
+          "hash": "wo1n6Wp8WfBtZ5tf6mHeMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileExchangeTxn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileExchangeTxn.html",
+          "hash": "rKC3FabdYpIy9zJd8FRUGg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileExchangeTxnState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileExchangeTxnState.html",
+          "hash": "sMf9GdVwcKIpnSUOems4mw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileGroup.html",
+          "hash": "HZC94QaznlaEJAZEtF69aQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileGroupFile.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileGroupFile.html",
+          "hash": "2H60BsSbEq+IvVOWjQT7ZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileSelector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileSelector.html",
+          "hash": "Vac0F9nauVxWXbBq7EgzfA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileSelectorTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileSelectorTemplate.html",
+          "hash": "HR3xRal+nMYWLIwbmMOeew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FileType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FileType.html",
+          "hash": "ijc2NQhHeJDUts15ndN1JQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FilterValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FilterValue.html",
+          "hash": "jDFU9vdPj0wLmGL42WVE4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Form.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Form.html",
+          "hash": "JUj91p+XdLKYTG0AU04BpQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.FormEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.FormEvent.html",
+          "hash": "RV9RemOCOhrxH0faFWGnSQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Forum.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Forum.html",
+          "hash": "z7+KT0zb0DrZFliLrp0FNw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ForumItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ForumItem.html",
+          "hash": "iU9MhqDZGZSZpKyf6ll55g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ForumMessageGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ForumMessageGroup.html",
+          "hash": "edtrjKUTPG/ELFCiYzt29w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ForumMustViewBy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ForumMustViewBy.html",
+          "hash": "LGk206yjm38NLiSDhSVdvg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ForumSearch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ForumSearch.html",
+          "hash": "eAMaRZmExwHpP/jmhWON7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ForumSharedWith.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ForumSharedWith.html",
+          "hash": "25ubjLtY/D9sPeL5r6nctg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ForumWantViewBy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ForumWantViewBy.html",
+          "hash": "8U/RPeQfgwQF1BemRHdSwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Frame.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Frame.html",
+          "hash": "FZ8C0xOkku6OjNaomb7Wjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Frameset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Frameset.html",
+          "hash": "33Q4ZsUEOYhSC1nrTtdMxA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.GlobalPresentationConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.GlobalPresentationConfig.html",
+          "hash": "ivWml4cFHZgjSoi6lBL4rw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Grid.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Grid.html",
+          "hash": "rMt4nC+m77ghf3/FtCRbbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.GridColumn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.GridColumn.html",
+          "hash": "RPZUXU6SSSG5Sdw9fupEeg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.GridEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.GridEvent.html",
+          "hash": "To6LxlMCA7pgspnYjbq6Lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Help.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Help.html",
+          "hash": "vSI5KBSiyrnWTsYSdzMaSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HelpSeeAlso.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HelpSeeAlso.html",
+          "hash": "Fe1y9eSbKuPUykmEQNe3dA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HideIn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HideIn.html",
+          "hash": "8GBN4Iln33AjWZEoyByKeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HideRelatedIn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HideRelatedIn.html",
+          "hash": "O2Z6I/lfsrfOmyWuag7AOA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.History.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.History.html",
+          "hash": "I6WWu40p2PwEvgHqJRvkow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HistoryAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HistoryAction.html",
+          "hash": "7VohHUyxyDa7qg4Qy3S+0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HistoryContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HistoryContainer.html",
+          "hash": "2cZYtoSd0VnzeMdEGifZ5Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HistorySecureMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HistorySecureMessage.html",
+          "hash": "2z3mqjJ90QK9WBfjJMGquQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HistoryTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HistoryTemplate.html",
+          "hash": "v48yiTsvgLaoeCFD0WdLmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HistoryTemplateAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HistoryTemplateAction.html",
+          "hash": "zEJTuCgaGzXT7NSsurzQBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.HistoryTemplateWhereUsed.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.HistoryTemplateWhereUsed.html",
+          "hash": "DaoWcvI5IkJ4wF0ckdPVuw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ICommandBarItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ICommandBarItem.html",
+          "hash": "4YXP0ysoVmg8ISvodGIY5g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.IFileContainerItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.IFileContainerItems.html",
+          "hash": "BmHaXw3yY3ZSdhrQ9kqgzQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.IInBasketTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.IInBasketTask.html",
+          "hash": "zy/9FfXrHqAq6t1sBMIdWQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ISSVCItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ISSVCItems.html",
+          "hash": "50HsLuCnPTqsZb1Dtm0uwg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ITPresentationConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ITPresentationConfiguration.html",
+          "hash": "dQ730XWh5l8OEy0z1SzYkA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Icmf_BaseView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Icmf_BaseView.html",
+          "hash": "vqfTcm4cwToLt2CjotSiXw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Icmf_ContentElementItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Icmf_ContentElementItems.html",
+          "hash": "9KinMtLbZ/1TO8TQlq2k/A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Icmf_ContentItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Icmf_ContentItems.html",
+          "hash": "/qFy2CmwWBosb3nixWY9VQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Icmf_ContentPropertyItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Icmf_ContentPropertyItems.html",
+          "hash": "/s1Ins10gKS6cdFQcRlCXw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Icmf_ContentTypeExportSetting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Icmf_ContentTypeExportSetting.html",
+          "hash": "BrJPyoTLGprTnJeIbgWqzA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Identity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Identity.html",
+          "hash": "2Ktvt1JDx8dD+4vBBmGBOA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Implements.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Implements.html",
+          "hash": "wMJIMHkbVUK/rL2YE5OFRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.InBasketTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.InBasketTask.html",
+          "hash": "QXY15tL/5Dkfp7sw5VkMdw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.InheritedServerEvents.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.InheritedServerEvents.html",
+          "hash": "LRdD6NmOHezOdjMobjdPRQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ItemAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ItemAction.html",
+          "hash": "C0vMkA6lTUKM309WxOhodA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ItemReport.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ItemReport.html",
+          "hash": "EfaLEQhTDCAV8j+tPFFE4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ItemType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ItemType.html",
+          "hash": "l67+RDWAdxvvFvzV7/Zy0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ItemTypeLifeCycle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ItemTypeLifeCycle.html",
+          "hash": "0szsqTcrLwaqZLJ4Psxm6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Itp_Item.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Itp_Item.html",
+          "hash": "h3Pdyd4SJqaD3kvEU2pICA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Language.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Language.html",
+          "hash": "AYJrJL8/D0K/OLaPVp3P7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.LifeCycleMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.LifeCycleMap.html",
+          "hash": "0vY+vsBT34A7tBKlU5cS8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.LifeCycleState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.LifeCycleState.html",
+          "hash": "E4P0ULkGnbTXWCYcnrQhfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.LifeCycleTransition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.LifeCycleTransition.html",
+          "hash": "54Qrll6DoRoAh5aDeraTCQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.List.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.List.html",
+          "hash": "GxYRF1c3YdRprFdJNqfblQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Locale.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Locale.html",
+          "hash": "5GO/VBc6TogkOiPE/dTYmw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Located.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Located.html",
+          "hash": "SNNMNVy9/56QwnFwtH2xjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.LockedItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.LockedItems.html",
+          "hash": "lWZRozB5dwkf64kx7pH1Zg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Member.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Member.html",
+          "hash": "2DZ8OToDzF/BAQ3r+TFS/g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Message.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Message.html",
+          "hash": "Oj8uJ5N1bVmID8xcWMbI3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.MessageAcknowledgement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.MessageAcknowledgement.html",
+          "hash": "us/NoFRtIZFxC6ufhSXpLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Method.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Method.html",
+          "hash": "uQ0AxdsB1G+fpWPMj001Nw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Metric.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Metric.html",
+          "hash": "hovhVju5KBlKDkQbHGtrgA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.MetricValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.MetricValue.html",
+          "hash": "m+DcvmAhlWOrH343EKREcg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Morphae.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Morphae.html",
+          "hash": "mq4u3fORhV6du7aimm/pjQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.MyReports.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.MyReports.html",
+          "hash": "Gbj4sGrKgSAREtRcYrN2FA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.OldPassword.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.OldPassword.html",
+          "hash": "RYAhYqg/sA9QCYctO6xphg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PackageDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PackageDefinition.html",
+          "hash": "+SYvX8Xxe+gH5HbAXQ3mSg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PackageDependsOn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PackageDependsOn.html",
+          "hash": "aKqfRN0MxI0Xs0ZfKQijrA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PackageElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PackageElement.html",
+          "hash": "bXglaM1qRjfewjOAQ6XDvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PackageGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PackageGroup.html",
+          "hash": "3LMSumXhU0bPTZ8IfIAVvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PackageReferencedElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PackageReferencedElement.html",
+          "hash": "ZP6pmnPMCs2j560r97wJaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Permission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Permission.html",
+          "hash": "NZaTFdDjtXsWn78XnZzW4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Preference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Preference.html",
+          "hash": "xKK3FMdf+O5TBGsH1m+xwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PreferenceTabTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PreferenceTabTypes.html",
+          "hash": "qTRgQgd+7YmakTkw3WXg+w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PreferenceTypes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PreferenceTypes.html",
+          "hash": "xz4nMTSO7VeiaVelSl16Yg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PresentationCommandBarSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PresentationCommandBarSection.html",
+          "hash": "oSrzf2+pTYGSIi8PdBLdXQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.PresentationConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.PresentationConfiguration.html",
+          "hash": "HOCYKzgGD04qKlAC0OSiyg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Property.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Property.html",
+          "hash": "pR4WJEuKh3PJmcpGFwp+9Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ReadPriority.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ReadPriority.html",
+          "hash": "+cOPSSy4UpsAj8b8Ti1AQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.RelationshipGridEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.RelationshipGridEvent.html",
+          "hash": "P1yMNLS4BkaTBqXRrMUj8g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.RelationshipType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.RelationshipType.html",
+          "hash": "wL4RU88h9DTq6/DQSbRO/g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.RelationshipView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.RelationshipView.html",
+          "hash": "1JzkzS6ww0t0J8dJ8LO0VQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ReplicationRule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ReplicationRule.html",
+          "hash": "1ScU3tKN9hhLeY8ILS2ZvQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ReplicationRuleFileType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ReplicationRuleFileType.html",
+          "hash": "kxVODrU684zOj4ZO+BsHiQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ReplicationRuleTargetVault.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ReplicationRuleTargetVault.html",
+          "hash": "zaZg79oz0uI3fsZa+afUYQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ReplicationTxn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ReplicationTxn.html",
+          "hash": "CYI8xQko3Q16cx1otLQ0mQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ReplicationTxnLog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ReplicationTxnLog.html",
+          "hash": "cqKQFY+cQsJJ2j6JePf2Sw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Report.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Report.html",
+          "hash": "r2/Wgf218gi358x8yQZKvw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Revision.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Revision.html",
+          "hash": "jTsjMoGqbXFP/uLQAggpgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.RunReportByUser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.RunReportByUser.html",
+          "hash": "FPT/YnGodORLFQriAOEyUg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SPDocumentLibraryDefinition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SPDocumentLibraryDefinition.html",
+          "hash": "GInKlclnLspPZnmc8T0Iqw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SPField.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SPField.html",
+          "hash": "kAqslMUZ8L54qVEikvoy3A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SQL.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SQL.html",
+          "hash": "PI/Y1XKX7ylBZLi/d665BA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SQLDependencies.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SQLDependencies.html",
+          "hash": "znxmPRLE2+XuwunjJ4d58A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SSVCItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SSVCItems.html",
+          "hash": "pdn/8PfFxjq36KsJ2eJDoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SSVCPresentationConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SSVCPresentationConfiguration.html",
+          "hash": "QhZUYS1ofiCJIeu+WHGzDA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SSVC_Preferences.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SSVC_Preferences.html",
+          "hash": "hZEQ673vEsa5F3poitoGYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SavedSearch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SavedSearch.html",
+          "hash": "yoErgmFzjDeNr2YVllhhbA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ScheduledTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ScheduledTask.html",
+          "hash": "LSTfkFB+Q2Du2d9XeEOd0w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Search.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Search.html",
+          "hash": "oitl8hyjCPOcpWa/G1n0bQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SearchCenter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SearchCenter.html",
+          "hash": "cZQGsBYxfNn9NwW+L3a3dA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SearchCriteria.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SearchCriteria.html",
+          "hash": "DFRstTcqgsZNZG5Brsjk8w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SearchMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SearchMode.html",
+          "hash": "XFtoQPVT9KmGhTgmquciBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SecureMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SecureMessage.html",
+          "hash": "3BQm9/iCOqooTpaHJdEulQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SecureMessageAudio.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SecureMessageAudio.html",
+          "hash": "zUn2u1zVE/+XRVfWKZ6YKQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SecureMessageFlaggedBy.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SecureMessageFlaggedBy.html",
+          "hash": "R7pSeKXiPt5wWwnCKcYppw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SecureMessageMarkup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SecureMessageMarkup.html",
+          "hash": "c32E69jMd0B6DmsvyYdt5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SecureMessageVideo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SecureMessageVideo.html",
+          "hash": "rUtdy96J/W8uBQ1z7t1sTg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SecureMessageViewTemplate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SecureMessageViewTemplate.html",
+          "hash": "+dk62i5i2b+nUI6vgrtrgQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SelfServiceReport.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SelfServiceReport.html",
+          "hash": "Nzv2AxyFEJwHDZ60LEs3iA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SelfServiceReportFeatured.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SelfServiceReportFeatured.html",
+          "hash": "uiumOvtqVj9thDLSi3iBow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SelfServiceReportHelp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SelfServiceReportHelp.html",
+          "hash": "v/cKquq/meoImhw2pw2oUA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SelfServiceReportSettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SelfServiceReportSettings.html",
+          "hash": "uXOuoFyUBl958IkoFqGDEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SelfServiceReportSharedWith.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SelfServiceReportSharedWith.html",
+          "hash": "phXZjd7KFe3MIFOfGYxCGQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Sequence.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Sequence.html",
+          "hash": "rf8yW7mT2jPJZWFH1mL0Iw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ServerEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ServerEvent.html",
+          "hash": "uDzMmjZloPspgj3IffTuwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ServiceProvider.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ServiceProvider.html",
+          "hash": "ug37Y2wuxMam6fUW4U/Z6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.StateDistribution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.StateDistribution.html",
+          "hash": "ketNwDrChY5lhTc41ncGfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.StateEMail.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.StateEMail.html",
+          "hash": "97NC2kHYxHAXcU2xqRKFYQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.StateNotification.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.StateNotification.html",
+          "hash": "kE2PFXyngswVs2uPpvzP+g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.StoredSecureMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.StoredSecureMessage.html",
+          "hash": "uCUSjsyd4gfJUoU5Xv2S3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SystemEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SystemEvent.html",
+          "hash": "BtKLfNDi6+bP4Z4zUJXH0w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SystemEventHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SystemEventHandler.html",
+          "hash": "p6d8+vE/A5WVf4rGXQvyuA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SystemEventLog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SystemEventLog.html",
+          "hash": "uy+w5Eqz7g6QIvfT1FmEFw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SystemEventLogDescriptor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SystemEventLogDescriptor.html",
+          "hash": "npIoVzAXuUC6kMdV0kb81g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.SystemFileContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.SystemFileContainer.html",
+          "hash": "/gt7LPAhUM4GajINjOUdhQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.TOCAccess.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.TOCAccess.html",
+          "hash": "K6vlYII/a9jSFgz79kpWOQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.TOCView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.TOCView.html",
+          "hash": "JpV/1IDp0KS6lzyRBTqbLA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Team.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Team.html",
+          "hash": "66WfMwOi8ij1j8VAQqdhwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.TeamIdentity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.TeamIdentity.html",
+          "hash": "hHtrlVxcam25AUCTudbCVw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.TimetoManufacturing.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.TimetoManufacturing.html",
+          "hash": "2UVUAcq0uuPx/3OljPuHFg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.TransitionDistribution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.TransitionDistribution.html",
+          "hash": "bXDWAtDySUmEAfAP4+t6jw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.TransitionEMail.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.TransitionEMail.html",
+          "hash": "NRWFXvgHB1/kOwnYPLM1Lg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.User.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.User.html",
+          "hash": "4ET1Tkg1t7Yhl1sll/2O+A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.UserMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.UserMessage.html",
+          "hash": "YQoMNtSKIjVrXWdWm01xww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Value.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Value.html",
+          "hash": "K5Kb+hQSpcPxNiA4SPJLUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Variable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Variable.html",
+          "hash": "EiE/uOA0qxYXSZvDHoii4A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Vault.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Vault.html",
+          "hash": "idUZV1rKEB6lqdV07ue2ww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.View.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.View.html",
+          "hash": "HHyuchUcMM8jdTT9gaJuOQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.ViewWith.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.ViewWith.html",
+          "hash": "Yfk6F2nyuJgqWsYf7fMvqQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Viewer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Viewer.html",
+          "hash": "XQ6X1/jWuntmTBVXuTbqnw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WSConfiguration.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WSConfiguration.html",
+          "hash": "KcFY4bvgxiHkV4UKXt8bZA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WSType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WSType.html",
+          "hash": "lTWDsjzmIiHtchnsjBkvPA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WSTypeAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WSTypeAction.html",
+          "hash": "0AznHl3T+wmt45Bwh753hw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WSTypeAssociate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WSTypeAssociate.html",
+          "hash": "Fs4wHZ8O87ZqtvInmMJ/zA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WSTypeProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WSTypeProperty.html",
+          "hash": "Nyaheo7BMYUStqwaOXKQrg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.Workflow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.Workflow.html",
+          "hash": "WYSFll8fYI7svm+YIpvqyw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowMap.html",
+          "hash": "mRF0gK1+jKC4aaLax+ht5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowMapActivity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowMapActivity.html",
+          "hash": "3UZ/piZS3DRoRRtITmZNfQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowMapPath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowMapPath.html",
+          "hash": "ttANu/NxKM3s66n/1IyfvA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowMapPathPost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowMapPathPost.html",
+          "hash": "FyPqgAKnPYO5JYG018SCBg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowMapPathPre.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowMapPathPre.html",
+          "hash": "zyPF7jwEHSQQvIWmtnh50A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowMapVariable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowMapVariable.html",
+          "hash": "Xk/dB7cfV+ynqekWOHdb9A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowProcess.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowProcess.html",
+          "hash": "gC7HTf4yaBlckXHco0VAVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowProcessActivity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowProcessActivity.html",
+          "hash": "0lRBMY7vnEd6uxLMvn0FGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowProcessPath.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowProcessPath.html",
+          "hash": "NgcLpSG7NxJV3dyinwXd7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowProcessPathPost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowProcessPathPost.html",
+          "hash": "ZSK0Ve/4BPPcfzPtgXn9ig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowProcessPathPre.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowProcessPathPre.html",
+          "hash": "c6gptLTVUSljVaJp+q9wUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowProcessVariable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowProcessVariable.html",
+          "hash": "YA6LPQ4xGtOdvLXW4zLYCQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.WorkflowTask.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.WorkflowTask.html",
+          "hash": "B3PBwVLxdx/KRt3uikDyFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_AdditionalPropertyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_AdditionalPropertyType.html",
+          "hash": "qdkRJvJM05rb9OrF7lNaUQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_BaseView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_BaseView.html",
+          "hash": "c2GhP+bpCnZiNJnUmQMVIA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ComputedProperty.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ComputedProperty.html",
+          "hash": "Kbkrs2Ya2Afak2qtsefrTg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ComputedPropertyDependency.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ComputedPropertyDependency.html",
+          "hash": "pB6nlbk8hsLK1YV5YUBmrQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentElementItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentElementItems.html",
+          "hash": "tUMtQqKnA/f4c/2T1DXlNQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentItems.html",
+          "hash": "gyz1Tf8ldvYvC+6lKqXR0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentPropertyItems.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentPropertyItems.html",
+          "hash": "KNO5EA8FVVLpbZP42hT2HQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentType.html",
+          "hash": "1ObvV8QMxrEmXf2krl7Qzg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentTypeExportRel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentTypeExportRel.html",
+          "hash": "aslipBHhDuGOjcPaKRXhig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentTypeExportSetting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentTypeExportSetting.html",
+          "hash": "+QbKyoFb48mYwCxbIGFelQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentTypeExportToExcel.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentTypeExportToExcel.html",
+          "hash": "APs75CcJ49L7fzMACdtUgw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentTypeGridLayout.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentTypeGridLayout.html",
+          "hash": "+fXNlt5BXn9gwHtlpdfy7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ContentTypeView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ContentTypeView.html",
+          "hash": "4h/DCb2xSieg6BG61qMjZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_DocumentLifeCycleState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_DocumentLifeCycleState.html",
+          "hash": "SrzTdlmsOmaYLeYUfZ9MCQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ElementAllowedPermission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ElementAllowedPermission.html",
+          "hash": "Z+p6rVYsCCENMeggd0umxQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ElementBinding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ElementBinding.html",
+          "hash": "4390fa0MC8phvjBNxbjkBQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ElementType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ElementType.html",
+          "hash": "jE1g+fiKxPSACfsKwdQZ/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_ExportToExcelViewConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_ExportToExcelViewConfig.html",
+          "hash": "D52dD0600JSFoMK0xjGOMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_PropertyAllowedPermission.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_PropertyAllowedPermission.html",
+          "hash": "9fdBGFeuYrQxqmUbbjE0NA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_PropertyBinding.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_PropertyBinding.html",
+          "hash": "hOKtxlE9VTZ2switqNIEFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_PropertyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_PropertyType.html",
+          "hash": "cNTfrKt9CRhLqdl2GOxLWw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_Style.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_Style.html",
+          "hash": "Ipqr5l7F4DpR7307/wisqA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_TabularView.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_TabularView.html",
+          "hash": "nsQJqjFBk45JPCG+9X4uhw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_TabularViewColumn.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_TabularViewColumn.html",
+          "hash": "iNNiJB8fuAaTf73265evsw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_TabularViewColumnGroups.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_TabularViewColumnGroups.html",
+          "hash": "wOXjTo9irGkIQOOJRIEv/Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_TabularViewHeaderRow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_TabularViewHeaderRow.html",
+          "hash": "8Z4rcFjk+Vjw+2tAiIwCQA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_TabularViewHeaderRows.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_TabularViewHeaderRows.html",
+          "hash": "j6yyR8mSQa5TIRPxZhAhlA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.cmf_TabularViewTree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.cmf_TabularViewTree.html",
+          "hash": "5pgqCyDvYEQSvytJrAE6WQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_Block.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_Block.html",
+          "hash": "hQqjVHRkBZe9cfdoRvhDMQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_BlockReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_BlockReference.html",
+          "hash": "W0WyjfWDAotqUwBEs954CQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_Image.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_Image.html",
+          "hash": "0IIsMxt3zzxkBul/PydjwA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_ImageReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_ImageReference.html",
+          "hash": "CyJJmi7tD4N6W2QD9V3Aog=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_Item.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_Item.html",
+          "hash": "KWg7ozeBQ30WkPUZZXy8SA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_ItemReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_ItemReference.html",
+          "hash": "QOSL7VjH6jgOvdaMJrUeVg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_LinkReference.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_LinkReference.html",
+          "hash": "41Ur4H4N3DjSC0BjDiKulA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_Stylesheet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_Stylesheet.html",
+          "hash": "OvrM5Eo8eJ8cdaOEcPYdEA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_XmlSchema.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_XmlSchema.html",
+          "hash": "CQPZ7ysdq2Y6P49xA0TjEw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_XmlSchemaElement.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_XmlSchemaElement.html",
+          "hash": "1I/uDHr3wnUWHhs0u83WUg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.tp_XmlSchemaOutputSetting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.tp_XmlSchemaOutputSetting.html",
+          "hash": "pl4nmCmyCb5cvOZK//tF/w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Model.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Model.html",
+          "hash": "Fp65bEVwfAG6hAhmoyNv0g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.NoItemsFoundException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.NoItemsFoundException.html",
+          "hash": "rnNUEBefboUJoBuIqeCXWA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ParameterStyle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ParameterStyle.html",
+          "hash": "00/RFAo9okWcG3P2dRTc7g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ParameterSubstitution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ParameterSubstitution.html",
+          "hash": "lJPZTV5yVlU1XZ9Tpl9+Lw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ParameterSubstitutionMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ParameterSubstitutionMode.html",
+          "hash": "VbQayuxiWuePg1j4iACJCQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Promise-1.Condition.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Promise-1.Condition.html",
+          "hash": "2YIwttue5suHaq/h9dTzfw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Promise-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Promise-1.html",
+          "hash": "bkAUyyJ51cIm+85DucG3lg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.PromiseResult-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.PromiseResult-2.html",
+          "hash": "ap09ApOkZ7qY9mtvWCVDxQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.PromiseResult-3.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.PromiseResult-3.html",
+          "hash": "AJb7O6A7bAJJxXNOxB0YTw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.PromiseResult-4.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.PromiseResult-4.html",
+          "hash": "6MHjV6CpvLtyoC7x6ypa3Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Promises.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Promises.html",
+          "hash": "SQrxYRxSb3t+xSOnqVd9eQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.QuerySettings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.QuerySettings.html",
+          "hash": "ZIY5F22O2pDOn1J14rKJaQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.QueryType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.QueryType.html",
+          "hash": "c+AlmLRVp57Js22sZko6qA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Queryable.IQueryResult-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Queryable.IQueryResult-1.html",
+          "hash": "0JHQAiZQSme3/bpeV/jAJg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Queryable.IQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Queryable.IQueryResult.html",
+          "hash": "o1+Rq7rmHPY7SVCtvCcdkw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Queryable.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Queryable.html",
+          "hash": "x4wzEp9P/ROUN7rfJblxtw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Range-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Range-1.html",
+          "hash": "kDN3IA6GbfJpOthd9xizeA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SavedConnections.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SavedConnections.html",
+          "hash": "zdkGVF6v9AFoHgDxl4pkcQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SecureToken.FuncRef-2.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SecureToken.FuncRef-2.html",
+          "hash": "LvuABGIriF5D4FObYwygug=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SecureToken.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SecureToken.html",
+          "hash": "3OiCOiWBT33pMY2jsQEpEg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SelectNode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SelectNode.html",
+          "hash": "AAoZNhub7tMC4BwzTrI3gg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ServerContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ServerContext.html",
+          "hash": "2RJPQY4xvdvgWiYA+B5iPw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ServerException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ServerException.html",
+          "hash": "l0HTb32jj5t4JTA4cJXr/w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SqlBatchWriter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SqlBatchWriter.html",
+          "hash": "gS0UQ3AjHPcop0wMsuN6tw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SqlFormatter.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SqlFormatter.html",
+          "hash": "fKCKOLW4xB0fIpeyQ9RfzA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.StaticDateTimeRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.StaticDateTimeRange.html",
+          "hash": "0qHlQqSu7u7qlMGGl0Lm6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.SubSelect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.SubSelect.html",
+          "hash": "gzLX8jxctaA0wnwm4tkJTA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.CommandTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.CommandTests.html",
+          "hash": "dGXR64MDP7tnr7EIgEavzQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ConnectionExtensionsTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ConnectionExtensionsTests.html",
+          "hash": "+38JuJbTDpLIxzoRujoDzA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ConnectionPreferencesTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ConnectionPreferencesTests.html",
+          "hash": "2d6o/1hCkvlYVo0xD5YgWQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ElementFactoryTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ElementFactoryTests.html",
+          "hash": "Ahjvf8SwbfgAidzd0Jg3ow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ItemExtensionsTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ItemExtensionsTests.html",
+          "hash": "F4Lfkf92Qy88GL5o9IYWDA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ItemTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ItemTests.html",
+          "hash": "LprWQrairFRGp9wX2tMQng=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ParameterSubstitutionTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ParameterSubstitutionTests.html",
+          "hash": "QzDS5WhR85ukAN4+7X9sdQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.PropertyTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.PropertyTests.html",
+          "hash": "JkYtCe4k/P1zNXBzQnu6Dw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.ServerExceptionTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.ServerExceptionTests.html",
+          "hash": "xQbPXuhKolBngPFfEsp9vw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.SqlBatchWriterTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.SqlBatchWriterTests.html",
+          "hash": "wnw1Qw/PdGkQFu4PaR77Lw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.SubSelectTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.SubSelectTests.html",
+          "hash": "kZiF2tuRiObO14oe21OFpg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.UploadCommandTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.UploadCommandTests.html",
+          "hash": "9fhAb65bR9LiNcQBmpS3TA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Tests.html",
+          "hash": "MR51L6k4DK66Fr9yxc9k3g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Time.DaylightTime.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Time.DaylightTime.html",
+          "hash": "VVoEI3IDifeKOSNE9gaZeg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Time.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Time.html",
+          "hash": "HdQgMBpBh4suzBU8y19HBg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.TimeZoneData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.TimeZoneData.html",
+          "hash": "R5rvTpqVXK3NQSYiwt2DSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.UploadCommand.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.UploadCommand.html",
+          "hash": "85Lfl49uEDq3TWzaETOGtw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Utils.html",
+          "hash": "jsC/hsbXZYGhHJLMOlNn4g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ValidationException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ValidationException.html",
+          "hash": "1Uqe+DDfHNoM6WSHHxzHZQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.ValidationReportException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.ValidationReportException.html",
+          "hash": "pfXauboruGF7IiNYvxpI6w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.Vault.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.Vault.html",
+          "hash": "alQdju4XqjzYnwIiKCCENg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.WindowsCredentials.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.WindowsCredentials.html",
+          "hash": "aUaXLGkuVLaNj7p2pt5KuQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Client.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Client.html",
+          "hash": "FoKwoKmN5f7cG/lTT0RLlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.DelegateContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.DelegateContext.html",
+          "hash": "S0bhUJLpYR60kyhXBLwdxA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.Extensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.Extensions.html",
+          "hash": "ho1EzK3powp8XB/FOLdfLA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IAfterAddUpdate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IAfterAddUpdate.html",
+          "hash": "V/CbdtXd+5+Hli/5eCvPbw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IAfterGet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IAfterGet.html",
+          "hash": "AfW5dWtIsT4qRAti5xFsRw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IAfterVersion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IAfterVersion.html",
+          "hash": "hhhjyTg2qjkimyZTDnb8tg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IBeforeAddUpdate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IBeforeAddUpdate.html",
+          "hash": "EoG5exnWrENkHUDKok5g9Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IBeforeGet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IBeforeGet.html",
+          "hash": "PH/hGhTZ/Vsw/Uf2sm70Fw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IBeforeVersion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IBeforeVersion.html",
+          "hash": "Sr35I/nGXPqAslAev4HOvw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IContext.html",
+          "hash": "iR6lTDU7skNy8ZVxrE85qg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IDelegate.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IDelegate.html",
+          "hash": "wnZtgRG/VHr9DsoSiGh52Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IDelegateContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IDelegateContext.html",
+          "hash": "bHt4vMVDZEw659Gb0OXfNg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IGetKeyedName.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IGetKeyedName.html",
+          "hash": "ap999Oxt+KHnVhA/Jw3Dkw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IMethod.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IMethod.html",
+          "hash": "4hVrQf52aKmym+dl782KOQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IMultipleItemContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IMultipleItemContext.html",
+          "hash": "noB3SAN2JIJDyyB9rkkDQA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IMutableItemContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IMutableItemContext.html",
+          "hash": "ajy9hCTzQ+9cAVLcS13IAQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IOnAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IOnAction.html",
+          "hash": "+Cck25ufFROcQPmLBr2NRg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IOnGet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IOnGet.html",
+          "hash": "4Qqec47WhzgVKVaMed8+Xw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IPromotion.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IPromotion.html",
+          "hash": "uR+x4PZVcoIvR35266Hppg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IPromotionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IPromotionContext.html",
+          "hash": "lnetyqJ/nYmYgC+IkaNUuA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IRefuse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IRefuse.html",
+          "hash": "9bc9cxxiL3VtQyZ9djB8BA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IServerCache.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IServerCache.html",
+          "hash": "LucIzdZnnSHHkPBCm4kkPw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IServerConnection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IServerConnection.html",
+          "hash": "SW7MmYBo9JYhKnVx3jbI5g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IServerPermissions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IServerPermissions.html",
+          "hash": "BJuC5w/6bA2mTfQUin4Vow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.ISingleItemContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.ISingleItemContext.html",
+          "hash": "YMLWXAx2pjIl1V2AHZtDbA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.ISingleItemSubroutine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.ISingleItemSubroutine.html",
+          "hash": "bePYvMwws4IQaD7/4Kdqig=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IValidationContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IValidationContext.html",
+          "hash": "OrKgCeVUkx9Q0kzZ/r4GRw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IVersionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IVersionContext.html",
+          "hash": "s1OXeouTcscrU1CiKlyKZw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IVote.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IVote.html",
+          "hash": "Hf1ckhrm7VXI7St1z98lUQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IVoteContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IVoteContext.html",
+          "hash": "1pe87cZ0Cf828QFjEOqMOA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IWorkflow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IWorkflow.html",
+          "hash": "ZvtbcB9l8+C/G2jPTsTLqA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.IWorkflowContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.IWorkflowContext.html",
+          "hash": "+ApuSXCbGbtcvSTlBmJjyg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.MultiItemContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.MultiItemContext.html",
+          "hash": "bkkKsljDUySZVshdmMOKqg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.MutableItemContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.MutableItemContext.html",
+          "hash": "A7sGdRAZwpSPqgeo9i3gYA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.PromotionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.PromotionContext.html",
+          "hash": "Er0721+amM75EndZhrNguQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.SingleItemContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.SingleItemContext.html",
+          "hash": "sF76BaWs8fI9W+9RbAUTAw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.ValidationContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.ValidationContext.html",
+          "hash": "/SzI9ZUPrnU7HggzCA6Tew=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.VersionContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.VersionContext.html",
+          "hash": "J5PC3+GOUu12tZOhsUE9+g=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.VoteContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.VoteContext.html",
+          "hash": "hfc7Y7CKVzvQziYSMPvWhQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.WorkflowContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.WorkflowContext.html",
+          "hash": "ZB3hI+vzKzcHkvJ5XCz3TQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.WorkflowEvent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.WorkflowEvent.html",
+          "hash": "SQBkCHN+ICCKYWgwjgSmNg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Innovator.Server.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Innovator.Server.html",
+          "hash": "nLTJlaBGCnl4IaQIn7/Vmw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "tAFghJKco4orgsqVeqxXjQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "5xiWU28b9n1paLKhZch6Sg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "articles/connecting.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/connecting.html",
+          "hash": "OGSR9p7HL0ysptdNU1jxeA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/cookbook.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/cookbook.html",
+          "hash": "097JDci/rWd3/68o5+ugoQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "wmwF7BN6XWCXC9w8NIuFXg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/mappedconnections.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/mappedconnections.html",
+          "hash": "DKmG4R5ewheU1UmYauq77Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/parameterizedquery.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/parameterizedquery.html",
+          "hash": "Qt7Ww17xlfXUH8u7o4akHg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "3SzTt10sdkwo0xwiLON8pA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "+krUJWtrFKvZN2FP9gSQ8Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "zYf6k0UakNRW8QVhoRMH5A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build"
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "RestApiDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor RestApiDocumentProcessor cannot suppport incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {}
+}

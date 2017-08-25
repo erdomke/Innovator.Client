@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Innovator.Client.Connection
 {
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
-  class MappedConnection : IRemoteConnection
+  internal class MappedConnection : IRemoteConnection, IArasConnection
   {
     private Func<INetCredentials, string, bool, IPromise<ICredentials>> _authCallback;
     private IRemoteConnection _current;
@@ -20,9 +20,9 @@ namespace Innovator.Client.Connection
     private Action<IHttpRequest> _settings;
 
     public ElementFactory AmlContext { get { return _current == null ? ElementFactory.Local : _current.AmlContext; } }
-    public string Database { get { return _current == null ? null : _current.Database; } }
-    public Uri Url { get { return _current == null ? null : _current.Url; } }
-    public string UserId { get { return _current == null ? null : _current.UserId; } }
+    public string Database { get { return _current?.Database; } }
+    public Uri Url { get { return _current?.Url; } }
+    public string UserId { get { return _current?.UserId; } }
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
@@ -33,6 +33,33 @@ namespace Innovator.Client.Connection
         if (exp != null)
           return string.Format("[Connection] {0} | {1} | {2}", exp.Username, Database, Url);
         return string.Format("[Connection] {0} | {1} | {2}", UserId, Database, Url);
+      }
+    }
+
+    List<Action<IHttpRequest>> IArasConnection.DefaultSettings
+    {
+      get
+      {
+        return (_current as IArasConnection)?.DefaultSettings;
+      }
+    }
+
+    public CompressionType Compression
+    {
+      get
+      {
+        return (_current as IArasConnection)?.Compression ?? CompressionType.none;
+      }
+    }
+
+    public int Version
+    {
+      get
+      {
+        var arasConn = _current as IArasConnection;
+        if (arasConn == null)
+          throw new NotSupportedException();
+        return arasConn.Version;
       }
     }
 
@@ -127,6 +154,13 @@ namespace Innovator.Client.Connection
       var newConn = new MappedConnection(_mappings, _authCallback);
       return newConn.Login(_lastCredentials, async)
         .Convert(u => (IRemoteConnection)newConn);
+    }
+
+    public void SetDefaultHeaders(Action<string, string> writer)
+    {
+      var arasConn = _current as IArasConnection;
+      if (arasConn != null)
+        arasConn.SetDefaultHeaders(writer);
     }
   }
 }

@@ -7,8 +7,27 @@ using System.Text;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Creates an instance of a strongly-typed class (which inherits from <see cref="Item"/>) that 
+  /// represents a specific item type
+  /// </summary>
+  /// <seealso cref="Innovator.Client.IItemFactory" />
+  /// <remarks>
+  /// For any core Aras item type, a model from the <see cref="Innovator.Client.Model"/> namespace
+  /// will be returned.  In all other cases, an <see cref="Item"/> will be returned
+  /// </remarks>
   public class DefaultItemFactory : IItemFactory
   {
+    /// <summary>
+    /// Creates an instance of a strongly-typed class (which inherits from <see cref="Item" />) that
+    /// represents the item type <paramref name="type" />
+    /// </summary>
+    /// <param name="factory">Factory to be passed to the <see cref="Item" /> constructor</param>
+    /// <param name="type">Item type name</param>
+    /// <returns>
+    /// For any core Aras item type, a model from the <see cref="Innovator.Client.Model"/> namespace
+    /// will be returned.  In all other cases, an <see cref="Item"/> will be returned
+    /// </returns>
     public Item NewItem(ElementFactory factory, string type)
     {
       switch (type)

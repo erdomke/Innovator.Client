@@ -18,6 +18,7 @@ namespace Innovator.Client
   public interface IReadOnlyItem : IReadOnlyElement, IItemRef
   {
     /// <summary>Creates a duplicate of the item object.  All properties (including the ID) are preserved</summary>
+    /// <returns>A mutable copy of the current item</returns>
     IItem Clone();
     /// <summary>Returns a reference to the property with the specified name</summary>
     /// <param name="name">Name of the property</param>

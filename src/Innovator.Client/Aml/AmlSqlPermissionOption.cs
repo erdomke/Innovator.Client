@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// What SQL permission check to include in the SQL query
+  /// </summary>
   public enum AmlSqlPermissionOption
   {
     /// <summary>

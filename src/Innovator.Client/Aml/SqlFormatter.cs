@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  public class SqlFormatter : IFormatProvider, ICustomFormatter
+  internal class SqlFormatter : IFormatProvider, ICustomFormatter
   {
     private IServerContext _context;
 

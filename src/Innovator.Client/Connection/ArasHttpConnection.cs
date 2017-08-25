@@ -13,6 +13,7 @@ using System.Xml.Linq;
 
 namespace Innovator.Client.Connection
 {
+
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class ArasHttpConnection : IRemoteConnection, IArasConnection
   {
@@ -41,7 +42,9 @@ namespace Innovator.Client.Connection
         return string.Format("[Connection] {0} | {1} | {2}", _httpUsername, _httpDatabase, _innovatorServerBaseUrl);
       }
     }
-
+    /// <summary>
+    /// AML context used for creating AML objects and formatting AML statements
+    /// </summary>
     public ElementFactory AmlContext
     {
       get { return _factory; }
@@ -51,6 +54,9 @@ namespace Innovator.Client.Connection
       get { return _compression; }
       set { _compression = value; }
     }
+    /// <summary>
+    /// Name of the connected database
+    /// </summary>
     public string Database
     {
       get { return _httpDatabase; }

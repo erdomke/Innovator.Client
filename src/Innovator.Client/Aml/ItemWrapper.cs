@@ -8,7 +8,7 @@ using System.Xml;
 namespace Innovator.Client
 {
   /// <summary>
-  /// Wraps an Aras item so that additional functionality can be provided
+  /// Wraps an Aras item so that additional functionality can be easily provided
   /// </summary>
   [DebuggerTypeProxy(typeof(ItemDebugView))]
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
@@ -16,6 +16,10 @@ namespace Innovator.Client
   {
     private IReadOnlyItem _item;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ItemWrapper"/> class.
+    /// </summary>
+    /// <param name="item">The item to wrap.</param>
     public ItemWrapper(IReadOnlyItem item)
     {
       _item = item;

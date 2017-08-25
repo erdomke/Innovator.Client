@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  public class JsonFormatter : IFormatProvider, ICustomFormatter
+  internal class JsonFormatter : IFormatProvider, ICustomFormatter
   {
     public string Format(string format, params object[] args)
     {

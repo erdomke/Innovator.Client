@@ -95,6 +95,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(company, company.ModifiedById().Parent);
     }
 
+#if XMLLEGACY
     [TestMethod()]
     public void XPathSelectElements()
     {
@@ -106,5 +107,6 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(1, item.XPath().SelectElements("//Item[@type='FMEA Control']").Count());
       Assert.AreEqual(0, item.XPath().SelectElements("//Item[@type='FMEA Action']").Count());
     }
+#endif
   }
 }

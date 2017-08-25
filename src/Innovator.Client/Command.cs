@@ -93,12 +93,13 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Replaces SQL Server style numbered AML parameters (used as attribute and element values) with the corresponding arguments.
-    /// Property type conversion and XML formatting is performed
+    /// Creates an AML command that will be sent to the server.  Numbered AML parameters (e.g. @0, used as attribute 
+    /// and element values) will be replaced with the corresponding arguments.
     /// </summary>
     /// <param name="format">Format string containing the parameters</param>
     /// <param name="args">Replacement values for the numbered parameters</param>
     /// <returns>A valid AML string</returns>
+    /// <remarks>Property type conversion and XML formatting is performed</remarks>
     public Command(string query, params object[] args) : this()
     {
       this.WithAml(query, args);
@@ -106,12 +107,13 @@ namespace Innovator.Client
 
 #if DBDATA
     /// <summary>
-    /// Replaces SQL Server style style AML parameters (used as attribute and element values) with the corresponding arguments.
-    /// Property type conversion and XML formatting is performed
+    /// Creates an AML command that will be sent to the server.  Named AML parameters (e.g. @qty, used as attribute 
+    /// and element values) will be replaced with the corresponding arguments.
     /// </summary>
     /// <param name="format">Format string containing the parameters</param>
     /// <param name="paramaters">Replacement values for the named parameters</param>
     /// <returns>A valid AML string</returns>
+    /// /// <remarks>Property type conversion and XML formatting is performed</remarks>
     public Command(string query, Connection.DbParams parameters) : this()
     {
       this.Aml = query;
@@ -121,13 +123,18 @@ namespace Innovator.Client
       }
     }
 #endif
-
+    /// <summary>
+    /// Creates an AML command that will be sent to the server from an <see cref="IAmlNode"/>
+    /// </summary>
     public Command(IAmlNode aml) : this(aml.ToAml())
     {
       var elem = aml as IReadOnlyElement;
       if (elem != null && elem.Name == "AML" && elem.Elements().Count() > 1)
         this.Action = CommandAction.ApplyAML;
     }
+    /// <summary>
+    /// Creates an AML command that will be sent to the server from an <see cref="IEnumerable{IAmlNode}"/>
+    /// </summary>
     public Command(IEnumerable<IAmlNode> aml) : this()
     {
       this.Aml = "<AML>" + aml.GroupConcat("", i => i.ToAml()) + "</AML>";

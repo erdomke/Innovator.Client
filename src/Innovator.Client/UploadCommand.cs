@@ -51,21 +51,7 @@ namespace Innovator.Client
     {
       _vault = vault;
     }
-
-    ///// <summary>
-    ///// Merge another request into this request
-    ///// </summary>
-    ///// <param name="request">Request to merge into this one</param>
-    //public override Command MergeWith(Command request)
-    //{
-    //  var upload = request as UploadCommand;
-    //  if (upload != null)
-    //  {
-    //    _files.AddRange(upload._files);
-    //  }
-    //  return base.MergeWith(request);
-    //}
-
+    
     /// <summary>
     /// Add a file to the upload request
     /// </summary>

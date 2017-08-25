@@ -12,6 +12,9 @@ using System.Runtime.Serialization;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Context for serializing/deserializing native types (e.g. <c>DateTime</c>, <c>double</c>, <c>boolean</c>, etc.)
+  /// </summary>
 #if SERIALIZATION
   [Serializable]
 #endif
@@ -24,11 +27,29 @@ namespace Innovator.Client
     private readonly static Regex TimeZoneMatch = new Regex(@"(^|\s)[+-]\d{1,2}(:\d{1,2})?($|\s)");
     private TimeZoneData _timeZone;
 
+    /// <summary>
+    /// Gets the default language code configured for the Aras user
+    /// </summary>
     public string DefaultLanguageCode { get; set; }
+    /// <summary>
+    /// Gets the default language suffix configured for the Aras user
+    /// </summary>
     public string DefaultLanguageSuffix { get; set; }
+    /// <summary>
+    /// Gets the language code configured for the Aras user
+    /// </summary>
     public string LanguageCode { get; set; }
+    /// <summary>
+    /// Gets the language suffix configured for the Aras user
+    /// </summary>
     public string LanguageSuffix { get; set; }
+    /// <summary>
+    /// Gets the locale configured for the user.
+    /// </summary>
     public string Locale { get; set; }
+    /// <summary>
+    /// Gets the corporate time zone ID for the Aras installation
+    /// </summary>
     public string TimeZone
     {
       get { return _timeZone.Id; }
@@ -44,11 +65,19 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Create a server context in either the local or UTC time zone
+    /// </summary>
+    /// <param name="utc">Indicates the UTC time zone should be used. 
+    /// Otherwise, the local time zone will be used</param>
     public ServerContext(bool utc)
     {
       _timeZone = utc ? TimeZoneData.Utc : TimeZoneData.Local;
       this.LanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
     }
+    /// <summary>
+    /// Create a server context using the specified time zone name
+    /// </summary>
     public ServerContext(string timeZoneName)
     {
       this.TimeZone = timeZoneName;
@@ -77,9 +106,16 @@ namespace Innovator.Client
 #endif
 
     /// <summary>
-    /// Coerse an <see cref="object"/> to a <see cref="bool"/>?.
-    /// Handles <see cref="bool"/> or <see cref="string"/> values
+    /// Converts the <see cref="object" /> to a <see cref="bool" /> based on
+    /// the locale and time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="bool" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="bool"/></exception>
     public bool? AsBoolean(object value)
     {
       if (value == null) return null;
@@ -105,9 +141,16 @@ namespace Innovator.Client
       }
     }
     /// <summary>
-    /// Coerse an <see cref="object"/> to a <see cref="DateTime?"/> in the local timezone.
-    /// Handles <see cref="DateTime"/> or <see cref="string"/> values
+    /// Converts the <see cref="object" /> representing a date in the corporate
+    /// time zone to a <see cref="DateTime" /> in the local time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="DateTime" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
     public DateTime? AsDateTime(object value)
     {
       if (value == null) return null;
@@ -133,9 +176,16 @@ namespace Innovator.Client
       return result;
     }
     /// <summary>
-    /// Coerse an <see cref="object"/> to a <see cref="DateTime?"/> in the local timezone.
-    /// Handles <see cref="DateTime"/> or <see cref="string"/> values
+    /// Converts the <see cref="object" /> representing a date in the corporate
+    /// time zone to a <see cref="DateTimeOffset" /> in the local time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="DateTimeOffset" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTimeOffset"/></exception>
     public DateTimeOffset? AsDateTimeOffset(object value)
     {
       if (value == null)
@@ -169,9 +219,16 @@ namespace Innovator.Client
       return new DateTimeOffset(result, _timeZone.GetUtcOffset(result));
     }
     /// <summary>
-    /// Coerce an <see cref="object"/> to a <see cref="DateTime?"/> in the UTC timezone.
-    /// Handles <see cref="DateTime"/> or <see cref="string"/> values
+    /// Converts the <see cref="object" /> representing a date in the corporate
+    /// time zone to a <see cref="DateTime" /> in the UTC time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="DateTime" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
     public DateTime? AsDateTimeUtc(object value)
     {
       if (value == null) return null;
@@ -201,8 +258,16 @@ namespace Innovator.Client
       return result;
     }
     /// <summary>
-    /// Coerse an <c>object</c> to a <c>decimal?</c>.  Handles <c>decimal</c> or <c>string</c> values
+    /// Converts the <see cref="object" /> to a <see cref="decimal" /> based on
+    /// the locale and time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="decimal" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="decimal"/></exception>
     public decimal? AsDecimal(object value)
     {
       if (value == null) return null;
@@ -213,8 +278,16 @@ namespace Innovator.Client
       return decimal.Parse((string)value, CultureInfo.InvariantCulture);
     }
     /// <summary>
-    /// Coerse an <c>object</c> to a <c>double?</c>.  Handles <c>double</c> or <c>string</c> values
+    /// Converts the <see cref="object" /> to a <see cref="double" /> based on
+    /// the locale and time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="double" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
     public double? AsDouble(object value)
     {
       if (value == null) return null;
@@ -225,8 +298,16 @@ namespace Innovator.Client
       return double.Parse((string)value, CultureInfo.InvariantCulture);
     }
     /// <summary>
-    /// Coerse an <c>object</c> to a <c>int?</c>.  Handles <c>int</c> or <c>string</c> values
+    /// Converts the <see cref="object" /> to a <see cref="int" /> based on
+    /// the locale and time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="int" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
     public int? AsInt(object value)
     {
       if (value == null) return null;
@@ -237,8 +318,16 @@ namespace Innovator.Client
       return int.Parse((string)value, CultureInfo.InvariantCulture);
     }
     /// <summary>
-    /// Coerse an <c>object</c> to a <c>long?</c>.  Handles <c>long</c> or <c>string</c> values
+    /// Converts the <see cref="object" /> to a <see cref="long" /> based on
+    /// the locale and time zone
     /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>
+    /// <c>null</c> if <paramref name="value" /> is null or empty.
+    /// A <see cref="long" /> if <paramref name="value" /> is convertible.
+    /// Otherwise, an exception is thrown
+    /// </returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="long"/></exception>
     public long? AsLong(object value)
     {
       if (value == null) return null;
@@ -249,12 +338,21 @@ namespace Innovator.Client
       return long.Parse((string)value, CultureInfo.InvariantCulture);
     }
 
+    /// <summary>
+    /// Serializes the value to a string.  Dates are converted to the
+    /// corporate time zone
+    /// </summary>
+    /// <param name="value">The value to serialize.</param>
+    /// <returns>
+    /// A string representing the value
+    /// </returns>
     public string Format(object value)
     {
       return Format(value
         , n => n.ToString(DoubleFixedPoint, CultureInfo.InvariantCulture)
         , s => s.ToString());
     }
+
     private string Format(object value, Func<IFormattable, string> numberRenderer, Func<object, string> stringRenderer)
     {
       IFormattable number;
@@ -378,6 +476,13 @@ namespace Innovator.Client
       return converted.ToString("s");
     }
 
+    /// <summary>
+    /// Returns an object that provides formatting services for the specified type.
+    /// </summary>
+    /// <param name="formatType">An object that specifies the type of format object to return.</param>
+    /// <returns>
+    /// An instance of the object specified by <paramref name="formatType" />, if the <see cref="T:System.IFormatProvider" /> implementation can supply that type of object; otherwise, null.
+    /// </returns>
     public object GetFormat(Type formatType)
     {
       if (formatType == typeof(ICustomFormatter))
@@ -386,6 +491,15 @@ namespace Innovator.Client
         return null;
     }
 
+    /// <summary>
+    /// Converts the value of a specified object to an equivalent string representation using specified format and culture-specific formatting information.
+    /// </summary>
+    /// <param name="format">A format string containing formatting specifications.</param>
+    /// <param name="arg">An object to format.</param>
+    /// <param name="formatProvider">An object that supplies format information about the current instance.</param>
+    /// <returns>
+    /// The string representation of the value of <paramref name="arg" />, formatted as specified by <paramref name="format" /> and <paramref name="formatProvider" />.
+    /// </returns>
     public string Format(string format, object arg, IFormatProvider formatProvider)
     {
       // Check whether this is an appropriate callback

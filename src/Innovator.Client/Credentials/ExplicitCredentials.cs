@@ -40,7 +40,7 @@ namespace Innovator.Client
     public string Username { get { return _username; } }
 
     /// <summary>
-    /// Instantiate an <c>ExplicitCredentials</c> instance
+    /// Instantiate an <see cref="ExplicitCredentials"/> instance
     /// </summary>
     public ExplicitCredentials(string database, string username, SecureToken password)
     {

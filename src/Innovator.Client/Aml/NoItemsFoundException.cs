@@ -9,6 +9,10 @@ using System.Xml;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents an exception that was returned from the server as a SOAP fault 
+  /// indicating that no items were found
+  /// </summary>
 #if SERIALIZATION
   [Serializable]
 #endif

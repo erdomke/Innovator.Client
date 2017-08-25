@@ -8,15 +8,28 @@ using System.Xml;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Whether the query is AML or SQL
+  /// </summary>
   public enum ParameterSubstitutionMode
   {
     Aml,
     Sql
   }
 
+  /// <summary>
+  /// Indicates whether parameters are @-prefixed (e.g. <c>@qty</c>) or enclosed 
+  /// in curly braces (e.g. <c>{0}</c>)
+  /// </summary>
   public enum ParameterStyle
   {
+    /// <summary>
+    /// Parameters are @-prefixed (e.g. <c>@qty</c>) like in SQL Server
+    /// </summary>
     Sql,
+    /// <summary>
+    /// Parameters are enclosed in curly braces (e.g. <c>{0}</c>) like with <see cref="String.Format(string, object[])"/>
+    /// </summary>
     CSharp
   }
 
@@ -34,18 +47,45 @@ namespace Innovator.Client
     private Dictionary<string, object> _parameters = new Dictionary<string, object>();
     private int _itemCount = 0;
 
+    /// <summary>
+    /// Gets the number of <c>Item</c> tags found in the query
+    /// </summary>
     public int ItemCount { get { return _itemCount; } }
+    /// <summary>
+    /// Whether the query is AML or SQL
+    /// </summary>
     public ParameterSubstitutionMode Mode { get; set; }
+    /// <summary>
+    /// Gets the number of parameters for which values were specified
+    /// </summary>
     public int ParamCount { get { return _parameters.Count; } }
+    /// <summary>
+    /// Gets or sets a callback function which will be called when
+    /// a parameter is accessed
+    /// </summary>
     public Action<string> ParameterAccessListener { get; set; }
+    /// <summary>
+    /// Gets or sets the style of parameters being used
+    /// </summary>
     public ParameterStyle Style { get; set; }
 
+    /// <summary>
+    /// Initializes a new <see cref="ParameterSubstitution"/> instance for 
+    /// substituting @-prefixed parameters with their values.
+    /// </summary>
+    /// <remarks>A new instance should be created for each substitution
+    /// operation</remarks>
     public ParameterSubstitution()
     {
       this.Style = ParameterStyle.Sql;
       this.Mode = ParameterSubstitutionMode.Aml;
     }
 
+    /// <summary>
+    /// Adds the array of values as parameters where each value is named
+    /// according to its index in the arra
+    /// </summary>
+    /// <param name="values">The array of values.</param>
     public void AddIndexedParameters(object[] values)
     {
       if (values == null)
@@ -62,16 +102,30 @@ namespace Innovator.Client
         AddParameter(i.ToString(), values[i]);
       }
     }
+    /// <summary>
+    /// Adds the parameter.
+    /// </summary>
+    /// <param name="name">The name of the parameter.</param>
+    /// <param name="value">The value of the parameter.</param>
     public void AddParameter(string name, object value)
     {
       _parameters[name] = value;
     }
 
+    /// <summary>
+    /// Clears the parameters.
+    /// </summary>
     public void ClearParameters()
     {
       _parameters.Clear();
     }
 
+    /// <summary>
+    /// Substitutes the stored parameters into the specified query.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <param name="context">The context.</param>
+    /// <returns>A string of the new query</returns>
     public string Substitute(string query, IServerContext context)
     {
       if (string.IsNullOrEmpty(query))
@@ -84,7 +138,12 @@ namespace Innovator.Client
         return writer.ToString();
       }
     }
-
+    /// <summary>
+    /// Substitutes the stored parameters into the specified query.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <param name="context">The context.</param>
+    /// <param name="writer"><see cref="XmlWriter"/> into which the new query is written</param>
     public void Substitute(string query, IServerContext context, XmlWriter writer)
     {
       switch (InitializeSubstitute(query, context))
@@ -96,7 +155,12 @@ namespace Innovator.Client
           throw new NotSupportedException("Cannot write a SQL command to an XmlWriter");
       }
     }
-
+    /// <summary>
+    /// Substitutes the stored parameters into the specified query.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <param name="context">The context.</param>
+    /// <param name="writer"><see cref="StringBuilder"/> into which the new query is written</param>
     public void Substitute(string query, IServerContext context, StringBuilder builder)
     {
       using (var writer = new StringWriter(builder))
@@ -104,7 +168,12 @@ namespace Innovator.Client
         Substitute(query, context, writer);
       }
     }
-
+    /// <summary>
+    /// Substitutes the stored parameters into the specified query.
+    /// </summary>
+    /// <param name="query">The query.</param>
+    /// <param name="context">The context.</param>
+    /// <param name="writer"><see cref="TextWriter"/> into which the new query is written</param>
     public void Substitute(string query, IServerContext context, TextWriter writer)
     {
       switch (InitializeSubstitute(query, context))
@@ -698,6 +767,12 @@ namespace Innovator.Client
       if ((i - lastWrite) > 0) builder.Append(sql.Substring(lastWrite, i - lastWrite));
     }
 
+    /// <summary>
+    /// Returns an enumerator that iterates through the list of parameters
+    /// </summary>
+    /// <returns>
+    /// A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+    /// </returns>
     public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
     {
       return _parameters.GetEnumerator();

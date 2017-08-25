@@ -7,10 +7,21 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Headers to send with each request to Aras
+  /// </summary>
   public class ArasHeaders : IDictionary<string, string>
   {
     private Dictionary<string, string> _headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
+    /// <summary>
+    /// Gets or sets the header with the specified name.
+    /// </summary>
+    /// <value>
+    /// The header value.
+    /// </value>
+    /// <param name="key">The name of the header.</param>
+    /// <returns></returns>
     public string this[string key]
     {
       get
@@ -48,11 +59,26 @@ namespace Innovator.Client
       set { this["User-Agent"] = value; }
     }
 
+    /// <summary>
+    /// Gets the number of headers contained in the <see cref="ArasHeaders" />.
+    /// </summary>
     public int Count { get { return _headers.Count; } }
     public bool IsReadOnly { get { return false; } }
+    /// <summary>
+    /// Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="ArasHeaders" />.
+    /// </summary>
     public ICollection<string> Keys { get { return _headers.Keys; } }
+    /// <summary>
+    /// Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the values of the <see cref="ArasHeaders" />.
+    /// </summary>
     public ICollection<string> Values { get { return _headers.Values; } }
 
+    /// <summary>
+    /// Adds a header with the provided name and value to the <see cref="ArasHeaders" />.
+    /// </summary>
+    /// <param name="key">The header name.</param>
+    /// <param name="value">The header value.</param>
+    /// <exception cref="ArgumentException"></exception>
     public void Add(string key, string value)
     {
       try
@@ -64,7 +90,9 @@ namespace Innovator.Client
         throw new ArgumentException(string.Format("An element with the key '{0}' already exists", key), ex);
       }
     }
-
+    /// <summary>
+    /// Removes all headers from the <see cref="ArasHeaders" />.
+    /// </summary>
     public void Clear()
     {
       _headers.Clear();

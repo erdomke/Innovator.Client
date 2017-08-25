@@ -8,8 +8,15 @@ namespace Innovator.Client
   public interface IReadOnlyElement : IAmlNode
   {
     /// <summary>Retrieve the attribute with the specified name</summary>
+    /// <param name="name">Name of the XML attribute</param>
+    /// <returns>
+    /// <list type="bullet">
+    ///   <item><description>If the property exists, a valid <see cref="IReadOnlyAttribute"/> will be returned</description></item>
+    ///   <item><description>If the property does not exists, a "null" <see cref="IReadOnlyAttribute"/> will be returned where <see cref="IReadOnlyAttribute.Exists"/> = <c>false</c></description></item>
+    /// </list></returns>
     IReadOnlyAttribute Attribute(string name);
     /// <summary>Retrieve all attributes specified for the element</summary>
+    /// <returns>An <see cref="IEnumerable{IReadOnlyAttribute}"/> containing all of the defined attributes</returns>
     IEnumerable<IReadOnlyAttribute> Attributes();
     /// <summary>Retrieve all child elements</summary>
     IEnumerable<IReadOnlyElement> Elements();
@@ -30,6 +37,12 @@ namespace Innovator.Client
   public interface IElement : IReadOnlyElement
   {
     /// <summary>Retrieve the attribute with the specified name</summary>
+    /// <param name="name">Name of the XML attribute</param>
+    /// <returns>
+    /// <list type="bullet">
+    ///   <item><description>If the property exists, a valid <see cref="IAttribute"/> will be returned</description></item>
+    ///   <item><description>If the property does not exists, a "null" <see cref="IAttribute"/> will be returned where <see cref="IReadOnlyAttribute.Exists"/> = <c>false</c></description></item>
+    /// </list></returns>
     new IAttribute Attribute(string name);
     /// <summary>Retrieve all attributes specified for the element</summary>
     new IEnumerable<IAttribute> Attributes();
@@ -38,6 +51,8 @@ namespace Innovator.Client
     /// <summary>Retrieve the parent element</summary>
     new IElement Parent { get; }
     /// <summary>Add new content to the element</summary>
+    /// <param name="content"><see cref="IElement"/>, <see cref="IAttribute"/>, or <see cref="object"/> to add as a child of the element</param>
+    /// <returns>The current element for chaining additional calls</returns>
     IElement Add(object content);
     /// <summary>Remove the element from its parent</summary>
     void Remove();
@@ -47,8 +62,23 @@ namespace Innovator.Client
     void RemoveNodes();
   }
 
+  /// <summary>
+  /// A logical element representing an <c>&lt;and&gt;</c>, <c>&lt;or&gt;</c>, or <c>&lt;not&gt;</c> AML tag
+  /// </summary>
   public interface ILogical : IElement { }
+
+  /// <summary>
+  /// A logical element representing an <c>&lt;and&gt;</c>, <c>&lt;or&gt;</c>, or <c>&lt;not&gt;</c> AML tag
+  /// </summary>
   public interface IReadOnlyLogical : IReadOnlyElement { }
+
+  /// <summary>
+  /// A <c>&lt;Relationships&gt;</c> tag
+  /// </summary>
   public interface IRelationships : IElement, IEnumerable<IItem> { }
+
+  /// <summary>
+  /// A <c>&lt;Relationships&gt;</c> tag
+  /// </summary>
   public interface IReadOnlyRelationships : IReadOnlyElement, IEnumerable<IReadOnlyItem> { }
 }

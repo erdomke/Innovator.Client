@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  class AmlElement : Element
+  internal class AmlElement : Element
   {
     private ElementFactory _amlContext;
     private string _name;

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents metadata for a timezone including daylight savings time history
+  /// </summary>
   public partial class TimeZoneData : IEquatable<TimeZoneData>
   {
     public override bool Equals(object obj)
@@ -38,35 +41,109 @@ namespace Innovator.Client
 #if TIMEZONEINFO
     private TimeZoneInfo _timeZone;
 
+    /// <summary>
+    /// Gets the time zone identifier.
+    /// </summary>
+    /// <value>
+    /// The time zone identifier.
+    /// </value>
     public string Id
     {
       get { return _timeZone.Id; }
     }
 
+    /// <summary>
+    /// Calculates the offset or difference between the time in this time zone and Coordinated
+    /// Universal Time (UTC) for a particular date and time.
+    /// </summary>
+    /// <param name="dateTime">The date and time to determine the offset for.</param>
+    /// <returns>An object that indicates the time difference between the two time zones. </returns>
     public TimeSpan GetUtcOffset(DateTime dateTime)
     {
       return _timeZone.GetUtcOffset(dateTime);
     }
 
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+    /// </returns>
     public override int GetHashCode()
     {
       return _timeZone.GetHashCode();
     }
+
+    /// <summary>
+    /// Indicates whether the current object is equal to another object of the same type.
+    /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+    /// </returns>
     public bool Equals(TimeZoneData other)
     {
       return _timeZone.Equals(other._timeZone);
     }
-
+    
+    /// <summary>
+    /// Converts a time from one time zone to another.
+    /// </summary>
+    /// <param name="value">The date and time to convert.</param>
+    /// <param name="from">The time zone of <paramref name="value"/>.</param>
+    /// <param name="to">The time zone to convert <paramref name="value"/> to.</param>
+    /// <returns>The date and time in the destination time zone that corresponds to the <paramref name="value"/>
+    /// parameter in the source time zone.</returns>
+    /// <exception cref="ArgumentException">The <see cref="System.DateTime.Kind"/> property of the 
+    /// <paramref name="value"/> parameter is <see cref="System.DateTimeKind.Local"/>, but the 
+    /// <paramref name="from"/> parameter does not equal <see cref="System.DateTimeKind.Local"/>.
+    /// -or-
+    /// The <see cref="System.DateTime.Kind"/> property of the <paramref name="value"/> parameter is 
+    /// <see cref="System.DateTimeKind.Utc"/>, but the <paramref name="from"/> parameter does not equal 
+    /// <see cref="TimeZoneData.Utc"/>
+    /// -or-
+    /// The
+    /// <paramref name="value"/> parameter is an invalid time (that is, it represents a time that does
+    /// not exist because of a time zone's adjustment rules).</exception>
+    /// <exception cref="ArgumentNullException">The <paramref name="from"/>parameter is null.
+    /// -or-
+    /// The <param name="to"> parameter is null.
+    /// </exception>
     public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
     {
       return TimeZoneInfo.ConvertTime(value, from._timeZone, to._timeZone);
     }
 
+    /// <summary>
+    /// Retrieves a <see cref="TimeZoneData"/> object from the registry based on its identifier.
+    /// </summary>
+    /// <param name="value">The time zone identifier, which corresponds to the <see cref="TimeZoneData.Id"/> property.</param>
+    /// <returns>An object whose identifier is the value of the <paramref name="value"/> parameter.</returns>
+    /// <exception cref="OutOfMemoryException">The system does not have enough memory to hold information about the time zone.</exception>
+    /// <exception cref="ArgumentNullException">The <paramref name="value"/> parameter is null</exception>
+    /// <exception cref="TimeZoneNotFoundException">The time zone identifier specified by id was not found. This means that a registry
+    /// key whose name matches id does not exist, or that the key exists but does not
+    /// contain any time zone data.</exception>
+    /// <exception cref="Security.SecurityException">The process does not have the permissions required to read from the registry
+    /// key that contains the time zone information.
+    /// </exception>
+    /// <exception cref="System.InvalidTimeZoneException">
+    /// The time zone identifier was found, but the registry data is corrupted.    
+    /// </exception>
     public static TimeZoneData ById(string value)
     {
       return new TimeZoneData() { _timeZone = TimeZoneInfo.FindSystemTimeZoneById(value) };
     }
 
+    /// <summary>
+    /// Converts a time to the time in a particular time zone.
+    /// </summary>
+    /// <param name="value">The date and time to convert.</param>
+    /// <param name="to">The time zone to convert dateTime to.</param>
+    /// <returns>The date and time in the destination time zone.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// The value of the <paramref name="to"/> parameter is null.
+    /// </exception>
     public static DateTimeOffset ConvertTime(DateTimeOffset value, TimeZoneData to)
     {
       return TimeZoneInfo.ConvertTime(value, to._timeZone);
@@ -77,35 +154,106 @@ namespace Innovator.Client
 #else
     private Innovator.Client.Time.TimeZoneInfo _timeZone;
 
+    /// <summary>
+    /// Gets the time zone identifier.
+    /// </summary>
+    /// <value>
+    /// The time zone identifier.
+    /// </value>
     public string Id
     {
       get { return _timeZone.Id; }
     }
 
+    /// <summary>
+    /// Calculates the offset or difference between the time in this time zone and Coordinated
+    /// Universal Time (UTC) for a particular date and time.
+    /// </summary>
+    /// <param name="dateTime">The date and time to determine the offset for.</param>
+    /// <returns>An object that indicates the time difference between the two time zones. </returns>
     public TimeSpan GetUtcOffset(DateTime dateTime)
     {
       return _timeZone.GetUtcOffset(dateTime);
     }
 
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+    /// </returns>
     public override int GetHashCode()
     {
       return _timeZone.GetHashCode();
     }
+
+    /// <summary>
+    /// Indicates whether the current object is equal to another object of the same type.
+    /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+    /// </returns>
     public bool Equals(TimeZoneData other)
     {
       return _timeZone.Equals(other._timeZone);
     }
 
+    /// <summary>
+    /// Converts a time from one time zone to another.
+    /// </summary>
+    /// <param name="value">The date and time to convert.</param>
+    /// <param name="from">The time zone of <paramref name="value"/>.</param>
+    /// <param name="to">The time zone to convert <paramref name="value"/> to.</param>
+    /// <returns>The date and time in the destination time zone that corresponds to the <paramref name="value"/>
+    /// parameter in the source time zone.</returns>
+    /// <exception cref="ArgumentException">The <see cref="System.DateTime.Kind"/> property of the 
+    /// <paramref name="value"/> parameter is <see cref="System.DateTimeKind.Local"/>, but the 
+    /// <paramref name="from"/> parameter does not equal <see cref="System.DateTimeKind.Local"/>.
+    /// -or-
+    /// The <see cref="System.DateTime.Kind"/> property of the <paramref name="value"/> parameter is 
+    /// <see cref="System.DateTimeKind.Utc"/>, but the <paramref name="from"/> parameter does not equal 
+    /// <see cref="TimeZoneData.Utc"/>
+    /// -or-
+    /// The
+    /// <paramref name="value"/> parameter is an invalid time (that is, it represents a time that does
+    /// not exist because of a time zone's adjustment rules).</exception>
+    /// <exception cref="ArgumentNullException">The <paramref name="from"/>parameter is null.
+    /// -or-
+    /// The <param name="to"> parameter is null.
+    /// </exception>
     public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
     {
       return Time.TimeZoneInfo.ConvertTime(value, from._timeZone, to._timeZone);
     }
 
+    /// <summary>
+    /// Retrieves a <see cref="TimeZoneData"/> object from the registry based on its identifier.
+    /// </summary>
+    /// <param name="value">The time zone identifier, which corresponds to the <see cref="TimeZoneData.Id"/> property.</param>
+    /// <returns>An object whose identifier is the value of the <paramref name="value"/> parameter.</returns>
+    /// <exception cref="OutOfMemoryException">The system does not have enough memory to hold information about the time zone.</exception>
+    /// <exception cref="ArgumentNullException">The <paramref name="value"/> parameter is null</exception>
+    /// <exception cref="TimeZoneNotFoundException">The time zone identifier specified by id was not found. This means that a registry
+    /// key whose name matches id does not exist, or that the key exists but does not
+    /// contain any time zone data.</exception>
+    /// <exception cref="Security.SecurityException">The process does not have the permissions required to read from the registry
+    /// key that contains the time zone information.
+    /// </exception>
     public static TimeZoneData ById(string value)
     {
       return new TimeZoneData() { _timeZone = Time.TimeZoneInfo.ById(value) };
     }
 
+    /// <summary>
+    /// Converts a time to the time in a particular time zone.
+    /// </summary>
+    /// <param name="value">The date and time to convert.</param>
+    /// <param name="to">The time zone to convert dateTime to.</param>
+    /// <returns>The date and time in the destination time zone.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// The value of the <paramref name="to"/> parameter is null.
+    /// </exception>
     public static DateTimeOffset ConvertTime(DateTimeOffset value, TimeZoneData to)
     {
       return Time.TimeZoneInfo.ConvertTime(value, to._timeZone);

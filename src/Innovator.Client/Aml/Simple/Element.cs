@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents an XML element in an AML structure.  This element could be an Item, property, result tag, or something else
+  /// </summary>
   [DebuggerTypeProxy(typeof(ElementDebugView))]
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public abstract class Element : IElement, ILinkedElement
@@ -16,6 +19,7 @@ namespace Innovator.Client
     protected object _content;
     private ILinkedAnnotation _lastAttr;
 
+    /// <summary>Retrieve the context used for rendering primitive values</summary>
     public virtual ElementFactory AmlContext
     {
       get
@@ -25,19 +29,34 @@ namespace Innovator.Client
         return null;
       }
     }
+
+    /// <summary>Returns <c>true</c> if this element actually exists in the underlying AML,
+    /// otherwise, returns <c>false</c> to indicate that the element is just a null placeholder
+    /// put in place to reduce unnecessary null reference checks</summary>
     public virtual bool Exists { get { return Next != null; } }
-    /// <summary>
-    /// The tag name of the AML element
-    /// </summary>
+
+    /// <summary>Local XML name of the element</summary>
     public abstract string Name { get; }
+
+    /// <summary>
+    /// The next sibling AML element (if any)
+    /// </summary>
     public abstract ILinkedElement Next { get; set; }
+
+    /// <summary>Retrieve the parent element</summary>
     public abstract IElement Parent { get; set; }
+
+    /// <summary>Retrieve the parent element</summary>
     IReadOnlyElement IReadOnlyElement.Parent { get { return this.Parent; } }
+
+    /// <summary>Retrieve the parent element</summary>
     IReadOnlyElement ILinkedElement.Parent
     {
       get { return this.Parent; }
       set { this.Parent = (IElement)value; }
     }
+
+    /// <summary>String value of the element</summary>
     public virtual string Value
     {
       get
@@ -66,6 +85,9 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Indicates if the element is read only
+    /// </summary>
     public bool ReadOnly
     {
       get { return string.IsNullOrEmpty(Name)
@@ -78,6 +100,7 @@ namespace Innovator.Client
           _attr = _attr & ~ElementAttributes.ReadOnly;
       }
     }
+
     protected bool FromDataStore
     {
       get { return (_attr & ElementAttributes.FromDataStore) > 0; }
@@ -96,6 +119,7 @@ namespace Innovator.Client
     {
       return new AmlElement(newParent, this);
     }
+
     protected void CopyData(IReadOnlyElement elem)
     {
       Add(elem.Attributes());
@@ -104,6 +128,7 @@ namespace Innovator.Client
         Add(elem.Value);
     }
 
+    /// <summary>Add new content to the element</summary>
     public virtual IElement Add(object content)
     {
       if (content == null)
@@ -162,7 +187,7 @@ namespace Innovator.Client
       LinkedListOps.Add(ref _lastAttr, attr);
     }
 
-    static ILinkedElement TryGet(object value, Element newParent)
+    private static ILinkedElement TryGet(object value, Element newParent)
     {
       var impl = value as ILinkedElement;
       if (impl != null)
@@ -190,17 +215,20 @@ namespace Innovator.Client
       return null;
     }
 
+    /// <summary>Retrieve the attribute with the specified name</summary>
     public IAttribute Attribute(string name)
     {
       return (((IReadOnlyElement)this).Attribute(name) as IAttribute)
         ?? Client.Attribute.NullAttr;
     }
 
+    /// <summary>Retrieve all attributes specified for the element</summary>
     public IEnumerable<IAttribute> Attributes()
     {
       return LinkedListOps.Enumerate(_lastAttr).OfType<IAttribute>();
     }
 
+    /// <summary>Retrieve all child elements</summary>
     public virtual IEnumerable<IElement> Elements()
     {
       return LinkedListOps.Enumerate(_content as ILinkedElement).OfType<IElement>();
@@ -218,6 +246,7 @@ namespace Innovator.Client
       return new AmlElement(this, name);
     }
 
+    /// <summary>Remove the element from its parent</summary>
     public void Remove()
     {
       if (Exists)
@@ -235,11 +264,14 @@ namespace Innovator.Client
       AssertModifiable();
       LinkedListOps.Remove(ref _lastAttr, attr);
     }
+
+    /// <summary>Remove attributes from the element</summary>
     public void RemoveAttributes()
     {
       AssertModifiable();
       _lastAttr = null;
     }
+
     internal void RemoveNode(ILinkedElement elem)
     {
       AssertModifiable();
@@ -248,12 +280,19 @@ namespace Innovator.Client
         return;
       _content = LinkedListOps.Remove(lastElem, elem);
     }
+
+    /// <summary>Remove child nodes from the element</summary>
     public void RemoveNodes()
     {
       AssertModifiable();
       _content = null;
     }
 
+    /// <summary>
+    /// Write the node to the specified <see cref="XmlWriter"/>
+    /// </summary>
+    /// <param name="writer"><see cref="XmlWriter"/> to write the node to</param>
+    /// <param name="settings">Settings controlling how the node is written</param>
     public void ToAml(XmlWriter writer, AmlWriterSettings settings)
     {
       var name = this.Name;

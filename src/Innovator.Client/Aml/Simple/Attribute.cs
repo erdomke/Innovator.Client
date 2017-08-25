@@ -7,7 +7,7 @@ using System.Text;
 namespace Innovator.Client
 {
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
-  class Attribute : IAttribute, ILinkedAnnotation
+  internal class Attribute : IAttribute, ILinkedAnnotation
   {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private Element _parent;

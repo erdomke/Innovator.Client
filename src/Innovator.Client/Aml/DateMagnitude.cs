@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Unit of time used with relative dates, <see cref="DateOffset"/>
+  /// </summary>
   public enum DateMagnitude
   {
     Day = 0,

@@ -33,20 +33,40 @@ namespace Innovator.Client
     /// Default timeout in milliseconds
     /// </summary>
     public int? DefaultTimeout { get; set; }
+    /// <summary>
+    /// Gets the headers to send to the server with each request
+    /// </summary>
     public ArasHeaders Headers { get { return _headers; } }
+    /// <summary>
+    /// Gets or sets the HTTP client to use for making server requests
+    /// </summary>
     public HttpClient HttpService { get; set; }
+    /// <summary>
+    /// Gets or sets the item factory to use for creating item models
+    /// </summary>
     public IItemFactory ItemFactory { get; set; }
+    /// <summary>
+    /// Gets or sets the name of the connection
+    /// </summary>
     public string Name { get; set; }
     /// <summary>
     /// The URL to use if not otherwise specified
     /// </summary>
     public string Url { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConnectionPreferences"/> class.
+    /// </summary>
     public ConnectionPreferences()
     {
       _headers = new ArasHeaders();
       this.AuthCallback = DefaultAuthCallback;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ConnectionPreferences"/> class
+    /// from XML
+    /// </summary>
+    /// <param name="xml">A method for writing the XML to an <see cref="XmlWriter"/></param>
     public ConnectionPreferences(Action<XmlWriter> xml) : this()
     {
       var writer = new PreferencesWriter(this);

@@ -137,11 +137,13 @@ namespace Innovator.Client
       return new Attribute("action", value);
     }
     /// <summary>Create a new <c>AML</c> tag (for use with the ApplyAML method)</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IElement Aml(params object[] content)
     {
       return new AmlElement(this, "AML", content);
     }
     /// <summary>Create a logical <c>or</c> AML tag used with 'get' queries</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public ILogical And(params object[] content)
     {
       return new Logical(this, "and", content);
@@ -157,6 +159,7 @@ namespace Innovator.Client
       return new Attribute(name, value);
     }
     /// <summary>Create a new <c>classification</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty Classification(params object[] content)
     {
       return new Property("classification", content);
@@ -167,26 +170,31 @@ namespace Innovator.Client
       return new Attribute("condition", value);
     }
     /// <summary>Create a new <c>config_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty ConfigId(params object[] content)
     {
       return new Property("config_id", content);
     }
     /// <summary>Create a new <c>created_by_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty CreatedById(params object[] content)
     {
       return new Property("created_by_id", content);
     }
     /// <summary>Create a new <c>created_on</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty CreatedOn(params object[] content)
     {
       return new Property("created_on", content);
     }
     /// <summary>Create a new <c>css</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty Css(params object[] content)
     {
       return new Property("css", content);
     }
     /// <summary>Create a new <c>current_state</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty CurrentState(params object[] content)
     {
       return new Property("current_state", content);
@@ -198,11 +206,13 @@ namespace Innovator.Client
       return new Attribute("doGetItem", value);
     }
     /// <summary>Create a generic AML tag given a name and the content</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IElement Element(string name, params object[] content)
     {
       return new AmlElement(this, name, content);
     }
     /// <summary>Create a new <c>generation</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty Generation(params object[] content)
     {
       return new Property("generation", content);
@@ -223,11 +233,13 @@ namespace Innovator.Client
       return new Attribute("idlist", value);
     }
     /// <summary>Create a new <c>id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty IdProp(params object[] content)
     {
       return new Property("id", content);
     }
     /// <summary>Create a new <c>is_current</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty IsCurrent(params object[] content)
     {
       return new Property("is_current", content);
@@ -238,11 +250,13 @@ namespace Innovator.Client
       return new Attribute("is_null", value);
     }
     /// <summary>Create a new <c>is_released</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty IsReleased(params object[] content)
     {
       return new Property("is_released", content);
     }
     /// <summary>Create a new <c>Item</c> AML tag</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IItem Item(params object[] content)
     {
       var type = content
@@ -261,21 +275,25 @@ namespace Innovator.Client
       return new Item(this, content);
     }
     /// <summary>Create a new <c>keyed_name</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty KeyedName(params object[] content)
     {
       return new Property("keyed_name", content);
     }
     /// <summary>Create a new <c>locked_by_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty LockedById(params object[] content)
     {
       return new Property("locked_by_id", content);
     }
     /// <summary>Create a new <c>major_rev</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty MajorRev(params object[] content)
     {
       return new Property("major_rev", content);
     }
     /// <summary>Create a new <c>managed_by_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty ManagedById(params object[] content)
     {
       return new Property("managed_by_id", content);
@@ -286,21 +304,25 @@ namespace Innovator.Client
       return new Attribute("maxRecords", value);
     }
     /// <summary>Create a new <c>minor_rev</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty MinorRev(params object[] content)
     {
       return new Property("minor_rev", content);
     }
     /// <summary>Create a new <c>modified_by_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty ModifiedById(params object[] content)
     {
       return new Property("modified_by_id", content);
     }
     /// <summary>Create a new <c>modified_on</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty ModifiedOn(params object[] content)
     {
       return new Property("modified_on", content);
     }
     /// <summary>Create a new <c>new_version</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty NewVersion(params object[] content)
     {
       return new Property("new_version", content);
@@ -328,6 +350,7 @@ namespace Innovator.Client
       return new Logical(this, "not", content);
     }
     /// <summary>Create a new <c>not_lockable</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty NotLockable(params object[] content)
     {
       return new Property("not_lockable", content);
@@ -343,6 +366,7 @@ namespace Innovator.Client
       return new Attribute("orderBy", value);
     }
     /// <summary>Create a new <c>owned_by_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty OwnedById(params object[] content)
     {
       return new Property("owned_by_id", content);
@@ -358,11 +382,13 @@ namespace Innovator.Client
       return new Attribute("pagesize", value);
     }
     /// <summary>Create a new <c>permission_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty PermissionId(params object[] content)
     {
       return new Property("permission_id", content);
     }
     /// <summary>Create a new property tag with the specified name</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty Property(string name, params object[] content)
     {
       return new Property(name, content);
@@ -383,6 +409,7 @@ namespace Innovator.Client
       return new Attribute("related_expand", value);
     }
     /// <summary>Create a new <c>related_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty RelatedId(params object[] content)
     {
       return new Property("related_id", content);
@@ -447,16 +474,19 @@ namespace Innovator.Client
       return new ServerException(message, innerException);
     }
     /// <summary>Create a new <c>state</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty State(params object[] content)
     {
       return new Property("state", content);
     }
     /// <summary>Create a new <c>source_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty SourceId(params object[] content)
     {
       return new Property("source_id", content);
     }
     /// <summary>Create a new <c>team_id</c> property</summary>
+    /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty TeamId(params object[] content)
     {
       return new Property("team_id", content);
@@ -473,21 +503,35 @@ namespace Innovator.Client
       return new Attribute("typeId", value);
     }
     /// <summary>Create a new validation exception</summary>
+    /// <param name="message">Exception message</param>
+    /// <param name="item">Item being validated</param>
+    /// <param name="properties">Properties with errors</param>
     public ValidationException ValidationException(string message, IReadOnlyItem item, params string[] properties)
     {
       return new ValidationException(message, item, properties);
     }
     /// <summary>Create a new validation exception</summary>
+    /// <param name="message">Exception message</param>
+    /// <param name="innerException">Inner exception</param>
+    /// <param name="item">Item being validated</param>
+    /// <param name="properties">Properties with errors</param>
     public ValidationException ValidationException(string message, Exception innerException, IReadOnlyItem item, params string[] properties)
     {
       return new ValidationException(message, innerException, item, properties);
     }
     /// <summary>Create a new validation exception</summary>
+    /// <param name="message">Exception message</param>
+    /// <param name="item">Item being validated</param>
+    /// <param name="report">HTML report to present to the user</param>
     public ValidationReportException ValidationException(string message, IReadOnlyItem item, string report)
     {
       return new ValidationReportException(message, item, report);
     }
     /// <summary>Create a new validation exception</summary>
+    /// <param name="message">Exception message</param>
+    /// <param name="innerException">Inner exception</param>
+    /// <param name="item">Item being validated</param>
+    /// <param name="report">HTML report to present to the user</param>
     public ValidationReportException ValidationException(string message, Exception innerException, IReadOnlyItem item, string report)
     {
       return new ValidationReportException(message, innerException, item, report);
@@ -499,10 +543,17 @@ namespace Innovator.Client
       return new Attribute("where", value);
     }
 
+    /// <summary>
+    /// Calculate the MD5 checksum of the securely stored value
+    /// </summary>
     public string CalcMd5(SecureToken value)
     {
       return value.UseBytes((ref byte[] b) => MD5.ComputeHash(b)).ToLowerInvariant();
     }
+
+    /// <summary>
+    /// Calculate the MD5 checksum of the <c>string</c> value
+    /// </summary>
     public string CalcMd5(string value)
     {
       return MD5.ComputeHash(Utils.AsciiGetBytes(value)).ToLowerInvariant();

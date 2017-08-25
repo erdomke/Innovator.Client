@@ -9,11 +9,17 @@ using System.Xml;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents an exception that was returned from the server as a SOAP fault containing a validation report
+  /// </summary>
 #if SERIALIZATION
   [Serializable]
 #endif
   public class ValidationReportException : ServerException
   {
+    /// <summary>
+    /// Gets the item being validated
+    /// </summary>
     public IReadOnlyItem Item
     {
       get
@@ -25,6 +31,9 @@ namespace Innovator.Client
         return aml.Item(aml.Type(item.Attribute("type").Value), aml.Id(item.Attribute("id").Value));
       }
     }
+    /// <summary>
+    /// Gets the HTML report string
+    /// </summary>
     public string Report
     {
       get { return _fault.ElementByName("detail").ElementByName("error_resolution_report").Value; }

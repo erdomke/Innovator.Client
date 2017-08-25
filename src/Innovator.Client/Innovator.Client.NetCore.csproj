@@ -91,23 +91,28 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
     <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\net40\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\net45\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;INTERPOLATEDSTR;HTTPSYNC;ENVIRONMENT</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\net46\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
     <DefineConstants>$(DefineConstants);TASKS</DefineConstants>
+    <DocumentationFile>bin\Release\netstandard1.1\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <DefineConstants>$(DefineConstants);TIMEZONEINFO;INTERPOLATEDSTR;FILEIO;TASKS;MD5</DefineConstants>
+    <DocumentationFile>bin\Release\netstandard1.3\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 </Project>

@@ -22,6 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>bin\Debug\Innovator.Client.XML</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;TASKS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,9 +31,10 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;TASKS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />

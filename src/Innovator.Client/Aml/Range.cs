@@ -7,12 +7,25 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// A range of values between a minimum and maximum (inclusive)
+  /// </summary>
   public interface IRange
   {
+    /// <summary>
+    /// The minimum value of the range
+    /// </summary>
     object Minimum { get; }
+    /// <summary>
+    /// The maximum value of the range
+    /// </summary>
     object Maximum { get; }
   }
 
+  /// <summary>
+  /// A strongly-typed range of values between a minimum and maximum (inclusive)
+  /// </summary>
+  /// <typeparam name="T"></typeparam>
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public struct Range<T> : IRange where T : IComparable
   {
@@ -35,8 +48,17 @@ namespace Innovator.Client
       _hasValue = true;
     }
 
+    /// <summary>
+    /// Whether the range has been initialized with a value
+    /// </summary>
     public bool HasValue { get { return _hasValue; } }
+    /// <summary>
+    /// The minimum value of the range
+    /// </summary>
     public T Minimum { get { return _min; } }
+    /// <summary>
+    /// The maximum value of the range
+    /// </summary>
     public T Maximum { get { return _max; } }
 
     private string DebuggerDisplay
@@ -52,6 +74,9 @@ namespace Innovator.Client
     object IRange.Minimum { get { return _min; } }
     object IRange.Maximum { get { return _max; } }
 
+    /// <summary>
+    /// Whether or not the range contains the specified value
+    /// </summary>
     public bool ContainsValue(T value)
     {
       return _min.CompareTo(value) <= 0 && value.CompareTo(_max) <= 0;

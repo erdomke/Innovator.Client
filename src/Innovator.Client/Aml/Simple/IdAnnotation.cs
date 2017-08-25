@@ -8,7 +8,7 @@ using System.Xml;
 namespace Innovator.Client
 {
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
-  class IdAnnotation : IReadOnlyProperty, IReadOnlyAttribute, ILinkedAnnotation
+  internal class IdAnnotation : IReadOnlyProperty, IReadOnlyAttribute, ILinkedAnnotation
   {
     private ILinkedAnnotation _next;
     private IReadOnlyElement _parent;

@@ -25,8 +25,11 @@ namespace Innovator.Client
     public int Threshold { get; set; }
 
     /// <summary>Instantiate the writer with a connection</summary>
+    /// <param name="conn">Server connection</param>
     public SqlBatchWriter(IConnection conn) : this(conn, 96) { }
-    /// <summary>Instantiate the writer with a connection and an initial capacity for the internal <c>StringBuilder</c></summary>
+    /// <summary>Instantiate the writer with a connection and an initial capacity for the internal <see cref="StringBuilder"/></summary>
+    /// <param name="conn">Server connection</param>
+    /// <param name="capacity"><see cref="StringBuilder"/> initial capacity</param>
     public SqlBatchWriter(IConnection conn, int capacity)
     {
       _builder = new StringBuilder(capacity).Append("<sql>");

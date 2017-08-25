@@ -9,11 +9,18 @@ using System.Xml;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents an exception that was returned from the server as a SOAP fault 
+  /// containing information about properties being validated
+  /// </summary>
 #if SERIALIZATION
   [Serializable]
 #endif
   public class ValidationException : ServerException
   {
+    /// <summary>
+    /// Gets the item being validated
+    /// </summary>
     public IReadOnlyItem Item
     {
       get
@@ -25,6 +32,9 @@ namespace Innovator.Client
         return aml.Item(aml.Type(item.Attribute("type").Value), aml.Id(item.Attribute("id").Value));
       }
     }
+    /// <summary>
+    /// Gets the properties for which there were validation errors
+    /// </summary>
     public IEnumerable<string> Properties
     {
       get { return _fault.ElementByName("detail").ElementByName("properties")

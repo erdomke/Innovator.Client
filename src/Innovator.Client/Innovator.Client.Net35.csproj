@@ -30,6 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\publish\Innovator.Client\lib\net35\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HttpClientPolyfill, Version=1.0.0.6, Culture=neutral, processorArchitecture=MSIL">

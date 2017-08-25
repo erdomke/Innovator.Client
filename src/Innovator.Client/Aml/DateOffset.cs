@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// A relative date specified by a magnitude and offset
+  /// </summary>
   public struct DateOffset : IComparable<DateOffset>, IComparable
   {
     private DayOfWeek _firstDayOfWeek;
@@ -17,9 +20,20 @@ namespace Innovator.Client
       get { return _firstDayOfWeek; }
       set { _firstDayOfWeek = value; }
     }
+    /// <summary>
+    /// Magnitude of the offset (e.g. days, weeks, months, etc).
+    /// </summary>
     public DateMagnitude Magnitude { get { return _magn; } }
+    /// <summary>
+    /// The amount of time units to offset
+    /// </summary>
     public int Offset { get { return _offset; } }
 
+    /// <summary>
+    /// Initializes a structure to represent a relative date specified by a magnitude and offset
+    /// </summary>
+    /// <param name="offset">The amount of time units to offset.</param>
+    /// <param name="magnitude">The magnitude of the offset (e.g. days, weeks, months, etc).</param>
     public DateOffset(short offset, DateMagnitude magnitude)
     {
       _offset = offset;

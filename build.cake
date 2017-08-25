@@ -105,9 +105,10 @@ Task("Build")
      Configuration = configuration
   });
   
-  CopyFiles("./src/Innovator.Client/bin/" + configuration + "/**/Innovator.Client.dll", "./publish/Innovator.Client/lib/", true);
+  CopyFiles("./src/Innovator.Client/bin/" + configuration + "/**/Innovator.Client.*", "./publish/Innovator.Client/lib/", true);
   var files = GetFiles("./publish/Innovator.Client/lib/**/*")
-    .Where(f => !f.ToString().EndsWith("Innovator.Client.dll", StringComparison.OrdinalIgnoreCase));
+    .Where(f => !f.ToString().EndsWith("Innovator.Client.dll", StringComparison.OrdinalIgnoreCase)
+      && !f.ToString().EndsWith("Innovator.Client.xml", StringComparison.OrdinalIgnoreCase));
   foreach (var file in files)
     DeleteFile(file);
 }).Finally(() => 

@@ -7,7 +7,7 @@ Innovator.Client is a library for connecting to [Aras Innovator](http://www.aras
 It is a replacement for the IOM library provided by Aras.  It is not a drop-in replacement, but rather
 aims to provide an API which is easier to use.
 
-# First, show me the code
+# API Example
 
 ```csharp
 /// <summary>
@@ -48,12 +48,14 @@ private void ReleaseByType(string classification)
 }
 ```
 
-# I want it
+# Installing
 
 Get it via [NuGet](https://www.nuget.org/packages/Innovator.Client/) using the command
 
     PM> Install-Package Innovator.Client
     
+This will install the package in your Visual Studio solution
+  
 # Compatibility
 
 ## .Net
@@ -242,3 +244,10 @@ var result = await conn.ApplyAsync("MY_QUERY", true, false);
 
 For security reasons, passwords are automatically stored in memory as `SecureString`.  In addition,
 passwords stored in this way can be passed to the `Login` methods
+
+# Developing
+
+To build the project, clone or fork the repository and run the `build.ps1` file.  The 
+`Innovator.Client.sln` solution file can be used to debug and develop the .Net Standard 1.1 build
+of the library.  To debug specific features of the other builds, consider using the 
+`Innovator.Client.Net35.sln` or the `Innovator.Client.Net45.sln` file.

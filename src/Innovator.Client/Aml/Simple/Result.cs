@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Innovator.Client
 {
-  class Result : IResult
+  internal class Result : IResult
   {
     private ElementFactory _amlContext;
     private object _content;

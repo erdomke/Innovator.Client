@@ -9,6 +9,9 @@ using System.Xml;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents an exception that was returned from the server as a SOAP fault.
+  /// </summary>
 #if SERIALIZATION
   [Serializable]
 #endif
@@ -19,16 +22,28 @@ namespace Innovator.Client
     protected Command _query;
     private string _className;
 
+    /// <summary>
+    /// Gets the name of the database where the excepton originated
+    /// </summary>
     public string Database { get { return _database; } }
+    /// <summary>
+    /// Gets the AML fault element from the SOAP message
+    /// </summary>
     public IElement Fault
     {
       get { return _fault; }
     }
+    /// <summary>
+    /// Gets or sets the (generally numeric) fault code.
+    /// </summary>
     public string FaultCode
     {
       get { return _fault.ElementByName("faultcode").Value; }
       set { _fault.ElementByName("faultcode").Add(value); }
     }
+    /// <summary>
+    /// Gets the query which was executed when the error was returned
+    /// </summary>
     public string Query
     {
       get
@@ -76,8 +91,13 @@ namespace Innovator.Client
       info.AddValue(DatabaseEntry, this.Database);
       info.AddValue(QueryEntry, this.Query);
     }
-#endif
-
+#endif    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ServerException"/> class.
+    /// </summary>
+    /// <param name="fault">The fault element.</param>
+    /// <param name="database">The database where the exception originated.</param>
+    /// <param name="query">The query which was executed when the error was returned.</param>
     public ServerException(Element fault, string database, Command query)
       : base(fault.ElementByName("faultstring").Value ?? "An unexpected error occurred")
     {
@@ -104,6 +124,9 @@ namespace Innovator.Client
       return this;
     }
 
+    /// <summary>
+    /// Creates an <see cref="XmlReader"/> for reading through the exception SOAP data
+    /// </summary>
     public XmlReader CreateReader()
     {
       return new AmlReader(this);
@@ -115,6 +138,10 @@ namespace Innovator.Client
       _fault = aml.Element("SOAP-ENV:Fault", aml.Element("faultcode", code), aml.Element("faultstring", message)) as Element;
     }
 
+    /// <summary>
+    /// Renders the exception as an AML string
+    /// </summary>
+    /// <returns>An AML string</returns>
     public string ToAml()
     {
       using (var writer = new System.IO.StringWriter())
@@ -126,6 +153,11 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Write the node to the specified <see cref="XmlWriter" /> as AML
+    /// </summary>
+    /// <param name="writer"><see cref="XmlWriter" /> to write the node to</param>
+    /// <param name="settings">Settings controlling how the node is written</param>
     public void ToAml(XmlWriter writer, AmlWriterSettings settings)
     {
       writer.WriteStartElement("SOAP-ENV", "Envelope", "http://schemas.xmlsoap.org/soap/envelope/");
@@ -141,11 +173,21 @@ namespace Innovator.Client
       writer.WriteEndElement();
     }
 
+    /// <summary>
+    /// Creates a new result composed of this exception
+    /// </summary>
     public IReadOnlyResult AsResult()
     {
       return new Result(ElementFactory.Local) { Exception = this };
     }
 
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance consisting
+    /// of the exception message and full stack trace
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
     public override string ToString()
     {
       var result = base.ToString();
@@ -166,7 +208,10 @@ namespace Innovator.Client
       return this._className;
     }
 
-#if XMLLEGACY
+#if XMLLEGACY    
+    /// <summary>
+    /// Returns a navigator for executing XPath against the element
+    /// </summary>
     public IAmlXPath XPath(IReadOnlyResult elem)
     {
       return new AmlNavigator(elem);

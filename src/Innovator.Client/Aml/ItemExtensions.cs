@@ -214,7 +214,7 @@ namespace Innovator.Client
     }
 
     /// <summary>Return an item cast as the specified type if that type of
-    /// item can be derived from the property.  Otherwise, an exception
+    /// item can be derived from the property value.  Otherwise, an exception
     /// is thrown</summary>
     public static T AsModel<T>(this IReadOnlyProperty_Item<T> prop) where T : IReadOnlyItem
     {
@@ -222,7 +222,7 @@ namespace Innovator.Client
     }
 
     /// <summary>Return an item cast as the specified type if that type of
-    /// item can be derived from the property.  Otherwise, an exception
+    /// item can be derived from the property value.  Otherwise, an exception
     /// is thrown</summary>
     public static T RelatedModel<T>(this IRelationship<T> item) where T : IReadOnlyItem
     {
@@ -230,7 +230,7 @@ namespace Innovator.Client
     }
 
     /// <summary>Return an item cast as the specified type if that type of
-    /// item can be derived from the property.  Otherwise, an exception
+    /// item can be derived from the property value.  Otherwise, an exception
     /// is thrown</summary>
     public static T SourceModel<T>(this INullRelationship<T> item) where T : IReadOnlyItem
     {
@@ -280,6 +280,7 @@ namespace Innovator.Client
       var query = item.ToAml();
       return aml.FromXml(conn.Process(query), query, conn);
     }
+
     /// <summary>Download the file represented by the property </summary>
     /// <returns>This will return the file contents for item properties of type 'File' and
     /// image properties that point to vault files</returns>
@@ -287,6 +288,7 @@ namespace Innovator.Client
     {
       return prop.AsFile(conn, false).Value;
     }
+
     /// <summary>Asynchronously download the file represented by the property</summary>
     /// <returns>This will return the file contents for item properties of type 'File' and
     /// image properties that point to vault files</returns>
@@ -343,7 +345,8 @@ namespace Innovator.Client
       return Promises.Rejected<Stream>(
         new ArgumentException(string.Format("Property '{0}' does not reference a file to download", prop.Name), "prop"));
     }
-    /// <summary>Determine if the <c>classification</c> starts with one of the specified root paths</summary>
+
+    /// <summary>Determine if the <c>classification</c> of the <paramref name="item"/> starts with one of the specified root paths</summary>
     public static bool ClassStartsWith(this IReadOnlyItem item, params string[] roots)
     {
       if (roots == null) return false;
@@ -358,6 +361,7 @@ namespace Innovator.Client
       }
       return false;
     }
+
     /// <summary>
     /// Send an AML edit query to the database with the body of the Item tab being the contents specified
     /// </summary>
@@ -442,6 +446,7 @@ namespace Innovator.Client
       }
       return Item.GetNullItem<T>();
     }
+
     /// <summary>
     /// Returns either the first matching item from the enumerable or a 'null' item (where <c>Exists</c> is <c>false</c>)
     /// if there are no items which match the predicate
@@ -462,6 +467,7 @@ namespace Innovator.Client
       }
       return Item.GetNullItem<T>();
     }
+
     /// <summary>
     /// Indicates that the property is neither null nor empty
     /// </summary>
@@ -473,6 +479,7 @@ namespace Innovator.Client
           || prop.IsNull().AsBoolean() == false
           || prop.Elements().Any());
     }
+
     /// <summary>
     /// Indicates that the attribute is neither null nor empty
     /// </summary>
@@ -570,6 +577,9 @@ namespace Innovator.Client
       return LockStatusType.LockedByOther;
     }
 
+    /// <summary>
+    /// Add multiple elements to an <see cref="IElement"/> at the same time
+    /// </summary>
     public static IElement Add(this IElement elem, params object[] content)
     {
       return elem.Add((object)content);
@@ -592,6 +602,7 @@ namespace Innovator.Client
     {
       return conn.Promote(item.TypeName(), item.Id(), state, comments);
     }
+
     /// <summary>
     /// Renders an AML node to XML
     /// </summary>
@@ -626,6 +637,7 @@ namespace Innovator.Client
     /// initial mapping, the method will query the database and run the mapper again with the
     /// database results
     /// </summary>
+    /// <param name="conn">Connection used for querying the database when property values are not available</param>
     /// <param name="mapper">Function which creates a new object by referencing values from the item</param>
     public static T LazyMap<T>(this IReadOnlyItem item, IConnection conn, Func<IReadOnlyItem, T> mapper)
     {
@@ -888,6 +900,7 @@ namespace Innovator.Client
                                               <name>@1</name>
                                             </Item>", act.Id(), name));
     }
+
     /// <summary>
     /// Perform a vote for a specified assignment and path
     /// </summary>
@@ -913,6 +926,9 @@ namespace Innovator.Client
                                              comment));
     }
 
+    /// <summary>
+    /// Set the duration of a workflow activity <paramref name="act"/> so that it will be due on <paramref name="dueDate"/>
+    /// </summary>
     public static void SetDurationByDate(this Model.Activity act, IConnection conn, DateTime dueDate, int minDuration = 1,
                                   int maxDuration = int.MaxValue)
     {
@@ -924,21 +940,34 @@ namespace Innovator.Client
       act.Edit(conn, conn.AmlContext.Property("expected_duration", duration)).AssertNoError();
     }
 
+    /// <summary>
+    /// Set the activity <paramref name="act"/> to be an automatic activity
+    /// </summary>
     public static void SetIsAuto(this Model.Activity act, IConnection conn, bool isAuto)
     {
       act.Edit(conn, conn.AmlContext.Property("is_auto", isAuto)).AssertNoError();
     }
 
+    /// <summary>
+    /// Create an <see cref="XmlReader"/> for reading the XML contents of <paramref name="elem"/>
+    /// </summary>
     public static XmlReader CreateReader(this IReadOnlyElement elem)
     {
       return new AmlReader(elem);
     }
 
+    /// <summary>
+    /// Create an <see cref="XmlReader"/> for reading the XML contents of <paramref name="elem"/>
+    /// </summary>
     public static XmlReader CreateReader(this IReadOnlyResult elem)
     {
       return new AmlReader(elem);
     }
 
+    /// <summary>
+    /// Return the list of all parents of the element, <paramref name="elem"/>
+    /// </summary>
+    /// <returns>The first element is the direct parent of <paramref name="elem"/></returns>
     public static IEnumerable<IReadOnlyElement> Parents(this IReadOnlyElement elem)
     {
       if (!elem.Exists)
@@ -951,6 +980,10 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Return a list consisting of <paramref name="elem"/> and all of its parents
+    /// </summary>
+    /// <returns>The list starts with the element, followed by its parent, and so on</returns>
     public static IEnumerable<IReadOnlyElement> ParentsAndSelf(this IReadOnlyElement elem)
     {
       if (!elem.Exists)
@@ -967,21 +1000,39 @@ namespace Innovator.Client
     }
 
 #if XMLLEGACY
+    /// <summary>
+    /// Get an XPath navigator for executing XPath against an <see cref="IReadOnlyElement"/>
+    /// </summary>
+    /// <param name="elem">The <see cref="IReadOnlyElement"/> to query</param>
+    /// <returns>An XPath navigator</returns>
     public static IAmlXPath XPath(this IReadOnlyElement elem)
     {
       return new AmlNavigator(elem);
     }
+    /// <summary>
+    /// Get an XPath navigator for executing XPath against an <see cref="IReadOnlyResult"/>
+    /// </summary>
+    /// <param name="elem">The <see cref="IReadOnlyResult"/> to query</param>
+    /// <returns>An XPath navigator</returns>
     public static IAmlXPath XPath(this IReadOnlyResult elem)
     {
       return new AmlNavigator(elem);
     }
 #endif
 
+    /// <summary>
+    /// Given a range of dynamic date offsets (e.g. 3 days ago to today) and a specific date for 
+    /// "today", calculate the corresponding static date range
+    /// </summary>
     public static Range<DateTime> AsDateRange(this Range<DateOffset> range, DateTimeOffset todaysDate)
     {
       return new Range<DateTime>(range.Minimum.AsDate(todaysDate), range.Maximum.AsDate(todaysDate, true));
     }
 
+    /// <summary>
+    /// Given a range of dynamic date offsets (e.g. 3 days ago to today) and a sever context giving
+    /// a current date, calculate the corresponding static date range
+    /// </summary>
     public static Range<DateTime> AsDateRange(this Range<DateOffset> range, IServerContext context)
     {
       return new Range<DateTime>(range.Minimum.AsDate(context.Now()), range.Maximum.AsDate(context.Now(), true));

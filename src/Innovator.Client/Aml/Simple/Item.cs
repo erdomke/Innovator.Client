@@ -5,25 +5,37 @@ using System.Text;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Represents an XML <c>Item</c> element in an AML structure.
+  /// </summary>
   public class Item : Element, IItem, IEquatable<IItemRef>
   {
     private ElementFactory _amlContext;
     private IElement _parent = AmlElement.NullElem;
 
+    /// <summary>Retrieve the context used for rendering primitive values</summary>
     public override ElementFactory AmlContext { get { return _amlContext; } }
+
+    /// <summary>Returns <c>true</c> if this element actually exists in the underlying AML,
+    /// otherwise, returns <c>false</c> to indicate that the element is just a null placeholder
+    /// put in place to reduce unnecessary null reference checks</summary>
     public override bool Exists { get { return (_attr & ElementAttributes.Null) == 0; } }
-    /// <summary>
-    /// The tag name of the AML element
-    /// </summary>
+
+    /// <summary>Local XML name of the element</summary>
     public override string Name { get { return "Item"; } }
+
+    /// <summary>
+    /// The next sibling AML element (if any)
+    /// </summary>
+    public override ILinkedElement Next { get; set; }
+
+    /// <summary>Retrieve the parent element</summary>
     public override IElement Parent
     {
       get { return _parent; }
       set { _parent = value ?? AmlElement.NullElem; }
     }
-    public override ILinkedElement Next { get; set; }
-
-
+    
     protected Item() { }
     public Item(ElementFactory amlContext, params object[] content)
     {
@@ -37,10 +49,27 @@ namespace Innovator.Client
       { typeof(Item), new Item(){ _attr = ElementAttributes.ReadOnly | ElementAttributes.Null } }
     };
 
+    /// <summary>
+    /// Add a strongly-typed 'null' model to list of null models by type
+    /// </summary>
+    /// <typeparam name="T">Type of item model</typeparam>
+    /// <param name="value">'null' model instance</param>
     public static void AddNullItem<T>(T value) where T : IReadOnlyItem
     {
       _nullItems[typeof(T)] = value;
     }
+
+    /// <summary>
+    /// Retrieve a strongly-typed 'null' model to the list of null models by type
+    /// </summary>
+    /// <typeparam name="T">Type of item model</typeparam>
+    /// <example>
+    /// Say you have a nullable <see cref="IReadOnlyItem"/> variable and you want to make sure it is never null.
+    /// <code lang="C#">
+    /// IReadOnlyItem parameter = null;
+    /// var item = parameter ?? Item.GetNullItem<IReadOnlyItem>()
+    /// </code>
+    /// </example>
     public static T GetNullItem<T>() where T : IReadOnlyItem
     {
       IReadOnlyItem result;
@@ -72,18 +101,26 @@ namespace Innovator.Client
       return this;
     }
 
+    /// <summary>Returns a reference to the property with the specified name</summary>
+    /// <remarks>If the property does not exist, a non-null object will be returned that has an <c>Exists</c> member which will return <c>false</c></remarks>
+    /// <param name="name">Name of the property</param>
     public IProperty Property(string name)
     {
       return (((IReadOnlyItem)this).Property(name) as IProperty)
         ?? Client.Property.NullProp;
     }
 
+    /// <summary>Returns a reference to the property with the specified name and language</summary>
+    /// <remarks>If the property does not exist, a non-null object will be returned that has an <c>Exists</c> member which will return <c>false</c></remarks>
+    /// <param name="name">Name of the property</param>
+    /// <param name="lang">Language of the (multilingual) property</param>
     public IProperty Property(string name, string lang)
     {
       return (((IReadOnlyItem)this).Property(name, lang) as IProperty)
         ?? Client.Property.NullProp;
     }
 
+    /// <summary>Returns the set of relationships associated with this item</summary>
     public IRelationships Relationships()
     {
       if (Exists)
@@ -102,6 +139,8 @@ namespace Innovator.Client
       return new Relationships(this);
     }
 
+    /// <summary>Returns the set of relationships associated with this item of the specified type</summary>
+    /// <param name="type">Name of the ItemType for the relationships you wish to retrieve</param>
     public IEnumerable<IItem> Relationships(string type)
     {
       return Relationships()
@@ -109,6 +148,7 @@ namespace Innovator.Client
         .Where(i => i.TypeName() == type);
     }
 
+    /// <summary>Creates a duplicate of the item object.  All properties (including the ID) are preserved</summary>
     public IItem Clone()
     {
       var writer = new ResultWriter(this.AmlContext, null, null);
@@ -116,12 +156,14 @@ namespace Innovator.Client
       return writer.Result.AssertItem();
     }
 
+    /// <summary>Retrieve all child elements</summary>
     public override IEnumerable<IElement> Elements()
     {
       if ((_attr & ElementAttributes.ItemDefaultAny) != 0)
         return GetDefaultProperties().Concat(base.Elements());
       return base.Elements();
     }
+
     private IEnumerable<IElement> GetDefaultProperties()
     {
       if ((_attr & ElementAttributes.ItemDefaultGeneration) != 0)
@@ -217,11 +259,13 @@ namespace Innovator.Client
       return Relationships(type).OfType<IReadOnlyItem>();
     }
 
+    /// <summary>The ID of the item as retrieved from either the attribute or the property</summary>
     public string Id()
     {
       return ((IReadOnlyElement)this).Attribute("id").Value ?? this.IdProp().Value;
     }
 
+    /// <summary>The type of the item as retrieved from either the attribute or the property</summary>
     public virtual string TypeName()
     {
       return ((IReadOnlyElement)this).Attribute("type").Value;

@@ -13,32 +13,51 @@ using System.IO;
 namespace Innovator.Client
 {
   /// <summary>
-  /// http://web.archive.org/web/20090928112609/http://dotnet.org.za/markn/archive/2008/10/04/handling-passwords.aspx
+  /// A class for securely storing sensitive information (e.g. passwords)
   /// </summary>
+  /// <remarks>
+  /// For more information on password best practices for .Net, see http://web.archive.org/web/20090928112609/http://dotnet.org.za/markn/archive/2008/10/04/handling-passwords.aspx
+  /// </remarks>
   public sealed class SecureToken : IDisposable
   {
-    private SecureString _encrypted;
-
-    public SecureString Token { get { return _encrypted; } }
+    /// <summary>
+    /// An anonymous function for processing a value by reference
+    /// </summary>
     public delegate TR FuncRef<T1, TR>(ref T1 value);
 
+    private SecureString _encrypted;
+
+    /// <summary>
+    /// Gets the token as a <see cref="SecureString"/>
+    /// </summary>
+    public SecureString Token { get { return _encrypted; } }
+    /// <summary>
+    /// Gets the length of the token (in characters)
+    /// </summary>
     public int Length { get { return _encrypted.Length; } }
 
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SecureToken"/> class
+    /// </summary>
     public SecureToken(ArraySegment<byte> unencrypted)
     {
       var array = unencrypted.Array;
       FromBytes(ref array, unencrypted.Offset, unencrypted.Count);
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SecureToken"/> class
+    /// </summary>
     public SecureToken(ref byte[] unencrypted, int start, int length)
     {
       FromBytes(ref unencrypted, start, length);
     }
-
     private SecureToken(SecureString encrypted)
     {
       _encrypted = encrypted;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SecureToken"/> class
+    /// </summary>
     public SecureToken(ref char[] unencrypted)
     {
       _encrypted = new SecureString();
@@ -54,6 +73,9 @@ namespace Innovator.Client
         _encrypted.MakeReadOnly();
       }
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SecureToken"/> class
+    /// </summary>
     public SecureToken(ref string unencrypted)
     {
       _encrypted = new SecureString();
@@ -69,6 +91,9 @@ namespace Innovator.Client
         _encrypted.MakeReadOnly();
       }
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SecureToken"/> class
+    /// </summary>
     public SecureToken(Stream data)
     {
       _encrypted = new SecureString();
@@ -274,7 +299,10 @@ namespace Innovator.Client
 
       return result;
     }
-
+    /// <summary>
+    /// Writes the token to the specified stream.
+    /// </summary>
+    /// <param name="stream">The stream.</param>
     public void Write(Stream stream)
     {
       UseBytes<bool>((ref byte[] p) => {
@@ -282,33 +310,55 @@ namespace Innovator.Client
         return true;
       });
     }
-
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that represents this instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that represents this instance.
+    /// </returns>
     public override string ToString()
     {
       return new string('*', _encrypted.Length);
     }
-
+    /// <summary>
+    /// Releases unmanaged resources.
+    /// </summary>
     public void Dispose()
     {
       _encrypted.Dispose();
     }
 
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="SecureToken"/> to <see cref="SecureString"/>.
+    /// </summary>
     public static implicit operator SecureString(SecureToken val)
     {
       return val == null ? null : val._encrypted;
     }
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="SecureString"/> to <see cref="SecureToken"/>.
+    /// </summary>
     public static implicit operator SecureToken(SecureString val)
     {
       return new SecureToken(val);
     }
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="SecureToken"/>.
+    /// </summary>
     public static implicit operator SecureToken(string val)
     {
       return new SecureToken(ref val);
     }
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="ArraySegment{System.Byte}"/> to <see cref="SecureToken"/>.
+    /// </summary>
     public static implicit operator SecureToken(ArraySegment<byte> val)
     {
       return new SecureToken(val);
     }
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="System.Byte[]"/> to <see cref="SecureToken"/>.
+    /// </summary>
     public static implicit operator SecureToken(byte[] val)
     {
       return new SecureToken(ref val, 0, val.Length);

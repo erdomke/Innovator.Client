@@ -46,7 +46,14 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Initializes a new <see cref="SelectNode"/> instance for storing an AML select path
+    /// </summary>
     public SelectNode() { }
+    /// <summary>
+    /// Initializes a new <see cref="SelectNode"/> instance with a property name.
+    /// </summary>
+    /// <param name="name">The name of the property to store in the node</param>
     public SelectNode(string name)
     {
       _name = name;
@@ -146,11 +153,17 @@ namespace Innovator.Client
       return this.GetEnumerator();
     }
 
+    /// <summary>
+    /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="SelectNode"/>.
+    /// </summary>
     public static implicit operator SelectNode(string select)
     {
       return FromString(select);
     }
 
+    /// <summary>
+    /// Returns a <see cref="System.String" /> in the format of an AML select attribute
+    /// </summary>
     public override string ToString()
     {
       return Write(new StringBuilder()).ToString();
@@ -177,13 +190,16 @@ namespace Innovator.Client
       return builder;
     }
 
+    /// <summary>
+    /// Returns a <see cref="System.String" /> in the format of an AML select attribute
+    /// </summary>
     public static string ToString(IEnumerable<SelectNode> items)
     {
       return Write(new StringBuilder(), items).ToString();
     }
 
     /// <summary>
-    /// Parse an AML select statement into a <c>SubSelect structure</c>
+    /// Parse an AML select statement into a <see cref="SelectNode"/> structure
     /// </summary>
     public static SelectNode FromString(string select)
     {
@@ -240,21 +256,43 @@ namespace Innovator.Client
       return builder;
     }
 
+    /// <summary>
+    /// Removes all child items from the <see cref="SelectNode"/>
+    /// </summary>
     public void Clear()
     {
       _children.Clear();
     }
 
+    /// <summary>
+    /// Determines whether the <see cref="SelectNode" /> contains a specific value.
+    /// </summary>
+    /// <param name="item">The child <see cref="SelectNode"/> to locate in the <see cref="SelectNode" />.</param>
+    /// <returns>
+    /// true if <paramref name="item" /> is found in the <see cref="SelectNode" />; otherwise, false.
+    /// </returns>
     public bool Contains(SelectNode item)
     {
       return _children.Contains(item);
     }
 
+    /// <summary>
+    /// Copies the elements of the <see cref="SelectNode" /> to an <see cref="T:System.Array" />, starting at a particular <see cref="T:System.Array" /> index.
+    /// </summary>
+    /// <param name="array">The one-dimensional <see cref="T:System.Array" /> that is the destination of the elements copied from <see cref="SelectNode" />. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+    /// <param name="arrayIndex">The zero-based index in <paramref name="array" /> at which copying begins.</param>
     public void CopyTo(SelectNode[] array, int arrayIndex)
     {
       _children.CopyTo(array, arrayIndex);
     }
 
+    /// <summary>
+    /// Removes the first occurrence of the child <see cref="SelectNode"/> from the <see cref="SelectNode" />.
+    /// </summary>
+    /// <param name="item">The object to remove from the <see cref="SelectNode" />.</param>
+    /// <returns>
+    /// true if <paramref name="item" /> was successfully removed from the <see cref="SelectNode" />; otherwise, false. This method also returns false if <paramref name="item" /> is not found in the original <see cref="SelectNode" />.
+    /// </returns>
     public bool Remove(SelectNode item)
     {
       return _children.Remove(item);

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  static class LinkedListOps
+  internal static class LinkedListOps
   {
     public static T Add<T>(T lastLink, T newLink) where T : class, ILink<T>
     {

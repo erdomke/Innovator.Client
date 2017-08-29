@@ -222,7 +222,9 @@ namespace Innovator.Client
       if (hasTransferEncoding)
       {
         var headerValue = origin.TransferEncoding.ToString();
-        if (!string.IsNullOrEmpty(headerValue))
+        if (string.Equals(headerValue, "chunked", StringComparison.OrdinalIgnoreCase))
+          webRequest.SendChunked = true;
+        else if (!string.IsNullOrEmpty(headerValue))
           webRequest.TransferEncoding = headerValue;
       }
 

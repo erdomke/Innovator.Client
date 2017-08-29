@@ -466,5 +466,18 @@ namespace Innovator.Client
       }
       while (xml.Read() && (num < xml.Depth || (num == xml.Depth && xml.NodeType == XmlNodeType.EndElement)));
     }
+
+    internal static Stream WriteUtf8(this Stream stream, string value)
+    {
+      var bytes = Encoding.UTF8.GetBytes(value);
+      stream.Write(bytes, 0, bytes.Length);
+      return stream;
+    }
+    internal static Stream WriteNewLine(this Stream stream)
+    {
+      stream.WriteByte(13);
+      stream.WriteByte(10);
+      return stream;
+    }
   }
 }

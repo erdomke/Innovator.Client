@@ -363,9 +363,11 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Send an AML edit query to the database with the body of the Item tab being the contents specified
+    /// Send an AML edit query to the database with the body of the <c>&lt;Item /&gt;</c> tag being the contents specified
     /// </summary>
-    /// <param name="contents">Body of the Item action='edit' tag</param>
+    /// <param name="item">Item to edit</param>
+    /// <param name="conn">Connection to use for applying the edit</param>
+    /// <param name="contents">Body of the <c>&lt;Item action='edit' /&gt;</c> tag</param>
     public static IReadOnlyResult Edit(this IItemRef item, IConnection conn, params object[] contents)
     {
       var aml = conn.AmlContext;
@@ -379,12 +381,14 @@ namespace Innovator.Client
     /// <summary>
     /// Retrieve the lock status from the database
     /// </summary>
+    /// <param name="item">Item to check the lock status of</param>
+    /// <param name="conn">Connection to use for executing this query</param>
     /// <remarks>If the item is editable, the <c>locked_by_id</c> property will be updated</remarks>
-    public static LockStatusType FetchLockStatus(this IReadOnlyItem item, IConnection conn)
+    public static LockStatusType FetchLockStatus(this IItemRef item, IConnection conn)
     {
       var aml = conn.AmlContext;
       return aml.Item(aml.Action("get"),
-        aml.Type(item.Type().Value),
+        aml.Type(item.TypeName()),
         aml.Id(item.Id()),
         aml.Select("locked_by_id")
       ).Apply(conn).AssertItem().LockStatus(conn);

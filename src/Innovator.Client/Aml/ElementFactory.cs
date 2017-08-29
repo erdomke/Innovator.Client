@@ -206,6 +206,7 @@ namespace Innovator.Client
       return new Attribute("doGetItem", value);
     }
     /// <summary>Create a generic AML tag given a name and the content</summary>
+    /// <param name="name">The local name of the element</param>
     /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IElement Element(string name, params object[] content)
     {

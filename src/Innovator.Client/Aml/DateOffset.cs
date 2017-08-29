@@ -15,6 +15,12 @@ namespace Innovator.Client
     private DateMagnitude _magn;
     private short _offset;
 
+    /// <summary>
+    /// First day of the week to use for week offset calculations
+    /// </summary>
+    /// <value>
+    /// The first day of week.  Defaults to <see cref="DayOfWeek.Sunday"/>
+    /// </value>
     public DayOfWeek FirstDayOfWeek
     {
       get { return _firstDayOfWeek; }

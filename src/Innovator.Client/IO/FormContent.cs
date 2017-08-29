@@ -12,9 +12,10 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
-  internal class FormContent : MultipartFormDataContent
+  internal class FormContent : MultipartFormDataContent, ISyncContent
   {
     private CompressionType _compression;
+    private string _boundary;
 
     public CompressionType Compression
     {
@@ -31,6 +32,7 @@ namespace Innovator.Client
     public FormContent() : this(GetBoundaryLine()) { }
     public FormContent(string boundary) : base(boundary)
     {
+      _boundary = boundary;
       var mediaTypeHeaderValue = new MediaTypeHeaderValue("multipart/form-data");
       mediaTypeHeaderValue.Parameters.Add(new NameValueHeaderValue("boundary", boundary));
       base.Headers.ContentType = mediaTypeHeaderValue;
@@ -38,7 +40,7 @@ namespace Innovator.Client
 
     public void Add(string name, string value)
     {
-      var content = new ByteArrayContent(Encoding.UTF8.GetBytes(value));
+      var content = new SimpleContent(Encoding.UTF8.GetBytes(value));
       content.Headers.Add("Content-Disposition", "form-data; name=\"" + name + "\"");
       base.Add(content);
     }
@@ -82,6 +84,24 @@ namespace Innovator.Client
         sb.Append(Symbols[(int)(_rnd.NextDouble() * (double)(Symbols.Length - 1))]);
       }
       return sb.ToString();
+    }
+
+    public void SerializeToStream(Stream stream)
+    {
+      foreach (var child in this)
+      {
+        stream.WriteUtf8(_boundary).WriteNewLine();
+        foreach (var header in child.Headers)
+        {
+          stream.WriteUtf8(header.Key)
+            .WriteUtf8(": ")
+            .WriteUtf8(header.Value.GroupConcat(","))
+            .WriteNewLine();
+        }
+        stream.WriteNewLine();
+        ((ISyncContent)child).SerializeToStream(stream);
+        stream.WriteNewLine();
+      }
     }
   }
 }

@@ -63,6 +63,9 @@ namespace Innovator.Client
     /// Gets the number of headers contained in the <see cref="ArasHeaders" />.
     /// </summary>
     public int Count { get { return _headers.Count; } }
+    /// <summary>
+    /// Returns <c>false</c> to indicate that the collection is editable
+    /// </summary>
     public bool IsReadOnly { get { return false; } }
     /// <summary>
     /// Gets an <see cref="T:System.Collections.Generic.ICollection`1" /> containing the keys of the <see cref="ArasHeaders" />.

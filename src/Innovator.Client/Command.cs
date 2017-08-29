@@ -70,7 +70,12 @@ namespace Innovator.Client
         }
       }
     }
-
+    /// <summary>
+    /// Gets or sets the delegate which will be called when a log item is written pertaining to this request.
+    /// </summary>
+    /// <value>
+    /// The delegate which will be called when a log item is written pertaining to this request.
+    /// </value>
     public Action<int, string, IEnumerable<KeyValuePair<string, object>>> LogListener { get; set; }
 
     /// <summary>

@@ -44,7 +44,8 @@ namespace Innovator.Client
       Headers.ContentType = header;
       _forceCompressionOff = DisableCompression(mediaType);
     }
-    private SimpleContent(Stream stream) : base (stream)
+    internal SimpleContent(byte[] data) : this(new MemoryStream(data)) { }
+    internal SimpleContent(Stream stream) : base (stream)
     {
       _stream = stream;
     }

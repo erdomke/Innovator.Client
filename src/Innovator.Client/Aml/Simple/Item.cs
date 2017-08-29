@@ -62,6 +62,9 @@ namespace Innovator.Client
     /// <summary>
     /// Retrieve a strongly-typed 'null' model to the list of null models by type
     /// </summary>
+    /// <remarks>
+    /// If you are looking to create a new item, see <see cref="ElementFactory.Item(object[])"/> or <see cref="ElementFactory.FromXml(string, object[])"/>.
+    /// </remarks>
     /// <typeparam name="T">Type of item model</typeparam>
     /// <example>
     /// Say you have a nullable <see cref="IReadOnlyItem"/> variable and you want to make sure it is never null.

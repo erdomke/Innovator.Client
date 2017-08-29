@@ -111,14 +111,14 @@ namespace Innovator.Client
 #if FILEIO
       if (_data == null)
       {
-        result = new StreamContent(new FileStream(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
+        result = new SimpleContent(new FileStream(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
       }
       else
       {
-        result = new ByteArrayContent(_data);
+        result = new SimpleContent(_data);
       }
 #else
-      result = new ByteArrayContent(_data);
+      result = new SimpleContent(_data);
 #endif
 
       var id = _id[0] == '@' ? cmd.Substitute(_id, context) : _id;

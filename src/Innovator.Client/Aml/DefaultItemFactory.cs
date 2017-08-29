@@ -14,7 +14,8 @@ namespace Innovator.Client
   /// <seealso cref="Innovator.Client.IItemFactory" />
   /// <remarks>
   /// For any core Aras item type, a model from the <see cref="Innovator.Client.Model"/> namespace
-  /// will be returned.  In all other cases, an <see cref="Item"/> will be returned
+  /// will be returned.  In all other cases, a <c>null</c> will be returned and an 
+  /// <see cref="Item"/> will be created
   /// </remarks>
   public class DefaultItemFactory : IItemFactory
   {

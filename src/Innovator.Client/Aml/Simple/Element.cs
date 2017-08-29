@@ -15,7 +15,13 @@ namespace Innovator.Client
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public abstract class Element : IElement, ILinkedElement
   {
+    /// <summary>
+    /// Field containing a reference to the element attributes
+    /// </summary>
     protected ElementAttributes _attr;
+    /// <summary>
+    /// Field containing the element content (either a child <see cref="IElement"/> or the value)
+    /// </summary>
     protected object _content;
     private ILinkedAnnotation _lastAttr;
 

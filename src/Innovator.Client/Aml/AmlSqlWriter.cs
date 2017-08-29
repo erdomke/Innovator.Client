@@ -109,7 +109,6 @@ namespace Innovator.Client
     /// <summary>
     /// Not supported
     /// </summary>
-    [Obsolete("Not supported")]
     public override void WriteBase64(byte[] buffer, int index, int count)
     {
       throw new NotSupportedException();
@@ -454,7 +453,6 @@ namespace Innovator.Client
     /// <summary>
     /// Not supported
     /// </summary>
-    [Obsolete("Not supported")]
     public override void WriteProcessingInstruction(string name, string text)
     {
       throw new NotSupportedException();
@@ -463,7 +461,6 @@ namespace Innovator.Client
     /// <summary>
     /// Not supported
     /// </summary>
-    [Obsolete("Not supported")]
     public override void WriteRaw(string data)
     {
       throw new NotSupportedException();

@@ -88,20 +88,27 @@ namespace Innovator.Client
 
     public void SerializeToStream(Stream stream)
     {
+      var first = true;
+      stream.WriteUtf8("--" + _boundary + "\r\n");
       foreach (var child in this)
       {
-        stream.WriteUtf8(_boundary).WriteNewLine();
+        var builder = new StringBuilder();
+        if (!first)
+          builder.Append("\r\n--").Append(_boundary).Append("\r\n");
         foreach (var header in child.Headers)
         {
-          stream.WriteUtf8(header.Key)
-            .WriteUtf8(": ")
-            .WriteUtf8(header.Value.GroupConcat(","))
-            .WriteNewLine();
+          builder.Append(header.Key)
+            .Append(": ")
+            .Append(header.Value.GroupConcat(","))
+            .Append("\r\n");
         }
-        stream.WriteNewLine();
+        builder.Append("\r\n");
+        stream.WriteUtf8(builder.ToString());
+
         ((ISyncContent)child).SerializeToStream(stream);
-        stream.WriteNewLine();
+        first = false;
       }
+      stream.WriteUtf8("\r\n--" + _boundary + "--\r\n");
     }
   }
 }

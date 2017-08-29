@@ -66,10 +66,17 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Gets an HTTP connection to an innovator instance (or proxy) at the given URL
+    /// Gets an HTTP connection to an innovator instance at the given URL
     /// </summary>
     /// <param name="preferences">Object containing preferences for the connection</param>
-    /// <returns>A connection object</returns>
+    /// <returns>A new <see cref="IRemoteConnection"/> object</returns>
+    /// <example>
+    /// Create a new connection using the default stored connection
+    /// <code lang="C#">
+    /// var pref = SavedConnections.Load().Default;
+    /// var conn = Factory.GetConnection(pref);
+    /// </code>
+    /// </example>
     public static IRemoteConnection GetConnection(ConnectionPreferences preferences)
     {
       return GetConnection(preferences, false).Value;

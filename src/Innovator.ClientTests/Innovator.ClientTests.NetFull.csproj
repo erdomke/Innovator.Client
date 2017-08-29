@@ -66,9 +66,8 @@
       <HintPath>..\lib\IOM.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="ODataToolkit, Version=0.7.6418.35238, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ODataToolkit.0.7.6418.35238\lib\net40\ODataToolkit.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="ODataToolkit, Version=0.7.6421.22340, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ODataToolkit.0.7.6421.22340\lib\net40\ODataToolkit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

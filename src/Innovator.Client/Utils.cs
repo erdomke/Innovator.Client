@@ -473,11 +473,5 @@ namespace Innovator.Client
       stream.Write(bytes, 0, bytes.Length);
       return stream;
     }
-    internal static Stream WriteNewLine(this Stream stream)
-    {
-      stream.WriteByte(13);
-      stream.WriteByte(10);
-      return stream;
-    }
   }
 }

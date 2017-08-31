@@ -276,7 +276,7 @@ namespace Innovator.Client
 #if DEBUG && TIMEZONEINFO
   /// <summary>
   /// Used to generate the timezone data
-  /// Innovator.Client.TzUtils.GenerateRecords(@"C:\Users\eric.domke\Documents\Code\Innovator.Client\src\Innovator.Client\Aml\TimeZoneData.Records.cs")
+  /// Innovator.Client.TzUtils.GenerateRecords(@"C:\Users\eric.domke\Documents\Code\Innovator.Client\src\Innovator.Client\Aml\TimeZoneInfo.Records.cs")
   /// </summary>
   public class TzUtils
   {

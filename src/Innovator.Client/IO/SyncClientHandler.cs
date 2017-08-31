@@ -74,7 +74,7 @@ namespace Innovator.Client
       httpResponseMessage.Version = webResponse.ProtocolVersion;
       httpResponseMessage.RequestMessage = request;
 
-      var content = new System.IO.MemoryStream();
+      var content = new MemoryTributary();
       using (var stream = webResponse.GetResponseStream())
       {
         stream.CopyTo(content);

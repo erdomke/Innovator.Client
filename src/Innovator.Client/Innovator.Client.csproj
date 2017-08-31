@@ -405,6 +405,8 @@
     <Compile Include="Connection\IomConnection.cs" />
     <Compile Include="Connection\IVaultFactory.cs" />
     <Compile Include="Connection\DefaultVaultFactory.cs" />
+    <Compile Include="IO\IXmlStream.cs" />
+    <Compile Include="IO\MemoryTributary.cs" />
     <Compile Include="Queryable\AmlQuery.cs" />
     <Compile Include="Queryable\AmlVisitor.cs" />
     <Compile Include="Queryable\ArasNameAttribute.cs" />
@@ -485,9 +487,6 @@
     <Compile Include="Server\ServerMethod\WorkflowEvent.cs" />
     <Compile Include="UploadCommand.cs" />
     <Compile Include="Utils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

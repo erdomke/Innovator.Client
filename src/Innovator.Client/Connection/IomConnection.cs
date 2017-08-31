@@ -103,7 +103,7 @@ namespace Innovator.Client
 
         _callAction(request.ActionString, input, output);
 
-        var ms = new MemoryStream();
+        var ms = new MemoryTributary();
         using (var writer = XmlWriter.Create(ms, new XmlWriterSettings() { CloseOutput = false }))
         {
           output.WriteTo(writer);

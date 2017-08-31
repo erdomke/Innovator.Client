@@ -322,7 +322,7 @@ namespace Innovator.Client
         byte[] data;
         if (Factory.ImageCache.TryGetValue(url, out data))
         {
-          return Promises.Resolved((Stream)new MemoryStream(data));
+          return Promises.Resolved((Stream)new MemoryTributary(data));
         }
 
         var trace = new LogData(4, "Innovator: Get picture from client server", Factory.LogListener)
@@ -334,8 +334,16 @@ namespace Innovator.Client
           { "user_id", conn.UserId }
         };
         return Factory.DefaultService.Invoke().GetPromise(new Uri(url), async, trace).Convert(r => {
-          var buffer = new MemoryStream();
-          r.AsStream.CopyTo(buffer);
+          var download = r.AsStream;
+          var buffer = download as MemoryTributary;
+          if (buffer == null)
+          {
+            using (var stream = r.AsStream)
+            {
+              buffer = new MemoryTributary();
+              stream.CopyTo(buffer);
+            }
+          }
           Factory.ImageCache.TryAdd(url, buffer.ToArray());
           buffer.Position = 0;
           return (Stream)buffer;

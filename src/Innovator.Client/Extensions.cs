@@ -7,24 +7,51 @@ using System.Xml.Linq;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Useful extension methods
+  /// </summary>
   public static class Extensions
   {
+    /// <summary>
+    /// Renders a <see cref="Nullable{Guid}"/> using the default Aras ID format.
+    /// </summary>
+    /// <param name="guid"><see cref="Nullable{Guid}"/> to render as an ID</param>
+    /// <returns><c>null</c> is <paramref name="guid"/> does not have a value, otherwise a 
+    /// 32-character <see cref="String"/> representing the ID</returns>
     public static string ToArasId(this Guid? guid)
     {
       if (!guid.HasValue)
         return null;
       return guid.Value.ToArasId();
     }
+
+    /// <summary>
+    /// Renders a <see cref="Guid"/> using the default Aras ID format.
+    /// </summary>
+    /// <param name="guid"><see cref="Guid"/> to render as an ID</param>
+    /// <returns>32-character <see cref="String"/> representing the ID</returns>
     public static string ToArasId(this Guid guid)
     {
       return guid.ToString("N").ToUpperInvariant();
     }
 
+    /// <summary>
+    /// Indicates if a <see cref="SecureToken"/> is null or empty
+    /// </summary>
+    /// <param name="token">The token to check.</param>
+    /// <returns>
+    ///   <c>true</c> if <paramref name="token"/> is null or empty (with a <see cref="SecureToken.Length"/> &lt; 0; otherwise, <c>false</c>.
+    /// </returns>
     public static bool IsNullOrEmpty(this SecureToken token)
     {
       return token == null || token.Length < 1;
     }
 
+    /// <summary>
+    /// Render a <see cref="Stream"/> to a <see cref="String"/>
+    /// </summary>
+    /// <param name="data"><see cref="Stream"/> to render</param>
+    /// <returns>A <see cref="String"/> representing the contents of <paramref name="data"/></returns>
     public static string AsString(this Stream data)
     {
       using (var reader = new StreamReader(data))
@@ -32,15 +59,38 @@ namespace Innovator.Client
         return reader.ReadToEnd();
       }
     }
+
+    /// <summary>
+    /// Render a <see cref="Stream"/> to a <see cref="Byte"/> array
+    /// </summary>
+    /// <param name="data"><see cref="Stream"/> to render</param>
+    /// <returns>A <see cref="Byte"/> array representing the contents of <paramref name="data"/></returns>
     public static byte[] AsBytes(this Stream data)
     {
-      using (var memStream = new MemoryStream())
+      var memStream = data as MemoryStream;
+      if (memStream != null)
+        return memStream.ToArray();
+
+      var memTrib = data as MemoryTributary;
+      if (memTrib != null)
+        return memTrib.ToArray();
+
+      using (memStream = new MemoryStream())
       {
         data.CopyTo(memStream);
         return memStream.ToArray();
       }
     }
 
+    /// <summary>
+    /// Concatenate the string representation of a set of values to a single string separated by <paramref name="separator"/>
+    /// </summary>
+    /// <param name="values">Values to concatenate</param>
+    /// <param name="separator"><see cref="string"/> to use as a separator</param>
+    /// <param name="renderer">Function used to render a value as a string.  If not specified, <see cref="object.ToString"/> is used</param>
+    /// <returns>A single string containing the string representation of each value in <paramref name="values"/></returns>
+    /// <remarks>This performs a similar function to <see cref="String.Join(string, IEnumerable{string})"/> which is 
+    /// available in .Net 4+</remarks>
     public static string GroupConcat<T>(this IEnumerable<T> values, string separator, Func<T, string> renderer = null)
     {
       if (values.Any())
@@ -65,12 +115,31 @@ namespace Innovator.Client
         return reader.ReadToEnd();
       }
     }
+
+    /// <summary>
+    /// Creates an <see cref="XElement"/> from the data returned by the <see cref="IHttpResponse"/>
+    /// </summary>
+    /// <param name="resp"><see cref="IHttpResponse"/> returned by the server</param>
+    /// <returns>An <see cref="XElement"/> representing the XML from the response</returns>
     public static XElement AsXml(this IHttpResponse resp)
     {
-      if (resp.AsStream.CanSeek) resp.AsStream.Position = 0;
-      using (var reader = new System.IO.StreamReader(resp.AsStream))
+      var stream = resp.AsStream;
+      if (stream.CanSeek) stream.Position = 0;
+
+      var xmlStream = stream as IXmlStream;
+      if (xmlStream == null)
       {
-        return XElement.Load(reader);
+        using (var reader = new System.IO.StreamReader(stream))
+        {
+          return XElement.Load(reader);
+        }
+      }
+      else
+      {
+        using (var reader = xmlStream.CreateReader())
+        {
+          return XElement.Load(reader);
+        }
       }
     }
 

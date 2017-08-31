@@ -125,6 +125,8 @@ namespace Innovator.Client.Connection
     /// <summary>
     /// Process a command asynchronously by crafting the appropriate HTTP request and returning the HTTP response stream
     /// </summary>
+    /// <param name="request">The query to execute</param>
+    /// <param name="async">Whether the query should be executed asynchronously</param>
     public IPromise<Stream> Process(Command request, bool async)
     {
       var upload = request as UploadCommand;

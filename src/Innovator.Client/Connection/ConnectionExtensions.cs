@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace Innovator.Client
 {
+  /// <summary>
+  /// Extension methods related to <see cref="IConnection"/>.
+  /// </summary>
   public static class ConnectionExtensions
   {
     /// <summary>
@@ -43,7 +46,9 @@ namespace Innovator.Client
     /// <returns>A read-only result</returns>
     public static IPromise<IReadOnlyResult> ApplyAsync(this IAsyncConnection conn, Command query, bool async, bool noItemsIsError, params object[] parameters)
     {
-      return ApplyAsyncInt(conn, query, default(CancellationToken), parameters);
+      if (async)
+        return ApplyAsyncInt(conn, query, default(CancellationToken), parameters);
+      return Promises.Resolved(Apply(conn, query, parameters));
     }
 
 #if TASKS

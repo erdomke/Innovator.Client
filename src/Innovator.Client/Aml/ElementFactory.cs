@@ -75,7 +75,9 @@ namespace Innovator.Client
         return writer.Result;
       }
     }
+
     /// <summary>Return a result from a <see cref="Command"/></summary>
+    /// <param name="aml">XML data</param>
     public IResult FromXml(Command aml)
     {
       using (var writer = new ResultWriter(this, null, null))
@@ -84,15 +86,19 @@ namespace Innovator.Client
         return writer.Result;
       }
     }
+
     /// <summary>Return a result from a stream</summary>
+    /// <param name="xml">XML data</param>
     public IResult FromXml(Stream xml)
     {
-      using (var xmlReader = XmlReader.Create(xml))
+      var xmlStream = xml as IXmlStream;
+      using (var xmlReader = (xmlStream == null ? XmlReader.Create(xml) : xmlStream.CreateReader()))
       {
         return FromXml(xmlReader);
       }
     }
     /// <summary>Return a result from an AML text reader</summary>
+    /// <param name="xml">XML data</param>
     public IResult FromXml(TextReader xml)
     {
       using (var xmlReader = XmlReader.Create(xml))
@@ -101,11 +107,16 @@ namespace Innovator.Client
       }
     }
     /// <summary>Return a result from an XML reader</summary>
+    /// <param name="xml">XML data</param>
     public IResult FromXml(XmlReader xml)
     {
       return (IResult)FromXml(xml, null, null);
     }
+
     /// <summary>Return a result from an AML string indicating that it is the result of a query performed on a specific connection</summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="query">The original query which produced the <paramref name="xml"/> response</param>
+    /// <param name="conn">The connection which was queried</param>
     public IReadOnlyResult FromXml(string xml, Command query, IConnection conn)
     {
       using (var strReader = new StringReader(xml))
@@ -114,15 +125,24 @@ namespace Innovator.Client
         return FromXml(xmlReader, query, conn == null ? null : conn.Database);
       }
     }
+
     /// <summary>Return a result from an AML stream indicating that it is the result of a query performed on a specific connection</summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="query">The original query which produced the <paramref name="xml"/> response</param>
+    /// <param name="conn">The connection which was queried</param>
     public IReadOnlyResult FromXml(Stream xml, Command query, IConnection conn)
     {
-      using (var xmlReader = XmlReader.Create(xml))
+      var xmlStream = xml as IXmlStream;
+      using (var xmlReader = (xmlStream == null ? XmlReader.Create(xml) : xmlStream.CreateReader()))
       {
-        return FromXml(xmlReader, query, conn == null ? null : conn.Database);
+        return FromXml(xmlReader, query, conn?.Database);
       }
     }
+
     /// <summary>Return a result from an XmlReader indicating that it is the result of a query performed on a specific connection</summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="query">The original query which produced the <paramref name="xml"/> response</param>
+    /// <param name="database">The name of the database which was queried</param>
     public IReadOnlyResult FromXml(XmlReader xml, Command query, string database)
     {
       var writer = new ResultWriter(this, database, query);

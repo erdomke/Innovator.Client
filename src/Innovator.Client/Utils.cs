@@ -198,7 +198,7 @@ namespace Innovator.Client
 
     internal static bool ShouldClose(this Stream input)
     {
-      return !(input is MemoryStream);
+      return !(input is MemoryStream || input is MemoryTributary);
     }
 
     internal static IPromise<T> AsyncInvoke<T>(Func<T> method)

@@ -6,26 +6,37 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.Connection
 {
+  /// <summary>
+  /// A class which creates <see cref="Vault"/> objects from AML data
+  /// </summary>
+  /// <remarks>This implementation caches <see cref="Vault"/> objects so
+  /// that there won't be two instances in memory for the same Aras vault</remarks>
+  /// <seealso cref="Innovator.Client.Connection.IVaultFactory" />
   public class DefaultVaultFactory : IVaultFactory
   {
-    private object _lock = new object();
+    private readonly object _lock = new object();
     private Vault _last;
 
-    public Vault GetVault(IReadOnlyItem i)
+    /// <summary>
+    /// Gets the <see cref="Vault" /> object from AML data.
+    /// </summary>
+    /// <param name="item">The AML item.</param>
+    /// <returns>The <see cref="Vault" /> object from AML data.</returns>
+    public Vault GetVault(IReadOnlyItem item)
     {
-      if (i == null || !i.Exists) return null;
+      if (item == null || !item.Exists) return null;
 
-      var vault = LinkedListOps.Find(_last, i.Id());
+      var vault = LinkedListOps.Find(_last, item.Id());
 
       if (vault == null)
       {
         lock (_lock)
         {
-          vault = LinkedListOps.Find(_last, i.Id());
+          vault = LinkedListOps.Find(_last, item.Id());
 
           if (vault == null)
           {
-            vault = new Vault(i);
+            vault = new Vault(item);
             LinkedListOps.Add(ref _last, vault);
           }
         }

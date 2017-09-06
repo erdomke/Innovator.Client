@@ -11,9 +11,7 @@ namespace Innovator.Client
   /// </summary>
   public struct DateOffset : IComparable<DateOffset>, IComparable
   {
-    private DayOfWeek _firstDayOfWeek;
-    private DateMagnitude _magn;
-    private short _offset;
+    private readonly short _offset;
 
     /// <summary>
     /// First day of the week to use for week offset calculations
@@ -21,15 +19,13 @@ namespace Innovator.Client
     /// <value>
     /// The first day of week.  Defaults to <see cref="DayOfWeek.Sunday"/>
     /// </value>
-    public DayOfWeek FirstDayOfWeek
-    {
-      get { return _firstDayOfWeek; }
-      set { _firstDayOfWeek = value; }
-    }
+    public DayOfWeek FirstDayOfWeek { get; set; }
+
     /// <summary>
     /// Magnitude of the offset (e.g. days, weeks, months, etc).
     /// </summary>
-    public DateMagnitude Magnitude { get { return _magn; } }
+    public DateMagnitude Magnitude { get; }
+
     /// <summary>
     /// The amount of time units to offset
     /// </summary>
@@ -43,8 +39,8 @@ namespace Innovator.Client
     public DateOffset(short offset, DateMagnitude magnitude)
     {
       _offset = offset;
-      _magn = magnitude;
-      _firstDayOfWeek = DayOfWeek.Sunday;
+      Magnitude = magnitude;
+      FirstDayOfWeek = DayOfWeek.Sunday;
     }
 
     /// <summary>
@@ -58,7 +54,7 @@ namespace Innovator.Client
       DateTimeOffset result;
 
       if (isEndDate) offset++;
-      switch (_magn)
+      switch (Magnitude)
       {
         case DateMagnitude.BusinessDay:
           var offsetMagn = Math.Abs(offset);
@@ -73,7 +69,7 @@ namespace Innovator.Client
           }
           break;
         case DateMagnitude.Week:
-          result = GetWeekStart(todaysDate, _firstDayOfWeek).AddDays(offset * 7);
+          result = GetWeekStart(todaysDate, FirstDayOfWeek).AddDays(offset * 7);
           break;
         case DateMagnitude.Month:
           result = new DateTimeOffset(todaysDate.Year, todaysDate.Month, 1, 0, 0, 0, todaysDate.Offset).AddMonths(offset);
@@ -126,7 +122,7 @@ namespace Innovator.Client
 
     private int OffsetInDays()
     {
-      switch (_magn)
+      switch (Magnitude)
       {
         case DateMagnitude.BusinessDay:
           return 7 * _offset / 5;
@@ -142,12 +138,26 @@ namespace Innovator.Client
       return _offset;
     }
 
-
+    /// <summary>
+    /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+    /// </summary>
+    /// <param name="other">An object to compare with this instance.</param>
+    /// <returns>
+    /// A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="other" /> in the sort order.  Zero This instance occurs in the same position in the sort order as <paramref name="other" />. Greater than zero This instance follows <paramref name="other" /> in the sort order.
+    /// </returns>
     public int CompareTo(DateOffset other)
     {
       return OffsetInDays() - other.OffsetInDays();
     }
 
+    /// <summary>
+    /// Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+    /// </summary>
+    /// <param name="obj">An object to compare with this instance.</param>
+    /// <returns>
+    /// A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <paramref name="obj" /> in the sort order. Zero This instance occurs in the same position in the sort order as <paramref name="obj" />. Greater than zero This instance follows <paramref name="obj" /> in the sort order.
+    /// </returns>
+    /// <exception cref="NotSupportedException">If <paramref name="obj"/> is not of type <see cref="DateOffset"/></exception>
     public int CompareTo(object obj)
     {
       if (obj is DateOffset)

@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Innovator.Client.Tests
 {
-  class TestConnection : IConnection
+  internal class TestConnection : IConnection
   {
     public Command LastRequest { get; set; }
 
@@ -17,7 +17,7 @@ namespace Innovator.Client.Tests
 
     public UploadCommand CreateUploadCommand()
     {
-      throw new NotImplementedException();
+      throw new NotSupportedException();
     }
 
     public string MapClientUrl(string relativeUrl)

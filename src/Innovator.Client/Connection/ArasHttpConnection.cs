@@ -13,12 +13,16 @@ using System.Xml.Linq;
 
 namespace Innovator.Client.Connection
 {
-
+  /// <summary>
+  /// The main implementation of a connection to an Aras instance over HTTP
+  /// </summary>
+  /// <seealso cref="Innovator.Client.IRemoteConnection" />
+  /// <seealso cref="Innovator.Client.Connection.IArasConnection" />
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class ArasHttpConnection : IRemoteConnection, IArasConnection
   {
     private CompressionType _compression;
-    private HttpClient _service;
+    private readonly HttpClient _service;
     private int _arasVersion;
     private ServerContext _context = new ServerContext(false);
     private ElementFactory _factory;
@@ -26,13 +30,13 @@ namespace Innovator.Client.Connection
     private string _httpPassword;
     private string _httpUsername;
     private ICredentials _lastCredentials;
-    private Uri _innovatorServerBaseUrl;
-    private Uri _innovatorServerUrl;
-    private Uri _innovatorClientBin;
+    private readonly Uri _innovatorServerBaseUrl;
+    private readonly Uri _innovatorServerUrl;
+    private readonly Uri _innovatorClientBin;
     private string _userId;
     private List<Action<IHttpRequest>> _defaults = new List<Action<IHttpRequest>>();
-    private ArasVaultConnection _vaultConn;
-    private List<KeyValuePair<string, string>> _serverInfo = new List<KeyValuePair<string, string>>();
+    private readonly ArasVaultConnection _vaultConn;
+    private readonly List<KeyValuePair<string, string>> _serverInfo = new List<KeyValuePair<string, string>>();
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
@@ -42,6 +46,7 @@ namespace Innovator.Client.Connection
         return string.Format("[Connection] {0} | {1} | {2}", _httpUsername, _httpDatabase, _innovatorServerBaseUrl);
       }
     }
+
     /// <summary>
     /// AML context used for creating AML objects and formatting AML statements
     /// </summary>
@@ -49,11 +54,19 @@ namespace Innovator.Client.Connection
     {
       get { return _factory; }
     }
+
+    /// <summary>
+    /// Gets the compression setting to use when sending requests to the server.
+    /// </summary>
+    /// <value>
+    /// The compression setting to use when sending requests to the server.
+    /// </value>
     public CompressionType Compression
     {
       get { return _compression; }
       set { _compression = value; }
     }
+
     /// <summary>
     /// Name of the connected database
     /// </summary>
@@ -61,23 +74,51 @@ namespace Innovator.Client.Connection
     {
       get { return _httpDatabase; }
     }
+
+    /// <summary>
+    /// Gets the server information returned when logging in.
+    /// </summary>
+    /// <value>
+    /// The server information.
+    /// </value>
     public IEnumerable<KeyValuePair<string, string>> ServerInfo
     {
       get { return _serverInfo; }
     }
+
+    /// <summary>
+    /// URL that the instance resides at
+    /// </summary>
     public Uri Url
     {
       get { return _innovatorServerBaseUrl; }
     }
+
+    /// <summary>
+    /// ID of the authenticated user
+    /// </summary>
     public string UserId
     {
       get { return _userId; }
     }
+
+    /// <summary>
+    /// Gets the major version of the Aras installation
+    /// </summary>
+    /// <value>
+    /// The major version of the Aras installation.
+    /// </value>
     public int Version
     {
       get { return _arasVersion; }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ArasHttpConnection"/> class.
+    /// </summary>
+    /// <param name="service">The service.</param>
+    /// <param name="innovatorServerUrl">The innovator server URL.</param>
+    /// <param name="itemFactory">The item factory.</param>
     public ArasHttpConnection(HttpClient service, string innovatorServerUrl, IItemFactory itemFactory)
     {
       _service = service;
@@ -104,6 +145,7 @@ namespace Innovator.Client.Connection
 
       _vaultConn = new ArasVaultConnection(this);
     }
+
     /// <summary>
     /// Process a command by crafting the appropriate HTTP request and returning the HTTP response stream
     /// </summary>
@@ -122,6 +164,7 @@ namespace Innovator.Client.Connection
       }
       return Process(request, false).Value;
     }
+
     /// <summary>
     /// Process a command asynchronously by crafting the appropriate HTTP request and returning the HTTP response stream
     /// </summary>
@@ -147,11 +190,23 @@ namespace Innovator.Client.Connection
       return _vaultConn.Upload(upload, async);
     }
 
+    /// <summary>
+    /// Creates an upload request used for uploading files to the server
+    /// </summary>
+    /// <returns>
+    /// A new upload request used for uploading files to the server
+    /// </returns>
     public UploadCommand CreateUploadCommand()
     {
       return new UploadCommand(_vaultConn.VaultStrategy.WritePriority(false).Value.First());
     }
 
+    /// <summary>
+    /// Returns a set of databases which can be connected to using this URL
+    /// </summary>
+    /// <returns>
+    /// A set of databases which can be connected to using this URL
+    /// </returns>
     public IEnumerable<string> GetDatabases()
     {
       IHttpResponse resp;
@@ -176,12 +231,25 @@ namespace Innovator.Client.Connection
       }
     }
 
+    /// <summary>
+    /// Log in to the database
+    /// </summary>
+    /// <param name="credentials">Credentials used for authenticating to the instance</param>
     public void Login(ICredentials credentials)
     {
       // Access the value property to force throwing any appropriate exception
       var result = Login(credentials, false).Value;
     }
 
+    /// <summary>
+    /// Log in to the database asynchronosuly
+    /// </summary>
+    /// <param name="credentials">Credentials used for authenticating to the instance</param>
+    /// <param name="async">Whether to perform this action asynchronously</param>
+    /// <returns>
+    /// A promise to return the user ID as a string
+    /// </returns>
+    /// <exception cref="NotSupportedException">This connection implementation does not support the specified credential type</exception>
     public IPromise<string> Login(ICredentials credentials, bool async)
     {
       var explicitCred = credentials as ExplicitCredentials;
@@ -307,11 +375,20 @@ namespace Innovator.Client.Connection
       return result;
     }
 
+    /// <summary>
+    /// Log out of the database
+    /// </summary>
+    /// <param name="unlockOnLogout">Whether to unlock locked items while logging out</param>
     public void Logout(bool unlockOnLogout)
     {
       Logout(unlockOnLogout, false);
     }
 
+    /// <summary>
+    /// Log out of the database
+    /// </summary>
+    /// <param name="unlockOnLogout">Whether to unlock locked items while logging out</param>
+    /// <param name="async">Whether to perform this action asynchronously</param>
     public void Logout(bool unlockOnLogout, bool async)
     {
       Process(new Command("<logoff skip_unlock=\"" + (unlockOnLogout ? 0 : 1) + "\"/>").WithAction(CommandAction.LogOff), async)
@@ -326,11 +403,19 @@ namespace Innovator.Client.Connection
         });
     }
 
-    public void DefaultSettings(Action<IHttpRequest> callback)
+    /// <summary>
+    /// Use a method to configure each outgoing HTTP request
+    /// </summary>
+    /// <param name="settings">Action used to configure the request</param>
+    public void DefaultSettings(Action<IHttpRequest> settings)
     {
-      _defaults.Add(callback);
+      _defaults.Add(settings);
     }
 
+    /// <summary>
+    /// Sets the vault strategy.
+    /// </summary>
+    /// <param name="strategy">The strategy.</param>
     public void SetVaultStrategy(IVaultStrategy strategy)
     {
       _vaultConn.VaultStrategy = strategy;
@@ -400,11 +485,22 @@ namespace Innovator.Client.Connection
       writer.Invoke("TIMEZONE_NAME", this._context.TimeZone);
     }
 
+    /// <summary>
+    /// Causes the connection to logout.
+    /// </summary>
+    /// <see cref="Logout(bool)"/>
     public void Dispose()
     {
       if (!string.IsNullOrEmpty(_userId)) Logout(true);
     }
 
+    /// <summary>
+    /// Expands a relative URL to a full URL
+    /// </summary>
+    /// <param name="relativeUrl">The relative URL</param>
+    /// <returns>
+    /// A full URL relative to the connection
+    /// </returns>
     public string MapClientUrl(string relativeUrl)
     {
       return new Uri(this._innovatorClientBin, relativeUrl).ToString();
@@ -415,18 +511,41 @@ namespace Innovator.Client.Connection
       get { return _defaults; }
     }
 
+    /// <summary>
+    /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+    /// </summary>
+    /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+    /// </returns>
     public override bool Equals(object obj)
     {
       var conn = obj as ArasHttpConnection;
       if (conn == null) return false;
       return Equals(conn);
     }
+
+    /// <summary>
+    /// Determines whether the specified <see cref="ArasHttpConnection" />, is equal to this instance.
+    /// </summary>
+    /// <param name="conn">The <see cref="ArasHttpConnection" /> to compare with this instance.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified <see cref="ArasHttpConnection" /> is equal to this instance 
+    ///   (same URL, database, and user ID); otherwise, <c>false</c>.
+    /// </returns>
     public bool Equals(ArasHttpConnection conn)
     {
       return conn._innovatorServerBaseUrl.Equals(this._innovatorServerBaseUrl)
         && String.Equals(conn._httpDatabase, this._httpDatabase)
         && String.Equals(conn._userId, this._userId);
     }
+
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+    /// </returns>
     public override int GetHashCode()
     {
       return this._innovatorServerBaseUrl.GetHashCode()
@@ -434,6 +553,13 @@ namespace Innovator.Client.Connection
         ^ (_userId ?? "").GetHashCode();
     }
 
+    /// <summary>
+    /// Gets a new connection logged in with the same credentials
+    /// </summary>
+    /// <param name="async">Whether to perform this action asynchronously</param>
+    /// <returns>
+    /// A promise to return a new connection
+    /// </returns>
     public IPromise<IRemoteConnection> Clone(bool async)
     {
       var newConn = new ArasHttpConnection(Factory.DefaultService.Invoke(), _innovatorServerUrl.ToString(), _factory.ItemFactory);

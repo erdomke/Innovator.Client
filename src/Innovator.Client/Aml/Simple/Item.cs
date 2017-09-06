@@ -35,8 +35,17 @@ namespace Innovator.Client
       get { return _parent; }
       set { _parent = value ?? AmlElement.NullElem; }
     }
-    
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Item"/> class.
+    /// </summary>
     protected Item() { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Item"/> class.
+    /// </summary>
+    /// <param name="amlContext">The aml context.</param>
+    /// <param name="content">The content.</param>
     public Item(ElementFactory amlContext, params object[] content)
     {
       _amlContext = amlContext;
@@ -265,7 +274,13 @@ namespace Innovator.Client
     /// <summary>The ID of the item as retrieved from either the attribute or the property</summary>
     public string Id()
     {
-      return ((IReadOnlyElement)this).Attribute("id").Value ?? this.IdProp().Value;
+      var attr = ((IReadOnlyElement)this).Attribute("id");
+      if (attr.HasValue())
+        return attr.Value;
+      var prop = this.IdProp();
+      if (prop.HasValue() && (!prop.Condition().HasValue() || prop.Condition().Value == "eq"))
+        return prop.Value;
+      return null;
     }
 
     /// <summary>The type of the item as retrieved from either the attribute or the property</summary>
@@ -274,6 +289,12 @@ namespace Innovator.Client
       return ((IReadOnlyElement)this).Attribute("type").Value;
     }
 
+    /// <summary>
+    /// Returns a hash code for this instance.
+    /// </summary>
+    /// <returns>
+    /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+    /// </returns>
     public override int GetHashCode()
     {
       var result = 0;
@@ -291,6 +312,13 @@ namespace Innovator.Client
       return result;
     }
 
+    /// <summary>
+    /// Indicates whether the current object is equal to another object of the same type.
+    /// </summary>
+    /// <param name="other">An object to compare with this object.</param>
+    /// <returns>
+    /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+    /// </returns>
     public bool Equals(IItemRef other)
     {
       if (object.ReferenceEquals(this, other))
@@ -310,6 +338,13 @@ namespace Innovator.Client
       return cId == oId && cType == oType;
     }
 
+    /// <summary>
+    /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+    /// </summary>
+    /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+    /// </returns>
     public override bool Equals(object obj)
     {
       var item = obj as IItemRef;

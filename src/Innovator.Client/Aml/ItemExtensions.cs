@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.IO;
 using System.Xml.Linq;
+using System.Threading;
 
 namespace Innovator.Client
 {
@@ -281,6 +282,31 @@ namespace Innovator.Client
       return aml.FromXml(conn.Process(query), query, conn);
     }
 
+    /// <summary>
+    /// Get the result of executing the specified AML query
+    /// </summary>
+    /// <param name="item">AML query to apply</param>
+    /// <param name="conn">Connection to execute the query on</param>
+    /// <returns>A read-only result</returns>
+    public static IPromise<IReadOnlyResult> ApplyAsync(this IReadOnlyItem item, IAsyncConnection conn)
+    {
+      return conn.ApplyAsync(new Command(item.ToAml()), true, false);
+    }
+
+#if TASKS
+    /// <summary>
+    /// Get the result of executing the specified AML query
+    /// </summary>
+    /// <param name="item">AML query to apply</param>
+    /// <param name="conn">Connection to execute the query on</param>
+    /// <param name="ct">A <see cref="CancellationToken"/> used to cancel the asynchronous operation</param>
+    /// <returns>A read-only result</returns>
+    public static IPromise<IReadOnlyResult> ApplyAsync(this IReadOnlyItem item, IAsyncConnection conn, CancellationToken ct)
+    {
+      return conn.ApplyAsync(new Command(item.ToAml()), ct);
+    }
+#endif
+
     /// <summary>Download the file represented by the property </summary>
     /// <returns>This will return the file contents for item properties of type 'File' and
     /// image properties that point to vault files</returns>
@@ -403,10 +429,12 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Returns either the first element from the enumerable or a 'null' element (where <c>Exists</c> is <c>false</c>)
+    /// Returns either first element from the parent with a local name of <paramref name="name"/>
+    /// or a 'null' element (where <see cref="IReadOnlyElement.Exists"/> is <c>false</c>)
     /// if there are no elements
     /// </summary>
-    /// <param name="elements">Elements to search through</param>
+    /// <param name="element">Parent element to search through</param>
+    /// <param name="name">Name of the element to find</param>
     public static IReadOnlyElement Element(this IReadOnlyElement element, string name)
     {
       var elem = element as Element;
@@ -416,7 +444,8 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Returns either the first element from the enumerable or a 'null' element (where <c>Exists</c> is <c>false</c>)
+    /// Returns either the first element from the enumerable or a 
+    /// 'null' element (where <see cref="IReadOnlyElement.Exists"/> is <c>false</c>)
     /// if there are no elements
     /// </summary>
     /// <param name="elements">Elements to search through</param>
@@ -581,10 +610,13 @@ namespace Innovator.Client
     /// Determine the lock status of an item based on the data loaded into
     /// memory.
     /// </summary>
+    /// <param name="item">Item to check the status of</param>
+    /// <param name="conn">Connection containing the ID of the current user</param>
     /// <remarks>A call will not be made to the database</remarks>
     public static LockStatusType LockStatus(this IReadOnlyItem item, IConnection conn)
     {
-      if (!item.LockedById().HasValue()) return LockStatusType.NotLocked;
+      if (!item.LockedById().HasValue() || item.Attribute("isNew").AsBoolean(false))
+        return LockStatusType.NotLocked;
       if (item.LockedById().Value == conn.UserId) return LockStatusType.LockedByUser;
       return LockStatusType.LockedByOther;
     }
@@ -649,6 +681,7 @@ namespace Innovator.Client
     /// initial mapping, the method will query the database and run the mapper again with the
     /// database results
     /// </summary>
+    /// <param name="item">Item to map</param>
     /// <param name="conn">Connection used for querying the database when property values are not available</param>
     /// <param name="mapper">Function which creates a new object by referencing values from the item</param>
     public static T LazyMap<T>(this IReadOnlyItem item, IConnection conn, Func<IReadOnlyItem, T> mapper)
@@ -698,8 +731,8 @@ namespace Innovator.Client
 
     private class ItemWatcher : ItemWrapper
     {
-      private string _path;
-      private Action<string, bool> _listener;
+      private readonly string _path;
+      private readonly Action<string, bool> _listener;
 
       public ItemWatcher(IReadOnlyItem item, string path, Action<string, bool> listener) : base(item)
       {
@@ -720,9 +753,9 @@ namespace Innovator.Client
 
     private class PropertyWatcher : IReadOnlyProperty
     {
-      private IReadOnlyProperty _prop;
-      private string _path;
-      private Action<string, bool> _listener;
+      private readonly IReadOnlyProperty _prop;
+      private readonly string _path;
+      private readonly Action<string, bool> _listener;
 
       public PropertyWatcher(IReadOnlyProperty prop, string path, Action<string, bool> listener)
       {
@@ -995,7 +1028,9 @@ namespace Innovator.Client
     /// <summary>
     /// Return a list consisting of <paramref name="elem"/> and all of its parents
     /// </summary>
-    /// <returns>The list starts with the element, followed by its parent, and so on</returns>
+    /// <param name="elem">Element to start the search with</param>
+    /// <returns>The list starts with the element (if it exists), 
+    /// followed by its parent, and so on</returns>
     public static IEnumerable<IReadOnlyElement> ParentsAndSelf(this IReadOnlyElement elem)
     {
       if (!elem.Exists)
@@ -1056,6 +1091,117 @@ namespace Innovator.Client
     public static DateTimeOffset Now(this IServerContext context)
     {
       return context.AsDateTimeOffset(ServerContext._clock()).Value;
+    }
+
+    /// <summary>
+    /// Perform parameter substitutions and return the resulting AML
+    /// </summary>
+    public static string ToNormalizedAml(this Command cmd, ElementFactory factory)
+    {
+      return cmd.ToNormalizedAml(factory.LocalizationContext);
+    }
+
+    /// <summary>Returns a reference to the property with the specified name and language</summary>
+    /// <param name="logical">Logical element to return a property for</param>
+    /// <param name="name">Name of the property</param>
+    /// <param name="lang">Language of the (multilingual) property</param>
+    /// <returns>
+    /// <list type="bullet">
+    ///   <item><description>If the property exists, a valid <see cref="IReadOnlyProperty"/> will be returned</description></item>
+    ///   <item><description>If the property does not exists, a "null" <see cref="IReadOnlyProperty"/> will be returned where <see cref="IReadOnlyElement.Exists"/> = <c>false</c></description></item>
+    /// </list></returns>
+    public static IReadOnlyProperty Property(this IReadOnlyLogical logical, string name, string lang = null)
+    {
+      if (string.IsNullOrEmpty(name))
+        throw new ArgumentNullException(name);
+      
+      if (logical.Exists)
+      {
+        var prop = logical.Elements()
+          .OfType<IReadOnlyProperty>()
+          .FirstOrDefault(p => !p.Attribute("xml:lang").Exists
+            || string.IsNullOrEmpty(lang)
+            || p.Attribute("xml:lang").Value == lang);
+
+        if (prop != null)
+          return prop;
+
+        var mutable = logical as ILogical;
+        if (mutable != null)
+        {
+          var result = new Property(mutable, name);
+          if (!string.IsNullOrEmpty(lang))
+            result.Add(new Attribute("xml:lang", lang));
+          return result;
+        }
+      }
+
+      return Innovator.Client.Property.NullProp;
+    }
+
+    /// <summary>Returns a reference to the property with the specified name and language</summary>
+    /// <param name="logical">Logical element to return a property for</param>
+    /// <param name="name">Name of the property</param>
+    /// <param name="lang">Language of the (multilingual) property</param>
+    /// <returns>
+    /// <list type="bullet">
+    ///   <item><description>If the property exists, a valid <see cref="IReadOnlyProperty"/> will be returned</description></item>
+    ///   <item><description>If the property does not exists, a "null" <see cref="IReadOnlyProperty"/> will be returned where <see cref="IReadOnlyElement.Exists"/> = <c>false</c></description></item>
+    /// </list></returns>
+    public static IProperty Property(this ILogical logical, string name, string lang = null)
+    {
+      if (string.IsNullOrEmpty(name))
+        throw new ArgumentNullException(name);
+
+      if (logical.Exists)
+      {
+        var prop = logical.Elements()
+          .OfType<IProperty>()
+          .FirstOrDefault(p => !p.Attribute("xml:lang").Exists
+            || string.IsNullOrEmpty(lang)
+            || p.Attribute("xml:lang").Value == lang);
+
+        if (prop != null)
+          return prop;
+
+        var result = new Property(logical, name);
+        if (!string.IsNullOrEmpty(lang))
+          result.Add(new Attribute("xml:lang", lang));
+        return result;
+      }
+
+      return Innovator.Client.Property.NullProp;
+    }
+
+    /// <summary>
+    /// Gets the XML inner text of the element
+    /// </summary>
+    /// <param name="elem">The element to retrieve text for.</param>
+    public static string InnerText(this IReadOnlyElement elem)
+    {
+      var val = elem.Value;
+      if (val != null)
+        return val;
+
+      var builder = new StringBuilder();
+      AppendInnerText(elem, builder);
+      return builder.ToString();
+    }
+
+    private static void AppendInnerText(IReadOnlyElement elem, StringBuilder builder)
+    {
+      var val = elem.Value;
+      if (val != null)
+      {
+        builder.Append(val);
+      }
+      else
+      {
+        foreach (var child in elem.Elements())
+        {
+          AppendInnerText(child, builder);
+        }
+      }
     }
   }
 }

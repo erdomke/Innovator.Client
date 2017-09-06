@@ -8,7 +8,7 @@ namespace Innovator.Client
 {
   internal class SqlFormatter : IFormatProvider, ICustomFormatter
   {
-    private IServerContext _context;
+    private readonly IServerContext _context;
 
     public SqlFormatter(IServerContext context)
     {
@@ -151,7 +151,7 @@ namespace Innovator.Client
           case Condition.NotLike:
             return "not like";
           default:
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
       }
       else if (ServerContext.TryCastNumber(arg, out number))

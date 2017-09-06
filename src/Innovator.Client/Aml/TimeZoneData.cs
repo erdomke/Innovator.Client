@@ -11,6 +11,13 @@ namespace Innovator.Client
   /// </summary>
   public partial class TimeZoneData : IEquatable<TimeZoneData>
   {
+    /// <summary>
+    /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
+    /// </summary>
+    /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
+    /// <returns>
+    ///   <c>true</c> if the specified <see cref="System.Object" /> is equal to this instance; otherwise, <c>false</c>.
+    /// </returns>
     public override bool Equals(object obj)
     {
       var tzd = obj as TimeZoneData;
@@ -19,6 +26,14 @@ namespace Innovator.Client
       return Equals(tzd);
     }
 
+    /// <summary>
+    /// Implements the operator ==.
+    /// </summary>
+    /// <param name="a">a.</param>
+    /// <param name="b">The b.</param>
+    /// <returns>
+    /// The result of the operator.
+    /// </returns>
     public static bool operator ==(TimeZoneData a, TimeZoneData b)
     {
       // If both are null, or both are same instance, return true.
@@ -33,6 +48,14 @@ namespace Innovator.Client
       return a.Equals(b);
     }
 
+    /// <summary>
+    /// Implements the operator !=.
+    /// </summary>
+    /// <param name="a">a.</param>
+    /// <param name="b">The b.</param>
+    /// <returns>
+    /// The result of the operator.
+    /// </returns>
     public static bool operator !=(TimeZoneData a, TimeZoneData b)
     {
       return !(a == b);
@@ -269,7 +292,20 @@ namespace Innovator.Client
     };
 #endif
 
+    /// <summary>
+    /// Gets time zone information for the local time zone.
+    /// </summary>
+    /// <value>
+    /// The time zone information for the local time zone.
+    /// </value>
     public static TimeZoneData Local { get { return _local; } }
+
+    /// <summary>
+    /// Gets time zone information for the UTC time zone.
+    /// </summary>
+    /// <value>
+    /// The time zone information for the UTC time zone.
+    /// </value>
     public static TimeZoneData Utc { get { return _utc; } }
   }
 

@@ -101,7 +101,7 @@ namespace Innovator.Client
     /// Creates an AML command that will be sent to the server.  Numbered AML parameters (e.g. @0, used as attribute 
     /// and element values) will be replaced with the corresponding arguments.
     /// </summary>
-    /// <param name="format">Format string containing the parameters</param>
+    /// <param name="query">Query string containing the parameters</param>
     /// <param name="args">Replacement values for the numbered parameters</param>
     /// <returns>A valid AML string</returns>
     /// <remarks>Property type conversion and XML formatting is performed</remarks>
@@ -174,7 +174,7 @@ namespace Innovator.Client
     /// Replaces SQL Server style numbered AML parameters (used as attribute and element values) with the corresponding arguments.
     /// Property type conversion and XML formatting is performed
     /// </summary>
-    /// <param name="format">Format string containing the parameters</param>
+    /// <param name="query">Format string containing the parameters</param>
     /// <param name="args">Replacement values for the numbered parameters</param>
     /// <returns>A valid AML string</returns>
     public Command WithAml(string query, params object[] args)

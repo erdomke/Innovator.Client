@@ -99,7 +99,7 @@ namespace Innovator.Server
     /// <summary>
     /// Indicates if one or more properties in the list are changing
     /// </summary>
-    /// <param name="propertyNames">Property name(s)</param>
+    /// <param name="names">Property name(s)</param>
     bool IsChanging(params string[] names);
 
     /// <summary>

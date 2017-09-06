@@ -13,15 +13,14 @@ namespace Innovator.Client
   /// </summary>
   public class AmlSqlWriter : XmlWriter
   {
-    private List<Tag> _tags = new List<Tag>();
-    //private TextWriter _writer = new StringWriter();
+    private readonly List<Tag> _tags = new List<Tag>();
     private string _name;
-    private StringBuilder _buffer = new StringBuilder();
+    private readonly StringBuilder _buffer = new StringBuilder();
     private ItemTag _lastItem;
-    private HashSet<string> _aliases = new HashSet<string>();
+    private readonly HashSet<string> _aliases = new HashSet<string>();
     private ItemTag _criteriaItem;
-    private IAmlSqlWriterSettings _settings;
-    private TextWriter _writer;
+    private readonly IAmlSqlWriterSettings _settings;
+    private readonly TextWriter _writer;
 
     /// <summary>Gets the state of the writer.</summary>
     /// <returns>One of the <see cref="WriteState" /> values.</returns>
@@ -930,7 +929,7 @@ namespace Innovator.Client
 
     private class Tag
     {
-      private Dictionary<string, string> _attrs = new Dictionary<string, string>();
+      private readonly Dictionary<string, string> _attrs = new Dictionary<string, string>();
 
       public Dictionary<string, string> Attributes { get { return _attrs; } }
       public string Name { get; set; }
@@ -939,11 +938,11 @@ namespace Innovator.Client
 
     private class ItemTag : Tag
     {
-      private List<Table> _tables = new List<Table>() { new Table() };
-      private List<RelatedWhere> _relatedWhere = new List<RelatedWhere>();
+      private readonly List<Table> _tables = new List<Table>() { new Table() };
+      private readonly List<RelatedWhere> _relatedWhere = new List<RelatedWhere>();
 
-      private StringBuilder _select = new StringBuilder();
-      private StringBuilder _where = new StringBuilder();
+      private readonly StringBuilder _select = new StringBuilder();
+      private readonly StringBuilder _where = new StringBuilder();
 
       public string Alias
       {

@@ -178,7 +178,7 @@ namespace Innovator.Client.Time
     /// <summary>Converts a time to the time in a particular time zone.</summary>
     /// <returns>The date and time in the destination time zone.</returns>
     /// <param name="dateTimeOffset">The date and time to convert.   </param>
-    /// <param name="destinationTimeZone">The time zone to convert <paramref name="dateTime" /> to.</param>
+    /// <param name="destinationTimeZone">The time zone to convert <paramref name="dateTimeOffset" /> to.</param>
     /// <exception cref="T:System.ArgumentNullException">The value of the <paramref name="destinationTimeZone" /> parameter is null.</exception>
     public static DateTimeOffset ConvertTime(DateTimeOffset dateTimeOffset, TimeZoneInfo destinationTimeZone)
     {
@@ -312,7 +312,7 @@ namespace Innovator.Client.Time
     {
       return this.m_id.ToUpperInvariant().GetHashCode();
     }
-    
+
     /// <summary>Indicates whether the current object and another <see cref="T:System.TimeZoneInfo" /> object have the same adjustment rules.</summary>
     /// <returns>true if the two time zones have identical adjustment rules and an identical base offset; otherwise, false.</returns>
     /// <param name="other">A second object to compare with the current <see cref="T:System.TimeZoneInfo" /> object.   </param>
@@ -1008,62 +1008,16 @@ namespace Innovator.Client.Time
       }
     }
 
-    private string m_id;
-
-    private string m_displayName;
-
-    private string m_standardDisplayName;
-
-    private string m_daylightDisplayName;
-
+    private readonly string m_id;
+    private readonly string m_displayName;
+    private readonly string m_standardDisplayName;
+    private readonly string m_daylightDisplayName;
     private TimeSpan m_baseUtcOffset;
-
-    private bool m_supportsDaylightSavingTime;
-
-    private TimeZoneInfo.AdjustmentRule[] m_adjustmentRules;
-
-    private const string c_displayValue = "Display";
-
-    private const string c_daylightValue = "Dlt";
-
-    private const string c_standardValue = "Std";
-
-    private const string c_muiDisplayValue = "MUI_Display";
-
-    private const string c_muiDaylightValue = "MUI_Dlt";
-
-    private const string c_muiStandardValue = "MUI_Std";
-
-    private const string c_timeZoneInfoValue = "TZI";
-
-    private const string c_firstEntryValue = "FirstEntry";
-
-    private const string c_lastEntryValue = "LastEntry";
-
-    private const string c_utcId = "UTC";
-
-    private const string c_localId = "Local";
-
-    private const int c_maxKeyLength = 255;
-
-    private const int c_regByteLength = 44;
-
-    private const long c_ticksPerMillisecond = 10000L;
-
-    private const long c_ticksPerSecond = 10000000L;
-
-    private const long c_ticksPerMinute = 600000000L;
-
-    private const long c_ticksPerHour = 36000000000L;
-
-    private const long c_ticksPerDay = 864000000000L;
-
-    private const long c_ticksPerDayRange = 863999990000L;
+    private readonly bool m_supportsDaylightSavingTime;
+    private readonly TimeZoneInfo.AdjustmentRule[] m_adjustmentRules;
 
     private static TimeZoneInfo.CachedData s_cachedData = new TimeZoneInfo.CachedData();
-
     private static DateTime s_maxDateOnly = new DateTime(9999, 12, 31);
-
     private static DateTime s_minDateOnly = new DateTime(1, 1, 2);
 
     private enum TimeZoneInfoResult

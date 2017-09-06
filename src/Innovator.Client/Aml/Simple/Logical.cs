@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  class Logical : AmlElement, ILogical
+  internal class Logical : AmlElement, ILogical
   {
     public Logical(ElementFactory amlContext, string name, params object[] content) : base(amlContext, name, content) { }
     public Logical(IElement parent, string name) : base(parent, name) { }

@@ -67,12 +67,11 @@ namespace Innovator.Client
     {
       get
       {
-        if (_content != null && AmlContext != null && !(_content is ILinkedElement && !(_content is IReadOnlyItem)))
+        if (_content != null
+          && AmlContext != null
+          && !(_content is ILinkedElement && !(_content is IReadOnlyItem)))
           return AmlContext.LocalizationContext.Format(_content);
-        var str = _content as string;
-        if (str != null)
-          return str;
-        return null;
+        return _content as string;
       }
       set
       {
@@ -107,25 +106,25 @@ namespace Innovator.Client
       }
     }
 
-    protected bool FromDataStore
-    {
-      get { return (_attr & ElementAttributes.FromDataStore) > 0; }
-      set
-      {
-        if (value)
-          _attr = _attr | ElementAttributes.FromDataStore;
-        else
-          _attr = _attr & ~ElementAttributes.FromDataStore;
-      }
-    }
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Element"/> class.
+    /// </summary>
     public Element() { }
 
+    /// <summary>
+    /// Clones the element, specifying a new parent.
+    /// </summary>
+    /// <param name="newParent">The new parent.</param>
+    /// <returns>A copy of the element</returns>
     protected virtual Element Clone(IElement newParent)
     {
       return new AmlElement(newParent, this);
     }
 
+    /// <summary>
+    /// Copies data from <paramref name="elem"/> into this instance.
+    /// </summary>
+    /// <param name="elem">The elem to copy from.</param>
     protected void CopyData(IReadOnlyElement elem)
     {
       Add(elem.Attributes());
@@ -404,11 +403,21 @@ namespace Innovator.Client
       return LinkedListOps.Enumerate(_content as ILinkedElement).OfType<IReadOnlyElement>();
     }
 
+    /// <summary>
+    /// Returns a <see cref="System.String" /> that has the AML of the element.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="System.String" /> that has the AML of the element.
+    /// </returns>
     public override string ToString()
     {
       return this.ToAml();
     }
 
+    /// <summary>
+    /// Asserts that the element is modifiable modifiable.
+    /// </summary>
+    /// <exception cref="InvalidOperationException">If the user attempts to modify a read only element</exception>
     protected void AssertModifiable()
     {
       if (this.ReadOnly)

@@ -35,6 +35,7 @@ namespace Innovator.Client
         return ElementFactory.Utc.FromXml(conn.Process(query), query, conn);
       return conn.AmlContext.FromXml(conn.Process(query), query, conn);
     }
+
     /// <summary>
     /// Get the result of executing the specified AML query
     /// </summary>
@@ -160,6 +161,12 @@ namespace Innovator.Client
     /// <param name="conn">Connection to query the item on</param>
     /// <param name="itemTypeName">Name of the item type</param>
     /// <param name="id">ID of the item</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException">
+    /// <paramref name="itemTypeName"/> is not specified
+    /// - or -
+    /// <paramref name="id"/> is not specified
+    /// </exception>
     public static IReadOnlyItem ItemById(this IConnection conn, string itemTypeName, string id)
     {
       if (itemTypeName.IsNullOrWhiteSpace())
@@ -265,6 +272,14 @@ namespace Innovator.Client
         }).Fail(ex => result.Reject(ex)));
       return result;
     }
+
+    /// <summary>
+    /// Locks the specified item.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="itemTypeName">Name of the item type.</param>
+    /// <param name="id">The ID.</param>
+    /// <returns>The resulting item</returns>
     public static IReadOnlyItem Lock(this IConnection conn, string itemTypeName, string id)
     {
       var aml = conn.AmlContext;
@@ -273,6 +288,14 @@ namespace Innovator.Client
         aml.Id(id)
       ).Apply(conn).AssertItem();
     }
+
+    /// <summary>
+    /// Returns the next number in the sequence.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="sequenceName">Name of the sequence.</param>
+    /// <returns>The next number in the sequence.</returns>
+    /// <exception cref="ArgumentException">Sequence name must be specified - sequenceName</exception>
     public static string NextSequence(this IConnection conn, string sequenceName)
     {
       if (sequenceName.IsNullOrWhiteSpace())
@@ -283,6 +306,7 @@ namespace Innovator.Client
                               .WithAction(CommandAction.GetNextSequence);
       return aml.FromXml(conn.Process(query), query, conn).Value;
     }
+
     internal static IPromise<System.IO.Stream> ProcessAsync(this IConnection conn, Command cmd, bool async)
     {
       var remote = conn as IAsyncConnection;
@@ -302,6 +326,17 @@ namespace Innovator.Client
       }
       return result;
     }
+
+    /// <summary>
+    /// Promotes the specified item.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="itemTypeName">Name of the item type.</param>
+    /// <param name="id">The Aras ID.</param>
+    /// <param name="newState">The new state.</param>
+    /// <param name="comments">The comments.</param>
+    /// <returns>The result returned by the server</returns>
+    /// <exception cref="ArgumentException">State must be a non-empty string to run a promotion. - newState</exception>
     public static IReadOnlyResult Promote(this IConnection conn, string itemTypeName, string id, string newState, string comments = null)
     {
       if (newState.IsNullOrWhiteSpace()) throw new ArgumentException("State must be a non-empty string to run a promotion.", "newState");
@@ -312,8 +347,16 @@ namespace Innovator.Client
         aml.State(newState)
       );
       if (!string.IsNullOrEmpty(comments)) promoteItem.Add(aml.Property("comments", comments));
-      return promoteItem.Apply(conn).AssertNoError();
+      return promoteItem.Apply(conn);
     }
+
+    /// <summary>
+    /// Unlocks the specified item.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="itemTypeName">Name of the item type.</param>
+    /// <param name="id">The Aras ID.</param>
+    /// <returns>The new item data</returns>
     public static IReadOnlyItem Unlock(this IConnection conn, string itemTypeName, string id)
     {
       var aml = conn.AmlContext;

@@ -14,7 +14,7 @@ namespace Innovator.Client
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public abstract class ItemWrapper : IReadOnlyItem
   {
-    private IReadOnlyItem _item;
+    private readonly IReadOnlyItem _item;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ItemWrapper"/> class.
@@ -123,7 +123,7 @@ namespace Innovator.Client
 
     private class ItemDebugView
     {
-      private IReadOnlyItem _item;
+      private readonly IReadOnlyItem _item;
 
       public ElementFactory AmlContext { get { return _item.AmlContext; } }
       public IEnumerable<IReadOnlyAttribute> Attributes { get { return _item.Attributes().ToArray(); } }

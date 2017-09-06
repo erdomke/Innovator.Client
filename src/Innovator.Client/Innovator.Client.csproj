@@ -402,9 +402,12 @@
     <Compile Include="Connection\DefaultVaultStrategy.cs" />
     <Compile Include="Connection\Endpoints.cs" />
     <Compile Include="Connection\IArasConnection.cs" />
-    <Compile Include="Connection\IomConnection.cs" />
+    <Compile Include="IOM\Innovator.cs" />
+    <Compile Include="IOM\IomConnection.cs" />
     <Compile Include="Connection\IVaultFactory.cs" />
     <Compile Include="Connection\DefaultVaultFactory.cs" />
+    <Compile Include="IOM\Item.cs" />
+    <Compile Include="IOM\Item.IOM.cs" />
     <Compile Include="IO\IXmlStream.cs" />
     <Compile Include="IO\MemoryTributary.cs" />
     <Compile Include="Queryable\AmlQuery.cs" />

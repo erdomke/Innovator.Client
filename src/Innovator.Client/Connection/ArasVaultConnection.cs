@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Innovator.Client.Connection
 {
+  /// <summary>
+  /// Class for uploading files to and downloading files from an Aras vault
+  /// </summary>
   public class ArasVaultConnection
   {
     private const string DownloadFileAmlFormat = @"<Item type='File' action='get' select='id,filename' id='@0'>
@@ -20,26 +23,48 @@ namespace Innovator.Client.Connection
                                                     </Relationships>
                                                   </Item>";
 
-    private IArasConnection _conn;
+    private readonly IArasConnection _conn;
     private IVaultStrategy _vaultStrategy = new DefaultVaultStrategy();
-    private IVaultFactory _factory = new DefaultVaultFactory();
+    private readonly IVaultFactory _factory = new DefaultVaultFactory();
 
+    /// <summary>
+    /// Gets or sets the vault strategy for determining which vaults to read from and write
+    /// to for a given <see cref="IAsyncConnection"/>
+    /// </summary>
+    /// <value>
+    /// The vault strategy.
+    /// </value>
     public IVaultStrategy VaultStrategy
     {
       get { return _vaultStrategy; }
       set { _vaultStrategy = new CacheVaultStrategy(value); }
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ArasVaultConnection"/> class for 
+    /// a given <see cref="IArasConnection"/>
+    /// </summary>
+    /// <param name="conn">The corresponding <see cref="IArasConnection"/>.</param>
     public ArasVaultConnection(IArasConnection conn)
     {
       _conn = conn;
     }
 
+    /// <summary>
+    /// Initializes the strategy.
+    /// </summary>
     public void InitializeStrategy()
     {
       _vaultStrategy.Initialize(_conn, _factory);
     }
 
+    /// <summary>
+    /// Downloads the specified file.
+    /// </summary>
+    /// <param name="request">The file to download.</param>
+    /// <param name="async">if set to <c>true</c>, download asynchronously.  Otherwise, 
+    /// a resolved promise will be returned</param>
+    /// <returns>A promise to return a stream of the file's bytes</returns>
     public IPromise<Stream> Download(Command request, bool async)
     {
       var parsedAml = _conn.AmlContext.FromXml(request);
@@ -137,7 +162,7 @@ namespace Innovator.Client.Connection
         {
           a.Invoke(req);
         }
-        if (request.Settings != null) request.Settings.Invoke(req);
+        request.Settings?.Invoke(req);
 
         var trace = new LogData(4
           , "Innovator: Download file from vault"
@@ -158,6 +183,13 @@ namespace Innovator.Client.Connection
       });
     }
 
+    /// <summary>
+    /// Uploads the specified file to the vault.
+    /// </summary>
+    /// <param name="upload">The file to upload.</param>
+    /// <param name="async">if set to <c>true</c>, download asynchronously.  Otherwise, 
+    /// a resolved promise will be returned</param>
+    /// <returns>A promise to return a stream of the resulting AML</returns>
     public IPromise<Stream> Upload(UploadCommand upload, bool async)
     {
       // Transform the vault URL (as necessary)

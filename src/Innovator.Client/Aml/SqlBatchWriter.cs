@@ -12,9 +12,9 @@ namespace Innovator.Client
   /// </summary>
   public class SqlBatchWriter : IDisposable
   {
-    private IConnection _conn;
-    private StringBuilder _builder;
-    private ParameterSubstitution _subs;
+    private readonly IConnection _conn;
+    private readonly StringBuilder _builder;
+    private readonly ParameterSubstitution _subs;
     private int _commands = 0;
     private string _lastQuery;
     private IPromise<Stream> _lastResult = null;

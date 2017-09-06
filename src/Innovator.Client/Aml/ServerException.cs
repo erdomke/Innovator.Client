@@ -17,15 +17,28 @@ namespace Innovator.Client
 #endif
   public class ServerException : Exception, IAmlNode
   {
+    /// <summary>
+    /// The name of the database where the excepton originated
+    /// </summary>
     protected string _database;
+
+    /// <summary>
+    /// The AML fault element from the SOAP message
+    /// </summary>
     protected Element _fault;
+
+    /// <summary>
+    /// The query which was executed when the error was returned
+    /// </summary>
     protected Command _query;
+
     private string _className;
 
     /// <summary>
     /// Gets the name of the database where the excepton originated
     /// </summary>
     public string Database { get { return _database; } }
+
     /// <summary>
     /// Gets the AML fault element from the SOAP message
     /// </summary>
@@ -33,6 +46,7 @@ namespace Innovator.Client
     {
       get { return _fault; }
     }
+
     /// <summary>
     /// Gets or sets the (generally numeric) fault code.
     /// </summary>
@@ -41,6 +55,7 @@ namespace Innovator.Client
       get { return _fault.ElementByName("faultcode").Value; }
       set { _fault.ElementByName("faultcode").Add(value); }
     }
+
     /// <summary>
     /// Gets the query which was executed when the error was returned
     /// </summary>
@@ -106,11 +121,23 @@ namespace Innovator.Client
       _query = query;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ServerException"/> class.
+    /// </summary>
+    /// <param name="message">The message.</param>
+    /// <param name="code">The fault code.</param>
     protected ServerException(string message, int code)
       : base(message)
     {
       CreateXml(message, code);
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ServerException"/> class.
+    /// </summary>
+    /// <param name="message">The message.</param>
+    /// <param name="code">The fault code.</param>
+    /// <param name="innerException">The inner exception.</param>
     protected ServerException(string message, int code, Exception innerException)
       : base(message, innerException)
     {

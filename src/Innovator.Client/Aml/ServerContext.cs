@@ -410,7 +410,7 @@ namespace Innovator.Client
           case Condition.NotLike:
             return "not like";
           default:
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
       }
       else if (TryCastNumber(value, out number))

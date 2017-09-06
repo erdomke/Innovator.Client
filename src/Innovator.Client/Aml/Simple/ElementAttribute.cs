@@ -16,10 +16,6 @@ namespace Innovator.Client
     /// </summary>
     Null = 0x01,
     /// <summary>
-    /// Indicates that the element came from a data store (e.g. from the server)
-    /// </summary>
-    FromDataStore = 0x02,
-    /// <summary>
     /// Indicates that the element is read-only and should not be modified
     /// </summary>
     ReadOnly = 0x04,

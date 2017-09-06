@@ -111,7 +111,7 @@ namespace Innovator.Client
 
 
     /// <summary>
-    /// perform transformatio using f(((b&c) | (~(b)&d))
+    /// perform transformation using f(((b&amp;c) | (~(b)&amp;d))
     /// </summary>
     protected void TransF(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
     {
@@ -119,7 +119,7 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// perform transformatio using g((b&d) | (c & ~d) )
+    /// perform transformation using g((b&amp;d) | (c &amp; ~d) )
     /// </summary>
     protected void TransG(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
     {
@@ -127,7 +127,7 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// perform transformatio using h(b^c^d)
+    /// perform transformation using h(b^c^d)
     /// </summary>
     protected void TransH(ref uint a, uint b, uint c, uint d, uint k, ushort s, uint i)
     {
@@ -172,11 +172,11 @@ namespace Innovator.Client
       TransF(ref A, B, C, D, 4, 7, 5); TransF(ref D, A, B, C, 5, 12, 6); TransF(ref C, D, A, B, 6, 17, 7); TransF(ref B, C, D, A, 7, 22, 8);
       TransF(ref A, B, C, D, 8, 7, 9); TransF(ref D, A, B, C, 9, 12, 10); TransF(ref C, D, A, B, 10, 17, 11); TransF(ref B, C, D, A, 11, 22, 12);
       TransF(ref A, B, C, D, 12, 7, 13); TransF(ref D, A, B, C, 13, 12, 14); TransF(ref C, D, A, B, 14, 17, 15); TransF(ref B, C, D, A, 15, 22, 16);
-      /** rOUND 2
-        **[ABCD  1  5 17]  [DABC  6  9 18]  [CDAB 11 14 19]  [BCDA  0 20 20]
-        *[ABCD  5  5 21]  [DABC 10  9 22]  [CDAB 15 14 23]  [BCDA  4 20 24]
-        *[ABCD  9  5 25]  [DABC 14  9 26]  [CDAB  3 14 27]  [BCDA  8 20 28]
-        *[ABCD 13  5 29]  [DABC  2  9 30]  [CDAB  7 14 31]  [BCDA 12 20 32]
+      /* rOUND 2
+       * [ABCD  1  5 17]  [DABC  6  9 18]  [CDAB 11 14 19]  [BCDA  0 20 20]
+       * [ABCD  5  5 21]  [DABC 10  9 22]  [CDAB 15 14 23]  [BCDA  4 20 24]
+       * [ABCD  9  5 25]  [DABC 14  9 26]  [CDAB  3 14 27]  [BCDA  8 20 28]
+       * [ABCD 13  5 29]  [DABC  2  9 30]  [CDAB  7 14 31]  [BCDA 12 20 32]
       */
       TransG(ref A, B, C, D, 1, 5, 17); TransG(ref D, A, B, C, 6, 9, 18); TransG(ref C, D, A, B, 11, 14, 19); TransG(ref B, C, D, A, 0, 20, 20);
       TransG(ref A, B, C, D, 5, 5, 21); TransG(ref D, A, B, C, 10, 9, 22); TransG(ref C, D, A, B, 15, 14, 23); TransG(ref B, C, D, A, 4, 20, 24);
@@ -228,12 +228,12 @@ namespace Innovator.Client
 
 
       pad = (uint)((temp + 512) % 512);   //getting no of bits to  be pad
-      if (pad == 0)				///pad is in bits
+      if (pad == 0)			// pad is in bits
         pad = 512;      //at least 1 or max 512 can be added
 
       sizeMsgBuff = (uint)((value.Length) + (pad / 8) + 8);
       sizeMsg = (ulong)value.Length * 8;
-      bMsg = new byte[sizeMsgBuff]; ///no need to pad with 0 coz new bytes
+      bMsg = new byte[sizeMsgBuff]; //no need to pad with 0 coz new bytes
       // are already initialize to 0 :)
 
 
@@ -243,7 +243,7 @@ namespace Innovator.Client
       for (int i = 0; i < value.Length; i++)
         bMsg[i] = value[i];
 
-      bMsg[value.Length] |= 0x80;   ///making first bit of padding 1,
+      bMsg[value.Length] |= 0x80;   //making first bit of padding 1,
 
       //wrting the size value
       for (int i = 8; i > 0; i--)
@@ -261,13 +261,13 @@ namespace Innovator.Client
     protected void CopyBlock(byte[] bMsg, uint block)
     {
 
-      block = block << 6;
+      block <<= 6;
       for (uint j = 0; j < 61; j += 4)
       {
-        X[j >> 2] = (((uint)bMsg[block + (j + 3)]) << 24) |
-            (((uint)bMsg[block + (j + 2)]) << 16) |
-            (((uint)bMsg[block + (j + 1)]) << 8) |
-            (((uint)bMsg[block + (j)]));
+        X[j >> 2] = (((uint)bMsg[block + (j + 3)]) << 24)
+            | (((uint)bMsg[block + (j + 2)]) << 16)
+            | (((uint)bMsg[block + (j + 1)]) << 8)
+            | ((uint)bMsg[block + (j)]);
 
       }
     }
@@ -341,10 +341,10 @@ namespace Innovator.Client
     /// <returns>reversed value</returns>
     public static uint ReverseByte(uint uiNumber)
     {
-      return (((uiNumber & 0x000000ff) << 24) |
-            (uiNumber >> 24) |
-          ((uiNumber & 0x00ff0000) >> 8) |
-          ((uiNumber & 0x0000ff00) << 8));
+      return ((uiNumber & 0x000000ff) << 24)
+        | (uiNumber >> 24)
+        | ((uiNumber & 0x00ff0000) >> 8)
+        | ((uiNumber & 0x0000ff00) << 8);
     }
   }
 

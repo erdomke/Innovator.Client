@@ -29,10 +29,15 @@ namespace Innovator.Client
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public struct Range<T> : IRange where T : IComparable
   {
-    private bool _hasValue;
+    private readonly bool _hasValue;
     private T _min;
     private T _max;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Range{T}"/> struct.
+    /// </summary>
+    /// <param name="min">The minimum.</param>
+    /// <param name="max">The maximum.</param>
     public Range(T min, T max)
     {
       if (min.CompareTo(max) <= 0)

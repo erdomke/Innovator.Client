@@ -5,24 +5,49 @@ using System.Text;
 
 namespace Innovator.Client.Connection
 {
+  /// <summary>
+  /// Contains logic for determining which vaults to read from and write
+  /// to for a given <see cref="IAsyncConnection"/>
+  /// </summary>
   public class DefaultVaultStrategy : IVaultStrategy
   {
     private IAsyncConnection _conn;
     private IVaultFactory _factory;
     private IPromise<User> _userInfo;
 
+    /// <summary>
+    /// Initializes the stategy object with the specified connection and vault factory
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="factory">The vault factory.</param>
     public void Initialize(IAsyncConnection conn, IVaultFactory factory)
     {
       _conn = conn;
       _factory = factory;
     }
 
+    /// <summary>
+    /// Asynchronously returns a list of vaults to write to in priority order
+    /// </summary>
+    /// <param name="async">if set to <c>true</c>, execute asyncronously.
+    /// Otherwise, a resolved promise is returned</param>
+    /// <returns>
+    /// A list of vaults to write to in priority order
+    /// </returns>
     public IPromise<IEnumerable<Vault>> WritePriority(bool async)
     {
       return GetUserInfo(async)
         .Convert(u => Enumerable.Repeat(u.DefaultVault, 1).Concat(u.ReadPriority));
     }
 
+    /// <summary>
+    /// Asynchronously returns a list of vaults to read from in priority order
+    /// </summary>
+    /// <param name="async">if set to <c>true</c>, execute asyncronously.
+    /// Otherwise, a resolved promise is returned</param>
+    /// <returns>
+    /// A list of vaults to read from in priority order
+    /// </returns>
     public IPromise<IEnumerable<Vault>> ReadPriority(bool async)
     {
       return GetUserInfo(async)
@@ -58,7 +83,7 @@ namespace Innovator.Client.Connection
 
     private class User
     {
-      private List<Vault> _vaults = new List<Vault>();
+      private readonly List<Vault> _vaults = new List<Vault>();
 
       public string Id { get; set; }
       public Vault DefaultVault { get; set; }

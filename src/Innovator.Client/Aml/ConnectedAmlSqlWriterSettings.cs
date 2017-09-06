@@ -14,9 +14,9 @@ namespace Innovator.Client
   /// <seealso cref="Innovator.Client.IAmlSqlWriterSettings" />
   public class ConnectedAmlSqlWriterSettings : IAmlSqlWriterSettings
   {
-    private Dictionary<string, Dictionary<string, Model.Property>> _props
+    private readonly Dictionary<string, Dictionary<string, Model.Property>> _props
       = new Dictionary<string, Dictionary<string, Model.Property>>();
-    private IConnection _conn;
+    private readonly IConnection _conn;
     private string _identList;
 
     /// <summary>

@@ -5,18 +5,12 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  class Property : Element, IProperty
+  internal class Property : Element, IProperty
   {
-    private string _name;
-    private ILinkedElement _next;
     private IElement _parent;
 
-    public override string Name { get { return _name; } }
-    public override ILinkedElement Next
-    {
-      get { return _next; }
-      set { _next = value; }
-    }
+    public override string Name { get; }
+    public override ILinkedElement Next { get; set; }
     public override IElement Parent
     {
       get { return _parent ?? AmlElement.NullElem; }
@@ -34,7 +28,7 @@ namespace Innovator.Client
 
     public Property(string name, params object[] content)
     {
-      _name = name;
+      Name = name;
       if (content == null)
         this.IsNull().Set(true);
       else if (content.Length > 0)
@@ -42,23 +36,23 @@ namespace Innovator.Client
     }
     public Property(IElement parent, string name)
     {
-      _name = name;
+      Name = name;
       _parent = parent;
     }
     private Property(IElement parent, Property clone)
     {
-      _name = clone._name;
+      Name = clone.Name;
       _parent = parent;
       CopyData(clone);
     }
 
-    private static Property _nullProp;
-    private static Property _defaultGeneration;
-    private static Property _defaultIsCurrent;
-    private static Property _defaultIsReleased;
-    private static Property _defaultMajorRev;
-    private static Property _defaultNewVersion;
-    private static Property _defaultNotLockable;
+    private readonly static Property _nullProp;
+    private readonly static Property _defaultGeneration;
+    private readonly static Property _defaultIsCurrent;
+    private readonly static Property _defaultIsReleased;
+    private readonly static Property _defaultMajorRev;
+    private readonly static Property _defaultNewVersion;
+    private readonly static Property _defaultNotLockable;
 
     static Property()
     {

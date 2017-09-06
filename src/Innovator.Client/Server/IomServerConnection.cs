@@ -7,9 +7,9 @@ using Innovator.Server;
 using Innovator.Client;
 
 #if XMLLEGACY
-namespace Innovator.Server
+namespace Innovator.Server.IOM
 {
-  public class IomServerConnection : IomConnection, IServerConnection
+  public class IomServerConnection : Client.IOM.IomConnection, IServerConnection
   {
     public IomServerConnection(object iomConnection) : this(iomConnection, Factory.DefaultItemFactory) { }
     public IomServerConnection(object iomConnection, IItemFactory itemFactory) : base(iomConnection, itemFactory)

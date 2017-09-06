@@ -11,8 +11,8 @@ namespace Innovator.Client
   /// <seealso cref="Innovator.Client.IItemRef" />
   public class ItemRef : IItemRef
   {
-    private string _id;
-    private string _type;
+    private readonly string _id;
+    private readonly string _type;
 
     /// <summary>
     /// The ID of the item as retrieved from either the attribute or the property

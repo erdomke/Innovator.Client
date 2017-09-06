@@ -13,7 +13,13 @@ namespace Innovator.Client
   /// </summary>
   public enum ParameterSubstitutionMode
   {
+    /// <summary>
+    /// The query is AML
+    /// </summary>
     Aml,
+    /// <summary>
+    /// The query is SQL
+    /// </summary>
     Sql
   }
 
@@ -44,7 +50,7 @@ namespace Innovator.Client
 
     private IServerContext _context;
     private SqlFormatter _sqlFormatter;
-    private Dictionary<string, object> _parameters = new Dictionary<string, object>();
+    private readonly Dictionary<string, object> _parameters = new Dictionary<string, object>();
     private int _itemCount = 0;
 
     /// <summary>
@@ -160,7 +166,7 @@ namespace Innovator.Client
     /// </summary>
     /// <param name="query">The query.</param>
     /// <param name="context">The context.</param>
-    /// <param name="writer"><see cref="StringBuilder"/> into which the new query is written</param>
+    /// <param name="builder"><see cref="StringBuilder"/> into which the new query is written</param>
     public void Substitute(string query, IServerContext context, StringBuilder builder)
     {
       using (var writer = new StringWriter(builder))
@@ -755,9 +761,9 @@ namespace Innovator.Client
             i--;
           }
         }
-        else if ((endChar == '\n' && sql[i] == '\r') ||
-                 (endChar == '/' && sql[i] == '*' && i + 1 < sql.Length && sql[i + 1] == '/') ||
-                 (sql[i] == endChar))
+        else if ((endChar == '\n' && sql[i] == '\r')
+              || (endChar == '/' && sql[i] == '*' && i + 1 < sql.Length && sql[i + 1] == '/')
+              || (sql[i] == endChar))
         {
           endChar = '\0';
         }

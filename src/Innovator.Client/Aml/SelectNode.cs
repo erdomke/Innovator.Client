@@ -10,7 +10,7 @@ namespace Innovator.Client
   /// </summary>
   public class SelectNode : ICollection<SelectNode>
   {
-    private string _name;
+    private readonly string _name;
     private List<SelectNode> _children;
 
     /// <summary>
@@ -77,7 +77,7 @@ namespace Innovator.Client
       if (item == null) return;
       if (_children == null) _children = new List<SelectNode>();
 
-      var existing = _children.FirstOrDefault(c => c.Name == item.Name);
+      var existing = _children.Find(c => c.Name == item.Name);
       if (existing == null)
       {
         _children.Add(item);
@@ -109,7 +109,7 @@ namespace Innovator.Client
       if (!path.Any()) return;
       if (_children == null) _children = new List<SelectNode>();
       var name = path.First();
-      var match = _children.FirstOrDefault(c => c.Name == name);
+      var match = _children.Find(c => c.Name == name);
       if (match == null)
       {
         match = new SelectNode(name);
@@ -127,6 +127,12 @@ namespace Innovator.Client
         Add(child);
     }
 
+    /// <summary>
+    /// Returns an enumerator that iterates through the child nodes.
+    /// </summary>
+    /// <returns>
+    /// An enumerator that can be used to iterate through the child nodes.
+    /// </returns>
     public IEnumerator<SelectNode> GetEnumerator()
     {
       if (_children == null) return Enumerable.Empty<SelectNode>().GetEnumerator();

@@ -13,14 +13,14 @@ namespace Innovator.Client
     /// <summary>
     /// The item is not locked
     /// </summary>
-    NotLocked,
+    NotLocked = 0,
     /// <summary>
     /// The item is locked by user currently connected to Aras
     /// </summary>
-    LockedByUser,
+    LockedByUser = 1,
     /// <summary>
     /// The item is locked by a user other than the one currently connected to Aras
     /// </summary>
-    LockedByOther
+    LockedByOther = 2
   }
 }

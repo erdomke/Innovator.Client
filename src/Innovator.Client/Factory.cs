@@ -136,7 +136,6 @@ namespace Innovator.Client
     /// <summary>
     /// Asynchronously gets an HTTP connection to an innovator instance (or proxy) at the given URL
     /// </summary>
-    /// <param name="url">URL of the innovator instance (or proxy)</param>
     /// <param name="preferences">Object containing preferences for the connection</param>
     /// <param name="async">Whether or not to return the connection asynchronously.  This is important
     /// as an HTTP request must be issued to determine the type of connection to create</param>

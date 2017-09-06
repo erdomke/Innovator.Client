@@ -269,7 +269,7 @@ namespace Innovator.Client
 
         } while (count > 0);
       }
-      catch (Exception e)
+      catch (Exception)
       {
         Position = initialPosition;
         throw;

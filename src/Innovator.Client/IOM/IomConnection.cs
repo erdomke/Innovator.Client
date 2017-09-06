@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using System.Reflection;
 
 #if XMLLEGACY
-namespace Innovator.Client
+namespace Innovator.Client.IOM
 {
   public class IomConnection : IConnection, IArasConnection
   {

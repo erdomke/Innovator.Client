@@ -24,26 +24,29 @@ namespace Innovator.Client
   /// </example>
   public class ElementFactory
   {
-    private IServerContext _context;
-    private IItemFactory _itemFactory;
 
     /// <summary>
     /// Context for serializing/deserializing native types (e.g. <c>DateTime</c>, <c>double</c>, <c>boolean</c>, etc.)
     /// </summary>
-    public IServerContext LocalizationContext
-    {
-      get { return _context; }
-    }
+    public IServerContext LocalizationContext { get; }
 
-    public IItemFactory ItemFactory
-    {
-      get { return _itemFactory; }
-    }
+    /// <summary>
+    /// Gets the factory for creating strongly-typed items.
+    /// </summary>
+    /// <value>
+    /// The factory for creating strongly-typed items.
+    /// </value>
+    public IItemFactory ItemFactory { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ElementFactory"/> class.
+    /// </summary>
+    /// <param name="context">The context.</param>
+    /// <param name="itemFactory">The item factory.</param>
     public ElementFactory(IServerContext context, IItemFactory itemFactory = null)
     {
-      _context = context;
-      _itemFactory = itemFactory ?? Factory.DefaultItemFactory;
+      LocalizationContext = context;
+      ItemFactory = itemFactory ?? Factory.DefaultItemFactory;
     }
 
     /// <summary>
@@ -56,7 +59,7 @@ namespace Innovator.Client
     {
       var sub = new ParameterSubstitution();
       sub.AddIndexedParameters(args);
-      return sub.Substitute(format, _context);
+      return sub.Substitute(format, LocalizationContext);
     }
 
     /// <summary>
@@ -71,7 +74,7 @@ namespace Innovator.Client
       {
         var sub = new ParameterSubstitution();
         sub.AddIndexedParameters(args);
-        sub.Substitute(xml, _context, writer);
+        sub.Substitute(xml, LocalizationContext, writer);
         return writer.Result;
       }
     }
@@ -82,7 +85,7 @@ namespace Innovator.Client
     {
       using (var writer = new ResultWriter(this, null, null))
       {
-        aml.ToNormalizedAml(_context, writer);
+        aml.ToNormalizedAml(LocalizationContext, writer);
         return writer.Result;
       }
     }
@@ -285,7 +288,7 @@ namespace Innovator.Client
         .FirstOrDefault(a => a.Name == "type");
       if (type != null)
       {
-        var result = _itemFactory.NewItem(this, type.Value);
+        var result = ItemFactory.NewItem(this, type.Value);
         if (result != null)
         {
           result.Add(content);
@@ -409,6 +412,7 @@ namespace Innovator.Client
       return new Property("permission_id", content);
     }
     /// <summary>Create a new property tag with the specified name</summary>
+    /// <param name="name">Name of the property to create</param>
     /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty Property(string name, params object[] content)
     {
@@ -461,7 +465,7 @@ namespace Innovator.Client
       }
       else if (content.Length == 1)
       {
-        result.Value = _context.Format(content[0]);
+        result.Value = LocalizationContext.Format(content[0]);
       }
       else
       {

@@ -31,6 +31,7 @@ namespace Innovator.Client
     /// Gets the token as a <see cref="SecureString"/>
     /// </summary>
     public SecureString Token { get { return _encrypted; } }
+
     /// <summary>
     /// Gets the length of the token (in characters)
     /// </summary>
@@ -299,6 +300,7 @@ namespace Innovator.Client
 
       return result;
     }
+
     /// <summary>
     /// Writes the token to the specified stream.
     /// </summary>
@@ -310,6 +312,7 @@ namespace Innovator.Client
         return true;
       });
     }
+
     /// <summary>
     /// Returns a <see cref="System.String" /> that represents this instance.
     /// </summary>
@@ -320,6 +323,7 @@ namespace Innovator.Client
     {
       return new string('*', _encrypted.Length);
     }
+
     /// <summary>
     /// Releases unmanaged resources.
     /// </summary>
@@ -335,6 +339,7 @@ namespace Innovator.Client
     {
       return val == null ? null : val._encrypted;
     }
+
     /// <summary>
     /// Performs an implicit conversion from <see cref="SecureString"/> to <see cref="SecureToken"/>.
     /// </summary>
@@ -342,6 +347,7 @@ namespace Innovator.Client
     {
       return new SecureToken(val);
     }
+
     /// <summary>
     /// Performs an implicit conversion from <see cref="System.String"/> to <see cref="SecureToken"/>.
     /// </summary>
@@ -349,6 +355,7 @@ namespace Innovator.Client
     {
       return new SecureToken(ref val);
     }
+
     /// <summary>
     /// Performs an implicit conversion from <see cref="ArraySegment{System.Byte}"/> to <see cref="SecureToken"/>.
     /// </summary>
@@ -356,6 +363,7 @@ namespace Innovator.Client
     {
       return new SecureToken(val);
     }
+
     /// <summary>
     /// Performs an implicit conversion from <see cref="System.Byte[]"/> to <see cref="SecureToken"/>.
     /// </summary>

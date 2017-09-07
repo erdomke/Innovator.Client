@@ -7,23 +7,28 @@ using Innovator.Client.Model;
 
 namespace Innovator.Server
 {
+  /// <summary>
+  /// Context for a server method which runs on a Workflow event
+  /// </summary>
   public class WorkflowContext : IWorkflowContext
   {
-    private WorkflowEvent _event;
-    private IServerConnection _conn;
-    private Activity _activity;
     private IReadOnlyItem _context;
     private bool _contextLoaded = false;
-    private IResult _result;
+    private readonly IResult _result;
 
-    public Activity Activity
-    {
-      get { return _activity; }
-    }
-    public IServerConnection Conn
-    {
-      get { return _conn; }
-    }
+    /// <summary>
+    /// The activity during which the method is being called
+    /// </summary>
+    public Activity Activity { get; }
+
+    /// <summary>
+    /// Connection to the database
+    /// </summary>
+    public IServerConnection Conn { get; }
+
+    /// <summary>
+    /// The item which is the context of the workflow
+    /// </summary>
     public IReadOnlyItem Context
     {
       get
@@ -32,57 +37,74 @@ namespace Innovator.Server
         return _context;
       }
     }
+
+    /// <summary>
+    /// Error builder which captures any errors which are encountered
+    /// </summary>
     public IErrorBuilder ErrorBuilder
     {
       get { return _result; }
     }
+
+    /// <summary>
+    /// Get the exception object created for any errors that have happened so far.
+    /// </summary>
     public Exception Exception
     {
       get { return _result.Exception; }
     }
-    public WorkflowEvent WorkflowEvent
-    {
-      get { return _event; }
-    }
 
+    /// <summary>
+    /// The event for which the server method is being called
+    /// </summary>
+    public WorkflowEvent WorkflowEvent { get; }
+
+    /// <summary>
+    /// Method for modifying the query to get the context item
+    /// </summary>
     public Action<IItem> QueryDefaults { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WorkflowContext"/> class.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="item">The item.</param>
     public WorkflowContext(IServerConnection conn, IReadOnlyItem item)
     {
-      _conn = conn;
-      _activity = item as Activity;
+      Conn = conn;
+      Activity = item as Activity;
       _result = conn.AmlContext.Result();
       switch (item.Property("WorkflowEvent").Value)
       {
         case "on_activate":
-          _event = WorkflowEvent.OnActivate;
+          WorkflowEvent = WorkflowEvent.OnActivate;
           break;
         case "on_assign":
-          _event = WorkflowEvent.OnAssign;
+          WorkflowEvent = WorkflowEvent.OnAssign;
           break;
         case "on_close":
-          _event = WorkflowEvent.OnClose;
+          WorkflowEvent = WorkflowEvent.OnClose;
           break;
         case "on_delegate":
-          _event = WorkflowEvent.OnDelegate;
+          WorkflowEvent = WorkflowEvent.OnDelegate;
           break;
         case "on_due":
-          _event = WorkflowEvent.OnDue;
+          WorkflowEvent = WorkflowEvent.OnDue;
           break;
         case "on_escalate":
-          _event = WorkflowEvent.OnEscalate;
+          WorkflowEvent = WorkflowEvent.OnEscalate;
           break;
         case "on_refuse":
-          _event = WorkflowEvent.OnRefuse;
+          WorkflowEvent = WorkflowEvent.OnRefuse;
           break;
         case "on_remind":
-          _event = WorkflowEvent.OnRemind;
+          WorkflowEvent = WorkflowEvent.OnRemind;
           break;
         case "on_vote":
-          _event = WorkflowEvent.OnVote;
+          WorkflowEvent = WorkflowEvent.OnVote;
           break;
         default:
-          _event = WorkflowEvent.Other;
+          WorkflowEvent = WorkflowEvent.Other;
           break;
       }
     }
@@ -99,7 +121,7 @@ namespace Innovator.Server
             aml.Item(aml.Type("Workflow Process"), aml.Action("get"),
               aml.Relationships(
                 aml.Item(aml.Type("Workflow Process Activity"), aml.Action("get"),
-                  aml.RelatedId(_activity.Id())
+                  aml.RelatedId(Activity.Id())
                 )
               )
             )

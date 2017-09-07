@@ -7,30 +7,38 @@ using Innovator.Client.Model;
 
 namespace Innovator.Server
 {
+  /// <summary>
+  /// Context for a server method which runs on a life cycle promotion
+  /// </summary>
   public class PromotionContext : IPromotionContext
   {
-    private IServerConnection _conn;
-    private IReadOnlyItem _item;
-
+    /// <summary>
+    /// The Life Cycle transition which is taking place
+    /// </summary>
     public LifeCycleTransition Transition
     {
-      get { return _item.Property("transition").AsItem() as LifeCycleTransition; }
+      get { return Item.Property("transition").AsItem() as LifeCycleTransition; }
     }
 
-    public IServerConnection Conn
-    {
-      get { return _conn; }
-    }
+    /// <summary>
+    /// Connection to the database
+    /// </summary>
+    public IServerConnection Conn { get; }
 
-    public IReadOnlyItem Item
-    {
-      get { return _item; }
-    }
+    /// <summary>
+    /// Item that method should act on
+    /// </summary>
+    public IReadOnlyItem Item { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PromotionContext"/> class.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="item">The item.</param>
     public PromotionContext(IServerConnection conn, IReadOnlyItem item)
     {
-      _conn = conn;
-      _item = item;
+      Conn = conn;
+      Item = item;
     }
   }
 }

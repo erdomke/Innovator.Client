@@ -6,31 +6,46 @@ using Innovator.Client;
 
 namespace Innovator.Server
 {
+  /// <summary>
+  /// Context for a server method which is used on before add
+  /// or update of an item.
+  /// </summary>
   public class ValidationContext : IValidationContext
   {
-    private IItem _changes;
-    private IServerConnection _conn;
     private IReadOnlyItem _existing;
     private bool _existingLoaded;
-    private IResult _result;
+    private readonly IResult _result;
 
-    /// <inheritdoc/>
-    public IItem Item
-    {
-      get { return _changes; }
-    }
-    public IServerConnection Conn
-    {
-      get { return _conn; }
-    }
+    /// <summary>
+    /// The changes given to the database.  This object should be modified to make any additional
+    /// changes
+    /// </summary>
+    public IItem Item { get; }
+
+    /// <summary>
+    /// Connection to the database
+    /// </summary>
+    public IServerConnection Conn { get; }
+
+    /// <summary>
+    /// Error builder which captures any errors which are encountered
+    /// </summary>
     public IErrorBuilder ErrorBuilder
     {
       get { return _result; }
     }
+
+    /// <summary>
+    /// Get the exception object created for any errors that have happened so far.
+    /// </summary>
     public Exception Exception
     {
       get { return _result.Exception; }
     }
+
+    /// <summary>
+    /// Get the existing item in the database
+    /// </summary>
     public IReadOnlyItem Existing
     {
       get
@@ -39,6 +54,10 @@ namespace Innovator.Server
         return _existing;
       }
     }
+
+    /// <summary>
+    /// Indicates if the argument is new (not in the database)
+    /// </summary>
     public bool IsNew
     {
       get
@@ -47,22 +66,29 @@ namespace Innovator.Server
         return _existing == null;
       }
     }
+
+    /// <summary>
+    /// Method for modifying the query to get existing items
+    /// </summary>
     public Action<IItem> QueryDefaults { get; set; }
 
+    /// <summary>
+    /// Gets an item which represents the new item after the changes are applied
+    /// </summary>
     public IReadOnlyItem Merged
     {
       get
       {
-        if (this.IsNew) return _changes;
+        if (this.IsNew) return Item;
         var merges = _existing.Clone();
-        var names = new HashSet<string>(_changes.Elements().Select(e => e.Name));
+        var names = new HashSet<string>(Item.Elements().Select(e => e.Name));
         var toRemove = merges.Elements().Where(e => names.Contains(e.Name)).ToList();
         foreach (var elem in toRemove)
         {
           elem.Remove();
         }
 
-        foreach (var elem in _changes.Elements())
+        foreach (var elem in Item.Elements())
         {
           merges.Add(elem);
         }
@@ -70,34 +96,60 @@ namespace Innovator.Server
       }
     }
 
+    /// <summary>
+    /// Indicates if a property is being set null.  Note that this does not detect if the property
+    /// already is null.
+    /// </summary>
+    /// <param name="name">The name of the property to check</param>
+    /// <returns>
+    /// <c>true</c> if a non-null property is being set null with this query,
+    /// <c>false</c> otherwise
+    /// </returns>
     public bool IsBeingSetNull(string name)
     {
       var isNew = this.IsNew;
-      var prop = _changes.Property("name");
+      var prop = Item.Property("name");
       return (isNew && !prop.HasValue())
         || (!IsNew && prop.IsNull().AsBoolean(false));
     }
 
+    /// <summary>
+    /// Indicates if one or more properties in the list are changing
+    /// </summary>
+    /// <param name="names">Property name(s)</param>
+    /// <returns>
+    /// <c>true</c> if at least one of the properties is being changed with
+    /// this query, <c>false</c> otherwise
+    /// </returns>
     public bool IsChanging(params string[] names)
     {
       // Are any of the properties in the changing item?
-      var propExists = names.Any(n => _changes.Property(n).Exists);
+      var propExists = names.Any(n => Item.Property(n).Exists);
       if (!propExists) return false;
 
       // Is this new?
       if (this.IsNew) return true;
 
-      return names.Any(n => _changes.Property(n).Value != _existing.Property(n).Value);
+      return names.Any(n => Item.Property(n).Value != _existing.Property(n).Value);
     }
 
+    /// <summary>
+    /// Gets a property from the <see cref="Item" /> item (if it exists).  Otherwise, the property
+    /// from <see cref="Existing" /> is returned
+    /// </summary>
+    /// <param name="name">Name of the property to retrieve</param>
+    /// <returns>
+    /// The <see cref="IReadOnlyProperty" /> from the incoming query (if defined).  Otherwise,
+    /// the <see cref="IReadOnlyProperty" /> from the database data
+    /// </returns>
     public IReadOnlyProperty NewOrExisting(string name)
     {
-      var result = _changes.Property(name);
+      var result = Item.Property(name);
       if (result.Exists) return result;
 
       if (this.IsNew)
       {
-        var item = _changes as Item;
+        var item = Item as Item;
         if (item == null) return Property.NullProp;
         return item.Property(name);
       }
@@ -105,12 +157,17 @@ namespace Innovator.Server
       return _existing.Property(name);
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ValidationContext"/> class.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="changes">The changes.</param>
     public ValidationContext(IServerConnection conn, IItem changes)
     {
-      _changes = changes;
-      _conn = conn;
-      _result = _conn.AmlContext.Result();
-      _result.ErrorContext(_changes);
+      Item = changes;
+      Conn = conn;
+      _result = Conn.AmlContext.Result();
+      _result.ErrorContext(Item);
     }
 
     private void EnsureExisting()
@@ -118,7 +175,7 @@ namespace Innovator.Server
       if (!_existingLoaded)
       {
         _existingLoaded = true;
-        if (!string.IsNullOrEmpty(_changes.Id()))
+        if (!string.IsNullOrEmpty(Item.Id()))
         {
           var aml = Conn.AmlContext;
           var query = aml.Item(Item.Type(), aml.Id(Item.Id()), aml.Action("get"));

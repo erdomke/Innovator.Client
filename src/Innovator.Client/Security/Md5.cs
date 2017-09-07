@@ -276,7 +276,7 @@ namespace Innovator.Client
   /// <summary>
   /// constants for md5
   /// </summary>
-  public enum MD5InitializerConstant : uint
+  internal enum MD5InitializerConstant : uint
   {
     A = 0x67452301,
     B = 0xEFCDAB89,
@@ -287,7 +287,7 @@ namespace Innovator.Client
   /// <summary>
   /// Represent digest with ABCD
   /// </summary>
-  sealed public class Digest
+  sealed internal class Digest
   {
     public uint A;
     public uint B;
@@ -351,7 +351,7 @@ namespace Innovator.Client
   /// <summary>
   /// class for changing event args
   /// </summary>
-  public class MD5ChangingEventArgs : EventArgs
+  internal class MD5ChangingEventArgs : EventArgs
   {
     public readonly byte[] NewData;
 
@@ -374,7 +374,7 @@ namespace Innovator.Client
   /// <summary>
   /// class for cahnged event args
   /// </summary>
-  public class MD5ChangedEventArgs : EventArgs
+  internal class MD5ChangedEventArgs : EventArgs
   {
     public readonly byte[] NewData;
     public readonly string FingerPrint;

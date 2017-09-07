@@ -6,6 +6,9 @@ using Innovator.Client;
 
 namespace Innovator.Server
 {
+  /// <summary>
+  /// Server extensions for performing escalations along with other helper methods
+  /// </summary>
   public static class Extensions
   {
     /// <summary>
@@ -18,6 +21,7 @@ namespace Innovator.Server
     {
       return conn.Permissions.Escalate("Administrators");
     }
+
     /// <summary>
     /// Adds "ArasPlm" to the identity list of the current connection
     /// </summary>

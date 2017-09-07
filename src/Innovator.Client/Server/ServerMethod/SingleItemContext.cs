@@ -6,25 +6,30 @@ using Innovator.Client;
 
 namespace Innovator.Server
 {
+  /// <summary>
+  /// Context for a server method which is called with a single item
+  /// </summary>
   public class SingleItemContext : ISingleItemContext
   {
-    private IServerConnection _conn;
-    private IReadOnlyItem _item;
-    
-    public IServerConnection Conn
-    {
-      get { return _conn; }
-    }
+    /// <summary>
+    /// Connection to the database
+    /// </summary>
+    public IServerConnection Conn { get; }
 
-    public IReadOnlyItem Item
-    {
-      get { return _item; }
-    }
+    /// <summary>
+    /// Item that method should act on
+    /// </summary>
+    public IReadOnlyItem Item { get; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SingleItemContext"/> class.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="item">The item.</param>
     public SingleItemContext(IServerConnection conn, IReadOnlyItem item)
     {
-      _conn = conn;
-      _item = item;
+      Conn = conn;
+      Item = item;
     }
   }
 }

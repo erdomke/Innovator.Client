@@ -13,24 +13,15 @@ namespace Innovator.Server
   /// </summary>
   public class MutableItemContext : IMutableItemContext
   {
-    private readonly IServerConnection _conn;
-    private readonly IItem _item;
-
     /// <summary>
     /// Connection to the database
     /// </summary>
-    public IServerConnection Conn
-    {
-      get { return _conn; }
-    }
+    public IServerConnection Conn { get; }
 
     /// <summary>
     /// Item that method should act on
     /// </summary>
-    public IItem Item
-    {
-      get { return _item; }
-    }
+    public IItem Item { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MutableItemContext"/> class.
@@ -39,8 +30,8 @@ namespace Innovator.Server
     /// <param name="item">The item.</param>
     public MutableItemContext(IServerConnection conn, IItem item)
     {
-      _conn = conn;
-      _item = item;
+      Conn = conn;
+      Item = item;
     }
   }
 }

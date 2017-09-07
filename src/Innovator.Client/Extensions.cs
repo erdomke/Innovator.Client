@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace Innovator.Client
@@ -107,6 +106,11 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Returns a string from the HTTP response
+    /// </summary>
+    /// <param name="resp">The HTTP response.</param>
+    /// <returns>A string from the HTTP response</returns>
     public static string AsString(this IHttpResponse resp)
     {
       if (resp.AsStream.CanSeek) resp.AsStream.Position = 0;

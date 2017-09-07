@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Net;
-using System.Diagnostics;
 
 namespace Innovator.Client
 {
@@ -13,9 +9,6 @@ namespace Innovator.Client
   [DebuggerDisplay("Explicit: {Database}, {Username}")]
   public class ExplicitCredentials : INetCredentials
   {
-    private string _database;
-    private SecureToken _password;
-    private string _username;
 
 #if SECURECRED
     /// <summary>
@@ -23,30 +16,41 @@ namespace Innovator.Client
     /// </summary>
     public System.Net.ICredentials Credentials { get { return new NetworkCredential(_username, _password); } }
 #else
-    public System.Net.ICredentials Credentials { get { return new NetworkCredential(_username
-      , _password.UseString((ref string s) => new string(s.ToCharArray()))); } }
+    /// <summary>
+    /// An <see cref="System.Net.ICredentials"/> instance with the same user name and password
+    /// </summary>
+    public System.Net.ICredentials Credentials
+    {
+      get
+      {
+        return new NetworkCredential(Username, Password.UseString((ref string s) => new string(s.ToCharArray())));
+      }
+    }
 #endif
     /// <summary>
     /// The database to connect to
     /// </summary>
-    public string Database { get { return _database; } }
+    public string Database { get; }
     /// <summary>
     /// The password to use
     /// </summary>
-    public SecureToken Password { get { return _password; } }
+    public SecureToken Password { get; }
     /// <summary>
     /// The user name to use
     /// </summary>
-    public string Username { get { return _username; } }
+    public string Username { get; }
 
     /// <summary>
     /// Instantiate an <see cref="ExplicitCredentials"/> instance
     /// </summary>
+    /// <param name="database">Name of the database</param>
+    /// <param name="username">User name</param>
+    /// <param name="password">Password</param>
     public ExplicitCredentials(string database, string username, SecureToken password)
     {
-      _database = database;
-      _username = username;
-      _password = password;
+      Database = database;
+      Username = username;
+      Password = password;
     }
   }
 }

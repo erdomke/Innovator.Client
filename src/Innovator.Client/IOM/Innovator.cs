@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Innovator.Client.IOM
 {
-
   /// <summary>
   /// Wraps a connection with a API which is compatible with 
   /// <a href="http://www.aras.com/support/documentation/DocumentView.aspx?file=./11.0%20SP9/Other%20Documentation/On-Line%20.NET%20API%20Guide.html">Aras's IOM</a>
@@ -14,14 +9,15 @@ namespace Innovator.Client.IOM
   /// Innovator Server and for performing miscellaneous mostly non-Item related 
   /// operations.
   /// </summary>
-  public class Innovator
+  public class Innovator : ElementFactory
   {
-    private IConnection _conn;
+    private readonly IConnection _conn;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Innovator"/> class.
     /// </summary>
-    public Innovator(IConnection conn)
+    /// <param name="conn">The server connection to use</param>
+    public Innovator(IConnection conn) : base(conn.AmlContext.LocalizationContext, conn.AmlContext.ItemFactory)
     {
       _conn = conn;
     }

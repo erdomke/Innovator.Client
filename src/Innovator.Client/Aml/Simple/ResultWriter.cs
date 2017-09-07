@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace Innovator.Client
@@ -362,8 +361,8 @@ namespace Innovator.Client
             var old = _stack.Pop();
             old.Remove();
             peek.Add(old.Attributes());
-            if (ReadOnly)
-              ((Item)peek).SetFlag(ElementAttributes.FromDataStore);
+            //if (ReadOnly)
+            //  ((Item)peek).SetFlag(ElementAttributes.FromDataStore);
             ((Item)peek).Parent = _stack.Count > 0 ? _stack.Peek() : null;
             PushElement(peek);
           }
@@ -470,8 +469,8 @@ namespace Innovator.Client
         {
           case "Item":
             curr = new Item(_factory) { Parent = _stack.Count > 0 ? _stack.Peek() : null };
-            if (ReadOnly)
-              ((Item)curr).SetFlag(ElementAttributes.FromDataStore);
+            //if (ReadOnly)
+            //  ((Item)curr).SetFlag(ElementAttributes.FromDataStore);
             break;
           case "Relationships":
             curr = new Relationships(_stack.Peek());

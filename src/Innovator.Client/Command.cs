@@ -87,6 +87,12 @@ namespace Innovator.Client
       this.Action = CommandAction.ApplyItem;
     }
 
+    /// <summary>
+    /// Gets the parameters.
+    /// </summary>
+    /// <value>
+    /// The parameters.
+    /// </value>
     public IEnumerable<KeyValuePair<string, object>> Parameters
     {
       get { return _sub; }

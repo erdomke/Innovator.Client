@@ -14,7 +14,13 @@ namespace Innovator.Client
     /// <summary>
     /// An <see cref="System.Net.ICredentials"/> instance with the same user name and password
     /// </summary>
-    public System.Net.ICredentials Credentials { get { return new NetworkCredential(_username, _password); } }
+    public System.Net.ICredentials Credentials 
+    { 
+      get
+      { 
+        return new NetworkCredential(Username, Password); 
+      } 
+    }
 #else
     /// <summary>
     /// An <see cref="System.Net.ICredentials"/> instance with the same user name and password

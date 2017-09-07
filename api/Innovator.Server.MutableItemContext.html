@@ -72,42 +72,20 @@
   
   <h1 id="Innovator_Server_MutableItemContext" data-uid="Innovator.Server.MutableItemContext" class="text-break">Class MutableItemContext
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Context for a server method which is called with a single item
+that must be modified to alter Aras behavior</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">MutableItemContext</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Server.html">Innovator.Server</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Server_MutableItemContext_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class MutableItemContext : IMutableItemContext, IContext</code></pre>
+    <pre><code class="lang-csharp hljs">public class MutableItemContext : object, IMutableItemContext, IContext</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -116,11 +94,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_MutableItemContext__ctor_Innovator_Server_IServerConnection_Innovator_Client_IItem_.md&amp;value=---%0Auid%3A%20Innovator.Server.MutableItemContext.%23ctor(Innovator.Server.IServerConnection%2CInnovator.Client.IItem)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L25">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L31">View Source</a>
   </span>
   <a id="Innovator_Server_MutableItemContext__ctor_" data-uid="Innovator.Server.MutableItemContext.#ctor*"></a>
   <h4 id="Innovator_Server_MutableItemContext__ctor_Innovator_Server_IServerConnection_Innovator_Client_IItem_" data-uid="Innovator.Server.MutableItemContext.#ctor(Innovator.Server.IServerConnection,Innovator.Client.IItem)">MutableItemContext(IServerConnection, IItem)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Server.MutableItemContext.html">MutableItemContext</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -139,12 +118,14 @@
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerConnection.html">IServerConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Innovator.Client.IItem.html">IItem</a></td>
         <td><span class="parametername">item</span></td>
-        <td></td>
+        <td><p>The item.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -155,11 +136,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_MutableItemContext_Conn.md&amp;value=---%0Auid%3A%20Innovator.Server.MutableItemContext.Conn%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L15">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L19">View Source</a>
   </span>
   <a id="Innovator_Server_MutableItemContext_Conn_" data-uid="Innovator.Server.MutableItemContext.Conn*"></a>
   <h4 id="Innovator_Server_MutableItemContext_Conn" data-uid="Innovator.Server.MutableItemContext.Conn">Conn</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Connection to the database</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -187,11 +169,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_MutableItemContext_Item.md&amp;value=---%0Auid%3A%20Innovator.Server.MutableItemContext.Item%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L20">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L24">View Source</a>
   </span>
   <a id="Innovator_Server_MutableItemContext_Item_" data-uid="Innovator.Server.MutableItemContext.Item*"></a>
   <h4 id="Innovator_Server_MutableItemContext_Item" data-uid="Innovator.Server.MutableItemContext.Item">Item</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Item that method should act on</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -225,7 +208,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_MutableItemContext.md&amp;value=---%0Auid%3A%20Innovator.Server.MutableItemContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/MutableItemContext.cs/#L14" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -245,7 +228,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

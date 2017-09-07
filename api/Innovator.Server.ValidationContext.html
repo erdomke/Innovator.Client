@@ -72,42 +72,20 @@
   
   <h1 id="Innovator_Server_ValidationContext" data-uid="Innovator.Server.ValidationContext" class="text-break">Class ValidationContext
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Context for a server method which is used on before add
+or update of an item.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ValidationContext</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Server.html">Innovator.Server</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Server_ValidationContext_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ValidationContext : IValidationContext, IContext</code></pre>
+    <pre><code class="lang-csharp hljs">public class ValidationContext : object, IValidationContext, IContext</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -116,11 +94,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext__ctor_Innovator_Server_IServerConnection_Innovator_Client_IItem_.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.%23ctor(Innovator.Server.IServerConnection%2CInnovator.Client.IItem)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L108">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L165">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext__ctor_" data-uid="Innovator.Server.ValidationContext.#ctor*"></a>
   <h4 id="Innovator_Server_ValidationContext__ctor_Innovator_Server_IServerConnection_Innovator_Client_IItem_" data-uid="Innovator.Server.ValidationContext.#ctor(Innovator.Server.IServerConnection,Innovator.Client.IItem)">ValidationContext(IServerConnection, IItem)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Server.ValidationContext.html">ValidationContext</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -139,12 +118,14 @@
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerConnection.html">IServerConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Innovator.Client.IItem.html">IItem</a></td>
         <td><span class="parametername">changes</span></td>
-        <td></td>
+        <td><p>The changes.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -155,11 +136,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_Conn.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.Conn%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L22">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L28">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_Conn_" data-uid="Innovator.Server.ValidationContext.Conn*"></a>
   <h4 id="Innovator_Server_ValidationContext_Conn" data-uid="Innovator.Server.ValidationContext.Conn">Conn</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Connection to the database</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -187,11 +169,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_ErrorBuilder.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.ErrorBuilder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L26">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L33">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_ErrorBuilder_" data-uid="Innovator.Server.ValidationContext.ErrorBuilder*"></a>
   <h4 id="Innovator_Server_ValidationContext_ErrorBuilder" data-uid="Innovator.Server.ValidationContext.ErrorBuilder">ErrorBuilder</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Error builder which captures any errors which are encountered</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -219,11 +202,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_Exception.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.Exception%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L30">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L41">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_Exception_" data-uid="Innovator.Server.ValidationContext.Exception*"></a>
   <h4 id="Innovator_Server_ValidationContext_Exception" data-uid="Innovator.Server.ValidationContext.Exception">Exception</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the exception object created for any errors that have happened so far.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -239,7 +223,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Exception</span></td>
+        <td><span class="xref">Exception</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -251,11 +235,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_Existing.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.Existing%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L34">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L49">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_Existing_" data-uid="Innovator.Server.ValidationContext.Existing*"></a>
   <h4 id="Innovator_Server_ValidationContext_Existing" data-uid="Innovator.Server.ValidationContext.Existing">Existing</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the existing item in the database</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -283,11 +268,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_IsNew.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.IsNew%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L42">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L61">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_IsNew_" data-uid="Innovator.Server.ValidationContext.IsNew*"></a>
   <h4 id="Innovator_Server_ValidationContext_IsNew" data-uid="Innovator.Server.ValidationContext.IsNew">IsNew</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Indicates if the argument is new (not in the database)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -315,7 +301,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_Item.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.Item%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L18">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L23">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_Item_" data-uid="Innovator.Server.ValidationContext.Item*"></a>
   <h4 id="Innovator_Server_ValidationContext_Item" data-uid="Innovator.Server.ValidationContext.Item">Item</h4>
@@ -349,11 +335,12 @@ changes</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_Merged.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.Merged%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L52">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L78">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_Merged_" data-uid="Innovator.Server.ValidationContext.Merged*"></a>
   <h4 id="Innovator_Server_ValidationContext_Merged" data-uid="Innovator.Server.ValidationContext.Merged">Merged</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets an item which represents the new item after the changes are applied</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -381,11 +368,12 @@ changes</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_QueryDefaults.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.QueryDefaults%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L50">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L73">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_QueryDefaults_" data-uid="Innovator.Server.ValidationContext.QueryDefaults*"></a>
   <h4 id="Innovator_Server_ValidationContext_QueryDefaults" data-uid="Innovator.Server.ValidationContext.QueryDefaults">QueryDefaults</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Method for modifying the query to get existing items</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -401,13 +389,11 @@ changes</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="Innovator.Client.IItem.html">IItem</a>&gt;</td>
+        <td><span class="xref">Action</span>&lt;<a class="xref" href="Innovator.Client.IItem.html">IItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <h5 class="implements">Implements</h5>
-      <div><a class="xref" href="Innovator.Server.IValidationContext.html#Innovator_Server_IValidationContext_QueryDefaults">IValidationContext.QueryDefaults</a></div>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
@@ -415,11 +401,13 @@ changes</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_IsBeingSetNull_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.IsBeingSetNull(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L73">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L108">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_IsBeingSetNull_" data-uid="Innovator.Server.ValidationContext.IsBeingSetNull*"></a>
   <h4 id="Innovator_Server_ValidationContext_IsBeingSetNull_System_String_" data-uid="Innovator.Server.ValidationContext.IsBeingSetNull(System.String)">IsBeingSetNull(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Indicates if a property is being set null.  Note that this does not detect if the property
+already is null.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -438,7 +426,8 @@ changes</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">name</span></td>
-        <td></td>
+        <td><p>The name of the property to check</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -453,7 +442,9 @@ changes</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p><code>true</code> if a non-null property is being set null with this query,
+<code>false</code> otherwise</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -464,11 +455,12 @@ changes</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_IsChanging_System_String___.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.IsChanging(System.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L81">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L124">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_IsChanging_" data-uid="Innovator.Server.ValidationContext.IsChanging*"></a>
   <h4 id="Innovator_Server_ValidationContext_IsChanging_System_String___" data-uid="Innovator.Server.ValidationContext.IsChanging(System.String[])">IsChanging(String[])</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Indicates if one or more properties in the list are changing</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -487,7 +479,8 @@ changes</p>
       <tr>
         <td><span class="xref">System.String</span>[]</td>
         <td><span class="parametername">names</span></td>
-        <td></td>
+        <td><p>Property name(s)</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -502,7 +495,9 @@ changes</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p><code>true</code> if at least one of the properties is being changed with
+this query, <code>false</code> otherwise</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -513,11 +508,13 @@ changes</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext_NewOrExisting_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext.NewOrExisting(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L93">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L145">View Source</a>
   </span>
   <a id="Innovator_Server_ValidationContext_NewOrExisting_" data-uid="Innovator.Server.ValidationContext.NewOrExisting*"></a>
   <h4 id="Innovator_Server_ValidationContext_NewOrExisting_System_String_" data-uid="Innovator.Server.ValidationContext.NewOrExisting(System.String)">NewOrExisting(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets a property from the <a class="xref" href="Innovator.Server.ValidationContext.html#Innovator_Server_ValidationContext_Item">Item</a> item (if it exists).  Otherwise, the property
+from <a class="xref" href="Innovator.Server.ValidationContext.html#Innovator_Server_ValidationContext_Existing">Existing</a> is returned</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -536,7 +533,8 @@ changes</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">name</span></td>
-        <td></td>
+        <td><p>Name of the property to retrieve</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -551,7 +549,9 @@ changes</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IReadOnlyProperty.html">IReadOnlyProperty</a></td>
-        <td></td>
+        <td><p>The <a class="xref" href="Innovator.Client.IReadOnlyProperty.html">IReadOnlyProperty</a> from the incoming query (if defined).  Otherwise,
+the <a class="xref" href="Innovator.Client.IReadOnlyProperty.html">IReadOnlyProperty</a> from the database data</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -568,7 +568,7 @@ changes</p>
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_ValidationContext.md&amp;value=---%0Auid%3A%20Innovator.Server.ValidationContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/ValidationContext.cs/#L13" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -588,7 +588,7 @@ changes</p>
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

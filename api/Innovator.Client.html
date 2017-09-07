@@ -80,7 +80,8 @@
       <section><p>Generates a SQL statement from an AML query</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.AmlWriterSettings.html">AmlWriterSettings</a></h4>
-      <section></section>
+      <section><p>Settings controlling how to serialize an AML structure</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.AnonymousCredentials.html">AnonymousCredentials</a></h4>
       <section><p>Credentials for a user that is not authenticated</p>
 </section>
@@ -95,7 +96,8 @@
 will be queried using the specified <a class="xref" href="Innovator.Client.IConnection.html">IConnection</a></p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ConnectionExtensions.html">ConnectionExtensions</a></h4>
-      <section></section>
+      <section><p>Extension methods related to <a class="xref" href="Innovator.Client.IConnection.html">IConnection</a>.</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.ConnectionPool.html">ConnectionPool</a></h4>
       <section></section>
       <h4><a class="xref" href="Innovator.Client.ConnectionPreferences.html">ConnectionPreferences</a></h4>
@@ -105,9 +107,8 @@ will be queried using the specified <a class="xref" href="Innovator.Client.IConn
       <section><p>Extension methods for retrieving core AML properties and attributes</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.DefaultItemFactory.html">DefaultItemFactory</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Innovator.Client.Digest.html">Digest</a></h4>
-      <section><p>Represent digest with ABCD</p>
+      <section><p>Creates an instance of a strongly-typed class (which inherits from <a class="xref" href="Innovator.Client.Item.html">Item</a>) that 
+represents a specific item type</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.Element.html">Element</a></h4>
       <section><p>Represents an XML element in an AML structure.  This element could be an Item, property, result tag, or something else</p>
@@ -122,7 +123,8 @@ will be queried using the specified <a class="xref" href="Innovator.Client.IConn
       <section><p>Credentials with a specified user name and MD5 password hash provided by the user</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.Extensions.html">Extensions</a></h4>
-      <section></section>
+      <section><p>Useful extension methods</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.Factory.html">Factory</a></h4>
       <section><p>Class for generating connection to an Aras Innovator instance</p>
 </section>
@@ -137,22 +139,20 @@ will be queried using the specified <a class="xref" href="Innovator.Client.IConn
       <section><p>Various extension methods pertaining to various AML interfaces</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ItemRef.html">ItemRef</a></h4>
-      <section></section>
+      <section><p>A reference to an item containing just a type and ID</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.ItemWrapper.html">ItemWrapper</a></h4>
-      <section><p>Wraps an Aras item so that additional functionality can be provided</p>
+      <section><p>Wraps an Aras item so that additional functionality can be easily provided</p>
 </section>
-      <h4><a class="xref" href="Innovator.Client.JsonFormatter.html">JsonFormatter</a></h4>
-      <section></section>
       <h4><a class="xref" href="Innovator.Client.LoggedOutException.html">LoggedOutException</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Innovator.Client.MD5ChangedEventArgs.html">MD5ChangedEventArgs</a></h4>
-      <section><p>class for cahnged event args</p>
-</section>
-      <h4><a class="xref" href="Innovator.Client.MD5ChangingEventArgs.html">MD5ChangingEventArgs</a></h4>
-      <section><p>class for changing event args</p>
+      <section><p>Indicates that the current connection is not logged in with valid credentials</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.MD5Helper.html">MD5Helper</a></h4>
       <section><p>helper class providing suporting function</p>
+</section>
+      <h4><a class="xref" href="Innovator.Client.MemoryTributary.html">MemoryTributary</a></h4>
+      <section><p>MemoryTributary is a re-implementation of MemoryStream that uses a dynamic list of byte arrays as a backing store, instead of a single byte array, the allocation
+of which will fail for relatively small streams as it requires contiguous memory.</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a></h4>
       <section><p>Represents an exception that was returned from the server as a SOAP fault 
@@ -176,9 +176,11 @@ indicating that no items were found</p>
       <h4><a class="xref" href="Innovator.Client.QuerySettings.html">QuerySettings</a></h4>
       <section></section>
       <h4><a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a></h4>
-      <section></section>
+      <section><p>Access information about connection preferences that has been persisted to disk</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a></h4>
-      <section></section>
+      <section><p>A class for storing sensitive information (e.g. passwords)</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.SelectNode.html">SelectNode</a></h4>
       <section><p>Class for parsing and storing AML select attributes</p>
 </section>
@@ -192,8 +194,6 @@ indicating that no items were found</p>
       <section><p>Class for building a large string of SQL which will be sent to the database in batches for
 execution using the ApplySQL action</p>
 </section>
-      <h4><a class="xref" href="Innovator.Client.SqlFormatter.html">SqlFormatter</a></h4>
-      <section></section>
       <h4><a class="xref" href="Innovator.Client.TimeZoneData.html">TimeZoneData</a></h4>
       <section><p>Represents metadata for a timezone including daylight savings time history</p>
 </section>
@@ -272,17 +272,20 @@ represents a specific item type</p>
       <section><p>Reference to an Aras item specifying the type name and ID</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ILink-1.html">ILink&lt;T&gt;</a></h4>
-      <section></section>
+      <section><p>Represents an element of a linked list with a <see cref="!:System.String"></see> key.</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.ILinkedElement.html">ILinkedElement</a></h4>
-      <section></section>
+      <section><p>A <a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a> which can be part of a linked list and has a parent reference</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.ILogical.html">ILogical</a></h4>
       <section><p>A logical element representing an <code>&lt;and&gt;</code>, <code>&lt;or&gt;</code>, or <code>&lt;not&gt;</code> AML tag</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.INetCredentials.html">INetCredentials</a></h4>
-      <section><p>Specifies that an <span class="xref">System.Net.ICredentials</span> instance can be extracted from the credentials object</p>
+      <section><p>Specifies that an <see cref="!:System.Net.ICredentials"></see> instance can be extracted from the credentials object</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.INullRelationship-1.html">INullRelationship&lt;TSource&gt;</a></h4>
-      <section></section>
+      <section><p>A model representing a relationship where the <code>source_id</code> is of type <code data-dev-comment-type="typeparamref" class="typeparamref">TSource</code></p>
+</section>
       <h4><a class="xref" href="Innovator.Client.IPromise.html">IPromise</a></h4>
       <section><p>Represents a promise that a result will be provided at some point in the future</p>
 </section>
@@ -360,7 +363,8 @@ treating the results as immutable</p>
       <section><p>Represents a read-only result of an Aras query that can either be a string, an exception, or zero or more items</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.IRelationship-1.html">IRelationship&lt;TRelated&gt;</a></h4>
-      <section></section>
+      <section><p>A model representing a relationship where the <code>related_id</code> is of type <code data-dev-comment-type="typeparamref" class="typeparamref">TRelated</code></p>
+</section>
       <h4><a class="xref" href="Innovator.Client.IRelationships.html">IRelationships</a></h4>
       <section><p>A <code>&lt;Relationships&gt;</code> tag</p>
 </section>
@@ -374,19 +378,25 @@ memory space as the current code</p>
       <h4><a class="xref" href="Innovator.Client.IServerContext.html">IServerContext</a></h4>
       <section><p>Context for serializing/deserializing native types (e.g. <code>DateTime</code>, <code>double</code>, <code>boolean</code>, etc.)</p>
 </section>
+      <h4><a class="xref" href="Innovator.Client.IXmlStream.html">IXmlStream</a></h4>
+      <section><p>A stream with a custom approach for reading XML</p>
+</section>
     <h3 id="enums">Enums
   </h3>
       <h4><a class="xref" href="Innovator.Client.AmlSqlPermissionOption.html">AmlSqlPermissionOption</a></h4>
-      <section></section>
+      <section><p>What SQL permission check to include in the SQL query</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.AmlSqlRenderOption.html">AmlSqlRenderOption</a></h4>
-      <section></section>
+      <section><p>What type of SQL query to render</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.Authentication.html">Authentication</a></h4>
       <section></section>
       <h4><a class="xref" href="Innovator.Client.CommandAction.html">CommandAction</a></h4>
       <section><p>Allowable SOAP actions</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.CompressionType.html">CompressionType</a></h4>
-      <section></section>
+      <section><p>Type of HTTP compression to use</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.Condition.html">Condition</a></h4>
       <section><p>Possible value for the <code>condition</code> attribute of a property for an AML get query</p>
 </section>
@@ -397,9 +407,7 @@ memory space as the current code</p>
       <section><p>Attributes stored in AML elements for compact memory usage</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.LockStatusType.html">LockStatusType</a></h4>
-      <section></section>
-      <h4><a class="xref" href="Innovator.Client.MD5InitializerConstant.html">MD5InitializerConstant</a></h4>
-      <section><p>constants for md5</p>
+      <section><p>The lock status of the item</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ParameterStyle.html">ParameterStyle</a></h4>
       <section><p>Indicates whether parameters are @-prefixed (e.g. <code>@qty&lt;/code&gt;) or enclosed 
@@ -417,7 +425,8 @@ in curly braces (e.g. <code>{0}</code>)<p>
     <h3 id="delegates">Delegates
   </h3>
       <h4><a class="xref" href="Innovator.Client.SecureToken.FuncRef-2.html">SecureToken.FuncRef&lt;T1, TR&gt;</a></h4>
-      <section></section>
+      <section><p>An anonymous function for processing a value by reference</p>
+</section>
 </article>
           </div>
           
@@ -443,7 +452,7 @@ in curly braces (e.g. <code>{0}</code>)<p>
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

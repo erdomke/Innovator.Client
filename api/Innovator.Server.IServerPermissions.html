@@ -72,7 +72,8 @@
   
   <h1 id="Innovator_Server_IServerPermissions" data-uid="Innovator.Server.IServerPermissions" class="text-break">Interface IServerPermissions
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Retreives information about a user&apos;s permissions</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Server.html">Innovator.Server</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
@@ -87,11 +88,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerPermissions_IsRootOrAdmin.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerPermissions.IsRootOrAdmin%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L11">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L20">View Source</a>
   </span>
   <a id="Innovator_Server_IServerPermissions_IsRootOrAdmin_" data-uid="Innovator.Server.IServerPermissions.IsRootOrAdmin*"></a>
   <h4 id="Innovator_Server_IServerPermissions_IsRootOrAdmin" data-uid="Innovator.Server.IServerPermissions.IsRootOrAdmin">IsRootOrAdmin</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether this user is the root user or a admin.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -108,7 +110,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
-        <td></td>
+        <td><p><code>true</code> if this user is the root user or a admin; otherwise, <code>false</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -119,11 +122,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerPermissions_Escalate_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerPermissions.Escalate(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L14">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L38">View Source</a>
   </span>
   <a id="Innovator_Server_IServerPermissions_Escalate_" data-uid="Innovator.Server.IServerPermissions.Escalate*"></a>
   <h4 id="Innovator_Server_IServerPermissions_Escalate_System_String_" data-uid="Innovator.Server.IServerPermissions.Escalate(System.String)">Escalate(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Adds the <code data-dev-comment-type="paramref" class="paramref">identName</code> identity to the identity list of the current connection</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -142,7 +146,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">identName</span></td>
-        <td></td>
+        <td><p>Name of the identity to add</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -156,8 +161,10 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IDisposable</span></td>
-        <td></td>
+        <td><span class="xref">IDisposable</span></td>
+        <td><p>A <see cref="!:IDisposable"></see> object.  Calling <see cref="!:IDisposable.Dispose"></see> will 
+return the identity list to its original state</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -166,11 +173,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerPermissions_Identities.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerPermissions.Identities%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L12">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L25">View Source</a>
   </span>
   <a id="Innovator_Server_IServerPermissions_Identities_" data-uid="Innovator.Server.IServerPermissions.Identities*"></a>
   <h4 id="Innovator_Server_IServerPermissions_Identities" data-uid="Innovator.Server.IServerPermissions.Identities">Identities()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets a list of identities that the current user is in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -186,8 +194,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td></td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><p>A list of identities that the current user is in.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -196,11 +205,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerPermissions_Identities_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerPermissions.Identities(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L13">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L31">View Source</a>
   </span>
   <a id="Innovator_Server_IServerPermissions_Identities_" data-uid="Innovator.Server.IServerPermissions.Identities*"></a>
   <h4 id="Innovator_Server_IServerPermissions_Identities_System_String_" data-uid="Innovator.Server.IServerPermissions.Identities(System.String)">Identities(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets a list of identities that the user <code data-dev-comment-type="paramref" class="paramref">userId</code> is in.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -219,7 +229,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">userId</span></td>
-        <td></td>
+        <td><p>ID of the user to check</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -233,8 +244,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
-        <td></td>
+        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><p>A list of identities that the user <code data-dev-comment-type="paramref" class="paramref">userId</code> is in.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -249,7 +261,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerPermissions.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerPermissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerPermissions.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -269,7 +281,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

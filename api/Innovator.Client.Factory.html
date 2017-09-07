@@ -80,35 +80,11 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Factory</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_Factory_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class Factory</code></pre>
+    <pre><code class="lang-csharp hljs">public static class Factory : object</code></pre>
   </div>
   <h5 id="Innovator_Client_Factory_examples"><strong>Examples</strong></h5>
   <pre><code>using Innovator.Client;
@@ -206,7 +182,7 @@ extension method.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">System.String</span>, <span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Collections.Generic.KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">Action</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">System.String</span>, <span class="xref">IEnumerable</span>&lt;<span class="xref">KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -218,11 +194,11 @@ extension method.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Factory_GetConnection_Innovator_Client_ConnectionPreferences_.md&amp;value=---%0Auid%3A%20Innovator.Client.Factory.GetConnection(Innovator.Client.ConnectionPreferences)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L73">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L80">View Source</a>
   </span>
   <a id="Innovator_Client_Factory_GetConnection_" data-uid="Innovator.Client.Factory.GetConnection*"></a>
   <h4 id="Innovator_Client_Factory_GetConnection_Innovator_Client_ConnectionPreferences_" data-uid="Innovator.Client.Factory.GetConnection(Innovator.Client.ConnectionPreferences)">GetConnection(ConnectionPreferences)</h4>
-  <div class="markdown level1 summary"><p>Gets an HTTP connection to an innovator instance (or proxy) at the given URL</p>
+  <div class="markdown level1 summary"><p>Gets an HTTP connection to an innovator instance at the given URL</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -258,17 +234,22 @@ extension method.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IRemoteConnection.html">IRemoteConnection</a></td>
-        <td><p>A connection object</p>
+        <td><p>A new <a class="xref" href="Innovator.Client.IRemoteConnection.html">IRemoteConnection</a> object</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_Factory_GetConnection_Innovator_Client_ConnectionPreferences__examples">Examples</h5>
+  <p>Create a new connection using the default stored connection</p>
+<pre><code>var pref = SavedConnections.Load().Default;
+var conn = Factory.GetConnection(pref);</code></pre>
+
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Factory_GetConnection_Innovator_Client_ConnectionPreferences_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Factory.GetConnection(Innovator.Client.ConnectionPreferences%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L137">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L143">View Source</a>
   </span>
   <a id="Innovator_Client_Factory_GetConnection_" data-uid="Innovator.Client.Factory.GetConnection*"></a>
   <h4 id="Innovator_Client_Factory_GetConnection_Innovator_Client_ConnectionPreferences_System_Boolean_" data-uid="Innovator.Client.Factory.GetConnection(Innovator.Client.ConnectionPreferences,System.Boolean)">GetConnection(ConnectionPreferences, Boolean)</h4>
@@ -325,7 +306,7 @@ as an HTTP request must be issued to determine the type of connection to create<
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Factory_GetConnection_System_String_Innovator_Client_ConnectionPreferences_.md&amp;value=---%0Auid%3A%20Innovator.Client.Factory.GetConnection(System.String%2CInnovator.Client.ConnectionPreferences)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L106">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L113">View Source</a>
   </span>
   <a id="Innovator_Client_Factory_GetConnection_" data-uid="Innovator.Client.Factory.GetConnection*"></a>
   <h4 id="Innovator_Client_Factory_GetConnection_System_String_Innovator_Client_ConnectionPreferences_" data-uid="Innovator.Client.Factory.GetConnection(System.String,Innovator.Client.ConnectionPreferences)">GetConnection(String, ConnectionPreferences)</h4>
@@ -381,7 +362,7 @@ as an HTTP request must be issued to determine the type of connection to create<
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Factory_GetConnection_System_String_Innovator_Client_ConnectionPreferences_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Factory.GetConnection(System.String%2CInnovator.Client.ConnectionPreferences%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L121">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L128">View Source</a>
   </span>
   <a id="Innovator_Client_Factory_GetConnection_" data-uid="Innovator.Client.Factory.GetConnection*"></a>
   <h4 id="Innovator_Client_Factory_GetConnection_System_String_Innovator_Client_ConnectionPreferences_System_Boolean_" data-uid="Innovator.Client.Factory.GetConnection(System.String,Innovator.Client.ConnectionPreferences,System.Boolean)">GetConnection(String, ConnectionPreferences, Boolean)</h4>
@@ -444,7 +425,7 @@ as an HTTP request must be issued to determine the type of connection to create<
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Factory_GetConnection_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Factory.GetConnection(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L92">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Factory.cs/#L99">View Source</a>
   </span>
   <a id="Innovator_Client_Factory_GetConnection_" data-uid="Innovator.Client.Factory.GetConnection*"></a>
   <h4 id="Innovator_Client_Factory_GetConnection_System_String_System_String_" data-uid="Innovator.Client.Factory.GetConnection(System.String,System.String)">GetConnection(String, String)</h4>
@@ -532,7 +513,7 @@ conn.Login(new ExplicitCredentials(&quot;DATABASE&quot;, &quot;USER_NAME&quot;, 
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

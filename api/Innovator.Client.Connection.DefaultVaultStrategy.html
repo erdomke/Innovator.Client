@@ -72,42 +72,20 @@
   
   <h1 id="Innovator_Client_Connection_DefaultVaultStrategy" data-uid="Innovator.Client.Connection.DefaultVaultStrategy" class="text-break">Class DefaultVaultStrategy
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Contains logic for determining which vaults to read from and write
+to for a given <a class="xref" href="Innovator.Client.IAsyncConnection.html">IAsyncConnection</a></p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">DefaultVaultStrategy</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.Connection.html">Innovator.Client.Connection</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_Connection_DefaultVaultStrategy_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class DefaultVaultStrategy : IVaultStrategy</code></pre>
+    <pre><code class="lang-csharp hljs">public class DefaultVaultStrategy : object, IVaultStrategy</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
@@ -116,11 +94,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_DefaultVaultStrategy_Initialize_Innovator_Client_IAsyncConnection_Innovator_Client_Connection_IVaultFactory_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.DefaultVaultStrategy.Initialize(Innovator.Client.IAsyncConnection%2CInnovator.Client.Connection.IVaultFactory)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L14">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L23">View Source</a>
   </span>
   <a id="Innovator_Client_Connection_DefaultVaultStrategy_Initialize_" data-uid="Innovator.Client.Connection.DefaultVaultStrategy.Initialize*"></a>
   <h4 id="Innovator_Client_Connection_DefaultVaultStrategy_Initialize_Innovator_Client_IAsyncConnection_Innovator_Client_Connection_IVaultFactory_" data-uid="Innovator.Client.Connection.DefaultVaultStrategy.Initialize(Innovator.Client.IAsyncConnection,Innovator.Client.Connection.IVaultFactory)">Initialize(IAsyncConnection, IVaultFactory)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes the stategy object with the specified connection and vault factory</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -139,12 +118,14 @@
       <tr>
         <td><a class="xref" href="Innovator.Client.IAsyncConnection.html">IAsyncConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Innovator.Client.Connection.IVaultFactory.html">IVaultFactory</a></td>
         <td><span class="parametername">factory</span></td>
-        <td></td>
+        <td><p>The vault factory.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -155,11 +136,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_DefaultVaultStrategy_ReadPriority_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.DefaultVaultStrategy.ReadPriority(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L26">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L51">View Source</a>
   </span>
   <a id="Innovator_Client_Connection_DefaultVaultStrategy_ReadPriority_" data-uid="Innovator.Client.Connection.DefaultVaultStrategy.ReadPriority*"></a>
   <h4 id="Innovator_Client_Connection_DefaultVaultStrategy_ReadPriority_System_Boolean_" data-uid="Innovator.Client.Connection.DefaultVaultStrategy.ReadPriority(System.Boolean)">ReadPriority(Boolean)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Asynchronously returns a list of vaults to read from in priority order</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -178,7 +160,9 @@
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">async</span></td>
-        <td></td>
+        <td><p>if set to <code>true</code>, execute asyncronously.
+Otherwise, a resolved promise is returned</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -192,8 +176,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.Vault.html">Vault</a>&gt;&gt;</td>
-        <td></td>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.Vault.html">Vault</a>&gt;&gt;</td>
+        <td><p>A list of vaults to read from in priority order</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -204,11 +189,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_DefaultVaultStrategy_WritePriority_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.DefaultVaultStrategy.WritePriority(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L20">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L37">View Source</a>
   </span>
   <a id="Innovator_Client_Connection_DefaultVaultStrategy_WritePriority_" data-uid="Innovator.Client.Connection.DefaultVaultStrategy.WritePriority*"></a>
   <h4 id="Innovator_Client_Connection_DefaultVaultStrategy_WritePriority_System_Boolean_" data-uid="Innovator.Client.Connection.DefaultVaultStrategy.WritePriority(System.Boolean)">WritePriority(Boolean)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Asynchronously returns a list of vaults to write to in priority order</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -227,7 +213,9 @@
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">async</span></td>
-        <td></td>
+        <td><p>if set to <code>true</code>, execute asyncronously.
+Otherwise, a resolved promise is returned</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -241,8 +229,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.Vault.html">Vault</a>&gt;&gt;</td>
-        <td></td>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.Vault.html">Vault</a>&gt;&gt;</td>
+        <td><p>A list of vaults to write to in priority order</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -259,7 +248,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Connection_DefaultVaultStrategy.md&amp;value=---%0Auid%3A%20Innovator.Client.Connection.DefaultVaultStrategy%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/DefaultVaultStrategy.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -279,7 +268,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

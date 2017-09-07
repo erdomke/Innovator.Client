@@ -1,0 +1,972 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Class MemoryTributary
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Class MemoryTributary
+   ">
+    <meta name="generator" content="docfx 2.23.1.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Innovator.Client.MemoryTributary">
+  
+  
+  <h1 id="Innovator_Client_MemoryTributary" data-uid="Innovator.Client.MemoryTributary" class="text-break">Class MemoryTributary
+  </h1>
+  <div class="markdown level0 summary"><p>MemoryTributary is a re-implementation of MemoryStream that uses a dynamic list of byte arrays as a backing store, instead of a single byte array, the allocation
+of which will fail for relatively small streams as it requires contiguous memory.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><span class="xref">System.Object</span></div>
+    <div class="level1"><span class="xref">MemoryTributary</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
+  <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
+  <h5 id="Innovator_Client_MemoryTributary_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MemoryTributary : Stream, IXmlStream</code></pre>
+  </div>
+  <h5 id="Innovator_Client_MemoryTributary_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>Adapted from <a href="https://www.codeproject.com/Articles/348590/A-replacement-for-MemoryStream">Code Project: A replacement for MemoryStream</a></p>
+</div>
+  <h3 id="constructors">Constructors
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary__ctor.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L21">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary__ctor_" data-uid="Innovator.Client.MemoryTributary.#ctor*"></a>
+  <h4 id="Innovator_Client_MemoryTributary__ctor" data-uid="Innovator.Client.MemoryTributary.#ctor">MemoryTributary()</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.MemoryTributary.html">MemoryTributary</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MemoryTributary()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary__ctor_System_Byte___.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.%23ctor(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L30">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary__ctor_" data-uid="Innovator.Client.MemoryTributary.#ctor*"></a>
+  <h4 id="Innovator_Client_MemoryTributary__ctor_System_Byte___" data-uid="Innovator.Client.MemoryTributary.#ctor(System.Byte[])">MemoryTributary(Byte[])</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.MemoryTributary.html">MemoryTributary</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MemoryTributary(byte[] source)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">source</span></td>
+        <td><p>The source data.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary__ctor_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.%23ctor(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L41">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary__ctor_" data-uid="Innovator.Client.MemoryTributary.#ctor*"></a>
+  <h4 id="Innovator_Client_MemoryTributary__ctor_System_Int32_" data-uid="Innovator.Client.MemoryTributary.#ctor(System.Int32)">MemoryTributary(Int32)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.MemoryTributary.html">MemoryTributary</a> class.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MemoryTributary(int length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The length.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Innovator_Client_MemoryTributary__ctor_System_Int32__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p><code data-dev-comment-type="paramref" class="paramref">length</code> is largely ignored because capacity has no meaning unless we implement an artifical limit</p>
+</div>
+  <h3 id="properties">Properties
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Block.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Block%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L128">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Block_" data-uid="Innovator.Client.MemoryTributary.Block*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Block" data-uid="Innovator.Client.MemoryTributary.Block">Block</h4>
+  <div class="markdown level1 summary"><p>The block of memory currently addressed by Position</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected byte[] Block { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_BlockId.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.BlockId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L141">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_BlockId_" data-uid="Innovator.Client.MemoryTributary.BlockId*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_BlockId" data-uid="Innovator.Client.MemoryTributary.BlockId">BlockId</h4>
+  <div class="markdown level1 summary"><p>The id of the block currently addressed by Position</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected long BlockId { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_BlockOffset.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.BlockOffset%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L149">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_BlockOffset_" data-uid="Innovator.Client.MemoryTributary.BlockOffset*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_BlockOffset" data-uid="Innovator.Client.MemoryTributary.BlockOffset">BlockOffset</h4>
+  <div class="markdown level1 summary"><p>The offset of the byte currently addressed by Position, into the block that contains it</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected long BlockOffset { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_CanRead.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.CanRead%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L55">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_CanRead_" data-uid="Innovator.Client.MemoryTributary.CanRead*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_CanRead" data-uid="Innovator.Client.MemoryTributary.CanRead">CanRead</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the current stream supports reading.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool CanRead { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Always <code>true</code> as the stream supports reading.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_CanSeek.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.CanSeek%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L62">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_CanSeek_" data-uid="Innovator.Client.MemoryTributary.CanSeek*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_CanSeek" data-uid="Innovator.Client.MemoryTributary.CanSeek">CanSeek</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the current stream supports seeking.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool CanSeek { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Always <code>true</code> as the stream supports seeking.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_CanWrite.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.CanWrite%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L69">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_CanWrite_" data-uid="Innovator.Client.MemoryTributary.CanWrite*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_CanWrite" data-uid="Innovator.Client.MemoryTributary.CanWrite">CanWrite</h4>
+  <div class="markdown level1 summary"><p>Gets a value indicating whether the current stream supports writing.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override bool CanWrite { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>Always <code>true</code> as the stream supports writing.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Length.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Length%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L81">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Length_" data-uid="Innovator.Client.MemoryTributary.Length*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Length" data-uid="Innovator.Client.MemoryTributary.Length">Length</h4>
+  <div class="markdown level1 summary"><p>Gets the length in bytes of the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override long Length { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>A long value representing the length of the stream in bytes.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Position.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Position%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L94">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Position_" data-uid="Innovator.Client.MemoryTributary.Position*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Position" data-uid="Innovator.Client.MemoryTributary.Position">Position</h4>
+  <div class="markdown level1 summary"><p>Gets or sets the position within the current stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override long Position { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>The current position within the stream.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_CreateReader.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.CreateReader%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L384">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_CreateReader_" data-uid="Innovator.Client.MemoryTributary.CreateReader*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_CreateReader" data-uid="Innovator.Client.MemoryTributary.CreateReader">CreateReader()</h4>
+  <div class="markdown level1 summary"><p>Creates an <see cref="!:XmlReader"></see> for reading XML from the stream</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public XmlReader CreateReader()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">XmlReader</span></td>
+        <td><p>An <see cref="!:XmlReader"></see> for reading XML</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IXmlStream.html#Innovator_Client_IXmlStream_CreateReader">IXmlStream.CreateReader()</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Dispose_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Dispose(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L325">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Dispose_" data-uid="Innovator.Client.MemoryTributary.Dispose*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Dispose_System_Boolean_" data-uid="Innovator.Client.MemoryTributary.Dispose(System.Boolean)">Dispose(Boolean)</h4>
+  <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <see cref="!:Stream"></see> and optionally releases the managed resources.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected override void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">disposing</span></td>
+        <td><p><code>true</code> to release both managed and unmanaged resources; <code>false</code> to release only unmanaged resources.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_EnsureCapacity_System_Int64_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.EnsureCapacity(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L313">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_EnsureCapacity_" data-uid="Innovator.Client.MemoryTributary.EnsureCapacity*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_EnsureCapacity_System_Int64_" data-uid="Innovator.Client.MemoryTributary.EnsureCapacity(System.Int64)">EnsureCapacity(Int64)</h4>
+  <div class="markdown level1 summary"><p>Guarantees that the underlying memory has at least the specified number of bytes of capacity</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected void EnsureCapacity(long intendedLength)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">intendedLength</span></td>
+        <td><p>Intended length of the data</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Flush.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Flush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L159">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Flush_" data-uid="Innovator.Client.MemoryTributary.Flush*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Flush" data-uid="Innovator.Client.MemoryTributary.Flush">Flush()</h4>
+  <div class="markdown level1 summary"><p>Does nothing</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Flush()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Read_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Read(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L171">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Read_" data-uid="Innovator.Client.MemoryTributary.Read*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Read_System_Byte___System_Int32_System_Int32_" data-uid="Innovator.Client.MemoryTributary.Read(System.Byte[],System.Int32,System.Int32)">Read(Byte[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int Read(byte[] buffer, int offset, int count)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td><p>An array of bytes. When this method returns, the buffer contains the specified byte array with the values between <code data-dev-comment-type="paramref" class="paramref">offset</code> and (<code data-dev-comment-type="paramref" class="paramref">offset</code> + <code data-dev-comment-type="paramref" class="paramref">count</code> - 1) replaced by the bytes read from the current source. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">offset</span></td>
+        <td><p>The zero-based byte offset in <code data-dev-comment-type="paramref" class="paramref">buffer</code> at which to begin storing the data read from the current stream. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The maximum number of bytes to be read from the current stream. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The total number of bytes read into the buffer. This can be less than the number of bytes requested if that many bytes are not currently available, or zero (0) if the end of the stream has been reached.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ReadByte.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ReadByte%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L282">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_ReadByte_" data-uid="Innovator.Client.MemoryTributary.ReadByte*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_ReadByte" data-uid="Innovator.Client.MemoryTributary.ReadByte">ReadByte()</h4>
+  <div class="markdown level1 summary"><p>Reads a byte from the stream and advances the position within the stream by one byte, or returns -1 if at the end of the stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override int ReadByte()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><p>The unsigned byte cast to an <see cref="!:Int32"></see>, or -1 if at the end of the stream.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ReadFrom_Stream_System_Int64_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ReadFrom(Stream%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L355">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_ReadFrom_" data-uid="Innovator.Client.MemoryTributary.ReadFrom*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_ReadFrom_Stream_System_Int64_" data-uid="Innovator.Client.MemoryTributary.ReadFrom(Stream,System.Int64)">ReadFrom(Stream, Int64)</h4>
+  <div class="markdown level1 summary"><p>Reads length bytes from source into the this instance at the current position.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReadFrom(Stream source, long length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Stream</span></td>
+        <td><span class="parametername">source</span></td>
+        <td><p>The stream containing the data to copy</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">length</span></td>
+        <td><p>The number of bytes to copy</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Seek_System_Int64_SeekOrigin_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Seek(System.Int64%2CSeekOrigin)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L212">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Seek_" data-uid="Innovator.Client.MemoryTributary.Seek*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Seek_System_Int64_SeekOrigin_" data-uid="Innovator.Client.MemoryTributary.Seek(System.Int64,SeekOrigin)">Seek(Int64, SeekOrigin)</h4>
+  <div class="markdown level1 summary"><p>Sets the position within the current stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override long Seek(long offset, SeekOrigin origin)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">offset</span></td>
+        <td><p>A byte offset relative to the <code data-dev-comment-type="paramref" class="paramref">origin</code> parameter. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">SeekOrigin</span></td>
+        <td><span class="parametername">origin</span></td>
+        <td><p>A value of type <see cref="!:SeekOrigin"></see> indicating the reference point used to obtain the new position. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><p>The new position within the current stream.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_SetLength_System_Int64_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.SetLength(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L236">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_SetLength_" data-uid="Innovator.Client.MemoryTributary.SetLength*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_SetLength_System_Int64_" data-uid="Innovator.Client.MemoryTributary.SetLength(System.Int64)">SetLength(Int64)</h4>
+  <div class="markdown level1 summary"><p>Sets the length of the current stream.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void SetLength(long value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Int64</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The desired length of the current stream in bytes. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Innovator_Client_MemoryTributary_SetLength_System_Int64__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p><code data-dev-comment-type="paramref" class="paramref">value</code> is largely ignored because capacity has no meaning unless we implement an artifical limit</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ToArray.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ToArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L340">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_ToArray_" data-uid="Innovator.Client.MemoryTributary.ToArray*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_ToArray" data-uid="Innovator.Client.MemoryTributary.ToArray">ToArray()</h4>
+  <div class="markdown level1 summary"><p>Returns the entire content of the stream as a byte array. This is not safe because the call to new byte[] may 
+fail if the stream is large enough. Where possible use methods which operate on streams directly instead.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[] ToArray()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><p>A byte[] containing the current data in the stream</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Write_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Write(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L249">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_Write_" data-uid="Innovator.Client.MemoryTributary.Write*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_Write_System_Byte___System_Int32_System_Int32_" data-uid="Innovator.Client.MemoryTributary.Write(System.Byte[],System.Int32,System.Int32)">Write(Byte[], Int32, Int32)</h4>
+  <div class="markdown level1 summary"><p>Writes a sequence of bytes to the current stream and advances the current position within this stream by the number of bytes written.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void Write(byte[] buffer, int offset, int count)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span>[]</td>
+        <td><span class="parametername">buffer</span></td>
+        <td><p>An array of bytes. This method copies <code data-dev-comment-type="paramref" class="paramref">count</code> bytes from <code data-dev-comment-type="paramref" class="paramref">buffer</code> to the current stream. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">offset</span></td>
+        <td><p>The zero-based byte offset in <code data-dev-comment-type="paramref" class="paramref">buffer</code> at which to begin copying bytes to the current stream. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Int32</span></td>
+        <td><span class="parametername">count</span></td>
+        <td><p>The number of bytes to be written to the current stream. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_WriteByte_System_Byte_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.WriteByte(System.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L299">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_WriteByte_" data-uid="Innovator.Client.MemoryTributary.WriteByte*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_WriteByte_System_Byte_" data-uid="Innovator.Client.MemoryTributary.WriteByte(System.Byte)">WriteByte(Byte)</h4>
+  <div class="markdown level1 summary"><p>Writes a byte to the current position in the stream and advances the position within the stream by one byte.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public override void WriteByte(byte value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Byte</span></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>The byte to write to the stream. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_WriteTo_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.WriteTo(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L372">View Source</a>
+  </span>
+  <a id="Innovator_Client_MemoryTributary_WriteTo_" data-uid="Innovator.Client.MemoryTributary.WriteTo*"></a>
+  <h4 id="Innovator_Client_MemoryTributary_WriteTo_Stream_" data-uid="Innovator.Client.MemoryTributary.WriteTo(Stream)">WriteTo(Stream)</h4>
+  <div class="markdown level1 summary"><p>Writes the entire stream into destination, regardless of Position, which remains unchanged.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WriteTo(Stream destination)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Stream</span></td>
+        <td><span class="parametername">destination</span></td>
+        <td><p>The stream to write the content of this stream to</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L14" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -72,42 +72,19 @@
   
   <h1 id="Innovator_Client_ItemRef" data-uid="Innovator.Client.ItemRef" class="text-break">Class ItemRef
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A reference to an item containing just a type and ID</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ItemRef</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_ItemRef_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ItemRef : IItemRef</code></pre>
+    <pre><code class="lang-csharp hljs">public class ItemRef : object, IItemRef</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -116,11 +93,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemRef__ctor_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemRef.%23ctor(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L33">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L48">View Source</a>
   </span>
   <a id="Innovator_Client_ItemRef__ctor_" data-uid="Innovator.Client.ItemRef.#ctor*"></a>
   <h4 id="Innovator_Client_ItemRef__ctor_System_String_System_String_" data-uid="Innovator.Client.ItemRef.#ctor(System.String,System.String)">ItemRef(String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.ItemRef.html">ItemRef</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -139,12 +117,14 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">type</span></td>
-        <td></td>
+        <td><p>The item type name.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">id</span></td>
-        <td></td>
+        <td><p>The id.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -155,7 +135,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemRef_Id.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemRef.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L14">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L21">View Source</a>
   </span>
   <a id="Innovator_Client_ItemRef_Id_" data-uid="Innovator.Client.ItemRef.Id*"></a>
   <h4 id="Innovator_Client_ItemRef_Id" data-uid="Innovator.Client.ItemRef.Id">Id()</h4>
@@ -188,7 +168,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemRef_TypeName.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemRef.TypeName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L20">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L30">View Source</a>
   </span>
   <a id="Innovator_Client_ItemRef_TypeName_" data-uid="Innovator.Client.ItemRef.TypeName*"></a>
   <h4 id="Innovator_Client_ItemRef_TypeName" data-uid="Innovator.Client.ItemRef.TypeName">TypeName()</h4>
@@ -216,18 +196,9 @@
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IItemRef.html#Innovator_Client_IItemRef_TypeName">IItemRef.TypeName()</a></div>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Edit_Innovator_Client_IItemRef_Innovator_Client_IConnection_System_Object___">ItemExtensions.Edit(IItemRef, IConnection, Object[])</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Lock_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.Lock(IItemRef, IConnection)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Promote_Innovator_Client_IItemRef_Innovator_Client_IConnection_System_String_System_String_">ItemExtensions.Promote(IItemRef, IConnection, String, String)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Unlock_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.Unlock(IItemRef, IConnection)</a>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Innovator.Client.IItemRef.html">IItemRef</a></div>
   </div>
 </article>
           </div>
@@ -240,7 +211,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemRef.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemRef%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L8" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemRef.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -260,7 +231,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

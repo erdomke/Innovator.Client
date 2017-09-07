@@ -37,9 +37,9 @@ h4:before {
     margin-top: -100px;
 }
 
-h1, h2, h3, h4, h5, h6, span.xref {
+h1, h2, h3, h4, h5, h6, .text-break {
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 h1 mark,
@@ -183,7 +183,7 @@ header .navbar {
 }
 .navbar-brand {
   font-size: inherit;
-  padding:0;
+  padding: 0;
 }
 .navbar-collapse {
   margin: 0 -15px;
@@ -197,19 +197,8 @@ header .navbar {
   border-bottom: 1px solid #ccc;
 }
 
-article .content
-{
-  padding-left: 16px;
-}
-
 article h1, article h2, article h3, article h4{
-  margin-top: 48px;
-  margin-left: -16px;
-}
-
-article h5
-{
-  margin-top:24px;
+  margin-top: 25px;
 }
 
 article h4{
@@ -217,7 +206,7 @@ article h4{
 }
 
 article span.small.pull-right{
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 article section {
@@ -432,6 +421,10 @@ article section {
   z-index: 1;
 }
 
+.sidetoc.shiftup {
+  bottom: 70px;
+}
+
 body .toc{
   background-color: #f1f1f1;
   overflow-x: hidden;
@@ -470,12 +463,9 @@ body .toc{
 }
 .toc .nav > li > a {
   color: #666666;
-  display: inline;
-  padding: 0;
-}
-.toc .nav > li > .expand-stub + a {
   margin-left: 5px;
   display: block;
+  padding: 0;
 }
 .toc .nav > li > a:hover,
 .toc .nav > li > a:focus {
@@ -516,19 +506,21 @@ body .toc{
   display: none;
 }
 
+.toc ul{
+  font-size: 12px;
+  margin: 0 0 0 3px;
+}
+
 .toc .level1 > li {
   font-weight: bold;
   margin-top: 10px;
   position: relative;
+  font-size: 16px;
 }
 .toc .level2 {
   font-weight: normal;
-  margin-top: 5px;
-  margin-left: 15px;
+  margin: 5px 0 0 15px;
   font-size: 14px;
-}
-.toc .level3 {
-  font-size: 12px;
 }
 .toc-toggle {
   display: none;
@@ -594,6 +586,9 @@ body .toc{
   top: 100px;
   bottom: 10px;
   position: fixed;
+}
+.sideaffix.shiftup {
+  bottom: 70px;
 }
 .affix {
   position: relative;
@@ -766,14 +761,21 @@ footer {
     padding-bottom: 0px;
     border: none;
   }
-  .toc .level2 > li {
+  .toc .nav > li, .toc .nav > li >a {
     display: inline-block;
   }
-  .toc .level2 > li:after {
+  .toc li:after {
     margin-left: -3px;
     margin-right: 5px;
     content: ", ";
     color: #666666;
+  }
+  .toc .level1 > li {
+    display: block;
+  }
+  
+  .toc .level1 > li:after {
+    display: none;
   }
   .article.grid-right {
     margin-left: 0;

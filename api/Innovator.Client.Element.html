@@ -81,32 +81,11 @@
     <div class="level1"><span class="xref">Element</span></div>
   </div>
       <div class="level2"><a class="xref" href="Innovator.Client.Item.html">Item</a></div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_Element_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class Element : IElement, IReadOnlyElement, IAmlNode, ILinkedElement, ILink&lt;ILinkedElement&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class Element : object, IElement, IReadOnlyElement, IAmlNode, ILinkedElement, ILink&lt;ILinkedElement&gt;</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -115,11 +94,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element__ctor.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L116">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L112">View Source</a>
   </span>
   <a id="Innovator_Client_Element__ctor_" data-uid="Innovator.Client.Element.#ctor*"></a>
   <h4 id="Innovator_Client_Element__ctor" data-uid="Innovator.Client.Element.#ctor">Element()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.Element.html">Element</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -132,10 +112,11 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element__attr.md&amp;value=---%0Auid%3A%20Innovator.Client.Element._attr%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L18">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L21">View Source</a>
   </span>
   <h4 id="Innovator_Client_Element__attr" data-uid="Innovator.Client.Element._attr">_attr</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Field containing a reference to the element attributes</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -161,10 +142,11 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element__content.md&amp;value=---%0Auid%3A%20Innovator.Client.Element._content%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L19">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L25">View Source</a>
   </span>
   <h4 id="Innovator_Client_Element__content" data-uid="Innovator.Client.Element._content">_content</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Field containing the element content (either a child <a class="xref" href="Innovator.Client.IElement.html">IElement</a> or the value)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -192,7 +174,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_AmlContext.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.AmlContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L23">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L29">View Source</a>
   </span>
   <a id="Innovator_Client_Element_AmlContext_" data-uid="Innovator.Client.Element.AmlContext*"></a>
   <h4 id="Innovator_Client_Element_AmlContext" data-uid="Innovator.Client.Element.AmlContext">AmlContext</h4>
@@ -225,7 +207,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Exists.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Exists%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L36">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L42">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Exists_" data-uid="Innovator.Client.Element.Exists*"></a>
   <h4 id="Innovator_Client_Element_Exists" data-uid="Innovator.Client.Element.Exists">Exists</h4>
@@ -257,40 +239,10 @@ put in place to reduce unnecessary null reference checks</p>
       <div><a class="xref" href="Innovator.Client.IReadOnlyElement.html#Innovator_Client_IReadOnlyElement_Exists">IReadOnlyElement.Exists</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_FromDataStore.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.FromDataStore%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L104">View Source</a>
-  </span>
-  <a id="Innovator_Client_Element_FromDataStore_" data-uid="Innovator.Client.Element.FromDataStore*"></a>
-  <h4 id="Innovator_Client_Element_FromDataStore" data-uid="Innovator.Client.Element.FromDataStore">FromDataStore</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">protected bool FromDataStore { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.Boolean</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Name.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L39">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L45">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Name_" data-uid="Innovator.Client.Element.Name*"></a>
   <h4 id="Innovator_Client_Element_Name" data-uid="Innovator.Client.Element.Name">Name</h4>
@@ -324,7 +276,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Next.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Next%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L44">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L50">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Next_" data-uid="Innovator.Client.Element.Next*"></a>
   <h4 id="Innovator_Client_Element_Next" data-uid="Innovator.Client.Element.Next">Next</h4>
@@ -357,7 +309,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Parent.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Parent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L47">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L53">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Parent_" data-uid="Innovator.Client.Element.Parent*"></a>
   <h4 id="Innovator_Client_Element_Parent" data-uid="Innovator.Client.Element.Parent">Parent</h4>
@@ -390,7 +342,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_ReadOnly.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.ReadOnly%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L91">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L96">View Source</a>
   </span>
   <a id="Innovator_Client_Element_ReadOnly_" data-uid="Innovator.Client.Element.ReadOnly*"></a>
   <h4 id="Innovator_Client_Element_ReadOnly" data-uid="Innovator.Client.Element.ReadOnly">ReadOnly</h4>
@@ -421,7 +373,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Value.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Value%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L60">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L66">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Value_" data-uid="Innovator.Client.Element.Value*"></a>
   <h4 id="Innovator_Client_Element_Value" data-uid="Innovator.Client.Element.Value">Value</h4>
@@ -456,7 +408,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Add_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Add(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L132">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L137">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Add_" data-uid="Innovator.Client.Element.Add*"></a>
   <h4 id="Innovator_Client_Element_Add_System_Object_" data-uid="Innovator.Client.Element.Add(System.Object)">Add(Object)</h4>
@@ -506,11 +458,12 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_AssertModifiable.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.AssertModifiable%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L406">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L421">View Source</a>
   </span>
   <a id="Innovator_Client_Element_AssertModifiable_" data-uid="Innovator.Client.Element.AssertModifiable*"></a>
   <h4 id="Innovator_Client_Element_AssertModifiable" data-uid="Innovator.Client.Element.AssertModifiable">AssertModifiable()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Asserts that the element is modifiable modifiable.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -521,7 +474,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Attribute_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Attribute(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L219">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L224">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Attribute_" data-uid="Innovator.Client.Element.Attribute*"></a>
   <h4 id="Innovator_Client_Element_Attribute_System_String_" data-uid="Innovator.Client.Element.Attribute(System.String)">Attribute(String)</h4>
@@ -571,7 +524,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Attributes.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Attributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L226">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L231">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Attributes_" data-uid="Innovator.Client.Element.Attributes*"></a>
   <h4 id="Innovator_Client_Element_Attributes" data-uid="Innovator.Client.Element.Attributes">Attributes()</h4>
@@ -592,7 +545,7 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -604,11 +557,12 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Clone_Innovator_Client_IElement_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Clone(Innovator.Client.IElement)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L118">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L119">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Clone_" data-uid="Innovator.Client.Element.Clone*"></a>
   <h4 id="Innovator_Client_Element_Clone_Innovator_Client_IElement_" data-uid="Innovator.Client.Element.Clone(Innovator.Client.IElement)">Clone(IElement)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Clones the element, specifying a new parent.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -627,7 +581,8 @@ put in place to reduce unnecessary null reference checks</p>
       <tr>
         <td><a class="xref" href="Innovator.Client.IElement.html">IElement</a></td>
         <td><span class="parametername">newParent</span></td>
-        <td></td>
+        <td><p>The new parent.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -642,7 +597,8 @@ put in place to reduce unnecessary null reference checks</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.Element.html">Element</a></td>
-        <td></td>
+        <td><p>A copy of the element</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -651,11 +607,12 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_CopyData_Innovator_Client_IReadOnlyElement_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.CopyData(Innovator.Client.IReadOnlyElement)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L123">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L128">View Source</a>
   </span>
   <a id="Innovator_Client_Element_CopyData_" data-uid="Innovator.Client.Element.CopyData*"></a>
   <h4 id="Innovator_Client_Element_CopyData_Innovator_Client_IReadOnlyElement_" data-uid="Innovator.Client.Element.CopyData(Innovator.Client.IReadOnlyElement)">CopyData(IReadOnlyElement)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Copies data from <code data-dev-comment-type="paramref" class="paramref">elem</code> into this instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -674,7 +631,8 @@ put in place to reduce unnecessary null reference checks</p>
       <tr>
         <td><a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a></td>
         <td><span class="parametername">elem</span></td>
-        <td></td>
+        <td><p>The elem to copy from.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -683,7 +641,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Elements.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Elements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L232">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L237">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Elements_" data-uid="Innovator.Client.Element.Elements*"></a>
   <h4 id="Innovator_Client_Element_Elements" data-uid="Innovator.Client.Element.Elements">Elements()</h4>
@@ -704,7 +662,7 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IElement.html">IElement</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IElement.html">IElement</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -716,7 +674,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Remove.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Remove%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L250">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L255">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Remove_" data-uid="Innovator.Client.Element.Remove*"></a>
   <h4 id="Innovator_Client_Element_Remove" data-uid="Innovator.Client.Element.Remove">Remove()</h4>
@@ -734,7 +692,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_RemoveAttributes.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.RemoveAttributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L269">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L274">View Source</a>
   </span>
   <a id="Innovator_Client_Element_RemoveAttributes_" data-uid="Innovator.Client.Element.RemoveAttributes*"></a>
   <h4 id="Innovator_Client_Element_RemoveAttributes" data-uid="Innovator.Client.Element.RemoveAttributes">RemoveAttributes()</h4>
@@ -752,7 +710,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_RemoveNodes.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.RemoveNodes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L285">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L290">View Source</a>
   </span>
   <a id="Innovator_Client_Element_RemoveNodes_" data-uid="Innovator.Client.Element.RemoveNodes*"></a>
   <h4 id="Innovator_Client_Element_RemoveNodes" data-uid="Innovator.Client.Element.RemoveNodes">RemoveNodes()</h4>
@@ -767,14 +725,14 @@ put in place to reduce unnecessary null reference checks</p>
       <div><a class="xref" href="Innovator.Client.IElement.html#Innovator_Client_IElement_RemoveNodes">IElement.RemoveNodes()</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.ToAml(System.Xml.XmlWriter%2CInnovator.Client.AmlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.ToAml(XmlWriter%2CInnovator.Client.AmlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L296">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L301">View Source</a>
   </span>
   <a id="Innovator_Client_Element_ToAml_" data-uid="Innovator.Client.Element.ToAml*"></a>
-  <h4 id="Innovator_Client_Element_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_" data-uid="Innovator.Client.Element.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)">ToAml(XmlWriter, AmlWriterSettings)</h4>
-  <div class="markdown level1 summary"><p>Write the node to the specified <span class="xref">System.Xml.XmlWriter</span></p>
+  <h4 id="Innovator_Client_Element_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_" data-uid="Innovator.Client.Element.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)">ToAml(XmlWriter, AmlWriterSettings)</h4>
+  <div class="markdown level1 summary"><p>Write the node to the specified <see cref="!:XmlWriter"></see></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -792,9 +750,9 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Xml.XmlWriter</span></td>
+        <td><span class="xref">XmlWriter</span></td>
         <td><span class="parametername">writer</span></td>
-        <td><p><span class="xref">System.Xml.XmlWriter</span> to write the node to</p>
+        <td><p><see cref="!:XmlWriter"></see> to write the node to</p>
 </td>
       </tr>
       <tr>
@@ -806,17 +764,18 @@ put in place to reduce unnecessary null reference checks</p>
     </tbody>
   </table>
   <h5 class="implements">Implements</h5>
-      <div><a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a></div>
+      <div><a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_ToString.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L401">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L412">View Source</a>
   </span>
   <a id="Innovator_Client_Element_ToString_" data-uid="Innovator.Client.Element.ToString*"></a>
   <h4 id="Innovator_Client_Element_ToString" data-uid="Innovator.Client.Element.ToString">ToString()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns a <see cref="!:System.String"></see> that has the AML of the element.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -833,12 +792,11 @@ put in place to reduce unnecessary null reference checks</p>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>A <see cref="!:System.String"></see> that has the AML of the element.</p>
+</td>
       </tr>
     </tbody>
   </table>
-  <h5 class="overrides">Overrides</h5>
-  <div><span class="xref">System.Object.ToString()</span></div>
   <h3 id="eii">Explicit Interface Implementations
   </h3>
   <span class="small pull-right mobile-hide">
@@ -846,7 +804,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Innovator_Client_ILinkedElement_Parent.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Innovator%23Client%23ILinkedElement%23Parent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L53">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L59">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Innovator_Client_ILinkedElement_Parent_" data-uid="Innovator.Client.Element.Innovator#Client#ILinkedElement#Parent*"></a>
   <h4 id="Innovator_Client_Element_Innovator_Client_ILinkedElement_Parent" data-uid="Innovator.Client.Element.Innovator#Client#ILinkedElement#Parent">ILinkedElement.Parent</h4>
@@ -879,7 +837,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Attribute_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Innovator%23Client%23IReadOnlyElement%23Attribute(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L385">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L390">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Attribute_" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Attribute*"></a>
   <h4 id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Attribute_System_String_" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Attribute(System.String)">IReadOnlyElement.Attribute(String)</h4>
@@ -928,7 +886,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Attributes.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Innovator%23Client%23IReadOnlyElement%23Attributes%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L391">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L396">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Attributes_" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Attributes*"></a>
   <h4 id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Attributes" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Attributes">IReadOnlyElement.Attributes()</h4>
@@ -948,7 +906,7 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyAttribute.html">IReadOnlyAttribute</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyAttribute.html">IReadOnlyAttribute</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -960,7 +918,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Elements.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Innovator%23Client%23IReadOnlyElement%23Elements%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L396">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L401">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Elements_" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Elements*"></a>
   <h4 id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Elements" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Elements">IReadOnlyElement.Elements()</h4>
@@ -980,7 +938,7 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a>&gt;</td>
+        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -992,7 +950,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Parent.md&amp;value=---%0Auid%3A%20Innovator.Client.Element.Innovator%23Client%23IReadOnlyElement%23Parent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L50">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/Simple/Element.cs/#L56">View Source</a>
   </span>
   <a id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Parent_" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Parent*"></a>
   <h4 id="Innovator_Client_Element_Innovator_Client_IReadOnlyElement_Parent" data-uid="Innovator.Client.Element.Innovator#Client#IReadOnlyElement#Parent">IReadOnlyElement.Parent</h4>
@@ -1020,31 +978,6 @@ put in place to reduce unnecessary null reference checks</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IReadOnlyElement.html#Innovator_Client_IReadOnlyElement_Parent">IReadOnlyElement.Parent</a></div>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Element_Innovator_Client_IReadOnlyElement_System_String_">ItemExtensions.Element(IReadOnlyElement, String)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Add_Innovator_Client_IElement_System_Object___">ItemExtensions.Add(IElement, Object[])</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToXml_Innovator_Client_IAmlNode_">ItemExtensions.ToXml(IAmlNode)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_CreateReader_Innovator_Client_IReadOnlyElement_">ItemExtensions.CreateReader(IReadOnlyElement)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Parents_Innovator_Client_IReadOnlyElement_">ItemExtensions.Parents(IReadOnlyElement)</a>
-  </div>
-  <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ParentsAndSelf_Innovator_Client_IReadOnlyElement_">ItemExtensions.ParentsAndSelf(IReadOnlyElement)</a>
-  </div>
 </article>
           </div>
           
@@ -1076,7 +1009,7 @@ put in place to reduce unnecessary null reference checks</p>
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

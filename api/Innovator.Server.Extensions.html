@@ -72,42 +72,19 @@
   
   <h1 id="Innovator_Server_Extensions" data-uid="Innovator.Server.Extensions" class="text-break">Class Extensions
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Server extensions for performing escalations along with other helper methods</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Extensions</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Server.html">Innovator.Server</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Server_Extensions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class Extensions</code></pre>
+    <pre><code class="lang-csharp hljs">public static class Extensions : object</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
@@ -116,11 +93,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_Extensions_AsAdmin_Innovator_Server_IServerConnection_.md&amp;value=---%0Auid%3A%20Innovator.Server.Extensions.AsAdmin(Innovator.Server.IServerConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/Extensions.cs/#L11">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/Extensions.cs/#L20">View Source</a>
   </span>
   <a id="Innovator_Server_Extensions_AsAdmin_" data-uid="Innovator.Server.Extensions.AsAdmin*"></a>
   <h4 id="Innovator_Server_Extensions_AsAdmin_Innovator_Server_IServerConnection_" data-uid="Innovator.Server.Extensions.AsAdmin(Innovator.Server.IServerConnection)">AsAdmin(IServerConnection)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Adds &quot;Administrators&quot; to the identity list of the current connection</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -139,7 +117,8 @@
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerConnection.html">IServerConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection to escalate.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -153,8 +132,10 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IDisposable</span></td>
-        <td></td>
+        <td><span class="xref">IDisposable</span></td>
+        <td><p>A <see cref="!:IDisposable"></see> object.  Calling <see cref="!:IDisposable.Dispose"></see> will 
+return the identity list to its original state</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -163,11 +144,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_Extensions_AsArasPlm_Innovator_Server_IServerConnection_.md&amp;value=---%0Auid%3A%20Innovator.Server.Extensions.AsArasPlm(Innovator.Server.IServerConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/Extensions.cs/#L15">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/Extensions.cs/#L31">View Source</a>
   </span>
   <a id="Innovator_Server_Extensions_AsArasPlm_" data-uid="Innovator.Server.Extensions.AsArasPlm*"></a>
   <h4 id="Innovator_Server_Extensions_AsArasPlm_Innovator_Server_IServerConnection_" data-uid="Innovator.Server.Extensions.AsArasPlm(Innovator.Server.IServerConnection)">AsArasPlm(IServerConnection)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Adds &quot;ArasPlm&quot; to the identity list of the current connection</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -186,7 +168,8 @@
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerConnection.html">IServerConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection to escalate.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -200,8 +183,10 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.IDisposable</span></td>
-        <td></td>
+        <td><span class="xref">IDisposable</span></td>
+        <td><p>A <see cref="!:IDisposable"></see> object.  Calling <see cref="!:IDisposable.Dispose"></see> will 
+return the identity list to its original state</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -216,7 +201,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_Extensions.md&amp;value=---%0Auid%3A%20Innovator.Server.Extensions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/Extensions.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/Extensions.cs/#L12" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -236,7 +221,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

@@ -72,7 +72,8 @@
   
   <h1 id="Innovator_Client_IRelationship_1" data-uid="Innovator.Client.IRelationship`1" class="text-break">Interface IRelationship&lt;TRelated&gt;
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A model representing a relationship where the <code>related_id</code> is of type <code data-dev-comment-type="typeparamref" class="typeparamref">TRelated</code></p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -116,7 +117,7 @@
       <a class="xref" href="Innovator.Client.IReadOnlyElement.html#Innovator_Client_IReadOnlyElement_Value">IReadOnlyElement.Value</a>
     </div>
     <div>
-      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
+      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
     </div>
     <div>
       <a class="xref" href="Innovator.Client.IItemRef.html#Innovator_Client_IItemRef_Id">IItemRef.Id()</a>
@@ -142,7 +143,8 @@
     <tbody>
       <tr>
         <td><span class="parametername">TRelated</span></td>
-        <td></td>
+        <td><p>The type of the related item.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -280,10 +282,16 @@
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Apply_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_">ItemExtensions.Apply(IReadOnlyItem, IConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_CancellationToken_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection, CancellationToken)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ClassStartsWith_Innovator_Client_IReadOnlyItem_System_String___">ItemExtensions.ClassStartsWith(IReadOnlyItem, String[])</a>
@@ -292,7 +300,7 @@
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Edit_Innovator_Client_IItemRef_Innovator_Client_IConnection_System_Object___">ItemExtensions.Edit(IItemRef, IConnection, Object[])</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FetchLockStatus_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_">ItemExtensions.FetchLockStatus(IReadOnlyItem, IConnection)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FetchLockStatus_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.FetchLockStatus(IItemRef, IConnection)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Element_Innovator_Client_IReadOnlyElement_System_String_">ItemExtensions.Element(IReadOnlyElement, String)</a>
@@ -313,7 +321,7 @@
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Unlock_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.Unlock(IItemRef, IConnection)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_System_Func_Innovator_Client_IReadOnlyItem___0__">ItemExtensions.LazyMap&lt;T&gt;(IReadOnlyItem, IConnection, Func&lt;IReadOnlyItem, T&gt;)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_Func_Innovator_Client_IReadOnlyItem___0__">ItemExtensions.LazyMap&lt;T&gt;(IReadOnlyItem, IConnection, Func&lt;IReadOnlyItem, T&gt;)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_CreateReader_Innovator_Client_IReadOnlyElement_">ItemExtensions.CreateReader(IReadOnlyElement)</a>
@@ -323,6 +331,13 @@
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ParentsAndSelf_Innovator_Client_IReadOnlyElement_">ItemExtensions.ParentsAndSelf(IReadOnlyElement)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_InnerText_Innovator_Client_IReadOnlyElement_">ItemExtensions.InnerText(IReadOnlyElement)</a>
+  </div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></div>
   </div>
 </article>
           </div>
@@ -335,7 +350,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IRelationship_1.md&amp;value=---%0Auid%3A%20Innovator.Client.IRelationship%601%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IRelationship.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IRelationship.cs/#L14" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -355,7 +370,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

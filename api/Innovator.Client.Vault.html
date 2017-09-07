@@ -80,35 +80,11 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Vault</span></div>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_Vault_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Vault : ILink&lt;Vault&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class Vault : object, ILink&lt;Vault&gt;</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -117,11 +93,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Vault_Authentication.md&amp;value=---%0Auid%3A%20Innovator.Client.Vault.Authentication%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L17">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L23">View Source</a>
   </span>
   <a id="Innovator_Client_Vault_Authentication_" data-uid="Innovator.Client.Vault.Authentication*"></a>
   <h4 id="Innovator_Client_Vault_Authentication" data-uid="Innovator.Client.Vault.Authentication">Authentication</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the authentication scheme to use with the vault.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -137,8 +114,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Net.AuthenticationSchemes</span></td>
-        <td></td>
+        <td><span class="xref">AuthenticationSchemes</span></td>
+        <td><p>The authentication scheme to use with the vault.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -147,11 +125,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Vault_Cookies.md&amp;value=---%0Auid%3A%20Innovator.Client.Vault.Cookies%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L18">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L31">View Source</a>
   </span>
   <a id="Innovator_Client_Vault_Cookies_" data-uid="Innovator.Client.Vault.Cookies*"></a>
   <h4 id="Innovator_Client_Vault_Cookies" data-uid="Innovator.Client.Vault.Cookies">Cookies</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the cookies used for vault communication (e.g. session state or authentication cookies).</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -167,8 +146,9 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Net.CookieContainer</span></td>
-        <td></td>
+        <td><span class="xref">CookieContainer</span></td>
+        <td><p>The cookies used for vault communication.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -177,11 +157,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Vault_Id.md&amp;value=---%0Auid%3A%20Innovator.Client.Vault.Id%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L19">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L39">View Source</a>
   </span>
   <a id="Innovator_Client_Vault_Id_" data-uid="Innovator.Client.Vault.Id*"></a>
   <h4 id="Innovator_Client_Vault_Id" data-uid="Innovator.Client.Vault.Id">Id</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the Aras ID of the vault.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -198,7 +179,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The Aras ID of the vault.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -207,11 +189,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Vault_Url.md&amp;value=---%0Auid%3A%20Innovator.Client.Vault.Url%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L20">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L47">View Source</a>
   </span>
   <a id="Innovator_Client_Vault_Url_" data-uid="Innovator.Client.Vault.Url*"></a>
   <h4 id="Innovator_Client_Vault_Url" data-uid="Innovator.Client.Vault.Url">Url</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets or sets the URL.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -228,7 +211,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The URL.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -239,7 +223,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Vault_Innovator_Client_ILink_Innovator_Client_Vault__Name.md&amp;value=---%0Auid%3A%20Innovator.Client.Vault.Innovator%23Client%23ILink%7BInnovator%23Client%23Vault%7D%23Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L22">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L49">View Source</a>
   </span>
   <a id="Innovator_Client_Vault_Innovator_Client_ILink_Innovator_Client_Vault__Name_" data-uid="Innovator.Client.Vault.Innovator#Client#ILink{Innovator#Client#Vault}#Name*"></a>
   <h4 id="Innovator_Client_Vault_Innovator_Client_ILink_Innovator_Client_Vault__Name" data-uid="Innovator.Client.Vault.Innovator#Client#ILink{Innovator#Client#Vault}#Name">ILink&lt;Vault&gt;.Name</h4>
@@ -271,7 +255,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Vault_Innovator_Client_ILink_Innovator_Client_Vault__Next.md&amp;value=---%0Auid%3A%20Innovator.Client.Vault.Innovator%23Client%23ILink%7BInnovator%23Client%23Vault%7D%23Next%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L23">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/Vault.cs/#L50">View Source</a>
   </span>
   <a id="Innovator_Client_Vault_Innovator_Client_ILink_Innovator_Client_Vault__Next_" data-uid="Innovator.Client.Vault.Innovator#Client#ILink{Innovator#Client#Vault}#Next*"></a>
   <h4 id="Innovator_Client_Vault_Innovator_Client_ILink_Innovator_Client_Vault__Next" data-uid="Innovator.Client.Vault.Innovator#Client#ILink{Innovator#Client#Vault}#Next">ILink&lt;Vault&gt;.Next</h4>
@@ -329,7 +313,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

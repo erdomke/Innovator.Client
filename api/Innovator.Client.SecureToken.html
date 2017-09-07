@@ -72,36 +72,13 @@
   
   <h1 id="Innovator_Client_SecureToken" data-uid="Innovator.Client.SecureToken" class="text-break">Class SecureToken
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A class for storing sensitive information (e.g. passwords)</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">SecureToken</span></div>
-  </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
@@ -109,18 +86,24 @@
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public sealed class SecureToken : IDisposable</code></pre>
   </div>
+  <h5 id="Innovator_Client_SecureToken_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>The portable version of this class merely obfuscates the password in memory, it does not
+encrypt it or pin it like the version present in the full .Net framework compilation
+of the library</p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_System_ArraySegment_System_Byte__.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(System.ArraySegment%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_ArraySegment_System_Byte__.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(ArraySegment%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L21">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L38">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken__ctor_" data-uid="Innovator.Client.SecureToken.#ctor*"></a>
-  <h4 id="Innovator_Client_SecureToken__ctor_System_ArraySegment_System_Byte__" data-uid="Innovator.Client.SecureToken.#ctor(System.ArraySegment{System.Byte})">SecureToken(ArraySegment&lt;Byte&gt;)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Innovator_Client_SecureToken__ctor_ArraySegment_System_Byte__" data-uid="Innovator.Client.SecureToken.#ctor(ArraySegment{System.Byte})">SecureToken(ArraySegment&lt;Byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a> class</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -137,8 +120,41 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.ArraySegment</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
+        <td><span class="xref">ArraySegment</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
         <td><span class="parametername">unencrypted</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L72">View Source</a>
+  </span>
+  <a id="Innovator_Client_SecureToken__ctor_" data-uid="Innovator.Client.SecureToken.#ctor*"></a>
+  <h4 id="Innovator_Client_SecureToken__ctor_Stream_" data-uid="Innovator.Client.SecureToken.#ctor(Stream)">SecureToken(Stream)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a> class</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SecureToken(Stream data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Stream</span></td>
+        <td><span class="parametername">data</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -148,11 +164,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_System_Byte____System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(System.Byte%5B%5D%40%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L26">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L47">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken__ctor_" data-uid="Innovator.Client.SecureToken.#ctor*"></a>
   <h4 id="Innovator_Client_SecureToken__ctor_System_Byte____System_Int32_System_Int32_" data-uid="Innovator.Client.SecureToken.#ctor(System.Byte[]@,System.Int32,System.Int32)">SecureToken(ref Byte[], Int32, Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a> class</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -190,11 +207,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_System_Char____.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(System.Char%5B%5D%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L35">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L64">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken__ctor_" data-uid="Innovator.Client.SecureToken.#ctor*"></a>
   <h4 id="Innovator_Client_SecureToken__ctor_System_Char____" data-uid="Innovator.Client.SecureToken.#ctor(System.Char[]@)">SecureToken(ref Char[])</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a> class</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -219,46 +237,15 @@
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_System_IO_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L39">View Source</a>
-  </span>
-  <a id="Innovator_Client_SecureToken__ctor_" data-uid="Innovator.Client.SecureToken.#ctor*"></a>
-  <h4 id="Innovator_Client_SecureToken__ctor_System_IO_Stream_" data-uid="Innovator.Client.SecureToken.#ctor(System.IO.Stream)">SecureToken(Stream)</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public SecureToken(Stream data)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.IO.Stream</span></td>
-        <td><span class="parametername">data</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken__ctor_System_String__.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.%23ctor(System.String%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L30">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L55">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken__ctor_" data-uid="Innovator.Client.SecureToken.#ctor*"></a>
   <h4 id="Innovator_Client_SecureToken__ctor_System_String__" data-uid="Innovator.Client.SecureToken.#ctor(System.String@)">SecureToken(ref String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a> class</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -288,11 +275,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_Length.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.Length%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L19">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L33">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_Length_" data-uid="Innovator.Client.SecureToken.Length*"></a>
   <h4 id="Innovator_Client_SecureToken_Length" data-uid="Innovator.Client.SecureToken.Length">Length</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the length of the token (in characters)</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -320,24 +308,23 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_Dispose.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L137">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L174">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_Dispose_" data-uid="Innovator.Client.SecureToken.Dispose*"></a>
   <h4 id="Innovator_Client_SecureToken_Dispose" data-uid="Innovator.Client.SecureToken.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Releases unmanaged resources.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
-  <h5 class="implements">Implements</h5>
-      <div><span class="xref">System.IDisposable.Dispose()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_UseBytes__1_Innovator_Client_SecureToken_FuncRef_System_Byte_____0__.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.UseBytes%60%601(Innovator.Client.SecureToken.FuncRef%7BSystem.Byte%5B%5D%2C%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L108">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L142">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_UseBytes_" data-uid="Innovator.Client.SecureToken.UseBytes*"></a>
   <h4 id="Innovator_Client_SecureToken_UseBytes__1_Innovator_Client_SecureToken_FuncRef_System_Byte_____0__" data-uid="Innovator.Client.SecureToken.UseBytes``1(Innovator.Client.SecureToken.FuncRef{System.Byte[],``0})">UseBytes&lt;T&gt;(SecureToken.FuncRef&lt;Byte[], T&gt;)</h4>
@@ -400,7 +387,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_UseString__1_Innovator_Client_SecureToken_FuncRef_System_String___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.UseString%60%601(Innovator.Client.SecureToken.FuncRef%7BSystem.String%2C%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L82">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L116">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_UseString_" data-uid="Innovator.Client.SecureToken.UseString*"></a>
   <h4 id="Innovator_Client_SecureToken_UseString__1_Innovator_Client_SecureToken_FuncRef_System_String___0__" data-uid="Innovator.Client.SecureToken.UseString``1(Innovator.Client.SecureToken.FuncRef{System.String,``0})">UseString&lt;T&gt;(SecureToken.FuncRef&lt;String, T&gt;)</h4>
@@ -462,14 +449,15 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_op_Implicit_System_ArraySegment_System_Byte___Innovator_Client_SecureToken.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.op_Implicit(System.ArraySegment%7BSystem.Byte%7D)~Innovator.Client.SecureToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_op_Implicit_ArraySegment_System_Byte___Innovator_Client_SecureToken.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.op_Implicit(ArraySegment%7BSystem.Byte%7D)~Innovator.Client.SecureToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L149">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L193">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_op_Implicit_" data-uid="Innovator.Client.SecureToken.op_Implicit*"></a>
-  <h4 id="Innovator_Client_SecureToken_op_Implicit_System_ArraySegment_System_Byte___Innovator_Client_SecureToken" data-uid="Innovator.Client.SecureToken.op_Implicit(System.ArraySegment{System.Byte})~Innovator.Client.SecureToken">Implicit(ArraySegment&lt;Byte&gt; to SecureToken)</h4>
-  <div class="markdown level1 summary"></div>
+  <h4 id="Innovator_Client_SecureToken_op_Implicit_ArraySegment_System_Byte___Innovator_Client_SecureToken" data-uid="Innovator.Client.SecureToken.op_Implicit(ArraySegment{System.Byte})~Innovator.Client.SecureToken">Implicit(ArraySegment&lt;Byte&gt; to SecureToken)</h4>
+  <div class="markdown level1 summary"><p>Performs an implicit conversion from <see cref="!:ArraySegment&lt;Byte>"></see> to <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -486,7 +474,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.ArraySegment</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
+        <td><span class="xref">ArraySegment</span>&lt;<span class="xref">System.Byte</span>&gt;</td>
         <td><span class="parametername">val</span></td>
         <td></td>
       </tr>
@@ -512,11 +500,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_op_Implicit_System_Byte____Innovator_Client_SecureToken.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.op_Implicit(System.Byte%5B%5D)~Innovator.Client.SecureToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L153">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L201">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_op_Implicit_" data-uid="Innovator.Client.SecureToken.op_Implicit*"></a>
   <h4 id="Innovator_Client_SecureToken_op_Implicit_System_Byte____Innovator_Client_SecureToken" data-uid="Innovator.Client.SecureToken.op_Implicit(System.Byte[])~Innovator.Client.SecureToken">Implicit(Byte[] to SecureToken)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Performs an implicit conversion from <see cref="!:Byte"></see>[] to <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -559,11 +548,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken_op_Implicit_System_String__Innovator_Client_SecureToken.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken.op_Implicit(System.String)~Innovator.Client.SecureToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L145">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L185">View Source</a>
   </span>
   <a id="Innovator_Client_SecureToken_op_Implicit_" data-uid="Innovator.Client.SecureToken.op_Implicit*"></a>
   <h4 id="Innovator_Client_SecureToken_op_Implicit_System_String__Innovator_Client_SecureToken" data-uid="Innovator.Client.SecureToken.op_Implicit(System.String)~Innovator.Client.SecureToken">Implicit(String to SecureToken)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Performs an implicit conversion from <see cref="!:String"></see> to <a class="xref" href="Innovator.Client.SecureToken.html">SecureToken</a>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -616,7 +606,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SecureToken.md&amp;value=---%0Auid%3A%20Innovator.Client.SecureToken%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L11" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Security/SecureToken.Portable.cs/#L19" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -636,7 +626,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

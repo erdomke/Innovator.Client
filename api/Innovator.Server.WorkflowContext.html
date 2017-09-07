@@ -72,7 +72,8 @@
   
   <h1 id="Innovator_Server_WorkflowContext" data-uid="Innovator.Server.WorkflowContext" class="text-break">Class WorkflowContext
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Context for a server method which runs on a Workflow event</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
@@ -81,35 +82,11 @@
   </div>
       <div class="level2"><a class="xref" href="Innovator.Server.DelegateContext.html">DelegateContext</a></div>
       <div class="level2"><a class="xref" href="Innovator.Server.VoteContext.html">VoteContext</a></div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetHashCode()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.GetType()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.MemberwiseClone()</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
-    </div>
-    <div>
-      <span class="xref">System.Object.ToString()</span>
-    </div>
-  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Server.html">Innovator.Server</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Server_WorkflowContext_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class WorkflowContext : IWorkflowContext, IContext</code></pre>
+    <pre><code class="lang-csharp hljs">public class WorkflowContext : object, IWorkflowContext, IContext</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -118,11 +95,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext__ctor_Innovator_Server_IServerConnection_Innovator_Client_IReadOnlyItem_.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.%23ctor(Innovator.Server.IServerConnection%2CInnovator.Client.IReadOnlyItem)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L50">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L72">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext__ctor_" data-uid="Innovator.Server.WorkflowContext.#ctor*"></a>
   <h4 id="Innovator_Server_WorkflowContext__ctor_Innovator_Server_IServerConnection_Innovator_Client_IReadOnlyItem_" data-uid="Innovator.Server.WorkflowContext.#ctor(Innovator.Server.IServerConnection,Innovator.Client.IReadOnlyItem)">WorkflowContext(IServerConnection, IReadOnlyItem)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Innovator.Server.WorkflowContext.html">WorkflowContext</a> class.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -141,12 +119,14 @@
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerConnection.html">IServerConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection.</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></td>
         <td><span class="parametername">item</span></td>
-        <td></td>
+        <td><p>The item.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -157,11 +137,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_Activity.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.Activity%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L19">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L22">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_Activity_" data-uid="Innovator.Server.WorkflowContext.Activity*"></a>
   <h4 id="Innovator_Server_WorkflowContext_Activity" data-uid="Innovator.Server.WorkflowContext.Activity">Activity</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The activity during which the method is being called</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -189,11 +170,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_Conn.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.Conn%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L23">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L27">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_Conn_" data-uid="Innovator.Server.WorkflowContext.Conn*"></a>
   <h4 id="Innovator_Server_WorkflowContext_Conn" data-uid="Innovator.Server.WorkflowContext.Conn">Conn</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Connection to the database</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -221,11 +203,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_Context.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.Context%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L27">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L32">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_Context_" data-uid="Innovator.Server.WorkflowContext.Context*"></a>
   <h4 id="Innovator_Server_WorkflowContext_Context" data-uid="Innovator.Server.WorkflowContext.Context">Context</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The item which is the context of the workflow</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -253,11 +236,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_ErrorBuilder.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.ErrorBuilder%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L35">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L44">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_ErrorBuilder_" data-uid="Innovator.Server.WorkflowContext.ErrorBuilder*"></a>
   <h4 id="Innovator_Server_WorkflowContext_ErrorBuilder" data-uid="Innovator.Server.WorkflowContext.ErrorBuilder">ErrorBuilder</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Error builder which captures any errors which are encountered</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -285,11 +269,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_Exception.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.Exception%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L39">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L52">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_Exception_" data-uid="Innovator.Server.WorkflowContext.Exception*"></a>
   <h4 id="Innovator_Server_WorkflowContext_Exception" data-uid="Innovator.Server.WorkflowContext.Exception">Exception</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the exception object created for any errors that have happened so far.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -305,7 +290,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Exception</span></td>
+        <td><span class="xref">Exception</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -317,11 +302,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_QueryDefaults.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.QueryDefaults%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L48">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L65">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_QueryDefaults_" data-uid="Innovator.Server.WorkflowContext.QueryDefaults*"></a>
   <h4 id="Innovator_Server_WorkflowContext_QueryDefaults" data-uid="Innovator.Server.WorkflowContext.QueryDefaults">QueryDefaults</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Method for modifying the query to get the context item</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -337,7 +323,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="Innovator.Client.IItem.html">IItem</a>&gt;</td>
+        <td><span class="xref">Innovator.Client.Model.Action</span>&lt;<a class="xref" href="Innovator.Client.IItem.html">IItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -349,11 +335,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext_WorkflowEvent.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext.WorkflowEvent%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L43">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L60">View Source</a>
   </span>
   <a id="Innovator_Server_WorkflowContext_WorkflowEvent_" data-uid="Innovator.Server.WorkflowContext.WorkflowEvent*"></a>
   <h4 id="Innovator_Server_WorkflowContext_WorkflowEvent" data-uid="Innovator.Server.WorkflowContext.WorkflowEvent">WorkflowEvent</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The event for which the server method is being called</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -387,7 +374,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_WorkflowContext.md&amp;value=---%0Auid%3A%20Innovator.Server.WorkflowContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/ServerMethod/WorkflowContext.cs/#L13" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -407,7 +394,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

@@ -72,7 +72,10 @@
   
   <h1 id="Innovator_Server_IServerConnection" data-uid="Innovator.Server.IServerConnection" class="text-break">Interface IServerConnection
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Represents a connection to Aras Innovator.  It is used for code running
+within the Innovator server process that needs access to extra server 
+information</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -108,11 +111,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection_ApplicationCache.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection.ApplicationCache%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L11">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L22">View Source</a>
   </span>
   <a id="Innovator_Server_IServerConnection_ApplicationCache_" data-uid="Innovator.Server.IServerConnection.ApplicationCache*"></a>
   <h4 id="Innovator_Server_IServerConnection_ApplicationCache" data-uid="Innovator.Server.IServerConnection.ApplicationCache">ApplicationCache</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the in-memory application-wide cache.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -129,7 +133,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerCache.html">IServerCache</a></td>
-        <td></td>
+        <td><p>The application cache.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -138,11 +143,13 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection_OriginalRequest.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection.OriginalRequest%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L12">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L30">View Source</a>
   </span>
   <a id="Innovator_Server_IServerConnection_OriginalRequest_" data-uid="Innovator.Server.IServerConnection.OriginalRequest*"></a>
   <h4 id="Innovator_Server_IServerConnection_OriginalRequest" data-uid="Innovator.Server.IServerConnection.OriginalRequest">OriginalRequest</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the string representing original AML request which eventually
+resulted in the execution of the current code</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -159,7 +166,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The original AML request.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -168,11 +176,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection_Permissions.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection.Permissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L13">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L37">View Source</a>
   </span>
   <a id="Innovator_Server_IServerConnection_Permissions_" data-uid="Innovator.Server.IServerConnection.Permissions*"></a>
   <h4 id="Innovator_Server_IServerConnection_Permissions" data-uid="Innovator.Server.IServerConnection.Permissions">Permissions</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the information about the current user&apos;s permissions.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -189,7 +198,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerPermissions.html">IServerPermissions</a></td>
-        <td></td>
+        <td><p>The permissions.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -198,11 +208,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection_RequestUrl.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection.RequestUrl%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L14">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L44">View Source</a>
   </span>
   <a id="Innovator_Server_IServerConnection_RequestUrl_" data-uid="Innovator.Server.IServerConnection.RequestUrl*"></a>
   <h4 id="Innovator_Server_IServerConnection_RequestUrl" data-uid="Innovator.Server.IServerConnection.RequestUrl">RequestUrl</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the requested URL.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -219,7 +230,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The requested URL.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -228,11 +240,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection_SessionCache.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection.SessionCache%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L15">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L51">View Source</a>
   </span>
   <a id="Innovator_Server_IServerConnection_SessionCache_" data-uid="Innovator.Server.IServerConnection.SessionCache*"></a>
   <h4 id="Innovator_Server_IServerConnection_SessionCache" data-uid="Innovator.Server.IServerConnection.SessionCache">SessionCache</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the in-memory session-specific cache.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -249,7 +262,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Server.IServerCache.html">IServerCache</a></td>
-        <td></td>
+        <td><p>The session cache.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -260,11 +274,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection_GetHeader_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection.GetHeader(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L17">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L58">View Source</a>
   </span>
   <a id="Innovator_Server_IServerConnection_GetHeader_" data-uid="Innovator.Server.IServerConnection.GetHeader*"></a>
   <h4 id="Innovator_Server_IServerConnection_GetHeader_System_String_" data-uid="Innovator.Server.IServerConnection.GetHeader(System.String)">GetHeader(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the HTTP header by name.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -283,7 +298,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">name</span></td>
-        <td></td>
+        <td><p>The HTTP name.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -298,7 +314,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The value of the HTTP header</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -313,7 +330,7 @@
       <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemById(IConnection, String, String)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__">ConnectionExtensions.ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</a>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_Func_Innovator_Client_IReadOnlyItem___0__">ConnectionExtensions.ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByKeyedName_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemByKeyedName(IConnection, String, String)</a>
@@ -353,7 +370,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Server_IServerConnection.md&amp;value=---%0Auid%3A%20Innovator.Server.IServerConnection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L9" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Server/IServerConnection.cs/#L14" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>
@@ -373,7 +390,7 @@
               <a href="#top">Back to top</a>
             </span>
             
-            <span>Generated by <strong>DocFX</strong></span>
+            <span>Copyright © 2015-2017 Microsoft<br>Generated by <strong>DocFX</strong></span>
           </div>
         </div>
       </footer>

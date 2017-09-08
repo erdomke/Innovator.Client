@@ -81,12 +81,41 @@ execution using the ApplySQL action</p>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">SqlBatchWriter</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_SqlBatchWriter_syntax">Syntax</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class SqlBatchWriter : IDisposable</code></pre>
   </div>
+  <h5 id="Innovator_Client_SqlBatchWriter_examples"><strong>Examples</strong></h5>
+  <p>For an example of inserting multiple records into the database, consider the following</p>
+<pre><code>var sql = new SqlBatchWriter(conn);
+for (var i = 0; i &lt; 30000; i++)
+{
+  sql.Command(&quot;insert into innovator._numbers (num) values (@0)&quot;, i);
+}</code></pre>
+
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
@@ -94,7 +123,7 @@ execution using the ApplySQL action</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter__ctor_Innovator_Client_IConnection_.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.%23ctor(Innovator.Client.IConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L29">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L39">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter__ctor_" data-uid="Innovator.Client.SqlBatchWriter.#ctor*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter__ctor_Innovator_Client_IConnection_" data-uid="Innovator.Client.SqlBatchWriter.#ctor(Innovator.Client.IConnection)">SqlBatchWriter(IConnection)</h4>
@@ -128,11 +157,11 @@ execution using the ApplySQL action</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter__ctor_Innovator_Client_IConnection_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.%23ctor(Innovator.Client.IConnection%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L33">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L44">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter__ctor_" data-uid="Innovator.Client.SqlBatchWriter.#ctor*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter__ctor_Innovator_Client_IConnection_System_Int32_" data-uid="Innovator.Client.SqlBatchWriter.#ctor(Innovator.Client.IConnection,System.Int32)">SqlBatchWriter(IConnection, Int32)</h4>
-  <div class="markdown level1 summary"><p>Instantiate the writer with a connection and an initial capacity for the internal <see cref="!:StringBuilder"></see></p>
+  <div class="markdown level1 summary"><p>Instantiate the writer with a connection and an initial capacity for the internal <span class="xref">System.Text.StringBuilder</span></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -158,7 +187,7 @@ execution using the ApplySQL action</p>
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">capacity</span></td>
-        <td><p><see cref="!:StringBuilder"></see> initial capacity</p>
+        <td><p><span class="xref">System.Text.StringBuilder</span> initial capacity</p>
 </td>
       </tr>
     </tbody>
@@ -170,7 +199,7 @@ execution using the ApplySQL action</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Threshold.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Threshold%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L25">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L35">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Threshold_" data-uid="Innovator.Client.SqlBatchWriter.Threshold*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Threshold" data-uid="Innovator.Client.SqlBatchWriter.Threshold">Threshold</h4>
@@ -203,7 +232,7 @@ execution using the ApplySQL action</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Command.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Command%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L45">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L58">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Command_" data-uid="Innovator.Client.SqlBatchWriter.Command*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Command" data-uid="Innovator.Client.SqlBatchWriter.Command">Command()</h4>
@@ -229,12 +258,16 @@ execution using the ApplySQL action</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_SqlBatchWriter_Command_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Depending on the number of commands written and the <a class="xref" href="Innovator.Client.SqlBatchWriter.html#Innovator_Client_SqlBatchWriter_Threshold">Threshold</a>, the
+buffer of SQL commands might be sent to the server after this call</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Command_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Command(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L52">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L69">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Command_" data-uid="Innovator.Client.SqlBatchWriter.Command*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Command_System_String_" data-uid="Innovator.Client.SqlBatchWriter.Command(System.String)">Command(String)</h4>
@@ -258,7 +291,8 @@ execution using the ApplySQL action</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>SQL command to execute</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -277,16 +311,21 @@ execution using the ApplySQL action</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_SqlBatchWriter_Command_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Depending on the number of commands written and the <a class="xref" href="Innovator.Client.SqlBatchWriter.html#Innovator_Client_SqlBatchWriter_Threshold">Threshold</a>, the
+buffer of SQL commands might be sent to the server after this call</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Command_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Command(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L59">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L81">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Command_" data-uid="Innovator.Client.SqlBatchWriter.Command*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Command_System_String_System_Object___" data-uid="Innovator.Client.SqlBatchWriter.Command(System.String,System.Object[])">Command(String, Object[])</h4>
-  <div class="markdown level1 summary"><p>Append the specified command with parameters the SQL.  @# (e.g. @0) style parameters are replaced</p>
+  <div class="markdown level1 summary"><p>Append the specified command with parameters the SQL. @# (e.g. @0) style 
+parameters are replaced</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -330,12 +369,18 @@ execution using the ApplySQL action</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_SqlBatchWriter_Command_System_String_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Depending on the number of commands written and the <a class="xref" href="Innovator.Client.SqlBatchWriter.html#Innovator_Client_SqlBatchWriter_Threshold">Threshold</a>, the
+buffer of SQL commands might be sent to the server after this call. See 
+<a class="xref" href="Innovator.Client.Command.html">Command</a> and <a class="xref" href="Innovator.Client.ParameterSubstitution.html">ParameterSubstitution</a> for more 
+information on how parameters are substituted</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Dispose.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L138">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L170">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Dispose_" data-uid="Innovator.Client.SqlBatchWriter.Dispose*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Dispose" data-uid="Innovator.Client.SqlBatchWriter.Dispose">Dispose()</h4>
@@ -346,12 +391,14 @@ execution using the ApplySQL action</p>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IDisposable.Dispose()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Flush.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Flush%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L130">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L161">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Flush_" data-uid="Innovator.Client.SqlBatchWriter.Flush*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Flush" data-uid="Innovator.Client.SqlBatchWriter.Flush">Flush()</h4>
@@ -367,7 +414,7 @@ execution using the ApplySQL action</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Part_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Part(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L68">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L93">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Part_" data-uid="Innovator.Client.SqlBatchWriter.Part*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Part_System_String_" data-uid="Innovator.Client.SqlBatchWriter.Part(System.String)">Part(String)</h4>
@@ -410,16 +457,21 @@ execution using the ApplySQL action</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_SqlBatchWriter_Part_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>No SQL will be sent to the server until the SQL &quot;part&quot; has been finished with a 
+call to <a class="xref" href="Innovator.Client.SqlBatchWriter.html#Innovator_Client_SqlBatchWriter_Command">Command()</a> (or one of the overloads)</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_Part_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.Part(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L74">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L105">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_Part_" data-uid="Innovator.Client.SqlBatchWriter.Part*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_Part_System_String_System_Object___" data-uid="Innovator.Client.SqlBatchWriter.Part(System.String,System.Object[])">Part(String, Object[])</h4>
-  <div class="markdown level1 summary"><p>Append a part of a command with parameters the SQL.  @# (e.g. @0) style parameters are replaced</p>
+  <div class="markdown level1 summary"><p>Append the specified command with parameters the SQL. @# (e.g. @0) style 
+parameters are replaced</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -463,12 +515,18 @@ execution using the ApplySQL action</p>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_SqlBatchWriter_Part_System_String_System_Object____remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>No SQL will be sent to the server until the SQL &quot;part&quot; has been finished with a 
+call to <a class="xref" href="Innovator.Client.SqlBatchWriter.html#Innovator_Client_SqlBatchWriter_Command">Command()</a> (or one of the overloads). See 
+<a class="xref" href="Innovator.Client.Command.html">Command</a> and <a class="xref" href="Innovator.Client.ParameterSubstitution.html">ParameterSubstitution</a> for more 
+information on how parameters are substituted</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter_ToString.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L122">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L153">View Source</a>
   </span>
   <a id="Innovator_Client_SqlBatchWriter_ToString_" data-uid="Innovator.Client.SqlBatchWriter.ToString*"></a>
   <h4 id="Innovator_Client_SqlBatchWriter_ToString" data-uid="Innovator.Client.SqlBatchWriter.ToString">ToString()</h4>
@@ -494,6 +552,8 @@ execution using the ApplySQL action</p>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
 </article>
           </div>
           
@@ -505,7 +565,7 @@ execution using the ApplySQL action</p>
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SqlBatchWriter.md&amp;value=---%0Auid%3A%20Innovator.Client.SqlBatchWriter%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L13" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/SqlBatchWriter.cs/#L23" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

@@ -72,19 +72,50 @@
   
   <h1 id="Innovator_Client_ConnectionPool" data-uid="Innovator.Client.ConnectionPool" class="text-break">Class ConnectionPool
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>A pool of multiple connections using the same credentials and the same database</p>
+</div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ConnectionPool</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_ConnectionPool_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ConnectionPool : object, IAsyncConnection, IConnection, IDisposable</code></pre>
+    <pre><code class="lang-csharp hljs">public class ConnectionPool : IAsyncConnection, IConnection, IDisposable</code></pre>
   </div>
+  <h5 id="Innovator_Client_ConnectionPool_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>Because Aras uses Session State on the server, requests sent in 
+parallel are still processed serially.  The only way to overcome this is to
+have separate connections.  This class allows you to support that transparently
+by wrapping any connection with a pool</p>
+</div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
@@ -92,11 +123,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_AmlContext.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.AmlContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L39">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L55">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_AmlContext_" data-uid="Innovator.Client.ConnectionPool.AmlContext*"></a>
   <h4 id="Innovator_Client_ConnectionPool_AmlContext" data-uid="Innovator.Client.ConnectionPool.AmlContext">AmlContext</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>AML context used for creating AML objects and formatting AML statements</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -124,11 +156,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_Database.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.Database%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L40">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L60">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_Database_" data-uid="Innovator.Client.ConnectionPool.Database*"></a>
   <h4 id="Innovator_Client_ConnectionPool_Database" data-uid="Innovator.Client.ConnectionPool.Database">Database</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Name of the connected database</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -156,11 +189,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_UserId.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.UserId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L41">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L65">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_UserId_" data-uid="Innovator.Client.ConnectionPool.UserId*"></a>
   <h4 id="Innovator_Client_ConnectionPool_UserId" data-uid="Innovator.Client.ConnectionPool.UserId">UserId</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>ID of the authenticated user</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -190,11 +224,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_Create_Innovator_Client_IRemoteConnection_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.Create(Innovator.Client.IRemoteConnection%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L32">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L45">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_Create_" data-uid="Innovator.Client.ConnectionPool.Create*"></a>
   <h4 id="Innovator_Client_ConnectionPool_Create_Innovator_Client_IRemoteConnection_System_Int32_" data-uid="Innovator.Client.ConnectionPool.Create(Innovator.Client.IRemoteConnection,System.Int32)">Create(IRemoteConnection, Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates a connection pool with <code data-dev-comment-type="paramref" class="paramref">size</code> connections.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -213,12 +248,14 @@
       <tr>
         <td><a class="xref" href="Innovator.Client.IRemoteConnection.html">IRemoteConnection</a></td>
         <td><span class="parametername">conn</span></td>
-        <td></td>
+        <td><p>The connection to use as the basis.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">size</span></td>
-        <td></td>
+        <td><p>The number of connections.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -233,7 +270,9 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.ConnectionPool.html">ConnectionPool</a>&gt;</td>
-        <td></td>
+        <td><p>A promise to return a pool logged-in of <code data-dev-comment-type="paramref" class="paramref">size</code> 
+logged in connections</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -242,11 +281,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_CreateUploadCommand.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.CreateUploadCommand%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L42">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L73">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_CreateUploadCommand_" data-uid="Innovator.Client.ConnectionPool.CreateUploadCommand*"></a>
   <h4 id="Innovator_Client_ConnectionPool_CreateUploadCommand" data-uid="Innovator.Client.ConnectionPool.CreateUploadCommand">CreateUploadCommand()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Creates an upload request used for uploading files to the server</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -263,7 +303,8 @@
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.UploadCommand.html">UploadCommand</a></td>
-        <td></td>
+        <td><p>A new upload request used for uploading files to the server</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -274,26 +315,30 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_Dispose.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.Dispose%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L47">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L81">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_Dispose_" data-uid="Innovator.Client.ConnectionPool.Dispose*"></a>
   <h4 id="Innovator_Client_ConnectionPool_Dispose" data-uid="Innovator.Client.ConnectionPool.Dispose">Dispose()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Logs out of each connection</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
   </div>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IDisposable.Dispose()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_MapClientUrl_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.MapClientUrl(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L57">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L98">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_MapClientUrl_" data-uid="Innovator.Client.ConnectionPool.MapClientUrl*"></a>
   <h4 id="Innovator_Client_ConnectionPool_MapClientUrl_System_String_" data-uid="Innovator.Client.ConnectionPool.MapClientUrl(System.String)">MapClientUrl(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Expands a relative URL to a full URL</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -312,7 +357,8 @@
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">relativeUrl</span></td>
-        <td></td>
+        <td><p>The relative URL</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -327,7 +373,8 @@
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>A full URL relative to the connection</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -338,11 +385,12 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_Process_Innovator_Client_Command_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.Process(Innovator.Client.Command)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L62">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L110">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_Process_" data-uid="Innovator.Client.ConnectionPool.Process*"></a>
   <h4 id="Innovator_Client_ConnectionPool_Process_Innovator_Client_Command_" data-uid="Innovator.Client.ConnectionPool.Process(Innovator.Client.Command)">Process(Command)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Calls a SOAP action asynchronously</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -361,7 +409,8 @@
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
         <td><span class="parametername">request</span></td>
-        <td></td>
+        <td><p>Request AML and possibly files <a class="xref" href="Innovator.Client.UploadCommand.html">UploadCommand</a></p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -375,21 +424,25 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
-        <td></td>
+        <td><span class="xref">System.IO.Stream</span></td>
+        <td><p>An XML SOAP response as a string</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_Process_Innovator_Client_Command_">IConnection.Process(Command)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool_Process_Innovator_Client_Command_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool.Process(Innovator.Client.Command%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L68">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L124">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionPool_Process_" data-uid="Innovator.Client.ConnectionPool.Process*"></a>
   <h4 id="Innovator_Client_ConnectionPool_Process_Innovator_Client_Command_System_Boolean_" data-uid="Innovator.Client.ConnectionPool.Process(Innovator.Client.Command,System.Boolean)">Process(Command, Boolean)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Calls a SOAP action asynchronously</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -408,12 +461,14 @@
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
         <td><span class="parametername">request</span></td>
-        <td></td>
+        <td><p>Request AML and possibly files <a class="xref" href="Innovator.Client.UploadCommand.html">UploadCommand</a></p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">async</span></td>
-        <td></td>
+        <td><p>Whether to perform this action asynchronously</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -427,11 +482,64 @@
     </thead>
     <tbody>
       <tr>
-        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">Stream</span>&gt;</td>
-        <td></td>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<span class="xref">System.IO.Stream</span>&gt;</td>
+        <td><p>A promise to return an XML SOAP response as a string</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><a class="xref" href="Innovator.Client.IAsyncConnection.html#Innovator_Client_IAsyncConnection_Process_Innovator_Client_Command_System_Boolean_">IAsyncConnection.Process(Command, Boolean)</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Apply_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">ConnectionExtensions.Apply(IConnection, Command, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_System_Boolean_System_Object___">ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, Boolean, Boolean, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_System_Object___">ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">ConnectionExtensions.ApplySql(IConnection, Command, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_">ConnectionExtensions.ApplySql(IAsyncConnection, Command, Boolean)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_">ConnectionExtensions.ApplySql(IAsyncConnection, Command, CancellationToken)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemById(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__">ConnectionExtensions.ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByKeyedName_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.ItemByKeyedName(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByQuery_Innovator_Client_IConnection_Innovator_Client_Command_">ConnectionExtensions.ItemByQuery(IConnection, Command)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemByQuery_Innovator_Client_IConnection_Innovator_Client_Command_System_Boolean_">ConnectionExtensions.ItemByQuery(IConnection, Command, Boolean)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Lock_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.Lock(IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_NextSequence_Innovator_Client_IConnection_System_String_">ConnectionExtensions.NextSequence(IConnection, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Promote_Innovator_Client_IConnection_System_String_System_String_System_String_System_String_">ConnectionExtensions.Promote(IConnection, String, String, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Unlock_Innovator_Client_IConnection_System_String_System_String_">ConnectionExtensions.Unlock(IConnection, String, String)</a>
+  </div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Innovator.Client.IAsyncConnection.html">IAsyncConnection</a></div>
+  </div>
 </article>
           </div>
           
@@ -443,7 +551,7 @@
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionPool.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionPool%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L10" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionPool.cs/#L15" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

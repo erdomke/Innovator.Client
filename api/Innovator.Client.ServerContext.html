@@ -80,11 +80,35 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ServerContext</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_ServerContext_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class ServerContext : object, IServerContext, IFormatProvider, ICustomFormatter</code></pre>
+    <pre><code class="lang-csharp hljs">public sealed class ServerContext : IServerContext, IFormatProvider, ICustomFormatter</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -367,7 +391,7 @@ Otherwise, the local time zone will be used</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsBoolean_" data-uid="Innovator.Client.ServerContext.AsBoolean*"></a>
   <h4 id="Innovator_Client_ServerContext_AsBoolean_System_Object_" data-uid="Innovator.Client.ServerContext.AsBoolean(System.Object)">AsBoolean(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> to a <see cref="!:System.Boolean"></see> based on
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Boolean</span> based on
 the locale and time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -405,7 +429,7 @@ the locale and time zone</p>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Boolean</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:System.Boolean"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.Boolean</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -413,6 +437,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsBoolean_System_Object_">IServerContext.AsBoolean(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Boolean</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDateTime_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDateTime(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -422,8 +462,8 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsDateTime_" data-uid="Innovator.Client.ServerContext.AsDateTime*"></a>
   <h4 id="Innovator_Client_ServerContext_AsDateTime_System_Object_" data-uid="Innovator.Client.ServerContext.AsDateTime(System.Object)">AsDateTime(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> representing a date in the corporate
-time zone to a <see cref="!:DateTime"></see> in the local time zone</p>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> representing a date in the corporate
+time zone to a <span class="xref">System.DateTime</span> in the local time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -458,9 +498,9 @@ time zone to a <see cref="!:DateTime"></see> in the local time zone</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DateTime</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.DateTime</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:DateTime"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.DateTime</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -468,6 +508,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDateTime_System_Object_">IServerContext.AsDateTime(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.DateTime</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDateTimeOffset_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDateTimeOffset(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -477,8 +533,8 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsDateTimeOffset_" data-uid="Innovator.Client.ServerContext.AsDateTimeOffset*"></a>
   <h4 id="Innovator_Client_ServerContext_AsDateTimeOffset_System_Object_" data-uid="Innovator.Client.ServerContext.AsDateTimeOffset(System.Object)">AsDateTimeOffset(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> representing a date in the corporate
-time zone to a <see cref="!:DateTimeOffset"></see> in the local time zone</p>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> representing a date in the corporate
+time zone to a <span class="xref">System.DateTimeOffset</span> in the local time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -513,9 +569,9 @@ time zone to a <see cref="!:DateTimeOffset"></see> in the local time zone</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DateTimeOffset</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.DateTimeOffset</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:DateTimeOffset"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.DateTimeOffset</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -523,6 +579,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDateTimeOffset_System_Object_">IServerContext.AsDateTimeOffset(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.DateTimeOffset</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDateTimeUtc_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDateTimeUtc(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -532,8 +604,8 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsDateTimeUtc_" data-uid="Innovator.Client.ServerContext.AsDateTimeUtc*"></a>
   <h4 id="Innovator_Client_ServerContext_AsDateTimeUtc_System_Object_" data-uid="Innovator.Client.ServerContext.AsDateTimeUtc(System.Object)">AsDateTimeUtc(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> representing a date in the corporate
-time zone to a <see cref="!:DateTime"></see> in the UTC time zone</p>
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> representing a date in the corporate
+time zone to a <span class="xref">System.DateTime</span> in the UTC time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -568,9 +640,9 @@ time zone to a <see cref="!:DateTime"></see> in the UTC time zone</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">DateTime</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.DateTime</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:DateTime"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.DateTime</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -578,6 +650,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDateTimeUtc_System_Object_">IServerContext.AsDateTimeUtc(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.DateTime</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDecimal_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDecimal(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -587,7 +675,7 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsDecimal_" data-uid="Innovator.Client.ServerContext.AsDecimal*"></a>
   <h4 id="Innovator_Client_ServerContext_AsDecimal_System_Object_" data-uid="Innovator.Client.ServerContext.AsDecimal(System.Object)">AsDecimal(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> to a <see cref="!:System.Decimal"></see> based on
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Decimal</span> based on
 the locale and time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -625,7 +713,7 @@ the locale and time zone</p>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Decimal</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:System.Decimal"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.Decimal</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -633,6 +721,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDecimal_System_Object_">IServerContext.AsDecimal(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Decimal</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsDouble_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsDouble(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -642,7 +746,7 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsDouble_" data-uid="Innovator.Client.ServerContext.AsDouble*"></a>
   <h4 id="Innovator_Client_ServerContext_AsDouble_System_Object_" data-uid="Innovator.Client.ServerContext.AsDouble(System.Object)">AsDouble(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> to a <see cref="!:System.Double"></see> based on
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Double</span> based on
 the locale and time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -680,7 +784,7 @@ the locale and time zone</p>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Double</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:System.Double"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.Double</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -688,6 +792,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsDouble_System_Object_">IServerContext.AsDouble(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Double</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsInt_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsInt(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -697,7 +817,7 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsInt_" data-uid="Innovator.Client.ServerContext.AsInt*"></a>
   <h4 id="Innovator_Client_ServerContext_AsInt_System_Object_" data-uid="Innovator.Client.ServerContext.AsInt(System.Object)">AsInt(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> to a <see cref="!:System.Int32"></see> based on
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Int32</span> based on
 the locale and time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -735,7 +855,7 @@ the locale and time zone</p>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:System.Int32"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.Int32</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -743,6 +863,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsInt_System_Object_">IServerContext.AsInt(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int32</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_AsLong_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.AsLong(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -752,7 +888,7 @@ Otherwise, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_ServerContext_AsLong_" data-uid="Innovator.Client.ServerContext.AsLong*"></a>
   <h4 id="Innovator_Client_ServerContext_AsLong_System_Object_" data-uid="Innovator.Client.ServerContext.AsLong(System.Object)">AsLong(Object)</h4>
-  <div class="markdown level1 summary"><p>Converts the <see cref="!:System.Object"></see> to a <see cref="!:System.Int64"></see> based on
+  <div class="markdown level1 summary"><p>Converts the <span class="xref">System.Object</span> to a <span class="xref">System.Int64</span> based on
 the locale and time zone</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -790,7 +926,7 @@ the locale and time zone</p>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
         <td><p><code>null</code> if <code data-dev-comment-type="paramref" class="paramref">value</code> is null or empty.
-A <see cref="!:System.Int64"></see> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
+A <span class="xref">System.Int64</span> if <code data-dev-comment-type="paramref" class="paramref">value</code> is convertible.
 Otherwise, an exception is thrown</p>
 </td>
       </tr>
@@ -798,6 +934,22 @@ Otherwise, an exception is thrown</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_AsLong_System_Object_">IServerContext.AsLong(Object)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int64</span></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_Format_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.Format(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -853,13 +1005,13 @@ corporate time zone</p>
       <div><a class="xref" href="Innovator.Client.IServerContext.html#Innovator_Client_IServerContext_Format_System_Object_">IServerContext.Format(Object)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_Format_System_String_System_Object_IFormatProvider_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.Format(System.String%2CSystem.Object%2CIFormatProvider)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_Format_System_String_System_Object_System_IFormatProvider_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.Format(System.String%2CSystem.Object%2CSystem.IFormatProvider)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L503">View Source</a>
   </span>
   <a id="Innovator_Client_ServerContext_Format_" data-uid="Innovator.Client.ServerContext.Format*"></a>
-  <h4 id="Innovator_Client_ServerContext_Format_System_String_System_Object_IFormatProvider_" data-uid="Innovator.Client.ServerContext.Format(System.String,System.Object,IFormatProvider)">Format(String, Object, IFormatProvider)</h4>
+  <h4 id="Innovator_Client_ServerContext_Format_System_String_System_Object_System_IFormatProvider_" data-uid="Innovator.Client.ServerContext.Format(System.String,System.Object,System.IFormatProvider)">Format(String, Object, IFormatProvider)</h4>
   <div class="markdown level1 summary"><p>Converts the value of a specified object to an equivalent string representation using specified format and culture-specific formatting information.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -890,7 +1042,7 @@ corporate time zone</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">IFormatProvider</span></td>
+        <td><span class="xref">System.IFormatProvider</span></td>
         <td><span class="parametername">formatProvider</span></td>
         <td><p>An object that supplies format information about the current instance.</p>
 </td>
@@ -913,15 +1065,17 @@ corporate time zone</p>
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.ICustomFormatter.Format(System.String, System.Object, System.IFormatProvider)</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_GetFormat_Type_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.GetFormat(Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ServerContext_GetFormat_System_Type_.md&amp;value=---%0Auid%3A%20Innovator.Client.ServerContext.GetFormat(System.Type)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ServerContext.cs/#L486">View Source</a>
   </span>
   <a id="Innovator_Client_ServerContext_GetFormat_" data-uid="Innovator.Client.ServerContext.GetFormat*"></a>
-  <h4 id="Innovator_Client_ServerContext_GetFormat_Type_" data-uid="Innovator.Client.ServerContext.GetFormat(Type)">GetFormat(Type)</h4>
+  <h4 id="Innovator_Client_ServerContext_GetFormat_System_Type_" data-uid="Innovator.Client.ServerContext.GetFormat(System.Type)">GetFormat(Type)</h4>
   <div class="markdown level1 summary"><p>Returns an object that provides formatting services for the specified type.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -940,7 +1094,7 @@ corporate time zone</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Type</span></td>
+        <td><span class="xref">System.Type</span></td>
         <td><span class="parametername">formatType</span></td>
         <td><p>An object that specifies the type of format object to return.</p>
 </td>
@@ -963,6 +1117,12 @@ corporate time zone</p>
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IFormatProvider.GetFormat(System.Type)</span></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Now_Innovator_Client_IServerContext_">ItemExtensions.Now(IServerContext)</a>
+  </div>
 </article>
           </div>
           

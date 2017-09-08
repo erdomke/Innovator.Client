@@ -77,7 +77,7 @@
     <h3 id="classes">Classes
   </h3>
       <h4><a class="xref" href="Innovator.Client.AmlSqlWriter.html">AmlSqlWriter</a></h4>
-      <section><p>Generates a SQL statement from an AML query</p>
+      <section><p>Generates a SQL statement for querying the Aras database directly from an AML query</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.AmlWriterSettings.html">AmlWriterSettings</a></h4>
       <section><p>Settings controlling how to serialize an AML structure</p>
@@ -99,7 +99,8 @@ will be queried using the specified <a class="xref" href="Innovator.Client.IConn
       <section><p>Extension methods related to <a class="xref" href="Innovator.Client.IConnection.html">IConnection</a>.</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ConnectionPool.html">ConnectionPool</a></h4>
-      <section></section>
+      <section><p>A pool of multiple connections using the same credentials and the same database</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.ConnectionPreferences.html">ConnectionPreferences</a></h4>
       <section><p>Preferences for connection behavior</p>
 </section>
@@ -129,9 +130,11 @@ represents a specific item type</p>
       <section><p>Class for generating connection to an Aras Innovator instance</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.HttpException.html">HttpException</a></h4>
-      <section></section>
+      <section><p>Exception that occurs when sending an HTTP request to the server.</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.HttpTimeoutException.html">HttpTimeoutException</a></h4>
-      <section></section>
+      <section><p>Exception that occurs when an HTTP request times out.</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.Item.html">Item</a></h4>
       <section><p>Represents an XML <code>Item</code> element in an AML structure.</p>
 </section>
@@ -162,14 +165,17 @@ indicating that no items were found</p>
       <section><p>Class for substituting @-prefixed parameters with their values</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.Promise-1.html">Promise&lt;T&gt;</a></h4>
-      <section><p>Represents a promise that a result will be provided at some point in the future</p>
+      <section><p>Represents a promise that a result of the specified type will be provided at some point in the future</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.PromiseResult-2.html">PromiseResult&lt;T1, T2&gt;</a></h4>
-      <section></section>
+      <section><p>A promise to return two results</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.PromiseResult-3.html">PromiseResult&lt;T1, T2, T3&gt;</a></h4>
-      <section></section>
+      <section><p>A promise to return three results</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.PromiseResult-4.html">PromiseResult&lt;T1, T2, T3, T4&gt;</a></h4>
-      <section></section>
+      <section><p>A promise to return four results</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.Promises.html">Promises</a></h4>
       <section><p>Various methods useful for interacting with promises</p>
 </section>
@@ -237,7 +243,8 @@ will be queried using the specified <a class="xref" href="Innovator.Client.IConn
       <section><p>Interface for a connection to an Aras Innovator instance that allows asynchronous calls</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.IAsyncScript.html">IAsyncScript</a></h4>
-      <section></section>
+      <section><p>Represents an asynchronous script</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a></h4>
       <section><p>A modifiable AML attribute</p>
 </section>
@@ -260,7 +267,8 @@ will be queried using the specified <a class="xref" href="Innovator.Client.IConn
       <section><p>HTTP request being sent to a server (Aras, Proxy, etc.)</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.IHttpResponse.html">IHttpResponse</a></h4>
-      <section></section>
+      <section><p>Data from an HTTP response (including the headers and body)</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.IItem.html">IItem</a></h4>
       <section><p>Represents an Aras Item that is mutable/modifiable</p>
 </section>
@@ -272,7 +280,7 @@ represents a specific item type</p>
       <section><p>Reference to an Aras item specifying the type name and ID</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ILink-1.html">ILink&lt;T&gt;</a></h4>
-      <section><p>Represents an element of a linked list with a <see cref="!:System.String"></see> key.</p>
+      <section><p>Represents an element of a linked list with a <span class="xref">System.String</span> key.</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.ILinkedElement.html">ILinkedElement</a></h4>
       <section><p>A <a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a> which can be part of a linked list and has a parent reference</p>
@@ -281,7 +289,7 @@ represents a specific item type</p>
       <section><p>A logical element representing an <code>&lt;and&gt;</code>, <code>&lt;or&gt;</code>, or <code>&lt;not&gt;</code> AML tag</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.INetCredentials.html">INetCredentials</a></h4>
-      <section><p>Specifies that an <see cref="!:System.Net.ICredentials"></see> instance can be extracted from the credentials object</p>
+      <section><p>Specifies that an <span class="xref">System.Net.ICredentials</span> instance can be extracted from the credentials object</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.INullRelationship-1.html">INullRelationship&lt;TSource&gt;</a></h4>
       <section><p>A model representing a relationship where the <code>source_id</code> is of type <code data-dev-comment-type="typeparamref" class="typeparamref">TSource</code></p>
@@ -390,7 +398,8 @@ memory space as the current code</p>
       <section><p>What type of SQL query to render</p>
 </section>
       <h4><a class="xref" href="Innovator.Client.Authentication.html">Authentication</a></h4>
-      <section></section>
+      <section><p>Method of authentication</p>
+</section>
       <h4><a class="xref" href="Innovator.Client.CommandAction.html">CommandAction</a></h4>
       <section><p>Allowable SOAP actions</p>
 </section>

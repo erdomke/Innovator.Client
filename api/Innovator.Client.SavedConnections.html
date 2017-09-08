@@ -80,11 +80,32 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">SavedConnections</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_SavedConnections_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class SavedConnections : IEnumerable&lt;ConnectionPreferences&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class SavedConnections : IEnumerable&lt;ConnectionPreferences&gt;, IEnumerable</code></pre>
   </div>
   <h5 id="Innovator_Client_SavedConnections_examples"><strong>Examples</strong></h5>
   <p>Create a new connection using the default stored connection</p>
@@ -219,7 +240,7 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td><p>The names of all applicable preferences.</p>
 </td>
       </tr>
@@ -270,7 +291,7 @@ var conn = Factory.GetConnection(pref);</code></pre>
   </span>
   <a id="Innovator_Client_SavedConnections_CreateReader_" data-uid="Innovator.Client.SavedConnections.CreateReader*"></a>
   <h4 id="Innovator_Client_SavedConnections_CreateReader" data-uid="Innovator.Client.SavedConnections.CreateReader">CreateReader()</h4>
-  <div class="markdown level1 summary"><p>Creates a <see cref="!:XmlReader"></see> for reading the preference data.</p>
+  <div class="markdown level1 summary"><p>Creates a <span class="xref">System.Xml.XmlReader</span> for reading the preference data.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -287,8 +308,8 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlReader</span></td>
-        <td><p>An <see cref="!:XmlReader"></see> for reading the preference data</p>
+        <td><span class="xref">System.Xml.XmlReader</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlReader</span> for reading the preference data</p>
 </td>
       </tr>
     </tbody>
@@ -319,21 +340,23 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerator</span>&lt;<a class="xref" href="Innovator.Client.ConnectionPreferences.html">ConnectionPreferences</a>&gt;</td>
-        <td><p>A <span class="xref">System.Collections.Generic.IEnumerator`1</span> that can be used to iterate through the collection.</p>
+        <td><span class="xref">System.Collections.Generic.IEnumerator</span>&lt;<a class="xref" href="Innovator.Client.ConnectionPreferences.html">ConnectionPreferences</a>&gt;</td>
+        <td><p>A <span class="xref">System.Collections.Generic.IEnumerator&lt;T&gt;</span> that can be used to iterate through the collection.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;.GetEnumerator()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Load_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Load(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Load_System_IO_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Load(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L302">View Source</a>
   </span>
   <a id="Innovator_Client_SavedConnections_Load_" data-uid="Innovator.Client.SavedConnections.Load*"></a>
-  <h4 id="Innovator_Client_SavedConnections_Load_Stream_" data-uid="Innovator.Client.SavedConnections.Load(Stream)">Load(Stream)</h4>
+  <h4 id="Innovator_Client_SavedConnections_Load_System_IO_Stream_" data-uid="Innovator.Client.SavedConnections.Load(System.IO.Stream)">Load(Stream)</h4>
   <div class="markdown level1 summary"><p>Initializes a new <a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a> instance from the <code data-dev-comment-type="paramref" class="paramref">stream</code> data.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -352,9 +375,59 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
+        <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">stream</span></td>
-        <td><p>The <see cref="!:Stream"></see> to load data from.</p>
+        <td><p>The <span class="xref">System.IO.Stream</span> to load data from.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a></td>
+        <td><p>A new <a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a> instance</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Load_System_IO_TextReader_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Load(System.IO.TextReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L318">View Source</a>
+  </span>
+  <a id="Innovator_Client_SavedConnections_Load_" data-uid="Innovator.Client.SavedConnections.Load*"></a>
+  <h4 id="Innovator_Client_SavedConnections_Load_System_IO_TextReader_" data-uid="Innovator.Client.SavedConnections.Load(System.IO.TextReader)">Load(TextReader)</h4>
+  <div class="markdown level1 summary"><p>Initializes a new <a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a> instance from the <code data-dev-comment-type="paramref" class="paramref">textReader</code> data.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SavedConnections Load(TextReader textReader)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.TextReader</span></td>
+        <td><span class="parametername">textReader</span></td>
+        <td><p>The <span class="xref">System.IO.TextReader</span> to load data from.</p>
 </td>
       </tr>
     </tbody>
@@ -427,56 +500,6 @@ var conn = Factory.GetConnection(pref);</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Load_TextReader_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Load(TextReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L318">View Source</a>
-  </span>
-  <a id="Innovator_Client_SavedConnections_Load_" data-uid="Innovator.Client.SavedConnections.Load*"></a>
-  <h4 id="Innovator_Client_SavedConnections_Load_TextReader_" data-uid="Innovator.Client.SavedConnections.Load(TextReader)">Load(TextReader)</h4>
-  <div class="markdown level1 summary"><p>Initializes a new <a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a> instance from the <code data-dev-comment-type="paramref" class="paramref">textReader</code> data.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static SavedConnections Load(TextReader textReader)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">TextReader</span></td>
-        <td><span class="parametername">textReader</span></td>
-        <td><p>The <see cref="!:TextReader"></see> to load data from.</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a></td>
-        <td><p>A new <a class="xref" href="Innovator.Client.SavedConnections.html">SavedConnections</a> instance</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Parse_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Parse(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -527,14 +550,14 @@ var conn = Factory.GetConnection(pref);</code></pre>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Save_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Save(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Save_System_IO_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Save(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L133">View Source</a>
   </span>
   <a id="Innovator_Client_SavedConnections_Save_" data-uid="Innovator.Client.SavedConnections.Save*"></a>
-  <h4 id="Innovator_Client_SavedConnections_Save_Stream_" data-uid="Innovator.Client.SavedConnections.Save(Stream)">Save(Stream)</h4>
-  <div class="markdown level1 summary"><p>Saves the preferences to the specified <see cref="!:Stream"></see>.</p>
+  <h4 id="Innovator_Client_SavedConnections_Save_System_IO_Stream_" data-uid="Innovator.Client.SavedConnections.Save(System.IO.Stream)">Save(Stream)</h4>
+  <div class="markdown level1 summary"><p>Saves the preferences to the specified <span class="xref">System.IO.Stream</span>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -552,23 +575,23 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
+        <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">stream</span></td>
-        <td><p>The <see cref="!:Stream"></see> to save the preferences to.</p>
+        <td><p>The <span class="xref">System.IO.Stream</span> to save the preferences to.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Save_TextWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Save(TextWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Save_System_IO_TextWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Save(System.IO.TextWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L148">View Source</a>
   </span>
   <a id="Innovator_Client_SavedConnections_Save_" data-uid="Innovator.Client.SavedConnections.Save*"></a>
-  <h4 id="Innovator_Client_SavedConnections_Save_TextWriter_" data-uid="Innovator.Client.SavedConnections.Save(TextWriter)">Save(TextWriter)</h4>
-  <div class="markdown level1 summary"><p>Saves the preferences to the specified <see cref="!:TextWriter"></see>.</p>
+  <h4 id="Innovator_Client_SavedConnections_Save_System_IO_TextWriter_" data-uid="Innovator.Client.SavedConnections.Save(System.IO.TextWriter)">Save(TextWriter)</h4>
+  <div class="markdown level1 summary"><p>Saves the preferences to the specified <span class="xref">System.IO.TextWriter</span>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -586,23 +609,23 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">TextWriter</span></td>
+        <td><span class="xref">System.IO.TextWriter</span></td>
         <td><span class="parametername">textWriter</span></td>
-        <td><p>The <see cref="!:TextWriter"></see> to save the preferences to.</p>
+        <td><p>The <span class="xref">System.IO.TextWriter</span> to save the preferences to.</p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Save_XmlWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Save(XmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_Save_System_Xml_XmlWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.Save(System.Xml.XmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L156">View Source</a>
   </span>
   <a id="Innovator_Client_SavedConnections_Save_" data-uid="Innovator.Client.SavedConnections.Save*"></a>
-  <h4 id="Innovator_Client_SavedConnections_Save_XmlWriter_" data-uid="Innovator.Client.SavedConnections.Save(XmlWriter)">Save(XmlWriter)</h4>
-  <div class="markdown level1 summary"><p>Saves the preferences to the specified <see cref="!:XmlWriter"></see>.</p>
+  <h4 id="Innovator_Client_SavedConnections_Save_System_Xml_XmlWriter_" data-uid="Innovator.Client.SavedConnections.Save(System.Xml.XmlWriter)">Save(XmlWriter)</h4>
+  <div class="markdown level1 summary"><p>Saves the preferences to the specified <span class="xref">System.Xml.XmlWriter</span>.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -620,9 +643,9 @@ var conn = Factory.GetConnection(pref);</code></pre>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlWriter</span></td>
+        <td><span class="xref">System.Xml.XmlWriter</span></td>
         <td><span class="parametername">writer</span></td>
-        <td><p>The <see cref="!:XmlWriter"></see> to save the preferences to.</p>
+        <td><p>The <span class="xref">System.Xml.XmlWriter</span> to save the preferences to.</p>
 </td>
       </tr>
     </tbody>
@@ -636,7 +659,7 @@ var conn = Factory.GetConnection(pref);</code></pre>
   </span>
   <a id="Innovator_Client_SavedConnections_ToString_" data-uid="Innovator.Client.SavedConnections.ToString*"></a>
   <h4 id="Innovator_Client_SavedConnections_ToString" data-uid="Innovator.Client.SavedConnections.ToString">ToString()</h4>
-  <div class="markdown level1 summary"><p>Returns an XML <see cref="!:System.String"></see> that represents serialized data.</p>
+  <div class="markdown level1 summary"><p>Returns an XML <span class="xref">System.String</span> that represents serialized data.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -654,11 +677,13 @@ var conn = Factory.GetConnection(pref);</code></pre>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td><p>A XML <see cref="!:System.String"></see> that represents serialized data.</p>
+        <td><p>A XML <span class="xref">System.String</span> that represents serialized data.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_TryGetValue_System_String_Innovator_Client_ConnectionPreferences__.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.TryGetValue(System.String%2CInnovator.Client.ConnectionPreferences%40)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -715,6 +740,46 @@ var conn = Factory.GetConnection(pref);</code></pre>
       </tr>
     </tbody>
   </table>
+  <h3 id="eii">Explicit Interface Implementations
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_SavedConnections_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20Innovator.Client.SavedConnections.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Credentials/SavedConnections.cs/#L190">View Source</a>
+  </span>
+  <a id="Innovator_Client_SavedConnections_System_Collections_IEnumerable_GetEnumerator_" data-uid="Innovator.Client.SavedConnections.System#Collections#IEnumerable#GetEnumerator*"></a>
+  <h4 id="Innovator_Client_SavedConnections_System_Collections_IEnumerable_GetEnumerator" data-uid="Innovator.Client.SavedConnections.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
+  <div class="markdown level1 summary"><p>Returns an enumerator that iterates through a collection.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td><p>An <span class="xref">System.Collections.IEnumerator</span> object that can be used to iterate through the collection.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.Collections.IEnumerable.GetEnumerator()</span></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.Extensions.html#Innovator_Client_Extensions_GroupConcat__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__">Extensions.GroupConcat&lt;T&gt;(IEnumerable&lt;T&gt;, String, Func&lt;T, String&gt;)</a>
+  </div>
 </article>
           </div>
           

@@ -102,7 +102,7 @@
       <a class="xref" href="Innovator.Client.IReadOnlyElement.html#Innovator_Client_IReadOnlyElement_Value">IReadOnlyElement.Value</a>
     </div>
     <div>
-      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
+      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
@@ -122,7 +122,7 @@
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Number_AsDouble_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsDouble*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Number_AsDouble" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsDouble">AsDouble()</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:Nullable&lt;Double>"></see>.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Nullable&lt;T&gt;</span>.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -141,7 +141,23 @@ If the value cannot be converted, an exception is thrown</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Double</span>&gt;</td>
-        <td><p>A <see cref="!:System.Double"></see> or <code>null</code> if the value is empty</p>
+        <td><p>A <span class="xref">System.Double</span> or <code>null</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Double</span></p>
 </td>
       </tr>
     </tbody>
@@ -155,7 +171,7 @@ If the value cannot be converted, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Number_AsDouble_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsDouble*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Number_AsDouble_System_Double_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsDouble(System.Double)">AsDouble(Double)</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:System.Double"></see> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Double</span> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -192,7 +208,23 @@ If the value cannot be converted, an exception is thrown</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Double</span></td>
-        <td><p>A <see cref="!:System.Double"></see> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+        <td><p>A <span class="xref">System.Double</span> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Double</span></p>
 </td>
       </tr>
     </tbody>
@@ -206,7 +238,7 @@ If the value cannot be converted, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Number_AsInt_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsInt*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Number_AsInt" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsInt">AsInt()</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:Nullable&lt;Int32>"></see>.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Nullable&lt;T&gt;</span>.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -225,7 +257,23 @@ If the value cannot be converted, an exception is thrown</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int32</span>&gt;</td>
-        <td><p>A <see cref="!:System.Int32"></see> or <code>null</code> if the value is empty</p>
+        <td><p>A <span class="xref">System.Int32</span> or <code>null</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int32</span></p>
 </td>
       </tr>
     </tbody>
@@ -239,7 +287,7 @@ If the value cannot be converted, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Number_AsInt_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsInt*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Number_AsInt_System_Int32_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsInt(System.Int32)">AsInt(Int32)</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:System.Int32"></see> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Int32</span> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -276,7 +324,23 @@ If the value cannot be converted, an exception is thrown</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td><p>A <see cref="!:System.Int32"></see> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+        <td><p>A <span class="xref">System.Int32</span> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int32</span></p>
 </td>
       </tr>
     </tbody>
@@ -290,7 +354,7 @@ If the value cannot be converted, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Number_AsLong_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsLong*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Number_AsLong" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsLong">AsLong()</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:Nullable&lt;Int64>"></see>.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Nullable&lt;T&gt;</span>.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -309,7 +373,23 @@ If the value cannot be converted, an exception is thrown</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Int64</span>&gt;</td>
-        <td><p>A <see cref="!:System.Int64"></see> or <code>null</code> if the value is empty</p>
+        <td><p>A <span class="xref">System.Int64</span> or <code>null</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int64</span></p>
 </td>
       </tr>
     </tbody>
@@ -323,7 +403,7 @@ If the value cannot be converted, an exception is thrown</p>
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Number_AsLong_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsLong*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Number_AsLong_System_Int64_" data-uid="Innovator.Client.IReadOnlyProperty_Number.AsLong(System.Int64)">AsLong(Int64)</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:System.Int64"></see> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Int64</span> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -360,7 +440,23 @@ If the value cannot be converted, an exception is thrown</p>
     <tbody>
       <tr>
         <td><span class="xref">System.Int64</span></td>
-        <td><p>A <see cref="!:System.Int64"></see> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+        <td><p>A <span class="xref">System.Int64</span> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Int64</span></p>
 </td>
       </tr>
     </tbody>
@@ -385,7 +481,7 @@ If the value cannot be converted, an exception is thrown</p>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Element_Innovator_Client_IReadOnlyElement_System_String_">ItemExtensions.Element(IReadOnlyElement, String)</a>

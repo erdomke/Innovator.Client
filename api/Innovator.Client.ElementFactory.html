@@ -80,12 +80,75 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ElementFactory</span></div>
   </div>
+      <div class="level2"><a class="xref" href="Innovator.Client.IOM.Innovator.html">Innovator</a></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_ElementFactory_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class ElementFactory : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class ElementFactory</code></pre>
   </div>
+  <h5 id="Innovator_Client_ElementFactory_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p><p>An <a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a> is used to create AML objects (Items, properties, 
+attributes, and more).  A 
+<a href="https://en.wikipedia.org/wiki/Factory_method_pattern">factory</a> is needed to 
+create these objects because the objects need to know how to serialize and deserialize base 
+.Net types (e.g. <span class="xref">System.DateTime</span>) according to the time zone and context of a 
+particular server connection.  You can get a <a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a> from a 
+<a class="xref" href="Innovator.Client.IConnection.html">IConnection</a> via the <a class="xref" href="Innovator.Client.IConnection.html#Innovator_Client_IConnection_AmlContext">AmlContext</a> property.<br>Alternatively, if you are processing AML without an Aras connection (e.g. reading an AML 
+export file), you can easily get an <a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a> in from the 
+<a class="xref" href="Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_Local">Local</a> or the <a class="xref" href="Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_Utc">Utc</a> static properties
+for a factory using either the local or the UTC time zone respectively.</p>
+<p>To create an AML structure (that you can easily modify) with an 
+<a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a>, you can either start with a parameter substituted AML string,
+or by creating the AML objects directly</p></p>
+<pre><code>var aml = conn.AmlContext;
+var query = aml.FromXml(
+@&quot;&lt;Item type=&apos;Part&apos; action=&apos;get&apos;>
+  &lt;classification>@0&lt;/classification>
+  &lt;created_on condition=&apos;lt&apos;>@1&lt;/created_on>
+&lt;/Item>&quot;, classification, DateTime.Now.AddMinutes(-20)).AssertItem();
+query.State().Set(&quot;Preliminary&quot;);</code></pre>
+<p><p>- OR -</p></p>
+<pre><code>var aml = conn.AmlContext;
+var query = aml.Item(aml.Type(&quot;Part&quot;), aml.Action(&quot;get&quot;)
+  , aml.Classification(classification)
+  , aml.CreatedOn(aml.Condition(Condition.LessThan), DateTime.Now.AddMinutes(-20))
+  , aml.Property(&quot;state&quot;, &quot;Preliminary&quot;)
+);
+return conn.Apply(query.ToAml()).Items();</code></pre>
+<p><p>When used in the second manner, the API should feel very similar to creating 
+LINQ-to-XML objects.  However, using <a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a> should be preferred as, 
+unlike LINQ, it properly serializes base types and handles time zone conversions</p></p>
+<pre><code>var query = new XElement(new XAttribute(&quot;type&quot;, &quot;Part&quot;), new XAttribute(&quot;action&quot;, &quot;get&quot;)
+  , new XElement(&quot;classification&quot;, classification)
+  , new XElement(&quot;created_on&quot;, new XAttribute(&quot;condition&quot;, &quot;lt&quot;), DateTime.Now.AddMinutes(-20).ToString(&quot;s&quot;)
+  , new XElement(&quot;state&quot;, &quot;Preliminary&quot;)
+);</code></pre>
+</div>
   <h5 id="Innovator_Client_ElementFactory_examples"><strong>Examples</strong></h5>
   <pre><code>var aml = conn.AmlContext;
 // --- OR ---
@@ -102,7 +165,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory__ctor_Innovator_Client_IServerContext_Innovator_Client_IItemFactory_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.%23ctor(Innovator.Client.IServerContext%2CInnovator.Client.IItemFactory)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L46">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L91">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory__ctor_" data-uid="Innovator.Client.ElementFactory.#ctor*"></a>
   <h4 id="Innovator_Client_ElementFactory__ctor_Innovator_Client_IServerContext_Innovator_Client_IItemFactory_" data-uid="Innovator.Client.ElementFactory.#ctor(Innovator.Client.IServerContext,Innovator.Client.IItemFactory)">ElementFactory(IServerContext, IItemFactory)</h4>
@@ -144,7 +207,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ItemFactory.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ItemFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L39">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L84">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ItemFactory_" data-uid="Innovator.Client.ElementFactory.ItemFactory*"></a>
   <h4 id="Innovator_Client_ElementFactory_ItemFactory" data-uid="Innovator.Client.ElementFactory.ItemFactory">ItemFactory</h4>
@@ -176,7 +239,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Local.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Local%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L597">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L642">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Local_" data-uid="Innovator.Client.ElementFactory.Local*"></a>
   <h4 id="Innovator_Client_ElementFactory_Local" data-uid="Innovator.Client.ElementFactory.Local">Local</h4>
@@ -207,7 +270,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_LocalizationContext.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.LocalizationContext%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L31">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L76">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_LocalizationContext_" data-uid="Innovator.Client.ElementFactory.LocalizationContext*"></a>
   <h4 id="Innovator_Client_ElementFactory_LocalizationContext" data-uid="Innovator.Client.ElementFactory.LocalizationContext">LocalizationContext</h4>
@@ -238,7 +301,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Utc.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Utc%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L600">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L645">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Utc_" data-uid="Innovator.Client.ElementFactory.Utc*"></a>
   <h4 id="Innovator_Client_ElementFactory_Utc" data-uid="Innovator.Client.ElementFactory.Utc">Utc</h4>
@@ -271,7 +334,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Action_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Action(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L158">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L203">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Action_" data-uid="Innovator.Client.ElementFactory.Action*"></a>
   <h4 id="Innovator_Client_ElementFactory_Action_System_String_" data-uid="Innovator.Client.ElementFactory.Action(System.String)">Action(String)</h4>
@@ -322,7 +385,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Aml_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Aml(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L164">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L209">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Aml_" data-uid="Innovator.Client.ElementFactory.Aml*"></a>
   <h4 id="Innovator_Client_ElementFactory_Aml_System_Object___" data-uid="Innovator.Client.ElementFactory.Aml(System.Object[])">Aml(Object[])</h4>
@@ -371,7 +434,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_And_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.And(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L170">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L215">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_And_" data-uid="Innovator.Client.ElementFactory.And*"></a>
   <h4 id="Innovator_Client_ElementFactory_And_System_Object___" data-uid="Innovator.Client.ElementFactory.And(System.Object[])">And(Object[])</h4>
@@ -420,7 +483,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Attribute_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Attribute(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L175">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L220">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Attribute_" data-uid="Innovator.Client.ElementFactory.Attribute*"></a>
   <h4 id="Innovator_Client_ElementFactory_Attribute_System_String_" data-uid="Innovator.Client.ElementFactory.Attribute(System.String)">Attribute(String)</h4>
@@ -468,7 +531,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Attribute_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Attribute(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L180">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L225">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Attribute_" data-uid="Innovator.Client.ElementFactory.Attribute*"></a>
   <h4 id="Innovator_Client_ElementFactory_Attribute_System_String_System_Object_" data-uid="Innovator.Client.ElementFactory.Attribute(System.String,System.Object)">Attribute(String, Object)</h4>
@@ -521,7 +584,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_CalcMd5_Innovator_Client_SecureToken_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.CalcMd5(Innovator.Client.SecureToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L574">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L619">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_CalcMd5_" data-uid="Innovator.Client.ElementFactory.CalcMd5*"></a>
   <h4 id="Innovator_Client_ElementFactory_CalcMd5_Innovator_Client_SecureToken_" data-uid="Innovator.Client.ElementFactory.CalcMd5(Innovator.Client.SecureToken)">CalcMd5(SecureToken)</h4>
@@ -569,7 +632,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_CalcMd5_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.CalcMd5(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L582">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L627">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_CalcMd5_" data-uid="Innovator.Client.ElementFactory.CalcMd5*"></a>
   <h4 id="Innovator_Client_ElementFactory_CalcMd5_System_String_" data-uid="Innovator.Client.ElementFactory.CalcMd5(System.String)">CalcMd5(String)</h4>
@@ -617,7 +680,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Classification_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Classification(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L186">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L231">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Classification_" data-uid="Innovator.Client.ElementFactory.Classification*"></a>
   <h4 id="Innovator_Client_ElementFactory_Classification_System_Object___" data-uid="Innovator.Client.ElementFactory.Classification(System.Object[])">Classification(Object[])</h4>
@@ -666,7 +729,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Condition_Innovator_Client_Condition_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Condition(Innovator.Client.Condition)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L191">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L236">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Condition_" data-uid="Innovator.Client.ElementFactory.Condition*"></a>
   <h4 id="Innovator_Client_ElementFactory_Condition_Innovator_Client_Condition_" data-uid="Innovator.Client.ElementFactory.Condition(Innovator.Client.Condition)">Condition(Condition)</h4>
@@ -714,7 +777,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ConfigId_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ConfigId(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L197">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L242">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ConfigId_" data-uid="Innovator.Client.ElementFactory.ConfigId*"></a>
   <h4 id="Innovator_Client_ElementFactory_ConfigId_System_Object___" data-uid="Innovator.Client.ElementFactory.ConfigId(System.Object[])">ConfigId(Object[])</h4>
@@ -763,7 +826,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_CreatedById_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.CreatedById(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L203">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L248">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_CreatedById_" data-uid="Innovator.Client.ElementFactory.CreatedById*"></a>
   <h4 id="Innovator_Client_ElementFactory_CreatedById_System_Object___" data-uid="Innovator.Client.ElementFactory.CreatedById(System.Object[])">CreatedById(Object[])</h4>
@@ -812,7 +875,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_CreatedOn_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.CreatedOn(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L209">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L254">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_CreatedOn_" data-uid="Innovator.Client.ElementFactory.CreatedOn*"></a>
   <h4 id="Innovator_Client_ElementFactory_CreatedOn_System_Object___" data-uid="Innovator.Client.ElementFactory.CreatedOn(System.Object[])">CreatedOn(Object[])</h4>
@@ -861,7 +924,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Css_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Css(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L215">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L260">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Css_" data-uid="Innovator.Client.ElementFactory.Css*"></a>
   <h4 id="Innovator_Client_ElementFactory_Css_System_Object___" data-uid="Innovator.Client.ElementFactory.Css(System.Object[])">Css(Object[])</h4>
@@ -910,7 +973,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_CurrentState_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.CurrentState(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L221">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L266">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_CurrentState_" data-uid="Innovator.Client.ElementFactory.CurrentState*"></a>
   <h4 id="Innovator_Client_ElementFactory_CurrentState_System_Object___" data-uid="Innovator.Client.ElementFactory.CurrentState(System.Object[])">CurrentState(Object[])</h4>
@@ -959,7 +1022,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_DoGetItem_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.DoGetItem(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L227">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L272">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_DoGetItem_" data-uid="Innovator.Client.ElementFactory.DoGetItem*"></a>
   <h4 id="Innovator_Client_ElementFactory_DoGetItem_System_Boolean_" data-uid="Innovator.Client.ElementFactory.DoGetItem(System.Boolean)">DoGetItem(Boolean)</h4>
@@ -1010,7 +1073,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Element_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Element(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L234">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L279">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Element_" data-uid="Innovator.Client.ElementFactory.Element*"></a>
   <h4 id="Innovator_Client_ElementFactory_Element_System_String_System_Object___" data-uid="Innovator.Client.ElementFactory.Element(System.String,System.Object[])">Element(String, Object[])</h4>
@@ -1065,7 +1128,7 @@ ServerException = aml.ServerException(errorMessage);</code></pre>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FormatAml_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FormatAml(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L58">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L103">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FormatAml_" data-uid="Innovator.Client.ElementFactory.FormatAml*"></a>
   <h4 id="Innovator_Client_ElementFactory_FormatAml_System_String_System_Object___" data-uid="Innovator.Client.ElementFactory.FormatAml(System.String,System.Object[])">FormatAml(String, Object[])</h4>
@@ -1121,7 +1184,7 @@ arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_Innovator_Client_Command_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(Innovator.Client.Command)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L84">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L129">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
   <h4 id="Innovator_Client_ElementFactory_FromXml_Innovator_Client_Command_" data-uid="Innovator.Client.ElementFactory.FromXml(Innovator.Client.Command)">FromXml(Command)</h4>
@@ -1167,13 +1230,13 @@ arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_IO_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L95">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L140">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
-  <h4 id="Innovator_Client_ElementFactory_FromXml_Stream_" data-uid="Innovator.Client.ElementFactory.FromXml(Stream)">FromXml(Stream)</h4>
+  <h4 id="Innovator_Client_ElementFactory_FromXml_System_IO_Stream_" data-uid="Innovator.Client.ElementFactory.FromXml(System.IO.Stream)">FromXml(Stream)</h4>
   <div class="markdown level1 summary"><p>Return a result from a stream</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1192,7 +1255,7 @@ arguments specified.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
+        <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">xml</span></td>
         <td><p>XML data</p>
 </td>
@@ -1216,13 +1279,13 @@ arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_Stream_Innovator_Client_Command_Innovator_Client_IConnection_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(Stream%2CInnovator.Client.Command%2CInnovator.Client.IConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_IO_Stream_Innovator_Client_Command_Innovator_Client_IConnection_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.IO.Stream%2CInnovator.Client.Command%2CInnovator.Client.IConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L136">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L181">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
-  <h4 id="Innovator_Client_ElementFactory_FromXml_Stream_Innovator_Client_Command_Innovator_Client_IConnection_" data-uid="Innovator.Client.ElementFactory.FromXml(Stream,Innovator.Client.Command,Innovator.Client.IConnection)">FromXml(Stream, Command, IConnection)</h4>
+  <h4 id="Innovator_Client_ElementFactory_FromXml_System_IO_Stream_Innovator_Client_Command_Innovator_Client_IConnection_" data-uid="Innovator.Client.ElementFactory.FromXml(System.IO.Stream,Innovator.Client.Command,Innovator.Client.IConnection)">FromXml(Stream, Command, IConnection)</h4>
   <div class="markdown level1 summary"><p>Return a result from an AML stream indicating that it is the result of a query performed on a specific connection</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1241,7 +1304,7 @@ arguments specified.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
+        <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">xml</span></td>
         <td><p>XML data</p>
 </td>
@@ -1277,10 +1340,59 @@ arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_IO_TextReader_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.IO.TextReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L150">View Source</a>
+  </span>
+  <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
+  <h4 id="Innovator_Client_ElementFactory_FromXml_System_IO_TextReader_" data-uid="Innovator.Client.ElementFactory.FromXml(System.IO.TextReader)">FromXml(TextReader)</h4>
+  <div class="markdown level1 summary"><p>Return a result from an AML text reader</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IResult FromXml(TextReader xml)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IO.TextReader</span></td>
+        <td><span class="parametername">xml</span></td>
+        <td><p>XML data</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IResult.html">IResult</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_String_Innovator_Client_Command_Innovator_Client_IConnection_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.String%2CInnovator.Client.Command%2CInnovator.Client.IConnection)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L123">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L168">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
   <h4 id="Innovator_Client_ElementFactory_FromXml_System_String_Innovator_Client_Command_Innovator_Client_IConnection_" data-uid="Innovator.Client.ElementFactory.FromXml(System.String,Innovator.Client.Command,Innovator.Client.IConnection)">FromXml(String, Command, IConnection)</h4>
@@ -1341,7 +1453,7 @@ arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L71">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L116">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
   <h4 id="Innovator_Client_ElementFactory_FromXml_System_String_System_Object___" data-uid="Innovator.Client.ElementFactory.FromXml(System.String,System.Object[])">FromXml(String, Object[])</h4>
@@ -1394,62 +1506,13 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_TextReader_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(TextReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_Xml_XmlReader_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L105">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L159">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
-  <h4 id="Innovator_Client_ElementFactory_FromXml_TextReader_" data-uid="Innovator.Client.ElementFactory.FromXml(TextReader)">FromXml(TextReader)</h4>
-  <div class="markdown level1 summary"><p>Return a result from an AML text reader</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public IResult FromXml(TextReader xml)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">TextReader</span></td>
-        <td><span class="parametername">xml</span></td>
-        <td><p>XML data</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.IResult.html">IResult</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_XmlReader_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(XmlReader)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L114">View Source</a>
-  </span>
-  <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
-  <h4 id="Innovator_Client_ElementFactory_FromXml_XmlReader_" data-uid="Innovator.Client.ElementFactory.FromXml(XmlReader)">FromXml(XmlReader)</h4>
+  <h4 id="Innovator_Client_ElementFactory_FromXml_System_Xml_XmlReader_" data-uid="Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader)">FromXml(XmlReader)</h4>
   <div class="markdown level1 summary"><p>Return a result from an XML reader</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1468,7 +1531,7 @@ with the arguments specified.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlReader</span></td>
+        <td><span class="xref">System.Xml.XmlReader</span></td>
         <td><span class="parametername">xml</span></td>
         <td><p>XML data</p>
 </td>
@@ -1492,13 +1555,13 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_XmlReader_Innovator_Client_Command_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(XmlReader%2CInnovator.Client.Command%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_FromXml_System_Xml_XmlReader_Innovator_Client_Command_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader%2CInnovator.Client.Command%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L149">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L194">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_FromXml_" data-uid="Innovator.Client.ElementFactory.FromXml*"></a>
-  <h4 id="Innovator_Client_ElementFactory_FromXml_XmlReader_Innovator_Client_Command_System_String_" data-uid="Innovator.Client.ElementFactory.FromXml(XmlReader,Innovator.Client.Command,System.String)">FromXml(XmlReader, Command, String)</h4>
+  <h4 id="Innovator_Client_ElementFactory_FromXml_System_Xml_XmlReader_Innovator_Client_Command_System_String_" data-uid="Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader,Innovator.Client.Command,System.String)">FromXml(XmlReader, Command, String)</h4>
   <div class="markdown level1 summary"><p>Return a result from an XmlReader indicating that it is the result of a query performed on a specific connection</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1517,7 +1580,7 @@ with the arguments specified.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlReader</span></td>
+        <td><span class="xref">System.Xml.XmlReader</span></td>
         <td><span class="parametername">xml</span></td>
         <td><p>XML data</p>
 </td>
@@ -1556,7 +1619,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Generation_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Generation(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L240">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L285">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Generation_" data-uid="Innovator.Client.ElementFactory.Generation*"></a>
   <h4 id="Innovator_Client_ElementFactory_Generation_System_Object___" data-uid="Innovator.Client.ElementFactory.Generation(System.Object[])">Generation(Object[])</h4>
@@ -1602,13 +1665,13 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Id_System_Nullable_Guid__.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Id(System.Nullable%7BGuid%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Id_System_Nullable_System_Guid__.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Id(System.Nullable%7BSystem.Guid%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L250">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L295">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Id_" data-uid="Innovator.Client.ElementFactory.Id*"></a>
-  <h4 id="Innovator_Client_ElementFactory_Id_System_Nullable_Guid__" data-uid="Innovator.Client.ElementFactory.Id(System.Nullable{Guid})">Id(Nullable&lt;Guid&gt;)</h4>
+  <h4 id="Innovator_Client_ElementFactory_Id_System_Nullable_System_Guid__" data-uid="Innovator.Client.ElementFactory.Id(System.Nullable{System.Guid})">Id(Nullable&lt;Guid&gt;)</h4>
   <div class="markdown level1 summary"><p>Create a new where <code>id</code> attribute</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1627,7 +1690,7 @@ with the arguments specified.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Guid</span>&gt;</td>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Guid</span>&gt;</td>
         <td><span class="parametername">value</span></td>
         <td></td>
       </tr>
@@ -1653,7 +1716,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Id_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Id(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L245">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L290">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Id_" data-uid="Innovator.Client.ElementFactory.Id*"></a>
   <h4 id="Innovator_Client_ElementFactory_Id_System_String_" data-uid="Innovator.Client.ElementFactory.Id(System.String)">Id(String)</h4>
@@ -1701,7 +1764,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_IdList_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.IdList(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L255">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L300">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_IdList_" data-uid="Innovator.Client.ElementFactory.IdList*"></a>
   <h4 id="Innovator_Client_ElementFactory_IdList_System_String_" data-uid="Innovator.Client.ElementFactory.IdList(System.String)">IdList(String)</h4>
@@ -1749,7 +1812,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_IdProp_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.IdProp(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L261">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L306">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_IdProp_" data-uid="Innovator.Client.ElementFactory.IdProp*"></a>
   <h4 id="Innovator_Client_ElementFactory_IdProp_System_Object___" data-uid="Innovator.Client.ElementFactory.IdProp(System.Object[])">IdProp(Object[])</h4>
@@ -1798,7 +1861,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_IsCurrent_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.IsCurrent(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L267">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L312">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_IsCurrent_" data-uid="Innovator.Client.ElementFactory.IsCurrent*"></a>
   <h4 id="Innovator_Client_ElementFactory_IsCurrent_System_Object___" data-uid="Innovator.Client.ElementFactory.IsCurrent(System.Object[])">IsCurrent(Object[])</h4>
@@ -1847,7 +1910,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_IsNull_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.IsNull(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L272">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L317">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_IsNull_" data-uid="Innovator.Client.ElementFactory.IsNull*"></a>
   <h4 id="Innovator_Client_ElementFactory_IsNull_System_Boolean_" data-uid="Innovator.Client.ElementFactory.IsNull(System.Boolean)">IsNull(Boolean)</h4>
@@ -1895,7 +1958,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_IsReleased_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.IsReleased(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L278">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L323">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_IsReleased_" data-uid="Innovator.Client.ElementFactory.IsReleased*"></a>
   <h4 id="Innovator_Client_ElementFactory_IsReleased_System_Object___" data-uid="Innovator.Client.ElementFactory.IsReleased(System.Object[])">IsReleased(Object[])</h4>
@@ -1944,7 +2007,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Item_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Item(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L284">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L329">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Item_" data-uid="Innovator.Client.ElementFactory.Item*"></a>
   <h4 id="Innovator_Client_ElementFactory_Item_System_Object___" data-uid="Innovator.Client.ElementFactory.Item(System.Object[])">Item(Object[])</h4>
@@ -1993,7 +2056,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_KeyedName_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.KeyedName(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L303">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L348">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_KeyedName_" data-uid="Innovator.Client.ElementFactory.KeyedName*"></a>
   <h4 id="Innovator_Client_ElementFactory_KeyedName_System_Object___" data-uid="Innovator.Client.ElementFactory.KeyedName(System.Object[])">KeyedName(Object[])</h4>
@@ -2042,7 +2105,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_LockedById_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.LockedById(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L309">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L354">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_LockedById_" data-uid="Innovator.Client.ElementFactory.LockedById*"></a>
   <h4 id="Innovator_Client_ElementFactory_LockedById_System_Object___" data-uid="Innovator.Client.ElementFactory.LockedById(System.Object[])">LockedById(Object[])</h4>
@@ -2091,7 +2154,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_MajorRev_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.MajorRev(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L315">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L360">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_MajorRev_" data-uid="Innovator.Client.ElementFactory.MajorRev*"></a>
   <h4 id="Innovator_Client_ElementFactory_MajorRev_System_Object___" data-uid="Innovator.Client.ElementFactory.MajorRev(System.Object[])">MajorRev(Object[])</h4>
@@ -2140,7 +2203,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ManagedById_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ManagedById(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L321">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L366">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ManagedById_" data-uid="Innovator.Client.ElementFactory.ManagedById*"></a>
   <h4 id="Innovator_Client_ElementFactory_ManagedById_System_Object___" data-uid="Innovator.Client.ElementFactory.ManagedById(System.Object[])">ManagedById(Object[])</h4>
@@ -2189,7 +2252,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_MaxRecords_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.MaxRecords(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L326">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L371">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_MaxRecords_" data-uid="Innovator.Client.ElementFactory.MaxRecords*"></a>
   <h4 id="Innovator_Client_ElementFactory_MaxRecords_System_Int32_" data-uid="Innovator.Client.ElementFactory.MaxRecords(System.Int32)">MaxRecords(Int32)</h4>
@@ -2237,7 +2300,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_MinorRev_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.MinorRev(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L332">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L377">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_MinorRev_" data-uid="Innovator.Client.ElementFactory.MinorRev*"></a>
   <h4 id="Innovator_Client_ElementFactory_MinorRev_System_Object___" data-uid="Innovator.Client.ElementFactory.MinorRev(System.Object[])">MinorRev(Object[])</h4>
@@ -2286,7 +2349,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ModifiedById_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ModifiedById(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L338">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L383">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ModifiedById_" data-uid="Innovator.Client.ElementFactory.ModifiedById*"></a>
   <h4 id="Innovator_Client_ElementFactory_ModifiedById_System_Object___" data-uid="Innovator.Client.ElementFactory.ModifiedById(System.Object[])">ModifiedById(Object[])</h4>
@@ -2335,7 +2398,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ModifiedOn_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ModifiedOn(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L344">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L389">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ModifiedOn_" data-uid="Innovator.Client.ElementFactory.ModifiedOn*"></a>
   <h4 id="Innovator_Client_ElementFactory_ModifiedOn_System_Object___" data-uid="Innovator.Client.ElementFactory.ModifiedOn(System.Object[])">ModifiedOn(Object[])</h4>
@@ -2384,7 +2447,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NewId.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NewId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L588">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L633">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_NewId_" data-uid="Innovator.Client.ElementFactory.NewId*"></a>
   <h4 id="Innovator_Client_ElementFactory_NewId" data-uid="Innovator.Client.ElementFactory.NewId">NewId()</h4>
@@ -2415,7 +2478,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NewVersion_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NewVersion(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L350">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L395">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_NewVersion_" data-uid="Innovator.Client.ElementFactory.NewVersion*"></a>
   <h4 id="Innovator_Client_ElementFactory_NewVersion_System_Object___" data-uid="Innovator.Client.ElementFactory.NewVersion(System.Object[])">NewVersion(Object[])</h4>
@@ -2464,7 +2527,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NoItemsFoundException_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NoItemsFoundException(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L362">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L407">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_NoItemsFoundException_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException*"></a>
   <h4 id="Innovator_Client_ElementFactory_NoItemsFoundException_System_String_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException(System.String)">NoItemsFoundException(String)</h4>
@@ -2509,63 +2572,10 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NoItemsFoundException_System_String_Exception_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NoItemsFoundException(System.String%2CException)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L367">View Source</a>
-  </span>
-  <a id="Innovator_Client_ElementFactory_NoItemsFoundException_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException*"></a>
-  <h4 id="Innovator_Client_ElementFactory_NoItemsFoundException_System_String_Exception_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException(System.String,Exception)">NoItemsFoundException(String, Exception)</h4>
-  <div class="markdown level1 summary"><p>Creates a &apos;No items found&apos; exception</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public NoItemsFoundException NoItemsFoundException(string message, Exception innerException)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">message</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Exception</span></td>
-        <td><span class="parametername">innerException</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NoItemsFoundException_System_String_Innovator_Client_Command_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NoItemsFoundException(System.String%2CInnovator.Client.Command)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L357">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L402">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_NoItemsFoundException_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException*"></a>
   <h4 id="Innovator_Client_ElementFactory_NoItemsFoundException_System_String_Innovator_Client_Command_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException(System.String,Innovator.Client.Command)">NoItemsFoundException(String, Command)</h4>
@@ -2617,10 +2627,63 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NoItemsFoundException_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NoItemsFoundException(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L412">View Source</a>
+  </span>
+  <a id="Innovator_Client_ElementFactory_NoItemsFoundException_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException*"></a>
+  <h4 id="Innovator_Client_ElementFactory_NoItemsFoundException_System_String_System_Exception_" data-uid="Innovator.Client.ElementFactory.NoItemsFoundException(System.String,System.Exception)">NoItemsFoundException(String, Exception)</h4>
+  <div class="markdown level1 summary"><p>Creates a &apos;No items found&apos; exception</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public NoItemsFoundException NoItemsFoundException(string message, Exception innerException)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Exception</span></td>
+        <td><span class="parametername">innerException</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Not_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Not(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L372">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L417">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Not_" data-uid="Innovator.Client.ElementFactory.Not*"></a>
   <h4 id="Innovator_Client_ElementFactory_Not_System_Object___" data-uid="Innovator.Client.ElementFactory.Not(System.Object[])">Not(Object[])</h4>
@@ -2668,7 +2731,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_NotLockable_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.NotLockable(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L378">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L423">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_NotLockable_" data-uid="Innovator.Client.ElementFactory.NotLockable*"></a>
   <h4 id="Innovator_Client_ElementFactory_NotLockable_System_Object___" data-uid="Innovator.Client.ElementFactory.NotLockable(System.Object[])">NotLockable(Object[])</h4>
@@ -2717,7 +2780,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Or_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Or(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L383">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L428">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Or_" data-uid="Innovator.Client.ElementFactory.Or*"></a>
   <h4 id="Innovator_Client_ElementFactory_Or_System_Object___" data-uid="Innovator.Client.ElementFactory.Or(System.Object[])">Or(Object[])</h4>
@@ -2765,7 +2828,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_OrderBy_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.OrderBy(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L388">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L433">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_OrderBy_" data-uid="Innovator.Client.ElementFactory.OrderBy*"></a>
   <h4 id="Innovator_Client_ElementFactory_OrderBy_System_String_" data-uid="Innovator.Client.ElementFactory.OrderBy(System.String)">OrderBy(String)</h4>
@@ -2813,7 +2876,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_OwnedById_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.OwnedById(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L394">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L439">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_OwnedById_" data-uid="Innovator.Client.ElementFactory.OwnedById*"></a>
   <h4 id="Innovator_Client_ElementFactory_OwnedById_System_Object___" data-uid="Innovator.Client.ElementFactory.OwnedById(System.Object[])">OwnedById(Object[])</h4>
@@ -2862,7 +2925,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Page_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Page(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L399">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L444">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Page_" data-uid="Innovator.Client.ElementFactory.Page*"></a>
   <h4 id="Innovator_Client_ElementFactory_Page_System_Int32_" data-uid="Innovator.Client.ElementFactory.Page(System.Int32)">Page(Int32)</h4>
@@ -2910,7 +2973,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_PageSize_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.PageSize(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L404">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L449">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_PageSize_" data-uid="Innovator.Client.ElementFactory.PageSize*"></a>
   <h4 id="Innovator_Client_ElementFactory_PageSize_System_Int32_" data-uid="Innovator.Client.ElementFactory.PageSize(System.Int32)">PageSize(Int32)</h4>
@@ -2958,7 +3021,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_PermissionId_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.PermissionId(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L410">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L455">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_PermissionId_" data-uid="Innovator.Client.ElementFactory.PermissionId*"></a>
   <h4 id="Innovator_Client_ElementFactory_PermissionId_System_Object___" data-uid="Innovator.Client.ElementFactory.PermissionId(System.Object[])">PermissionId(Object[])</h4>
@@ -3007,7 +3070,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Property_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Property(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L417">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L462">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Property_" data-uid="Innovator.Client.ElementFactory.Property*"></a>
   <h4 id="Innovator_Client_ElementFactory_Property_System_String_System_Object___" data-uid="Innovator.Client.ElementFactory.Property(System.String,System.Object[])">Property(String, Object[])</h4>
@@ -3059,13 +3122,13 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_QueryDate_DateTime_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.QueryDate(DateTime)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_QueryDate_System_DateTime_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.QueryDate(System.DateTime)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L422">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L467">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_QueryDate_" data-uid="Innovator.Client.ElementFactory.QueryDate*"></a>
-  <h4 id="Innovator_Client_ElementFactory_QueryDate_DateTime_" data-uid="Innovator.Client.ElementFactory.QueryDate(DateTime)">QueryDate(DateTime)</h4>
+  <h4 id="Innovator_Client_ElementFactory_QueryDate_System_DateTime_" data-uid="Innovator.Client.ElementFactory.QueryDate(System.DateTime)">QueryDate(DateTime)</h4>
   <div class="markdown level1 summary"><p>Create a new <code>queryDate</code> attribute</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -3084,7 +3147,7 @@ with the arguments specified.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">DateTime</span></td>
+        <td><span class="xref">System.DateTime</span></td>
         <td><span class="parametername">value</span></td>
         <td></td>
       </tr>
@@ -3110,7 +3173,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_QueryType_Innovator_Client_QueryType_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.QueryType(Innovator.Client.QueryType)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L427">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L472">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_QueryType_" data-uid="Innovator.Client.ElementFactory.QueryType*"></a>
   <h4 id="Innovator_Client_ElementFactory_QueryType_Innovator_Client_QueryType_" data-uid="Innovator.Client.ElementFactory.QueryType(Innovator.Client.QueryType)">QueryType(QueryType)</h4>
@@ -3158,7 +3221,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_RelatedExpand_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.RelatedExpand(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L432">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L477">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_RelatedExpand_" data-uid="Innovator.Client.ElementFactory.RelatedExpand*"></a>
   <h4 id="Innovator_Client_ElementFactory_RelatedExpand_System_Boolean_" data-uid="Innovator.Client.ElementFactory.RelatedExpand(System.Boolean)">RelatedExpand(Boolean)</h4>
@@ -3206,7 +3269,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_RelatedId_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.RelatedId(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L438">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L483">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_RelatedId_" data-uid="Innovator.Client.ElementFactory.RelatedId*"></a>
   <h4 id="Innovator_Client_ElementFactory_RelatedId_System_Object___" data-uid="Innovator.Client.ElementFactory.RelatedId(System.Object[])">RelatedId(Object[])</h4>
@@ -3255,7 +3318,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Relationships_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Relationships(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L443">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L488">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Relationships_" data-uid="Innovator.Client.ElementFactory.Relationships*"></a>
   <h4 id="Innovator_Client_ElementFactory_Relationships_System_Object___" data-uid="Innovator.Client.ElementFactory.Relationships(System.Object[])">Relationships(Object[])</h4>
@@ -3303,7 +3366,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Result_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Result(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L448">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L493">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Result_" data-uid="Innovator.Client.ElementFactory.Result*"></a>
   <h4 id="Innovator_Client_ElementFactory_Result_System_Object___" data-uid="Innovator.Client.ElementFactory.Result(System.Object[])">Result(Object[])</h4>
@@ -3351,7 +3414,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Select_Innovator_Client_SelectNode___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Select(Innovator.Client.SelectNode%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L482">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L527">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Select_" data-uid="Innovator.Client.ElementFactory.Select*"></a>
   <h4 id="Innovator_Client_ElementFactory_Select_Innovator_Client_SelectNode___" data-uid="Innovator.Client.ElementFactory.Select(Innovator.Client.SelectNode[])">Select(SelectNode[])</h4>
@@ -3399,7 +3462,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Select_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Select(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L477">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L522">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Select_" data-uid="Innovator.Client.ElementFactory.Select*"></a>
   <h4 id="Innovator_Client_ElementFactory_Select_System_String_" data-uid="Innovator.Client.ElementFactory.Select(System.String)">Select(String)</h4>
@@ -3447,7 +3510,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ServerEvents_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ServerEvents(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L487">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L532">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ServerEvents_" data-uid="Innovator.Client.ElementFactory.ServerEvents*"></a>
   <h4 id="Innovator_Client_ElementFactory_ServerEvents_System_Boolean_" data-uid="Innovator.Client.ElementFactory.ServerEvents(System.Boolean)">ServerEvents(Boolean)</h4>
@@ -3495,7 +3558,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ServerException_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ServerException(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L492">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L537">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ServerException_" data-uid="Innovator.Client.ElementFactory.ServerException*"></a>
   <h4 id="Innovator_Client_ElementFactory_ServerException_System_String_" data-uid="Innovator.Client.ElementFactory.ServerException(System.String)">ServerException(String)</h4>
@@ -3540,13 +3603,13 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ServerException_System_String_Exception_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ServerException(System.String%2CException)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ServerException_System_String_System_Exception_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ServerException(System.String%2CSystem.Exception)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L497">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L542">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ServerException_" data-uid="Innovator.Client.ElementFactory.ServerException*"></a>
-  <h4 id="Innovator_Client_ElementFactory_ServerException_System_String_Exception_" data-uid="Innovator.Client.ElementFactory.ServerException(System.String,Exception)">ServerException(String, Exception)</h4>
+  <h4 id="Innovator_Client_ElementFactory_ServerException_System_String_System_Exception_" data-uid="Innovator.Client.ElementFactory.ServerException(System.String,System.Exception)">ServerException(String, Exception)</h4>
   <div class="markdown level1 summary"><p>Create a new server exception</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -3570,7 +3633,7 @@ with the arguments specified.</p>
         <td></td>
       </tr>
       <tr>
-        <td><span class="xref">Exception</span></td>
+        <td><span class="xref">System.Exception</span></td>
         <td><span class="parametername">innerException</span></td>
         <td></td>
       </tr>
@@ -3596,7 +3659,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_SourceId_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.SourceId(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L509">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L554">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_SourceId_" data-uid="Innovator.Client.ElementFactory.SourceId*"></a>
   <h4 id="Innovator_Client_ElementFactory_SourceId_System_Object___" data-uid="Innovator.Client.ElementFactory.SourceId(System.Object[])">SourceId(Object[])</h4>
@@ -3645,7 +3708,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_State_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.State(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L503">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L548">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_State_" data-uid="Innovator.Client.ElementFactory.State*"></a>
   <h4 id="Innovator_Client_ElementFactory_State_System_Object___" data-uid="Innovator.Client.ElementFactory.State(System.Object[])">State(Object[])</h4>
@@ -3694,7 +3757,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_TeamId_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.TeamId(System.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L515">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L560">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_TeamId_" data-uid="Innovator.Client.ElementFactory.TeamId*"></a>
   <h4 id="Innovator_Client_ElementFactory_TeamId_System_Object___" data-uid="Innovator.Client.ElementFactory.TeamId(System.Object[])">TeamId(Object[])</h4>
@@ -3743,7 +3806,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Type_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Type(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L521">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L566">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Type_" data-uid="Innovator.Client.ElementFactory.Type*"></a>
   <h4 id="Innovator_Client_ElementFactory_Type_System_String_" data-uid="Innovator.Client.ElementFactory.Type(System.String)">Type(String)</h4>
@@ -3794,7 +3857,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_TypeId_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.TypeId(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L526">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L571">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_TypeId_" data-uid="Innovator.Client.ElementFactory.TypeId*"></a>
   <h4 id="Innovator_Client_ElementFactory_TypeId_System_String_" data-uid="Innovator.Client.ElementFactory.TypeId(System.String)">TypeId(String)</h4>
@@ -3839,144 +3902,10 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ValidationException_System_String_Exception_Innovator_Client_IReadOnlyItem_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ValidationException(System.String%2CException%2CInnovator.Client.IReadOnlyItem%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L560">View Source</a>
-  </span>
-  <a id="Innovator_Client_ElementFactory_ValidationException_" data-uid="Innovator.Client.ElementFactory.ValidationException*"></a>
-  <h4 id="Innovator_Client_ElementFactory_ValidationException_System_String_Exception_Innovator_Client_IReadOnlyItem_System_String_" data-uid="Innovator.Client.ElementFactory.ValidationException(System.String,Exception,Innovator.Client.IReadOnlyItem,System.String)">ValidationException(String, Exception, IReadOnlyItem, String)</h4>
-  <div class="markdown level1 summary"><p>Create a new validation exception</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ValidationReportException ValidationException(string message, Exception innerException, IReadOnlyItem item, string report)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">message</span></td>
-        <td><p>Exception message</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">Exception</span></td>
-        <td><span class="parametername">innerException</span></td>
-        <td><p>Inner exception</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></td>
-        <td><span class="parametername">item</span></td>
-        <td><p>Item being validated</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">report</span></td>
-        <td><p>HTML report to present to the user</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.ValidationReportException.html">ValidationReportException</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ValidationException_System_String_Exception_Innovator_Client_IReadOnlyItem_System_String___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ValidationException(System.String%2CException%2CInnovator.Client.IReadOnlyItem%2CSystem.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L543">View Source</a>
-  </span>
-  <a id="Innovator_Client_ElementFactory_ValidationException_" data-uid="Innovator.Client.ElementFactory.ValidationException*"></a>
-  <h4 id="Innovator_Client_ElementFactory_ValidationException_System_String_Exception_Innovator_Client_IReadOnlyItem_System_String___" data-uid="Innovator.Client.ElementFactory.ValidationException(System.String,Exception,Innovator.Client.IReadOnlyItem,System.String[])">ValidationException(String, Exception, IReadOnlyItem, String[])</h4>
-  <div class="markdown level1 summary"><p>Create a new validation exception</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ValidationException ValidationException(string message, Exception innerException, IReadOnlyItem item, params string[] properties)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">message</span></td>
-        <td><p>Exception message</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">Exception</span></td>
-        <td><span class="parametername">innerException</span></td>
-        <td><p>Inner exception</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></td>
-        <td><span class="parametername">item</span></td>
-        <td><p>Item being validated</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.String</span>[]</td>
-        <td><span class="parametername">properties</span></td>
-        <td><p>Properties with errors</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.ValidationException.html">ValidationException</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ValidationException_System_String_Innovator_Client_IReadOnlyItem_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ValidationException(System.String%2CInnovator.Client.IReadOnlyItem%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L551">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L596">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ValidationException_" data-uid="Innovator.Client.ElementFactory.ValidationException*"></a>
   <h4 id="Innovator_Client_ElementFactory_ValidationException_System_String_Innovator_Client_IReadOnlyItem_System_String_" data-uid="Innovator.Client.ElementFactory.ValidationException(System.String,Innovator.Client.IReadOnlyItem,System.String)">ValidationException(String, IReadOnlyItem, String)</h4>
@@ -4037,7 +3966,7 @@ with the arguments specified.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ValidationException_System_String_Innovator_Client_IReadOnlyItem_System_String___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ValidationException(System.String%2CInnovator.Client.IReadOnlyItem%2CSystem.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L534">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L579">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_ValidationException_" data-uid="Innovator.Client.ElementFactory.ValidationException*"></a>
   <h4 id="Innovator_Client_ElementFactory_ValidationException_System_String_Innovator_Client_IReadOnlyItem_System_String___" data-uid="Innovator.Client.ElementFactory.ValidationException(System.String,Innovator.Client.IReadOnlyItem,System.String[])">ValidationException(String, IReadOnlyItem, String[])</h4>
@@ -4095,10 +4024,144 @@ with the arguments specified.</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ValidationException_System_String_System_Exception_Innovator_Client_IReadOnlyItem_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ValidationException(System.String%2CSystem.Exception%2CInnovator.Client.IReadOnlyItem%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L605">View Source</a>
+  </span>
+  <a id="Innovator_Client_ElementFactory_ValidationException_" data-uid="Innovator.Client.ElementFactory.ValidationException*"></a>
+  <h4 id="Innovator_Client_ElementFactory_ValidationException_System_String_System_Exception_Innovator_Client_IReadOnlyItem_System_String_" data-uid="Innovator.Client.ElementFactory.ValidationException(System.String,System.Exception,Innovator.Client.IReadOnlyItem,System.String)">ValidationException(String, Exception, IReadOnlyItem, String)</h4>
+  <div class="markdown level1 summary"><p>Create a new validation exception</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValidationReportException ValidationException(string message, Exception innerException, IReadOnlyItem item, string report)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Exception message</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Exception</span></td>
+        <td><span class="parametername">innerException</span></td>
+        <td><p>Inner exception</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></td>
+        <td><span class="parametername">item</span></td>
+        <td><p>Item being validated</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">report</span></td>
+        <td><p>HTML report to present to the user</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ValidationReportException.html">ValidationReportException</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_ValidationException_System_String_System_Exception_Innovator_Client_IReadOnlyItem_System_String___.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.ValidationException(System.String%2CSystem.Exception%2CInnovator.Client.IReadOnlyItem%2CSystem.String%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L588">View Source</a>
+  </span>
+  <a id="Innovator_Client_ElementFactory_ValidationException_" data-uid="Innovator.Client.ElementFactory.ValidationException*"></a>
+  <h4 id="Innovator_Client_ElementFactory_ValidationException_System_String_System_Exception_Innovator_Client_IReadOnlyItem_System_String___" data-uid="Innovator.Client.ElementFactory.ValidationException(System.String,System.Exception,Innovator.Client.IReadOnlyItem,System.String[])">ValidationException(String, Exception, IReadOnlyItem, String[])</h4>
+  <div class="markdown level1 summary"><p>Create a new validation exception</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ValidationException ValidationException(string message, Exception innerException, IReadOnlyItem item, params string[] properties)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">message</span></td>
+        <td><p>Exception message</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Exception</span></td>
+        <td><span class="parametername">innerException</span></td>
+        <td><p>Inner exception</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a></td>
+        <td><span class="parametername">item</span></td>
+        <td><p>Item being validated</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span>[]</td>
+        <td><span class="parametername">properties</span></td>
+        <td><p>Properties with errors</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ValidationException.html">ValidationException</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory_Where_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory.Where(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L566">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L611">View Source</a>
   </span>
   <a id="Innovator_Client_ElementFactory_Where_" data-uid="Innovator.Client.ElementFactory.Where*"></a>
   <h4 id="Innovator_Client_ElementFactory_Where_System_String_" data-uid="Innovator.Client.ElementFactory.Where(System.String)">Where(String)</h4>
@@ -4155,7 +4218,7 @@ with the arguments specified.</p>
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ElementFactory.md&amp;value=---%0Auid%3A%20Innovator.Client.ElementFactory%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L25" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ElementFactory.cs/#L70" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

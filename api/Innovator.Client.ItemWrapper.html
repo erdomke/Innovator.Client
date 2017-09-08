@@ -80,11 +80,35 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ItemWrapper</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_ItemWrapper_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public abstract class ItemWrapper : object, IReadOnlyItem, IReadOnlyElement, IAmlNode, IItemRef</code></pre>
+    <pre><code class="lang-csharp hljs">public abstract class ItemWrapper : IReadOnlyItem, IReadOnlyElement, IAmlNode, IItemRef</code></pre>
   </div>
   <h3 id="constructors">Constructors
   </h3>
@@ -201,7 +225,9 @@ put in place to reduce unnecessary null reference checks</p>
   </span>
   <a id="Innovator_Client_ItemWrapper_Name_" data-uid="Innovator.Client.ItemWrapper.Name*"></a>
   <h4 id="Innovator_Client_ItemWrapper_Name" data-uid="Innovator.Client.ItemWrapper.Name">Name</h4>
-  <div class="markdown level1 summary"><p>Local XML name of the element</p>
+  <div class="markdown level1 summary"><p>Local XML name of the element (e.g. <code>Item</code>, <code>Relationships</code>, 
+<code>config_id</code>, etc.).  To access the property <code>&lt;name&gt;</code>, there will be a 
+method such as <a class="xref" href="Innovator.Client.Model.ItemType.html#Innovator_Client_Model_ItemType_NameProp">NameProp()</a></p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -219,7 +245,8 @@ put in place to reduce unnecessary null reference checks</p>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The XML name of the element</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -370,8 +397,8 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyAttribute.html">IReadOnlyAttribute</a>&gt;</td>
-        <td><p>An <see cref="!:IEnumerable&lt;IReadOnlyAttribute>"></see> containing all of the defined attributes</p>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyAttribute.html">IReadOnlyAttribute</a>&gt;</td>
+        <td><p>An <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span> containing all of the defined attributes</p>
 </td>
       </tr>
     </tbody>
@@ -438,7 +465,7 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -612,8 +639,8 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
-        <td><p>An <see cref="!:IEnumerable&lt;IReadOnlyItem>"></see> containing all relationship items</p>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td><p>An <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span> containing all relationship items</p>
 </td>
       </tr>
     </tbody>
@@ -664,8 +691,8 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
-        <td><p>An <see cref="!:IEnumerable&lt;IReadOnlyItem>"></see> containing relationship items whose type name is equal to <code data-dev-comment-type="paramref" class="paramref">type</code></p>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td><p>An <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span> containing relationship items whose type name is equal to <code data-dev-comment-type="paramref" class="paramref">type</code></p>
 </td>
       </tr>
     </tbody>
@@ -704,14 +731,14 @@ put in place to reduce unnecessary null reference checks</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemWrapper_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemWrapper.ToAml(XmlWriter%2CInnovator.Client.AmlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemWrapper_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemWrapper.ToAml(System.Xml.XmlWriter%2CInnovator.Client.AmlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ItemWrapper.cs/#L114">View Source</a>
   </span>
   <a id="Innovator_Client_ItemWrapper_ToAml_" data-uid="Innovator.Client.ItemWrapper.ToAml*"></a>
-  <h4 id="Innovator_Client_ItemWrapper_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_" data-uid="Innovator.Client.ItemWrapper.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)">ToAml(XmlWriter, AmlWriterSettings)</h4>
-  <div class="markdown level1 summary"><p>Write the node to the specified <see cref="!:XmlWriter"></see> as AML</p>
+  <h4 id="Innovator_Client_ItemWrapper_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_" data-uid="Innovator.Client.ItemWrapper.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)">ToAml(XmlWriter, AmlWriterSettings)</h4>
+  <div class="markdown level1 summary"><p>Write the node to the specified <span class="xref">System.Xml.XmlWriter</span> as AML</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -729,9 +756,9 @@ put in place to reduce unnecessary null reference checks</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlWriter</span></td>
+        <td><span class="xref">System.Xml.XmlWriter</span></td>
         <td><span class="parametername">writer</span></td>
-        <td><p><see cref="!:XmlWriter"></see> to write the node to</p>
+        <td><p><span class="xref">System.Xml.XmlWriter</span> to write the node to</p>
 </td>
       </tr>
       <tr>
@@ -743,7 +770,7 @@ put in place to reduce unnecessary null reference checks</p>
     </tbody>
   </table>
   <h5 class="implements">Implements</h5>
-      <div><a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a></div>
+      <div><a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ItemWrapper_TypeName.md&amp;value=---%0Auid%3A%20Innovator.Client.ItemWrapper.TypeName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -777,6 +804,193 @@ put in place to reduce unnecessary null reference checks</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IItemRef.html#Innovator_Client_IItemRef_TypeName">IItemRef.TypeName()</a></div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Action_Innovator_Client_IReadOnlyItem_">Core.Action(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_DoGetItem_Innovator_Client_IReadOnlyItem_">Core.DoGetItem(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_IdList_Innovator_Client_IReadOnlyItem_">Core.IdList(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_MaxRecords_Innovator_Client_IReadOnlyItem_">Core.MaxRecords(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_OrderBy_Innovator_Client_IReadOnlyItem_">Core.OrderBy(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Page_Innovator_Client_IReadOnlyItem_">Core.Page(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_PageSize_Innovator_Client_IReadOnlyItem_">Core.PageSize(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_QueryDate_Innovator_Client_IReadOnlyItem_">Core.QueryDate(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_QueryType_Innovator_Client_IReadOnlyItem_">Core.QueryType(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_RelatedExpand_Innovator_Client_IReadOnlyItem_">Core.RelatedExpand(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Select_Innovator_Client_IReadOnlyItem_">Core.Select(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_ServerEvents_Innovator_Client_IReadOnlyItem_">Core.ServerEvents(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Type_Innovator_Client_IReadOnlyItem_">Core.Type(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_TypeId_Innovator_Client_IReadOnlyItem_">Core.TypeId(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Where_Innovator_Client_IReadOnlyItem_">Core.Where(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Classification_Innovator_Client_IReadOnlyItem_">Core.Classification(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_ConfigId_Innovator_Client_IReadOnlyItem_">Core.ConfigId(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_CreatedById_Innovator_Client_IReadOnlyItem_">Core.CreatedById(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_CreatedOn_Innovator_Client_IReadOnlyItem_">Core.CreatedOn(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Css_Innovator_Client_IReadOnlyItem_">Core.Css(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_CurrentState_Innovator_Client_IReadOnlyItem_">Core.CurrentState(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Generation_Innovator_Client_IReadOnlyItem_">Core.Generation(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_IdProp_Innovator_Client_IReadOnlyItem_">Core.IdProp(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_IsCurrent_Innovator_Client_IReadOnlyItem_">Core.IsCurrent(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_IsReleased_Innovator_Client_IReadOnlyItem_">Core.IsReleased(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_KeyedName_Innovator_Client_IReadOnlyItem_">Core.KeyedName(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_LockedById_Innovator_Client_IReadOnlyItem_">Core.LockedById(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_MajorRev_Innovator_Client_IReadOnlyItem_">Core.MajorRev(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_ManagedById_Innovator_Client_IReadOnlyItem_">Core.ManagedById(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_MinorRev_Innovator_Client_IReadOnlyItem_">Core.MinorRev(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_ModifiedById_Innovator_Client_IReadOnlyItem_">Core.ModifiedById(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_ModifiedOn_Innovator_Client_IReadOnlyItem_">Core.ModifiedOn(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_NewVersion_Innovator_Client_IReadOnlyItem_">Core.NewVersion(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_NotLockable_Innovator_Client_IReadOnlyItem_">Core.NotLockable(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_OwnedById_Innovator_Client_IReadOnlyItem_">Core.OwnedById(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_PermissionId_Innovator_Client_IReadOnlyItem_">Core.PermissionId(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_RelatedId_Innovator_Client_IReadOnlyItem_">Core.RelatedId(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_RelatedItem_Innovator_Client_IReadOnlyItem_">Core.RelatedItem(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_State_Innovator_Client_IReadOnlyItem_">Core.State(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_SourceId_Innovator_Client_IReadOnlyItem_">Core.SourceId(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_SourceItem_Innovator_Client_IReadOnlyItem_">Core.SourceItem(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_TeamId_Innovator_Client_IReadOnlyItem_">Core.TeamId(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_AsResult_Innovator_Client_IReadOnlyItem_">ItemExtensions.AsResult(IReadOnlyItem)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Apply_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_">ItemExtensions.Apply(IReadOnlyItem, IConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_System_Threading_CancellationToken_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection, CancellationToken)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ClassStartsWith_Innovator_Client_IReadOnlyItem_System_String___">ItemExtensions.ClassStartsWith(IReadOnlyItem, String[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Edit_Innovator_Client_IItemRef_Innovator_Client_IConnection_System_Object___">ItemExtensions.Edit(IItemRef, IConnection, Object[])</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FetchLockStatus_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.FetchLockStatus(IItemRef, IConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Element_Innovator_Client_IReadOnlyElement_System_String_">ItemExtensions.Element(IReadOnlyElement, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Lock_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.Lock(IItemRef, IConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LockStatus_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_">ItemExtensions.LockStatus(IReadOnlyItem, IConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Promote_Innovator_Client_IItemRef_Innovator_Client_IConnection_System_String_System_String_">ItemExtensions.Promote(IItemRef, IConnection, String, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToXml_Innovator_Client_IAmlNode_">ItemExtensions.ToXml(IAmlNode)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Unlock_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.Unlock(IItemRef, IConnection)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_System_Func_Innovator_Client_IReadOnlyItem___0__">ItemExtensions.LazyMap&lt;T&gt;(IReadOnlyItem, IConnection, Func&lt;IReadOnlyItem, T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_CreateReader_Innovator_Client_IReadOnlyElement_">ItemExtensions.CreateReader(IReadOnlyElement)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Parents_Innovator_Client_IReadOnlyElement_">ItemExtensions.Parents(IReadOnlyElement)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ParentsAndSelf_Innovator_Client_IReadOnlyElement_">ItemExtensions.ParentsAndSelf(IReadOnlyElement)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_InnerText_Innovator_Client_IReadOnlyElement_">ItemExtensions.InnerText(IReadOnlyElement)</a>
+  </div>
 </article>
           </div>
           

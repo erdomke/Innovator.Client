@@ -80,11 +80,35 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">ConnectionExtensions</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_ConnectionExtensions_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class ConnectionExtensions : object</code></pre>
+    <pre><code class="lang-csharp hljs">public static class ConnectionExtensions</code></pre>
   </div>
   <h3 id="methods">Methods
   </h3>
@@ -158,74 +182,6 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
 <state>Preliminary</state>
 </item>&quot;, classification, DateTime.Now.AddMinutes(-20)).Items();</code></pre>
 
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_CancellationToken_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection%2CInnovator.Client.Command%2CCancellationToken%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionExtensions.cs/#L64">View Source</a>
-  </span>
-  <a id="Innovator_Client_ConnectionExtensions_ApplyAsync_" data-uid="Innovator.Client.ConnectionExtensions.ApplyAsync*"></a>
-  <h4 id="Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_CancellationToken_System_Object___" data-uid="Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,CancellationToken,System.Object[])">ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])</h4>
-  <div class="markdown level1 summary"><p>Get the result of executing the specified AML query</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IPromise&lt;IReadOnlyResult&gt; ApplyAsync(this IAsyncConnection conn, Command query, CancellationToken ct, params object[] parameters)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.IAsyncConnection.html">IAsyncConnection</a></td>
-        <td><span class="parametername">conn</span></td>
-        <td><p>Connection to execute the query on</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td><span class="parametername">query</span></td>
-        <td><p>Query to be performed.  If parameters are specified, they will be substituted into the query</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">CancellationToken</span></td>
-        <td><span class="parametername">ct</span></td>
-        <td><p>A <see cref="!:CancellationToken"></see> used to cancel the asynchronous operation</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">System.Object</span>[]</td>
-        <td><span class="parametername">parameters</span></td>
-        <td><p>Parameters to be injected into the query</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.IReadOnlyResult.html">IReadOnlyResult</a>&gt;</td>
-        <td><p>A read-only result</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_System_Boolean_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection%2CInnovator.Client.Command%2CSystem.Boolean%2CSystem.Boolean%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -302,19 +258,19 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_CancellationToken_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection%2CInnovator.Client.Command%2CCancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection%2CInnovator.Client.Command%2CSystem.Threading.CancellationToken%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionExtensions.cs/#L141">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionExtensions.cs/#L64">View Source</a>
   </span>
-  <a id="Innovator_Client_ConnectionExtensions_ApplySql_" data-uid="Innovator.Client.ConnectionExtensions.ApplySql*"></a>
-  <h4 id="Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_CancellationToken_" data-uid="Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,CancellationToken)">ApplySql(IAsyncConnection, Command, CancellationToken)</h4>
-  <div class="markdown level1 summary"><p>Get the result of executing the specified SQL query</p>
+  <a id="Innovator_Client_ConnectionExtensions_ApplyAsync_" data-uid="Innovator.Client.ConnectionExtensions.ApplyAsync*"></a>
+  <h4 id="Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_System_Object___" data-uid="Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Threading.CancellationToken,System.Object[])">ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])</h4>
+  <div class="markdown level1 summary"><p>Get the result of executing the specified AML query</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static IPromise&lt;IReadOnlyResult&gt; ApplySql(this IAsyncConnection conn, Command sql, CancellationToken ct)</code></pre>
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;IReadOnlyResult&gt; ApplyAsync(this IAsyncConnection conn, Command query, CancellationToken ct, params object[] parameters)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -334,14 +290,20 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
       </tr>
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td><span class="parametername">sql</span></td>
-        <td><p>SQL query to be performed.  If parameters are specified, they will be substituted into the query</p>
+        <td><span class="parametername">query</span></td>
+        <td><p>Query to be performed.  If parameters are specified, they will be substituted into the query</p>
 </td>
       </tr>
       <tr>
-        <td><span class="xref">CancellationToken</span></td>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
         <td><span class="parametername">ct</span></td>
-        <td><p>A <see cref="!:CancellationToken"></see> used to cancel the asynchronous operation</p>
+        <td><p>A <span class="xref">System.Threading.CancellationToken</span> used to cancel the asynchronous operation</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span>[]</td>
+        <td><span class="parametername">parameters</span></td>
+        <td><p>Parameters to be injected into the query</p>
 </td>
       </tr>
     </tbody>
@@ -404,6 +366,68 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
         <td><span class="xref">System.Boolean</span></td>
         <td><span class="parametername">async</span></td>
         <td><p>Whether to perform the query asynchronously</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IPromise-1.html">IPromise</a>&lt;<a class="xref" href="Innovator.Client.IReadOnlyResult.html">IReadOnlyResult</a>&gt;</td>
+        <td><p>A read-only result</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection%2CInnovator.Client.Command%2CSystem.Threading.CancellationToken)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionExtensions.cs/#L141">View Source</a>
+  </span>
+  <a id="Innovator_Client_ConnectionExtensions_ApplySql_" data-uid="Innovator.Client.ConnectionExtensions.ApplySql*"></a>
+  <h4 id="Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_" data-uid="Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Threading.CancellationToken)">ApplySql(IAsyncConnection, Command, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>Get the result of executing the specified SQL query</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IPromise&lt;IReadOnlyResult&gt; ApplySql(this IAsyncConnection conn, Command sql, CancellationToken ct)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.IAsyncConnection.html">IAsyncConnection</a></td>
+        <td><span class="parametername">conn</span></td>
+        <td><p>Connection to execute the query on</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
+        <td><span class="parametername">sql</span></td>
+        <td><p>SQL query to be performed.  If parameters are specified, they will be substituted into the query</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Threading.CancellationToken</span></td>
+        <td><span class="parametername">ct</span></td>
+        <td><p>A <span class="xref">System.Threading.CancellationToken</span> used to cancel the asynchronous operation</p>
 </td>
       </tr>
     </tbody>
@@ -547,15 +571,35 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
       </tr>
     </tbody>
   </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">itemTypeName</code> is not specified</p>
+<ul>
+<li>or -
+<code data-dev-comment-type="paramref" class="paramref">id</code> is not specified</li>
+</ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_Func_Innovator_Client_IReadOnlyItem___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ItemById%60%601(Innovator.Client.IConnection%2CSystem.String%2CSystem.String%2CFunc%7BInnovator.Client.IReadOnlyItem%2C%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.ItemById%60%601(Innovator.Client.IConnection%2CSystem.String%2CSystem.String%2CSystem.Func%7BInnovator.Client.IReadOnlyItem%2C%60%600%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Connection/ConnectionExtensions.cs/#L191">View Source</a>
   </span>
   <a id="Innovator_Client_ConnectionExtensions_ItemById_" data-uid="Innovator.Client.ConnectionExtensions.ItemById*"></a>
-  <h4 id="Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_Func_Innovator_Client_IReadOnlyItem___0__" data-uid="Innovator.Client.ConnectionExtensions.ItemById``1(Innovator.Client.IConnection,System.String,System.String,Func{Innovator.Client.IReadOnlyItem,``0})">ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</h4>
+  <h4 id="Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__" data-uid="Innovator.Client.ConnectionExtensions.ItemById``1(Innovator.Client.IConnection,System.String,System.String,System.Func{Innovator.Client.IReadOnlyItem,``0})">ItemById&lt;T&gt;(IConnection, String, String, Func&lt;IReadOnlyItem, T&gt;)</h4>
   <div class="markdown level1 summary"><p>Retrieve an item based on its type and ID and map it to an object</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -592,7 +636,7 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
 </td>
       </tr>
       <tr>
-        <td><span class="xref">Func</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>, T&gt;</td>
+        <td><span class="xref">System.Func</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>, T&gt;</td>
         <td><span class="parametername">mapper</span></td>
         <td><p>Mapping function used to get an object from the item data</p>
 </td>
@@ -926,6 +970,22 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
       </tr>
     </tbody>
   </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>Sequence name must be specified - sequenceName</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ConnectionExtensions_Promote_Innovator_Client_IConnection_System_String_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.ConnectionExtensions.Promote(Innovator.Client.IConnection%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -996,6 +1056,22 @@ var components = conn.Apply(@&quot;<item type="Part" action="get">
       <tr>
         <td><a class="xref" href="Innovator.Client.IReadOnlyResult.html">IReadOnlyResult</a></td>
         <td><p>The result returned by the server</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentException</span></td>
+        <td><p>State must be a non-empty string to run a promotion. - newState</p>
 </td>
       </tr>
     </tbody>

@@ -102,7 +102,7 @@
       <a class="xref" href="Innovator.Client.IReadOnlyElement.html#Innovator_Client_IReadOnlyElement_Value">IReadOnlyElement.Value</a>
     </div>
     <div>
-      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
+      <a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
@@ -137,7 +137,7 @@
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_" data-uid="Innovator.Client.IReadOnlyProperty_Item`1.AsGuid*"></a>
   <h4 id="Innovator_Client_IReadOnlyProperty_Item_1_AsGuid" data-uid="Innovator.Client.IReadOnlyProperty_Item`1.AsGuid">AsGuid()</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:Nullable&lt;Guid>"></see>.
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Nullable&lt;T&gt;</span>.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -155,22 +155,38 @@ If the value cannot be converted, an exception is thrown</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">Guid</span>&gt;</td>
-        <td><p>A <see cref="!:Guid"></see> or <code>null</code> if the value is empty</p>
+        <td><span class="xref">System.Nullable</span>&lt;<span class="xref">System.Guid</span>&gt;</td>
+        <td><p>A <span class="xref">System.Guid</span> or <code>null</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Guid</span></p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_Guid_.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyProperty_Item%601.AsGuid(Guid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_System_Guid_.md&amp;value=---%0Auid%3A%20Innovator.Client.IReadOnlyProperty_Item%601.AsGuid(System.Guid)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/IProperty.cs/#L132">View Source</a>
   </span>
   <a id="Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_" data-uid="Innovator.Client.IReadOnlyProperty_Item`1.AsGuid*"></a>
-  <h4 id="Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_Guid_" data-uid="Innovator.Client.IReadOnlyProperty_Item`1.AsGuid(Guid)">AsGuid(Guid)</h4>
-  <div class="markdown level1 summary"><p>Value converted to a <see cref="!:Guid"></see> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
+  <h4 id="Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_System_Guid_" data-uid="Innovator.Client.IReadOnlyProperty_Item`1.AsGuid(System.Guid)">AsGuid(Guid)</h4>
+  <div class="markdown level1 summary"><p>Value converted to a <span class="xref">System.Guid</span> using the <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if null.
 If the value cannot be converted, an exception is thrown</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -189,7 +205,7 @@ If the value cannot be converted, an exception is thrown</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Guid</span></td>
+        <td><span class="xref">System.Guid</span></td>
         <td><span class="parametername">defaultValue</span></td>
         <td><p>The default value to return if the value is empty</p>
 </td>
@@ -206,8 +222,24 @@ If the value cannot be converted, an exception is thrown</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Guid</span></td>
-        <td><p>A <see cref="!:Guid"></see> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+        <td><span class="xref">System.Guid</span></td>
+        <td><p>A <span class="xref">System.Guid</span> or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the value is empty</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidCastException</span></td>
+        <td><p>If the non-empty value cannot be converted to a <span class="xref">System.Guid</span></p>
 </td>
       </tr>
     </tbody>
@@ -277,7 +309,7 @@ var creator = item.CreatedById().AsItem();</code></pre>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Element_Innovator_Client_IReadOnlyElement_System_String_">ItemExtensions.Element(IReadOnlyElement, String)</a>

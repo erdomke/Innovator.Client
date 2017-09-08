@@ -75,6 +75,27 @@
   <div class="markdown level0 summary"><p>A relative date specified by a magnitude and offset</p>
 </div>
   <div class="markdown level0 conceptual"></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.ValueType.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.ValueType.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.ValueType.ToString()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_DateOffset_syntax">Syntax</h5>
@@ -151,8 +172,8 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">DayOfWeek</span></td>
-        <td><p>The first day of week.  Defaults to <see cref="!:DayOfWeek.Sunday"></see></p>
+        <td><span class="xref">System.DayOfWeek</span></td>
+        <td><p>The first day of week.  Defaults to <span class="xref">System.DayOfWeek.Sunday</span></p>
 </td>
       </tr>
     </tbody>
@@ -223,13 +244,13 @@
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_DateOffset_AsDate_DateTimeOffset_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.DateOffset.AsDate(DateTimeOffset%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_DateOffset_AsDate_System_DateTimeOffset_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.DateOffset.AsDate(System.DateTimeOffset%2CSystem.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/DateOffset.cs/#L51">View Source</a>
   </span>
   <a id="Innovator_Client_DateOffset_AsDate_" data-uid="Innovator.Client.DateOffset.AsDate*"></a>
-  <h4 id="Innovator_Client_DateOffset_AsDate_DateTimeOffset_System_Boolean_" data-uid="Innovator.Client.DateOffset.AsDate(DateTimeOffset,System.Boolean)">AsDate(DateTimeOffset, Boolean)</h4>
+  <h4 id="Innovator_Client_DateOffset_AsDate_System_DateTimeOffset_System_Boolean_" data-uid="Innovator.Client.DateOffset.AsDate(System.DateTimeOffset,System.Boolean)">AsDate(DateTimeOffset, Boolean)</h4>
   <div class="markdown level1 summary"><p>Convert the date offset to an actual date relative to today</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -248,7 +269,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">DateTimeOffset</span></td>
+        <td><span class="xref">System.DateTimeOffset</span></td>
         <td><span class="parametername">todaysDate</span></td>
         <td><p>This should be expressed in the local timezone</p>
 </td>
@@ -271,7 +292,7 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">DateTime</span></td>
+        <td><span class="xref">System.DateTime</span></td>
         <td></td>
       </tr>
     </tbody>
@@ -326,6 +347,8 @@
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IComparable&lt;T&gt;.CompareTo(T)</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_DateOffset_CompareTo_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.DateOffset.CompareTo(System.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -372,6 +395,24 @@
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><p>A value that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance precedes <code data-dev-comment-type="paramref" class="paramref">obj</code> in the sort order. Zero This instance occurs in the same position in the sort order as <code data-dev-comment-type="paramref" class="paramref">obj</code>. Greater than zero This instance follows <code data-dev-comment-type="paramref" class="paramref">obj</code> in the sort order.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.IComparable.CompareTo(System.Object)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.NotSupportedException</span></td>
+        <td><p>If <code data-dev-comment-type="paramref" class="paramref">obj</code> is not of type <a class="xref" href="Innovator.Client.DateOffset.html">DateOffset</a></p>
 </td>
       </tr>
     </tbody>

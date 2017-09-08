@@ -81,11 +81,32 @@
     <div class="level0"><span class="xref">System.Object</span></div>
     <div class="level1"><span class="xref">Item</span></div>
   </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.IOM.html">Innovator.Client.IOM</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_IOM_Item_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Item : IEnumerable&lt;Item&gt;, IReadOnlyResult, IItem, IElement, IReadOnlyItem, IReadOnlyElement, IAmlNode, IItemRef</code></pre>
+    <pre><code class="lang-csharp hljs">public class Item : IReadOnlyResult, IItem, IElement, IReadOnlyItem, IReadOnlyElement, IAmlNode, IItemRef, IEnumerable&lt;Item&gt;, IEnumerable</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
@@ -354,7 +375,7 @@ put in place to reduce unnecessary null reference checks</p>
       <tr>
         <td><span class="xref">System.Object</span></td>
         <td><span class="parametername">content</span></td>
-        <td><p><a class="xref" href="Innovator.Client.IElement.html">IElement</a>, <a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a>, or <see cref="!:System.Object"></see> to add as a child of the element</p>
+        <td><p><a class="xref" href="Innovator.Client.IElement.html">IElement</a>, <a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a>, or <span class="xref">System.Object</span> to add as a child of the element</p>
 </td>
       </tr>
     </tbody>
@@ -450,7 +471,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_apply.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.apply%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L36">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L37">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_apply_" data-uid="Innovator.Client.IOM.Item.apply*"></a>
   <h4 id="Innovator_Client_IOM_Item_apply" data-uid="Innovator.Client.IOM.Item.apply">apply()</h4>
@@ -472,7 +493,8 @@ put in place to reduce unnecessary null reference checks</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>An <a class="xref" href="Innovator.Client.IOM.Item.html">Item</a> containing result of the AML call</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -481,7 +503,7 @@ put in place to reduce unnecessary null reference checks</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_apply_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.apply(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L45">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L47">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_apply_" data-uid="Innovator.Client.IOM.Item.apply*"></a>
   <h4 id="Innovator_Client_IOM_Item_apply_System_String_" data-uid="Innovator.Client.IOM.Item.apply(System.String)">apply(String)</h4>
@@ -521,7 +543,8 @@ put in place to reduce unnecessary null reference checks</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>An <a class="xref" href="Innovator.Client.IOM.Item.html">Item</a> containing result of the AML call</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -578,6 +601,21 @@ exception (e.g. the exception returned by the server where possible)</p>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IReadOnlyResult.html#Innovator_Client_IReadOnlyResult_AssertItem_System_String_">IReadOnlyResult.AssertItem(String)</a></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_AssertItems.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.AssertItems%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -604,7 +642,7 @@ exception (e.g. the exception returned by the server where possible)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -722,7 +760,7 @@ exception (e.g. the exception returned by the server where possible)</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IAttribute.html">IAttribute</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -768,7 +806,7 @@ exception (e.g. the exception returned by the server where possible)</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_clone_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.clone(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L80">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L82">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_clone_" data-uid="Innovator.Client.IOM.Item.clone*"></a>
   <h4 id="Innovator_Client_IOM_Item_clone_System_Boolean_" data-uid="Innovator.Client.IOM.Item.clone(System.Boolean)">clone(Boolean)</h4>
@@ -823,7 +861,7 @@ action attributes set to &apos;add&apos;.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_createPropertyItem_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.createPropertyItem(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L122">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L124">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_createPropertyItem_" data-uid="Innovator.Client.IOM.Item.createPropertyItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_createPropertyItem_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.createPropertyItem(System.String,System.String,System.String)">createPropertyItem(String, String, String)</h4>
@@ -893,7 +931,7 @@ argument and doesn&apos;t create it internally.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_createRelatedItem_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.createRelatedItem(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L144">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L147">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_createRelatedItem_" data-uid="Innovator.Client.IOM.Item.createRelatedItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_createRelatedItem_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.createRelatedItem(System.String,System.String)">createRelatedItem(String, String)</h4>
@@ -957,7 +995,7 @@ method argument and doesn&apos;t create it internally.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_createRelationship_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.createRelationship(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L159">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L162">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_createRelationship_" data-uid="Innovator.Client.IOM.Item.createRelationship*"></a>
   <h4 id="Innovator_Client_IOM_Item_createRelationship_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.createRelationship(System.String,System.String)">createRelationship(String, String)</h4>
@@ -1040,7 +1078,7 @@ the created <code>&lt;Item&gt;</code> node.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IElement.html">IElement</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IElement.html">IElement</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -1052,7 +1090,7 @@ the created <code>&lt;Item&gt;</code> node.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_fetchDefaultPropertyValues_System_Boolean_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.fetchDefaultPropertyValues(System.Boolean)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L178">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L182">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_fetchDefaultPropertyValues_" data-uid="Innovator.Client.IOM.Item.fetchDefaultPropertyValues*"></a>
   <h4 id="Innovator_Client_IOM_Item_fetchDefaultPropertyValues_System_Boolean_" data-uid="Innovator.Client.IOM.Item.fetchDefaultPropertyValues(System.Boolean)">fetchDefaultPropertyValues(Boolean)</h4>
@@ -1108,7 +1146,7 @@ about the failure. Otherwise, returns this with set property values.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_fetchLockStatus.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.fetchLockStatus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L214">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L218">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_fetchLockStatus_" data-uid="Innovator.Client.IOM.Item.fetchLockStatus*"></a>
   <h4 id="Innovator_Client_IOM_Item_fetchLockStatus" data-uid="Innovator.Client.IOM.Item.fetchLockStatus">fetchLockStatus()</h4>
@@ -1145,11 +1183,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_fetchRelationships_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.fetchRelationships(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L219">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L229">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_fetchRelationships_" data-uid="Innovator.Client.IOM.Item.fetchRelationships*"></a>
   <h4 id="Innovator_Client_IOM_Item_fetchRelationships_System_String_" data-uid="Innovator.Client.IOM.Item.fetchRelationships(System.String)">fetchRelationships(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Fetches relationships of specified type from the server and sets them on the item.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1168,7 +1207,8 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">relationshipTypeName</span></td>
-        <td></td>
+        <td><p>Name of the relationship type.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1183,7 +1223,24 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>It returns this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If an error was returned from the server</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1192,11 +1249,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_fetchRelationships_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.fetchRelationships(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L224">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L241">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_fetchRelationships_" data-uid="Innovator.Client.IOM.Item.fetchRelationships*"></a>
   <h4 id="Innovator_Client_IOM_Item_fetchRelationships_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.fetchRelationships(System.String,System.String)">fetchRelationships(String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Fetches relationships of specified type from the server and sets them on the item.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1215,12 +1273,14 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">relationshipTypeName</span></td>
-        <td></td>
+        <td><p>Name of the relationship type.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">selectList</span></td>
-        <td></td>
+        <td><p>Select list that is set on attribute <code>select</code> of the request</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1235,7 +1295,24 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>It returns this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If an error was returned from the server</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1244,11 +1321,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_fetchRelationships_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.fetchRelationships(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L229">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L254">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_fetchRelationships_" data-uid="Innovator.Client.IOM.Item.fetchRelationships*"></a>
   <h4 id="Innovator_Client_IOM_Item_fetchRelationships_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.fetchRelationships(System.String,System.String,System.String)">fetchRelationships(String, String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Fetches relationships of specified type from the server and sets them on the item.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1267,17 +1345,20 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">relationshipTypeName</span></td>
-        <td></td>
+        <td><p>Name of the relationship type.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">selectList</span></td>
-        <td></td>
+        <td><p>Select list that is set on attribute <code>select</code> of the request</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">orderBy</span></td>
-        <td></td>
+        <td><p>The value is set on attribute <code>orderBy</code> of the request</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1292,7 +1373,24 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>It returns this.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></td>
+        <td><p>If an error was returned from the server</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1301,11 +1399,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getAction.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getAction%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L254">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L284">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getAction_" data-uid="Innovator.Client.IOM.Item.getAction*"></a>
   <h4 id="Innovator_Client_IOM_Item_getAction" data-uid="Innovator.Client.IOM.Item.getAction">getAction()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the <code>action</code> attribute from the Item node.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1322,7 +1421,9 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>Value of the <code>action</code> attribute if the attribute exists, <code>null</code> 
+otherwise</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1331,11 +1432,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getAttribute_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getAttribute(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L259">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L294">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getAttribute_" data-uid="Innovator.Client.IOM.Item.getAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_getAttribute_System_String_" data-uid="Innovator.Client.IOM.Item.getAttribute(System.String)">getAttribute(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns value of the attribute with the specified name on the item&apos;s node.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1354,7 +1456,8 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">attributeName</span></td>
-        <td></td>
+        <td><p>The qualified name of the attribute.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1369,7 +1472,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>Attribute value or <code>null</code> if the attribute doesn&apos;t exist</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1378,11 +1482,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getAttribute_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getAttribute(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L264">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L306">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getAttribute_" data-uid="Innovator.Client.IOM.Item.getAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_getAttribute_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getAttribute(System.String,System.String)">getAttribute(String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns value of the attribute with the specified name on the item&apos;s node.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1401,12 +1506,14 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">attributeName</span></td>
-        <td></td>
+        <td><p>The qualified name of the attribute.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">defaultValue</span></td>
-        <td></td>
+        <td><p>Default value of the attribute.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1421,7 +1528,9 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>Attribute value or <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> if the attribute doesn&apos;t 
+exist</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1430,7 +1539,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_GetEnumerator.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L637">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L778">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_GetEnumerator_" data-uid="Innovator.Client.IOM.Item.GetEnumerator*"></a>
   <h4 id="Innovator_Client_IOM_Item_GetEnumerator" data-uid="Innovator.Client.IOM.Item.GetEnumerator">GetEnumerator()</h4>
@@ -1451,22 +1560,25 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerator</span>&lt;<a class="xref" href="Innovator.Client.IOM.Item.html">Item</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerator</span>&lt;<a class="xref" href="Innovator.Client.IOM.Item.html">Item</a>&gt;</td>
         <td><p>An enumerator that can be used to iterate through the items in the collection.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;.GetEnumerator()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getErrorCode.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getErrorCode%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L269">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L316">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getErrorCode_" data-uid="Innovator.Client.IOM.Item.getErrorCode*"></a>
   <h4 id="Innovator_Client_IOM_Item_getErrorCode" data-uid="Innovator.Client.IOM.Item.getErrorCode">getErrorCode()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the error code of the &quot;error&quot; item.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1483,7 +1595,9 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>Value of <code>&lt;faultcode&gt;</code>. If the item is not an &quot;error&quot; item, <code>null</code>
+is returned.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1492,11 +1606,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getErrorDetail.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getErrorDetail%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L275">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L328">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getErrorDetail_" data-uid="Innovator.Client.IOM.Item.getErrorDetail*"></a>
   <h4 id="Innovator_Client_IOM_Item_getErrorDetail" data-uid="Innovator.Client.IOM.Item.getErrorDetail">getErrorDetail()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns details of the error item.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1513,20 +1628,26 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>If the instance is not an error item, <code>null</code> is returned.</p>
+</td>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_IOM_Item_getErrorDetail_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>In most cases error details contains a low level error details (e.g. actual SQL 
+error message) obtained from server.</p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getErrorSource.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getErrorSource%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L283">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L340">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getErrorSource_" data-uid="Innovator.Client.IOM.Item.getErrorSource*"></a>
   <h4 id="Innovator_Client_IOM_Item_getErrorSource" data-uid="Innovator.Client.IOM.Item.getErrorSource">getErrorSource()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the content of the <code>&lt;faultactor&gt;</code> element of SOAP Fault element.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1543,7 +1664,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>If the instance is not an error item, <code>null</code> is returned.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1552,11 +1674,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getErrorString.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getErrorString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L291">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L353">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getErrorString_" data-uid="Innovator.Client.IOM.Item.getErrorString*"></a>
   <h4 id="Innovator_Client_IOM_Item_getErrorString" data-uid="Innovator.Client.IOM.Item.getErrorString">getErrorString()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the error message.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1573,7 +1696,9 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>The returned value is obtained from the <code>&lt;faultstring&gt;</code> tag of 
+<code>&lt;Fault&gt;</code>. If the instance is not an error item, <code>null</code> is returned.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1582,11 +1707,14 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getID.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getID%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L296">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L364">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getID_" data-uid="Innovator.Client.IOM.Item.getID*"></a>
   <h4 id="Innovator_Client_IOM_Item_getID" data-uid="Innovator.Client.IOM.Item.getID">getID()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns ID of the Item node. According to AML standard ID could be set on 
+<code>&lt;Item&gt;</code> either as the attribute with name &apos;id&apos; or as a sub-tag 
+<code>&lt;id&gt;</code> (i.e. item property) or both.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1603,7 +1731,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>ID of the item or <code>null</code> if ID was not found.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1612,11 +1741,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getInnovator.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getInnovator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L301">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L373">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getInnovator_" data-uid="Innovator.Client.IOM.Item.getInnovator*"></a>
   <h4 id="Innovator_Client_IOM_Item_getInnovator" data-uid="Innovator.Client.IOM.Item.getInnovator">getInnovator()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns instance of Innovator this Item &quot;belongs&quot; to.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1633,7 +1763,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Innovator.html">Innovator</a></td>
-        <td></td>
+        <td><p>An <a class="xref" href="Innovator.Client.IOM.Innovator.html">Innovator</a> for creating AML</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1642,11 +1773,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getItemByIndex_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getItemByIndex(System.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L306">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L383">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getItemByIndex_" data-uid="Innovator.Client.IOM.Item.getItemByIndex*"></a>
   <h4 id="Innovator_Client_IOM_Item_getItemByIndex_System_Int32_" data-uid="Innovator.Client.IOM.Item.getItemByIndex(System.Int32)">getItemByIndex(Int32)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets an item by index.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1665,7 +1797,8 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.Int32</span></td>
         <td><span class="parametername">index</span></td>
-        <td></td>
+        <td><p>The 0-based index.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1680,7 +1813,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>Found item</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1689,11 +1823,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getItemCount.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getItemCount%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L311">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L399">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getItemCount_" data-uid="Innovator.Client.IOM.Item.getItemCount*"></a>
   <h4 id="Innovator_Client_IOM_Item_getItemCount" data-uid="Innovator.Client.IOM.Item.getItemCount">getItemCount()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the number of items that the instance represents.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1710,7 +1845,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td></td>
+        <td><table><thead><tr><th>Value</th><th>Condition</th></tr></thead><tbody><tr><td>0</td><td>The item contains an exception of type <a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a></td></tr><tr><td>-1</td><td>The item is not <a class="xref" href="Innovator.Client.NoItemsFoundException.html">NoItemsFoundException</a> and does not contain any items</td></tr><tr><td>N</td><td>Where N &gt;= 1 and N is the number of items contained in the instance</td></tr></tbody></table>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1719,11 +1855,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getLockStatus.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getLockStatus%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L325">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L424">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getLockStatus_" data-uid="Innovator.Client.IOM.Item.getLockStatus*"></a>
   <h4 id="Innovator_Client_IOM_Item_getLockStatus" data-uid="Innovator.Client.IOM.Item.getLockStatus">getLockStatus()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets item&apos;s lock status based on the property <code>locked_by_id</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1740,7 +1877,9 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td></td>
+        <td><p>Like with the <a class="xref" href="Innovator.Client.LockStatusType.html">LockStatusType</a> enumeration, the values are
+<table><thead><tr><th>Value</th><th>Description</th></tr></thead><tbody><tr><td>0</td><td>The item is not locked</td></tr><tr><td>1</td><td>The item is locked by the user</td></tr><tr><td>2</td><td>The item is locked by the someone else</td></tr></tbody></table> </p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1749,11 +1888,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getNewID.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getNewID%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L333">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L436">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getNewID_" data-uid="Innovator.Client.IOM.Item.getNewID*"></a>
   <h4 id="Innovator_Client_IOM_Item_getNewID" data-uid="Innovator.Client.IOM.Item.getNewID">getNewID()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Generate new 32 character hex string globally unique identifier.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1770,7 +1910,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>GUID as a string</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1779,11 +1920,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getParentItem.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getParentItem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L338">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L445">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getParentItem_" data-uid="Innovator.Client.IOM.Item.getParentItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_getParentItem" data-uid="Innovator.Client.IOM.Item.getParentItem">getParentItem()</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns a parent item of the instance.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1800,7 +1942,8 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.IOM.Item.html">Item</a></td>
-        <td></td>
+        <td><p>If there is no parent, <code>null</code> is returned</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1809,11 +1952,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getProperty_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getProperty(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L347">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L464">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getProperty_" data-uid="Innovator.Client.IOM.Item.getProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_getProperty_System_String_" data-uid="Innovator.Client.IOM.Item.getProperty(System.String)">getProperty(String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets value of the property with the specified name.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1832,7 +1976,8 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">propertyName</span></td>
-        <td></td>
+        <td><p>Name of the property.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1847,7 +1992,13 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>If the property is an item-property, ID of the item-property is returned. If the 
+property doesn&apos;t exist or it&apos;s an item-property without ID, <code>null</code> is returned; 
+otherwise the method returns value of the specified property.  Note, that if the property 
+has attribute <code>is_null</code> set to 1 and the property value is empty string (e.g. 
+<code>&lt;p1 is_null=&apos;1&apos;/&gt;</code> or <code>&lt;p1 is_null=&apos;1&apos;&gt;&lt;/p1&gt;</code>) then the 
+property value is interpreted as <code>null</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1856,11 +2007,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getProperty_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getProperty(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L352">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L480">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getProperty_" data-uid="Innovator.Client.IOM.Item.getProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_getProperty_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getProperty(System.String,System.String)">getProperty(String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets value of the property with the specified name.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1879,12 +2031,14 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">propertyName</span></td>
-        <td></td>
+        <td><p>Name of the property.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">defaultValue</span></td>
-        <td></td>
+        <td><p>Default value of the property.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1899,7 +2053,13 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>If the property is an item-property, ID of the item-property is returned. If the 
+property doesn&apos;t exist or it&apos;s an item-property without ID, <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> 
+is returned; otherwise the method returns value of the specified property.  Note, that if 
+the property has attribute <code>is_null</code> set to 1 and the property value is empty string 
+(e.g. <code>&lt;p1 is_null=&apos;1&apos;/&gt;</code> or <code>&lt;p1 is_null=&apos;1&apos;&gt;&lt;/p1&gt;</code>) then the 
+property value is interpreted as <code>null</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1908,11 +2068,12 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getProperty_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getProperty(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L357">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L498">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getProperty_" data-uid="Innovator.Client.IOM.Item.getProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_getProperty_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getProperty(System.String,System.String,System.String)">getProperty(String, String, String)</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets value of the property with the specified name.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -1931,17 +2092,21 @@ latest lock status of the item on server and updates the item&apos;s property
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">propertyName</span></td>
-        <td></td>
+        <td><p>Name of the property.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">defaultValue</span></td>
-        <td></td>
+        <td><p>Default value of the property.</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">lang</span></td>
-        <td></td>
+        <td><p>Language for which the property value has to be returned. If <code>null</code> 
+value is passed, the language of the current session is assumed.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1956,7 +2121,13 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>If the property is an item-property, ID of the item-property is returned. If the 
+property doesn&apos;t exist or it&apos;s an item-property without ID, <code data-dev-comment-type="paramref" class="paramref">defaultValue</code> 
+is returned; otherwise the method returns value of the specified property.  Note, that if 
+the property has attribute <code>is_null</code> set to 1 and the property value is empty string 
+(e.g. <code>&lt;p1 is_null=&apos;1&apos;/&gt;</code> or <code>&lt;p1 is_null=&apos;1&apos;&gt;&lt;/p1&gt;</code>) then the 
+property value is interpreted as <code>null</code>.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -1965,7 +2136,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getPropertyAttribute_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getPropertyAttribute(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L362">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L503">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getPropertyAttribute_" data-uid="Innovator.Client.IOM.Item.getPropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_getPropertyAttribute_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getPropertyAttribute(System.String,System.String)">getPropertyAttribute(String, String)</h4>
@@ -2017,7 +2188,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getPropertyAttribute_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getPropertyAttribute(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L367">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L508">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getPropertyAttribute_" data-uid="Innovator.Client.IOM.Item.getPropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_getPropertyAttribute_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getPropertyAttribute(System.String,System.String,System.String)">getPropertyAttribute(String, String, String)</h4>
@@ -2074,7 +2245,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getPropertyAttribute_System_String_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getPropertyAttribute(System.String%2CSystem.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L372">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L513">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getPropertyAttribute_" data-uid="Innovator.Client.IOM.Item.getPropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_getPropertyAttribute_System_String_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getPropertyAttribute(System.String,System.String,System.String,System.String)">getPropertyAttribute(String, String, String, String)</h4>
@@ -2136,7 +2307,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getPropertyCondition_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getPropertyCondition(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L377">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L518">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getPropertyCondition_" data-uid="Innovator.Client.IOM.Item.getPropertyCondition*"></a>
   <h4 id="Innovator_Client_IOM_Item_getPropertyCondition_System_String_" data-uid="Innovator.Client.IOM.Item.getPropertyCondition(System.String)">getPropertyCondition(String)</h4>
@@ -2183,7 +2354,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getPropertyCondition_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getPropertyCondition(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L382">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L523">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getPropertyCondition_" data-uid="Innovator.Client.IOM.Item.getPropertyCondition*"></a>
   <h4 id="Innovator_Client_IOM_Item_getPropertyCondition_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.getPropertyCondition(System.String,System.String)">getPropertyCondition(String, String)</h4>
@@ -2235,7 +2406,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getPropertyItem_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getPropertyItem(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L387">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L528">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getPropertyItem_" data-uid="Innovator.Client.IOM.Item.getPropertyItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_getPropertyItem_System_String_" data-uid="Innovator.Client.IOM.Item.getPropertyItem(System.String)">getPropertyItem(String)</h4>
@@ -2282,7 +2453,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getRelatedItem.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getRelatedItem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L398">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L539">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getRelatedItem_" data-uid="Innovator.Client.IOM.Item.getRelatedItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_getRelatedItem" data-uid="Innovator.Client.IOM.Item.getRelatedItem">getRelatedItem()</h4>
@@ -2312,7 +2483,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getRelatedItemID.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getRelatedItemID%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L403">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L544">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getRelatedItemID_" data-uid="Innovator.Client.IOM.Item.getRelatedItemID*"></a>
   <h4 id="Innovator_Client_IOM_Item_getRelatedItemID" data-uid="Innovator.Client.IOM.Item.getRelatedItemID">getRelatedItemID()</h4>
@@ -2342,7 +2513,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getRelationships.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getRelationships%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L408">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L549">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getRelationships_" data-uid="Innovator.Client.IOM.Item.getRelationships*"></a>
   <h4 id="Innovator_Client_IOM_Item_getRelationships" data-uid="Innovator.Client.IOM.Item.getRelationships">getRelationships()</h4>
@@ -2372,7 +2543,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getRelationships_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getRelationships(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L413">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L554">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getRelationships_" data-uid="Innovator.Client.IOM.Item.getRelationships*"></a>
   <h4 id="Innovator_Client_IOM_Item_getRelationships_System_String_" data-uid="Innovator.Client.IOM.Item.getRelationships(System.String)">getRelationships(String)</h4>
@@ -2419,7 +2590,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getResult.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getResult%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L419">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L560">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getResult_" data-uid="Innovator.Client.IOM.Item.getResult*"></a>
   <h4 id="Innovator_Client_IOM_Item_getResult" data-uid="Innovator.Client.IOM.Item.getResult">getResult()</h4>
@@ -2449,7 +2620,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_getType.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.getType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L424">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L565">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_getType_" data-uid="Innovator.Client.IOM.Item.getType*"></a>
   <h4 id="Innovator_Client_IOM_Item_getType" data-uid="Innovator.Client.IOM.Item.getType">getType()</h4>
@@ -2512,7 +2683,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_isCollection.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.isCollection%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L431">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L572">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_isCollection_" data-uid="Innovator.Client.IOM.Item.isCollection*"></a>
   <h4 id="Innovator_Client_IOM_Item_isCollection" data-uid="Innovator.Client.IOM.Item.isCollection">isCollection()</h4>
@@ -2542,7 +2713,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_isEmpty.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.isEmpty%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L436">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L577">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_isEmpty_" data-uid="Innovator.Client.IOM.Item.isEmpty*"></a>
   <h4 id="Innovator_Client_IOM_Item_isEmpty" data-uid="Innovator.Client.IOM.Item.isEmpty">isEmpty()</h4>
@@ -2572,7 +2743,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_isError.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.isError%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L441">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L582">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_isError_" data-uid="Innovator.Client.IOM.Item.isError*"></a>
   <h4 id="Innovator_Client_IOM_Item_isError" data-uid="Innovator.Client.IOM.Item.isError">isError()</h4>
@@ -2602,7 +2773,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_isLogical.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.isLogical%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L446">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L587">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_isLogical_" data-uid="Innovator.Client.IOM.Item.isLogical*"></a>
   <h4 id="Innovator_Client_IOM_Item_isLogical" data-uid="Innovator.Client.IOM.Item.isLogical">isLogical()</h4>
@@ -2632,7 +2803,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_isNew.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.isNew%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L451">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L592">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_isNew_" data-uid="Innovator.Client.IOM.Item.isNew*"></a>
   <h4 id="Innovator_Client_IOM_Item_isNew" data-uid="Innovator.Client.IOM.Item.isNew">isNew()</h4>
@@ -2662,7 +2833,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_isRoot.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.isRoot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L456">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L597">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_isRoot_" data-uid="Innovator.Client.IOM.Item.isRoot*"></a>
   <h4 id="Innovator_Client_IOM_Item_isRoot" data-uid="Innovator.Client.IOM.Item.isRoot">isRoot()</h4>
@@ -2713,7 +2884,7 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -2725,7 +2896,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_loadAML_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.loadAML(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L461">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L602">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_loadAML_" data-uid="Innovator.Client.IOM.Item.loadAML*"></a>
   <h4 id="Innovator_Client_IOM_Item_loadAML_System_String_" data-uid="Innovator.Client.IOM.Item.loadAML(System.String)">loadAML(String)</h4>
@@ -2757,7 +2928,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_newItem.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.newItem%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L479">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L620">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_newItem_" data-uid="Innovator.Client.IOM.Item.newItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_newItem" data-uid="Innovator.Client.IOM.Item.newItem">newItem()</h4>
@@ -2787,7 +2958,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_newItem_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.newItem(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L484">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L625">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_newItem_" data-uid="Innovator.Client.IOM.Item.newItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_newItem_System_String_" data-uid="Innovator.Client.IOM.Item.newItem(System.String)">newItem(String)</h4>
@@ -2834,7 +3005,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_newItem_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.newItem(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L490">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L631">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_newItem_" data-uid="Innovator.Client.IOM.Item.newItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_newItem_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.newItem(System.String,System.String)">newItem(String, String)</h4>
@@ -2886,7 +3057,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_promote_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.promote(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L502">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L643">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_promote_" data-uid="Innovator.Client.IOM.Item.promote*"></a>
   <h4 id="Innovator_Client_IOM_Item_promote_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.promote(System.String,System.String)">promote(String, String)</h4>
@@ -3049,6 +3220,21 @@ latest lock status of the item on server and updates the item&apos;s property
   <h5 id="Innovator_Client_IOM_Item_Property_System_String_System_String__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>If the property does not exist, a non-null object will be returned that has an <code>Exists</code> member which will return <code>false</code></p>
 </div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.InvalidOperationException</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_Relationships.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.Relationships%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -3126,7 +3312,7 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IItem.html">IItem</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IItem.html">IItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -3156,7 +3342,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removeAttribute_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removeAttribute(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L509">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L650">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removeAttribute_" data-uid="Innovator.Client.IOM.Item.removeAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_removeAttribute_System_String_" data-uid="Innovator.Client.IOM.Item.removeAttribute(System.String)">removeAttribute(String)</h4>
@@ -3206,7 +3392,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removeItem_Innovator_Client_IOM_Item_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removeItem(Innovator.Client.IOM.Item)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L514">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L655">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removeItem_" data-uid="Innovator.Client.IOM.Item.removeItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_removeItem_Innovator_Client_IOM_Item_" data-uid="Innovator.Client.IOM.Item.removeItem(Innovator.Client.IOM.Item)">removeItem(Item)</h4>
@@ -3256,7 +3442,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removeProperty_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removeProperty(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L527">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L668">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removeProperty_" data-uid="Innovator.Client.IOM.Item.removeProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_removeProperty_System_String_" data-uid="Innovator.Client.IOM.Item.removeProperty(System.String)">removeProperty(String)</h4>
@@ -3288,7 +3474,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removeProperty_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removeProperty(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L532">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L673">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removeProperty_" data-uid="Innovator.Client.IOM.Item.removeProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_removeProperty_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.removeProperty(System.String,System.String)">removeProperty(String, String)</h4>
@@ -3325,7 +3511,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removePropertyAttribute_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removePropertyAttribute(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L537">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L678">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removePropertyAttribute_" data-uid="Innovator.Client.IOM.Item.removePropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_removePropertyAttribute_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.removePropertyAttribute(System.String,System.String)">removePropertyAttribute(String, String)</h4>
@@ -3362,7 +3548,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removePropertyAttribute_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removePropertyAttribute(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L542">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L683">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removePropertyAttribute_" data-uid="Innovator.Client.IOM.Item.removePropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_removePropertyAttribute_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.removePropertyAttribute(System.String,System.String,System.String)">removePropertyAttribute(String, String, String)</h4>
@@ -3404,7 +3590,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_removeRelationship_Innovator_Client_IOM_Item_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.removeRelationship(Innovator.Client.IOM.Item)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L547">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L688">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_removeRelationship_" data-uid="Innovator.Client.IOM.Item.removeRelationship*"></a>
   <h4 id="Innovator_Client_IOM_Item_removeRelationship_Innovator_Client_IOM_Item_" data-uid="Innovator.Client.IOM.Item.removeRelationship(Innovator.Client.IOM.Item)">removeRelationship(Item)</h4>
@@ -3436,7 +3622,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setAction_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setAction(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L552">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L693">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setAction_" data-uid="Innovator.Client.IOM.Item.setAction*"></a>
   <h4 id="Innovator_Client_IOM_Item_setAction_System_String_" data-uid="Innovator.Client.IOM.Item.setAction(System.String)">setAction(String)</h4>
@@ -3468,7 +3654,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setAttribute_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setAttribute(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L557">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L698">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setAttribute_" data-uid="Innovator.Client.IOM.Item.setAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_setAttribute_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.setAttribute(System.String,System.String)">setAttribute(String, String)</h4>
@@ -3505,7 +3691,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setID_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setID(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L569">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L710">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setID_" data-uid="Innovator.Client.IOM.Item.setID*"></a>
   <h4 id="Innovator_Client_IOM_Item_setID_System_String_" data-uid="Innovator.Client.IOM.Item.setID(System.String)">setID(String)</h4>
@@ -3537,7 +3723,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setNewId.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setNewId%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L577">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L718">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setNewId_" data-uid="Innovator.Client.IOM.Item.setNewId*"></a>
   <h4 id="Innovator_Client_IOM_Item_setNewId" data-uid="Innovator.Client.IOM.Item.setNewId">setNewId()</h4>
@@ -3552,7 +3738,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setProperty_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setProperty(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L582">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L723">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setProperty_" data-uid="Innovator.Client.IOM.Item.setProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_setProperty_System_String_System_Object_" data-uid="Innovator.Client.IOM.Item.setProperty(System.String,System.Object)">setProperty(String, Object)</h4>
@@ -3589,7 +3775,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setProperty_System_String_System_Object_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setProperty(System.String%2CSystem.Object%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L587">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L728">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setProperty_" data-uid="Innovator.Client.IOM.Item.setProperty*"></a>
   <h4 id="Innovator_Client_IOM_Item_setProperty_System_String_System_Object_System_String_" data-uid="Innovator.Client.IOM.Item.setProperty(System.String,System.Object,System.String)">setProperty(String, Object, String)</h4>
@@ -3631,7 +3817,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setPropertyAttribute_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setPropertyAttribute(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L592">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L733">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setPropertyAttribute_" data-uid="Innovator.Client.IOM.Item.setPropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_setPropertyAttribute_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.setPropertyAttribute(System.String,System.String,System.String)">setPropertyAttribute(String, String, String)</h4>
@@ -3673,7 +3859,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setPropertyAttribute_System_String_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setPropertyAttribute(System.String%2CSystem.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L597">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L738">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setPropertyAttribute_" data-uid="Innovator.Client.IOM.Item.setPropertyAttribute*"></a>
   <h4 id="Innovator_Client_IOM_Item_setPropertyAttribute_System_String_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.setPropertyAttribute(System.String,System.String,System.String,System.String)">setPropertyAttribute(String, String, String, String)</h4>
@@ -3720,7 +3906,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setPropertyCondition_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setPropertyCondition(System.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L602">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L743">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setPropertyCondition_" data-uid="Innovator.Client.IOM.Item.setPropertyCondition*"></a>
   <h4 id="Innovator_Client_IOM_Item_setPropertyCondition_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.setPropertyCondition(System.String,System.String)">setPropertyCondition(String, String)</h4>
@@ -3757,7 +3943,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setPropertyCondition_System_String_System_String_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setPropertyCondition(System.String%2CSystem.String%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L607">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L748">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setPropertyCondition_" data-uid="Innovator.Client.IOM.Item.setPropertyCondition*"></a>
   <h4 id="Innovator_Client_IOM_Item_setPropertyCondition_System_String_System_String_System_String_" data-uid="Innovator.Client.IOM.Item.setPropertyCondition(System.String,System.String,System.String)">setPropertyCondition(String, String, String)</h4>
@@ -3799,7 +3985,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setPropertyItem_System_String_Innovator_Client_IOM_Item_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setPropertyItem(System.String%2CInnovator.Client.IOM.Item)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L612">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L753">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setPropertyItem_" data-uid="Innovator.Client.IOM.Item.setPropertyItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_setPropertyItem_System_String_Innovator_Client_IOM_Item_" data-uid="Innovator.Client.IOM.Item.setPropertyItem(System.String,Innovator.Client.IOM.Item)">setPropertyItem(String, Item)</h4>
@@ -3851,7 +4037,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setRelatedItem_Innovator_Client_IOM_Item_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setRelatedItem(Innovator.Client.IOM.Item)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L618">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L759">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setRelatedItem_" data-uid="Innovator.Client.IOM.Item.setRelatedItem*"></a>
   <h4 id="Innovator_Client_IOM_Item_setRelatedItem_Innovator_Client_IOM_Item_" data-uid="Innovator.Client.IOM.Item.setRelatedItem(Innovator.Client.IOM.Item)">setRelatedItem(Item)</h4>
@@ -3883,7 +4069,7 @@ latest lock status of the item on server and updates the item&apos;s property
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_setType_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.setType(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L623">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L764">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_setType_" data-uid="Innovator.Client.IOM.Item.setType*"></a>
   <h4 id="Innovator_Client_IOM_Item_setType_System_String_" data-uid="Innovator.Client.IOM.Item.setType(System.String)">setType(String)</h4>
@@ -3912,14 +4098,14 @@ latest lock status of the item on server and updates the item&apos;s property
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.ToAml(XmlWriter%2CInnovator.Client.AmlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.ToAml(System.Xml.XmlWriter%2CInnovator.Client.AmlWriterSettings)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.cs/#L146">View Source</a>
   </span>
   <a id="Innovator_Client_IOM_Item_ToAml_" data-uid="Innovator.Client.IOM.Item.ToAml*"></a>
-  <h4 id="Innovator_Client_IOM_Item_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_" data-uid="Innovator.Client.IOM.Item.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)">ToAml(XmlWriter, AmlWriterSettings)</h4>
-  <div class="markdown level1 summary"><p>Write the node to the specified <see cref="!:XmlWriter"></see> as AML</p>
+  <h4 id="Innovator_Client_IOM_Item_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_" data-uid="Innovator.Client.IOM.Item.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)">ToAml(XmlWriter, AmlWriterSettings)</h4>
+  <div class="markdown level1 summary"><p>Write the node to the specified <span class="xref">System.Xml.XmlWriter</span> as AML</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -3937,9 +4123,9 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlWriter</span></td>
+        <td><span class="xref">System.Xml.XmlWriter</span></td>
         <td><span class="parametername">writer</span></td>
-        <td><p><see cref="!:XmlWriter"></see> to write the node to</p>
+        <td><p><span class="xref">System.Xml.XmlWriter</span> to write the node to</p>
 </td>
       </tr>
       <tr>
@@ -3951,7 +4137,7 @@ latest lock status of the item on server and updates the item&apos;s property
     </tbody>
   </table>
   <h5 class="implements">Implements</h5>
-      <div><a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a></div>
+      <div><a class="xref" href="Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">IAmlNode.ToAml(XmlWriter, AmlWriterSettings)</a></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_ToAmlRoot.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.ToAmlRoot%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -3993,7 +4179,7 @@ latest lock status of the item on server and updates the item&apos;s property
   </span>
   <a id="Innovator_Client_IOM_Item_ToString_" data-uid="Innovator.Client.IOM.Item.ToString*"></a>
   <h4 id="Innovator_Client_IOM_Item_ToString" data-uid="Innovator.Client.IOM.Item.ToString">ToString()</h4>
-  <div class="markdown level1 summary"><p>Returns a <see cref="!:System.String"></see> that represents this instance.</p>
+  <div class="markdown level1 summary"><p>Returns a <span class="xref">System.String</span> that represents this instance.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -4011,11 +4197,13 @@ latest lock status of the item on server and updates the item&apos;s property
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td><p>A <see cref="!:System.String"></see> that represents this instance.</p>
+        <td><p>A <span class="xref">System.String</span> that represents this instance.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_TypeName.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.TypeName%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -4125,7 +4313,7 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyAttribute.html">IReadOnlyAttribute</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyAttribute.html">IReadOnlyAttribute</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -4157,7 +4345,7 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyElement.html">IReadOnlyElement</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -4325,7 +4513,7 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -4374,13 +4562,45 @@ latest lock status of the item on server and updates the item&apos;s property
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
   </table>
   <h5 class="implements">Implements</h5>
       <div><a class="xref" href="Innovator.Client.IReadOnlyItem.html#Innovator_Client_IReadOnlyItem_Relationships_System_String_">IReadOnlyItem.Relationships(String)</a></div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_IOM_Item_System_Collections_IEnumerable_GetEnumerator.md&amp;value=---%0Auid%3A%20Innovator.Client.IOM.Item.System%23Collections%23IEnumerable%23GetEnumerator%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IOM/Item.IOM.cs/#L783">View Source</a>
+  </span>
+  <a id="Innovator_Client_IOM_Item_System_Collections_IEnumerable_GetEnumerator_" data-uid="Innovator.Client.IOM.Item.System#Collections#IEnumerable#GetEnumerator*"></a>
+  <h4 id="Innovator_Client_IOM_Item_System_Collections_IEnumerable_GetEnumerator" data-uid="Innovator.Client.IOM.Item.System#Collections#IEnumerable#GetEnumerator">IEnumerable.GetEnumerator()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">IEnumerator IEnumerable.GetEnumerator()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.IEnumerator</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="implements">Implements</h5>
+      <div><span class="xref">System.Collections.IEnumerable.GetEnumerator()</span></div>
   <h3 id="extensionmethods">Extension Methods</h3>
   <div>
       <a class="xref" href="Innovator.Client.Core.html#Innovator_Client_Core_Action_Innovator_Client_IItem_">Core.Action(IItem)</a>
@@ -4644,7 +4864,7 @@ latest lock status of the item on server and updates the item&apos;s property
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Apply_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_">ItemExtensions.Apply(IReadOnlyItem, IConnection)</a>
@@ -4653,7 +4873,7 @@ latest lock status of the item on server and updates the item&apos;s property
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_CancellationToken_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection, CancellationToken)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_System_Threading_CancellationToken_">ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection, CancellationToken)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ClassStartsWith_Innovator_Client_IReadOnlyItem_System_String___">ItemExtensions.ClassStartsWith(IReadOnlyItem, String[])</a>
@@ -4666,6 +4886,15 @@ latest lock status of the item on server and updates the item&apos;s property
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Element_Innovator_Client_IReadOnlyElement_System_String_">ItemExtensions.Element(IReadOnlyElement, String)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullElement_System_Collections_Generic_IEnumerable_Innovator_Client_IElement__">ItemExtensions.FirstOrNullElement(IEnumerable&lt;IElement&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullItem__1_System_Collections_Generic_IEnumerable___0__">ItemExtensions.FirstOrNullItem&lt;T&gt;(IEnumerable&lt;T&gt;)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullItem__1_System_Collections_Generic_IEnumerable___0__System_Func___0_System_Boolean__">ItemExtensions.FirstOrNullItem&lt;T&gt;(IEnumerable&lt;T&gt;, Func&lt;T, Boolean&gt;)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ItemMax_Innovator_Client_IReadOnlyResult_">ItemExtensions.ItemMax(IReadOnlyResult)</a>
@@ -4692,7 +4921,7 @@ latest lock status of the item on server and updates the item&apos;s property
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_Unlock_Innovator_Client_IItemRef_Innovator_Client_IConnection_">ItemExtensions.Unlock(IItemRef, IConnection)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_Func_Innovator_Client_IReadOnlyItem___0__">ItemExtensions.LazyMap&lt;T&gt;(IReadOnlyItem, IConnection, Func&lt;IReadOnlyItem, T&gt;)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_System_Func_Innovator_Client_IReadOnlyItem___0__">ItemExtensions.LazyMap&lt;T&gt;(IReadOnlyItem, IConnection, Func&lt;IReadOnlyItem, T&gt;)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_CreateReader_Innovator_Client_IReadOnlyElement_">ItemExtensions.CreateReader(IReadOnlyElement)</a>
@@ -4708,6 +4937,9 @@ latest lock status of the item on server and updates the item&apos;s property
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_InnerText_Innovator_Client_IReadOnlyElement_">ItemExtensions.InnerText(IReadOnlyElement)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Extensions.html#Innovator_Client_Extensions_GroupConcat__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__">Extensions.GroupConcat&lt;T&gt;(IEnumerable&lt;T&gt;, String, Func&lt;T, String&gt;)</a>
   </div>
 </article>
           </div>

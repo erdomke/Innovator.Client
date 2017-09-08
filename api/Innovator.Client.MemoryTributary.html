@@ -79,13 +79,86 @@ of which will fail for relatively small streams as it requires contiguous memory
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">MemoryTributary</span></div>
+    <div class="level1"><span class="xref">System.IO.Stream</span></div>
+    <div class="level2"><span class="xref">MemoryTributary</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.IO.Stream.Null</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.CopyTo(System.IO.Stream)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.CopyTo(System.IO.Stream, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.CopyToAsync(System.IO.Stream)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.Dispose()</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.FlushAsync()</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.FlushAsync(System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.CanTimeout</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.ReadTimeout</span>
+    </div>
+    <div>
+      <span class="xref">System.IO.Stream.WriteTimeout</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ToString()</span>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_MemoryTributary_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class MemoryTributary : Stream, IXmlStream</code></pre>
+    <pre><code class="lang-csharp hljs">public class MemoryTributary : Stream, IDisposable, IXmlStream</code></pre>
   </div>
   <h5 id="Innovator_Client_MemoryTributary_remarks"><strong>Remarks</strong></h5>
   <div class="markdown level0 remarks"><p>Adapted from <a href="https://www.codeproject.com/Articles/348590/A-replacement-for-MemoryStream">Code Project: A replacement for MemoryStream</a></p>
@@ -306,6 +379,8 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.CanRead</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_CanSeek.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.CanSeek%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -338,6 +413,8 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.CanSeek</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_CanWrite.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.CanWrite%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -370,6 +447,8 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.CanWrite</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Length.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Length%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -398,6 +477,24 @@ of which will fail for relatively small streams as it requires contiguous memory
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><p>A long value representing the length of the stream in bytes.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Length</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
 </td>
       </tr>
     </tbody>
@@ -434,6 +531,24 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Position</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <h3 id="methods">Methods
   </h3>
   <span class="small pull-right mobile-hide">
@@ -445,7 +560,7 @@ of which will fail for relatively small streams as it requires contiguous memory
   </span>
   <a id="Innovator_Client_MemoryTributary_CreateReader_" data-uid="Innovator.Client.MemoryTributary.CreateReader*"></a>
   <h4 id="Innovator_Client_MemoryTributary_CreateReader" data-uid="Innovator.Client.MemoryTributary.CreateReader">CreateReader()</h4>
-  <div class="markdown level1 summary"><p>Creates an <see cref="!:XmlReader"></see> for reading XML from the stream</p>
+  <div class="markdown level1 summary"><p>Creates an <span class="xref">System.Xml.XmlReader</span> for reading XML from the stream</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -462,8 +577,8 @@ of which will fail for relatively small streams as it requires contiguous memory
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XmlReader</span></td>
-        <td><p>An <see cref="!:XmlReader"></see> for reading XML</p>
+        <td><span class="xref">System.Xml.XmlReader</span></td>
+        <td><p>An <span class="xref">System.Xml.XmlReader</span> for reading XML</p>
 </td>
       </tr>
     </tbody>
@@ -479,7 +594,7 @@ of which will fail for relatively small streams as it requires contiguous memory
   </span>
   <a id="Innovator_Client_MemoryTributary_Dispose_" data-uid="Innovator.Client.MemoryTributary.Dispose*"></a>
   <h4 id="Innovator_Client_MemoryTributary_Dispose_System_Boolean_" data-uid="Innovator.Client.MemoryTributary.Dispose(System.Boolean)">Dispose(Boolean)</h4>
-  <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <see cref="!:Stream"></see> and optionally releases the managed resources.</p>
+  <div class="markdown level1 summary"><p>Releases the unmanaged resources used by the <span class="xref">System.IO.Stream</span> and optionally releases the managed resources.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -504,6 +619,8 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Dispose(System.Boolean)</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_EnsureCapacity_System_Int64_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.EnsureCapacity(System.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -554,6 +671,8 @@ of which will fail for relatively small streams as it requires contiguous memory
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public override void Flush()</code></pre>
   </div>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Flush()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Read_System_Byte___System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Read(System.Byte%5B%5D%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -616,6 +735,34 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Read(System.Byte[], System.Int32, System.Int32)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ArgumentNullException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">buffer</code> is null. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ArgumentOutOfRangeException</span></td>
+        <td><p><code data-dev-comment-type="paramref" class="paramref">offset</code> or <code data-dev-comment-type="paramref" class="paramref">count</code> is negative. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ReadByte.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ReadByte%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -643,20 +790,38 @@ of which will fail for relatively small streams as it requires contiguous memory
     <tbody>
       <tr>
         <td><span class="xref">System.Int32</span></td>
-        <td><p>The unsigned byte cast to an <see cref="!:Int32"></see>, or -1 if at the end of the stream.</p>
+        <td><p>The unsigned byte cast to an <span class="xref">System.Int32</span>, or -1 if at the end of the stream.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.ReadByte()</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ReadFrom_Stream_System_Int64_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ReadFrom(Stream%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ReadFrom_System_IO_Stream_System_Int64_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ReadFrom(System.IO.Stream%2CSystem.Int64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L355">View Source</a>
   </span>
   <a id="Innovator_Client_MemoryTributary_ReadFrom_" data-uid="Innovator.Client.MemoryTributary.ReadFrom*"></a>
-  <h4 id="Innovator_Client_MemoryTributary_ReadFrom_Stream_System_Int64_" data-uid="Innovator.Client.MemoryTributary.ReadFrom(Stream,System.Int64)">ReadFrom(Stream, Int64)</h4>
+  <h4 id="Innovator_Client_MemoryTributary_ReadFrom_System_IO_Stream_System_Int64_" data-uid="Innovator.Client.MemoryTributary.ReadFrom(System.IO.Stream,System.Int64)">ReadFrom(Stream, Int64)</h4>
   <div class="markdown level1 summary"><p>Reads length bytes from source into the this instance at the current position.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -675,7 +840,7 @@ of which will fail for relatively small streams as it requires contiguous memory
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
+        <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">source</span></td>
         <td><p>The stream containing the data to copy</p>
 </td>
@@ -690,13 +855,13 @@ of which will fail for relatively small streams as it requires contiguous memory
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Seek_System_Int64_SeekOrigin_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Seek(System.Int64%2CSeekOrigin)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_Seek_System_Int64_System_IO_SeekOrigin_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.Seek(System.Int64%2CSystem.IO.SeekOrigin)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L212">View Source</a>
   </span>
   <a id="Innovator_Client_MemoryTributary_Seek_" data-uid="Innovator.Client.MemoryTributary.Seek*"></a>
-  <h4 id="Innovator_Client_MemoryTributary_Seek_System_Int64_SeekOrigin_" data-uid="Innovator.Client.MemoryTributary.Seek(System.Int64,SeekOrigin)">Seek(Int64, SeekOrigin)</h4>
+  <h4 id="Innovator_Client_MemoryTributary_Seek_System_Int64_System_IO_SeekOrigin_" data-uid="Innovator.Client.MemoryTributary.Seek(System.Int64,System.IO.SeekOrigin)">Seek(Int64, SeekOrigin)</h4>
   <div class="markdown level1 summary"><p>Sets the position within the current stream.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -721,9 +886,9 @@ of which will fail for relatively small streams as it requires contiguous memory
 </td>
       </tr>
       <tr>
-        <td><span class="xref">SeekOrigin</span></td>
+        <td><span class="xref">System.IO.SeekOrigin</span></td>
         <td><span class="parametername">origin</span></td>
-        <td><p>A value of type <see cref="!:SeekOrigin"></see> indicating the reference point used to obtain the new position. </p>
+        <td><p>A value of type <span class="xref">System.IO.SeekOrigin</span> indicating the reference point used to obtain the new position. </p>
 </td>
       </tr>
     </tbody>
@@ -740,6 +905,24 @@ of which will fail for relatively small streams as it requires contiguous memory
       <tr>
         <td><span class="xref">System.Int64</span></td>
         <td><p>The new position within the current stream.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Seek(System.Int64, System.IO.SeekOrigin)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
 </td>
       </tr>
     </tbody>
@@ -778,9 +961,27 @@ of which will fail for relatively small streams as it requires contiguous memory
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.SetLength(System.Int64)</span></div>
   <h5 id="Innovator_Client_MemoryTributary_SetLength_System_Int64__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p><code data-dev-comment-type="paramref" class="paramref">value</code> is largely ignored because capacity has no meaning unless we implement an artifical limit</p>
 </div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_ToArray.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.ToArray%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -860,6 +1061,24 @@ fail if the stream is large enough. Where possible use methods which operate on 
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.Write(System.Byte[], System.Int32, System.Int32)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p><a class="xref" href="Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_Write_System_Byte___System_Int32_System_Int32_">Write(Byte[], Int32, Int32)</a> was called after the stream was closed.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_WriteByte_System_Byte_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.WriteByte(System.Byte)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
@@ -894,15 +1113,33 @@ fail if the stream is large enough. Where possible use methods which operate on 
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.IO.Stream.WriteByte(System.Byte)</span></div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.ObjectDisposedException</span></td>
+        <td><p>Methods were called after the stream was closed. </p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_WriteTo_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.WriteTo(Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_MemoryTributary_WriteTo_System_IO_Stream_.md&amp;value=---%0Auid%3A%20Innovator.Client.MemoryTributary.WriteTo(System.IO.Stream)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/IO/MemoryTributary.cs/#L372">View Source</a>
   </span>
   <a id="Innovator_Client_MemoryTributary_WriteTo_" data-uid="Innovator.Client.MemoryTributary.WriteTo*"></a>
-  <h4 id="Innovator_Client_MemoryTributary_WriteTo_Stream_" data-uid="Innovator.Client.MemoryTributary.WriteTo(Stream)">WriteTo(Stream)</h4>
+  <h4 id="Innovator_Client_MemoryTributary_WriteTo_System_IO_Stream_" data-uid="Innovator.Client.MemoryTributary.WriteTo(System.IO.Stream)">WriteTo(Stream)</h4>
   <div class="markdown level1 summary"><p>Writes the entire stream into destination, regardless of Position, which remains unchanged.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -921,13 +1158,20 @@ fail if the stream is large enough. Where possible use methods which operate on 
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Stream</span></td>
+        <td><span class="xref">System.IO.Stream</span></td>
         <td><span class="parametername">destination</span></td>
         <td><p>The stream to write the content of this stream to</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="Innovator.Client.Extensions.html#Innovator_Client_Extensions_AsString_System_IO_Stream_">Extensions.AsString(Stream)</a>
+  </div>
+  <div>
+      <a class="xref" href="Innovator.Client.Extensions.html#Innovator_Client_Extensions_AsBytes_System_IO_Stream_">Extensions.AsBytes(Stream)</a>
+  </div>
 </article>
           </div>
           

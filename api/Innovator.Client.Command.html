@@ -81,12 +81,71 @@
     <div class="level1"><span class="xref">Command</span></div>
   </div>
       <div class="level2"><a class="xref" href="Innovator.Client.UploadCommand.html">UploadCommand</a></div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
+    </div>
+  </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
   <h6><strong>Assembly</strong>: Innovator.Client.dll</h6>
   <h5 id="Innovator_Client_Command_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Command : object</code></pre>
+    <pre><code class="lang-csharp hljs">public class Command</code></pre>
   </div>
+  <h5 id="Innovator_Client_Command_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>In most situations, you should never need to interact with the <a class="xref" href="Innovator.Client.Command.html">Command</a> class
+directly since a <span class="xref">System.String</span> is implicitly promoted to a <a class="xref" href="Innovator.Client.Command.html">Command</a>.  For
+example, with the <a class="xref" href="Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_Apply_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___">Apply(IConnection, Command, Object[])</a>, 
+you can use code similar to</p>
+<pre><code>// Get preliminary parts which have existed for a little bit of time
+var components = conn.Apply(@&quot;&lt;Item type=&apos;Part&apos; action=&apos;get&apos;>
+  &lt;classification>@0&lt;/classification>
+  &lt;created_on condition=&apos;lt&apos;>@1&lt;/created_on>
+  &lt;state>Preliminary&lt;/state>
+&lt;/Item>&quot;, classification, DateTime.Now.AddMinutes(-20)).Items();</code></pre>
+<p>Behind the scenes, this is equivalent to the code </p>
+<pre><code>// Get preliminary parts which have existed for a little bit of time
+var components = conn.Apply(new Command(@&quot;&lt;Item type=&apos;Part&apos; action=&apos;get&apos;>
+  &lt;classification>@0&lt;/classification>
+  &lt;created_on condition=&apos;lt&apos;>@1&lt;/created_on>
+  &lt;state>Preliminary&lt;/state>
+&lt;/Item>&quot;, classification, DateTime.Now.AddMinutes(-20))).Items();</code></pre>
+<p>So why would you need to create a <a class="xref" href="Innovator.Client.Command.html">Command</a>?  Perhaps, you need to specify
+the SOAP action to use</p>
+<pre><code>var cmd = new Command(@&quot;&lt;AML>
+  &lt;Item type = &apos;Part&apos; action=&apos;get&apos; id=&apos;30F66F086BDE4032B29034FC7D84A99D&apos; />
+  &lt;Item type = &apos;Part&apos; action=&apos;get&apos; id=&apos;3F292E347CC64FB698C58E010364537E&apos; />
+&lt;/AML>&quot;).WithAction(CommandAction.ApplyAML);
+var parts = conn.Apply(cmd).Items();</code></pre>
+<p>Or, you would rather use named parameters instead of numbered parameters</p>
+<pre><code>// Get preliminary parts which have existed for a little bit of time
+var components = conn.Apply(new Command(@&quot;&lt;Item type=&apos;Part&apos; action=&apos;get&apos;>
+  &lt;classification>@class&lt;/classification>
+  &lt;created_on condition=&apos;lt&apos;>@created&lt;/created_on>
+  &lt;state>Preliminary&lt;/state>
+&lt;/Item>&quot;)
+  .WithParam(&quot;class&quot;, classification)
+  .WithParam(&quot;created&quot;, DateTime.Now.AddMinutes(-20))).Items();</code></pre>
+<p>For more information on how parameter substitution works see
+<a class="xref" href="Innovator.Client.ParameterSubstitution.html">ParameterSubstitution</a>.  For other ways to create AML, see 
+<a class="xref" href="Innovator.Client.ElementFactory.html">ElementFactory</a></p>
+</div>
   <h3 id="constructors">Constructors
   </h3>
   <span class="small pull-right mobile-hide">
@@ -94,7 +153,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command__ctor.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.%23ctor%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L84">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L138">View Source</a>
   </span>
   <a id="Innovator_Client_Command__ctor_" data-uid="Innovator.Client.Command.#ctor*"></a>
   <h4 id="Innovator_Client_Command__ctor" data-uid="Innovator.Client.Command.#ctor">Command()</h4>
@@ -107,43 +166,10 @@
   </div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command__ctor_IEnumerable_Innovator_Client_IAmlNode__.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.%23ctor(IEnumerable%7BInnovator.Client.IAmlNode%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L143">View Source</a>
-  </span>
-  <a id="Innovator_Client_Command__ctor_" data-uid="Innovator.Client.Command.#ctor*"></a>
-  <h4 id="Innovator_Client_Command__ctor_IEnumerable_Innovator_Client_IAmlNode__" data-uid="Innovator.Client.Command.#ctor(IEnumerable{Innovator.Client.IAmlNode})">Command(IEnumerable&lt;IAmlNode&gt;)</h4>
-  <div class="markdown level1 summary"><p>Creates an AML command that will be sent to the server from an <see cref="!:IEnumerable&lt;IAmlNode>"></see></p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Command(IEnumerable&lt;IAmlNode&gt; aml)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IAmlNode.html">IAmlNode</a>&gt;</td>
-        <td><span class="parametername">aml</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command__ctor_Innovator_Client_IAmlNode_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.%23ctor(Innovator.Client.IAmlNode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L134">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L195">View Source</a>
   </span>
   <a id="Innovator_Client_Command__ctor_" data-uid="Innovator.Client.Command.#ctor*"></a>
   <h4 id="Innovator_Client_Command__ctor_Innovator_Client_IAmlNode_" data-uid="Innovator.Client.Command.#ctor(Innovator.Client.IAmlNode)">Command(IAmlNode)</h4>
@@ -167,7 +193,44 @@
       <tr>
         <td><a class="xref" href="Innovator.Client.IAmlNode.html">IAmlNode</a></td>
         <td><span class="parametername">aml</span></td>
-        <td></td>
+        <td><p>The AML object (e.g. <a class="xref" href="Innovator.Client.IReadOnlyItem.html">IReadOnlyItem</a>) that you want to create 
+the command with</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command__ctor_System_Collections_Generic_IEnumerable_Innovator_Client_IAmlNode__.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.%23ctor(System.Collections.Generic.IEnumerable%7BInnovator.Client.IAmlNode%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L206">View Source</a>
+  </span>
+  <a id="Innovator_Client_Command__ctor_" data-uid="Innovator.Client.Command.#ctor*"></a>
+  <h4 id="Innovator_Client_Command__ctor_System_Collections_Generic_IEnumerable_Innovator_Client_IAmlNode__" data-uid="Innovator.Client.Command.#ctor(System.Collections.Generic.IEnumerable{Innovator.Client.IAmlNode})">Command(IEnumerable&lt;IAmlNode&gt;)</h4>
+  <div class="markdown level1 summary"><p>Creates an AML command that will be sent to the server from an <span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Command(IEnumerable&lt;IAmlNode&gt; aml)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<a class="xref" href="Innovator.Client.IAmlNode.html">IAmlNode</a>&gt;</td>
+        <td><span class="parametername">aml</span></td>
+        <td><p><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span> that you want to create the
+    command with</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -176,7 +239,7 @@
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command__ctor_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.%23ctor(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L108">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L167">View Source</a>
   </span>
   <a id="Innovator_Client_Command__ctor_" data-uid="Innovator.Client.Command.#ctor*"></a>
   <h4 id="Innovator_Client_Command__ctor_System_String_System_Object___" data-uid="Innovator.Client.Command.#ctor(System.String,System.Object[])">Command(String, Object[])</h4>
@@ -219,41 +282,10 @@ and element values) will be replaced with the corresponding arguments.</p>
   </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_AcceptMimeType.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.AcceptMimeType%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L23">View Source</a>
-  </span>
-  <a id="Innovator_Client_Command_AcceptMimeType_" data-uid="Innovator.Client.Command.AcceptMimeType*"></a>
-  <h4 id="Innovator_Client_Command_AcceptMimeType" data-uid="Innovator.Client.Command.AcceptMimeType">AcceptMimeType</h4>
-  <div class="markdown level1 summary"><p>What MIME type the client should accept for the request</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public string AcceptMimeType { get; set; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_Action.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.Action%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L28">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L72">View Source</a>
   </span>
   <a id="Innovator_Client_Command_Action_" data-uid="Innovator.Client.Command.Action*"></a>
   <h4 id="Innovator_Client_Command_Action" data-uid="Innovator.Client.Command.Action">Action</h4>
@@ -284,7 +316,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ActionString.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ActionString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L36">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L81">View Source</a>
   </span>
   <a id="Innovator_Client_Command_ActionString_" data-uid="Innovator.Client.Command.ActionString*"></a>
   <h4 id="Innovator_Client_Command_ActionString" data-uid="Innovator.Client.Command.ActionString">ActionString</h4>
@@ -315,7 +347,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_Aml.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.Aml%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L45">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L90">View Source</a>
   </span>
   <a id="Innovator_Client_Command_Aml_" data-uid="Innovator.Client.Command.Aml*"></a>
   <h4 id="Innovator_Client_Command_Aml" data-uid="Innovator.Client.Command.Aml">Aml</h4>
@@ -346,7 +378,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_LogListener.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.LogListener%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L79">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L133">View Source</a>
   </span>
   <a id="Innovator_Client_Command_LogListener_" data-uid="Innovator.Client.Command.LogListener*"></a>
   <h4 id="Innovator_Client_Command_LogListener" data-uid="Innovator.Client.Command.LogListener">LogListener</h4>
@@ -367,22 +399,27 @@ and element values) will be replaced with the corresponding arguments.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Action</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">System.String</span>, <span class="xref">IEnumerable</span>&lt;<span class="xref">KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">System.String</span>, <span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Collections.Generic.KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
         <td><p>The delegate which will be called when a log item is written pertaining to this request.</p>
 </td>
       </tr>
     </tbody>
   </table>
+  <h5 id="Innovator_Client_Command_LogListener_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The arguments to the delegate are
+<table><thead><tr><th>Value</th><th>Description</th></tr></thead><tbody><tr><td><span class="xref">System.Int32</span>: Log Level</td><td>Indicates the severity of the message.  Always <code>4</code> to indiate an informational message</td></tr><tr><td><span class="xref">System.String</span>: Message</td><td>The text of the message</td></tr><tr><td><span class="xref">System.Collections.Generic.IEnumerable&lt;T&gt;</span>: Parameters</td><td>Structured parameters which contain useful log data</td></tr></tbody></table></p>
+</div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_Parameters.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.Parameters%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L90">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L149">View Source</a>
   </span>
   <a id="Innovator_Client_Command_Parameters_" data-uid="Innovator.Client.Command.Parameters*"></a>
   <h4 id="Innovator_Client_Command_Parameters" data-uid="Innovator.Client.Command.Parameters">Parameters</h4>
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Gets the parameters.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
@@ -398,8 +435,9 @@ and element values) will be replaced with the corresponding arguments.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;</td>
-        <td></td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Collections.Generic.KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;</td>
+        <td><p>The parameters.</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -408,7 +446,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_Settings.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.Settings%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L225">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L295">View Source</a>
   </span>
   <a id="Innovator_Client_Command_Settings_" data-uid="Innovator.Client.Command.Settings*"></a>
   <h4 id="Innovator_Client_Command_Settings" data-uid="Innovator.Client.Command.Settings">Settings</h4>
@@ -429,7 +467,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Action</span>&lt;<a class="xref" href="Innovator.Client.IHttpRequest.html">IHttpRequest</a>&gt;</td>
+        <td><span class="xref">System.Action</span>&lt;<a class="xref" href="Innovator.Client.IHttpRequest.html">IHttpRequest</a>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -441,7 +479,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_AddAml_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.AddAml(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L217">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L287">View Source</a>
   </span>
   <a id="Innovator_Client_Command_AddAml_" data-uid="Innovator.Client.Command.AddAml*"></a>
   <h4 id="Innovator_Client_Command_AddAml_System_String_" data-uid="Innovator.Client.Command.AddAml(System.String)">AddAml(String)</h4>
@@ -475,7 +513,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L277">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L351">View Source</a>
   </span>
   <a id="Innovator_Client_Command_ToNormalizedAml_" data-uid="Innovator.Client.Command.ToNormalizedAml*"></a>
   <h4 id="Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_" data-uid="Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext)">ToNormalizedAml(IServerContext)</h4>
@@ -499,7 +537,9 @@ and element values) will be replaced with the corresponding arguments.</p>
       <tr>
         <td><a class="xref" href="Innovator.Client.IServerContext.html">IServerContext</a></td>
         <td><span class="parametername">context</span></td>
-        <td></td>
+        <td><p>Localization context (e.g. from 
+<a class="xref" href="Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_LocalizationContext">LocalizationContext</a>)</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -514,19 +554,20 @@ and element values) will be replaced with the corresponding arguments.</p>
     <tbody>
       <tr>
         <td><span class="xref">System.String</span></td>
-        <td></td>
+        <td><p>AML string</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_TextWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext%2CTextWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_System_IO_TextWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext%2CSystem.IO.TextWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L288">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L365">View Source</a>
   </span>
   <a id="Innovator_Client_Command_ToNormalizedAml_" data-uid="Innovator.Client.Command.ToNormalizedAml*"></a>
-  <h4 id="Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_TextWriter_" data-uid="Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,TextWriter)">ToNormalizedAml(IServerContext, TextWriter)</h4>
+  <h4 id="Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_System_IO_TextWriter_" data-uid="Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,System.IO.TextWriter)">ToNormalizedAml(IServerContext, TextWriter)</h4>
   <div class="markdown level1 summary"><p>Perform parameter substitutions and return the resulting AML</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -547,24 +588,27 @@ and element values) will be replaced with the corresponding arguments.</p>
       <tr>
         <td><a class="xref" href="Innovator.Client.IServerContext.html">IServerContext</a></td>
         <td><span class="parametername">context</span></td>
-        <td></td>
+        <td><p>Localization context (e.g. from 
+<a class="xref" href="Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_LocalizationContext">LocalizationContext</a>)</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">TextWriter</span></td>
+        <td><span class="xref">System.IO.TextWriter</span></td>
         <td><span class="parametername">writer</span></td>
-        <td></td>
+        <td><p>Writer to which AML is written</p>
+</td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_XmlWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext%2CXmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_System_Xml_XmlWriter_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext%2CSystem.Xml.XmlWriter)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L300">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L380">View Source</a>
   </span>
   <a id="Innovator_Client_Command_ToNormalizedAml_" data-uid="Innovator.Client.Command.ToNormalizedAml*"></a>
-  <h4 id="Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_XmlWriter_" data-uid="Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,XmlWriter)">ToNormalizedAml(IServerContext, XmlWriter)</h4>
+  <h4 id="Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_System_Xml_XmlWriter_" data-uid="Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,System.Xml.XmlWriter)">ToNormalizedAml(IServerContext, XmlWriter)</h4>
   <div class="markdown level1 summary"><p>Perform parameter substitutions and return the resulting AML</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -585,12 +629,15 @@ and element values) will be replaced with the corresponding arguments.</p>
       <tr>
         <td><a class="xref" href="Innovator.Client.IServerContext.html">IServerContext</a></td>
         <td><span class="parametername">context</span></td>
-        <td></td>
+        <td><p>Localization context (e.g. from 
+<a class="xref" href="Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_LocalizationContext">LocalizationContext</a>)</p>
+</td>
       </tr>
       <tr>
-        <td><span class="xref">XmlWriter</span></td>
+        <td><span class="xref">System.Xml.XmlWriter</span></td>
         <td><span class="parametername">writer</span></td>
-        <td></td>
+        <td><p>Writer to which AML is written</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -599,7 +646,7 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_ToString.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.ToString%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L320">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L400">View Source</a>
   </span>
   <a id="Innovator_Client_Command_ToString_" data-uid="Innovator.Client.Command.ToString*"></a>
   <h4 id="Innovator_Client_Command_ToString" data-uid="Innovator.Client.Command.ToString">ToString()</h4>
@@ -625,16 +672,19 @@ and element values) will be replaced with the corresponding arguments.</p>
       </tr>
     </tbody>
   </table>
+  <h5 class="overrides">Overrides</h5>
+  <div><span class="xref">System.Object.ToString()</span></div>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithAction_Innovator_Client_CommandAction_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithAction(Innovator.Client.CommandAction)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L152">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L218">View Source</a>
   </span>
   <a id="Innovator_Client_Command_WithAction_" data-uid="Innovator.Client.Command.WithAction*"></a>
   <h4 id="Innovator_Client_Command_WithAction_Innovator_Client_CommandAction_" data-uid="Innovator.Client.Command.WithAction(Innovator.Client.CommandAction)">WithAction(CommandAction)</h4>
-  <div class="markdown level1 summary"><p>Specify the SOAP action to use with the AML</p>
+  <div class="markdown level1 summary"><p><a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+specify the SOAP action to use with the AML</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -654,7 +704,8 @@ and element values) will be replaced with the corresponding arguments.</p>
       <tr>
         <td><a class="xref" href="Innovator.Client.CommandAction.html">CommandAction</a></td>
         <td><span class="parametername">action</span></td>
-        <td></td>
+        <td><p>The SOAP action to send with the AML</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -669,7 +720,8 @@ and element values) will be replaced with the corresponding arguments.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td></td>
+        <td><p>The current command for chaining additional method calls</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -678,11 +730,12 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithAction_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithAction(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L160">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L229">View Source</a>
   </span>
   <a id="Innovator_Client_Command_WithAction_" data-uid="Innovator.Client.Command.WithAction*"></a>
   <h4 id="Innovator_Client_Command_WithAction_System_String_" data-uid="Innovator.Client.Command.WithAction(System.String)">WithAction(String)</h4>
-  <div class="markdown level1 summary"><p>Specify the SOAP action to use with the AML (as a string)</p>
+  <div class="markdown level1 summary"><p><a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+specify the SOAP action to use with the AML (as a string)</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -702,7 +755,8 @@ and element values) will be replaced with the corresponding arguments.</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">action</span></td>
-        <td></td>
+        <td><p>The SOAP action to send with the AML</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -717,7 +771,8 @@ and element values) will be replaced with the corresponding arguments.</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td></td>
+        <td><p>The current command for chaining additional method calls</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -726,12 +781,14 @@ and element values) will be replaced with the corresponding arguments.</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithAml_System_String_System_Object___.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithAml(System.String%2CSystem.Object%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L180">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L251">View Source</a>
   </span>
   <a id="Innovator_Client_Command_WithAml_" data-uid="Innovator.Client.Command.WithAml*"></a>
   <h4 id="Innovator_Client_Command_WithAml_System_String_System_Object___" data-uid="Innovator.Client.Command.WithAml(System.String,System.Object[])">WithAml(String, Object[])</h4>
-  <div class="markdown level1 summary"><p>Replaces SQL Server style numbered AML parameters (used as attribute and element values) with the corresponding arguments.
-Property type conversion and XML formatting is performed</p>
+  <div class="markdown level1 summary"><p><a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+specify the AML of the request.  SQL Server style numbered AML parameters (used as 
+attribute and element values) are replaced with the corresponding arguments. Property type 
+conversion and XML formatting is performed</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -773,21 +830,23 @@ Property type conversion and XML formatting is performed</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td><p>A valid AML string</p>
+        <td><p>The current command for chaining additional method calls</p>
 </td>
       </tr>
     </tbody>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithLogListener_Action_System_Int32_System_String_IEnumerable_KeyValuePair_System_String_System_Object____.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithLogListener(Action%7BSystem.Int32%2CSystem.String%2CIEnumerable%7BKeyValuePair%7BSystem.String%2CSystem.Object%7D%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithLogListener_System_Action_System_Int32_System_String_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair_System_String_System_Object____.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithLogListener(System.Action%7BSystem.Int32%2CSystem.String%2CSystem.Collections.Generic.IEnumerable%7BSystem.Collections.Generic.KeyValuePair%7BSystem.String%2CSystem.Object%7D%7D%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L191">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L266">View Source</a>
   </span>
   <a id="Innovator_Client_Command_WithLogListener_" data-uid="Innovator.Client.Command.WithLogListener*"></a>
-  <h4 id="Innovator_Client_Command_WithLogListener_Action_System_Int32_System_String_IEnumerable_KeyValuePair_System_String_System_Object____" data-uid="Innovator.Client.Command.WithLogListener(Action{System.Int32,System.String,IEnumerable{KeyValuePair{System.String,System.Object}}})">WithLogListener(Action&lt;Int32, String, IEnumerable&lt;KeyValuePair&lt;String, Object&gt;&gt;&gt;)</h4>
-  <div class="markdown level1 summary"><p>Use a specific log listener</p>
+  <h4 id="Innovator_Client_Command_WithLogListener_System_Action_System_Int32_System_String_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair_System_String_System_Object____" data-uid="Innovator.Client.Command.WithLogListener(System.Action{System.Int32,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}}})">WithLogListener(Action&lt;Int32, String, IEnumerable&lt;KeyValuePair&lt;String, Object&gt;&gt;&gt;)</h4>
+  <div class="markdown level1 summary"><p><a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+specify a log listener to be called when logging data is recorded during the execution of 
+this command</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
@@ -805,9 +864,11 @@ Property type conversion and XML formatting is performed</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">Action</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">System.String</span>, <span class="xref">IEnumerable</span>&lt;<span class="xref">KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
+        <td><span class="xref">System.Action</span>&lt;<span class="xref">System.Int32</span>, <span class="xref">System.String</span>, <span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.Collections.Generic.KeyValuePair</span>&lt;<span class="xref">System.String</span>, <span class="xref">System.Object</span>&gt;&gt;&gt;</td>
         <td><span class="parametername">listener</span></td>
-        <td></td>
+        <td><p>Callback to handle the logging of information.  The parameters 
+include the message level, message, and any relevant structured data</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -822,55 +883,8 @@ Property type conversion and XML formatting is performed</p>
     <tbody>
       <tr>
         <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <span class="small pull-right mobile-hide">
-    <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithMimeType_System_String_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithMimeType(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L199">View Source</a>
-  </span>
-  <a id="Innovator_Client_Command_WithMimeType_" data-uid="Innovator.Client.Command.WithMimeType*"></a>
-  <h4 id="Innovator_Client_Command_WithMimeType_System_String_" data-uid="Innovator.Client.Command.WithMimeType(System.String)">WithMimeType(String)</h4>
-  <div class="markdown level1 summary"><p>Specify the MIME type to accept</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Command WithMimeType(string mimeType)</code></pre>
-  </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">System.String</span></td>
-        <td><span class="parametername">mimeType</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-striped table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="Innovator.Client.Command.html">Command</a></td>
-        <td></td>
+        <td><p>The current command for chaining additional method calls</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -879,7 +893,7 @@ Property type conversion and XML formatting is performed</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_WithParam_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.WithParam(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L207">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L277">View Source</a>
   </span>
   <a id="Innovator_Client_Command_WithParam_" data-uid="Innovator.Client.Command.WithParam*"></a>
   <h4 id="Innovator_Client_Command_WithParam_System_String_System_Object_" data-uid="Innovator.Client.Command.WithParam(System.String,System.Object)">WithParam(String, Object)</h4>
@@ -903,12 +917,14 @@ Property type conversion and XML formatting is performed</p>
       <tr>
         <td><span class="xref">System.String</span></td>
         <td><span class="parametername">name</span></td>
-        <td></td>
+        <td><p>Parameter name</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">System.Object</span></td>
         <td><span class="parametername">value</span></td>
-        <td></td>
+        <td><p>Parameter value</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -934,7 +950,7 @@ Property type conversion and XML formatting is performed</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_op_Implicit_System_String__Innovator_Client_Command.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.op_Implicit(System.String)~Innovator.Client.Command%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L230">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L300">View Source</a>
   </span>
   <a id="Innovator_Client_Command_op_Implicit_" data-uid="Innovator.Client.Command.op_Implicit*"></a>
   <h4 id="Innovator_Client_Command_op_Implicit_System_String__Innovator_Client_Command" data-uid="Innovator.Client.Command.op_Implicit(System.String)~Innovator.Client.Command">Implicit(String to Command)</h4>
@@ -979,13 +995,13 @@ Property type conversion and XML formatting is performed</p>
   </table>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_op_Implicit_XElement__Innovator_Client_Command.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.op_Implicit(XElement)~Innovator.Client.Command%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+    <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command_op_Implicit_System_Xml_Linq_XElement__Innovator_Client_Command.md&amp;value=---%0Auid%3A%20Innovator.Client.Command.op_Implicit(System.Xml.Linq.XElement)~Innovator.Client.Command%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L237">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L308">View Source</a>
   </span>
   <a id="Innovator_Client_Command_op_Implicit_" data-uid="Innovator.Client.Command.op_Implicit*"></a>
-  <h4 id="Innovator_Client_Command_op_Implicit_XElement__Innovator_Client_Command" data-uid="Innovator.Client.Command.op_Implicit(XElement)~Innovator.Client.Command">Implicit(XElement to Command)</h4>
+  <h4 id="Innovator_Client_Command_op_Implicit_System_Xml_Linq_XElement__Innovator_Client_Command" data-uid="Innovator.Client.Command.op_Implicit(System.Xml.Linq.XElement)~Innovator.Client.Command">Implicit(XElement to Command)</h4>
   <div class="markdown level1 summary"><p>Implicitly convert XML elements to commands as needed</p>
 </div>
   <div class="markdown level1 conceptual"></div>
@@ -1004,7 +1020,7 @@ Property type conversion and XML formatting is performed</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">XElement</span></td>
+        <td><span class="xref">System.Xml.Linq.XElement</span></td>
         <td><span class="parametername">aml</span></td>
         <td></td>
       </tr>
@@ -1029,6 +1045,10 @@ Property type conversion and XML formatting is performed</p>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToNormalizedAml_Innovator_Client_Command_Innovator_Client_ElementFactory_">ItemExtensions.ToNormalizedAml(Command, ElementFactory)</a>
   </div>
+  <h3 id="seealso">See Also</h3>
+  <div class="seealso">
+      <div><a class="xref" href="Innovator.Client.ParameterSubstitution.html">ParameterSubstitution</a></div>
+  </div>
 </article>
           </div>
           
@@ -1040,7 +1060,7 @@ Property type conversion and XML formatting is performed</p>
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_Command.md&amp;value=---%0Auid%3A%20Innovator.Client.Command%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L13" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Command.cs/#L62" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

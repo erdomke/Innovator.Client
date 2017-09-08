@@ -79,11 +79,11 @@ references:
   commentId: M:Innovator.Client.AmlSqlWriter.#ctor(Innovator.Client.IAmlSqlWriterSettings)
   fullName: Innovator.Client.AmlSqlWriter.AmlSqlWriter(Innovator.Client.IAmlSqlWriterSettings)
   nameWithType: AmlSqlWriter.AmlSqlWriter(IAmlSqlWriterSettings)
-- uid: Innovator.Client.AmlSqlWriter.#ctor(TextWriter,Innovator.Client.IAmlSqlWriterSettings)
+- uid: Innovator.Client.AmlSqlWriter.#ctor(System.IO.TextWriter,Innovator.Client.IAmlSqlWriterSettings)
   name: AmlSqlWriter(TextWriter, IAmlSqlWriterSettings)
-  href: api/Innovator.Client.AmlSqlWriter.html#Innovator_Client_AmlSqlWriter__ctor_TextWriter_Innovator_Client_IAmlSqlWriterSettings_
-  commentId: M:Innovator.Client.AmlSqlWriter.#ctor(TextWriter,Innovator.Client.IAmlSqlWriterSettings)
-  fullName: Innovator.Client.AmlSqlWriter.AmlSqlWriter(TextWriter, Innovator.Client.IAmlSqlWriterSettings)
+  href: api/Innovator.Client.AmlSqlWriter.html#Innovator_Client_AmlSqlWriter__ctor_System_IO_TextWriter_Innovator_Client_IAmlSqlWriterSettings_
+  commentId: M:Innovator.Client.AmlSqlWriter.#ctor(System.IO.TextWriter,Innovator.Client.IAmlSqlWriterSettings)
+  fullName: Innovator.Client.AmlSqlWriter.AmlSqlWriter(System.IO.TextWriter, Innovator.Client.IAmlSqlWriterSettings)
   nameWithType: AmlSqlWriter.AmlSqlWriter(TextWriter, IAmlSqlWriterSettings)
 - uid: Innovator.Client.AmlSqlWriter.#ctor*
   name: AmlSqlWriter
@@ -139,11 +139,11 @@ references:
   commentId: M:Innovator.Client.AmlSqlWriter.ToString(Innovator.Client.AmlSqlRenderOption)
   fullName: Innovator.Client.AmlSqlWriter.ToString(Innovator.Client.AmlSqlRenderOption)
   nameWithType: AmlSqlWriter.ToString(AmlSqlRenderOption)
-- uid: Innovator.Client.AmlSqlWriter.ToString(TextWriter,Innovator.Client.AmlSqlRenderOption)
+- uid: Innovator.Client.AmlSqlWriter.ToString(System.IO.TextWriter,Innovator.Client.AmlSqlRenderOption)
   name: ToString(TextWriter, AmlSqlRenderOption)
-  href: api/Innovator.Client.AmlSqlWriter.html#Innovator_Client_AmlSqlWriter_ToString_TextWriter_Innovator_Client_AmlSqlRenderOption_
-  commentId: M:Innovator.Client.AmlSqlWriter.ToString(TextWriter,Innovator.Client.AmlSqlRenderOption)
-  fullName: Innovator.Client.AmlSqlWriter.ToString(TextWriter, Innovator.Client.AmlSqlRenderOption)
+  href: api/Innovator.Client.AmlSqlWriter.html#Innovator_Client_AmlSqlWriter_ToString_System_IO_TextWriter_Innovator_Client_AmlSqlRenderOption_
+  commentId: M:Innovator.Client.AmlSqlWriter.ToString(System.IO.TextWriter,Innovator.Client.AmlSqlRenderOption)
+  fullName: Innovator.Client.AmlSqlWriter.ToString(System.IO.TextWriter, Innovator.Client.AmlSqlRenderOption)
   nameWithType: AmlSqlWriter.ToString(TextWriter, AmlSqlRenderOption)
 - uid: Innovator.Client.AmlSqlWriter.ToString*
   name: ToString
@@ -601,6 +601,94 @@ references:
   commentId: Overload:Innovator.Client.ArasHeaders.Remove
   fullName: Innovator.Client.ArasHeaders.Remove
   nameWithType: ArasHeaders.Remove
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Add(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  name: ICollection<KeyValuePair<String, String>>.Add(KeyValuePair<String, String>)
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___Add_System_Collections_Generic_KeyValuePair_System_String_System_String__
+  commentId: M:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Add(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Add(KeyValuePair(Of String, String))
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.Add(System.Collections.Generic.KeyValuePair<System.String, System.String>)
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Add(System.Collections.Generic.KeyValuePair(Of System.String, System.String))
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.Add(KeyValuePair<String, String>)
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Add(KeyValuePair(Of String, String))
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Add*
+  name: ICollection<KeyValuePair<String, String>>.Add
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___Add_
+  commentId: Overload:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Add
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Add
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.Add
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Add
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.Add
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Add
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Contains(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  name: ICollection<KeyValuePair<String, String>>.Contains(KeyValuePair<String, String>)
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___Contains_System_Collections_Generic_KeyValuePair_System_String_System_String__
+  commentId: M:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Contains(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Contains(KeyValuePair(Of String, String))
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.Contains(System.Collections.Generic.KeyValuePair<System.String, System.String>)
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Contains(System.Collections.Generic.KeyValuePair(Of System.String, System.String))
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.Contains(KeyValuePair<String, String>)
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Contains(KeyValuePair(Of String, String))
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Contains*
+  name: ICollection<KeyValuePair<String, String>>.Contains
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___Contains_
+  commentId: Overload:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Contains
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Contains
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.Contains
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Contains
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.Contains
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Contains
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.String}[],System.Int32)
+  name: ICollection<KeyValuePair<String, String>>.CopyTo(KeyValuePair<String, String>[], Int32)
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___CopyTo_System_Collections_Generic_KeyValuePair_System_String_System_String____System_Int32_
+  commentId: M:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.String}[],System.Int32)
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.CopyTo(KeyValuePair(Of String, String)(), Int32)
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.CopyTo(System.Collections.Generic.KeyValuePair<System.String, System.String>[], System.Int32)
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.CopyTo(System.Collections.Generic.KeyValuePair(Of System.String, System.String)(), System.Int32)
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.CopyTo(KeyValuePair<String, String>[], Int32)
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.CopyTo(KeyValuePair(Of String, String)(), Int32)
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#CopyTo*
+  name: ICollection<KeyValuePair<String, String>>.CopyTo
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___CopyTo_
+  commentId: Overload:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#CopyTo
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.CopyTo
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.CopyTo
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.CopyTo
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.CopyTo
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.CopyTo
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Remove(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  name: ICollection<KeyValuePair<String, String>>.Remove(KeyValuePair<String, String>)
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___Remove_System_Collections_Generic_KeyValuePair_System_String_System_String__
+  commentId: M:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Remove(System.Collections.Generic.KeyValuePair{System.String,System.String})
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Remove(KeyValuePair(Of String, String))
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.Remove(System.Collections.Generic.KeyValuePair<System.String, System.String>)
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Remove(System.Collections.Generic.KeyValuePair(Of System.String, System.String))
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.Remove(KeyValuePair<String, String>)
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Remove(KeyValuePair(Of String, String))
+- uid: Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Remove*
+  name: ICollection<KeyValuePair<String, String>>.Remove
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_Generic_ICollection_System_Collections_Generic_KeyValuePair_System_String_System_String___Remove_
+  commentId: Overload:Innovator.Client.ArasHeaders.System#Collections#Generic#ICollection{System#Collections#Generic#KeyValuePair{System#String,System#String}}#Remove
+  name.vb: System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Remove
+  fullName: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String, System.String>>.Remove
+  fullName.vb: Innovator.Client.ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Remove
+  nameWithType: ArasHeaders.ICollection<KeyValuePair<String, String>>.Remove
+  nameWithType.vb: ArasHeaders.System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<System.String,System.String>>.Remove
+- uid: Innovator.Client.ArasHeaders.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Innovator.Client.ArasHeaders.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Innovator.Client.ArasHeaders.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: ArasHeaders.IEnumerable.GetEnumerator()
+  nameWithType.vb: ArasHeaders.System.Collections.IEnumerable.GetEnumerator()
+- uid: Innovator.Client.ArasHeaders.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Innovator.Client.ArasHeaders.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Innovator.Client.ArasHeaders.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: ArasHeaders.IEnumerable.GetEnumerator
+  nameWithType.vb: ArasHeaders.System.Collections.IEnumerable.GetEnumerator
 - uid: Innovator.Client.ArasHeaders.TimeZone
   name: TimeZone
   href: api/Innovator.Client.ArasHeaders.html#Innovator_Client_ArasHeaders_TimeZone
@@ -688,21 +776,21 @@ references:
   commentId: M:Innovator.Client.Command.#ctor
   fullName: Innovator.Client.Command.Command()
   nameWithType: Command.Command()
-- uid: Innovator.Client.Command.#ctor(IEnumerable{Innovator.Client.IAmlNode})
-  name: Command(IEnumerable<IAmlNode>)
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command__ctor_IEnumerable_Innovator_Client_IAmlNode__
-  commentId: M:Innovator.Client.Command.#ctor(IEnumerable{Innovator.Client.IAmlNode})
-  name.vb: Command(IEnumerable(Of IAmlNode))
-  fullName: Innovator.Client.Command.Command(IEnumerable<Innovator.Client.IAmlNode>)
-  fullName.vb: Innovator.Client.Command.Command(IEnumerable(Of Innovator.Client.IAmlNode))
-  nameWithType: Command.Command(IEnumerable<IAmlNode>)
-  nameWithType.vb: Command.Command(IEnumerable(Of IAmlNode))
 - uid: Innovator.Client.Command.#ctor(Innovator.Client.IAmlNode)
   name: Command(IAmlNode)
   href: api/Innovator.Client.Command.html#Innovator_Client_Command__ctor_Innovator_Client_IAmlNode_
   commentId: M:Innovator.Client.Command.#ctor(Innovator.Client.IAmlNode)
   fullName: Innovator.Client.Command.Command(Innovator.Client.IAmlNode)
   nameWithType: Command.Command(IAmlNode)
+- uid: Innovator.Client.Command.#ctor(System.Collections.Generic.IEnumerable{Innovator.Client.IAmlNode})
+  name: Command(IEnumerable<IAmlNode>)
+  href: api/Innovator.Client.Command.html#Innovator_Client_Command__ctor_System_Collections_Generic_IEnumerable_Innovator_Client_IAmlNode__
+  commentId: M:Innovator.Client.Command.#ctor(System.Collections.Generic.IEnumerable{Innovator.Client.IAmlNode})
+  name.vb: Command(IEnumerable(Of IAmlNode))
+  fullName: Innovator.Client.Command.Command(System.Collections.Generic.IEnumerable<Innovator.Client.IAmlNode>)
+  fullName.vb: Innovator.Client.Command.Command(System.Collections.Generic.IEnumerable(Of Innovator.Client.IAmlNode))
+  nameWithType: Command.Command(IEnumerable<IAmlNode>)
+  nameWithType.vb: Command.Command(IEnumerable(Of IAmlNode))
 - uid: Innovator.Client.Command.#ctor(System.String,System.Object[])
   name: Command(String, Object[])
   href: api/Innovator.Client.Command.html#Innovator_Client_Command__ctor_System_String_System_Object___
@@ -718,18 +806,6 @@ references:
   commentId: Overload:Innovator.Client.Command.#ctor
   fullName: Innovator.Client.Command.Command
   nameWithType: Command.Command
-- uid: Innovator.Client.Command.AcceptMimeType
-  name: AcceptMimeType
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_AcceptMimeType
-  commentId: P:Innovator.Client.Command.AcceptMimeType
-  fullName: Innovator.Client.Command.AcceptMimeType
-  nameWithType: Command.AcceptMimeType
-- uid: Innovator.Client.Command.AcceptMimeType*
-  name: AcceptMimeType
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_AcceptMimeType_
-  commentId: Overload:Innovator.Client.Command.AcceptMimeType
-  fullName: Innovator.Client.Command.AcceptMimeType
-  nameWithType: Command.AcceptMimeType
 - uid: Innovator.Client.Command.Action
   name: Action
   href: api/Innovator.Client.Command.html#Innovator_Client_Command_Action
@@ -799,13 +875,13 @@ references:
   fullName.vb: Innovator.Client.Command.Widening(System.String to Innovator.Client.Command)
   nameWithType: Command.Implicit(String to Command)
   nameWithType.vb: Command.Widening(String to Command)
-- uid: Innovator.Client.Command.op_Implicit(XElement)~Innovator.Client.Command
+- uid: Innovator.Client.Command.op_Implicit(System.Xml.Linq.XElement)~Innovator.Client.Command
   name: Implicit(XElement to Command)
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_op_Implicit_XElement__Innovator_Client_Command
-  commentId: M:Innovator.Client.Command.op_Implicit(XElement)~Innovator.Client.Command
+  href: api/Innovator.Client.Command.html#Innovator_Client_Command_op_Implicit_System_Xml_Linq_XElement__Innovator_Client_Command
+  commentId: M:Innovator.Client.Command.op_Implicit(System.Xml.Linq.XElement)~Innovator.Client.Command
   name.vb: Widening(XElement to Command)
-  fullName: Innovator.Client.Command.Implicit(XElement to Innovator.Client.Command)
-  fullName.vb: Innovator.Client.Command.Widening(XElement to Innovator.Client.Command)
+  fullName: Innovator.Client.Command.Implicit(System.Xml.Linq.XElement to Innovator.Client.Command)
+  fullName.vb: Innovator.Client.Command.Widening(System.Xml.Linq.XElement to Innovator.Client.Command)
   nameWithType: Command.Implicit(XElement to Command)
   nameWithType.vb: Command.Widening(XElement to Command)
 - uid: Innovator.Client.Command.op_Implicit*
@@ -847,17 +923,17 @@ references:
   commentId: M:Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext)
   fullName: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext)
   nameWithType: Command.ToNormalizedAml(IServerContext)
-- uid: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,TextWriter)
+- uid: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,System.IO.TextWriter)
   name: ToNormalizedAml(IServerContext, TextWriter)
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_TextWriter_
-  commentId: M:Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,TextWriter)
-  fullName: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext, TextWriter)
+  href: api/Innovator.Client.Command.html#Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_System_IO_TextWriter_
+  commentId: M:Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,System.IO.TextWriter)
+  fullName: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext, System.IO.TextWriter)
   nameWithType: Command.ToNormalizedAml(IServerContext, TextWriter)
-- uid: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,XmlWriter)
+- uid: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,System.Xml.XmlWriter)
   name: ToNormalizedAml(IServerContext, XmlWriter)
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_XmlWriter_
-  commentId: M:Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,XmlWriter)
-  fullName: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext, XmlWriter)
+  href: api/Innovator.Client.Command.html#Innovator_Client_Command_ToNormalizedAml_Innovator_Client_IServerContext_System_Xml_XmlWriter_
+  commentId: M:Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext,System.Xml.XmlWriter)
+  fullName: Innovator.Client.Command.ToNormalizedAml(Innovator.Client.IServerContext, System.Xml.XmlWriter)
   nameWithType: Command.ToNormalizedAml(IServerContext, XmlWriter)
 - uid: Innovator.Client.Command.ToNormalizedAml*
   name: ToNormalizedAml
@@ -910,13 +986,13 @@ references:
   commentId: Overload:Innovator.Client.Command.WithAml
   fullName: Innovator.Client.Command.WithAml
   nameWithType: Command.WithAml
-- uid: Innovator.Client.Command.WithLogListener(Action{System.Int32,System.String,IEnumerable{KeyValuePair{System.String,System.Object}}})
+- uid: Innovator.Client.Command.WithLogListener(System.Action{System.Int32,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}}})
   name: WithLogListener(Action<Int32, String, IEnumerable<KeyValuePair<String, Object>>>)
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_WithLogListener_Action_System_Int32_System_String_IEnumerable_KeyValuePair_System_String_System_Object____
-  commentId: M:Innovator.Client.Command.WithLogListener(Action{System.Int32,System.String,IEnumerable{KeyValuePair{System.String,System.Object}}})
+  href: api/Innovator.Client.Command.html#Innovator_Client_Command_WithLogListener_System_Action_System_Int32_System_String_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair_System_String_System_Object____
+  commentId: M:Innovator.Client.Command.WithLogListener(System.Action{System.Int32,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}}})
   name.vb: WithLogListener(Action(Of Int32, String, IEnumerable(Of KeyValuePair(Of String, Object))))
-  fullName: Innovator.Client.Command.WithLogListener(Action<System.Int32, System.String, IEnumerable<KeyValuePair<System.String, System.Object>>>)
-  fullName.vb: Innovator.Client.Command.WithLogListener(Action(Of System.Int32, System.String, IEnumerable(Of KeyValuePair(Of System.String, System.Object))))
+  fullName: Innovator.Client.Command.WithLogListener(System.Action<System.Int32, System.String, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<System.String, System.Object>>>)
+  fullName.vb: Innovator.Client.Command.WithLogListener(System.Action(Of System.Int32, System.String, System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of System.String, System.Object))))
   nameWithType: Command.WithLogListener(Action<Int32, String, IEnumerable<KeyValuePair<String, Object>>>)
   nameWithType.vb: Command.WithLogListener(Action(Of Int32, String, IEnumerable(Of KeyValuePair(Of String, Object))))
 - uid: Innovator.Client.Command.WithLogListener*
@@ -925,18 +1001,6 @@ references:
   commentId: Overload:Innovator.Client.Command.WithLogListener
   fullName: Innovator.Client.Command.WithLogListener
   nameWithType: Command.WithLogListener
-- uid: Innovator.Client.Command.WithMimeType(System.String)
-  name: WithMimeType(String)
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_WithMimeType_System_String_
-  commentId: M:Innovator.Client.Command.WithMimeType(System.String)
-  fullName: Innovator.Client.Command.WithMimeType(System.String)
-  nameWithType: Command.WithMimeType(String)
-- uid: Innovator.Client.Command.WithMimeType*
-  name: WithMimeType
-  href: api/Innovator.Client.Command.html#Innovator_Client_Command_WithMimeType_
-  commentId: Overload:Innovator.Client.Command.WithMimeType
-  fullName: Innovator.Client.Command.WithMimeType
-  nameWithType: Command.WithMimeType
 - uid: Innovator.Client.Command.WithParam(System.String,System.Object)
   name: WithParam(String, Object)
   href: api/Innovator.Client.Command.html#Innovator_Client_Command_WithParam_System_String_System_Object_
@@ -1753,11 +1817,11 @@ references:
   commentId: T:Innovator.Client.Connection.ArasHttpConnection
   fullName: Innovator.Client.Connection.ArasHttpConnection
   nameWithType: ArasHttpConnection
-- uid: Innovator.Client.Connection.ArasHttpConnection.#ctor(HttpClient,System.String,Innovator.Client.IItemFactory)
+- uid: Innovator.Client.Connection.ArasHttpConnection.#ctor(System.Net.Http.HttpClient,System.String,Innovator.Client.IItemFactory)
   name: ArasHttpConnection(HttpClient, String, IItemFactory)
-  href: api/Innovator.Client.Connection.ArasHttpConnection.html#Innovator_Client_Connection_ArasHttpConnection__ctor_HttpClient_System_String_Innovator_Client_IItemFactory_
-  commentId: M:Innovator.Client.Connection.ArasHttpConnection.#ctor(HttpClient,System.String,Innovator.Client.IItemFactory)
-  fullName: Innovator.Client.Connection.ArasHttpConnection.ArasHttpConnection(HttpClient, System.String, Innovator.Client.IItemFactory)
+  href: api/Innovator.Client.Connection.ArasHttpConnection.html#Innovator_Client_Connection_ArasHttpConnection__ctor_System_Net_Http_HttpClient_System_String_Innovator_Client_IItemFactory_
+  commentId: M:Innovator.Client.Connection.ArasHttpConnection.#ctor(System.Net.Http.HttpClient,System.String,Innovator.Client.IItemFactory)
+  fullName: Innovator.Client.Connection.ArasHttpConnection.ArasHttpConnection(System.Net.Http.HttpClient, System.String, Innovator.Client.IItemFactory)
   nameWithType: ArasHttpConnection.ArasHttpConnection(HttpClient, String, IItemFactory)
 - uid: Innovator.Client.Connection.ArasHttpConnection.#ctor*
   name: ArasHttpConnection
@@ -1825,13 +1889,13 @@ references:
   commentId: Overload:Innovator.Client.Connection.ArasHttpConnection.Database
   fullName: Innovator.Client.Connection.ArasHttpConnection.Database
   nameWithType: ArasHttpConnection.Database
-- uid: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(Action{Innovator.Client.IHttpRequest})
+- uid: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(System.Action{Innovator.Client.IHttpRequest})
   name: DefaultSettings(Action<IHttpRequest>)
-  href: api/Innovator.Client.Connection.ArasHttpConnection.html#Innovator_Client_Connection_ArasHttpConnection_DefaultSettings_Action_Innovator_Client_IHttpRequest__
-  commentId: M:Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(Action{Innovator.Client.IHttpRequest})
+  href: api/Innovator.Client.Connection.ArasHttpConnection.html#Innovator_Client_Connection_ArasHttpConnection_DefaultSettings_System_Action_Innovator_Client_IHttpRequest__
+  commentId: M:Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(System.Action{Innovator.Client.IHttpRequest})
   name.vb: DefaultSettings(Action(Of IHttpRequest))
-  fullName: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(Action<Innovator.Client.IHttpRequest>)
-  fullName.vb: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(Action(Of Innovator.Client.IHttpRequest))
+  fullName: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(System.Action<Innovator.Client.IHttpRequest>)
+  fullName.vb: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings(System.Action(Of Innovator.Client.IHttpRequest))
   nameWithType: ArasHttpConnection.DefaultSettings(Action<IHttpRequest>)
   nameWithType.vb: ArasHttpConnection.DefaultSettings(Action(Of IHttpRequest))
 - uid: Innovator.Client.Connection.ArasHttpConnection.DefaultSettings*
@@ -1910,13 +1974,13 @@ references:
   fullName: Innovator.Client.Connection.ArasHttpConnection.Innovator.Client.Connection.IArasConnection.DefaultSettings
   nameWithType: ArasHttpConnection.IArasConnection.DefaultSettings
   nameWithType.vb: ArasHttpConnection.Innovator.Client.Connection.IArasConnection.DefaultSettings
-- uid: Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders(Action{System.String,System.String})
+- uid: Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders(System.Action{System.String,System.String})
   name: IArasConnection.SetDefaultHeaders(Action<String, String>)
-  href: api/Innovator.Client.Connection.ArasHttpConnection.html#Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_Action_System_String_System_String__
-  commentId: M:Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders(Action{System.String,System.String})
+  href: api/Innovator.Client.Connection.ArasHttpConnection.html#Innovator_Client_Connection_ArasHttpConnection_Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_System_Action_System_String_System_String__
+  commentId: M:Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders(System.Action{System.String,System.String})
   name.vb: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action(Of String, String))
-  fullName: Innovator.Client.Connection.ArasHttpConnection.Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action<System.String, System.String>)
-  fullName.vb: Innovator.Client.Connection.ArasHttpConnection.Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action(Of System.String, System.String))
+  fullName: Innovator.Client.Connection.ArasHttpConnection.Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(System.Action<System.String, System.String>)
+  fullName.vb: Innovator.Client.Connection.ArasHttpConnection.Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(System.Action(Of System.String, System.String))
   nameWithType: ArasHttpConnection.IArasConnection.SetDefaultHeaders(Action<String, String>)
   nameWithType.vb: ArasHttpConnection.Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action(Of String, String))
 - uid: Innovator.Client.Connection.ArasHttpConnection.Innovator#Client#Connection#IArasConnection#SetDefaultHeaders*
@@ -2209,13 +2273,13 @@ references:
   commentId: Overload:Innovator.Client.Connection.IArasConnection.DefaultSettings
   fullName: Innovator.Client.Connection.IArasConnection.DefaultSettings
   nameWithType: IArasConnection.DefaultSettings
-- uid: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action{System.String,System.String})
+- uid: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(System.Action{System.String,System.String})
   name: SetDefaultHeaders(Action<String, String>)
-  href: api/Innovator.Client.Connection.IArasConnection.html#Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_Action_System_String_System_String__
-  commentId: M:Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action{System.String,System.String})
+  href: api/Innovator.Client.Connection.IArasConnection.html#Innovator_Client_Connection_IArasConnection_SetDefaultHeaders_System_Action_System_String_System_String__
+  commentId: M:Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(System.Action{System.String,System.String})
   name.vb: SetDefaultHeaders(Action(Of String, String))
-  fullName: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action<System.String, System.String>)
-  fullName.vb: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(Action(Of System.String, System.String))
+  fullName: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(System.Action<System.String, System.String>)
+  fullName.vb: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders(System.Action(Of System.String, System.String))
   nameWithType: IArasConnection.SetDefaultHeaders(Action<String, String>)
   nameWithType.vb: IArasConnection.SetDefaultHeaders(Action(Of String, String))
 - uid: Innovator.Client.Connection.IArasConnection.SetDefaultHeaders*
@@ -2296,80 +2360,6 @@ references:
   commentId: Overload:Innovator.Client.Connection.IVaultStrategy.WritePriority
   fullName: Innovator.Client.Connection.IVaultStrategy.WritePriority
   nameWithType: IVaultStrategy.WritePriority
-- uid: Innovator.Client.Connection.MemoryCache`2
-  name: MemoryCache<TKey, TValue>
-  href: api/Innovator.Client.Connection.MemoryCache-2.html
-  commentId: T:Innovator.Client.Connection.MemoryCache`2
-  name.vb: MemoryCache(Of TKey, TValue)
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue)
-  nameWithType: MemoryCache<TKey, TValue>
-  nameWithType.vb: MemoryCache(Of TKey, TValue)
-- uid: Innovator.Client.Connection.MemoryCache`2.#ctor
-  name: MemoryCache()
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2__ctor
-  commentId: M:Innovator.Client.Connection.MemoryCache`2.#ctor
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.MemoryCache()
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).MemoryCache()
-  nameWithType: MemoryCache<TKey, TValue>.MemoryCache()
-  nameWithType.vb: MemoryCache(Of TKey, TValue).MemoryCache()
-- uid: Innovator.Client.Connection.MemoryCache`2.#ctor*
-  name: MemoryCache
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2__ctor_
-  commentId: Overload:Innovator.Client.Connection.MemoryCache`2.#ctor
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.MemoryCache
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).MemoryCache
-  nameWithType: MemoryCache<TKey, TValue>.MemoryCache
-  nameWithType.vb: MemoryCache(Of TKey, TValue).MemoryCache
-- uid: Innovator.Client.Connection.MemoryCache`2.MaxSize
-  name: MaxSize
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2_MaxSize
-  commentId: P:Innovator.Client.Connection.MemoryCache`2.MaxSize
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.MaxSize
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).MaxSize
-  nameWithType: MemoryCache<TKey, TValue>.MaxSize
-  nameWithType.vb: MemoryCache(Of TKey, TValue).MaxSize
-- uid: Innovator.Client.Connection.MemoryCache`2.MaxSize*
-  name: MaxSize
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2_MaxSize_
-  commentId: Overload:Innovator.Client.Connection.MemoryCache`2.MaxSize
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.MaxSize
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).MaxSize
-  nameWithType: MemoryCache<TKey, TValue>.MaxSize
-  nameWithType.vb: MemoryCache(Of TKey, TValue).MaxSize
-- uid: Innovator.Client.Connection.MemoryCache`2.TryAdd(`0,`1)
-  name: TryAdd(TKey, TValue)
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2_TryAdd__0__1_
-  commentId: M:Innovator.Client.Connection.MemoryCache`2.TryAdd(`0,`1)
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.TryAdd(TKey, TValue)
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).TryAdd(TKey, TValue)
-  nameWithType: MemoryCache<TKey, TValue>.TryAdd(TKey, TValue)
-  nameWithType.vb: MemoryCache(Of TKey, TValue).TryAdd(TKey, TValue)
-- uid: Innovator.Client.Connection.MemoryCache`2.TryAdd*
-  name: TryAdd
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2_TryAdd_
-  commentId: Overload:Innovator.Client.Connection.MemoryCache`2.TryAdd
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.TryAdd
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).TryAdd
-  nameWithType: MemoryCache<TKey, TValue>.TryAdd
-  nameWithType.vb: MemoryCache(Of TKey, TValue).TryAdd
-- uid: Innovator.Client.Connection.MemoryCache`2.TryGetValue(`0,`1@)
-  name: TryGetValue(TKey, out TValue)
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2_TryGetValue__0__1__
-  commentId: M:Innovator.Client.Connection.MemoryCache`2.TryGetValue(`0,`1@)
-  name.vb: TryGetValue(TKey, ByRef TValue)
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.TryGetValue(TKey, out TValue)
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).TryGetValue(TKey, ByRef TValue)
-  nameWithType: MemoryCache<TKey, TValue>.TryGetValue(TKey, out TValue)
-  nameWithType.vb: MemoryCache(Of TKey, TValue).TryGetValue(TKey, ByRef TValue)
-- uid: Innovator.Client.Connection.MemoryCache`2.TryGetValue*
-  name: TryGetValue
-  href: api/Innovator.Client.Connection.MemoryCache-2.html#Innovator_Client_Connection_MemoryCache_2_TryGetValue_
-  commentId: Overload:Innovator.Client.Connection.MemoryCache`2.TryGetValue
-  fullName: Innovator.Client.Connection.MemoryCache<TKey, TValue>.TryGetValue
-  fullName.vb: Innovator.Client.Connection.MemoryCache(Of TKey, TValue).TryGetValue
-  nameWithType: MemoryCache<TKey, TValue>.TryGetValue
-  nameWithType.vb: MemoryCache(Of TKey, TValue).TryGetValue
 - uid: Innovator.Client.ConnectionExtensions
   name: ConnectionExtensions
   href: api/Innovator.Client.ConnectionExtensions.html
@@ -2391,15 +2381,6 @@ references:
   commentId: Overload:Innovator.Client.ConnectionExtensions.Apply
   fullName: Innovator.Client.ConnectionExtensions.Apply
   nameWithType: ConnectionExtensions.Apply
-- uid: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,CancellationToken,System.Object[])
-  name: ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])
-  href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_CancellationToken_System_Object___
-  commentId: M:Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,CancellationToken,System.Object[])
-  name.vb: ApplyAsync(IAsyncConnection, Command, CancellationToken, Object())
-  fullName: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection, Innovator.Client.Command, CancellationToken, System.Object[])
-  fullName.vb: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection, Innovator.Client.Command, CancellationToken, System.Object())
-  nameWithType: ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])
-  nameWithType.vb: ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object())
 - uid: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Boolean,System.Boolean,System.Object[])
   name: ApplyAsync(IAsyncConnection, Command, Boolean, Boolean, Object[])
   href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_System_Boolean_System_Object___
@@ -2409,24 +2390,33 @@ references:
   fullName.vb: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection, Innovator.Client.Command, System.Boolean, System.Boolean, System.Object())
   nameWithType: ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, Boolean, Boolean, Object[])
   nameWithType.vb: ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, Boolean, Boolean, Object())
+- uid: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Threading.CancellationToken,System.Object[])
+  name: ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])
+  href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_System_Object___
+  commentId: M:Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Threading.CancellationToken,System.Object[])
+  name.vb: ApplyAsync(IAsyncConnection, Command, CancellationToken, Object())
+  fullName: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection, Innovator.Client.Command, System.Threading.CancellationToken, System.Object[])
+  fullName.vb: Innovator.Client.ConnectionExtensions.ApplyAsync(Innovator.Client.IAsyncConnection, Innovator.Client.Command, System.Threading.CancellationToken, System.Object())
+  nameWithType: ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object[])
+  nameWithType.vb: ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, CancellationToken, Object())
 - uid: Innovator.Client.ConnectionExtensions.ApplyAsync*
   name: ApplyAsync
   href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplyAsync_
   commentId: Overload:Innovator.Client.ConnectionExtensions.ApplyAsync
   fullName: Innovator.Client.ConnectionExtensions.ApplyAsync
   nameWithType: ConnectionExtensions.ApplyAsync
-- uid: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,CancellationToken)
-  name: ApplySql(IAsyncConnection, Command, CancellationToken)
-  href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_CancellationToken_
-  commentId: M:Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,CancellationToken)
-  fullName: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection, Innovator.Client.Command, CancellationToken)
-  nameWithType: ConnectionExtensions.ApplySql(IAsyncConnection, Command, CancellationToken)
 - uid: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Boolean)
   name: ApplySql(IAsyncConnection, Command, Boolean)
   href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Boolean_
   commentId: M:Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Boolean)
   fullName: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection, Innovator.Client.Command, System.Boolean)
   nameWithType: ConnectionExtensions.ApplySql(IAsyncConnection, Command, Boolean)
+- uid: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Threading.CancellationToken)
+  name: ApplySql(IAsyncConnection, Command, CancellationToken)
+  href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IAsyncConnection_Innovator_Client_Command_System_Threading_CancellationToken_
+  commentId: M:Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection,Innovator.Client.Command,System.Threading.CancellationToken)
+  fullName: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IAsyncConnection, Innovator.Client.Command, System.Threading.CancellationToken)
+  nameWithType: ConnectionExtensions.ApplySql(IAsyncConnection, Command, CancellationToken)
 - uid: Innovator.Client.ConnectionExtensions.ApplySql(Innovator.Client.IConnection,Innovator.Client.Command,System.Object[])
   name: ApplySql(IConnection, Command, Object[])
   href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ApplySql_Innovator_Client_IConnection_Innovator_Client_Command_System_Object___
@@ -2454,13 +2444,13 @@ references:
   commentId: Overload:Innovator.Client.ConnectionExtensions.ItemById
   fullName: Innovator.Client.ConnectionExtensions.ItemById
   nameWithType: ConnectionExtensions.ItemById
-- uid: Innovator.Client.ConnectionExtensions.ItemById``1(Innovator.Client.IConnection,System.String,System.String,Func{Innovator.Client.IReadOnlyItem,``0})
+- uid: Innovator.Client.ConnectionExtensions.ItemById``1(Innovator.Client.IConnection,System.String,System.String,System.Func{Innovator.Client.IReadOnlyItem,``0})
   name: ItemById<T>(IConnection, String, String, Func<IReadOnlyItem, T>)
-  href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_Func_Innovator_Client_IReadOnlyItem___0__
-  commentId: M:Innovator.Client.ConnectionExtensions.ItemById``1(Innovator.Client.IConnection,System.String,System.String,Func{Innovator.Client.IReadOnlyItem,``0})
+  href: api/Innovator.Client.ConnectionExtensions.html#Innovator_Client_ConnectionExtensions_ItemById__1_Innovator_Client_IConnection_System_String_System_String_System_Func_Innovator_Client_IReadOnlyItem___0__
+  commentId: M:Innovator.Client.ConnectionExtensions.ItemById``1(Innovator.Client.IConnection,System.String,System.String,System.Func{Innovator.Client.IReadOnlyItem,``0})
   name.vb: ItemById(Of T)(IConnection, String, String, Func(Of IReadOnlyItem, T))
-  fullName: Innovator.Client.ConnectionExtensions.ItemById<T>(Innovator.Client.IConnection, System.String, System.String, Func<Innovator.Client.IReadOnlyItem, T>)
-  fullName.vb: Innovator.Client.ConnectionExtensions.ItemById(Of T)(Innovator.Client.IConnection, System.String, System.String, Func(Of Innovator.Client.IReadOnlyItem, T))
+  fullName: Innovator.Client.ConnectionExtensions.ItemById<T>(Innovator.Client.IConnection, System.String, System.String, System.Func<Innovator.Client.IReadOnlyItem, T>)
+  fullName.vb: Innovator.Client.ConnectionExtensions.ItemById(Of T)(Innovator.Client.IConnection, System.String, System.String, System.Func(Of Innovator.Client.IReadOnlyItem, T))
   nameWithType: ConnectionExtensions.ItemById<T>(IConnection, String, String, Func<IReadOnlyItem, T>)
   nameWithType.vb: ConnectionExtensions.ItemById(Of T)(IConnection, String, String, Func(Of IReadOnlyItem, T))
 - uid: Innovator.Client.ConnectionExtensions.ItemByKeyedName(Innovator.Client.IConnection,System.String,System.String)
@@ -2661,13 +2651,13 @@ references:
   commentId: M:Innovator.Client.ConnectionPreferences.#ctor
   fullName: Innovator.Client.ConnectionPreferences.ConnectionPreferences()
   nameWithType: ConnectionPreferences.ConnectionPreferences()
-- uid: Innovator.Client.ConnectionPreferences.#ctor(Action{XmlWriter})
+- uid: Innovator.Client.ConnectionPreferences.#ctor(System.Action{System.Xml.XmlWriter})
   name: ConnectionPreferences(Action<XmlWriter>)
-  href: api/Innovator.Client.ConnectionPreferences.html#Innovator_Client_ConnectionPreferences__ctor_Action_XmlWriter__
-  commentId: M:Innovator.Client.ConnectionPreferences.#ctor(Action{XmlWriter})
+  href: api/Innovator.Client.ConnectionPreferences.html#Innovator_Client_ConnectionPreferences__ctor_System_Action_System_Xml_XmlWriter__
+  commentId: M:Innovator.Client.ConnectionPreferences.#ctor(System.Action{System.Xml.XmlWriter})
   name.vb: ConnectionPreferences(Action(Of XmlWriter))
-  fullName: Innovator.Client.ConnectionPreferences.ConnectionPreferences(Action<XmlWriter>)
-  fullName.vb: Innovator.Client.ConnectionPreferences.ConnectionPreferences(Action(Of XmlWriter))
+  fullName: Innovator.Client.ConnectionPreferences.ConnectionPreferences(System.Action<System.Xml.XmlWriter>)
+  fullName.vb: Innovator.Client.ConnectionPreferences.ConnectionPreferences(System.Action(Of System.Xml.XmlWriter))
   nameWithType: ConnectionPreferences.ConnectionPreferences(Action<XmlWriter>)
   nameWithType.vb: ConnectionPreferences.ConnectionPreferences(Action(Of XmlWriter))
 - uid: Innovator.Client.ConnectionPreferences.#ctor*
@@ -3654,11 +3644,11 @@ references:
   commentId: Overload:Innovator.Client.DateOffset.#ctor
   fullName: Innovator.Client.DateOffset.DateOffset
   nameWithType: DateOffset.DateOffset
-- uid: Innovator.Client.DateOffset.AsDate(DateTimeOffset,System.Boolean)
+- uid: Innovator.Client.DateOffset.AsDate(System.DateTimeOffset,System.Boolean)
   name: AsDate(DateTimeOffset, Boolean)
-  href: api/Innovator.Client.DateOffset.html#Innovator_Client_DateOffset_AsDate_DateTimeOffset_System_Boolean_
-  commentId: M:Innovator.Client.DateOffset.AsDate(DateTimeOffset,System.Boolean)
-  fullName: Innovator.Client.DateOffset.AsDate(DateTimeOffset, System.Boolean)
+  href: api/Innovator.Client.DateOffset.html#Innovator_Client_DateOffset_AsDate_System_DateTimeOffset_System_Boolean_
+  commentId: M:Innovator.Client.DateOffset.AsDate(System.DateTimeOffset,System.Boolean)
+  fullName: Innovator.Client.DateOffset.AsDate(System.DateTimeOffset, System.Boolean)
   nameWithType: DateOffset.AsDate(DateTimeOffset, Boolean)
 - uid: Innovator.Client.DateOffset.AsDate*
   name: AsDate
@@ -4040,11 +4030,11 @@ references:
   commentId: Overload:Innovator.Client.Element.RemoveNodes
   fullName: Innovator.Client.Element.RemoveNodes
   nameWithType: Element.RemoveNodes
-- uid: Innovator.Client.Element.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
+- uid: Innovator.Client.Element.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
   name: ToAml(XmlWriter, AmlWriterSettings)
-  href: api/Innovator.Client.Element.html#Innovator_Client_Element_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_
-  commentId: M:Innovator.Client.Element.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
-  fullName: Innovator.Client.Element.ToAml(XmlWriter, Innovator.Client.AmlWriterSettings)
+  href: api/Innovator.Client.Element.html#Innovator_Client_Element_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_
+  commentId: M:Innovator.Client.Element.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
+  fullName: Innovator.Client.Element.ToAml(System.Xml.XmlWriter, Innovator.Client.AmlWriterSettings)
   nameWithType: Element.ToAml(XmlWriter, AmlWriterSettings)
 - uid: Innovator.Client.Element.ToAml*
   name: ToAml
@@ -4382,18 +4372,24 @@ references:
   commentId: M:Innovator.Client.ElementFactory.FromXml(Innovator.Client.Command)
   fullName: Innovator.Client.ElementFactory.FromXml(Innovator.Client.Command)
   nameWithType: ElementFactory.FromXml(Command)
-- uid: Innovator.Client.ElementFactory.FromXml(Stream)
+- uid: Innovator.Client.ElementFactory.FromXml(System.IO.Stream)
   name: FromXml(Stream)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_Stream_
-  commentId: M:Innovator.Client.ElementFactory.FromXml(Stream)
-  fullName: Innovator.Client.ElementFactory.FromXml(Stream)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_System_IO_Stream_
+  commentId: M:Innovator.Client.ElementFactory.FromXml(System.IO.Stream)
+  fullName: Innovator.Client.ElementFactory.FromXml(System.IO.Stream)
   nameWithType: ElementFactory.FromXml(Stream)
-- uid: Innovator.Client.ElementFactory.FromXml(Stream,Innovator.Client.Command,Innovator.Client.IConnection)
+- uid: Innovator.Client.ElementFactory.FromXml(System.IO.Stream,Innovator.Client.Command,Innovator.Client.IConnection)
   name: FromXml(Stream, Command, IConnection)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_Stream_Innovator_Client_Command_Innovator_Client_IConnection_
-  commentId: M:Innovator.Client.ElementFactory.FromXml(Stream,Innovator.Client.Command,Innovator.Client.IConnection)
-  fullName: Innovator.Client.ElementFactory.FromXml(Stream, Innovator.Client.Command, Innovator.Client.IConnection)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_System_IO_Stream_Innovator_Client_Command_Innovator_Client_IConnection_
+  commentId: M:Innovator.Client.ElementFactory.FromXml(System.IO.Stream,Innovator.Client.Command,Innovator.Client.IConnection)
+  fullName: Innovator.Client.ElementFactory.FromXml(System.IO.Stream, Innovator.Client.Command, Innovator.Client.IConnection)
   nameWithType: ElementFactory.FromXml(Stream, Command, IConnection)
+- uid: Innovator.Client.ElementFactory.FromXml(System.IO.TextReader)
+  name: FromXml(TextReader)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_System_IO_TextReader_
+  commentId: M:Innovator.Client.ElementFactory.FromXml(System.IO.TextReader)
+  fullName: Innovator.Client.ElementFactory.FromXml(System.IO.TextReader)
+  nameWithType: ElementFactory.FromXml(TextReader)
 - uid: Innovator.Client.ElementFactory.FromXml(System.String,Innovator.Client.Command,Innovator.Client.IConnection)
   name: FromXml(String, Command, IConnection)
   href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_System_String_Innovator_Client_Command_Innovator_Client_IConnection_
@@ -4409,23 +4405,17 @@ references:
   fullName.vb: Innovator.Client.ElementFactory.FromXml(System.String, System.Object())
   nameWithType: ElementFactory.FromXml(String, Object[])
   nameWithType.vb: ElementFactory.FromXml(String, Object())
-- uid: Innovator.Client.ElementFactory.FromXml(TextReader)
-  name: FromXml(TextReader)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_TextReader_
-  commentId: M:Innovator.Client.ElementFactory.FromXml(TextReader)
-  fullName: Innovator.Client.ElementFactory.FromXml(TextReader)
-  nameWithType: ElementFactory.FromXml(TextReader)
-- uid: Innovator.Client.ElementFactory.FromXml(XmlReader)
+- uid: Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader)
   name: FromXml(XmlReader)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_XmlReader_
-  commentId: M:Innovator.Client.ElementFactory.FromXml(XmlReader)
-  fullName: Innovator.Client.ElementFactory.FromXml(XmlReader)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_System_Xml_XmlReader_
+  commentId: M:Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader)
+  fullName: Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader)
   nameWithType: ElementFactory.FromXml(XmlReader)
-- uid: Innovator.Client.ElementFactory.FromXml(XmlReader,Innovator.Client.Command,System.String)
+- uid: Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader,Innovator.Client.Command,System.String)
   name: FromXml(XmlReader, Command, String)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_XmlReader_Innovator_Client_Command_System_String_
-  commentId: M:Innovator.Client.ElementFactory.FromXml(XmlReader,Innovator.Client.Command,System.String)
-  fullName: Innovator.Client.ElementFactory.FromXml(XmlReader, Innovator.Client.Command, System.String)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_FromXml_System_Xml_XmlReader_Innovator_Client_Command_System_String_
+  commentId: M:Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader,Innovator.Client.Command,System.String)
+  fullName: Innovator.Client.ElementFactory.FromXml(System.Xml.XmlReader, Innovator.Client.Command, System.String)
   nameWithType: ElementFactory.FromXml(XmlReader, Command, String)
 - uid: Innovator.Client.ElementFactory.FromXml*
   name: FromXml
@@ -4448,13 +4438,13 @@ references:
   commentId: Overload:Innovator.Client.ElementFactory.Generation
   fullName: Innovator.Client.ElementFactory.Generation
   nameWithType: ElementFactory.Generation
-- uid: Innovator.Client.ElementFactory.Id(System.Nullable{Guid})
+- uid: Innovator.Client.ElementFactory.Id(System.Nullable{System.Guid})
   name: Id(Nullable<Guid>)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_Id_System_Nullable_Guid__
-  commentId: M:Innovator.Client.ElementFactory.Id(System.Nullable{Guid})
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_Id_System_Nullable_System_Guid__
+  commentId: M:Innovator.Client.ElementFactory.Id(System.Nullable{System.Guid})
   name.vb: Id(Nullable(Of Guid))
-  fullName: Innovator.Client.ElementFactory.Id(System.Nullable<Guid>)
-  fullName.vb: Innovator.Client.ElementFactory.Id(System.Nullable(Of Guid))
+  fullName: Innovator.Client.ElementFactory.Id(System.Nullable<System.Guid>)
+  fullName.vb: Innovator.Client.ElementFactory.Id(System.Nullable(Of System.Guid))
   nameWithType: ElementFactory.Id(Nullable<Guid>)
   nameWithType.vb: ElementFactory.Id(Nullable(Of Guid))
 - uid: Innovator.Client.ElementFactory.Id(System.String)
@@ -4739,18 +4729,18 @@ references:
   commentId: M:Innovator.Client.ElementFactory.NoItemsFoundException(System.String)
   fullName: Innovator.Client.ElementFactory.NoItemsFoundException(System.String)
   nameWithType: ElementFactory.NoItemsFoundException(String)
-- uid: Innovator.Client.ElementFactory.NoItemsFoundException(System.String,Exception)
-  name: NoItemsFoundException(String, Exception)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_NoItemsFoundException_System_String_Exception_
-  commentId: M:Innovator.Client.ElementFactory.NoItemsFoundException(System.String,Exception)
-  fullName: Innovator.Client.ElementFactory.NoItemsFoundException(System.String, Exception)
-  nameWithType: ElementFactory.NoItemsFoundException(String, Exception)
 - uid: Innovator.Client.ElementFactory.NoItemsFoundException(System.String,Innovator.Client.Command)
   name: NoItemsFoundException(String, Command)
   href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_NoItemsFoundException_System_String_Innovator_Client_Command_
   commentId: M:Innovator.Client.ElementFactory.NoItemsFoundException(System.String,Innovator.Client.Command)
   fullName: Innovator.Client.ElementFactory.NoItemsFoundException(System.String, Innovator.Client.Command)
   nameWithType: ElementFactory.NoItemsFoundException(String, Command)
+- uid: Innovator.Client.ElementFactory.NoItemsFoundException(System.String,System.Exception)
+  name: NoItemsFoundException(String, Exception)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_NoItemsFoundException_System_String_System_Exception_
+  commentId: M:Innovator.Client.ElementFactory.NoItemsFoundException(System.String,System.Exception)
+  fullName: Innovator.Client.ElementFactory.NoItemsFoundException(System.String, System.Exception)
+  nameWithType: ElementFactory.NoItemsFoundException(String, Exception)
 - uid: Innovator.Client.ElementFactory.NoItemsFoundException*
   name: NoItemsFoundException
   href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_NoItemsFoundException_
@@ -4883,11 +4873,11 @@ references:
   commentId: Overload:Innovator.Client.ElementFactory.Property
   fullName: Innovator.Client.ElementFactory.Property
   nameWithType: ElementFactory.Property
-- uid: Innovator.Client.ElementFactory.QueryDate(DateTime)
+- uid: Innovator.Client.ElementFactory.QueryDate(System.DateTime)
   name: QueryDate(DateTime)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_QueryDate_DateTime_
-  commentId: M:Innovator.Client.ElementFactory.QueryDate(DateTime)
-  fullName: Innovator.Client.ElementFactory.QueryDate(DateTime)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_QueryDate_System_DateTime_
+  commentId: M:Innovator.Client.ElementFactory.QueryDate(System.DateTime)
+  fullName: Innovator.Client.ElementFactory.QueryDate(System.DateTime)
   nameWithType: ElementFactory.QueryDate(DateTime)
 - uid: Innovator.Client.ElementFactory.QueryDate*
   name: QueryDate
@@ -5003,11 +4993,11 @@ references:
   commentId: M:Innovator.Client.ElementFactory.ServerException(System.String)
   fullName: Innovator.Client.ElementFactory.ServerException(System.String)
   nameWithType: ElementFactory.ServerException(String)
-- uid: Innovator.Client.ElementFactory.ServerException(System.String,Exception)
+- uid: Innovator.Client.ElementFactory.ServerException(System.String,System.Exception)
   name: ServerException(String, Exception)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ServerException_System_String_Exception_
-  commentId: M:Innovator.Client.ElementFactory.ServerException(System.String,Exception)
-  fullName: Innovator.Client.ElementFactory.ServerException(System.String, Exception)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ServerException_System_String_System_Exception_
+  commentId: M:Innovator.Client.ElementFactory.ServerException(System.String,System.Exception)
+  fullName: Innovator.Client.ElementFactory.ServerException(System.String, System.Exception)
   nameWithType: ElementFactory.ServerException(String, Exception)
 - uid: Innovator.Client.ElementFactory.ServerException*
   name: ServerException
@@ -5096,21 +5086,6 @@ references:
   commentId: Overload:Innovator.Client.ElementFactory.Utc
   fullName: Innovator.Client.ElementFactory.Utc
   nameWithType: ElementFactory.Utc
-- uid: Innovator.Client.ElementFactory.ValidationException(System.String,Exception,Innovator.Client.IReadOnlyItem,System.String)
-  name: ValidationException(String, Exception, IReadOnlyItem, String)
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_System_String_Exception_Innovator_Client_IReadOnlyItem_System_String_
-  commentId: M:Innovator.Client.ElementFactory.ValidationException(System.String,Exception,Innovator.Client.IReadOnlyItem,System.String)
-  fullName: Innovator.Client.ElementFactory.ValidationException(System.String, Exception, Innovator.Client.IReadOnlyItem, System.String)
-  nameWithType: ElementFactory.ValidationException(String, Exception, IReadOnlyItem, String)
-- uid: Innovator.Client.ElementFactory.ValidationException(System.String,Exception,Innovator.Client.IReadOnlyItem,System.String[])
-  name: ValidationException(String, Exception, IReadOnlyItem, String[])
-  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_System_String_Exception_Innovator_Client_IReadOnlyItem_System_String___
-  commentId: M:Innovator.Client.ElementFactory.ValidationException(System.String,Exception,Innovator.Client.IReadOnlyItem,System.String[])
-  name.vb: ValidationException(String, Exception, IReadOnlyItem, String())
-  fullName: Innovator.Client.ElementFactory.ValidationException(System.String, Exception, Innovator.Client.IReadOnlyItem, System.String[])
-  fullName.vb: Innovator.Client.ElementFactory.ValidationException(System.String, Exception, Innovator.Client.IReadOnlyItem, System.String())
-  nameWithType: ElementFactory.ValidationException(String, Exception, IReadOnlyItem, String[])
-  nameWithType.vb: ElementFactory.ValidationException(String, Exception, IReadOnlyItem, String())
 - uid: Innovator.Client.ElementFactory.ValidationException(System.String,Innovator.Client.IReadOnlyItem,System.String)
   name: ValidationException(String, IReadOnlyItem, String)
   href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_System_String_Innovator_Client_IReadOnlyItem_System_String_
@@ -5126,6 +5101,21 @@ references:
   fullName.vb: Innovator.Client.ElementFactory.ValidationException(System.String, Innovator.Client.IReadOnlyItem, System.String())
   nameWithType: ElementFactory.ValidationException(String, IReadOnlyItem, String[])
   nameWithType.vb: ElementFactory.ValidationException(String, IReadOnlyItem, String())
+- uid: Innovator.Client.ElementFactory.ValidationException(System.String,System.Exception,Innovator.Client.IReadOnlyItem,System.String)
+  name: ValidationException(String, Exception, IReadOnlyItem, String)
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_System_String_System_Exception_Innovator_Client_IReadOnlyItem_System_String_
+  commentId: M:Innovator.Client.ElementFactory.ValidationException(System.String,System.Exception,Innovator.Client.IReadOnlyItem,System.String)
+  fullName: Innovator.Client.ElementFactory.ValidationException(System.String, System.Exception, Innovator.Client.IReadOnlyItem, System.String)
+  nameWithType: ElementFactory.ValidationException(String, Exception, IReadOnlyItem, String)
+- uid: Innovator.Client.ElementFactory.ValidationException(System.String,System.Exception,Innovator.Client.IReadOnlyItem,System.String[])
+  name: ValidationException(String, Exception, IReadOnlyItem, String[])
+  href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_System_String_System_Exception_Innovator_Client_IReadOnlyItem_System_String___
+  commentId: M:Innovator.Client.ElementFactory.ValidationException(System.String,System.Exception,Innovator.Client.IReadOnlyItem,System.String[])
+  name.vb: ValidationException(String, Exception, IReadOnlyItem, String())
+  fullName: Innovator.Client.ElementFactory.ValidationException(System.String, System.Exception, Innovator.Client.IReadOnlyItem, System.String[])
+  fullName.vb: Innovator.Client.ElementFactory.ValidationException(System.String, System.Exception, Innovator.Client.IReadOnlyItem, System.String())
+  nameWithType: ElementFactory.ValidationException(String, Exception, IReadOnlyItem, String[])
+  nameWithType.vb: ElementFactory.ValidationException(String, Exception, IReadOnlyItem, String())
 - uid: Innovator.Client.ElementFactory.ValidationException*
   name: ValidationException
   href: api/Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_
@@ -5270,11 +5260,11 @@ references:
   commentId: T:Innovator.Client.Extensions
   fullName: Innovator.Client.Extensions
   nameWithType: Extensions
-- uid: Innovator.Client.Extensions.AsBytes(Stream)
+- uid: Innovator.Client.Extensions.AsBytes(System.IO.Stream)
   name: AsBytes(Stream)
-  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_AsBytes_Stream_
-  commentId: M:Innovator.Client.Extensions.AsBytes(Stream)
-  fullName: Innovator.Client.Extensions.AsBytes(Stream)
+  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_AsBytes_System_IO_Stream_
+  commentId: M:Innovator.Client.Extensions.AsBytes(System.IO.Stream)
+  fullName: Innovator.Client.Extensions.AsBytes(System.IO.Stream)
   nameWithType: Extensions.AsBytes(Stream)
 - uid: Innovator.Client.Extensions.AsBytes*
   name: AsBytes
@@ -5288,11 +5278,11 @@ references:
   commentId: M:Innovator.Client.Extensions.AsString(Innovator.Client.IHttpResponse)
   fullName: Innovator.Client.Extensions.AsString(Innovator.Client.IHttpResponse)
   nameWithType: Extensions.AsString(IHttpResponse)
-- uid: Innovator.Client.Extensions.AsString(Stream)
+- uid: Innovator.Client.Extensions.AsString(System.IO.Stream)
   name: AsString(Stream)
-  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_AsString_Stream_
-  commentId: M:Innovator.Client.Extensions.AsString(Stream)
-  fullName: Innovator.Client.Extensions.AsString(Stream)
+  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_AsString_System_IO_Stream_
+  commentId: M:Innovator.Client.Extensions.AsString(System.IO.Stream)
+  fullName: Innovator.Client.Extensions.AsString(System.IO.Stream)
   nameWithType: Extensions.AsString(Stream)
 - uid: Innovator.Client.Extensions.AsString*
   name: AsString
@@ -5318,13 +5308,13 @@ references:
   commentId: Overload:Innovator.Client.Extensions.GroupConcat
   fullName: Innovator.Client.Extensions.GroupConcat
   nameWithType: Extensions.GroupConcat
-- uid: Innovator.Client.Extensions.GroupConcat``1(IEnumerable{``0},System.String,Func{``0,System.String})
+- uid: Innovator.Client.Extensions.GroupConcat``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
   name: GroupConcat<T>(IEnumerable<T>, String, Func<T, String>)
-  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_GroupConcat__1_IEnumerable___0__System_String_Func___0_System_String__
-  commentId: M:Innovator.Client.Extensions.GroupConcat``1(IEnumerable{``0},System.String,Func{``0,System.String})
+  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_GroupConcat__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  commentId: M:Innovator.Client.Extensions.GroupConcat``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
   name.vb: GroupConcat(Of T)(IEnumerable(Of T), String, Func(Of T, String))
-  fullName: Innovator.Client.Extensions.GroupConcat<T>(IEnumerable<T>, System.String, Func<T, System.String>)
-  fullName.vb: Innovator.Client.Extensions.GroupConcat(Of T)(IEnumerable(Of T), System.String, Func(Of T, System.String))
+  fullName: Innovator.Client.Extensions.GroupConcat<T>(System.Collections.Generic.IEnumerable<T>, System.String, System.Func<T, System.String>)
+  fullName.vb: Innovator.Client.Extensions.GroupConcat(Of T)(System.Collections.Generic.IEnumerable(Of T), System.String, System.Func(Of T, System.String))
   nameWithType: Extensions.GroupConcat<T>(IEnumerable<T>, String, Func<T, String>)
   nameWithType.vb: Extensions.GroupConcat(Of T)(IEnumerable(Of T), String, Func(Of T, String))
 - uid: Innovator.Client.Extensions.IsNullOrEmpty(Innovator.Client.SecureToken)
@@ -5339,19 +5329,19 @@ references:
   commentId: Overload:Innovator.Client.Extensions.IsNullOrEmpty
   fullName: Innovator.Client.Extensions.IsNullOrEmpty
   nameWithType: Extensions.IsNullOrEmpty
-- uid: Innovator.Client.Extensions.ToArasId(Guid)
+- uid: Innovator.Client.Extensions.ToArasId(System.Guid)
   name: ToArasId(Guid)
-  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_ToArasId_Guid_
-  commentId: M:Innovator.Client.Extensions.ToArasId(Guid)
-  fullName: Innovator.Client.Extensions.ToArasId(Guid)
+  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_ToArasId_System_Guid_
+  commentId: M:Innovator.Client.Extensions.ToArasId(System.Guid)
+  fullName: Innovator.Client.Extensions.ToArasId(System.Guid)
   nameWithType: Extensions.ToArasId(Guid)
-- uid: Innovator.Client.Extensions.ToArasId(System.Nullable{Guid})
+- uid: Innovator.Client.Extensions.ToArasId(System.Nullable{System.Guid})
   name: ToArasId(Nullable<Guid>)
-  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_ToArasId_System_Nullable_Guid__
-  commentId: M:Innovator.Client.Extensions.ToArasId(System.Nullable{Guid})
+  href: api/Innovator.Client.Extensions.html#Innovator_Client_Extensions_ToArasId_System_Nullable_System_Guid__
+  commentId: M:Innovator.Client.Extensions.ToArasId(System.Nullable{System.Guid})
   name.vb: ToArasId(Nullable(Of Guid))
-  fullName: Innovator.Client.Extensions.ToArasId(System.Nullable<Guid>)
-  fullName.vb: Innovator.Client.Extensions.ToArasId(System.Nullable(Of Guid))
+  fullName: Innovator.Client.Extensions.ToArasId(System.Nullable<System.Guid>)
+  fullName.vb: Innovator.Client.Extensions.ToArasId(System.Nullable(Of System.Guid))
   nameWithType: Extensions.ToArasId(Nullable<Guid>)
   nameWithType.vb: Extensions.ToArasId(Nullable(Of Guid))
 - uid: Innovator.Client.Extensions.ToArasId*
@@ -5456,11 +5446,11 @@ references:
   commentId: M:Innovator.Client.HttpException.#ctor(System.String)
   fullName: Innovator.Client.HttpException.HttpException(System.String)
   nameWithType: HttpException.HttpException(String)
-- uid: Innovator.Client.HttpException.#ctor(System.String,Exception)
+- uid: Innovator.Client.HttpException.#ctor(System.String,System.Exception)
   name: HttpException(String, Exception)
-  href: api/Innovator.Client.HttpException.html#Innovator_Client_HttpException__ctor_System_String_Exception_
-  commentId: M:Innovator.Client.HttpException.#ctor(System.String,Exception)
-  fullName: Innovator.Client.HttpException.HttpException(System.String, Exception)
+  href: api/Innovator.Client.HttpException.html#Innovator_Client_HttpException__ctor_System_String_System_Exception_
+  commentId: M:Innovator.Client.HttpException.#ctor(System.String,System.Exception)
+  fullName: Innovator.Client.HttpException.HttpException(System.String, System.Exception)
   nameWithType: HttpException.HttpException(String, Exception)
 - uid: Innovator.Client.HttpException.#ctor*
   name: HttpException
@@ -5498,11 +5488,11 @@ references:
   commentId: M:Innovator.Client.HttpTimeoutException.#ctor(System.String)
   fullName: Innovator.Client.HttpTimeoutException.HttpTimeoutException(System.String)
   nameWithType: HttpTimeoutException.HttpTimeoutException(String)
-- uid: Innovator.Client.HttpTimeoutException.#ctor(System.String,Exception)
+- uid: Innovator.Client.HttpTimeoutException.#ctor(System.String,System.Exception)
   name: HttpTimeoutException(String, Exception)
-  href: api/Innovator.Client.HttpTimeoutException.html#Innovator_Client_HttpTimeoutException__ctor_System_String_Exception_
-  commentId: M:Innovator.Client.HttpTimeoutException.#ctor(System.String,Exception)
-  fullName: Innovator.Client.HttpTimeoutException.HttpTimeoutException(System.String, Exception)
+  href: api/Innovator.Client.HttpTimeoutException.html#Innovator_Client_HttpTimeoutException__ctor_System_String_System_Exception_
+  commentId: M:Innovator.Client.HttpTimeoutException.#ctor(System.String,System.Exception)
+  fullName: Innovator.Client.HttpTimeoutException.HttpTimeoutException(System.String, System.Exception)
   nameWithType: HttpTimeoutException.HttpTimeoutException(String, Exception)
 - uid: Innovator.Client.HttpTimeoutException.#ctor*
   name: HttpTimeoutException
@@ -5528,11 +5518,11 @@ references:
   commentId: T:Innovator.Client.IAmlNode
   fullName: Innovator.Client.IAmlNode
   nameWithType: IAmlNode
-- uid: Innovator.Client.IAmlNode.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
+- uid: Innovator.Client.IAmlNode.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
   name: ToAml(XmlWriter, AmlWriterSettings)
-  href: api/Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_
-  commentId: M:Innovator.Client.IAmlNode.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
-  fullName: Innovator.Client.IAmlNode.ToAml(XmlWriter, Innovator.Client.AmlWriterSettings)
+  href: api/Innovator.Client.IAmlNode.html#Innovator_Client_IAmlNode_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_
+  commentId: M:Innovator.Client.IAmlNode.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
+  fullName: Innovator.Client.IAmlNode.ToAml(System.Xml.XmlWriter, Innovator.Client.AmlWriterSettings)
   nameWithType: IAmlNode.ToAml(XmlWriter, AmlWriterSettings)
 - uid: Innovator.Client.IAmlNode.ToAml*
   name: ToAml
@@ -5978,13 +5968,13 @@ references:
   commentId: M:Innovator.Client.IErrorBuilder.ErrorMsg(System.String)
   fullName: Innovator.Client.IErrorBuilder.ErrorMsg(System.String)
   nameWithType: IErrorBuilder.ErrorMsg(String)
-- uid: Innovator.Client.IErrorBuilder.ErrorMsg(System.String,IEnumerable{System.String})
+- uid: Innovator.Client.IErrorBuilder.ErrorMsg(System.String,System.Collections.Generic.IEnumerable{System.String})
   name: ErrorMsg(String, IEnumerable<String>)
-  href: api/Innovator.Client.IErrorBuilder.html#Innovator_Client_IErrorBuilder_ErrorMsg_System_String_IEnumerable_System_String__
-  commentId: M:Innovator.Client.IErrorBuilder.ErrorMsg(System.String,IEnumerable{System.String})
+  href: api/Innovator.Client.IErrorBuilder.html#Innovator_Client_IErrorBuilder_ErrorMsg_System_String_System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:Innovator.Client.IErrorBuilder.ErrorMsg(System.String,System.Collections.Generic.IEnumerable{System.String})
   name.vb: ErrorMsg(String, IEnumerable(Of String))
-  fullName: Innovator.Client.IErrorBuilder.ErrorMsg(System.String, IEnumerable<System.String>)
-  fullName.vb: Innovator.Client.IErrorBuilder.ErrorMsg(System.String, IEnumerable(Of System.String))
+  fullName: Innovator.Client.IErrorBuilder.ErrorMsg(System.String, System.Collections.Generic.IEnumerable<System.String>)
+  fullName.vb: Innovator.Client.IErrorBuilder.ErrorMsg(System.String, System.Collections.Generic.IEnumerable(Of System.String))
   nameWithType: IErrorBuilder.ErrorMsg(String, IEnumerable<String>)
   nameWithType.vb: IErrorBuilder.ErrorMsg(String, IEnumerable(Of String))
 - uid: Innovator.Client.IErrorBuilder.ErrorMsg(System.String,System.String[])
@@ -7646,11 +7636,27 @@ references:
   commentId: Overload:Innovator.Client.IOM.Item.setType
   fullName: Innovator.Client.IOM.Item.setType
   nameWithType: Item.setType
-- uid: Innovator.Client.IOM.Item.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
+- uid: Innovator.Client.IOM.Item.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Innovator.Client.IOM.Item.html#Innovator_Client_IOM_Item_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Innovator.Client.IOM.Item.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Innovator.Client.IOM.Item.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: Item.IEnumerable.GetEnumerator()
+  nameWithType.vb: Item.System.Collections.IEnumerable.GetEnumerator()
+- uid: Innovator.Client.IOM.Item.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Innovator.Client.IOM.Item.html#Innovator_Client_IOM_Item_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Innovator.Client.IOM.Item.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Innovator.Client.IOM.Item.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: Item.IEnumerable.GetEnumerator
+  nameWithType.vb: Item.System.Collections.IEnumerable.GetEnumerator
+- uid: Innovator.Client.IOM.Item.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
   name: ToAml(XmlWriter, AmlWriterSettings)
-  href: api/Innovator.Client.IOM.Item.html#Innovator_Client_IOM_Item_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_
-  commentId: M:Innovator.Client.IOM.Item.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
-  fullName: Innovator.Client.IOM.Item.ToAml(XmlWriter, Innovator.Client.AmlWriterSettings)
+  href: api/Innovator.Client.IOM.Item.html#Innovator_Client_IOM_Item_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_
+  commentId: M:Innovator.Client.IOM.Item.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
+  fullName: Innovator.Client.IOM.Item.ToAml(System.Xml.XmlWriter, Innovator.Client.AmlWriterSettings)
   nameWithType: Item.ToAml(XmlWriter, AmlWriterSettings)
 - uid: Innovator.Client.IOM.Item.ToAml*
   name: ToAml
@@ -7712,11 +7718,11 @@ references:
   commentId: T:Innovator.Client.IPromise
   fullName: Innovator.Client.IPromise
   nameWithType: IPromise
-- uid: Innovator.Client.IPromise.Always(Action)
+- uid: Innovator.Client.IPromise.Always(System.Action)
   name: Always(Action)
-  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Always_Action_
-  commentId: M:Innovator.Client.IPromise.Always(Action)
-  fullName: Innovator.Client.IPromise.Always(Action)
+  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Always_System_Action_
+  commentId: M:Innovator.Client.IPromise.Always(System.Action)
+  fullName: Innovator.Client.IPromise.Always(System.Action)
   nameWithType: IPromise.Always(Action)
 - uid: Innovator.Client.IPromise.Always*
   name: Always
@@ -7724,13 +7730,13 @@ references:
   commentId: Overload:Innovator.Client.IPromise.Always
   fullName: Innovator.Client.IPromise.Always
   nameWithType: IPromise.Always
-- uid: Innovator.Client.IPromise.Done(Action{System.Object})
+- uid: Innovator.Client.IPromise.Done(System.Action{System.Object})
   name: Done(Action<Object>)
-  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Done_Action_System_Object__
-  commentId: M:Innovator.Client.IPromise.Done(Action{System.Object})
+  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Done_System_Action_System_Object__
+  commentId: M:Innovator.Client.IPromise.Done(System.Action{System.Object})
   name.vb: Done(Action(Of Object))
-  fullName: Innovator.Client.IPromise.Done(Action<System.Object>)
-  fullName.vb: Innovator.Client.IPromise.Done(Action(Of System.Object))
+  fullName: Innovator.Client.IPromise.Done(System.Action<System.Object>)
+  fullName.vb: Innovator.Client.IPromise.Done(System.Action(Of System.Object))
   nameWithType: IPromise.Done(Action<Object>)
   nameWithType.vb: IPromise.Done(Action(Of Object))
 - uid: Innovator.Client.IPromise.Done*
@@ -7739,13 +7745,13 @@ references:
   commentId: Overload:Innovator.Client.IPromise.Done
   fullName: Innovator.Client.IPromise.Done
   nameWithType: IPromise.Done
-- uid: Innovator.Client.IPromise.Fail(Action{Exception})
+- uid: Innovator.Client.IPromise.Fail(System.Action{System.Exception})
   name: Fail(Action<Exception>)
-  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Fail_Action_Exception__
-  commentId: M:Innovator.Client.IPromise.Fail(Action{Exception})
+  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Fail_System_Action_System_Exception__
+  commentId: M:Innovator.Client.IPromise.Fail(System.Action{System.Exception})
   name.vb: Fail(Action(Of Exception))
-  fullName: Innovator.Client.IPromise.Fail(Action<Exception>)
-  fullName.vb: Innovator.Client.IPromise.Fail(Action(Of Exception))
+  fullName: Innovator.Client.IPromise.Fail(System.Action<System.Exception>)
+  fullName.vb: Innovator.Client.IPromise.Fail(System.Action(Of System.Exception))
   nameWithType: IPromise.Fail(Action<Exception>)
   nameWithType.vb: IPromise.Fail(Action(Of Exception))
 - uid: Innovator.Client.IPromise.Fail*
@@ -7790,13 +7796,13 @@ references:
   commentId: Overload:Innovator.Client.IPromise.PercentComplete
   fullName: Innovator.Client.IPromise.PercentComplete
   nameWithType: IPromise.PercentComplete
-- uid: Innovator.Client.IPromise.Progress(Action{System.Int32,System.String})
+- uid: Innovator.Client.IPromise.Progress(System.Action{System.Int32,System.String})
   name: Progress(Action<Int32, String>)
-  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Progress_Action_System_Int32_System_String__
-  commentId: M:Innovator.Client.IPromise.Progress(Action{System.Int32,System.String})
+  href: api/Innovator.Client.IPromise.html#Innovator_Client_IPromise_Progress_System_Action_System_Int32_System_String__
+  commentId: M:Innovator.Client.IPromise.Progress(System.Action{System.Int32,System.String})
   name.vb: Progress(Action(Of Int32, String))
-  fullName: Innovator.Client.IPromise.Progress(Action<System.Int32, System.String>)
-  fullName.vb: Innovator.Client.IPromise.Progress(Action(Of System.Int32, System.String))
+  fullName: Innovator.Client.IPromise.Progress(System.Action<System.Int32, System.String>)
+  fullName.vb: Innovator.Client.IPromise.Progress(System.Action(Of System.Int32, System.String))
   nameWithType: IPromise.Progress(Action<Int32, String>)
   nameWithType.vb: IPromise.Progress(Action(Of Int32, String))
 - uid: Innovator.Client.IPromise.Progress*
@@ -7826,12 +7832,12 @@ references:
   fullName.vb: Innovator.Client.IPromise(Of T)
   nameWithType: IPromise<T>
   nameWithType.vb: IPromise(Of T)
-- uid: Innovator.Client.IPromise`1.Always(Action)
+- uid: Innovator.Client.IPromise`1.Always(System.Action)
   name: Always(Action)
-  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Always_Action_
-  commentId: M:Innovator.Client.IPromise`1.Always(Action)
-  fullName: Innovator.Client.IPromise<T>.Always(Action)
-  fullName.vb: Innovator.Client.IPromise(Of T).Always(Action)
+  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Always_System_Action_
+  commentId: M:Innovator.Client.IPromise`1.Always(System.Action)
+  fullName: Innovator.Client.IPromise<T>.Always(System.Action)
+  fullName.vb: Innovator.Client.IPromise(Of T).Always(System.Action)
   nameWithType: IPromise<T>.Always(Action)
   nameWithType.vb: IPromise(Of T).Always(Action)
 - uid: Innovator.Client.IPromise`1.Always*
@@ -7842,13 +7848,13 @@ references:
   fullName.vb: Innovator.Client.IPromise(Of T).Always
   nameWithType: IPromise<T>.Always
   nameWithType.vb: IPromise(Of T).Always
-- uid: Innovator.Client.IPromise`1.Done(Action{`0})
+- uid: Innovator.Client.IPromise`1.Done(System.Action{`0})
   name: Done(Action<T>)
-  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Done_Action__0__
-  commentId: M:Innovator.Client.IPromise`1.Done(Action{`0})
+  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Done_System_Action__0__
+  commentId: M:Innovator.Client.IPromise`1.Done(System.Action{`0})
   name.vb: Done(Action(Of T))
-  fullName: Innovator.Client.IPromise<T>.Done(Action<T>)
-  fullName.vb: Innovator.Client.IPromise(Of T).Done(Action(Of T))
+  fullName: Innovator.Client.IPromise<T>.Done(System.Action<T>)
+  fullName.vb: Innovator.Client.IPromise(Of T).Done(System.Action(Of T))
   nameWithType: IPromise<T>.Done(Action<T>)
   nameWithType.vb: IPromise(Of T).Done(Action(Of T))
 - uid: Innovator.Client.IPromise`1.Done*
@@ -7859,13 +7865,13 @@ references:
   fullName.vb: Innovator.Client.IPromise(Of T).Done
   nameWithType: IPromise<T>.Done
   nameWithType.vb: IPromise(Of T).Done
-- uid: Innovator.Client.IPromise`1.Fail(Action{Exception})
+- uid: Innovator.Client.IPromise`1.Fail(System.Action{System.Exception})
   name: Fail(Action<Exception>)
-  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Fail_Action_Exception__
-  commentId: M:Innovator.Client.IPromise`1.Fail(Action{Exception})
+  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Fail_System_Action_System_Exception__
+  commentId: M:Innovator.Client.IPromise`1.Fail(System.Action{System.Exception})
   name.vb: Fail(Action(Of Exception))
-  fullName: Innovator.Client.IPromise<T>.Fail(Action<Exception>)
-  fullName.vb: Innovator.Client.IPromise(Of T).Fail(Action(Of Exception))
+  fullName: Innovator.Client.IPromise<T>.Fail(System.Action<System.Exception>)
+  fullName.vb: Innovator.Client.IPromise(Of T).Fail(System.Action(Of System.Exception))
   nameWithType: IPromise<T>.Fail(Action<Exception>)
   nameWithType.vb: IPromise(Of T).Fail(Action(Of Exception))
 - uid: Innovator.Client.IPromise`1.Fail*
@@ -7876,13 +7882,13 @@ references:
   fullName.vb: Innovator.Client.IPromise(Of T).Fail
   nameWithType: IPromise<T>.Fail
   nameWithType.vb: IPromise(Of T).Fail
-- uid: Innovator.Client.IPromise`1.Progress(Action{System.Int32,System.String})
+- uid: Innovator.Client.IPromise`1.Progress(System.Action{System.Int32,System.String})
   name: Progress(Action<Int32, String>)
-  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Progress_Action_System_Int32_System_String__
-  commentId: M:Innovator.Client.IPromise`1.Progress(Action{System.Int32,System.String})
+  href: api/Innovator.Client.IPromise-1.html#Innovator_Client_IPromise_1_Progress_System_Action_System_Int32_System_String__
+  commentId: M:Innovator.Client.IPromise`1.Progress(System.Action{System.Int32,System.String})
   name.vb: Progress(Action(Of Int32, String))
-  fullName: Innovator.Client.IPromise<T>.Progress(Action<System.Int32, System.String>)
-  fullName.vb: Innovator.Client.IPromise(Of T).Progress(Action(Of System.Int32, System.String))
+  fullName: Innovator.Client.IPromise<T>.Progress(System.Action<System.Int32, System.String>)
+  fullName.vb: Innovator.Client.IPromise(Of T).Progress(System.Action(Of System.Int32, System.String))
   nameWithType: IPromise<T>.Progress(Action<Int32, String>)
   nameWithType.vb: IPromise(Of T).Progress(Action(Of Int32, String))
 - uid: Innovator.Client.IPromise`1.Progress*
@@ -8048,11 +8054,11 @@ references:
   commentId: M:Innovator.Client.IReadOnlyAttribute.AsDateTime
   fullName: Innovator.Client.IReadOnlyAttribute.AsDateTime()
   nameWithType: IReadOnlyAttribute.AsDateTime()
-- uid: Innovator.Client.IReadOnlyAttribute.AsDateTime(DateTime)
+- uid: Innovator.Client.IReadOnlyAttribute.AsDateTime(System.DateTime)
   name: AsDateTime(DateTime)
-  href: api/Innovator.Client.IReadOnlyAttribute.html#Innovator_Client_IReadOnlyAttribute_AsDateTime_DateTime_
-  commentId: M:Innovator.Client.IReadOnlyAttribute.AsDateTime(DateTime)
-  fullName: Innovator.Client.IReadOnlyAttribute.AsDateTime(DateTime)
+  href: api/Innovator.Client.IReadOnlyAttribute.html#Innovator_Client_IReadOnlyAttribute_AsDateTime_System_DateTime_
+  commentId: M:Innovator.Client.IReadOnlyAttribute.AsDateTime(System.DateTime)
+  fullName: Innovator.Client.IReadOnlyAttribute.AsDateTime(System.DateTime)
   nameWithType: IReadOnlyAttribute.AsDateTime(DateTime)
 - uid: Innovator.Client.IReadOnlyAttribute.AsDateTime*
   name: AsDateTime
@@ -8066,11 +8072,11 @@ references:
   commentId: M:Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc
   fullName: Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc()
   nameWithType: IReadOnlyAttribute.AsDateTimeUtc()
-- uid: Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc(DateTime)
+- uid: Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc(System.DateTime)
   name: AsDateTimeUtc(DateTime)
-  href: api/Innovator.Client.IReadOnlyAttribute.html#Innovator_Client_IReadOnlyAttribute_AsDateTimeUtc_DateTime_
-  commentId: M:Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc(DateTime)
-  fullName: Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc(DateTime)
+  href: api/Innovator.Client.IReadOnlyAttribute.html#Innovator_Client_IReadOnlyAttribute_AsDateTimeUtc_System_DateTime_
+  commentId: M:Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc(System.DateTime)
+  fullName: Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc(System.DateTime)
   nameWithType: IReadOnlyAttribute.AsDateTimeUtc(DateTime)
 - uid: Innovator.Client.IReadOnlyAttribute.AsDateTimeUtc*
   name: AsDateTimeUtc
@@ -8102,11 +8108,11 @@ references:
   commentId: M:Innovator.Client.IReadOnlyAttribute.AsGuid
   fullName: Innovator.Client.IReadOnlyAttribute.AsGuid()
   nameWithType: IReadOnlyAttribute.AsGuid()
-- uid: Innovator.Client.IReadOnlyAttribute.AsGuid(Guid)
+- uid: Innovator.Client.IReadOnlyAttribute.AsGuid(System.Guid)
   name: AsGuid(Guid)
-  href: api/Innovator.Client.IReadOnlyAttribute.html#Innovator_Client_IReadOnlyAttribute_AsGuid_Guid_
-  commentId: M:Innovator.Client.IReadOnlyAttribute.AsGuid(Guid)
-  fullName: Innovator.Client.IReadOnlyAttribute.AsGuid(Guid)
+  href: api/Innovator.Client.IReadOnlyAttribute.html#Innovator_Client_IReadOnlyAttribute_AsGuid_System_Guid_
+  commentId: M:Innovator.Client.IReadOnlyAttribute.AsGuid(System.Guid)
+  fullName: Innovator.Client.IReadOnlyAttribute.AsGuid(System.Guid)
   nameWithType: IReadOnlyAttribute.AsGuid(Guid)
 - uid: Innovator.Client.IReadOnlyAttribute.AsGuid*
   name: AsGuid
@@ -8408,11 +8414,11 @@ references:
   commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTime
   fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTime()
   nameWithType: IReadOnlyProperty_Date.AsDateTime()
-- uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTime(DateTime)
+- uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTime(System.DateTime)
   name: AsDateTime(DateTime)
-  href: api/Innovator.Client.IReadOnlyProperty_Date.html#Innovator_Client_IReadOnlyProperty_Date_AsDateTime_DateTime_
-  commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTime(DateTime)
-  fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTime(DateTime)
+  href: api/Innovator.Client.IReadOnlyProperty_Date.html#Innovator_Client_IReadOnlyProperty_Date_AsDateTime_System_DateTime_
+  commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTime(System.DateTime)
+  fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTime(System.DateTime)
   nameWithType: IReadOnlyProperty_Date.AsDateTime(DateTime)
 - uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTime*
   name: AsDateTime
@@ -8426,11 +8432,11 @@ references:
   commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset
   fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset()
   nameWithType: IReadOnlyProperty_Date.AsDateTimeOffset()
-- uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset(DateTimeOffset)
+- uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset(System.DateTimeOffset)
   name: AsDateTimeOffset(DateTimeOffset)
-  href: api/Innovator.Client.IReadOnlyProperty_Date.html#Innovator_Client_IReadOnlyProperty_Date_AsDateTimeOffset_DateTimeOffset_
-  commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset(DateTimeOffset)
-  fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset(DateTimeOffset)
+  href: api/Innovator.Client.IReadOnlyProperty_Date.html#Innovator_Client_IReadOnlyProperty_Date_AsDateTimeOffset_System_DateTimeOffset_
+  commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset(System.DateTimeOffset)
+  fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset(System.DateTimeOffset)
   nameWithType: IReadOnlyProperty_Date.AsDateTimeOffset(DateTimeOffset)
 - uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeOffset*
   name: AsDateTimeOffset
@@ -8444,11 +8450,11 @@ references:
   commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc
   fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc()
   nameWithType: IReadOnlyProperty_Date.AsDateTimeUtc()
-- uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc(DateTime)
+- uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc(System.DateTime)
   name: AsDateTimeUtc(DateTime)
-  href: api/Innovator.Client.IReadOnlyProperty_Date.html#Innovator_Client_IReadOnlyProperty_Date_AsDateTimeUtc_DateTime_
-  commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc(DateTime)
-  fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc(DateTime)
+  href: api/Innovator.Client.IReadOnlyProperty_Date.html#Innovator_Client_IReadOnlyProperty_Date_AsDateTimeUtc_System_DateTime_
+  commentId: M:Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc(System.DateTime)
+  fullName: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc(System.DateTime)
   nameWithType: IReadOnlyProperty_Date.AsDateTimeUtc(DateTime)
 - uid: Innovator.Client.IReadOnlyProperty_Date.AsDateTimeUtc*
   name: AsDateTimeUtc
@@ -8479,12 +8485,12 @@ references:
   fullName.vb: Innovator.Client.IReadOnlyProperty_Item(Of T).AsGuid()
   nameWithType: IReadOnlyProperty_Item<T>.AsGuid()
   nameWithType.vb: IReadOnlyProperty_Item(Of T).AsGuid()
-- uid: Innovator.Client.IReadOnlyProperty_Item`1.AsGuid(Guid)
+- uid: Innovator.Client.IReadOnlyProperty_Item`1.AsGuid(System.Guid)
   name: AsGuid(Guid)
-  href: api/Innovator.Client.IReadOnlyProperty_Item-1.html#Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_Guid_
-  commentId: M:Innovator.Client.IReadOnlyProperty_Item`1.AsGuid(Guid)
-  fullName: Innovator.Client.IReadOnlyProperty_Item<T>.AsGuid(Guid)
-  fullName.vb: Innovator.Client.IReadOnlyProperty_Item(Of T).AsGuid(Guid)
+  href: api/Innovator.Client.IReadOnlyProperty_Item-1.html#Innovator_Client_IReadOnlyProperty_Item_1_AsGuid_System_Guid_
+  commentId: M:Innovator.Client.IReadOnlyProperty_Item`1.AsGuid(System.Guid)
+  fullName: Innovator.Client.IReadOnlyProperty_Item<T>.AsGuid(System.Guid)
+  fullName.vb: Innovator.Client.IReadOnlyProperty_Item(Of T).AsGuid(System.Guid)
   nameWithType: IReadOnlyProperty_Item<T>.AsGuid(Guid)
   nameWithType.vb: IReadOnlyProperty_Item(Of T).AsGuid(Guid)
 - uid: Innovator.Client.IReadOnlyProperty_Item`1.AsGuid*
@@ -8718,13 +8724,13 @@ references:
   commentId: Overload:Innovator.Client.IRemoteConnection.Clone
   fullName: Innovator.Client.IRemoteConnection.Clone
   nameWithType: IRemoteConnection.Clone
-- uid: Innovator.Client.IRemoteConnection.DefaultSettings(Action{Innovator.Client.IHttpRequest})
+- uid: Innovator.Client.IRemoteConnection.DefaultSettings(System.Action{Innovator.Client.IHttpRequest})
   name: DefaultSettings(Action<IHttpRequest>)
-  href: api/Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_DefaultSettings_Action_Innovator_Client_IHttpRequest__
-  commentId: M:Innovator.Client.IRemoteConnection.DefaultSettings(Action{Innovator.Client.IHttpRequest})
+  href: api/Innovator.Client.IRemoteConnection.html#Innovator_Client_IRemoteConnection_DefaultSettings_System_Action_Innovator_Client_IHttpRequest__
+  commentId: M:Innovator.Client.IRemoteConnection.DefaultSettings(System.Action{Innovator.Client.IHttpRequest})
   name.vb: DefaultSettings(Action(Of IHttpRequest))
-  fullName: Innovator.Client.IRemoteConnection.DefaultSettings(Action<Innovator.Client.IHttpRequest>)
-  fullName.vb: Innovator.Client.IRemoteConnection.DefaultSettings(Action(Of Innovator.Client.IHttpRequest))
+  fullName: Innovator.Client.IRemoteConnection.DefaultSettings(System.Action<Innovator.Client.IHttpRequest>)
+  fullName.vb: Innovator.Client.IRemoteConnection.DefaultSettings(System.Action(Of Innovator.Client.IHttpRequest))
   nameWithType: IRemoteConnection.DefaultSettings(Action<IHttpRequest>)
   nameWithType.vb: IRemoteConnection.DefaultSettings(Action(Of IHttpRequest))
 - uid: Innovator.Client.IRemoteConnection.DefaultSettings*
@@ -9354,11 +9360,11 @@ references:
   commentId: M:Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem,Innovator.Client.IAsyncConnection)
   fullName: Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem, Innovator.Client.IAsyncConnection)
   nameWithType: ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection)
-- uid: Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem,Innovator.Client.IAsyncConnection,CancellationToken)
+- uid: Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem,Innovator.Client.IAsyncConnection,System.Threading.CancellationToken)
   name: ApplyAsync(IReadOnlyItem, IAsyncConnection, CancellationToken)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_CancellationToken_
-  commentId: M:Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem,Innovator.Client.IAsyncConnection,CancellationToken)
-  fullName: Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem, Innovator.Client.IAsyncConnection, CancellationToken)
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ApplyAsync_Innovator_Client_IReadOnlyItem_Innovator_Client_IAsyncConnection_System_Threading_CancellationToken_
+  commentId: M:Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem,Innovator.Client.IAsyncConnection,System.Threading.CancellationToken)
+  fullName: Innovator.Client.ItemExtensions.ApplyAsync(Innovator.Client.IReadOnlyItem, Innovator.Client.IAsyncConnection, System.Threading.CancellationToken)
   nameWithType: ItemExtensions.ApplyAsync(IReadOnlyItem, IAsyncConnection, CancellationToken)
 - uid: Innovator.Client.ItemExtensions.ApplyAsync*
   name: ApplyAsync
@@ -9378,15 +9384,6 @@ references:
   commentId: Overload:Innovator.Client.ItemExtensions.AsClrValue
   fullName: Innovator.Client.ItemExtensions.AsClrValue
   nameWithType: ItemExtensions.AsClrValue
-- uid: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range{Innovator.Client.DateOffset},DateTimeOffset)
-  name: AsDateRange(Range<DateOffset>, DateTimeOffset)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_AsDateRange_Innovator_Client_Range_Innovator_Client_DateOffset__DateTimeOffset_
-  commentId: M:Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range{Innovator.Client.DateOffset},DateTimeOffset)
-  name.vb: AsDateRange(Range(Of DateOffset), DateTimeOffset)
-  fullName: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range<Innovator.Client.DateOffset>, DateTimeOffset)
-  fullName.vb: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range(Of Innovator.Client.DateOffset), DateTimeOffset)
-  nameWithType: ItemExtensions.AsDateRange(Range<DateOffset>, DateTimeOffset)
-  nameWithType.vb: ItemExtensions.AsDateRange(Range(Of DateOffset), DateTimeOffset)
 - uid: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range{Innovator.Client.DateOffset},Innovator.Client.IServerContext)
   name: AsDateRange(Range<DateOffset>, IServerContext)
   href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_AsDateRange_Innovator_Client_Range_Innovator_Client_DateOffset__Innovator_Client_IServerContext_
@@ -9396,6 +9393,15 @@ references:
   fullName.vb: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range(Of Innovator.Client.DateOffset), Innovator.Client.IServerContext)
   nameWithType: ItemExtensions.AsDateRange(Range<DateOffset>, IServerContext)
   nameWithType.vb: ItemExtensions.AsDateRange(Range(Of DateOffset), IServerContext)
+- uid: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range{Innovator.Client.DateOffset},System.DateTimeOffset)
+  name: AsDateRange(Range<DateOffset>, DateTimeOffset)
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_AsDateRange_Innovator_Client_Range_Innovator_Client_DateOffset__System_DateTimeOffset_
+  commentId: M:Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range{Innovator.Client.DateOffset},System.DateTimeOffset)
+  name.vb: AsDateRange(Range(Of DateOffset), DateTimeOffset)
+  fullName: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range<Innovator.Client.DateOffset>, System.DateTimeOffset)
+  fullName.vb: Innovator.Client.ItemExtensions.AsDateRange(Innovator.Client.Range(Of Innovator.Client.DateOffset), System.DateTimeOffset)
+  nameWithType: ItemExtensions.AsDateRange(Range<DateOffset>, DateTimeOffset)
+  nameWithType.vb: ItemExtensions.AsDateRange(Range(Of DateOffset), DateTimeOffset)
 - uid: Innovator.Client.ItemExtensions.AsDateRange*
   name: AsDateRange
   href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_AsDateRange_
@@ -9534,13 +9540,13 @@ references:
   commentId: Overload:Innovator.Client.ItemExtensions.FetchLockStatus
   fullName: Innovator.Client.ItemExtensions.FetchLockStatus
   nameWithType: ItemExtensions.FetchLockStatus
-- uid: Innovator.Client.ItemExtensions.FirstOrNullElement(IEnumerable{Innovator.Client.IElement})
+- uid: Innovator.Client.ItemExtensions.FirstOrNullElement(System.Collections.Generic.IEnumerable{Innovator.Client.IElement})
   name: FirstOrNullElement(IEnumerable<IElement>)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullElement_IEnumerable_Innovator_Client_IElement__
-  commentId: M:Innovator.Client.ItemExtensions.FirstOrNullElement(IEnumerable{Innovator.Client.IElement})
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullElement_System_Collections_Generic_IEnumerable_Innovator_Client_IElement__
+  commentId: M:Innovator.Client.ItemExtensions.FirstOrNullElement(System.Collections.Generic.IEnumerable{Innovator.Client.IElement})
   name.vb: FirstOrNullElement(IEnumerable(Of IElement))
-  fullName: Innovator.Client.ItemExtensions.FirstOrNullElement(IEnumerable<Innovator.Client.IElement>)
-  fullName.vb: Innovator.Client.ItemExtensions.FirstOrNullElement(IEnumerable(Of Innovator.Client.IElement))
+  fullName: Innovator.Client.ItemExtensions.FirstOrNullElement(System.Collections.Generic.IEnumerable<Innovator.Client.IElement>)
+  fullName.vb: Innovator.Client.ItemExtensions.FirstOrNullElement(System.Collections.Generic.IEnumerable(Of Innovator.Client.IElement))
   nameWithType: ItemExtensions.FirstOrNullElement(IEnumerable<IElement>)
   nameWithType.vb: ItemExtensions.FirstOrNullElement(IEnumerable(Of IElement))
 - uid: Innovator.Client.ItemExtensions.FirstOrNullElement*
@@ -9555,22 +9561,22 @@ references:
   commentId: Overload:Innovator.Client.ItemExtensions.FirstOrNullItem
   fullName: Innovator.Client.ItemExtensions.FirstOrNullItem
   nameWithType: ItemExtensions.FirstOrNullItem
-- uid: Innovator.Client.ItemExtensions.FirstOrNullItem``1(IEnumerable{``0})
+- uid: Innovator.Client.ItemExtensions.FirstOrNullItem``1(System.Collections.Generic.IEnumerable{``0})
   name: FirstOrNullItem<T>(IEnumerable<T>)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullItem__1_IEnumerable___0__
-  commentId: M:Innovator.Client.ItemExtensions.FirstOrNullItem``1(IEnumerable{``0})
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullItem__1_System_Collections_Generic_IEnumerable___0__
+  commentId: M:Innovator.Client.ItemExtensions.FirstOrNullItem``1(System.Collections.Generic.IEnumerable{``0})
   name.vb: FirstOrNullItem(Of T)(IEnumerable(Of T))
-  fullName: Innovator.Client.ItemExtensions.FirstOrNullItem<T>(IEnumerable<T>)
-  fullName.vb: Innovator.Client.ItemExtensions.FirstOrNullItem(Of T)(IEnumerable(Of T))
+  fullName: Innovator.Client.ItemExtensions.FirstOrNullItem<T>(System.Collections.Generic.IEnumerable<T>)
+  fullName.vb: Innovator.Client.ItemExtensions.FirstOrNullItem(Of T)(System.Collections.Generic.IEnumerable(Of T))
   nameWithType: ItemExtensions.FirstOrNullItem<T>(IEnumerable<T>)
   nameWithType.vb: ItemExtensions.FirstOrNullItem(Of T)(IEnumerable(Of T))
-- uid: Innovator.Client.ItemExtensions.FirstOrNullItem``1(IEnumerable{``0},Func{``0,System.Boolean})
+- uid: Innovator.Client.ItemExtensions.FirstOrNullItem``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})
   name: FirstOrNullItem<T>(IEnumerable<T>, Func<T, Boolean>)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullItem__1_IEnumerable___0__Func___0_System_Boolean__
-  commentId: M:Innovator.Client.ItemExtensions.FirstOrNullItem``1(IEnumerable{``0},Func{``0,System.Boolean})
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_FirstOrNullItem__1_System_Collections_Generic_IEnumerable___0__System_Func___0_System_Boolean__
+  commentId: M:Innovator.Client.ItemExtensions.FirstOrNullItem``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})
   name.vb: FirstOrNullItem(Of T)(IEnumerable(Of T), Func(Of T, Boolean))
-  fullName: Innovator.Client.ItemExtensions.FirstOrNullItem<T>(IEnumerable<T>, Func<T, System.Boolean>)
-  fullName.vb: Innovator.Client.ItemExtensions.FirstOrNullItem(Of T)(IEnumerable(Of T), Func(Of T, System.Boolean))
+  fullName: Innovator.Client.ItemExtensions.FirstOrNullItem<T>(System.Collections.Generic.IEnumerable<T>, System.Func<T, System.Boolean>)
+  fullName.vb: Innovator.Client.ItemExtensions.FirstOrNullItem(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, System.Boolean))
   nameWithType: ItemExtensions.FirstOrNullItem<T>(IEnumerable<T>, Func<T, Boolean>)
   nameWithType.vb: ItemExtensions.FirstOrNullItem(Of T)(IEnumerable(Of T), Func(Of T, Boolean))
 - uid: Innovator.Client.ItemExtensions.HasValue(Innovator.Client.IReadOnlyAttribute)
@@ -9639,13 +9645,13 @@ references:
   commentId: Overload:Innovator.Client.ItemExtensions.LazyMap
   fullName: Innovator.Client.ItemExtensions.LazyMap
   nameWithType: ItemExtensions.LazyMap
-- uid: Innovator.Client.ItemExtensions.LazyMap``1(Innovator.Client.IReadOnlyItem,Innovator.Client.IConnection,Func{Innovator.Client.IReadOnlyItem,``0})
+- uid: Innovator.Client.ItemExtensions.LazyMap``1(Innovator.Client.IReadOnlyItem,Innovator.Client.IConnection,System.Func{Innovator.Client.IReadOnlyItem,``0})
   name: LazyMap<T>(IReadOnlyItem, IConnection, Func<IReadOnlyItem, T>)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_Func_Innovator_Client_IReadOnlyItem___0__
-  commentId: M:Innovator.Client.ItemExtensions.LazyMap``1(Innovator.Client.IReadOnlyItem,Innovator.Client.IConnection,Func{Innovator.Client.IReadOnlyItem,``0})
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_LazyMap__1_Innovator_Client_IReadOnlyItem_Innovator_Client_IConnection_System_Func_Innovator_Client_IReadOnlyItem___0__
+  commentId: M:Innovator.Client.ItemExtensions.LazyMap``1(Innovator.Client.IReadOnlyItem,Innovator.Client.IConnection,System.Func{Innovator.Client.IReadOnlyItem,``0})
   name.vb: LazyMap(Of T)(IReadOnlyItem, IConnection, Func(Of IReadOnlyItem, T))
-  fullName: Innovator.Client.ItemExtensions.LazyMap<T>(Innovator.Client.IReadOnlyItem, Innovator.Client.IConnection, Func<Innovator.Client.IReadOnlyItem, T>)
-  fullName.vb: Innovator.Client.ItemExtensions.LazyMap(Of T)(Innovator.Client.IReadOnlyItem, Innovator.Client.IConnection, Func(Of Innovator.Client.IReadOnlyItem, T))
+  fullName: Innovator.Client.ItemExtensions.LazyMap<T>(Innovator.Client.IReadOnlyItem, Innovator.Client.IConnection, System.Func<Innovator.Client.IReadOnlyItem, T>)
+  fullName.vb: Innovator.Client.ItemExtensions.LazyMap(Of T)(Innovator.Client.IReadOnlyItem, Innovator.Client.IConnection, System.Func(Of Innovator.Client.IReadOnlyItem, T))
   nameWithType: ItemExtensions.LazyMap<T>(IReadOnlyItem, IConnection, Func<IReadOnlyItem, T>)
   nameWithType.vb: ItemExtensions.LazyMap(Of T)(IReadOnlyItem, IConnection, Func(Of IReadOnlyItem, T))
 - uid: Innovator.Client.ItemExtensions.Lock(Innovator.Client.IItemRef,Innovator.Client.IConnection)
@@ -9777,11 +9783,11 @@ references:
   fullName.vb: Innovator.Client.ItemExtensions.RelatedModel(Of T)(Innovator.Client.IRelationship(Of T))
   nameWithType: ItemExtensions.RelatedModel<T>(IRelationship<T>)
   nameWithType.vb: ItemExtensions.RelatedModel(Of T)(IRelationship(Of T))
-- uid: Innovator.Client.ItemExtensions.SetDurationByDate(Innovator.Client.Model.Activity,Innovator.Client.IConnection,DateTime,System.Int32,System.Int32)
+- uid: Innovator.Client.ItemExtensions.SetDurationByDate(Innovator.Client.Model.Activity,Innovator.Client.IConnection,System.DateTime,System.Int32,System.Int32)
   name: SetDurationByDate(Activity, IConnection, DateTime, Int32, Int32)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_SetDurationByDate_Innovator_Client_Model_Activity_Innovator_Client_IConnection_DateTime_System_Int32_System_Int32_
-  commentId: M:Innovator.Client.ItemExtensions.SetDurationByDate(Innovator.Client.Model.Activity,Innovator.Client.IConnection,DateTime,System.Int32,System.Int32)
-  fullName: Innovator.Client.ItemExtensions.SetDurationByDate(Innovator.Client.Model.Activity, Innovator.Client.IConnection, DateTime, System.Int32, System.Int32)
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_SetDurationByDate_Innovator_Client_Model_Activity_Innovator_Client_IConnection_System_DateTime_System_Int32_System_Int32_
+  commentId: M:Innovator.Client.ItemExtensions.SetDurationByDate(Innovator.Client.Model.Activity,Innovator.Client.IConnection,System.DateTime,System.Int32,System.Int32)
+  fullName: Innovator.Client.ItemExtensions.SetDurationByDate(Innovator.Client.Model.Activity, Innovator.Client.IConnection, System.DateTime, System.Int32, System.Int32)
   nameWithType: ItemExtensions.SetDurationByDate(Activity, IConnection, DateTime, Int32, Int32)
 - uid: Innovator.Client.ItemExtensions.SetDurationByDate*
   name: SetDurationByDate
@@ -9822,11 +9828,11 @@ references:
   commentId: M:Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode,Innovator.Client.AmlWriterSettings)
   fullName: Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode, Innovator.Client.AmlWriterSettings)
   nameWithType: ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)
-- uid: Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode,XmlWriter)
+- uid: Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode,System.Xml.XmlWriter)
   name: ToAml(IAmlNode, XmlWriter)
-  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_XmlWriter_
-  commentId: M:Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode,XmlWriter)
-  fullName: Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode, XmlWriter)
+  href: api/Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_
+  commentId: M:Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode,System.Xml.XmlWriter)
+  fullName: Innovator.Client.ItemExtensions.ToAml(Innovator.Client.IAmlNode, System.Xml.XmlWriter)
   nameWithType: ItemExtensions.ToAml(IAmlNode, XmlWriter)
 - uid: Innovator.Client.ItemExtensions.ToAml*
   name: ToAml
@@ -10080,11 +10086,11 @@ references:
   commentId: M:Innovator.Client.ItemWrapper.ToAml
   fullName: Innovator.Client.ItemWrapper.ToAml()
   nameWithType: ItemWrapper.ToAml()
-- uid: Innovator.Client.ItemWrapper.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
+- uid: Innovator.Client.ItemWrapper.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
   name: ToAml(XmlWriter, AmlWriterSettings)
-  href: api/Innovator.Client.ItemWrapper.html#Innovator_Client_ItemWrapper_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_
-  commentId: M:Innovator.Client.ItemWrapper.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
-  fullName: Innovator.Client.ItemWrapper.ToAml(XmlWriter, Innovator.Client.AmlWriterSettings)
+  href: api/Innovator.Client.ItemWrapper.html#Innovator_Client_ItemWrapper_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_
+  commentId: M:Innovator.Client.ItemWrapper.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
+  fullName: Innovator.Client.ItemWrapper.ToAml(System.Xml.XmlWriter, Innovator.Client.AmlWriterSettings)
   nameWithType: ItemWrapper.ToAml(XmlWriter, AmlWriterSettings)
 - uid: Innovator.Client.ItemWrapper.ToAml*
   name: ToAml
@@ -10176,11 +10182,11 @@ references:
   commentId: M:Innovator.Client.LoggedOutException.#ctor(System.String)
   fullName: Innovator.Client.LoggedOutException.LoggedOutException(System.String)
   nameWithType: LoggedOutException.LoggedOutException(String)
-- uid: Innovator.Client.LoggedOutException.#ctor(System.String,Exception)
+- uid: Innovator.Client.LoggedOutException.#ctor(System.String,System.Exception)
   name: LoggedOutException(String, Exception)
-  href: api/Innovator.Client.LoggedOutException.html#Innovator_Client_LoggedOutException__ctor_System_String_Exception_
-  commentId: M:Innovator.Client.LoggedOutException.#ctor(System.String,Exception)
-  fullName: Innovator.Client.LoggedOutException.LoggedOutException(System.String, Exception)
+  href: api/Innovator.Client.LoggedOutException.html#Innovator_Client_LoggedOutException__ctor_System_String_System_Exception_
+  commentId: M:Innovator.Client.LoggedOutException.#ctor(System.String,System.Exception)
+  fullName: Innovator.Client.LoggedOutException.LoggedOutException(System.String, System.Exception)
   nameWithType: LoggedOutException.LoggedOutException(String, Exception)
 - uid: Innovator.Client.LoggedOutException.#ctor*
   name: LoggedOutException
@@ -10422,11 +10428,11 @@ references:
   commentId: Overload:Innovator.Client.MemoryTributary.ReadByte
   fullName: Innovator.Client.MemoryTributary.ReadByte
   nameWithType: MemoryTributary.ReadByte
-- uid: Innovator.Client.MemoryTributary.ReadFrom(Stream,System.Int64)
+- uid: Innovator.Client.MemoryTributary.ReadFrom(System.IO.Stream,System.Int64)
   name: ReadFrom(Stream, Int64)
-  href: api/Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_ReadFrom_Stream_System_Int64_
-  commentId: M:Innovator.Client.MemoryTributary.ReadFrom(Stream,System.Int64)
-  fullName: Innovator.Client.MemoryTributary.ReadFrom(Stream, System.Int64)
+  href: api/Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_ReadFrom_System_IO_Stream_System_Int64_
+  commentId: M:Innovator.Client.MemoryTributary.ReadFrom(System.IO.Stream,System.Int64)
+  fullName: Innovator.Client.MemoryTributary.ReadFrom(System.IO.Stream, System.Int64)
   nameWithType: MemoryTributary.ReadFrom(Stream, Int64)
 - uid: Innovator.Client.MemoryTributary.ReadFrom*
   name: ReadFrom
@@ -10434,11 +10440,11 @@ references:
   commentId: Overload:Innovator.Client.MemoryTributary.ReadFrom
   fullName: Innovator.Client.MemoryTributary.ReadFrom
   nameWithType: MemoryTributary.ReadFrom
-- uid: Innovator.Client.MemoryTributary.Seek(System.Int64,SeekOrigin)
+- uid: Innovator.Client.MemoryTributary.Seek(System.Int64,System.IO.SeekOrigin)
   name: Seek(Int64, SeekOrigin)
-  href: api/Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_Seek_System_Int64_SeekOrigin_
-  commentId: M:Innovator.Client.MemoryTributary.Seek(System.Int64,SeekOrigin)
-  fullName: Innovator.Client.MemoryTributary.Seek(System.Int64, SeekOrigin)
+  href: api/Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_Seek_System_Int64_System_IO_SeekOrigin_
+  commentId: M:Innovator.Client.MemoryTributary.Seek(System.Int64,System.IO.SeekOrigin)
+  fullName: Innovator.Client.MemoryTributary.Seek(System.Int64, System.IO.SeekOrigin)
   nameWithType: MemoryTributary.Seek(Int64, SeekOrigin)
 - uid: Innovator.Client.MemoryTributary.Seek*
   name: Seek
@@ -10497,11 +10503,11 @@ references:
   commentId: Overload:Innovator.Client.MemoryTributary.WriteByte
   fullName: Innovator.Client.MemoryTributary.WriteByte
   nameWithType: MemoryTributary.WriteByte
-- uid: Innovator.Client.MemoryTributary.WriteTo(Stream)
+- uid: Innovator.Client.MemoryTributary.WriteTo(System.IO.Stream)
   name: WriteTo(Stream)
-  href: api/Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_WriteTo_Stream_
-  commentId: M:Innovator.Client.MemoryTributary.WriteTo(Stream)
-  fullName: Innovator.Client.MemoryTributary.WriteTo(Stream)
+  href: api/Innovator.Client.MemoryTributary.html#Innovator_Client_MemoryTributary_WriteTo_System_IO_Stream_
+  commentId: M:Innovator.Client.MemoryTributary.WriteTo(System.IO.Stream)
+  fullName: Innovator.Client.MemoryTributary.WriteTo(System.IO.Stream)
   nameWithType: MemoryTributary.WriteTo(Stream)
 - uid: Innovator.Client.MemoryTributary.WriteTo*
   name: WriteTo
@@ -37962,23 +37968,23 @@ references:
   commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext)
   fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext)
   nameWithType: ParameterSubstitution.Substitute(String, IServerContext)
-- uid: Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,StringBuilder)
-  name: Substitute(String, IServerContext, StringBuilder)
-  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_Substitute_System_String_Innovator_Client_IServerContext_StringBuilder_
-  commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,StringBuilder)
-  fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext, StringBuilder)
-  nameWithType: ParameterSubstitution.Substitute(String, IServerContext, StringBuilder)
-- uid: Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,TextWriter)
+- uid: Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,System.IO.TextWriter)
   name: Substitute(String, IServerContext, TextWriter)
-  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_Substitute_System_String_Innovator_Client_IServerContext_TextWriter_
-  commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,TextWriter)
-  fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext, TextWriter)
+  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_Substitute_System_String_Innovator_Client_IServerContext_System_IO_TextWriter_
+  commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,System.IO.TextWriter)
+  fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext, System.IO.TextWriter)
   nameWithType: ParameterSubstitution.Substitute(String, IServerContext, TextWriter)
-- uid: Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,XmlWriter)
+- uid: Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,System.Text.StringBuilder)
+  name: Substitute(String, IServerContext, StringBuilder)
+  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_Substitute_System_String_Innovator_Client_IServerContext_System_Text_StringBuilder_
+  commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,System.Text.StringBuilder)
+  fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext, System.Text.StringBuilder)
+  nameWithType: ParameterSubstitution.Substitute(String, IServerContext, StringBuilder)
+- uid: Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,System.Xml.XmlWriter)
   name: Substitute(String, IServerContext, XmlWriter)
-  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_Substitute_System_String_Innovator_Client_IServerContext_XmlWriter_
-  commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,XmlWriter)
-  fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext, XmlWriter)
+  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_Substitute_System_String_Innovator_Client_IServerContext_System_Xml_XmlWriter_
+  commentId: M:Innovator.Client.ParameterSubstitution.Substitute(System.String,Innovator.Client.IServerContext,System.Xml.XmlWriter)
+  fullName: Innovator.Client.ParameterSubstitution.Substitute(System.String, Innovator.Client.IServerContext, System.Xml.XmlWriter)
   nameWithType: ParameterSubstitution.Substitute(String, IServerContext, XmlWriter)
 - uid: Innovator.Client.ParameterSubstitution.Substitute*
   name: Substitute
@@ -37986,6 +37992,22 @@ references:
   commentId: Overload:Innovator.Client.ParameterSubstitution.Substitute
   fullName: Innovator.Client.ParameterSubstitution.Substitute
   nameWithType: ParameterSubstitution.Substitute
+- uid: Innovator.Client.ParameterSubstitution.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Innovator.Client.ParameterSubstitution.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Innovator.Client.ParameterSubstitution.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: ParameterSubstitution.IEnumerable.GetEnumerator()
+  nameWithType.vb: ParameterSubstitution.System.Collections.IEnumerable.GetEnumerator()
+- uid: Innovator.Client.ParameterSubstitution.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Innovator.Client.ParameterSubstitution.html#Innovator_Client_ParameterSubstitution_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Innovator.Client.ParameterSubstitution.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Innovator.Client.ParameterSubstitution.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: ParameterSubstitution.IEnumerable.GetEnumerator
+  nameWithType.vb: ParameterSubstitution.System.Collections.IEnumerable.GetEnumerator
 - uid: Innovator.Client.ParameterSubstitutionMode
   name: ParameterSubstitutionMode
   href: api/Innovator.Client.ParameterSubstitutionMode.html
@@ -38029,12 +38051,12 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Promise
   nameWithType: Promise<T>.Promise
   nameWithType.vb: Promise(Of T).Promise
-- uid: Innovator.Client.Promise`1.Always(Action)
+- uid: Innovator.Client.Promise`1.Always(System.Action)
   name: Always(Action)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Always_Action_
-  commentId: M:Innovator.Client.Promise`1.Always(Action)
-  fullName: Innovator.Client.Promise<T>.Always(Action)
-  fullName.vb: Innovator.Client.Promise(Of T).Always(Action)
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Always_System_Action_
+  commentId: M:Innovator.Client.Promise`1.Always(System.Action)
+  fullName: Innovator.Client.Promise<T>.Always(System.Action)
+  fullName.vb: Innovator.Client.Promise(Of T).Always(System.Action)
   nameWithType: Promise<T>.Always(Action)
   nameWithType.vb: Promise(Of T).Always(Action)
 - uid: Innovator.Client.Promise`1.Always*
@@ -38119,13 +38141,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Condition.Success
   nameWithType: Promise<T>.Condition.Success
   nameWithType.vb: Promise(Of T).Condition.Success
-- uid: Innovator.Client.Promise`1.Done(Action{`0})
+- uid: Innovator.Client.Promise`1.Done(System.Action{`0})
   name: Done(Action<T>)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Done_Action__0__
-  commentId: M:Innovator.Client.Promise`1.Done(Action{`0})
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Done_System_Action__0__
+  commentId: M:Innovator.Client.Promise`1.Done(System.Action{`0})
   name.vb: Done(Action(Of T))
-  fullName: Innovator.Client.Promise<T>.Done(Action<T>)
-  fullName.vb: Innovator.Client.Promise(Of T).Done(Action(Of T))
+  fullName: Innovator.Client.Promise<T>.Done(System.Action<T>)
+  fullName.vb: Innovator.Client.Promise(Of T).Done(System.Action(Of T))
   nameWithType: Promise<T>.Done(Action<T>)
   nameWithType.vb: Promise(Of T).Done(Action(Of T))
 - uid: Innovator.Client.Promise`1.Done*
@@ -38153,13 +38175,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).ExecuteCallbacks
   nameWithType: Promise<T>.ExecuteCallbacks
   nameWithType.vb: Promise(Of T).ExecuteCallbacks
-- uid: Innovator.Client.Promise`1.Fail(Action{Exception})
+- uid: Innovator.Client.Promise`1.Fail(System.Action{System.Exception})
   name: Fail(Action<Exception>)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Fail_Action_Exception__
-  commentId: M:Innovator.Client.Promise`1.Fail(Action{Exception})
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Fail_System_Action_System_Exception__
+  commentId: M:Innovator.Client.Promise`1.Fail(System.Action{System.Exception})
   name.vb: Fail(Action(Of Exception))
-  fullName: Innovator.Client.Promise<T>.Fail(Action<Exception>)
-  fullName.vb: Innovator.Client.Promise(Of T).Fail(Action(Of Exception))
+  fullName: Innovator.Client.Promise<T>.Fail(System.Action<System.Exception>)
+  fullName.vb: Innovator.Client.Promise(Of T).Fail(System.Action(Of System.Exception))
   nameWithType: Promise<T>.Fail(Action<Exception>)
   nameWithType.vb: Promise(Of T).Fail(Action(Of Exception))
 - uid: Innovator.Client.Promise`1.Fail*
@@ -38170,13 +38192,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Fail
   nameWithType: Promise<T>.Fail
   nameWithType.vb: Promise(Of T).Fail
-- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Always(Action)
+- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Always(System.Action)
   name: IPromise.Always(Action)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Always_Action_
-  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Always(Action)
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Always_System_Action_
+  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Always(System.Action)
   name.vb: Innovator.Client.IPromise.Always(Action)
-  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Always(Action)
-  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Always(Action)
+  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Always(System.Action)
+  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Always(System.Action)
   nameWithType: Promise<T>.IPromise.Always(Action)
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Always(Action)
 - uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Always*
@@ -38188,13 +38210,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Always
   nameWithType: Promise<T>.IPromise.Always
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Always
-- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Done(Action{System.Object})
+- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Done(System.Action{System.Object})
   name: IPromise.Done(Action<Object>)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Done_Action_System_Object__
-  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Done(Action{System.Object})
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Done_System_Action_System_Object__
+  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Done(System.Action{System.Object})
   name.vb: Innovator.Client.IPromise.Done(Action(Of Object))
-  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Done(Action<System.Object>)
-  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Done(Action(Of System.Object))
+  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Done(System.Action<System.Object>)
+  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Done(System.Action(Of System.Object))
   nameWithType: Promise<T>.IPromise.Done(Action<Object>)
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Done(Action(Of Object))
 - uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Done*
@@ -38206,13 +38228,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Done
   nameWithType: Promise<T>.IPromise.Done
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Done
-- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Fail(Action{Exception})
+- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Fail(System.Action{System.Exception})
   name: IPromise.Fail(Action<Exception>)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Fail_Action_Exception__
-  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Fail(Action{Exception})
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Fail_System_Action_System_Exception__
+  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Fail(System.Action{System.Exception})
   name.vb: Innovator.Client.IPromise.Fail(Action(Of Exception))
-  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Fail(Action<Exception>)
-  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Fail(Action(Of Exception))
+  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Fail(System.Action<System.Exception>)
+  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Fail(System.Action(Of System.Exception))
   nameWithType: Promise<T>.IPromise.Fail(Action<Exception>)
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Fail(Action(Of Exception))
 - uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Fail*
@@ -38224,13 +38246,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Fail
   nameWithType: Promise<T>.IPromise.Fail
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Fail
-- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Progress(Action{System.Int32,System.String})
+- uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Progress(System.Action{System.Int32,System.String})
   name: IPromise.Progress(Action<Int32, String>)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Progress_Action_System_Int32_System_String__
-  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Progress(Action{System.Int32,System.String})
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Innovator_Client_IPromise_Progress_System_Action_System_Int32_System_String__
+  commentId: M:Innovator.Client.Promise`1.Innovator#Client#IPromise#Progress(System.Action{System.Int32,System.String})
   name.vb: Innovator.Client.IPromise.Progress(Action(Of Int32, String))
-  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Progress(Action<System.Int32, System.String>)
-  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Progress(Action(Of System.Int32, System.String))
+  fullName: Innovator.Client.Promise<T>.Innovator.Client.IPromise.Progress(System.Action<System.Int32, System.String>)
+  fullName.vb: Innovator.Client.Promise(Of T).Innovator.Client.IPromise.Progress(System.Action(Of System.Int32, System.String))
   nameWithType: Promise<T>.IPromise.Progress(Action<Int32, String>)
   nameWithType.vb: Promise(Of T).Innovator.Client.IPromise.Progress(Action(Of Int32, String))
 - uid: Innovator.Client.Promise`1.Innovator#Client#IPromise#Progress*
@@ -38356,13 +38378,13 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).PercentComplete
   nameWithType: Promise<T>.PercentComplete
   nameWithType.vb: Promise(Of T).PercentComplete
-- uid: Innovator.Client.Promise`1.Progress(Action{System.Int32,System.String})
+- uid: Innovator.Client.Promise`1.Progress(System.Action{System.Int32,System.String})
   name: Progress(Action<Int32, String>)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Progress_Action_System_Int32_System_String__
-  commentId: M:Innovator.Client.Promise`1.Progress(Action{System.Int32,System.String})
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Progress_System_Action_System_Int32_System_String__
+  commentId: M:Innovator.Client.Promise`1.Progress(System.Action{System.Int32,System.String})
   name.vb: Progress(Action(Of Int32, String))
-  fullName: Innovator.Client.Promise<T>.Progress(Action<System.Int32, System.String>)
-  fullName.vb: Innovator.Client.Promise(Of T).Progress(Action(Of System.Int32, System.String))
+  fullName: Innovator.Client.Promise<T>.Progress(System.Action<System.Int32, System.String>)
+  fullName.vb: Innovator.Client.Promise(Of T).Progress(System.Action(Of System.Int32, System.String))
   nameWithType: Promise<T>.Progress(Action<Int32, String>)
   nameWithType.vb: Promise(Of T).Progress(Action(Of Int32, String))
 - uid: Innovator.Client.Promise`1.Progress*
@@ -38373,12 +38395,12 @@ references:
   fullName.vb: Innovator.Client.Promise(Of T).Progress
   nameWithType: Promise<T>.Progress
   nameWithType.vb: Promise(Of T).Progress
-- uid: Innovator.Client.Promise`1.Reject(Exception)
+- uid: Innovator.Client.Promise`1.Reject(System.Exception)
   name: Reject(Exception)
-  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Reject_Exception_
-  commentId: M:Innovator.Client.Promise`1.Reject(Exception)
-  fullName: Innovator.Client.Promise<T>.Reject(Exception)
-  fullName.vb: Innovator.Client.Promise(Of T).Reject(Exception)
+  href: api/Innovator.Client.Promise-1.html#Innovator_Client_Promise_1_Reject_System_Exception_
+  commentId: M:Innovator.Client.Promise`1.Reject(System.Exception)
+  fullName: Innovator.Client.Promise<T>.Reject(System.Exception)
+  fullName.vb: Innovator.Client.Promise(Of T).Reject(System.Exception)
   nameWithType: Promise<T>.Reject(Exception)
   nameWithType.vb: Promise(Of T).Reject(Exception)
 - uid: Innovator.Client.Promise`1.Reject*
@@ -38703,13 +38725,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.Cancelled
   fullName: Innovator.Client.Promises.Cancelled
   nameWithType: Promises.Cancelled
-- uid: Innovator.Client.Promises.Cancelled``1(Innovator.Client.IPromise{``0},Action{OperationCanceledException})
+- uid: Innovator.Client.Promises.Cancelled``1(Innovator.Client.IPromise{``0},System.Action{System.OperationCanceledException})
   name: Cancelled<T>(IPromise<T>, Action<OperationCanceledException>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Cancelled__1_Innovator_Client_IPromise___0__Action_OperationCanceledException__
-  commentId: M:Innovator.Client.Promises.Cancelled``1(Innovator.Client.IPromise{``0},Action{OperationCanceledException})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Cancelled__1_Innovator_Client_IPromise___0__System_Action_System_OperationCanceledException__
+  commentId: M:Innovator.Client.Promises.Cancelled``1(Innovator.Client.IPromise{``0},System.Action{System.OperationCanceledException})
   name.vb: Cancelled(Of T)(IPromise(Of T), Action(Of OperationCanceledException))
-  fullName: Innovator.Client.Promises.Cancelled<T>(Innovator.Client.IPromise<T>, Action<OperationCanceledException>)
-  fullName.vb: Innovator.Client.Promises.Cancelled(Of T)(Innovator.Client.IPromise(Of T), Action(Of OperationCanceledException))
+  fullName: Innovator.Client.Promises.Cancelled<T>(Innovator.Client.IPromise<T>, System.Action<System.OperationCanceledException>)
+  fullName.vb: Innovator.Client.Promises.Cancelled(Of T)(Innovator.Client.IPromise(Of T), System.Action(Of System.OperationCanceledException))
   nameWithType: Promises.Cancelled<T>(IPromise<T>, Action<OperationCanceledException>)
   nameWithType.vb: Promises.Cancelled(Of T)(IPromise(Of T), Action(Of OperationCanceledException))
 - uid: Innovator.Client.Promises.ConfigureAwait*
@@ -38733,13 +38755,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.Continue
   fullName: Innovator.Client.Promises.Continue
   nameWithType: Promises.Continue
-- uid: Innovator.Client.Promises.Continue``2(Innovator.Client.IPromise{``0},Func{``0,Innovator.Client.IPromise{``1}})
+- uid: Innovator.Client.Promises.Continue``2(Innovator.Client.IPromise{``0},System.Func{``0,Innovator.Client.IPromise{``1}})
   name: Continue<T, S>(IPromise<T>, Func<T, IPromise<S>>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Continue__2_Innovator_Client_IPromise___0__Func___0_Innovator_Client_IPromise___1___
-  commentId: M:Innovator.Client.Promises.Continue``2(Innovator.Client.IPromise{``0},Func{``0,Innovator.Client.IPromise{``1}})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Continue__2_Innovator_Client_IPromise___0__System_Func___0_Innovator_Client_IPromise___1___
+  commentId: M:Innovator.Client.Promises.Continue``2(Innovator.Client.IPromise{``0},System.Func{``0,Innovator.Client.IPromise{``1}})
   name.vb: Continue(Of T, S)(IPromise(Of T), Func(Of T, IPromise(Of S)))
-  fullName: Innovator.Client.Promises.Continue<T, S>(Innovator.Client.IPromise<T>, Func<T, Innovator.Client.IPromise<S>>)
-  fullName.vb: Innovator.Client.Promises.Continue(Of T, S)(Innovator.Client.IPromise(Of T), Func(Of T, Innovator.Client.IPromise(Of S)))
+  fullName: Innovator.Client.Promises.Continue<T, S>(Innovator.Client.IPromise<T>, System.Func<T, Innovator.Client.IPromise<S>>)
+  fullName.vb: Innovator.Client.Promises.Continue(Of T, S)(Innovator.Client.IPromise(Of T), System.Func(Of T, Innovator.Client.IPromise(Of S)))
   nameWithType: Promises.Continue<T, S>(IPromise<T>, Func<T, IPromise<S>>)
   nameWithType.vb: Promises.Continue(Of T, S)(IPromise(Of T), Func(Of T, IPromise(Of S)))
 - uid: Innovator.Client.Promises.Convert*
@@ -38748,22 +38770,22 @@ references:
   commentId: Overload:Innovator.Client.Promises.Convert
   fullName: Innovator.Client.Promises.Convert
   nameWithType: Promises.Convert
-- uid: Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},Action{``0,Innovator.Client.Promise{``1}},Action{Exception,Innovator.Client.Promise{``1}})
+- uid: Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},System.Action{``0,Innovator.Client.Promise{``1}},System.Action{System.Exception,Innovator.Client.Promise{``1}})
   name: Convert<T, S>(IPromise<T>, Action<T, Promise<S>>, Action<Exception, Promise<S>>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__Action___0_Innovator_Client_Promise___1___Action_Exception_Innovator_Client_Promise___1___
-  commentId: M:Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},Action{``0,Innovator.Client.Promise{``1}},Action{Exception,Innovator.Client.Promise{``1}})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__System_Action___0_Innovator_Client_Promise___1___System_Action_System_Exception_Innovator_Client_Promise___1___
+  commentId: M:Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},System.Action{``0,Innovator.Client.Promise{``1}},System.Action{System.Exception,Innovator.Client.Promise{``1}})
   name.vb: Convert(Of T, S)(IPromise(Of T), Action(Of T, Promise(Of S)), Action(Of Exception, Promise(Of S)))
-  fullName: Innovator.Client.Promises.Convert<T, S>(Innovator.Client.IPromise<T>, Action<T, Innovator.Client.Promise<S>>, Action<Exception, Innovator.Client.Promise<S>>)
-  fullName.vb: Innovator.Client.Promises.Convert(Of T, S)(Innovator.Client.IPromise(Of T), Action(Of T, Innovator.Client.Promise(Of S)), Action(Of Exception, Innovator.Client.Promise(Of S)))
+  fullName: Innovator.Client.Promises.Convert<T, S>(Innovator.Client.IPromise<T>, System.Action<T, Innovator.Client.Promise<S>>, System.Action<System.Exception, Innovator.Client.Promise<S>>)
+  fullName.vb: Innovator.Client.Promises.Convert(Of T, S)(Innovator.Client.IPromise(Of T), System.Action(Of T, Innovator.Client.Promise(Of S)), System.Action(Of System.Exception, Innovator.Client.Promise(Of S)))
   nameWithType: Promises.Convert<T, S>(IPromise<T>, Action<T, Promise<S>>, Action<Exception, Promise<S>>)
   nameWithType.vb: Promises.Convert(Of T, S)(IPromise(Of T), Action(Of T, Promise(Of S)), Action(Of Exception, Promise(Of S)))
-- uid: Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},Func{``0,``1})
+- uid: Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},System.Func{``0,``1})
   name: Convert<T, S>(IPromise<T>, Func<T, S>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__Func___0___1__
-  commentId: M:Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},Func{``0,``1})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Convert__2_Innovator_Client_IPromise___0__System_Func___0___1__
+  commentId: M:Innovator.Client.Promises.Convert``2(Innovator.Client.IPromise{``0},System.Func{``0,``1})
   name.vb: Convert(Of T, S)(IPromise(Of T), Func(Of T, S))
-  fullName: Innovator.Client.Promises.Convert<T, S>(Innovator.Client.IPromise<T>, Func<T, S>)
-  fullName.vb: Innovator.Client.Promises.Convert(Of T, S)(Innovator.Client.IPromise(Of T), Func(Of T, S))
+  fullName: Innovator.Client.Promises.Convert<T, S>(Innovator.Client.IPromise<T>, System.Func<T, S>)
+  fullName.vb: Innovator.Client.Promises.Convert(Of T, S)(Innovator.Client.IPromise(Of T), System.Func(Of T, S))
   nameWithType: Promises.Convert<T, S>(IPromise<T>, Func<T, S>)
   nameWithType.vb: Promises.Convert(Of T, S)(IPromise(Of T), Func(Of T, S))
 - uid: Innovator.Client.Promises.Error*
@@ -38772,22 +38794,22 @@ references:
   commentId: Overload:Innovator.Client.Promises.Error
   fullName: Innovator.Client.Promises.Error
   nameWithType: Promises.Error
-- uid: Innovator.Client.Promises.Error``1(Innovator.Client.IPromise{``0},Action{Exception})
+- uid: Innovator.Client.Promises.Error``1(Innovator.Client.IPromise{``0},System.Action{System.Exception})
   name: Error<T>(IPromise<T>, Action<Exception>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Error__1_Innovator_Client_IPromise___0__Action_Exception__
-  commentId: M:Innovator.Client.Promises.Error``1(Innovator.Client.IPromise{``0},Action{Exception})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Error__1_Innovator_Client_IPromise___0__System_Action_System_Exception__
+  commentId: M:Innovator.Client.Promises.Error``1(Innovator.Client.IPromise{``0},System.Action{System.Exception})
   name.vb: Error(Of T)(IPromise(Of T), Action(Of Exception))
-  fullName: Innovator.Client.Promises.Error<T>(Innovator.Client.IPromise<T>, Action<Exception>)
-  fullName.vb: Innovator.Client.Promises.Error(Of T)(Innovator.Client.IPromise(Of T), Action(Of Exception))
+  fullName: Innovator.Client.Promises.Error<T>(Innovator.Client.IPromise<T>, System.Action<System.Exception>)
+  fullName.vb: Innovator.Client.Promises.Error(Of T)(Innovator.Client.IPromise(Of T), System.Action(Of System.Exception))
   nameWithType: Promises.Error<T>(IPromise<T>, Action<Exception>)
   nameWithType.vb: Promises.Error(Of T)(IPromise(Of T), Action(Of Exception))
-- uid: Innovator.Client.Promises.Error``2(Innovator.Client.IPromise{``1},Action{``0})
+- uid: Innovator.Client.Promises.Error``2(Innovator.Client.IPromise{``1},System.Action{``0})
   name: Error<TErr, T>(IPromise<T>, Action<TErr>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Error__2_Innovator_Client_IPromise___1__Action___0__
-  commentId: M:Innovator.Client.Promises.Error``2(Innovator.Client.IPromise{``1},Action{``0})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Error__2_Innovator_Client_IPromise___1__System_Action___0__
+  commentId: M:Innovator.Client.Promises.Error``2(Innovator.Client.IPromise{``1},System.Action{``0})
   name.vb: Error(Of TErr, T)(IPromise(Of T), Action(Of TErr))
-  fullName: Innovator.Client.Promises.Error<TErr, T>(Innovator.Client.IPromise<T>, Action<TErr>)
-  fullName.vb: Innovator.Client.Promises.Error(Of TErr, T)(Innovator.Client.IPromise(Of T), Action(Of TErr))
+  fullName: Innovator.Client.Promises.Error<TErr, T>(Innovator.Client.IPromise<T>, System.Action<TErr>)
+  fullName.vb: Innovator.Client.Promises.Error(Of TErr, T)(Innovator.Client.IPromise(Of T), System.Action(Of TErr))
   nameWithType: Promises.Error<TErr, T>(IPromise<T>, Action<TErr>)
   nameWithType.vb: Promises.Error(Of TErr, T)(IPromise(Of T), Action(Of TErr))
 - uid: Innovator.Client.Promises.FailOver*
@@ -38796,13 +38818,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.FailOver
   fullName: Innovator.Client.Promises.FailOver
   nameWithType: Promises.FailOver
-- uid: Innovator.Client.Promises.FailOver``1(Innovator.Client.IPromise{``0},Func{Innovator.Client.IPromise{``0}})
+- uid: Innovator.Client.Promises.FailOver``1(Innovator.Client.IPromise{``0},System.Func{Innovator.Client.IPromise{``0}})
   name: FailOver<T>(IPromise<T>, Func<IPromise<T>>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_FailOver__1_Innovator_Client_IPromise___0__Func_Innovator_Client_IPromise___0___
-  commentId: M:Innovator.Client.Promises.FailOver``1(Innovator.Client.IPromise{``0},Func{Innovator.Client.IPromise{``0}})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_FailOver__1_Innovator_Client_IPromise___0__System_Func_Innovator_Client_IPromise___0___
+  commentId: M:Innovator.Client.Promises.FailOver``1(Innovator.Client.IPromise{``0},System.Func{Innovator.Client.IPromise{``0}})
   name.vb: FailOver(Of T)(IPromise(Of T), Func(Of IPromise(Of T)))
-  fullName: Innovator.Client.Promises.FailOver<T>(Innovator.Client.IPromise<T>, Func<Innovator.Client.IPromise<T>>)
-  fullName.vb: Innovator.Client.Promises.FailOver(Of T)(Innovator.Client.IPromise(Of T), Func(Of Innovator.Client.IPromise(Of T)))
+  fullName: Innovator.Client.Promises.FailOver<T>(Innovator.Client.IPromise<T>, System.Func<Innovator.Client.IPromise<T>>)
+  fullName.vb: Innovator.Client.Promises.FailOver(Of T)(Innovator.Client.IPromise(Of T), System.Func(Of Innovator.Client.IPromise(Of T)))
   nameWithType: Promises.FailOver<T>(IPromise<T>, Func<IPromise<T>>)
   nameWithType.vb: Promises.FailOver(Of T)(IPromise(Of T), Func(Of IPromise(Of T)))
 - uid: Innovator.Client.Promises.GetAwaiter*
@@ -38820,13 +38842,13 @@ references:
   fullName.vb: Innovator.Client.Promises.GetAwaiter(Of T)(Innovator.Client.IPromise(Of T))
   nameWithType: Promises.GetAwaiter<T>(IPromise<T>)
   nameWithType.vb: Promises.GetAwaiter(Of T)(IPromise(Of T))
-- uid: Innovator.Client.Promises.Pooled(System.Int32,Func{Innovator.Client.IPromise}[])
+- uid: Innovator.Client.Promises.Pooled(System.Int32,System.Func{Innovator.Client.IPromise}[])
   name: Pooled(Int32, Func<IPromise>[])
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Pooled_System_Int32_Func_Innovator_Client_IPromise____
-  commentId: M:Innovator.Client.Promises.Pooled(System.Int32,Func{Innovator.Client.IPromise}[])
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Pooled_System_Int32_System_Func_Innovator_Client_IPromise____
+  commentId: M:Innovator.Client.Promises.Pooled(System.Int32,System.Func{Innovator.Client.IPromise}[])
   name.vb: Pooled(Int32, Func(Of IPromise)())
-  fullName: Innovator.Client.Promises.Pooled(System.Int32, Func<Innovator.Client.IPromise>[])
-  fullName.vb: Innovator.Client.Promises.Pooled(System.Int32, Func(Of Innovator.Client.IPromise)())
+  fullName: Innovator.Client.Promises.Pooled(System.Int32, System.Func<Innovator.Client.IPromise>[])
+  fullName.vb: Innovator.Client.Promises.Pooled(System.Int32, System.Func(Of Innovator.Client.IPromise)())
   nameWithType: Promises.Pooled(Int32, Func<IPromise>[])
   nameWithType.vb: Promises.Pooled(Int32, Func(Of IPromise)())
 - uid: Innovator.Client.Promises.Pooled*
@@ -38841,13 +38863,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.Rejected
   fullName: Innovator.Client.Promises.Rejected
   nameWithType: Promises.Rejected
-- uid: Innovator.Client.Promises.Rejected``1(Exception)
+- uid: Innovator.Client.Promises.Rejected``1(System.Exception)
   name: Rejected<T>(Exception)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Rejected__1_Exception_
-  commentId: M:Innovator.Client.Promises.Rejected``1(Exception)
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_Rejected__1_System_Exception_
+  commentId: M:Innovator.Client.Promises.Rejected``1(System.Exception)
   name.vb: Rejected(Of T)(Exception)
-  fullName: Innovator.Client.Promises.Rejected<T>(Exception)
-  fullName.vb: Innovator.Client.Promises.Rejected(Of T)(Exception)
+  fullName: Innovator.Client.Promises.Rejected<T>(System.Exception)
+  fullName.vb: Innovator.Client.Promises.Rejected(Of T)(System.Exception)
   nameWithType: Promises.Rejected<T>(Exception)
   nameWithType.vb: Promises.Rejected(Of T)(Exception)
 - uid: Innovator.Client.Promises.Resolved*
@@ -38871,13 +38893,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.ToPromise
   fullName: Innovator.Client.Promises.ToPromise
   nameWithType: Promises.ToPromise
-- uid: Innovator.Client.Promises.ToPromise``1(Task{``0},CancellationTokenSource)
+- uid: Innovator.Client.Promises.ToPromise``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationTokenSource)
   name: ToPromise<T>(Task<T>, CancellationTokenSource)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_ToPromise__1_Task___0__CancellationTokenSource_
-  commentId: M:Innovator.Client.Promises.ToPromise``1(Task{``0},CancellationTokenSource)
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_ToPromise__1_System_Threading_Tasks_Task___0__System_Threading_CancellationTokenSource_
+  commentId: M:Innovator.Client.Promises.ToPromise``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationTokenSource)
   name.vb: ToPromise(Of T)(Task(Of T), CancellationTokenSource)
-  fullName: Innovator.Client.Promises.ToPromise<T>(Task<T>, CancellationTokenSource)
-  fullName.vb: Innovator.Client.Promises.ToPromise(Of T)(Task(Of T), CancellationTokenSource)
+  fullName: Innovator.Client.Promises.ToPromise<T>(System.Threading.Tasks.Task<T>, System.Threading.CancellationTokenSource)
+  fullName.vb: Innovator.Client.Promises.ToPromise(Of T)(System.Threading.Tasks.Task(Of T), System.Threading.CancellationTokenSource)
   nameWithType: Promises.ToPromise<T>(Task<T>, CancellationTokenSource)
   nameWithType.vb: Promises.ToPromise(Of T)(Task(Of T), CancellationTokenSource)
 - uid: Innovator.Client.Promises.ToTask*
@@ -38886,13 +38908,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.ToTask
   fullName: Innovator.Client.Promises.ToTask
   nameWithType: Promises.ToTask
-- uid: Innovator.Client.Promises.ToTask``1(Innovator.Client.IPromise{``0},CancellationToken)
+- uid: Innovator.Client.Promises.ToTask``1(Innovator.Client.IPromise{``0},System.Threading.CancellationToken)
   name: ToTask<T>(IPromise<T>, CancellationToken)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_ToTask__1_Innovator_Client_IPromise___0__CancellationToken_
-  commentId: M:Innovator.Client.Promises.ToTask``1(Innovator.Client.IPromise{``0},CancellationToken)
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_ToTask__1_Innovator_Client_IPromise___0__System_Threading_CancellationToken_
+  commentId: M:Innovator.Client.Promises.ToTask``1(Innovator.Client.IPromise{``0},System.Threading.CancellationToken)
   name.vb: ToTask(Of T)(IPromise(Of T), CancellationToken)
-  fullName: Innovator.Client.Promises.ToTask<T>(Innovator.Client.IPromise<T>, CancellationToken)
-  fullName.vb: Innovator.Client.Promises.ToTask(Of T)(Innovator.Client.IPromise(Of T), CancellationToken)
+  fullName: Innovator.Client.Promises.ToTask<T>(Innovator.Client.IPromise<T>, System.Threading.CancellationToken)
+  fullName.vb: Innovator.Client.Promises.ToTask(Of T)(Innovator.Client.IPromise(Of T), System.Threading.CancellationToken)
   nameWithType: Promises.ToTask<T>(IPromise<T>, CancellationToken)
   nameWithType.vb: Promises.ToTask(Of T)(IPromise(Of T), CancellationToken)
 - uid: Innovator.Client.Promises.Wait*
@@ -38916,13 +38938,13 @@ references:
   commentId: Overload:Innovator.Client.Promises.WithInvoker
   fullName: Innovator.Client.Promises.WithInvoker
   nameWithType: Promises.WithInvoker
-- uid: Innovator.Client.Promises.WithInvoker``1(Innovator.Client.IPromise{``0},Action{Delegate,System.Object[]})
+- uid: Innovator.Client.Promises.WithInvoker``1(Innovator.Client.IPromise{``0},System.Action{System.Delegate,System.Object[]})
   name: WithInvoker<T>(IPromise<T>, Action<Delegate, Object[]>)
-  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_WithInvoker__1_Innovator_Client_IPromise___0__Action_Delegate_System_Object____
-  commentId: M:Innovator.Client.Promises.WithInvoker``1(Innovator.Client.IPromise{``0},Action{Delegate,System.Object[]})
+  href: api/Innovator.Client.Promises.html#Innovator_Client_Promises_WithInvoker__1_Innovator_Client_IPromise___0__System_Action_System_Delegate_System_Object____
+  commentId: M:Innovator.Client.Promises.WithInvoker``1(Innovator.Client.IPromise{``0},System.Action{System.Delegate,System.Object[]})
   name.vb: WithInvoker(Of T)(IPromise(Of T), Action(Of Delegate, Object()))
-  fullName: Innovator.Client.Promises.WithInvoker<T>(Innovator.Client.IPromise<T>, Action<Delegate, System.Object[]>)
-  fullName.vb: Innovator.Client.Promises.WithInvoker(Of T)(Innovator.Client.IPromise(Of T), Action(Of Delegate, System.Object()))
+  fullName: Innovator.Client.Promises.WithInvoker<T>(Innovator.Client.IPromise<T>, System.Action<System.Delegate, System.Object[]>)
+  fullName.vb: Innovator.Client.Promises.WithInvoker(Of T)(Innovator.Client.IPromise(Of T), System.Action(Of System.Delegate, System.Object()))
   nameWithType: Promises.WithInvoker<T>(IPromise<T>, Action<Delegate, Object[]>)
   nameWithType.vb: Promises.WithInvoker(Of T)(IPromise(Of T), Action(Of Delegate, Object()))
 - uid: Innovator.Client.Queryable
@@ -39212,24 +39234,24 @@ references:
   commentId: Overload:Innovator.Client.SavedConnections.Keys
   fullName: Innovator.Client.SavedConnections.Keys
   nameWithType: SavedConnections.Keys
-- uid: Innovator.Client.SavedConnections.Load(Stream)
+- uid: Innovator.Client.SavedConnections.Load(System.IO.Stream)
   name: Load(Stream)
-  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Load_Stream_
-  commentId: M:Innovator.Client.SavedConnections.Load(Stream)
-  fullName: Innovator.Client.SavedConnections.Load(Stream)
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Load_System_IO_Stream_
+  commentId: M:Innovator.Client.SavedConnections.Load(System.IO.Stream)
+  fullName: Innovator.Client.SavedConnections.Load(System.IO.Stream)
   nameWithType: SavedConnections.Load(Stream)
+- uid: Innovator.Client.SavedConnections.Load(System.IO.TextReader)
+  name: Load(TextReader)
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Load_System_IO_TextReader_
+  commentId: M:Innovator.Client.SavedConnections.Load(System.IO.TextReader)
+  fullName: Innovator.Client.SavedConnections.Load(System.IO.TextReader)
+  nameWithType: SavedConnections.Load(TextReader)
 - uid: Innovator.Client.SavedConnections.Load(System.String)
   name: Load(String)
   href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Load_System_String_
   commentId: M:Innovator.Client.SavedConnections.Load(System.String)
   fullName: Innovator.Client.SavedConnections.Load(System.String)
   nameWithType: SavedConnections.Load(String)
-- uid: Innovator.Client.SavedConnections.Load(TextReader)
-  name: Load(TextReader)
-  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Load_TextReader_
-  commentId: M:Innovator.Client.SavedConnections.Load(TextReader)
-  fullName: Innovator.Client.SavedConnections.Load(TextReader)
-  nameWithType: SavedConnections.Load(TextReader)
 - uid: Innovator.Client.SavedConnections.Load*
   name: Load
   href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Load_
@@ -39248,23 +39270,23 @@ references:
   commentId: Overload:Innovator.Client.SavedConnections.Parse
   fullName: Innovator.Client.SavedConnections.Parse
   nameWithType: SavedConnections.Parse
-- uid: Innovator.Client.SavedConnections.Save(Stream)
+- uid: Innovator.Client.SavedConnections.Save(System.IO.Stream)
   name: Save(Stream)
-  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Save_Stream_
-  commentId: M:Innovator.Client.SavedConnections.Save(Stream)
-  fullName: Innovator.Client.SavedConnections.Save(Stream)
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Save_System_IO_Stream_
+  commentId: M:Innovator.Client.SavedConnections.Save(System.IO.Stream)
+  fullName: Innovator.Client.SavedConnections.Save(System.IO.Stream)
   nameWithType: SavedConnections.Save(Stream)
-- uid: Innovator.Client.SavedConnections.Save(TextWriter)
+- uid: Innovator.Client.SavedConnections.Save(System.IO.TextWriter)
   name: Save(TextWriter)
-  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Save_TextWriter_
-  commentId: M:Innovator.Client.SavedConnections.Save(TextWriter)
-  fullName: Innovator.Client.SavedConnections.Save(TextWriter)
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Save_System_IO_TextWriter_
+  commentId: M:Innovator.Client.SavedConnections.Save(System.IO.TextWriter)
+  fullName: Innovator.Client.SavedConnections.Save(System.IO.TextWriter)
   nameWithType: SavedConnections.Save(TextWriter)
-- uid: Innovator.Client.SavedConnections.Save(XmlWriter)
+- uid: Innovator.Client.SavedConnections.Save(System.Xml.XmlWriter)
   name: Save(XmlWriter)
-  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Save_XmlWriter_
-  commentId: M:Innovator.Client.SavedConnections.Save(XmlWriter)
-  fullName: Innovator.Client.SavedConnections.Save(XmlWriter)
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_Save_System_Xml_XmlWriter_
+  commentId: M:Innovator.Client.SavedConnections.Save(System.Xml.XmlWriter)
+  fullName: Innovator.Client.SavedConnections.Save(System.Xml.XmlWriter)
   nameWithType: SavedConnections.Save(XmlWriter)
 - uid: Innovator.Client.SavedConnections.Save*
   name: Save
@@ -39272,6 +39294,22 @@ references:
   commentId: Overload:Innovator.Client.SavedConnections.Save
   fullName: Innovator.Client.SavedConnections.Save
   nameWithType: SavedConnections.Save
+- uid: Innovator.Client.SavedConnections.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Innovator.Client.SavedConnections.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Innovator.Client.SavedConnections.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: SavedConnections.IEnumerable.GetEnumerator()
+  nameWithType.vb: SavedConnections.System.Collections.IEnumerable.GetEnumerator()
+- uid: Innovator.Client.SavedConnections.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Innovator.Client.SavedConnections.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Innovator.Client.SavedConnections.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: SavedConnections.IEnumerable.GetEnumerator
+  nameWithType.vb: SavedConnections.System.Collections.IEnumerable.GetEnumerator
 - uid: Innovator.Client.SavedConnections.ToString
   name: ToString()
   href: api/Innovator.Client.SavedConnections.html#Innovator_Client_SavedConnections_ToString
@@ -39305,21 +39343,15 @@ references:
   commentId: T:Innovator.Client.SecureToken
   fullName: Innovator.Client.SecureToken
   nameWithType: SecureToken
-- uid: Innovator.Client.SecureToken.#ctor(ArraySegment{System.Byte})
+- uid: Innovator.Client.SecureToken.#ctor(System.ArraySegment{System.Byte})
   name: SecureToken(ArraySegment<Byte>)
-  href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken__ctor_ArraySegment_System_Byte__
-  commentId: M:Innovator.Client.SecureToken.#ctor(ArraySegment{System.Byte})
+  href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken__ctor_System_ArraySegment_System_Byte__
+  commentId: M:Innovator.Client.SecureToken.#ctor(System.ArraySegment{System.Byte})
   name.vb: SecureToken(ArraySegment(Of Byte))
-  fullName: Innovator.Client.SecureToken.SecureToken(ArraySegment<System.Byte>)
-  fullName.vb: Innovator.Client.SecureToken.SecureToken(ArraySegment(Of System.Byte))
+  fullName: Innovator.Client.SecureToken.SecureToken(System.ArraySegment<System.Byte>)
+  fullName.vb: Innovator.Client.SecureToken.SecureToken(System.ArraySegment(Of System.Byte))
   nameWithType: SecureToken.SecureToken(ArraySegment<Byte>)
   nameWithType.vb: SecureToken.SecureToken(ArraySegment(Of Byte))
-- uid: Innovator.Client.SecureToken.#ctor(Stream)
-  name: SecureToken(Stream)
-  href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken__ctor_Stream_
-  commentId: M:Innovator.Client.SecureToken.#ctor(Stream)
-  fullName: Innovator.Client.SecureToken.SecureToken(Stream)
-  nameWithType: SecureToken.SecureToken(Stream)
 - uid: Innovator.Client.SecureToken.#ctor(System.Byte[]@,System.Int32,System.Int32)
   name: SecureToken(ref Byte[], Int32, Int32)
   href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken__ctor_System_Byte____System_Int32_System_Int32_
@@ -39338,6 +39370,12 @@ references:
   fullName.vb: Innovator.Client.SecureToken.SecureToken(ByRef System.Char())
   nameWithType: SecureToken.SecureToken(ref Char[])
   nameWithType.vb: SecureToken.SecureToken(ByRef Char())
+- uid: Innovator.Client.SecureToken.#ctor(System.IO.Stream)
+  name: SecureToken(Stream)
+  href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken__ctor_System_IO_Stream_
+  commentId: M:Innovator.Client.SecureToken.#ctor(System.IO.Stream)
+  fullName: Innovator.Client.SecureToken.SecureToken(System.IO.Stream)
+  nameWithType: SecureToken.SecureToken(Stream)
 - uid: Innovator.Client.SecureToken.#ctor(System.String@)
   name: SecureToken(ref String)
   href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken__ctor_System_String__
@@ -39386,13 +39424,13 @@ references:
   commentId: Overload:Innovator.Client.SecureToken.Length
   fullName: Innovator.Client.SecureToken.Length
   nameWithType: SecureToken.Length
-- uid: Innovator.Client.SecureToken.op_Implicit(ArraySegment{System.Byte})~Innovator.Client.SecureToken
+- uid: Innovator.Client.SecureToken.op_Implicit(System.ArraySegment{System.Byte})~Innovator.Client.SecureToken
   name: Implicit(ArraySegment<Byte> to SecureToken)
-  href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken_op_Implicit_ArraySegment_System_Byte___Innovator_Client_SecureToken
-  commentId: M:Innovator.Client.SecureToken.op_Implicit(ArraySegment{System.Byte})~Innovator.Client.SecureToken
+  href: api/Innovator.Client.SecureToken.html#Innovator_Client_SecureToken_op_Implicit_System_ArraySegment_System_Byte___Innovator_Client_SecureToken
+  commentId: M:Innovator.Client.SecureToken.op_Implicit(System.ArraySegment{System.Byte})~Innovator.Client.SecureToken
   name.vb: Widening(ArraySegment(Of Byte) to SecureToken)
-  fullName: Innovator.Client.SecureToken.Implicit(ArraySegment<System.Byte> to Innovator.Client.SecureToken)
-  fullName.vb: Innovator.Client.SecureToken.Widening(ArraySegment(Of System.Byte) to Innovator.Client.SecureToken)
+  fullName: Innovator.Client.SecureToken.Implicit(System.ArraySegment<System.Byte> to Innovator.Client.SecureToken)
+  fullName.vb: Innovator.Client.SecureToken.Widening(System.ArraySegment(Of System.Byte) to Innovator.Client.SecureToken)
   nameWithType: SecureToken.Implicit(ArraySegment<Byte> to SecureToken)
   nameWithType.vb: SecureToken.Widening(ArraySegment(Of Byte) to SecureToken)
 - uid: Innovator.Client.SecureToken.op_Implicit(System.Byte[])~Innovator.Client.SecureToken
@@ -39539,13 +39577,13 @@ references:
   commentId: Overload:Innovator.Client.SelectNode.Count
   fullName: Innovator.Client.SelectNode.Count
   nameWithType: SelectNode.Count
-- uid: Innovator.Client.SelectNode.EnsurePath(IEnumerable{System.String})
+- uid: Innovator.Client.SelectNode.EnsurePath(System.Collections.Generic.IEnumerable{System.String})
   name: EnsurePath(IEnumerable<String>)
-  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_EnsurePath_IEnumerable_System_String__
-  commentId: M:Innovator.Client.SelectNode.EnsurePath(IEnumerable{System.String})
+  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_EnsurePath_System_Collections_Generic_IEnumerable_System_String__
+  commentId: M:Innovator.Client.SelectNode.EnsurePath(System.Collections.Generic.IEnumerable{System.String})
   name.vb: EnsurePath(IEnumerable(Of String))
-  fullName: Innovator.Client.SelectNode.EnsurePath(IEnumerable<System.String>)
-  fullName.vb: Innovator.Client.SelectNode.EnsurePath(IEnumerable(Of System.String))
+  fullName: Innovator.Client.SelectNode.EnsurePath(System.Collections.Generic.IEnumerable<System.String>)
+  fullName.vb: Innovator.Client.SelectNode.EnsurePath(System.Collections.Generic.IEnumerable(Of System.String))
   nameWithType: SelectNode.EnsurePath(IEnumerable<String>)
   nameWithType.vb: SelectNode.EnsurePath(IEnumerable(Of String))
 - uid: Innovator.Client.SelectNode.EnsurePath(System.String[])
@@ -39656,19 +39694,51 @@ references:
   commentId: Overload:Innovator.Client.SelectNode.Sort
   fullName: Innovator.Client.SelectNode.Sort
   nameWithType: SelectNode.Sort
+- uid: Innovator.Client.SelectNode.System#Collections#Generic#ICollection{Innovator#Client#SelectNode}#IsReadOnly
+  name: ICollection<SelectNode>.IsReadOnly
+  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_System_Collections_Generic_ICollection_Innovator_Client_SelectNode__IsReadOnly
+  commentId: P:Innovator.Client.SelectNode.System#Collections#Generic#ICollection{Innovator#Client#SelectNode}#IsReadOnly
+  name.vb: System.Collections.Generic.ICollection<Innovator.Client.SelectNode>.IsReadOnly
+  fullName: Innovator.Client.SelectNode.System.Collections.Generic.ICollection<Innovator.Client.SelectNode>.IsReadOnly
+  nameWithType: SelectNode.ICollection<SelectNode>.IsReadOnly
+  nameWithType.vb: SelectNode.System.Collections.Generic.ICollection<Innovator.Client.SelectNode>.IsReadOnly
+- uid: Innovator.Client.SelectNode.System#Collections#Generic#ICollection{Innovator#Client#SelectNode}#IsReadOnly*
+  name: ICollection<SelectNode>.IsReadOnly
+  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_System_Collections_Generic_ICollection_Innovator_Client_SelectNode__IsReadOnly_
+  commentId: Overload:Innovator.Client.SelectNode.System#Collections#Generic#ICollection{Innovator#Client#SelectNode}#IsReadOnly
+  name.vb: System.Collections.Generic.ICollection<Innovator.Client.SelectNode>.IsReadOnly
+  fullName: Innovator.Client.SelectNode.System.Collections.Generic.ICollection<Innovator.Client.SelectNode>.IsReadOnly
+  nameWithType: SelectNode.ICollection<SelectNode>.IsReadOnly
+  nameWithType.vb: SelectNode.System.Collections.Generic.ICollection<Innovator.Client.SelectNode>.IsReadOnly
+- uid: Innovator.Client.SelectNode.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_System_Collections_IEnumerable_GetEnumerator
+  commentId: M:Innovator.Client.SelectNode.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  fullName: Innovator.Client.SelectNode.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType: SelectNode.IEnumerable.GetEnumerator()
+  nameWithType.vb: SelectNode.System.Collections.IEnumerable.GetEnumerator()
+- uid: Innovator.Client.SelectNode.System#Collections#IEnumerable#GetEnumerator*
+  name: IEnumerable.GetEnumerator
+  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_System_Collections_IEnumerable_GetEnumerator_
+  commentId: Overload:Innovator.Client.SelectNode.System#Collections#IEnumerable#GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+  fullName: Innovator.Client.SelectNode.System.Collections.IEnumerable.GetEnumerator
+  nameWithType: SelectNode.IEnumerable.GetEnumerator
+  nameWithType.vb: SelectNode.System.Collections.IEnumerable.GetEnumerator
 - uid: Innovator.Client.SelectNode.ToString
   name: ToString()
   href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_ToString
   commentId: M:Innovator.Client.SelectNode.ToString
   fullName: Innovator.Client.SelectNode.ToString()
   nameWithType: SelectNode.ToString()
-- uid: Innovator.Client.SelectNode.ToString(IEnumerable{Innovator.Client.SelectNode})
+- uid: Innovator.Client.SelectNode.ToString(System.Collections.Generic.IEnumerable{Innovator.Client.SelectNode})
   name: ToString(IEnumerable<SelectNode>)
-  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_ToString_IEnumerable_Innovator_Client_SelectNode__
-  commentId: M:Innovator.Client.SelectNode.ToString(IEnumerable{Innovator.Client.SelectNode})
+  href: api/Innovator.Client.SelectNode.html#Innovator_Client_SelectNode_ToString_System_Collections_Generic_IEnumerable_Innovator_Client_SelectNode__
+  commentId: M:Innovator.Client.SelectNode.ToString(System.Collections.Generic.IEnumerable{Innovator.Client.SelectNode})
   name.vb: ToString(IEnumerable(Of SelectNode))
-  fullName: Innovator.Client.SelectNode.ToString(IEnumerable<Innovator.Client.SelectNode>)
-  fullName.vb: Innovator.Client.SelectNode.ToString(IEnumerable(Of Innovator.Client.SelectNode))
+  fullName: Innovator.Client.SelectNode.ToString(System.Collections.Generic.IEnumerable<Innovator.Client.SelectNode>)
+  fullName.vb: Innovator.Client.SelectNode.ToString(System.Collections.Generic.IEnumerable(Of Innovator.Client.SelectNode))
   nameWithType: SelectNode.ToString(IEnumerable<SelectNode>)
   nameWithType.vb: SelectNode.ToString(IEnumerable(Of SelectNode))
 - uid: Innovator.Client.SelectNode.ToString*
@@ -39839,11 +39909,11 @@ references:
   commentId: M:Innovator.Client.ServerContext.Format(System.Object)
   fullName: Innovator.Client.ServerContext.Format(System.Object)
   nameWithType: ServerContext.Format(Object)
-- uid: Innovator.Client.ServerContext.Format(System.String,System.Object,IFormatProvider)
+- uid: Innovator.Client.ServerContext.Format(System.String,System.Object,System.IFormatProvider)
   name: Format(String, Object, IFormatProvider)
-  href: api/Innovator.Client.ServerContext.html#Innovator_Client_ServerContext_Format_System_String_System_Object_IFormatProvider_
-  commentId: M:Innovator.Client.ServerContext.Format(System.String,System.Object,IFormatProvider)
-  fullName: Innovator.Client.ServerContext.Format(System.String, System.Object, IFormatProvider)
+  href: api/Innovator.Client.ServerContext.html#Innovator_Client_ServerContext_Format_System_String_System_Object_System_IFormatProvider_
+  commentId: M:Innovator.Client.ServerContext.Format(System.String,System.Object,System.IFormatProvider)
+  fullName: Innovator.Client.ServerContext.Format(System.String, System.Object, System.IFormatProvider)
   nameWithType: ServerContext.Format(String, Object, IFormatProvider)
 - uid: Innovator.Client.ServerContext.Format*
   name: Format
@@ -39851,11 +39921,11 @@ references:
   commentId: Overload:Innovator.Client.ServerContext.Format
   fullName: Innovator.Client.ServerContext.Format
   nameWithType: ServerContext.Format
-- uid: Innovator.Client.ServerContext.GetFormat(Type)
+- uid: Innovator.Client.ServerContext.GetFormat(System.Type)
   name: GetFormat(Type)
-  href: api/Innovator.Client.ServerContext.html#Innovator_Client_ServerContext_GetFormat_Type_
-  commentId: M:Innovator.Client.ServerContext.GetFormat(Type)
-  fullName: Innovator.Client.ServerContext.GetFormat(Type)
+  href: api/Innovator.Client.ServerContext.html#Innovator_Client_ServerContext_GetFormat_System_Type_
+  commentId: M:Innovator.Client.ServerContext.GetFormat(System.Type)
+  fullName: Innovator.Client.ServerContext.GetFormat(System.Type)
   nameWithType: ServerContext.GetFormat(Type)
 - uid: Innovator.Client.ServerContext.GetFormat*
   name: GetFormat
@@ -39929,11 +39999,11 @@ references:
   commentId: M:Innovator.Client.ServerException.#ctor(System.String,System.Int32)
   fullName: Innovator.Client.ServerException.ServerException(System.String, System.Int32)
   nameWithType: ServerException.ServerException(String, Int32)
-- uid: Innovator.Client.ServerException.#ctor(System.String,System.Int32,Exception)
+- uid: Innovator.Client.ServerException.#ctor(System.String,System.Int32,System.Exception)
   name: ServerException(String, Int32, Exception)
-  href: api/Innovator.Client.ServerException.html#Innovator_Client_ServerException__ctor_System_String_System_Int32_Exception_
-  commentId: M:Innovator.Client.ServerException.#ctor(System.String,System.Int32,Exception)
-  fullName: Innovator.Client.ServerException.ServerException(System.String, System.Int32, Exception)
+  href: api/Innovator.Client.ServerException.html#Innovator_Client_ServerException__ctor_System_String_System_Int32_System_Exception_
+  commentId: M:Innovator.Client.ServerException.#ctor(System.String,System.Int32,System.Exception)
+  fullName: Innovator.Client.ServerException.ServerException(System.String, System.Int32, System.Exception)
   nameWithType: ServerException.ServerException(String, Int32, Exception)
 - uid: Innovator.Client.ServerException.#ctor*
   name: ServerException
@@ -40037,11 +40107,11 @@ references:
   commentId: M:Innovator.Client.ServerException.ToAml
   fullName: Innovator.Client.ServerException.ToAml()
   nameWithType: ServerException.ToAml()
-- uid: Innovator.Client.ServerException.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
+- uid: Innovator.Client.ServerException.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
   name: ToAml(XmlWriter, AmlWriterSettings)
-  href: api/Innovator.Client.ServerException.html#Innovator_Client_ServerException_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_
-  commentId: M:Innovator.Client.ServerException.ToAml(XmlWriter,Innovator.Client.AmlWriterSettings)
-  fullName: Innovator.Client.ServerException.ToAml(XmlWriter, Innovator.Client.AmlWriterSettings)
+  href: api/Innovator.Client.ServerException.html#Innovator_Client_ServerException_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_
+  commentId: M:Innovator.Client.ServerException.ToAml(System.Xml.XmlWriter,Innovator.Client.AmlWriterSettings)
+  fullName: Innovator.Client.ServerException.ToAml(System.Xml.XmlWriter, Innovator.Client.AmlWriterSettings)
   nameWithType: ServerException.ToAml(XmlWriter, AmlWriterSettings)
 - uid: Innovator.Client.ServerException.ToAml*
   name: ToAml
@@ -40193,11 +40263,11 @@ references:
   commentId: T:Innovator.Client.Time.DaylightTime
   fullName: Innovator.Client.Time.DaylightTime
   nameWithType: DaylightTime
-- uid: Innovator.Client.Time.DaylightTime.#ctor(DateTime,DateTime,TimeSpan)
+- uid: Innovator.Client.Time.DaylightTime.#ctor(System.DateTime,System.DateTime,System.TimeSpan)
   name: DaylightTime(DateTime, DateTime, TimeSpan)
-  href: api/Innovator.Client.Time.DaylightTime.html#Innovator_Client_Time_DaylightTime__ctor_DateTime_DateTime_TimeSpan_
-  commentId: M:Innovator.Client.Time.DaylightTime.#ctor(DateTime,DateTime,TimeSpan)
-  fullName: Innovator.Client.Time.DaylightTime.DaylightTime(DateTime, DateTime, TimeSpan)
+  href: api/Innovator.Client.Time.DaylightTime.html#Innovator_Client_Time_DaylightTime__ctor_System_DateTime_System_DateTime_System_TimeSpan_
+  commentId: M:Innovator.Client.Time.DaylightTime.#ctor(System.DateTime,System.DateTime,System.TimeSpan)
+  fullName: Innovator.Client.Time.DaylightTime.DaylightTime(System.DateTime, System.DateTime, System.TimeSpan)
   nameWithType: DaylightTime.DaylightTime(DateTime, DateTime, TimeSpan)
 - uid: Innovator.Client.Time.DaylightTime.#ctor*
   name: DaylightTime
@@ -40259,17 +40329,17 @@ references:
   commentId: Overload:Innovator.Client.TimeZoneData.ById
   fullName: Innovator.Client.TimeZoneData.ById
   nameWithType: TimeZoneData.ById
-- uid: Innovator.Client.TimeZoneData.ConvertTime(DateTime,Innovator.Client.TimeZoneData,Innovator.Client.TimeZoneData)
+- uid: Innovator.Client.TimeZoneData.ConvertTime(System.DateTime,Innovator.Client.TimeZoneData,Innovator.Client.TimeZoneData)
   name: ConvertTime(DateTime, TimeZoneData, TimeZoneData)
-  href: api/Innovator.Client.TimeZoneData.html#Innovator_Client_TimeZoneData_ConvertTime_DateTime_Innovator_Client_TimeZoneData_Innovator_Client_TimeZoneData_
-  commentId: M:Innovator.Client.TimeZoneData.ConvertTime(DateTime,Innovator.Client.TimeZoneData,Innovator.Client.TimeZoneData)
-  fullName: Innovator.Client.TimeZoneData.ConvertTime(DateTime, Innovator.Client.TimeZoneData, Innovator.Client.TimeZoneData)
+  href: api/Innovator.Client.TimeZoneData.html#Innovator_Client_TimeZoneData_ConvertTime_System_DateTime_Innovator_Client_TimeZoneData_Innovator_Client_TimeZoneData_
+  commentId: M:Innovator.Client.TimeZoneData.ConvertTime(System.DateTime,Innovator.Client.TimeZoneData,Innovator.Client.TimeZoneData)
+  fullName: Innovator.Client.TimeZoneData.ConvertTime(System.DateTime, Innovator.Client.TimeZoneData, Innovator.Client.TimeZoneData)
   nameWithType: TimeZoneData.ConvertTime(DateTime, TimeZoneData, TimeZoneData)
-- uid: Innovator.Client.TimeZoneData.ConvertTime(DateTimeOffset,Innovator.Client.TimeZoneData)
+- uid: Innovator.Client.TimeZoneData.ConvertTime(System.DateTimeOffset,Innovator.Client.TimeZoneData)
   name: ConvertTime(DateTimeOffset, TimeZoneData)
-  href: api/Innovator.Client.TimeZoneData.html#Innovator_Client_TimeZoneData_ConvertTime_DateTimeOffset_Innovator_Client_TimeZoneData_
-  commentId: M:Innovator.Client.TimeZoneData.ConvertTime(DateTimeOffset,Innovator.Client.TimeZoneData)
-  fullName: Innovator.Client.TimeZoneData.ConvertTime(DateTimeOffset, Innovator.Client.TimeZoneData)
+  href: api/Innovator.Client.TimeZoneData.html#Innovator_Client_TimeZoneData_ConvertTime_System_DateTimeOffset_Innovator_Client_TimeZoneData_
+  commentId: M:Innovator.Client.TimeZoneData.ConvertTime(System.DateTimeOffset,Innovator.Client.TimeZoneData)
+  fullName: Innovator.Client.TimeZoneData.ConvertTime(System.DateTimeOffset, Innovator.Client.TimeZoneData)
   nameWithType: TimeZoneData.ConvertTime(DateTimeOffset, TimeZoneData)
 - uid: Innovator.Client.TimeZoneData.ConvertTime*
   name: ConvertTime
@@ -40307,11 +40377,11 @@ references:
   commentId: Overload:Innovator.Client.TimeZoneData.GetHashCode
   fullName: Innovator.Client.TimeZoneData.GetHashCode
   nameWithType: TimeZoneData.GetHashCode
-- uid: Innovator.Client.TimeZoneData.GetUtcOffset(DateTime)
+- uid: Innovator.Client.TimeZoneData.GetUtcOffset(System.DateTime)
   name: GetUtcOffset(DateTime)
-  href: api/Innovator.Client.TimeZoneData.html#Innovator_Client_TimeZoneData_GetUtcOffset_DateTime_
-  commentId: M:Innovator.Client.TimeZoneData.GetUtcOffset(DateTime)
-  fullName: Innovator.Client.TimeZoneData.GetUtcOffset(DateTime)
+  href: api/Innovator.Client.TimeZoneData.html#Innovator_Client_TimeZoneData_GetUtcOffset_System_DateTime_
+  commentId: M:Innovator.Client.TimeZoneData.GetUtcOffset(System.DateTime)
+  fullName: Innovator.Client.TimeZoneData.GetUtcOffset(System.DateTime)
   nameWithType: TimeZoneData.GetUtcOffset(DateTime)
 - uid: Innovator.Client.TimeZoneData.GetUtcOffset*
   name: GetUtcOffset
@@ -40397,24 +40467,24 @@ references:
   commentId: Overload:Innovator.Client.UploadCommand.#ctor
   fullName: Innovator.Client.UploadCommand.UploadCommand
   nameWithType: UploadCommand.UploadCommand
-- uid: Innovator.Client.UploadCommand.AddFile(System.String,Stream,System.Boolean)
+- uid: Innovator.Client.UploadCommand.AddFile(System.String,System.IO.Stream,System.Boolean)
   name: AddFile(String, Stream, Boolean)
-  href: api/Innovator.Client.UploadCommand.html#Innovator_Client_UploadCommand_AddFile_System_String_Stream_System_Boolean_
-  commentId: M:Innovator.Client.UploadCommand.AddFile(System.String,Stream,System.Boolean)
-  fullName: Innovator.Client.UploadCommand.AddFile(System.String, Stream, System.Boolean)
+  href: api/Innovator.Client.UploadCommand.html#Innovator_Client_UploadCommand_AddFile_System_String_System_IO_Stream_System_Boolean_
+  commentId: M:Innovator.Client.UploadCommand.AddFile(System.String,System.IO.Stream,System.Boolean)
+  fullName: Innovator.Client.UploadCommand.AddFile(System.String, System.IO.Stream, System.Boolean)
   nameWithType: UploadCommand.AddFile(String, Stream, Boolean)
-- uid: Innovator.Client.UploadCommand.AddFile(System.String,System.String,Stream,System.Boolean)
-  name: AddFile(String, String, Stream, Boolean)
-  href: api/Innovator.Client.UploadCommand.html#Innovator_Client_UploadCommand_AddFile_System_String_System_String_Stream_System_Boolean_
-  commentId: M:Innovator.Client.UploadCommand.AddFile(System.String,System.String,Stream,System.Boolean)
-  fullName: Innovator.Client.UploadCommand.AddFile(System.String, System.String, Stream, System.Boolean)
-  nameWithType: UploadCommand.AddFile(String, String, Stream, Boolean)
 - uid: Innovator.Client.UploadCommand.AddFile(System.String,System.String,System.Boolean)
   name: AddFile(String, String, Boolean)
   href: api/Innovator.Client.UploadCommand.html#Innovator_Client_UploadCommand_AddFile_System_String_System_String_System_Boolean_
   commentId: M:Innovator.Client.UploadCommand.AddFile(System.String,System.String,System.Boolean)
   fullName: Innovator.Client.UploadCommand.AddFile(System.String, System.String, System.Boolean)
   nameWithType: UploadCommand.AddFile(String, String, Boolean)
+- uid: Innovator.Client.UploadCommand.AddFile(System.String,System.String,System.IO.Stream,System.Boolean)
+  name: AddFile(String, String, Stream, Boolean)
+  href: api/Innovator.Client.UploadCommand.html#Innovator_Client_UploadCommand_AddFile_System_String_System_String_System_IO_Stream_System_Boolean_
+  commentId: M:Innovator.Client.UploadCommand.AddFile(System.String,System.String,System.IO.Stream,System.Boolean)
+  fullName: Innovator.Client.UploadCommand.AddFile(System.String, System.String, System.IO.Stream, System.Boolean)
+  nameWithType: UploadCommand.AddFile(String, String, Stream, Boolean)
 - uid: Innovator.Client.UploadCommand.AddFile*
   name: AddFile
   href: api/Innovator.Client.UploadCommand.html#Innovator_Client_UploadCommand_AddFile_
@@ -40604,11 +40674,11 @@ references:
   fullName: Innovator.Client.WindowsCredentials.WindowsCredentials(System.String)
   nameWithType: WindowsCredentials.WindowsCredentials(String)
 - uid: Innovator.Client.WindowsCredentials.#ctor(System.String,System.Net.ICredentials)
-  name: WindowsCredentials(String, System.Net.ICredentials)
+  name: WindowsCredentials(String, ICredentials)
   href: api/Innovator.Client.WindowsCredentials.html#Innovator_Client_WindowsCredentials__ctor_System_String_System_Net_ICredentials_
   commentId: M:Innovator.Client.WindowsCredentials.#ctor(System.String,System.Net.ICredentials)
   fullName: Innovator.Client.WindowsCredentials.WindowsCredentials(System.String, System.Net.ICredentials)
-  nameWithType: WindowsCredentials.WindowsCredentials(String, System.Net.ICredentials)
+  nameWithType: WindowsCredentials.WindowsCredentials(String, ICredentials)
 - uid: Innovator.Client.WindowsCredentials.#ctor*
   name: WindowsCredentials
   href: api/Innovator.Client.WindowsCredentials.html#Innovator_Client_WindowsCredentials__ctor_
@@ -41524,13 +41594,13 @@ references:
   commentId: T:Innovator.Server.MultiItemContext
   fullName: Innovator.Server.MultiItemContext
   nameWithType: MultiItemContext
-- uid: Innovator.Server.MultiItemContext.#ctor(Innovator.Server.IServerConnection,IEnumerable{Innovator.Client.IItem})
+- uid: Innovator.Server.MultiItemContext.#ctor(Innovator.Server.IServerConnection,System.Collections.Generic.IEnumerable{Innovator.Client.IItem})
   name: MultiItemContext(IServerConnection, IEnumerable<IItem>)
-  href: api/Innovator.Server.MultiItemContext.html#Innovator_Server_MultiItemContext__ctor_Innovator_Server_IServerConnection_IEnumerable_Innovator_Client_IItem__
-  commentId: M:Innovator.Server.MultiItemContext.#ctor(Innovator.Server.IServerConnection,IEnumerable{Innovator.Client.IItem})
+  href: api/Innovator.Server.MultiItemContext.html#Innovator_Server_MultiItemContext__ctor_Innovator_Server_IServerConnection_System_Collections_Generic_IEnumerable_Innovator_Client_IItem__
+  commentId: M:Innovator.Server.MultiItemContext.#ctor(Innovator.Server.IServerConnection,System.Collections.Generic.IEnumerable{Innovator.Client.IItem})
   name.vb: MultiItemContext(IServerConnection, IEnumerable(Of IItem))
-  fullName: Innovator.Server.MultiItemContext.MultiItemContext(Innovator.Server.IServerConnection, IEnumerable<Innovator.Client.IItem>)
-  fullName.vb: Innovator.Server.MultiItemContext.MultiItemContext(Innovator.Server.IServerConnection, IEnumerable(Of Innovator.Client.IItem))
+  fullName: Innovator.Server.MultiItemContext.MultiItemContext(Innovator.Server.IServerConnection, System.Collections.Generic.IEnumerable<Innovator.Client.IItem>)
+  fullName.vb: Innovator.Server.MultiItemContext.MultiItemContext(Innovator.Server.IServerConnection, System.Collections.Generic.IEnumerable(Of Innovator.Client.IItem))
   nameWithType: MultiItemContext.MultiItemContext(IServerConnection, IEnumerable<IItem>)
   nameWithType.vb: MultiItemContext.MultiItemContext(IServerConnection, IEnumerable(Of IItem))
 - uid: Innovator.Server.MultiItemContext.#ctor*

@@ -79,8 +79,9 @@ containing information about properties being validated</p>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></div>
-    <div class="level2"><span class="xref">ValidationException</span></div>
+    <div class="level1"><span class="xref">System.Exception</span></div>
+    <div class="level2"><a class="xref" href="Innovator.Client.ServerException.html">ServerException</a></div>
+    <div class="level3"><span class="xref">ValidationException</span></div>
   </div>
   <div class="inheritedMembers">
     <h5>Inherited Members</h5>
@@ -112,13 +113,55 @@ containing information about properties being validated</p>
       <a class="xref" href="Innovator.Client.ServerException.html#Innovator_Client_ServerException_ToAml">ServerException.ToAml()</a>
     </div>
     <div>
-      <a class="xref" href="Innovator.Client.ServerException.html#Innovator_Client_ServerException_ToAml_XmlWriter_Innovator_Client_AmlWriterSettings_">ServerException.ToAml(XmlWriter, AmlWriterSettings)</a>
+      <a class="xref" href="Innovator.Client.ServerException.html#Innovator_Client_ServerException_ToAml_System_Xml_XmlWriter_Innovator_Client_AmlWriterSettings_">ServerException.ToAml(XmlWriter, AmlWriterSettings)</a>
     </div>
     <div>
       <a class="xref" href="Innovator.Client.ServerException.html#Innovator_Client_ServerException_AsResult">ServerException.AsResult()</a>
     </div>
     <div>
       <a class="xref" href="Innovator.Client.ServerException.html#Innovator_Client_ServerException_ToString">ServerException.ToString()</a>
+    </div>
+    <div>
+      <span class="xref">System.Exception.GetBaseException()</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.Data</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.HelpLink</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.HResult</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.InnerException</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.Message</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.Source</span>
+    </div>
+    <div>
+      <span class="xref">System.Exception.StackTrace</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.Equals(System.Object, System.Object)</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetHashCode()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.GetType()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.MemberwiseClone()</span>
+    </div>
+    <div>
+      <span class="xref">System.Object.ReferenceEquals(System.Object, System.Object)</span>
     </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="Innovator.Client.html">Innovator.Client</a></h6>
@@ -127,6 +170,10 @@ containing information about properties being validated</p>
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public class ValidationException : ServerException, IAmlNode</code></pre>
   </div>
+  <h5 id="Innovator_Client_ValidationException_remarks"><strong>Remarks</strong></h5>
+  <div class="markdown level0 remarks"><p>To create a new instance of this class, use <a class="xref" href="Innovator.Client.ElementFactory.html#Innovator_Client_ElementFactory_ValidationException_System_String_Innovator_Client_IReadOnlyItem_System_String___">ValidationException(String, IReadOnlyItem, String[])</a>
+or one of the other overloads</p>
+</div>
   <h3 id="properties">Properties
   </h3>
   <span class="small pull-right mobile-hide">
@@ -134,7 +181,7 @@ containing information about properties being validated</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ValidationException_Item.md&amp;value=---%0Auid%3A%20Innovator.Client.ValidationException.Item%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ValidationException.cs/#L24">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ValidationException.cs/#L28">View Source</a>
   </span>
   <a id="Innovator_Client_ValidationException_Item_" data-uid="Innovator.Client.ValidationException.Item*"></a>
   <h4 id="Innovator_Client_ValidationException_Item" data-uid="Innovator.Client.ValidationException.Item">Item</h4>
@@ -165,7 +212,7 @@ containing information about properties being validated</p>
     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ValidationException_Properties.md&amp;value=---%0Auid%3A%20Innovator.Client.ValidationException.Properties%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ValidationException.cs/#L38">View Source</a>
+    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ValidationException.cs/#L42">View Source</a>
   </span>
   <a id="Innovator_Client_ValidationException_Properties_" data-uid="Innovator.Client.ValidationException.Properties*"></a>
   <h4 id="Innovator_Client_ValidationException_Properties" data-uid="Innovator.Client.ValidationException.Properties">Properties</h4>
@@ -186,7 +233,7 @@ containing information about properties being validated</p>
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
+        <td><span class="xref">System.Collections.Generic.IEnumerable</span>&lt;<span class="xref">System.String</span>&gt;</td>
         <td></td>
       </tr>
     </tbody>
@@ -196,7 +243,7 @@ containing information about properties being validated</p>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_Innovator_Client_AmlWriterSettings_">ItemExtensions.ToAml(IAmlNode, AmlWriterSettings)</a>
   </div>
   <div>
-      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
+      <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToAml_Innovator_Client_IAmlNode_System_Xml_XmlWriter_">ItemExtensions.ToAml(IAmlNode, XmlWriter)</a>
   </div>
   <div>
       <a class="xref" href="Innovator.Client.ItemExtensions.html#Innovator_Client_ItemExtensions_ToXml_Innovator_Client_IAmlNode_">ItemExtensions.ToXml(IAmlNode)</a>
@@ -212,7 +259,7 @@ containing information about properties being validated</p>
                     <a href="https://github.com/erdomke/Innovator.Client/new/master/apiSpec/new?filename=Innovator_Client_ValidationException.md&amp;value=---%0Auid%3A%20Innovator.Client.ValidationException%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
                   </li>
                   <li>
-                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ValidationException.cs/#L19" class="contribution-link">View Source</a>
+                    <a href="https://github.com/erdomke/Innovator.Client/blob/master/src/Innovator.Client/Aml/ValidationException.cs/#L23" class="contribution-link">View Source</a>
                   </li>
                 </ul>
               </div>

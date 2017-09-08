@@ -13,6 +13,10 @@ namespace Innovator.Client
   /// Represents an exception that was returned from the server as a SOAP fault 
   /// containing information about properties being validated
   /// </summary>
+  /// <remarks>
+  /// To create a new instance of this class, use <see cref="ElementFactory.ValidationException(string, IReadOnlyItem, string[])"/>
+  /// or one of the other overloads
+  /// </remarks>
 #if SERIALIZATION
   [Serializable]
 #endif
@@ -37,8 +41,11 @@ namespace Innovator.Client
     /// </summary>
     public IEnumerable<string> Properties
     {
-      get { return _fault.ElementByName("detail").ElementByName("properties")
-                         .Elements().Select(e => e.Value); }
+      get
+      {
+        return _fault.ElementByName("detail").ElementByName("properties")
+                     .Elements().Select(e => e.Value);
+      }
     }
 
     internal ValidationException(string message

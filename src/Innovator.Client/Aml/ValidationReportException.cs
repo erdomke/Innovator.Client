@@ -12,6 +12,10 @@ namespace Innovator.Client
   /// <summary>
   /// Represents an exception that was returned from the server as a SOAP fault containing a validation report
   /// </summary>
+  /// <remarks>
+  /// To create a new instance of this class, use <see cref="ElementFactory.ValidationException(string, IReadOnlyItem, string)"/>
+  /// or one of the other overloads
+  /// </remarks>
 #if SERIALIZATION
   [Serializable]
 #endif

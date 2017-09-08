@@ -22,10 +22,10 @@ namespace Innovator.Client
     /// <code lang="C#">
     /// // Get preliminary parts which have existed for a little bit of time
     /// var components = conn.Apply(@"<Item type='Part' action='get'>
-    ///                             <classification>@0</classification>
-    ///                             <created_on condition='lt'>@1</created_on>
-    ///                             <state>Preliminary</state>
-    ///                             </Item>", classification, DateTime.Now.AddMinutes(-20)).Items();
+    ///   <classification>@0</classification>
+    ///   <created_on condition='lt'>@1</created_on>
+    ///   <state>Preliminary</state>
+    /// </Item>", classification, DateTime.Now.AddMinutes(-20)).Items();
     /// </code>
     /// </example>
     public static IReadOnlyResult Apply(this IConnection conn, Command query, params object[] parameters)

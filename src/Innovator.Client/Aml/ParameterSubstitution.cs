@@ -34,7 +34,8 @@ namespace Innovator.Client
     /// </summary>
     Sql,
     /// <summary>
-    /// Parameters are enclosed in curly braces (e.g. <c>{0}</c>) like with <see cref="String.Format(string, object[])"/>
+    /// Parameters are enclosed in curly braces (e.g. <c>{0}</c>) like with 
+    /// <see cref="String.Format(string, object[])"/>
     /// </summary>
     CSharp
   }
@@ -42,8 +43,36 @@ namespace Innovator.Client
   /// <summary>
   /// Class for substituting @-prefixed parameters with their values
   /// </summary>
-  /// <remarks>This class will escape values thereby preventing SQL/AML injection unless the
-  /// parameter name ends with an exclamtion mark (e.g. @fileItem!)</remarks>
+  /// <remarks>
+  /// <para>This class will substitute values into an AML template.  Using this class to perform
+  /// the substitution (via creating a <see cref="Command"/>) provides several benefits over other
+  /// techniques (e.g. <see cref="String.Format(string, object[])"/>)</para>
+  /// <list type="table">
+  ///   <item>
+  ///     <term>String values will be properly escaped for AML.</term>
+  ///     <description>For example, <c>Items 1 &amp; 2 are &gt; Item 3</c> will be encoded as
+  ///     <c>Items 1 &amp;amp; 2 are &amp;gt; Item 3</c>.  If you don't want this to happen, add an
+  ///     exclamation mark after your parameter name (e.g. using <c>"&lt;prop&gt;@0&lt;/prop&gt;"</c>
+  ///     will encode the string while using <c>"&lt;prop&gt;@0!&lt;/prop&gt;"</c> will not perform
+  ///     any encoding</description>
+  ///   </item>
+  ///   <item>
+  ///     <term>Basic .Net types will be handled properly</term>
+  ///     <description>For example, <c>true</c> will be encoded as <c>1</c> and 
+  ///     <c>new DateTime(2000, 1, 1)</c> will be encoded as <c>2000-01-01T00:00:00</c></description>
+  ///   </item>
+  /// </list>
+  /// <para>Parameters can appear in AML attributes, elements, or in SQL strings.  Since AML 
+  /// attributes always are surrounded by quotes, be sure to put your parameter name in quotes as
+  /// well (whether they are single quotes or double quotes).  In SQL, parameters are not quoted
+  /// as not all values need to be quoted.  Rather, the replacement process will decide whether or
+  /// not quotes are needed.  For example,</para>
+  /// <code lang="XML">
+  /// &lt;Item type='Part' action='@0'&gt;
+  ///   &lt;state condition='in'&gt;(select name from innovator.table where id = @1)&lt;/state&gt;
+  /// &lt;/Item&gt;
+  /// </code>
+  /// </remarks>
   public class ParameterSubstitution : IEnumerable<KeyValuePair<string, object>>
   {
     private const string EmptyListMatch = "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`";
@@ -57,19 +86,23 @@ namespace Innovator.Client
     /// Gets the number of <c>Item</c> tags found in the query
     /// </summary>
     public int ItemCount { get { return _itemCount; } }
+
     /// <summary>
     /// Whether the query is AML or SQL
     /// </summary>
     public ParameterSubstitutionMode Mode { get; set; }
+
     /// <summary>
     /// Gets the number of parameters for which values were specified
     /// </summary>
     public int ParamCount { get { return _parameters.Count; } }
+
     /// <summary>
     /// Gets or sets a callback function which will be called when
     /// a parameter is accessed
     /// </summary>
     public Action<string> ParameterAccessListener { get; set; }
+
     /// <summary>
     /// Gets or sets the style of parameters being used
     /// </summary>
@@ -108,6 +141,7 @@ namespace Innovator.Client
         AddParameter(i.ToString(), values[i]);
       }
     }
+
     /// <summary>
     /// Adds the parameter.
     /// </summary>

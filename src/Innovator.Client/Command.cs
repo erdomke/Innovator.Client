@@ -10,17 +10,61 @@ namespace Innovator.Client
   /// <summary>
   /// An AML request to be submitted to the server
   /// </summary>
+  /// <remarks>
+  /// <para>In most situations, you should never need to interact with the <see cref="Command"/> class
+  /// directly since a <see cref="string"/> is implicitly promoted to a <see cref="Command"/>.  For
+  /// example, with the <see cref="ConnectionExtensions.Apply(IConnection, Command, object[])"/>, 
+  /// you can use code similar to</para>
+  /// <code lang="C#">
+  /// // Get preliminary parts which have existed for a little bit of time
+  /// var components = conn.Apply(@"&lt;Item type='Part' action='get'&gt;
+  ///   &lt;classification&gt;@0&lt;/classification&gt;
+  ///   &lt;created_on condition='lt'&gt;@1&lt;/created_on&gt;
+  ///   &lt;state&gt;Preliminary&lt;/state&gt;
+  /// &lt;/Item&gt;", classification, DateTime.Now.AddMinutes(-20)).Items();
+  /// </code>
+  /// <para>Behind the scenes, this is equivalent to the code </para>
+  /// <code lang="C#">
+  /// // Get preliminary parts which have existed for a little bit of time
+  /// var components = conn.Apply(new Command(@"&lt;Item type='Part' action='get'&gt;
+  ///   &lt;classification&gt;@0&lt;/classification&gt;
+  ///   &lt;created_on condition='lt'&gt;@1&lt;/created_on&gt;
+  ///   &lt;state&gt;Preliminary&lt;/state&gt;
+  /// &lt;/Item&gt;", classification, DateTime.Now.AddMinutes(-20))).Items();
+  /// </code>
+  /// <para>So why would you need to create a <see cref="Command"/>?  Perhaps, you need to specify
+  /// the SOAP action to use</para>
+  /// <code lang="C#">
+  /// var cmd = new Command(@"&lt;AML&gt;
+  ///   &lt;Item type = 'Part' action='get' id='30F66F086BDE4032B29034FC7D84A99D' /&gt;
+  ///   &lt;Item type = 'Part' action='get' id='3F292E347CC64FB698C58E010364537E' /&gt;
+  /// &lt;/AML&gt;").WithAction(CommandAction.ApplyAML);
+  /// var parts = conn.Apply(cmd).Items();
+  /// </code>
+  /// <para>Or, you would rather use named parameters instead of numbered parameters</para>
+  /// <code lang="C#">
+  /// // Get preliminary parts which have existed for a little bit of time
+  /// var components = conn.Apply(new Command(@"&lt;Item type='Part' action='get'&gt;
+  ///   &lt;classification&gt;@class&lt;/classification&gt;
+  ///   &lt;created_on condition='lt'&gt;@created&lt;/created_on&gt;
+  ///   &lt;state&gt;Preliminary&lt;/state&gt;
+  /// &lt;/Item&gt;")
+  ///   .WithParam("class", classification)
+  ///   .WithParam("created", DateTime.Now.AddMinutes(-20))).Items();
+  /// </code>
+  /// <para>For more information on how parameter substitution works see
+  /// <see cref="ParameterSubstitution"/>.  For other ways to create AML, see 
+  /// <see cref="ElementFactory"/></para>
+  /// </remarks>
+  /// <see cref="ConnectionExtensions.Apply(IConnection, Command, object[])"/>
+  /// <see cref="ConnectionExtensions.ApplyAsync(IAsyncConnection, Command, System.Threading.CancellationToken, object[])"/>
+  /// <seealso cref="ParameterSubstitution"/>
   public class Command
   {
-    private List<string> _queries = new List<string>(1);
-    private ParameterSubstitution _sub = new ParameterSubstitution();
+    private readonly List<string> _queries = new List<string>(1);
+    private readonly ParameterSubstitution _sub = new ParameterSubstitution();
     private CommandAction _action;
     private string _actionString;
-
-    /// <summary>
-    /// What MIME type the client should accept for the request
-    /// </summary>
-    public string AcceptMimeType { get; set; }
 
     /// <summary>
     /// SOAP action to use with the AML
@@ -30,6 +74,7 @@ namespace Innovator.Client
       get { return _action; }
       set { _action = value; _actionString = null; }
     }
+
     /// <summary>
     /// SOAP action to use with the AML (represented as a string)
     /// </summary>
@@ -76,6 +121,15 @@ namespace Innovator.Client
     /// <value>
     /// The delegate which will be called when a log item is written pertaining to this request.
     /// </value>
+    /// <remarks>
+    /// The arguments to the delegate are
+    /// <list type="table">
+    ///   <listheader><term>Value</term><description>Description</description></listheader>
+    ///   <item><term><see cref="int"/>: Log Level</term><description>Indicates the severity of the message.  Always <c>4</c> to indiate an informational message</description></item>
+    ///   <item><term><see cref="string"/>: Message</term><description>The text of the message</description></item>
+    ///   <item><term><see cref="IEnumerable{KeyValuePair}"/>: Parameters</term><description>Structured parameters which contain useful log data</description></item>
+    /// </list>
+    /// </remarks>
     public Action<int, string, IEnumerable<KeyValuePair<string, object>>> LogListener { get; set; }
 
     /// <summary>
@@ -83,7 +137,6 @@ namespace Innovator.Client
     /// </summary>
     public Command()
     {
-      this.AcceptMimeType = "text/xml";
       this.Action = CommandAction.ApplyItem;
     }
 
@@ -137,6 +190,8 @@ namespace Innovator.Client
     /// <summary>
     /// Creates an AML command that will be sent to the server from an <see cref="IAmlNode"/>
     /// </summary>
+    /// <param name="aml">The AML object (e.g. <see cref="IReadOnlyItem"/>) that you want to create 
+    /// the command with</param>
     public Command(IAmlNode aml) : this(aml.ToAml())
     {
       var elem = aml as IReadOnlyElement;
@@ -146,6 +201,8 @@ namespace Innovator.Client
     /// <summary>
     /// Creates an AML command that will be sent to the server from an <see cref="IEnumerable{IAmlNode}"/>
     /// </summary>
+    /// <param name="aml"><see cref="IEnumerable{IAmlNode}"/> that you want to create the
+    /// command with</param>
     public Command(IEnumerable<IAmlNode> aml) : this()
     {
       this.Aml = "<AML>" + aml.GroupConcat("", i => i.ToAml()) + "</AML>";
@@ -153,16 +210,22 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Specify the SOAP action to use with the AML
+    /// <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+    /// specify the SOAP action to use with the AML
     /// </summary>
+    /// <param name="action">The SOAP action to send with the AML</param>
+    /// <returns>The current command for chaining additional method calls</returns>
     public Command WithAction(CommandAction action)
     {
       this.Action = action;
       return this;
     }
     /// <summary>
-    /// Specify the SOAP action to use with the AML (as a string)
+    /// <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+    /// specify the SOAP action to use with the AML (as a string)
     /// </summary>
+    /// <param name="action">The SOAP action to send with the AML</param>
+    /// <returns>The current command for chaining additional method calls</returns>
     public Command WithAction(string action)
     {
       CommandAction parsed;
@@ -177,39 +240,40 @@ namespace Innovator.Client
       return this;
     }
     /// <summary>
-    /// Replaces SQL Server style numbered AML parameters (used as attribute and element values) with the corresponding arguments.
-    /// Property type conversion and XML formatting is performed
+    /// <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+    /// specify the AML of the request.  SQL Server style numbered AML parameters (used as 
+    /// attribute and element values) are replaced with the corresponding arguments. Property type 
+    /// conversion and XML formatting is performed
     /// </summary>
     /// <param name="query">Format string containing the parameters</param>
     /// <param name="args">Replacement values for the numbered parameters</param>
-    /// <returns>A valid AML string</returns>
+    /// <returns>The current command for chaining additional method calls</returns>
     public Command WithAml(string query, params object[] args)
     {
       this.Aml = query;
       _sub.AddIndexedParameters(args);
       return this;
     }
+
     /// <summary>
-    /// Use a specific log listener
+    /// <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
+    /// specify a log listener to be called when logging data is recorded during the execution of 
+    /// this command
     /// </summary>
-    /// <param name="listener"></param>
-    /// <returns></returns>
+    /// <param name="listener">Callback to handle the logging of information.  The parameters 
+    /// include the message level, message, and any relevant structured data</param>
+    /// <returns>The current command for chaining additional method calls</returns>
     public Command WithLogListener(Action<int, string, IEnumerable<KeyValuePair<string, object>>> listener)
     {
       this.LogListener = listener;
       return this;
     }
-    /// <summary>
-    /// Specify the MIME type to accept
-    /// </summary>
-    public Command WithMimeType(string mimeType)
-    {
-      this.AcceptMimeType = mimeType;
-      return this;
-    }
+
     /// <summary>
     /// Specify a named parameter and its value
     /// </summary>
+    /// <param name="name">Parameter name</param>
+    /// <param name="value">Parameter value</param>
     public Command WithParam(string name, object value)
     {
       _sub.AddParameter(name, value);
@@ -237,6 +301,7 @@ namespace Innovator.Client
     {
       return new Command() { Aml = aml };
     }
+
     /// <summary>
     /// Implicitly convert XML elements to commands as needed
     /// </summary>
@@ -244,6 +309,7 @@ namespace Innovator.Client
     {
       return new Command() { Aml = aml.ToString() };
     }
+
 #if XMLLEGACY
     /// <summary>
     /// Implicitly convert XML elements to commands as needed
@@ -276,10 +342,12 @@ namespace Innovator.Client
     }
 #endif
 
-
     /// <summary>
     /// Perform parameter substitutions and return the resulting AML
     /// </summary>
+    /// <param name="context">Localization context (e.g. from 
+    /// <see cref="ElementFactory.LocalizationContext"/>)</param>
+    /// <returns>AML string</returns>
     public string ToNormalizedAml(IServerContext context)
     {
       var aml = this.Aml;
@@ -291,6 +359,9 @@ namespace Innovator.Client
     /// <summary>
     /// Perform parameter substitutions and return the resulting AML
     /// </summary>
+    /// <param name="context">Localization context (e.g. from 
+    /// <see cref="ElementFactory.LocalizationContext"/>)</param>
+    /// <param name="writer">Writer to which AML is written</param>
     public void ToNormalizedAml(IServerContext context, TextWriter writer)
     {
       var aml = this.Aml;
@@ -303,6 +374,9 @@ namespace Innovator.Client
     /// <summary>
     /// Perform parameter substitutions and return the resulting AML
     /// </summary>
+    /// <param name="context">Localization context (e.g. from 
+    /// <see cref="ElementFactory.LocalizationContext"/>)</param>
+    /// <param name="writer">Writer to which AML is written</param>
     public void ToNormalizedAml(IServerContext context, XmlWriter writer)
     {
       var aml = this.Aml;

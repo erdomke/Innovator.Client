@@ -11,6 +11,51 @@ namespace Innovator.Client
   /// <summary>
   /// Class for generating mutable AML objects
   /// </summary>
+  /// <remarks>
+  /// <para>An <see cref="ElementFactory"/> is used to create AML objects (Items, properties, 
+  /// attributes, and more).  A 
+  /// <a href="https://en.wikipedia.org/wiki/Factory_method_pattern">factory</a> is needed to 
+  /// create these objects because the objects need to know how to serialize and deserialize base 
+  /// .Net types (e.g. <see cref="DateTime"/>) according to the time zone and context of a 
+  /// particular server connection.  You can get a <see cref="ElementFactory"/> from a 
+  /// <see cref="IConnection"/> via the <see cref="IConnection.AmlContext"/> property.  
+  /// Alternatively, if you are processing AML without an Aras connection (e.g. reading an AML 
+  /// export file), you can easily get an <see cref="ElementFactory"/> in from the 
+  /// <see cref="ElementFactory.Local"/> or the <see cref="ElementFactory.Utc"/> static properties
+  /// for a factory using either the local or the UTC time zone respectively.</para>
+  /// <para>To create an AML structure (that you can easily modify) with an 
+  /// <see cref="ElementFactory"/>, you can either start with a parameter substituted AML string,
+  /// or by creating the AML objects directly</para>
+  /// <code lang="C#">
+  /// var aml = conn.AmlContext;
+  /// var query = aml.FromXml(
+  /// @"&lt;Item type='Part' action='get'&gt;
+  ///   &lt;classification&gt;@0&lt;/classification&gt;
+  ///   &lt;created_on condition='lt'&gt;@1&lt;/created_on&gt;
+  /// &lt;/Item&gt;", classification, DateTime.Now.AddMinutes(-20)).AssertItem();
+  /// query.State().Set("Preliminary");
+  /// </code>
+  /// <para>- OR -</para>
+  /// <code lang="C#">
+  /// var aml = conn.AmlContext;
+  /// var query = aml.Item(aml.Type("Part"), aml.Action("get")
+  ///   , aml.Classification(classification)
+  ///   , aml.CreatedOn(aml.Condition(Condition.LessThan), DateTime.Now.AddMinutes(-20))
+  ///   , aml.Property("state", "Preliminary")
+  /// );
+  /// return conn.Apply(query.ToAml()).Items();
+  /// </code>
+  /// <para>When used in the second manner, the API should feel very similar to creating 
+  /// LINQ-to-XML objects.  However, using <see cref="ElementFactory"/> should be preferred as, 
+  /// unlike LINQ, it properly serializes base types and handles time zone conversions</para>
+  /// <code lang="C#">
+  /// var query = new XElement(new XAttribute("type", "Part"), new XAttribute("action", "get")
+  ///   , new XElement("classification", classification)
+  ///   , new XElement("created_on", new XAttribute("condition", "lt"), DateTime.Now.AddMinutes(-20).ToString("s")
+  ///   , new XElement("state", "Preliminary")
+  /// );
+  /// </code>
+  /// </remarks>
   /// <example>
   /// <code lang="C#">
   /// var aml = conn.AmlContext;

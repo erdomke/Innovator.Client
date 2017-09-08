@@ -184,7 +184,7 @@ namespace Innovator.Client.IOM
         writer.WriteEndElement();
       }
     }
-    
+
     private ServerException NewNoItemsException()
     {
       return (this.Exception as NoItemsFoundException) ??

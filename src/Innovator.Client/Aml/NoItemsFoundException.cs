@@ -13,6 +13,10 @@ namespace Innovator.Client
   /// Represents an exception that was returned from the server as a SOAP fault 
   /// indicating that no items were found
   /// </summary>
+  /// <remarks>
+  /// To create a new instance of this class, use <see cref="ElementFactory.NoItemsFoundException(string)"/>
+  /// or one of the other overloads
+  /// </remarks>
 #if SERIALIZATION
   [Serializable]
 #endif

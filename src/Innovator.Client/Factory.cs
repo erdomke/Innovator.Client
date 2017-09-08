@@ -25,7 +25,22 @@ namespace Innovator.Client
     private static MemoryCache<string, byte[]> _imageCache = new MemoryCache<string, byte[]>();
 
     internal static Func<HttpClient> DefaultService { get; set; }
+
+    /// <summary>
+    /// Gets or sets the default <see cref="IItemFactory"/> to use with new connections
+    /// </summary>
+    /// <value>
+    /// The default <see cref="IItemFactory"/> to use with new connections.
+    /// </value>
     public static IItemFactory DefaultItemFactory { get; set; }
+
+    /// <summary>
+    /// Gets or sets the default log listener for all server communication
+    /// </summary>
+    /// <value>
+    /// The default log listener for all server communication
+    /// </value>
+    /// <seealso cref="Command.LogListener"/>
     public static Action<int, string, IEnumerable<KeyValuePair<string, object>>> LogListener
     {
       get { return _logListener; }
@@ -181,7 +196,8 @@ namespace Innovator.Client
       };
       result.CancelTarget(masterService.GetPromise(new Uri(configUrl), async, trace, req)
         .Progress((p, m) => result.Notify(p, m))
-        .Done(r => {
+        .Done(r =>
+        {
           var data = r.AsString();
           if (string.IsNullOrEmpty(data))
           {
@@ -214,7 +230,8 @@ namespace Innovator.Client
               result.Resolve(ArasConn(arasSerice, url, preferences));
             }
           }
-        }).Fail(ex => {
+        }).Fail(ex =>
+        {
           result.Resolve(ArasConn(arasSerice, url, preferences));
         })).Always(trace.Dispose);
 
@@ -239,7 +256,8 @@ namespace Innovator.Client
       var result = new Connection.ArasHttpConnection(arasService, url, preferences.ItemFactory);
       if (preferences.Headers.Any())
       {
-        result.DefaultSettings(r => {
+        result.DefaultSettings(r =>
+        {
           if (!string.IsNullOrEmpty(preferences.Headers.UserAgent))
             r.UserAgent = preferences.Headers.UserAgent;
 

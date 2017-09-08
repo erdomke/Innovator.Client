@@ -10,6 +10,16 @@ namespace Innovator.Client
   /// Class for building a large string of SQL which will be sent to the database in batches for
   /// execution using the ApplySQL action
   /// </summary>
+  /// <example>
+  /// For an example of inserting multiple records into the database, consider the following
+  /// <code lang="C#">
+  /// var sql = new SqlBatchWriter(conn);
+  /// for (var i = 0; i &lt; 30000; i++)
+  /// {
+  ///   sql.Command("insert into innovator._numbers (num) values (@0)", i);
+  /// }
+  /// </code>
+  /// </example>
   public class SqlBatchWriter : IDisposable
   {
     private readonly IConnection _conn;
@@ -27,6 +37,7 @@ namespace Innovator.Client
     /// <summary>Instantiate the writer with a connection</summary>
     /// <param name="conn">Server connection</param>
     public SqlBatchWriter(IConnection conn) : this(conn, 96) { }
+
     /// <summary>Instantiate the writer with a connection and an initial capacity for the internal <see cref="StringBuilder"/></summary>
     /// <param name="conn">Server connection</param>
     /// <param name="capacity"><see cref="StringBuilder"/> initial capacity</param>
@@ -42,20 +53,31 @@ namespace Innovator.Client
     }
 
     /// <summary>Append a new line (empty command) to the SQL</summary>
+    /// <remarks>Depending on the number of commands written and the <see cref="Threshold"/>, the
+    /// buffer of SQL commands might be sent to the server after this call</remarks>
     public SqlBatchWriter Command()
     {
       _builder.AppendLine();
       ProcessCommand(false);
       return this;
     }
+
     /// <summary>Append the specified command to the SQL</summary>
+    /// <param name="value">SQL command to execute</param>
+    /// <remarks>Depending on the number of commands written and the <see cref="Threshold"/>, the
+    /// buffer of SQL commands might be sent to the server after this call</remarks>
     public SqlBatchWriter Command(string value)
     {
       _builder.AppendEscapedXml(value).AppendLine();
       ProcessCommand(false);
       return this;
     }
-    /// <summary>Append the specified command with parameters the SQL.  @# (e.g. @0) style parameters are replaced</summary>
+    /// <summary>Append the specified command with parameters the SQL. @# (e.g. @0) style 
+    /// parameters are replaced</summary>
+    /// <remarks>Depending on the number of commands written and the <see cref="Threshold"/>, the
+    /// buffer of SQL commands might be sent to the server after this call. See 
+    /// <see cref="Innovator.Client.Command"/> and <see cref="ParameterSubstitution"/> for more 
+    /// information on how parameters are substituted</remarks>
     public SqlBatchWriter Command(string format, params object[] args)
     {
       _subs.AddIndexedParameters(args);
@@ -64,13 +86,22 @@ namespace Innovator.Client
       _subs.ClearParameters();
       return this;
     }
+
     /// <summary>Append a part of a command to the SQL</summary>
+    /// <remarks>No SQL will be sent to the server until the SQL "part" has been finished with a 
+    /// call to <see cref="SqlBatchWriter.Command()"/> (or one of the overloads)</remarks>
     public SqlBatchWriter Part(string value)
     {
       _builder.AppendEscapedXml(value);
       return this;
     }
-    /// <summary>Append a part of a command with parameters the SQL.  @# (e.g. @0) style parameters are replaced</summary>
+
+    /// <summary>Append the specified command with parameters the SQL. @# (e.g. @0) style 
+    /// parameters are replaced</summary>
+    /// <remarks>No SQL will be sent to the server until the SQL "part" has been finished with a 
+    /// call to <see cref="SqlBatchWriter.Command()"/> (or one of the overloads). See 
+    /// <see cref="Innovator.Client.Command"/> and <see cref="ParameterSubstitution"/> for more 
+    /// information on how parameters are substituted</remarks>
     public SqlBatchWriter Part(string format, params object[] args)
     {
       _subs.AddIndexedParameters(args);
@@ -132,6 +163,7 @@ namespace Innovator.Client
       ProcessCommand(true);
       WaitLastResult();
     }
+
     /// <summary>
     /// Send the current buffer to the database
     /// </summary>

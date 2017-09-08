@@ -8,9 +8,11 @@ namespace Innovator.Client
   /// <summary>
   /// Class for parsing and storing AML select attributes
   /// </summary>
+  /// <remarks>
+  /// Use <see cref="SelectNode.FromString(string)"/> to parse an AML select attribute.
+  /// </remarks>
   public class SelectNode : ICollection<SelectNode>
   {
-    private readonly string _name;
     private List<SelectNode> _children;
 
     /// <summary>
@@ -24,13 +26,11 @@ namespace Innovator.Client
         return _children.Count;
       }
     }
+
     /// <summary>
     /// Name of the current column
     /// </summary>
-    public string Name
-    {
-      get { return _name; }
-    }
+    public string Name { get; }
 
     bool ICollection<SelectNode>.IsReadOnly { get { return false; } }
 
@@ -50,19 +50,22 @@ namespace Innovator.Client
     /// Initializes a new <see cref="SelectNode"/> instance for storing an AML select path
     /// </summary>
     public SelectNode() { }
+
     /// <summary>
     /// Initializes a new <see cref="SelectNode"/> instance with a property name.
     /// </summary>
     /// <param name="name">The name of the property to store in the node</param>
     public SelectNode(string name)
     {
-      _name = name;
+      Name = name;
     }
+
     internal SelectNode(string name, IEnumerable<SelectNode> children)
     {
-      _name = name;
+      Name = name;
       _children = children.ToList();
     }
+
     internal SelectNode(IEnumerable<SelectNode> children)
     {
       _children = children.ToList();
@@ -177,14 +180,14 @@ namespace Innovator.Client
 
     private StringBuilder Write(StringBuilder builder)
     {
-      if (string.IsNullOrEmpty(_name))
+      if (string.IsNullOrEmpty(Name))
       {
         builder.EnsureCapacity(_children.Count * 5);
         Write(builder, _children);
       }
       else
       {
-        builder.Append(_name);
+        builder.Append(Name);
         if (_children != null)
         {
           builder.Append('(');

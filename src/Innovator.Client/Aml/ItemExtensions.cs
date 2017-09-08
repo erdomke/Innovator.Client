@@ -359,7 +359,8 @@ namespace Innovator.Client
           { "url", url },
           { "user_id", conn.UserId }
         };
-        return Factory.DefaultService.Invoke().GetPromise(new Uri(url), async, trace).Convert(r => {
+        return Factory.DefaultService.Invoke().GetPromise(new Uri(url), async, trace).Convert(r =>
+        {
           var download = r.AsStream;
           var buffer = download as MemoryTributary;
           if (buffer == null)
@@ -684,11 +685,23 @@ namespace Innovator.Client
     /// <param name="item">Item to map</param>
     /// <param name="conn">Connection used for querying the database when property values are not available</param>
     /// <param name="mapper">Function which creates a new object by referencing values from the item</param>
+    /// <example>
+    /// <code lang="C#">
+    /// var result = item.LazyMap(conn, i => new
+    /// {
+    ///   FirstName = i.CreatedById().AsItem().Property("first_name").Value,
+    ///   PermName = i.PermissionId().AsItem().Property("name").Value,
+    ///   KeyedName = i.Property("id").KeyedName().Value,
+    ///   Empty = i.OwnedById().Value
+    /// });
+    /// </code>
+    /// </example>
     public static T LazyMap<T>(this IReadOnlyItem item, IConnection conn, Func<IReadOnlyItem, T> mapper)
     {
       var select = new SelectNode();
       var missingProps = false;
-      var watched = new ItemWatcher(item, "", (path, exists) => {
+      var watched = new ItemWatcher(item, "", (path, exists) =>
+      {
         select.EnsurePath(path.Split('/'));
         missingProps = missingProps || !exists;
       });
@@ -977,7 +990,8 @@ namespace Innovator.Client
     public static void SetDurationByDate(this Model.Activity act, IConnection conn, DateTime dueDate, int minDuration = 1,
                                   int maxDuration = int.MaxValue)
     {
-      var props = act.LazyMap(conn, i => new {
+      var props = act.LazyMap(conn, i => new
+      {
         ActiveDate = i.Property("active_date").AsDateTime(DateTime.Now)
       });
       var duration = Math.Min(Math.Max((dueDate.Date - props.ActiveDate.Date).Days,
@@ -996,6 +1010,13 @@ namespace Innovator.Client
     /// <summary>
     /// Create an <see cref="XmlReader"/> for reading the XML contents of <paramref name="elem"/>
     /// </summary>
+    /// <example>
+    /// <code lang="C#">
+    /// var xml = XElement.Load(item.CreateReader());
+    /// </code>
+    /// <para>Note, this approach should be more performant than first generating a string
+    /// (e.g. with <see cref="ToAml(IAmlNode, AmlWriterSettings)"/> and then parsing the string)</para>
+    /// </example>
     public static XmlReader CreateReader(this IReadOnlyElement elem)
     {
       return new AmlReader(elem);
@@ -1004,6 +1025,13 @@ namespace Innovator.Client
     /// <summary>
     /// Create an <see cref="XmlReader"/> for reading the XML contents of <paramref name="elem"/>
     /// </summary>
+    /// <example>
+    /// <code lang="C#">
+    /// var xml = XElement.Load(result.CreateReader());
+    /// </code>
+    /// <para>Note, this approach should be more performant than first generating a string
+    /// (e.g. with <see cref="ToAml(IAmlNode, AmlWriterSettings)"/> and then parsing the string)</para>
+    /// </example>
     public static XmlReader CreateReader(this IReadOnlyResult elem)
     {
       return new AmlReader(elem);
@@ -1114,7 +1142,7 @@ namespace Innovator.Client
     {
       if (string.IsNullOrEmpty(name))
         throw new ArgumentNullException(name);
-      
+
       if (logical.Exists)
       {
         var prop = logical.Elements()

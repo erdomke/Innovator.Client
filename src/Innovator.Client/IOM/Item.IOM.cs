@@ -33,6 +33,7 @@ namespace Innovator.Client.IOM
     /// <summary>
     /// Applies the AML.
     /// </summary>
+    /// <returns>An <see cref="Item"/> containing result of the AML call</returns>
     public Item apply()
     {
       return apply(null);
@@ -42,6 +43,7 @@ namespace Innovator.Client.IOM
     /// Sets the action property and applies the AML.
     /// </summary>
     /// <param name="action">The action.</param>
+    /// <returns>An <see cref="Item"/> containing result of the AML call</returns>
     public Item apply(string action)
     {
       string aml;
@@ -124,7 +126,8 @@ namespace Innovator.Client.IOM
       // remove existing
       Property(propName).AsItem().Remove();
       var aml = _conn.AmlContext;
-      var newItem = aml.Item(aml.Attribute("isNew", true), aml.Attribute("isTemp", true), aml.Type(type), aml.Action(action));
+      var newItem = aml.Item(aml.Attribute("isNew", true), aml.Attribute("isTemp", true)
+        , aml.Type(type), aml.Action(action));
       Property(propName).Set(newItem);
       return new Item(_conn, newItem);
     }
@@ -159,7 +162,8 @@ namespace Innovator.Client.IOM
     public Item createRelationship(string type, string action)
     {
       var aml = _conn.AmlContext;
-      var newItem = aml.Item(aml.Attribute("isNew", true), aml.Attribute("isTemp", true), aml.Type(type), aml.Action(action));
+      var newItem = aml.Item(aml.Attribute("isNew", true), aml.Attribute("isTemp", true)
+        , aml.Type(type), aml.Action(action));
       Relationships().Add(newItem);
       return new Item(_conn, newItem);
     }
@@ -216,16 +220,37 @@ namespace Innovator.Client.IOM
       return (int)this.FetchLockStatus(_conn);
     }
 
+    /// <summary>
+    /// Fetches relationships of specified type from the server and sets them on the item.
+    /// </summary>
+    /// <param name="relationshipTypeName">Name of the relationship type.</param>
+    /// <returns>It returns this.</returns>
+    /// <exception cref="ServerException">If an error was returned from the server</exception>
     public Item fetchRelationships(string relationshipTypeName)
     {
       return fetchRelationships(relationshipTypeName, null, null);
     }
 
+    /// <summary>
+    /// Fetches relationships of specified type from the server and sets them on the item.
+    /// </summary>
+    /// <param name="relationshipTypeName">Name of the relationship type.</param>
+    /// <param name="selectList">Select list that is set on attribute <c>select</c> of the request</param>
+    /// <returns>It returns this.</returns>
+    /// <exception cref="ServerException">If an error was returned from the server</exception>
     public Item fetchRelationships(string relationshipTypeName, string selectList)
     {
       return fetchRelationships(relationshipTypeName, selectList, null);
     }
 
+    /// <summary>
+    /// Fetches relationships of specified type from the server and sets them on the item.
+    /// </summary>
+    /// <param name="relationshipTypeName">Name of the relationship type.</param>
+    /// <param name="selectList">Select list that is set on attribute <c>select</c> of the request</param>
+    /// <param name="orderBy">The value is set on attribute <c>orderBy</c> of the request</param>
+    /// <returns>It returns this.</returns>
+    /// <exception cref="ServerException">If an error was returned from the server</exception>
     public Item fetchRelationships(string relationshipTypeName, string selectList, string orderBy)
     {
       var id = Id();
@@ -251,27 +276,55 @@ namespace Innovator.Client.IOM
       return this;
     }
 
+    /// <summary>
+    /// Returns the <c>action</c> attribute from the Item node.
+    /// </summary>
+    /// <returns>Value of the <c>action</c> attribute if the attribute exists, <c>null</c> 
+    /// otherwise</returns>
     public string getAction()
     {
       return this.Action().Value;
     }
 
+    /// <summary>
+    /// Returns value of the attribute with the specified name on the item's node.
+    /// </summary>
+    /// <param name="attributeName">The qualified name of the attribute.</param>
+    /// <returns>Attribute value or <c>null</c> if the attribute doesn't exist</returns>
     public string getAttribute(string attributeName)
     {
       return this.getAttribute(attributeName, null);
     }
 
+    /// <summary>
+    /// Returns value of the attribute with the specified name on the item's node.
+    /// </summary>
+    /// <param name="attributeName">The qualified name of the attribute.</param>
+    /// <param name="defaultValue">Default value of the attribute.</param>
+    /// <returns>Attribute value or <paramref name="defaultValue"/> if the attribute doesn't 
+    /// exist</returns>
     public string getAttribute(string attributeName, string defaultValue)
     {
       return ((IReadOnlyItem)this).Attribute(attributeName).AsString(defaultValue);
     }
 
+    /// <summary>
+    /// Gets the error code of the "error" item.
+    /// </summary>
+    /// <returns>Value of <c>&lt;faultcode&gt;</c>. If the item is not an "error" item, <c>null</c>
+    /// is returned.</returns>
     public string getErrorCode()
     {
       var ex = Exception as ServerException;
       return ex?.FaultCode;
     }
 
+    /// <summary>
+    /// Returns details of the error item.
+    /// </summary>
+    /// <returns>If the instance is not an error item, <c>null</c> is returned.</returns>
+    /// <remarks>In most cases error details contains a low level error details (e.g. actual SQL 
+    /// error message) obtained from server.</remarks>
     public string getErrorDetail()
     {
       var ex = Exception as ServerException;
@@ -280,6 +333,10 @@ namespace Innovator.Client.IOM
       return ex.Fault.Element("detail").InnerText();
     }
 
+    /// <summary>
+    /// Returns the content of the <c>&lt;faultactor&gt;</c> element of SOAP Fault element.
+    /// </summary>
+    /// <returns>If the instance is not an error item, <c>null</c> is returned.</returns>
     public string getErrorSource()
     {
       var ex = Exception as ServerException;
@@ -288,26 +345,57 @@ namespace Innovator.Client.IOM
       return ex.Fault.Element("faultactor").Value;
     }
 
+    /// <summary>
+    /// Returns the error message.
+    /// </summary>
+    /// <returns>The returned value is obtained from the <c>&lt;faultstring&gt;</c> tag of 
+    /// <c>&lt;Fault&gt;</c>. If the instance is not an error item, <c>null</c> is returned.</returns>
     public string getErrorString()
     {
       return Exception?.Message;
     }
 
+    /// <summary>
+    /// Returns ID of the Item node. According to AML standard ID could be set on 
+    /// <c>&lt;Item&gt;</c> either as the attribute with name 'id' or as a sub-tag 
+    /// <c>&lt;id&gt;</c> (i.e. item property) or both.
+    /// </summary>
+    /// <returns>ID of the item or <c>null</c> if ID was not found.</returns>
     public string getID()
     {
       return Id();
     }
 
+    /// <summary>
+    /// Returns instance of Innovator this Item "belongs" to.
+    /// </summary>
+    /// <returns>An <see cref="Innovator"/> for creating AML</returns>
     public Innovator getInnovator()
     {
       return new Innovator(_conn);
     }
 
+    /// <summary>
+    /// Gets an item by index.
+    /// </summary>
+    /// <param name="index">The 0-based index.</param>
+    /// <returns>Found item</returns>
     public Item getItemByIndex(int index)
     {
       return new Item(_conn, Items().ElementAt(index));
     }
 
+    /// <summary>
+    /// Returns the number of items that the instance represents.
+    /// </summary>
+    /// <returns>
+    /// <list type="table">
+    ///   <listheader><term>Value</term><description>Condition</description></listheader>
+    ///   <item><term>0</term><description>The item contains an exception of type <see cref="NoItemsFoundException"/></description></item>
+    ///   <item><term>-1</term><description>The item is not <see cref="NoItemsFoundException"/> and does not contain any items</description></item>
+    ///   <item><term>N</term><description>Where N >= 1 and N is the number of items contained in the instance</description></item>
+    /// </list>
+    /// </returns>
     public int getItemCount()
     {
       if (Exception != null)
@@ -322,6 +410,17 @@ namespace Innovator.Client.IOM
 
     // public Item getItemsByXPath(string xpath)
 
+    /// <summary>
+    /// Gets item's lock status based on the property <c>locked_by_id</c>.
+    /// </summary>
+    /// <returns>Like with the <see cref="LockStatusType"/> enumeration, the values are
+    /// <list type="table">
+    ///   <listheader><term>Value</term><description>Description</description></listheader>
+    ///   <item><term>0</term><description>The item is not locked</description></item>
+    ///   <item><term>1</term><description>The item is locked by the user</description></item>
+    ///   <item><term>2</term><description>The item is locked by the someone else</description></item>
+    /// </list> 
+    /// </returns>
     public int getLockStatus()
     {
       return (int)this.LockStatus(_conn);
@@ -330,11 +429,19 @@ namespace Innovator.Client.IOM
     // public Item getLogicalChildren()
     // public Item getLogicalItems()
 
+    /// <summary>
+    /// Generate new 32 character hex string globally unique identifier.
+    /// </summary>
+    /// <returns>GUID as a string</returns>
     public string getNewID()
     {
       return _conn.AmlContext.NewId();
     }
 
+    /// <summary>
+    /// Returns a parent item of the instance.
+    /// </summary>
+    /// <returns>If there is no parent, <c>null</c> is returned</returns>
     public Item getParentItem()
     {
       var itemParent = this.Parents().OfType<IReadOnlyItem>().FirstOrDefault();
@@ -344,16 +451,50 @@ namespace Innovator.Client.IOM
       return new Item(_conn, itemParent);
     }
 
+    /// <summary>
+    /// Gets value of the property with the specified name.
+    /// </summary>
+    /// <param name="propertyName">Name of the property.</param>
+    /// <returns>If the property is an item-property, ID of the item-property is returned. If the 
+    /// property doesn't exist or it's an item-property without ID, <c>null</c> is returned; 
+    /// otherwise the method returns value of the specified property.  Note, that if the property 
+    /// has attribute <c>is_null</c> set to 1 and the property value is empty string (e.g. 
+    /// <c>&lt;p1 is_null='1'/&gt;</c> or <c>&lt;p1 is_null='1'&gt;&lt;/p1&gt;</c>) then the 
+    /// property value is interpreted as <c>null</c>.</returns>
     public string getProperty(string propertyName)
     {
       return this.getProperty(propertyName, null, null);
     }
 
+    /// <summary>
+    /// Gets value of the property with the specified name.
+    /// </summary>
+    /// <param name="propertyName">Name of the property.</param>
+    /// <param name="defaultValue">Default value of the property.</param>
+    /// <returns>If the property is an item-property, ID of the item-property is returned. If the 
+    /// property doesn't exist or it's an item-property without ID, <paramref name="defaultValue"/> 
+    /// is returned; otherwise the method returns value of the specified property.  Note, that if 
+    /// the property has attribute <c>is_null</c> set to 1 and the property value is empty string 
+    /// (e.g. <c>&lt;p1 is_null='1'/&gt;</c> or <c>&lt;p1 is_null='1'&gt;&lt;/p1&gt;</c>) then the 
+    /// property value is interpreted as <c>null</c>.</returns>
     public string getProperty(string propertyName, string defaultValue)
     {
       return this.getProperty(propertyName, defaultValue, null);
     }
 
+    /// <summary>
+    /// Gets value of the property with the specified name.
+    /// </summary>
+    /// <param name="propertyName">Name of the property.</param>
+    /// <param name="defaultValue">Default value of the property.</param>
+    /// <param name="lang">Language for which the property value has to be returned. If <c>null</c> 
+    /// value is passed, the language of the current session is assumed.</param>
+    /// <returns>If the property is an item-property, ID of the item-property is returned. If the 
+    /// property doesn't exist or it's an item-property without ID, <paramref name="defaultValue"/> 
+    /// is returned; otherwise the method returns value of the specified property.  Note, that if 
+    /// the property has attribute <c>is_null</c> set to 1 and the property value is empty string 
+    /// (e.g. <c>&lt;p1 is_null='1'/&gt;</c> or <c>&lt;p1 is_null='1'&gt;&lt;/p1&gt;</c>) then the 
+    /// property value is interpreted as <c>null</c>.</returns>
     public string getProperty(string propertyName, string defaultValue, string lang)
     {
       return ((IReadOnlyItem)this).Property(propertyName, lang).AsString(defaultValue);

@@ -5,7 +5,19 @@ using System.Text;
 
 namespace Innovator.Client
 {
-  /// <inheritdoc/>
+  /// <summary>
+  /// Represents a promise that a result of the specified type will be provided at some point in the future
+  /// </summary>
+  /// <typeparam name="T">Type of data returned by the promise</typeparam>
+  /// <remarks>
+  /// <para>A promise is very similar to a <see cref="System.Threading.Tasks.Task"/> and can be awaited
+  /// just like a task.  The API of a promise is very similar to that of a 
+  /// <a href="http://api.jquery.com/category/deferred-object/">JQuery Promise</a></para>
+  /// <para>To create a promise in a given state, use one of the helper methods from the 
+  /// <see cref="Promises"/> class such as <see cref="Promises.Resolved{T}(T)"/> or
+  /// <see cref="Promises.Rejected{T}(Exception)"/>.</para>
+  /// </remarks>
+  /// <seealso cref="Innovator.Client.IPromise{T}" />
   public class Promise<T> : IPromise<T>
   {
     private enum Status
@@ -22,6 +34,9 @@ namespace Innovator.Client
     private object _arg;
     private ICancelable _cancelTarget;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Promise{T}"/> class.
+    /// </summary>
     public Promise()
     {
       Invoker = (d, a) =>
@@ -37,31 +52,53 @@ namespace Innovator.Client
       };
     }
 
+    /// <summary>
+    /// Gets or sets the invoker.
+    /// </summary>
+    /// <value>
+    /// The invoker.
+    /// </value>
     public Action<Delegate, object[]> Invoker { get; set; }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Whether an error occurred causing the promise to be rejected
+    /// </summary>
     public virtual bool IsRejected
     {
       get { return _status == Status.Rejected || _status == Status.Canceled; }
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Whether the promise completed successfully
+    /// </summary>
     public virtual bool IsResolved
     {
       get { return _status == Status.Resolved; }
     }
 
-    /// <summary>Indicates that the operation completed (either successfully or with an error)</summary>
+    /// <summary>
+    /// Gets a value indicating whether this instance is complete.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> if this instance is complete; otherwise, <c>false</c>.
+    /// </value>
     public virtual bool IsComplete
     {
       get { return _status != Status.Pending; }
     }
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// The progress of the promise represented as an integer from 0 to 100
+    /// </summary>
     public int PercentComplete
     {
       get { return _percentComplete; }
     }
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// The result of the promise.  Only valid if <see cref="P:Innovator.Client.IPromise.IsResolved" /> is <c>true</c>
+    /// </summary>
+    /// <exception cref="NotSupportedException"></exception>
     public T Value
     {
       get
@@ -72,7 +109,12 @@ namespace Innovator.Client
         return (T)_arg;
       }
     }
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// Callback to be executed when the promise completes regardless of whether an error occurred
+    /// </summary>
+    /// <param name="callback">Callback to be executed</param>
+    /// <returns>The current instance for chaining additional calls</returns>
     public IPromise<T> Always(Action callback)
     {
       if (_status != Status.Pending)
@@ -85,15 +127,23 @@ namespace Innovator.Client
       }
       return this;
     }
+
     /// <summary>
-    /// Set the object to be canceled when the promise is canceled
+    /// Cancels the target.
     /// </summary>
+    /// <param name="cancelTarget">The cancel target.</param>
+    /// <returns><paramref name="cancelTarget"/> for chaining additional calls</returns>
     public C CancelTarget<C>(C cancelTarget) where C : ICancelable
     {
       _cancelTarget = cancelTarget;
       return cancelTarget;
     }
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// Callback to be executed when the promise completes successfully
+    /// </summary>
+    /// <param name="callback">Callback to be executed with the result of the promise</param>
+    /// <returns>The current instance for chaining additional calls</returns>
     public IPromise<T> Done(Action<T> callback)
     {
       if (_status == Status.Resolved)
@@ -106,7 +156,12 @@ namespace Innovator.Client
       }
       return this;
     }
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// Callback to be executed when the promise encounters an error
+    /// </summary>
+    /// <param name="callback">Callback to be executed with the exception of the promise</param>
+    /// <returns>The current instance for chaining additional calls</returns>
     public IPromise<T> Fail(Action<Exception> callback)
     {
       if (_status == Status.Rejected)
@@ -119,7 +174,14 @@ namespace Innovator.Client
       }
       return this;
     }
-    /// <inheritdoc/>
+
+    /// <summary>
+    /// Callback to be executed when the reported progress changes
+    /// </summary>
+    /// <param name="callback">Callback to be executed with the progress [0, 100] and the message</param>
+    /// <returns>
+    /// The current instance for chaining additional calls
+    /// </returns>
     public IPromise<T> Progress(Action<int, string> callback)
     {
       if (_status == Status.Pending)
@@ -128,6 +190,7 @@ namespace Innovator.Client
       }
       return this;
     }
+
     /// <summary>
     /// Notify promise listeners of a change in the progres
     /// </summary>
@@ -136,9 +199,11 @@ namespace Innovator.Client
       _percentComplete = progress;
       ExecuteCallbacks(Condition.Progress, progress, message);
     }
+
     /// <summary>
     /// Mark the promise as having completed successfully providing the requested data
     /// </summary>
+    /// <param name="data">Data which the promise wraps</param>
     public virtual void Resolve(T data)
     {
       if (_status == Status.Pending)
@@ -152,9 +217,11 @@ namespace Innovator.Client
         _cancelTarget = null;
       }
     }
+
     /// <summary>
     /// Mark the promise as having encountered an error
     /// </summary>
+    /// <param name="error">Error which was encountered</param>
     public virtual void Reject(Exception error)
     {
       if (_status == Status.Pending)
@@ -166,9 +233,13 @@ namespace Innovator.Client
         _cancelTarget = null;
       }
     }
+
     /// <summary>
     /// Execute the stored callbacks for the given condition
     /// </summary>
+    /// <param name="condition">Which call backs to execute</param>
+    /// <param name="arg">First argument for the callback</param>
+    /// <param name="arg2">Second argument for the callback (if applicable)</param>
     protected void ExecuteCallbacks(Condition condition, object arg, object arg2 = null)
     {
       foreach (var current in LinkedListOps.Enumerate(_callback))
@@ -197,9 +268,21 @@ namespace Innovator.Client
     /// </summary>
     protected enum Condition
     {
+      /// <summary>
+      /// The callback should be called on success
+      /// </summary>
       Success = 1,
+      /// <summary>
+      /// The callback should be called on failure
+      /// </summary>
       Failure = 2,
+      /// <summary>
+      /// The callback should be always called
+      /// </summary>
       Always = 3,
+      /// <summary>
+      /// The callback should be called when progress is reported
+      /// </summary>
       Progress = 4
     }
 
@@ -251,7 +334,9 @@ namespace Innovator.Client
       return this.Progress(callback);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Cancel the operation
+    /// </summary>
     public virtual void Cancel()
     {
       if (_status == Status.Pending)

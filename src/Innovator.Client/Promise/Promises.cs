@@ -12,26 +12,46 @@ namespace Innovator.Client
   /// </summary>
   public static class Promises
   {
+    /// <summary>
+    /// Creates a promise that is resolved when all of the specified arguments are resolved
+    /// </summary>
     public static IPromise<T1> All<T1>(IPromise<T1> promise1)
     {
       return promise1;
     }
+
+    /// <summary>
+    /// Creates a promise that is resolved when all of the specified arguments are resolved
+    /// </summary>
     public static IPromise<PromiseResult<T1, T2>> All<T1, T2>(IPromise<T1> promise1, IPromise<T2> promise2)
     {
       return new AggregatePromise<T1, T2>(promise1, promise2);
     }
+
+    /// <summary>
+    /// Creates a promise that is resolved when all of the specified arguments are resolved
+    /// </summary>
     public static IPromise<PromiseResult<T1, T2, T3>> All<T1, T2, T3>(IPromise<T1> promise1, IPromise<T2> promise2, IPromise<T3> promise3)
     {
       return new AggregatePromise<T1, T2, T3>(promise1, promise2, promise3);
     }
+
+    /// <summary>
+    /// Creates a promise that is resolved when all of the specified arguments are resolved
+    /// </summary>
     public static IPromise<PromiseResult<T1, T2, T3, T4>> All<T1, T2, T3, T4>(IPromise<T1> promise1, IPromise<T2> promise2, IPromise<T3> promise3, IPromise<T4> promise4)
     {
       return new AggregatePromise<T1, T2, T3, T4>(promise1, promise2, promise3, promise4);
     }
+
+    /// <summary>
+    /// Creates a promise that is resolved when all of the specified arguments are resolved
+    /// </summary>
     public static IPromise<IList<object>> All(params IPromise[] promises)
     {
       return new AggregatePromise(promises);
     }
+
     /// <summary>
     /// Return a promise that resolves upon completion of all the contained promises.  Only allow
     /// a select number of promises to be active at a given time.
@@ -49,11 +69,13 @@ namespace Innovator.Client
     /// </summary>
     public static IPromise<T> Cancelled<T>(this IPromise<T> promise, Action<OperationCanceledException> callback)
     {
-      return promise.Fail(ex => {
+      return promise.Fail(ex =>
+      {
         var cancel = ex as OperationCanceledException;
         if (cancel != null) callback.Invoke(cancel);
       });
     }
+
     /// <summary>
     /// Continue a promise chain by acting on the previous promise's result and returning a new promise
     /// </summary>
@@ -82,6 +104,7 @@ namespace Innovator.Client
           }).Fail(exT => result.Reject(exT)));
       return result;
     }
+
     /// <summary>
     /// Convert a promise using a simple transformation to go from one type to another
     /// </summary>
@@ -104,6 +127,7 @@ namespace Innovator.Client
         }).Fail(ex => result.Reject(ex)));
       return result;
     }
+
     /// <summary>
     /// Convert a promise by modifying the done/fail logic in addition to transforming the type.
     /// </summary>
@@ -119,6 +143,7 @@ namespace Innovator.Client
         }).Fail(ex => failCallback.Invoke(ex, result)));
       return result;
     }
+
     /// <summary>
     /// Attach a callback that runs an error (other than a cancellation error) occurs
     /// </summary>
@@ -126,16 +151,22 @@ namespace Innovator.Client
     {
       return promise.Fail(ex => { if (!(ex is OperationCanceledException)) callback.Invoke(ex); });
     }
+
     /// <summary>
-    /// Attach a callback that runs an error (other than a cancellation error) occurs
+    /// Attach a callback that runs when an error (other than a cancellation error) occurs
     /// </summary>
     public static IPromise<T> Error<TErr, T>(this IPromise<T> promise, Action<TErr> callback) where TErr : Exception
     {
-      return promise.Fail(ex => {
+      return promise.Fail(ex =>
+      {
         var err = ex as TErr;
         if (err != null) callback.Invoke(err);
       });
     }
+
+    /// <summary>
+    /// Attach a callback that performs new asyncronous work when the original promise fails
+    /// </summary>
     public static IPromise<T> FailOver<T>(this IPromise<T> promise, Func<IPromise<T>> callback)
     {
       var result = new Promise<T>();
@@ -160,6 +191,7 @@ namespace Innovator.Client
           }));
       return result;
     }
+
     /// <summary>
     /// Create a new promise which is already rejected
     /// </summary>
@@ -169,6 +201,7 @@ namespace Innovator.Client
       result.Reject(ex);
       return result;
     }
+
     /// <summary>
     /// Create a new promise which is already resolved
     /// </summary>
@@ -178,6 +211,7 @@ namespace Innovator.Client
       result.Resolve(data);
       return result;
     }
+
     /// <summary>
     /// Changes the invokation logic of the promise (e.g. to trigger invokation on the UI thread)
     /// </summary>
@@ -263,6 +297,14 @@ namespace Innovator.Client
     {
       return promise.ToTask().GetAwaiter();
     }
+
+    /// <summary>
+    /// Configures an awaiter used to await this <see cref="IPromise{T}"/>
+    /// </summary>
+    /// <param name="promise">The promise to configure the awaig for.</param>
+    /// <param name="continueOnCapturedContext"><c>true</c> to attempt to marshal the continuation 
+    /// back to the original context captured; otherwise, <c>false</c>.</param>
+    /// <returns>An object used to await this promise.</returns>
     public static System.Runtime.CompilerServices.ConfiguredTaskAwaitable<T> ConfigureAwait<T>(this IPromise<T> promise, bool continueOnCapturedContext)
     {
       return promise.ToTask().ConfigureAwait(continueOnCapturedContext);

@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Innovator.Client.Connection
 {
-  public class MemoryCache<TKey, TValue>
+  internal class MemoryCache<TKey, TValue>
   {
-    private object _mutex = new object();
+    private readonly object _mutex = new object();
     private long _size;
-    private Dictionary<TKey, CacheEntry> _cache = new Dictionary<TKey, CacheEntry>();
+    private readonly Dictionary<TKey, CacheEntry> _cache = new Dictionary<TKey, CacheEntry>();
 
     public long MaxSize { get; set; }
 
@@ -41,7 +41,7 @@ namespace Innovator.Client.Connection
         value = default(TValue);
         CacheEntry entry;
         if (!_cache.TryGetValue(key, out entry)) return false;
-        
+
         entry.LastAccess = DateTime.UtcNow;
         value = entry.Value;
         return true;
@@ -68,8 +68,8 @@ namespace Innovator.Client.Connection
       public DateTime LastAccess { get; set; }
       public int Size
       {
-        get 
-        { 
+        get
+        {
           if (typeof(TValue).IsArray)
           {
             if (this.Value == null) return 0;
@@ -78,7 +78,7 @@ namespace Innovator.Client.Connection
             if (count == 0) return 0;
             return count * Marshal.SizeOf(list[0]);
           }
-          return Marshal.SizeOf(this.Value); 
+          return Marshal.SizeOf(this.Value);
         }
       }
     }

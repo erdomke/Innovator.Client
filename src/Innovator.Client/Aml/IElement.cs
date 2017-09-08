@@ -26,7 +26,10 @@ namespace Innovator.Client
     /// otherwise, returns <c>false</c> to indicate that the element is just a null placeholder
     /// put in place to reduce unnecessary null reference checks</summary>
     bool Exists { get; }
-    /// <summary>Local XML name of the element</summary>
+    /// <summary>Local XML name of the element (e.g. <c>Item</c>, <c>Relationships</c>, 
+    /// <c>config_id</c>, etc.).  To access the property <c>&lt;name&gt;</c>, there will be a 
+    /// method such as <see cref="Model.ItemType.NameProp"/></summary>
+    /// <value>The XML name of the element</value>
     string Name { get; }
     /// <summary>Retrieve the parent element</summary>
     IReadOnlyElement Parent { get; }

@@ -11,10 +11,12 @@ namespace Innovator.Client
     /// AML context used for creating AML objects and formatting AML statements
     /// </summary>
     ElementFactory AmlContext { get; }
+
     /// <summary>
     /// Name of the connected database
     /// </summary>
     string Database { get; }
+
     /// <summary>
     /// ID of the authenticated user
     /// </summary>

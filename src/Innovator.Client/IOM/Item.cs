@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Innovator.Server;
 
 namespace Innovator.Client.IOM
 {
@@ -12,11 +13,11 @@ namespace Innovator.Client.IOM
   /// Wraps an AML object with a API which is compatible with 
   /// <a href="http://www.aras.com/support/documentation/DocumentView.aspx?file=./11.0%20SP9/Other%20Documentation/On-Line%20.NET%20API%20Guide.html">Aras's IOM</a>
   /// </summary>
-  public partial class Item : IReadOnlyResult, IItem
+  public partial class Item : IReadOnlyResult, IItem, Server.ISingleItemContext
   {
-    private IConnection _conn;
+    private readonly IConnection _conn;
     private object _content;
-    private IElement _parent;
+    private readonly IElement _parent;
 
     internal Item(IConnection conn, params object[] args)
     {
@@ -475,6 +476,11 @@ namespace Innovator.Client.IOM
     {
       return AssertItem().TypeName();
     }
+    #endregion
+
+    #region ISingleItemContext
+    IReadOnlyItem ISingleItemContext.Item { get { return AssertItem(); } }
+    IServerConnection IContext.Conn { get { return (IServerConnection)_conn; } }
     #endregion
 
     /// <summary>

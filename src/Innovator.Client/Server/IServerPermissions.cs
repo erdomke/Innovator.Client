@@ -30,11 +30,11 @@ namespace Innovator.Server
     /// <returns>A list of identities that the user <paramref name="userId"/> is in.</returns>
     IEnumerable<string> Identities(string userId);
     /// <summary>
-    /// Adds the <paramref name="identName"/> identity to the identity list of the current connection
+    /// Adds the <paramref name="identNames"/> identity to the identity list of the current connection
     /// </summary>
-    /// <param name="identName">Name of the identity to add</param>
+    /// <param name="identNames">Names of the identities to add</param>
     /// <returns>A <see cref="IDisposable"/> object.  Calling <see cref="IDisposable.Dispose"/> will 
     /// return the identity list to its original state</returns>
-    IDisposable Escalate(string identName);
+    IDisposable Escalate(params string[] identNames);
   }
 }

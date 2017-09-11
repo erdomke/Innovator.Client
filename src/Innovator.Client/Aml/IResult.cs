@@ -78,8 +78,9 @@ namespace Innovator.Client
     /// the server or a new exception will be thrown</exception>
     IEnumerable<IReadOnlyItem> AssertItems();
     /// <summary>Do nothing other than throw an exception if there is an error other than 'No Items Found'</summary>
-    /// <exception cref="ServerException">If the exception returned from the server is anything other than
-    /// <see cref="NoItemsFoundException"/>, the exception will be thrown</exception>
+    /// <exception cref="ServerException">If an exception was returned from the server (including 
+    /// <see cref="NoItemsFoundException"/>), the exception will be thrown</exception>
+    /// <returns>The current <see cref="IReadOnlyResult"/> for chaining additional methods</returns>
     IReadOnlyResult AssertNoError();
     /// <summary>Return an exception (if there is one), otherwise, return <c>null</c></summary>
     ServerException Exception { get; }

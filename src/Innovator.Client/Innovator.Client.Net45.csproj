@@ -417,6 +417,7 @@
     <Compile Include="IOM\Item.IOM.cs" />
     <Compile Include="IO\IXmlStream.cs" />
     <Compile Include="IO\MemoryTributary.cs" />
+    <Compile Include="IO\XmlStream.cs" />
     <Compile Include="Queryable\AmlQuery.cs" />
     <Compile Include="Queryable\AmlVisitor.cs" />
     <Compile Include="Queryable\ArasNameAttribute.cs" />
@@ -432,7 +433,6 @@
     <Compile Include="Queryable\QueryTranslator.cs" />
     <Compile Include="Queryable\SelectVisitor.cs" />
     <Compile Include="Queryable\TypeHelper.cs" />
-    <Compile Include="Server\IomServerConnection.cs" />
     <Compile Include="Connection\IVaultStrategy.cs" />
     <Compile Include="Connection\MappedConnection.cs" />
     <Compile Include="Connection\ServerMapping.cs" />

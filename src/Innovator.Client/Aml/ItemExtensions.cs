@@ -725,7 +725,7 @@ namespace Innovator.Client
     {
       var results = new List<T>();
       var select = new SelectNode();
-      var missingPropsItems = new List<Tuple<int, IReadOnlyItem>>();
+      var missingPropsItems = new List<KeyValuePair<int, IReadOnlyItem>>();
 
       foreach (var item in items)
       {
@@ -741,15 +741,15 @@ namespace Innovator.Client
         {
           if (string.IsNullOrEmpty(item.Id()))
             throw new ArgumentException(string.Format("No id specified for the item '{0}'", item.ToAml()));
-          missingPropsItems.Add(Tuple.Create(results.Count - 1, item));
+          missingPropsItems.Add(new KeyValuePair<int, IReadOnlyItem>(results.Count - 1, item));
         }
       }
 
-      foreach (var group in missingPropsItems.GroupBy(t => t.Item2.TypeName()))
+      foreach (var group in missingPropsItems.GroupBy(t => t.Value.TypeName()))
       {
         var aml = conn.AmlContext;
         var query = aml.Item(aml.Action("get"), aml.Type(group.Key), aml.Select(select));
-        var ids = group.Select(t => t.Item2.Id()).GroupConcat(",");
+        var ids = group.Select(t => t.Value.Id()).GroupConcat(",");
         if (ids.IndexOf(',') > 0)
           query.IdList().Set(ids);
         else
@@ -759,15 +759,15 @@ namespace Innovator.Client
         IReadOnlyItem item;
         foreach (var tuple in group)
         {
-          if (dict.TryGetValue(tuple.Item2.Id(), out item))
+          if (dict.TryGetValue(tuple.Value.Id(), out item))
           {
-            results[tuple.Item1] = mapper.Invoke(item);
+            results[tuple.Key] = mapper.Invoke(item);
           }
           // So the top item couldn't be found (e.g. perhaps this is during an onBeforeAdd).  Now, let's try filling
           // in any multi-level selects
           else if (select[0].Any(s => s.Count > 0))
           {
-            var clone = tuple.Item2.Clone();
+            var clone = tuple.Value.Clone();
             foreach (var multiSelect in select[0].Where(s => s.Count > 0 && s.Name != "id" && s.Name != "config_id"))
             {
               if (clone.Property(multiSelect.Name).HasValue() && clone.Property(multiSelect.Name).Type().HasValue())
@@ -783,7 +783,7 @@ namespace Innovator.Client
                 }
               }
             }
-            results[tuple.Item1] = mapper.Invoke(clone);
+            results[tuple.Key] = mapper.Invoke(clone);
           }
         }
       }

@@ -6,6 +6,7 @@ using System.Xml;
 using System.IO;
 using System.Xml.Linq;
 using System.Threading;
+using Innovator.Server;
 
 namespace Innovator.Client
 {
@@ -698,48 +699,120 @@ namespace Innovator.Client
     /// </example>
     public static T LazyMap<T>(this IReadOnlyItem item, IConnection conn, Func<IReadOnlyItem, T> mapper)
     {
+      return LazyMap(new IReadOnlyItem[] { item }, conn, mapper).Single();
+    }
+
+    /// <summary>
+    /// Maps an set of items to new objects.  If there are properties which couldn't be found 
+    /// during the initial mapping, the method will query the database and run the mapper again 
+    /// with the database results
+    /// </summary>
+    /// <param name="items">The set of items to map</param>
+    /// <param name="conn">Connection used for querying the database when property values are not available</param>
+    /// <param name="mapper">Function which creates a new object by referencing values from the item</param>
+    /// <example>
+    /// <code lang="C#">
+    /// var results = items.LazyMap(conn, i => new
+    /// {
+    ///   FirstName = i.CreatedById().AsItem().Property("first_name").Value,
+    ///   PermName = i.PermissionId().AsItem().Property("name").Value,
+    ///   KeyedName = i.Property("id").KeyedName().Value,
+    ///   Empty = i.OwnedById().Value
+    /// });
+    /// </code>
+    /// </example>
+    public static IEnumerable<T> LazyMap<T>(this IEnumerable<IReadOnlyItem> items, IConnection conn, Func<IReadOnlyItem, T> mapper)
+    {
+      var results = new List<T>();
       var select = new SelectNode();
-      var missingProps = false;
-      var watched = new ItemWatcher(item, "", (path, exists) =>
+      var missingPropsItems = new List<Tuple<int, IReadOnlyItem>>();
+
+      foreach (var item in items)
       {
-        select.EnsurePath(path.Split('/'));
-        missingProps = missingProps || !exists;
-      });
-      var result = mapper.Invoke(watched);
-      if (missingProps)
-      {
-        if (string.IsNullOrEmpty(item.Id())) throw new ArgumentException(string.Format("No id specified for the item '{0}'", item.ToAml()));
-        var aml = conn.AmlContext;
-        var query = aml.Item(aml.Action("get"), aml.Type(item.Type().Value), aml.Select(select), aml.Id(item.Id()));
-        var res = query.Apply(conn);
-        if (res.Items().Any())
+        var missingProps = false;
+        var watched = new ItemWatcher(item, "", (path, exists) =>
         {
-          result = mapper.Invoke(res.AssertItem());
-        }
-        // So the top item couldn't be found (e.g. perhaps this is during an onBeforeAdd).  Now, let's try filling
-        // in any multi-level selects
-        else if (select.First().Any(s => s.Any()))
+          select.EnsurePath(path.Split('/'));
+          missingProps = missingProps || !exists;
+        });
+
+        results.Add(mapper.Invoke(watched));
+        if (missingProps)
         {
-          var clone = item.Clone();
-          foreach (var multiSelect in select.First().Where(s => s.Any() && s.Name != "id" && s.Name != "config_id"))
-          {
-            if (clone.Property(multiSelect.Name).HasValue() && clone.Property(multiSelect.Name).Type().HasValue())
-            {
-              query = aml.Item(aml.Action("get")
-                , aml.Type(clone.Property(multiSelect.Name).Type().Value)
-                , aml.Select(multiSelect)
-                , aml.Id(clone.Property(multiSelect.Name).Value));
-              res = query.Apply(conn);
-              if (res.Items().Any())
-              {
-                clone.Property(multiSelect.Name).Set(res.AssertItem());
-              }
-            }
-          }
-          result = mapper.Invoke(clone);
+          if (string.IsNullOrEmpty(item.Id()))
+            throw new ArgumentException(string.Format("No id specified for the item '{0}'", item.ToAml()));
+          missingPropsItems.Add(Tuple.Create(results.Count - 1, item));
         }
       }
-      return result;
+
+      foreach (var group in missingPropsItems.GroupBy(t => t.Item2.TypeName()))
+      {
+        var aml = conn.AmlContext;
+        var query = aml.Item(aml.Action("get"), aml.Type(group.Key), aml.Select(select));
+        var ids = group.Select(t => t.Item2.Id()).GroupConcat(",");
+        if (ids.IndexOf(',') > 0)
+          query.IdList().Set(ids);
+        else
+          query.Attribute("id").Set(ids);
+        var dict = query.Apply(conn).Items().ToDictionary(i => i.Id());
+
+        IReadOnlyItem item;
+        foreach (var tuple in group)
+        {
+          if (dict.TryGetValue(tuple.Item2.Id(), out item))
+          {
+            results[tuple.Item1] = mapper.Invoke(item);
+          }
+          // So the top item couldn't be found (e.g. perhaps this is during an onBeforeAdd).  Now, let's try filling
+          // in any multi-level selects
+          else if (select[0].Any(s => s.Count > 0))
+          {
+            var clone = tuple.Item2.Clone();
+            foreach (var multiSelect in select[0].Where(s => s.Count > 0 && s.Name != "id" && s.Name != "config_id"))
+            {
+              if (clone.Property(multiSelect.Name).HasValue() && clone.Property(multiSelect.Name).Type().HasValue())
+              {
+                query = aml.Item(aml.Action("get")
+                  , aml.Type(clone.Property(multiSelect.Name).Type().Value)
+                  , aml.Select(multiSelect)
+                  , aml.Id(clone.Property(multiSelect.Name).Value));
+                var res = query.Apply(conn);
+                if (res.Items().Any())
+                {
+                  clone.Property(multiSelect.Name).Set(res.AssertItem());
+                }
+              }
+            }
+            results[tuple.Item1] = mapper.Invoke(clone);
+          }
+        }
+      }
+
+      return results;
+    }
+
+    /// <summary>
+    /// Maps an item to a new object.  If there are properties which couldn't be found during the
+    /// initial mapping, the method will query the database and run the mapper again with the
+    /// database results
+    /// </summary>
+    /// <param name="context">Context containing the item to map and the connection used for 
+    /// querying the database when property values are not available</param>
+    /// <param name="mapper">Function which creates a new object by referencing values from the item</param>
+    /// <example>
+    /// <code lang="C#">
+    /// var result = arg.LazyMap(i => new
+    /// {
+    ///   FirstName = i.CreatedById().AsItem().Property("first_name").Value,
+    ///   PermName = i.PermissionId().AsItem().Property("name").Value,
+    ///   KeyedName = i.Property("id").KeyedName().Value,
+    ///   Empty = i.OwnedById().Value
+    /// });
+    /// </code>
+    /// </example>
+    public static T LazyMap<T>(this ISingleItemContext context, Func<IReadOnlyItem, T> mapper)
+    {
+      return context.Item.LazyMap<T>(context.Conn, mapper);
     }
 
     private class ItemWatcher : ItemWrapper

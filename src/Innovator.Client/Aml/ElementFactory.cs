@@ -301,6 +301,16 @@ namespace Innovator.Client
     {
       return new Attribute("idlist", value);
     }
+    /// <summary>Create a new <c>idlist</c> attribute</summary>
+    public IAttribute IdList(IEnumerable<string> values)
+    {
+      return new Attribute("idlist", values.GroupConcat(","));
+    }
+    /// <summary>Create a new <c>idlist</c> attribute</summary>
+    public IAttribute IdList(IEnumerable<Guid> values)
+    {
+      return new Attribute("idlist", values.GroupConcat(",", i => i.ToArasId()));
+    }
     /// <summary>Create a new <c>id</c> property</summary>
     /// <param name="content">The initial content of the elment (attributes, elements, or values)</param>
     public IProperty IdProp(params object[] content)

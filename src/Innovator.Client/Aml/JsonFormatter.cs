@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 
 namespace Innovator.Client
@@ -29,7 +27,7 @@ namespace Innovator.Client
       IFormattable formattable;
       if (ServerContext.TryCastNumber(arg, out formattable))
         return formattable.ToString(format, CultureInfo.CurrentCulture);
-      
+
       formattable = arg as IFormattable;
       var value = formattable == null ?
         arg.ToString() :

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Xml;
 
 namespace Innovator.Client
@@ -174,7 +173,7 @@ namespace Innovator.Client
 
       if (lcount < 0)
         throw new ArgumentOutOfRangeException("count", lcount, "Number of bytes to copy cannot be negative.");
-      
+
       var remaining = (_length - Position);
       if (lcount > remaining)
         lcount = remaining;
@@ -185,7 +184,7 @@ namespace Innovator.Client
         throw new ArgumentNullException("buffer", "Buffer cannot be null.");
       if (offset < 0)
         throw new ArgumentOutOfRangeException("offset", offset, "Destination offset cannot be negative.");
-      
+
       int read = 0;
       long copysize = 0;
       do

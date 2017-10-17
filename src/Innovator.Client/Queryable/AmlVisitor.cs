@@ -1,9 +1,8 @@
 ﻿#if REFLECTION
+using Innovator.Client.Model;
 using System;
-using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
-using Innovator.Client.Model;
 
 namespace Innovator.Client.Queryable
 {

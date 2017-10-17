@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Innovator.Client
+﻿namespace Innovator.Client
 {
   /// <summary>
   /// Reference to an Aras item specifying the type name and ID

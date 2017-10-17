@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
@@ -108,7 +104,7 @@ namespace Innovator.Client
     {
       return _timeZone.Equals(other._timeZone);
     }
-    
+
     /// <summary>
     /// Converts a time from one time zone to another.
     /// </summary>

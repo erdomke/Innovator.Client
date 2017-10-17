@@ -29,7 +29,7 @@ namespace Innovator.Client.Queryable
       var result = _conn.Apply(query.Aml.ToAml());
       return ConvertResult(result, expression, query);
     }
-    
+
     public IPromise<object> ExecuteAsync(Expression expression)
     {
       var asyncConn = _conn as IAsyncConnection;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Innovator.Client
+﻿namespace Innovator.Client
 {
   /// <summary>
   /// Specifies that an <see cref="System.Net.ICredentials"/> instance can be extracted from the credentials object

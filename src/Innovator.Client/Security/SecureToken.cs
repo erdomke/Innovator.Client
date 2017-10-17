@@ -1,14 +1,10 @@
 ﻿#if SECURESTRING
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Runtime.Serialization;
-using System.Security.Principal;
 using System.IO;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text;
 
 namespace Innovator.Client
 {
@@ -307,7 +303,8 @@ namespace Innovator.Client
     /// <param name="stream">The stream.</param>
     public void Write(Stream stream)
     {
-      UseBytes<bool>((ref byte[] p) => {
+      UseBytes<bool>((ref byte[] p) =>
+      {
         stream.Write(p, 0, p.Length);
         return true;
       });

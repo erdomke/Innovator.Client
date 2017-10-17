@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Innovator.Client.Connection
 {
-  internal class CacheVaultStrategy: IVaultStrategy
+  internal class CacheVaultStrategy : IVaultStrategy
   {
     private IVaultStrategy _child;
     private IPromise<IEnumerable<Vault>> _writePriority;

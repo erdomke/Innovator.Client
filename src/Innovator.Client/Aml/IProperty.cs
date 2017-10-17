@@ -211,11 +211,11 @@ namespace Innovator.Client
   /// <summary>
   /// Property of type date
   /// </summary>
-  public interface IProperty_Date    : IReadOnlyProperty_Date, IProperty_Base { }
+  public interface IProperty_Date : IReadOnlyProperty_Date, IProperty_Base { }
   /// <summary>
   /// Property of type item
   /// </summary>
-  public interface IProperty_Item<in T>    : IReadOnlyProperty_Item<T>, IProperty_Base
+  public interface IProperty_Item<in T> : IReadOnlyProperty_Item<T>, IProperty_Base
   {
     /// <summary>Value converted to a <see cref="IItem"/>.
     /// If the value cannot be converted, a 'null' item (where the
@@ -242,11 +242,11 @@ namespace Innovator.Client
   /// <summary>
   /// Property of type integer, decimal, float, etc.
   /// </summary>
-  public interface IProperty_Number  : IReadOnlyProperty_Number, IProperty_Base { }
+  public interface IProperty_Number : IReadOnlyProperty_Number, IProperty_Base { }
   /// <summary>
   /// Property that is of type text/string or something similar
   /// </summary>
-  public interface IProperty_Text    : IReadOnlyProperty_Text, IProperty_Base { }
+  public interface IProperty_Text : IReadOnlyProperty_Text, IProperty_Base { }
   /// <summary>
   /// Property that is of type image or something similar
   /// </summary>

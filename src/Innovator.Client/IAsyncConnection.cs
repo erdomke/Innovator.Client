@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Innovator.Client
+﻿namespace Innovator.Client
 {
   /// <summary>
   /// Interface for a connection to an Aras Innovator instance that allows asynchronous calls

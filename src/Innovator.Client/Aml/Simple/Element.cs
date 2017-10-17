@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace Innovator.Client
@@ -95,8 +94,11 @@ namespace Innovator.Client
     /// </summary>
     public bool ReadOnly
     {
-      get { return string.IsNullOrEmpty(Name)
-          || (_attr & ElementAttributes.ReadOnly) > 0; }
+      get
+      {
+        return string.IsNullOrEmpty(Name)
+      || (_attr & ElementAttributes.ReadOnly) > 0;
+      }
       set
       {
         if (value)

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Innovator.Client
+﻿namespace Innovator.Client
 {
   /// <summary>
   /// Possible value for the <c>condition</c> attribute of a property for an AML get query

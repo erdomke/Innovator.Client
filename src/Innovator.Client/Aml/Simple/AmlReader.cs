@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace Innovator.Client
@@ -20,7 +17,7 @@ namespace Innovator.Client
 
     internal AmlReader(ServerException ex) : this(GetElement(ex)) { }
     internal AmlReader(IReadOnlyResult result) : this(GetElement(result)) { }
-    internal AmlReader(IReadOnlyElement elem) : this (elem, new NameTable()) { }
+    internal AmlReader(IReadOnlyElement elem) : this(elem, new NameTable()) { }
     internal AmlReader(IReadOnlyElement elem, XmlNameTable table)
     {
       _stack.Push(Enumerable.Repeat(elem, 1).GetEnumerator());
@@ -57,8 +54,11 @@ namespace Innovator.Client
 
     public override bool IsEmptyElement
     {
-      get { return !_current.Elements().Any()
-        && string.IsNullOrEmpty(_current.Value); }
+      get
+      {
+        return !_current.Elements().Any()
+    && string.IsNullOrEmpty(_current.Value);
+      }
     }
 
     public override string LocalName

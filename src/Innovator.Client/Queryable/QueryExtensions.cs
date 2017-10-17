@@ -1,11 +1,8 @@
 ﻿#if REFLECTION
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
-using Innovator.Client.Queryable;
 using Innovator.Client.Model;
+using Innovator.Client.Queryable;
+using System;
+using System.Linq;
 
 namespace Innovator.Client
 {

@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Innovator.Server;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
-using System.IO;
-using System.Xml.Linq;
+#if TASKS
 using System.Threading;
-using Innovator.Server;
+#endif
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Innovator.Client
 {

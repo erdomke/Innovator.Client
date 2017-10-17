@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Innovator.Client.IOM
+﻿namespace Innovator.Client.IOM
 {
   /// <summary>
   /// Wraps a connection with a API which is compatible with 

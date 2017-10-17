@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -45,7 +43,7 @@ namespace Innovator.Client
       _forceCompressionOff = DisableCompression(mediaType);
     }
     internal SimpleContent(byte[] data) : this(new MemoryStream(data)) { }
-    internal SimpleContent(Stream stream) : base (stream)
+    internal SimpleContent(Stream stream) : base(stream)
     {
       _stream = stream;
     }

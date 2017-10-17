@@ -81,7 +81,7 @@ namespace Innovator.Client.Queryable
           return this.VisitListInit((ListInitExpression)exp);
         default:
           throw new Exception(string.Format("Unhandled expression type: '{0}'", exp.NodeType));
-        }
+      }
     }
 
     protected virtual MemberBinding VisitBinding(MemberBinding binding)
@@ -106,7 +106,7 @@ namespace Innovator.Client.Queryable
 
           throw new Exception(string.Format("Unhandled binding type '{0}'", binding.BindingType));
 
-        }
+      }
 
     }
 

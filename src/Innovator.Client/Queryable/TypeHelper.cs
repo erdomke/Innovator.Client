@@ -44,7 +44,7 @@ namespace Innovator.Client.Queryable
       }
       return null;
     }
-    
+
     public static Type GetElementType(Type seqType)
     {
       Type ienum = FindIEnumerable(seqType);

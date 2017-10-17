@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Innovator.Client
+﻿namespace Innovator.Client
 {
   /// <summary>
   /// A model representing a relationship where the <c>related_id</c> is of type <typeparamref name="TRelated"/>

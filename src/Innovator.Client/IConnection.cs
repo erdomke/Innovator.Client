@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Innovator.Client
+﻿namespace Innovator.Client
 {
   /// <summary>
   /// Interface for a connection to an Aras Innovator instance

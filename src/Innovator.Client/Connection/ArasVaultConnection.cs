@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 
 namespace Innovator.Client.Connection
 {
@@ -198,7 +195,7 @@ namespace Innovator.Client.Connection
         _conn.Process(new Command("<url>@0</url>", upload.Vault.Url)
                 .WithAction(CommandAction.TransformVaultServerURL), async)
                 .Convert(s => s.AsString());
-        //GetResult("TransformVaultServerURL", "<url>" + upload.Vault.Url + "</url>", async);
+      //GetResult("TransformVaultServerURL", "<url>" + upload.Vault.Url + "</url>", async);
 
       return urlPromise.Continue(u =>
       {

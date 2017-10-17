@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Innovator.Client.Connection
+﻿namespace Innovator.Client.Connection
 {
   /// <summary>
   /// A class which creates <see cref="Vault"/> objects from AML data

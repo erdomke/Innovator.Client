@@ -41,76 +41,76 @@
     DeleteVersionFile,
     /// <summary>Command action specific to this library used for downloading files</summary>
     DownloadFile
-    ,EditItem
-    ,EvaluateActivity
-    ,ExecuteEscalations
-    ,ExecuteReminders
-    ,ExportItemType
-    ,GenerateNewGUID
-    ,GenerateNewGUIDEx
-    ,GenerateParametersGrid
-    ,GenerateRelationshipsTabbar
-    ,GenerateRelationshipsTable
-    ,GetAffectedItems
-    ,GetAssignedActivities
-    ,GetAssignedTasks
-    ,GetConfigurableGridMetadata
-    ,GetCurrentUserID
-    ,GetFormForDisplay
-    ,GetHistoryItems
-    ,GetIdentityList
-    ,GetItem
-    ,GetItemAllVersions
-    ,GetItemLastVersion
-    ,GetItemNextStates
-    ,GetItemRelationships
-    ,GetItemTypeByFormID
-    ,GetItemTypeForClient
-    ,GetItemWhereUsed
-    ,GetMainTreeItems
-    ,GetNextSequence
-    ,GetPermissionsForClient
-    ,GetUsersList
-    ,GetUserWorkingDirectory
-    ,InstantiateWorkflow
-    ,LoadCache
-    ,LoadProcessInstance
-    ,LoadVersionFile
-    ,LockItem
-    ,LogMessage
-    ,LogOff
-    ,MergeItem
-    ,NewItem
-    ,NewRelationship
-    ,PopulateRelationshipsGrid
-    ,PopulateRelationshipsTables
-    ,ProcessReplicationQueue
-    ,PromoteItem
-    ,PurgeItem
-    ,ReassignActivity
-    ,RebuildKeyedName
-    ,RebuildView
-    ,ReplicationExecutionResult
-    ,ResetAllItemsAccess
-    ,ResetItemAccess
-    ,ResetLifeCycle
-    ,ResetServerCache
-    ,SaveCache
-    ,ServerErrorTest
-    ,SetDefaultLifeCycle
-    ,SetNullBooleanTo0
-    ,SetUserWorkingDirectory
-    ,SkipItem
-    ,StartDefaultWorkflow
-    ,StartNamedWorkflow
-    ,StartWorkflow
-    ,StoreVersionFile
-    ,TransformVaultServerURL
-    ,UnlockAll
-    ,UnlockItem
-    ,UpdateItem
-    ,ValidateUser
-    ,ValidateVote
-    ,ValidateWorkflowMap
+    , EditItem
+    , EvaluateActivity
+    , ExecuteEscalations
+    , ExecuteReminders
+    , ExportItemType
+    , GenerateNewGUID
+    , GenerateNewGUIDEx
+    , GenerateParametersGrid
+    , GenerateRelationshipsTabbar
+    , GenerateRelationshipsTable
+    , GetAffectedItems
+    , GetAssignedActivities
+    , GetAssignedTasks
+    , GetConfigurableGridMetadata
+    , GetCurrentUserID
+    , GetFormForDisplay
+    , GetHistoryItems
+    , GetIdentityList
+    , GetItem
+    , GetItemAllVersions
+    , GetItemLastVersion
+    , GetItemNextStates
+    , GetItemRelationships
+    , GetItemTypeByFormID
+    , GetItemTypeForClient
+    , GetItemWhereUsed
+    , GetMainTreeItems
+    , GetNextSequence
+    , GetPermissionsForClient
+    , GetUsersList
+    , GetUserWorkingDirectory
+    , InstantiateWorkflow
+    , LoadCache
+    , LoadProcessInstance
+    , LoadVersionFile
+    , LockItem
+    , LogMessage
+    , LogOff
+    , MergeItem
+    , NewItem
+    , NewRelationship
+    , PopulateRelationshipsGrid
+    , PopulateRelationshipsTables
+    , ProcessReplicationQueue
+    , PromoteItem
+    , PurgeItem
+    , ReassignActivity
+    , RebuildKeyedName
+    , RebuildView
+    , ReplicationExecutionResult
+    , ResetAllItemsAccess
+    , ResetItemAccess
+    , ResetLifeCycle
+    , ResetServerCache
+    , SaveCache
+    , ServerErrorTest
+    , SetDefaultLifeCycle
+    , SetNullBooleanTo0
+    , SetUserWorkingDirectory
+    , SkipItem
+    , StartDefaultWorkflow
+    , StartNamedWorkflow
+    , StartWorkflow
+    , StoreVersionFile
+    , TransformVaultServerURL
+    , UnlockAll
+    , UnlockItem
+    , UpdateItem
+    , ValidateUser
+    , ValidateVote
+    , ValidateWorkflowMap
   }
 }

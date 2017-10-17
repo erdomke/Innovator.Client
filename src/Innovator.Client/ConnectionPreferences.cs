@@ -351,32 +351,32 @@ namespace Innovator.Client
       }
 
 #if XMLLEGACY
-    public override void Close()
-    {
-      // Do nothing
-    }
+      public override void Close()
+      {
+        // Do nothing
+      }
 #endif
 
       private bool TryDecryptWindows(string encrypted, out SecureToken decrypted)
       {
         decrypted = string.Empty;
 #if SECURESTRING
-      try
-      {
-        var data = Convert.FromBase64String(encrypted);
-        var decryptedData = ProtectedData.Unprotect(data, Salt, DataProtectionScope.CurrentUser);
-        var chars = Encoding.UTF8.GetChars(decryptedData);
-        decrypted = new SecureToken(ref chars);
-        return true;
-      }
-      catch (System.Security.Cryptography.CryptographicException)
-      {
-        return false;
-      }
-      catch (FormatException)
-      {
-        return false;
-      }
+        try
+        {
+          var data = Convert.FromBase64String(encrypted);
+          var decryptedData = ProtectedData.Unprotect(data, Salt, DataProtectionScope.CurrentUser);
+          var chars = Encoding.UTF8.GetChars(decryptedData);
+          decrypted = new SecureToken(ref chars);
+          return true;
+        }
+        catch (System.Security.Cryptography.CryptographicException)
+        {
+          return false;
+        }
+        catch (FormatException)
+        {
+          return false;
+        }
 #else
         return false;
 #endif

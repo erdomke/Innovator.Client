@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Xml;
 
 namespace Innovator.Client
@@ -18,10 +14,10 @@ namespace Innovator.Client
     private long _length;
     private string _path;
 
-    public string Aml     { get { return _aml; } }
-    public string Id      { get { return _id; } }
-    public long Length    { get { return _length; } }
-    public string Path    { get { return _path; } }
+    public string Aml { get { return _aml; } }
+    public string Id { get { return _id; } }
+    public long Length { get { return _length; } }
+    public string Path { get { return _path; } }
 
     public CommandFile(string id, string path, string vaultId, bool isNew = true)
     {

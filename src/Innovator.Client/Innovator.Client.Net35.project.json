@@ -1,8 +1,0 @@
-﻿{
-  "supports": {},
-  "dependencies": {},
-  "runtimes": { "win": { } },
-  "frameworks": {
-    "net35": {}
-  }
-}

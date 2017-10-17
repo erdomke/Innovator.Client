@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 #if SERIALIZATION
 using System.Runtime.Serialization;
 #endif
-using System.Text;
-using System.Xml;
 
 namespace Innovator.Client
 {

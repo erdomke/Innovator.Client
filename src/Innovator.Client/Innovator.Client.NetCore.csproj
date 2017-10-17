@@ -25,7 +25,7 @@
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
   </PropertyGroup>
-
+<!--
   <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
     <PackageReference Include="HttpClientPolyfill" Version="1.0.0.6" />
     <PackageReference Include="TaskParallelLibrary" Version="1.0.2856.0" />
@@ -36,7 +36,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System" />
-  </ItemGroup>
+  </ItemGroup>-->
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
     <PackageReference Include="HttpClientPolyfill" Version="1.0.0.6" />
@@ -83,10 +83,11 @@
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
   </ItemGroup>
 
+  <!--
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
     <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
     <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT</DefineConstants>

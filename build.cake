@@ -41,7 +41,8 @@ private string[] MergeCompileLines(string[] file, string[] newCompiles)
 Task("Clean")
   .Does(() =>
 {
-  CleanDirectory(Directory("./src/Innovator.Client/bin/" + configuration + "/"));
+  CleanDirectory(Directory("./src/Innovator.Client/bin/"));
+  CleanDirectory(Directory("./src/Innovator.Client/obj/"));
   CleanDirectory(Directory("./publish/Innovator.Client/lib/"));
   CleanDirectory(Directory("./artifacts/"));
 });
@@ -73,33 +74,32 @@ Task("Patch-Project-Files")
   FileWriteLines("./src/Innovator.Client/Innovator.Client.Net45.csproj", newLines);
 });
 
-Task("Restore-NuGet-Packages")
+Task("Build-Net35")
   .IsDependentOn("Patch-Project-Files")
   .Does(() =>
 {
-  if (FileExists("./src/Innovator.Client/project.json"))
-    MoveFile("./src/Innovator.Client/project.json", "./src/Innovator.Client/__project.json");
-  if (FileExists("./src/Innovator.Client/project.lock.json"))
-    MoveFile("./src/Innovator.Client/project.lock.json", "./src/Innovator.Client/__project.lock.json");
-  
-  NuGetRestore("./src/Innovator.Client.Net35.sln");
-  DotNetCoreRestore("./src/Innovator.Client/Innovator.Client.NetCore.csproj");
-}).OnError(ex => 
-{
-  if (FileExists("./src/Innovator.Client/__project.json"))
-    MoveFile("./src/Innovator.Client/__project.json", "./src/Innovator.Client/project.json");
-  if (FileExists("./src/Innovator.Client/__project.lock.json"))
-    MoveFile("./src/Innovator.Client/__project.lock.json", "./src/Innovator.Client/project.lock.json");
+  try
+  {
+    CleanDirectory(Directory("./src/Innovator.Client/bin/"));
+    CleanDirectory(Directory("./src/Innovator.Client/obj/"));
+    NuGetRestore("./src/Innovator.Client.Net35.sln");
+    DotNetBuild("./src/Innovator.Client/Innovator.Client.Net35.csproj", settings =>
+      settings.SetConfiguration(configuration));    
+  }
+  catch (Exception ex)
+  {
+    Error(ex.ToString());
+    throw;
+  }
 });
 
 Task("Build")
-  .IsDependentOn("Restore-NuGet-Packages")
+  .IsDependentOn("Build-Net35")
   .Does(() =>
 {
-  
-  DotNetBuild("./src/Innovator.Client/Innovator.Client.Net35.csproj", settings =>
-    settings.SetConfiguration(configuration));
-  
+  CleanDirectory(Directory("./src/Innovator.Client/bin/"));
+  CleanDirectory(Directory("./src/Innovator.Client/obj/"));
+  DotNetCoreRestore("./src/Innovator.Client/Innovator.Client.NetCore.csproj");
   DotNetCoreBuild("./src/Innovator.Client/Innovator.Client.NetCore.csproj", new DotNetCoreBuildSettings
   {
      Configuration = configuration
@@ -111,12 +111,6 @@ Task("Build")
       && !f.ToString().EndsWith("Innovator.Client.xml", StringComparison.OrdinalIgnoreCase));
   foreach (var file in files)
     DeleteFile(file);
-}).Finally(() => 
-{
-  if (FileExists("./src/Innovator.Client/__project.json"))
-    MoveFile("./src/Innovator.Client/__project.json", "./src/Innovator.Client/project.json");
-  if (FileExists("./src/Innovator.Client/__project.lock.json"))
-    MoveFile("./src/Innovator.Client/__project.lock.json", "./src/Innovator.Client/project.lock.json");
 });
 
 Task("NuGet-Pack")

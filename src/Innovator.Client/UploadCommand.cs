@@ -51,7 +51,7 @@ namespace Innovator.Client
     {
       _vault = vault;
     }
-    
+
     /// <summary>
     /// Add a file to the upload request
     /// </summary>

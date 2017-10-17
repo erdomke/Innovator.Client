@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v3.5": {},
+    ".NETFramework,Version=v3.5/win": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    "": [],
+    ".NETFramework,Version=v3.5": []
+  },
+  "packageFolders": {
+    "C:\\Users\\eric.domke\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.Net35.csproj",
+      "projectName": "Innovator.Client.Net35",
+      "projectPath": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.Net35.csproj",
+      "projectJsonPath": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.Net35.project.json",
+      "projectStyle": "ProjectJson",
+      "validateRuntimeAssets": true,
+      "files": {
+        "lib/net35/Innovator.Client.Net35.dll": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\bin\\placeholder\\net35\\Innovator.Client.Net35.dll"
+      },
+      "frameworks": {
+        "net35": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net35": {}
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      }
+    }
+  }
+}

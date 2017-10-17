@@ -590,5 +590,14 @@ namespace Innovator.Client.Tests
       var newItem = aml.Item(user.Property("first_name"), user.Property("owned_by_id"));
       Assert.AreEqual("<Item><first_name>First</first_name><owned_by_id is_null=\"1\" /></Item>", newItem.ToAml());
     }
+
+    [TestMethod()]
+    public void ParseAttributes()
+    {
+      var aml = ElementFactory.Local;
+      const string xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item id='81C7B50296DA460CAB9498F6A01FB568' type='ItemType' action='add' levels='0' isTemp='1' doGetItem='0' /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      var item = aml.FromXml(xml).AssertItem();
+      Assert.AreEqual("81C7B50296DA460CAB9498F6A01FB568", item.Id());
+    }
   }
 }

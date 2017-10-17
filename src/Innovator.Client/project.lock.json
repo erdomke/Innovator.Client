@@ -2638,9 +2638,9 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.csproj",
-      "projectName": "Innovator.Client",
-      "projectPath": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.csproj",
+      "projectUniqueName": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.Net45.csproj",
+      "projectName": "Innovator.Client.Net45",
+      "projectPath": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\Innovator.Client.Net45.csproj",
       "projectJsonPath": "C:\\Users\\eric.domke\\Documents\\Code\\Innovator.Client\\src\\Innovator.Client\\project.json",
       "projectStyle": "ProjectJson"
     },

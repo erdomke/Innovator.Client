@@ -360,7 +360,7 @@ namespace Innovator.Client
           {
             var old = _stack.Pop();
             old.Remove();
-            peek.Add(old.Attributes());
+            peek.Add(((IReadOnlyItem)old).Attributes());
             //if (ReadOnly)
             //  ((Item)peek).SetFlag(ElementAttributes.FromDataStore);
             ((Item)peek).Parent = _stack.Count > 0 ? _stack.Peek() : null;

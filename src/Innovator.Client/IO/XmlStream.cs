@@ -65,6 +65,19 @@ namespace Innovator.Client
       EnsureStream().Write(buffer, offset, count);
     }
 
+    protected override void Dispose(bool disposing)
+    {
+      base.Dispose(disposing);
+      if (disposing)
+      {
+        _stream?.Dispose();
+        _stream = null;
+        var reader = _readerFactory?.Invoke() as IDisposable;
+        reader?.Dispose();
+        _readerFactory = null;
+      }
+    }
+
     private Stream EnsureStream()
     {
       if (_stream != null)

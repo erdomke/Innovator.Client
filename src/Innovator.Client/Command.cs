@@ -326,7 +326,7 @@ namespace Innovator.Client
     /// Create a command from an interpolated string
     /// </summary>
     /// <param name="formatted">Interpolated string to convert to a command</param>
-    public Command(FormattableString formatted)
+    public Command(FormattableString formatted) : this()
     {
       this.WithAml(formatted.Format, formatted.GetArguments());
       _sub.Style = ParameterStyle.CSharp;

@@ -17,10 +17,11 @@ namespace Innovator.Client
 
     internal static string HexString(this byte[] value, int offset = 0, int length = -1)
     {
-      if (length < 0) length = value.Length;
-      var builder = new StringBuilder(value.Length * 2);
+      if (length < 0)
+        length = value.Length - offset;
+      var builder = new StringBuilder(length * 2);
       int b;
-      for (int i = 0; i < value.Length; i++)
+      for (int i = offset; i < length + offset; i++)
       {
         b = value[i] >> 4;
         builder.Append((char)(55 + b + (((b - 10) >> 31) & -7)));
@@ -349,6 +350,43 @@ namespace Innovator.Client
 
       if (found) return result;
       throw errorHandler(0);
+    }
+
+    public static bool IsSha256Hash(this string value)
+    {
+      if (value == null || value.Length != 64) return false;
+      for (var i = 0; i < value.Length; i++)
+      {
+        switch (value[i])
+        {
+          case '0':
+          case '1':
+          case '2':
+          case '3':
+          case '4':
+          case '5':
+          case '6':
+          case '7':
+          case '8':
+          case '9':
+          case 'A':
+          case 'B':
+          case 'C':
+          case 'D':
+          case 'E':
+          case 'F':
+          case 'a':
+          case 'b':
+          case 'c':
+          case 'd':
+          case 'e':
+          case 'f':
+            break;
+          default:
+            return false;
+        }
+      }
+      return true;
     }
 
     public static bool IsGuid(this string value)

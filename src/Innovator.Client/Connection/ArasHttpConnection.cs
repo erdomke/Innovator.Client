@@ -251,12 +251,14 @@ namespace Innovator.Client.Connection
       var explicitCred = credentials as ExplicitCredentials;
       var hashCred = credentials as ExplicitHashCredentials;
       var winCred = credentials as WindowsCredentials;
+      var unHashedPassword = default(SecureToken);
 
       IPromise<bool> authProcess;
       if (explicitCred != null)
       {
         _httpDatabase = explicitCred.Database;
         _httpUsername = explicitCred.Username;
+        unHashedPassword = explicitCred.Password;
         _httpPassword = ElementFactory.Local.CalcMd5(explicitCred.Password);
         authProcess = Promises.Resolved(true);
       }
@@ -286,6 +288,7 @@ namespace Innovator.Client.Connection
             }
             else
             {
+              unHashedPassword = pwd;
               _httpPassword = ElementFactory.Local.CalcMd5(pwd);
             }
             return true;
@@ -303,7 +306,7 @@ namespace Innovator.Client.Connection
         authProcess.Continue(_ =>
           Process(new Command("<Item/>").WithAction(CommandAction.ValidateUser), async)
         )
-          .Progress((p, m) => result.Notify(p, m))
+          .Progress(result.Notify)
           .Done(r =>
           {
             string xml;
@@ -312,8 +315,20 @@ namespace Innovator.Client.Connection
               xml = reader.ReadToEnd();
             }
 
-            var data = XElement.Parse(xml).DescendantsAndSelf("Result").FirstOrDefault();
-            if (data == null)
+            var root = XElement.Parse(xml);
+            var data = root.DescendantsAndSelf("Result").FirstOrDefault();
+            var afNs = (XNamespace)"http://www.aras.com/InnovatorFault";
+            var authNode = root.DescendantsAndSelf(afNs + "supported_authentication_schema").FirstOrDefault();
+            if (authNode != null && unHashedPassword != null
+              && authNode.Element(afNs + "schema")?.Attribute("mode")?.Value == "SHA256"
+              && _httpPassword?.Length == 32)
+            {
+              // Switch from MD5 hashing to SHA256
+              Login(new ExplicitHashCredentials(_httpDatabase, _httpUsername, ElementFactory.Local.CalcSha256(unHashedPassword)), true)
+                .Done(result.Resolve)
+                .Fail(result.Reject);
+            }
+            else if (data == null)
             {
               var res = ElementFactory.Local.FromXml(xml);
               var ex = res.Exception ?? ElementFactory.Local.ServerException("Failed to login");

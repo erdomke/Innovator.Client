@@ -8,19 +8,18 @@ namespace Innovator.Client
   [DebuggerDisplay("Anonymous: {Database}")]
   public class AnonymousCredentials : ICredentials
   {
-    private string _database;
-
     /// <summary>
     /// The database to connect to
     /// </summary>
-    public string Database { get { return _database; } }
+    public string Database { get; }
 
     /// <summary>
     /// Instantiate an <c>AnonymousCredentials</c> instance
     /// </summary>
+    /// <param name="database">The database to connect to</param>
     public AnonymousCredentials(string database)
     {
-      _database = database;
+      Database = database;
     }
   }
 }

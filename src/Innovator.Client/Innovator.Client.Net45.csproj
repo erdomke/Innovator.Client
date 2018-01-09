@@ -480,6 +480,7 @@
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Security\SecureToken.cs" />
     <Compile Include="Security\SecureToken.Portable.cs" />
+    <Compile Include="Security\Sha256.cs" />
     <Compile Include="Server\Extensions.cs" />
     <Compile Include="Server\IServerCache.cs" />
     <Compile Include="Server\IServerConnection.cs" />

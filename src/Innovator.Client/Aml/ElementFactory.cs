@@ -624,6 +624,22 @@ namespace Innovator.Client
     /// <summary>
     /// Calculate the MD5 checksum of the securely stored value
     /// </summary>
+    public string CalcSha256(SecureToken value)
+    {
+      return value.UseBytes((ref byte[] b) => Sha256.ComputeHash(b)).ToLowerInvariant();
+    }
+
+    /// <summary>
+    /// Calculate the Sha256 checksum of the <c>string</c> value
+    /// </summary>
+    public string CalcSha256(string value)
+    {
+      return Sha256.ComputeHash(Utils.AsciiGetBytes(value)).ToLowerInvariant();
+    }
+
+    /// <summary>
+    /// Calculate the MD5 checksum of the securely stored value
+    /// </summary>
     public string CalcMd5(SecureToken value)
     {
       return value.UseBytes((ref byte[] b) => MD5.ComputeHash(b)).ToLowerInvariant();

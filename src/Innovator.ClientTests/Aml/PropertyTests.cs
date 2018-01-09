@@ -72,30 +72,33 @@ namespace Innovator.Client.Tests
 
       foreach (var zone in TimeZoneInfo.GetSystemTimeZones().Where(t => !zonesToIgnore.Contains(t.Id)))
       {
-        var summer = new DateTime(2017, 7, 1, 12, 0, 0, DateTimeKind.Unspecified);
-        var winter = new DateTime(2017, 1, 1, 12, 0, 0, DateTimeKind.Unspecified);
-        var custZone = TimeZoneData.ById(zone.Id);
+        for (var i = 0; i < 4; i++)
+        {
+          var summer = new DateTime(2017 + i, 7, 1, 12, 0, 0, DateTimeKind.Unspecified);
+          var winter = new DateTime(2017 + i, 1, 1, 12, 0, 0, DateTimeKind.Unspecified);
+          var custZone = TimeZoneData.ById(zone.Id);
 
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(summer, TimeZoneInfo.Utc, zone)
-          , TimeZoneData.ConvertTime(summer, TimeZoneData.Utc, custZone));
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(summer, zone, TimeZoneInfo.Utc)
-          , TimeZoneData.ConvertTime(summer, custZone, TimeZoneData.Utc));
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(winter, TimeZoneInfo.Utc, zone)
-          , TimeZoneData.ConvertTime(winter, TimeZoneData.Utc, custZone));
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(winter, zone, TimeZoneInfo.Utc)
-          , TimeZoneData.ConvertTime(winter, custZone, TimeZoneData.Utc));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(summer, TimeZoneInfo.Utc, zone)
+            , TimeZoneData.ConvertTime(summer, TimeZoneData.Utc, custZone));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(summer, zone, TimeZoneInfo.Utc)
+            , TimeZoneData.ConvertTime(summer, custZone, TimeZoneData.Utc));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(winter, TimeZoneInfo.Utc, zone)
+            , TimeZoneData.ConvertTime(winter, TimeZoneData.Utc, custZone));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(winter, zone, TimeZoneInfo.Utc)
+            , TimeZoneData.ConvertTime(winter, custZone, TimeZoneData.Utc));
 
-        Assert.AreEqual(zone.GetUtcOffset(summer), custZone.GetUtcOffset(summer));
-        Assert.AreEqual(zone.GetUtcOffset(winter), custZone.GetUtcOffset(winter));
+          Assert.AreEqual(zone.GetUtcOffset(summer), custZone.GetUtcOffset(summer));
+          Assert.AreEqual(zone.GetUtcOffset(winter), custZone.GetUtcOffset(winter));
 
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(3)), zone)
-          , TimeZoneData.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(3)), custZone));
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(3)), zone)
-          , TimeZoneData.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(3)), custZone));
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(-7.5)), zone)
-          , TimeZoneData.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(-7.5)), custZone));
-        Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(-7.5)), zone)
-          , TimeZoneData.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(-7.5)), custZone));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(3)), zone)
+            , TimeZoneData.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(3)), custZone));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(3)), zone)
+            , TimeZoneData.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(3)), custZone));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(-7.5)), zone)
+            , TimeZoneData.ConvertTime(new DateTimeOffset(summer, TimeSpan.FromHours(-7.5)), custZone));
+          Assert.AreEqual(TimeZoneInfo.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(-7.5)), zone)
+            , TimeZoneData.ConvertTime(new DateTimeOffset(winter, TimeSpan.FromHours(-7.5)), custZone));
+        }
       }
     }
 

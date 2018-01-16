@@ -21,6 +21,18 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void Aml2Sql_NoPermissions()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item action='get' type='Part' select='config_id'><id condition='in'>'71B2D9633CA14B1486E1FE473C7CF950','C0A0F17A9E3346D380ED015B1FD1F2A7','C5F56BF14FB64AB3BD0AF6AEE67AF00A'</id></Item>").AssertItem();
+      var writer = new AmlSqlWriter(new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.None });
+      item.ToAml(writer);
+      writer.Flush();
+      var render = AmlSqlRenderOption.SelectClause | AmlSqlRenderOption.FromClause | AmlSqlRenderOption.WhereClause;
+      Assert.AreEqual("select [Part].config_id from innovator.[Part] where [Part].id in ('71B2D9633CA14B1486E1FE473C7CF950', 'C0A0F17A9E3346D380ED015B1FD1F2A7', 'C5F56BF14FB64AB3BD0AF6AEE67AF00A')"
+        , writer.ToString(render));
+    }
+
+    [TestMethod()]
     public void Aml2Sql_MaxRecords()
     {
       var item = ElementFactory.Local.FromXml(@"<Item type='Part' action='get' maxRecords='100' queryType='Latest' queryDate='2017-05-11T17:37:00' select='id'>
@@ -52,7 +64,7 @@ namespace Innovator.Client.Tests
   <is_active_rev>1</is_active_rev>
   <keyed_name condition='like'>999-*</keyed_name>
 </Item>").AssertItem();
-      var writer = new AmlSqlWriter(new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.None } );
+      var writer = new AmlSqlWriter(new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.None });
       item.ToAml(writer);
       writer.Flush();
       Assert.AreEqual("[Part].is_active_rev = 1 and [Part].keyed_name like N'999-%'"

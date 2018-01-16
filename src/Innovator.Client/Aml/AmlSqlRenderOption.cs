@@ -6,24 +6,40 @@
   public enum AmlSqlRenderOption
   {
     /// <summary>
-    /// A <c>SELECT</c> query
+    /// The default render option.  This is the same as <see cref="SelectQuery"/>
     /// </summary>
-    SelectQuery,
+    Default = 0,
     /// <summary>
-    /// A query which returns the count of matching items
+    /// The <c>SELECT</c> clause of a <c>SELECT</c> query
     /// </summary>
-    CountQuery,
-    /// <summary>
-    /// A query which returns the offset of an item in a result set
-    /// </summary>
-    OffsetQuery,
+    SelectClause = 0x1,
     /// <summary>
     /// The <c>FROM</c> clause of a <c>SELECT</c> query
     /// </summary>
-    FromClause,
+    FromClause = 0x2,
     /// <summary>
     /// The <c>WHERE</c> clause of a <c>SELECT</c> query
     /// </summary>
-    WhereClause
+    WhereClause = 0x4,
+    /// <summary>
+    /// The <c>ORDER BY</c> clause of a <c>SELECT</c> query
+    /// </summary>
+    OrderByClause = 0x8,
+    /// <summary>
+    /// The <c>OFFSET</c> clause of a <c>SELECT</c> query
+    /// </summary>
+    OffsetClause = 0x10,
+    /// <summary>
+    /// A <c>SELECT</c> query
+    /// </summary>
+    SelectQuery = 0x1f,
+    /// <summary>
+    /// A query which returns the count of matching items
+    /// </summary>
+    CountQuery = 0x100,
+    /// <summary>
+    /// A query which returns the offset of an item in a result set
+    /// </summary>
+    OffsetQuery = 0x200,
   }
 }

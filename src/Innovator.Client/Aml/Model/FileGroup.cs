@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type FileGroup </summary>
+  [ArasName("FileGroup")]
   public class FileGroup : Item
   {
     protected FileGroup() { }

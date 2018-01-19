@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type FileExchangePackage </summary>
+  [ArasName("FileExchangePackage")]
   public class FileExchangePackage : Item
   {
     protected FileExchangePackage() { }
@@ -11,11 +12,13 @@ namespace Innovator.Client.Model
     static FileExchangePackage() { Innovator.Client.Item.AddNullItem<FileExchangePackage>(new FileExchangePackage { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>description</c> property of the item</summary>
+    [ArasName("description")]
     public IProperty_Text Description()
     {
       return this.Property("description");
     }
     /// <summary>Retrieve the <c>pkg_number</c> property of the item</summary>
+    [ArasName("pkg_number")]
     public IProperty_Text PkgNumber()
     {
       return this.Property("pkg_number");

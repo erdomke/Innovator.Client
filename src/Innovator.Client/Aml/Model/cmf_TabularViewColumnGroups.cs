@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_TabularViewColumnGroups </summary>
+  [ArasName("cmf_TabularViewColumnGroups")]
   public class cmf_TabularViewColumnGroups : Item, INullRelationship<cmf_TabularViewHeaderRow>
   {
     protected cmf_TabularViewColumnGroups() { }
@@ -11,31 +12,37 @@ namespace Innovator.Client.Model
     static cmf_TabularViewColumnGroups() { Innovator.Client.Item.AddNullItem<cmf_TabularViewColumnGroups>(new cmf_TabularViewColumnGroups { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>end_column</c> property of the item</summary>
+    [ArasName("end_column")]
     public IProperty_Number EndColumn()
     {
       return this.Property("end_column");
     }
     /// <summary>Retrieve the <c>group_style</c> property of the item</summary>
+    [ArasName("group_style")]
     public IProperty_Item<cmf_Style> GroupStyle()
     {
       return this.Property("group_style");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>start_column</c> property of the item</summary>
+    [ArasName("start_column")]
     public IProperty_Number StartColumn()
     {
       return this.Property("start_column");

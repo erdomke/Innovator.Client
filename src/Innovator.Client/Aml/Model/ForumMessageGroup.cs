@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ForumMessageGroup </summary>
+  [ArasName("ForumMessageGroup")]
   public class ForumMessageGroup : Item, INullRelationship<Forum>
   {
     protected ForumMessageGroup() { }
@@ -11,31 +12,37 @@ namespace Innovator.Client.Model
     static ForumMessageGroup() { Innovator.Client.Item.AddNullItem<ForumMessageGroup>(new ForumMessageGroup { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>aml</c> property of the item</summary>
+    [ArasName("aml")]
     public IProperty_Text Aml()
     {
       return this.Property("aml");
     }
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>group_type</c> property of the item</summary>
+    [ArasName("group_type")]
     public IProperty_Text GroupType()
     {
       return this.Property("group_type");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>user_criteria_id</c> property of the item</summary>
+    [ArasName("user_criteria_id")]
     public IProperty_Text UserCriteriaId()
     {
       return this.Property("user_criteria_id");

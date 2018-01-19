@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Configurable Grid Event </summary>
+  [ArasName("Configurable Grid Event")]
   public class ConfigurableGridEvent : Item, INullRelationship<Grid>, IRelationship<Method>
   {
     protected ConfigurableGridEvent() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static ConfigurableGridEvent() { Innovator.Client.Item.AddNullItem<ConfigurableGridEvent>(new ConfigurableGridEvent { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>grid_event</c> property of the item</summary>
+    [ArasName("grid_event")]
     public IProperty_Text GridEvent()
     {
       return this.Property("grid_event");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

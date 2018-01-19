@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ConversionTaskHandlerError </summary>
+  [ArasName("ConversionTaskHandlerError")]
   public class ConversionTaskHandlerError : Item, INullRelationship<ConversionTaskEventHandler>
   {
     protected ConversionTaskHandlerError() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static ConversionTaskHandlerError() { Innovator.Client.Item.AddNullItem<ConversionTaskHandlerError>(new ConversionTaskHandlerError { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>attempt_number</c> property of the item</summary>
+    [ArasName("attempt_number")]
     public IProperty_Number AttemptNumber()
     {
       return this.Property("attempt_number");
     }
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>error_message</c> property of the item</summary>
+    [ArasName("error_message")]
     public IProperty_Text ErrorMessage()
     {
       return this.Property("error_message");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

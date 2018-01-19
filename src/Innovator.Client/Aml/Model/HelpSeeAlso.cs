@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Help See Also </summary>
+  [ArasName("Help See Also")]
   public class HelpSeeAlso : Item, INullRelationship<Help>, IRelationship<Help>
   {
     protected HelpSeeAlso() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static HelpSeeAlso() { Innovator.Client.Item.AddNullItem<HelpSeeAlso>(new HelpSeeAlso { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>seq</c> property of the item</summary>
+    [ArasName("seq")]
     public IProperty_Number Seq()
     {
       return this.Property("seq");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

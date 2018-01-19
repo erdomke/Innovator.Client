@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_ContentTypeExportToExcel </summary>
+  [ArasName("cmf_ContentTypeExportToExcel")]
   public class cmf_ContentTypeExportToExcel : Item, Icmf_ContentTypeExportSetting, IFileContainerItems
   {
     protected cmf_ContentTypeExportToExcel() { }
@@ -11,6 +12,7 @@ namespace Innovator.Client.Model
     static cmf_ContentTypeExportToExcel() { Innovator.Client.Item.AddNullItem<cmf_ContentTypeExportToExcel>(new cmf_ContentTypeExportToExcel { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>template_file</c> property of the item</summary>
+    [ArasName("template_file")]
     public IProperty_Item<File> TemplateFile()
     {
       return this.Property("template_file");

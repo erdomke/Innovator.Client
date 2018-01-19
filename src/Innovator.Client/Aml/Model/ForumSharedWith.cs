@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ForumSharedWith </summary>
+  [ArasName("ForumSharedWith")]
   public class ForumSharedWith : Item, INullRelationship<Forum>
   {
     protected ForumSharedWith() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static ForumSharedWith() { Innovator.Client.Item.AddNullItem<ForumSharedWith>(new ForumSharedWith { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>shared_with_id</c> property of the item</summary>
+    [ArasName("shared_with_id")]
     public IProperty_Item<Identity> SharedWithId()
     {
       return this.Property("shared_with_id");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

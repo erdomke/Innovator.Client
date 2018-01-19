@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type CommandBarItem </summary>
+  [ArasName("CommandBarItem")]
   public class CommandBarItem : Item, ICommandBarItem
   {
     protected CommandBarItem() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static CommandBarItem() { Innovator.Client.Item.AddNullItem<CommandBarItem>(new CommandBarItem { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>additional_data</c> property of the item</summary>
+    [ArasName("additional_data")]
     public IProperty_Text AdditionalData()
     {
       return this.Property("additional_data");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>on_init_handler</c> property of the item</summary>
+    [ArasName("on_init_handler")]
     public IProperty_Item<Method> OnInitHandler()
     {
       return this.Property("on_init_handler");

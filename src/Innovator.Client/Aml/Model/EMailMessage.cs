@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type EMail Message </summary>
+  [ArasName("EMail Message")]
   public class EMailMessage : Item
   {
     protected EMailMessage() { }
@@ -11,36 +12,43 @@ namespace Innovator.Client.Model
     static EMailMessage() { Innovator.Client.Item.AddNullItem<EMailMessage>(new EMailMessage { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>body_html</c> property of the item</summary>
+    [ArasName("body_html")]
     public IProperty_Text BodyHtml()
     {
       return this.Property("body_html");
     }
     /// <summary>Retrieve the <c>body_plain</c> property of the item</summary>
+    [ArasName("body_plain")]
     public IProperty_Text BodyPlain()
     {
       return this.Property("body_plain");
     }
     /// <summary>Retrieve the <c>from_user</c> property of the item</summary>
+    [ArasName("from_user")]
     public IProperty_Item<User> FromUser()
     {
       return this.Property("from_user");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>query_string</c> property of the item</summary>
+    [ArasName("query_string")]
     public IProperty_Text QueryString()
     {
       return this.Property("query_string");
     }
     /// <summary>Retrieve the <c>subject</c> property of the item</summary>
+    [ArasName("subject")]
     public IProperty_Text Subject()
     {
       return this.Property("subject");

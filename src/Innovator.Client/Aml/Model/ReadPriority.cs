@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ReadPriority </summary>
+  [ArasName("ReadPriority")]
   public class ReadPriority : Item, INullRelationship<User>, IRelationship<Vault>
   {
     protected ReadPriority() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static ReadPriority() { Innovator.Client.Item.AddNullItem<ReadPriority>(new ReadPriority { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>priority</c> property of the item</summary>
+    [ArasName("priority")]
     public IProperty_Number Priority()
     {
       return this.Property("priority");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

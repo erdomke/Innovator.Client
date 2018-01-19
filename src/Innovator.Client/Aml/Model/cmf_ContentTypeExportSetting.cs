@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_ContentTypeExportSetting </summary>
+  [ArasName("cmf_ContentTypeExportSetting")]
   public class cmf_ContentTypeExportSetting : Item, Icmf_ContentTypeExportSetting
   {
     protected cmf_ContentTypeExportSetting() { }

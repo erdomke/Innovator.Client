@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type FileContainerItems </summary>
+  [ArasName("FileContainerItems")]
   public class FileContainerItems : Item, IFileContainerItems
   {
     protected FileContainerItems() { }

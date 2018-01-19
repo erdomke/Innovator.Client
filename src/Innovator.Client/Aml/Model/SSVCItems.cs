@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type SSVCItems </summary>
+  [ArasName("SSVCItems")]
   public class SSVCItems : Item, ISSVCItems
   {
     protected SSVCItems() { }

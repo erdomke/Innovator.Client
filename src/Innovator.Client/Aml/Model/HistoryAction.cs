@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type History Action </summary>
+  [ArasName("History Action")]
   public class HistoryAction : Item
   {
     protected HistoryAction() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static HistoryAction() { Innovator.Client.Item.AddNullItem<HistoryAction>(new HistoryAction { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>comment_text</c> property of the item</summary>
+    [ArasName("comment_text")]
     public IProperty_Text CommentText()
     {
       return this.Property("comment_text");
     }
     /// <summary>Retrieve the <c>is_internal</c> property of the item</summary>
+    [ArasName("is_internal")]
     public IProperty_Boolean IsInternal()
     {
       return this.Property("is_internal");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");

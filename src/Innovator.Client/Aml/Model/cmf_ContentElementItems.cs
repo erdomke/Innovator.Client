@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_ContentElementItems </summary>
+  [ArasName("cmf_ContentElementItems")]
   public class cmf_ContentElementItems : Item, Icmf_ContentElementItems
   {
     protected cmf_ContentElementItems() { }

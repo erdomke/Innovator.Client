@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type WSTypeAction </summary>
+  [ArasName("WSTypeAction")]
   public class WSTypeAction : Item, INullRelationship<WSType>
   {
     protected WSTypeAction() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static WSTypeAction() { Innovator.Client.Item.AddNullItem<WSTypeAction>(new WSTypeAction { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>custom_action_name</c> property of the item</summary>
+    [ArasName("custom_action_name")]
     public IProperty_Text CustomActionName()
     {
       return this.Property("custom_action_name");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

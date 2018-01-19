@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ConversionTask </summary>
+  [ArasName("ConversionTask")]
   public class ConversionTask : Item
   {
     protected ConversionTask() { }
@@ -11,41 +12,49 @@ namespace Innovator.Client.Model
     static ConversionTask() { Innovator.Client.Item.AddNullItem<ConversionTask>(new ConversionTask { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>error</c> property of the item</summary>
+    [ArasName("error")]
     public IProperty_Text Error()
     {
       return this.Property("error");
     }
     /// <summary>Retrieve the <c>file_id</c> property of the item</summary>
+    [ArasName("file_id")]
     public IProperty_Text FileId()
     {
       return this.Property("file_id");
     }
     /// <summary>Retrieve the <c>file_type</c> property of the item</summary>
+    [ArasName("file_type")]
     public IProperty_Item<FileType> FileType()
     {
       return this.Property("file_type");
     }
     /// <summary>Retrieve the <c>finished_on</c> property of the item</summary>
+    [ArasName("finished_on")]
     public IProperty_Date FinishedOn()
     {
       return this.Property("finished_on");
     }
     /// <summary>Retrieve the <c>rule_id</c> property of the item</summary>
+    [ArasName("rule_id")]
     public IProperty_Item<ConversionRule> RuleId()
     {
       return this.Property("rule_id");
     }
     /// <summary>Retrieve the <c>started_on</c> property of the item</summary>
+    [ArasName("started_on")]
     public IProperty_Date StartedOn()
     {
       return this.Property("started_on");
     }
     /// <summary>Retrieve the <c>status</c> property of the item</summary>
+    [ArasName("status")]
     public IProperty_Text Status()
     {
       return this.Property("status");
     }
     /// <summary>Retrieve the <c>user_data</c> property of the item</summary>
+    [ArasName("user_data")]
     public IProperty_Text UserData()
     {
       return this.Property("user_data");

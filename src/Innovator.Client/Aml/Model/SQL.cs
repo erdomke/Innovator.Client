@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type SQL </summary>
+  [ArasName("SQL")]
   public class SQL : Item
   {
     protected SQL() { }
@@ -11,46 +12,55 @@ namespace Innovator.Client.Model
     static SQL() { Innovator.Client.Item.AddNullItem<SQL>(new SQL { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>execution_count</c> property of the item</summary>
+    [ArasName("execution_count")]
     public IProperty_Number ExecutionCount()
     {
       return this.Property("execution_count");
     }
     /// <summary>Retrieve the <c>execution_flag</c> property of the item</summary>
+    [ArasName("execution_flag")]
     public IProperty_Text ExecutionFlag()
     {
       return this.Property("execution_flag");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>old_name</c> property of the item</summary>
+    [ArasName("old_name")]
     public IProperty_Text OldName()
     {
       return this.Property("old_name");
     }
     /// <summary>Retrieve the <c>oracle_body</c> property of the item</summary>
+    [ArasName("oracle_body")]
     public IProperty_Text OracleBody()
     {
       return this.Property("oracle_body");
     }
     /// <summary>Retrieve the <c>sqlserver_body</c> property of the item</summary>
+    [ArasName("sqlserver_body")]
     public IProperty_Text SqlserverBody()
     {
       return this.Property("sqlserver_body");
     }
     /// <summary>Retrieve the <c>stale</c> property of the item</summary>
+    [ArasName("stale")]
     public IProperty_Boolean Stale()
     {
       return this.Property("stale");
     }
     /// <summary>Retrieve the <c>transform_first</c> property of the item</summary>
+    [ArasName("transform_first")]
     public IProperty_Boolean TransformFirst()
     {
       return this.Property("transform_first");
     }
     /// <summary>Retrieve the <c>type</c> property of the item</summary>
+    [ArasName("type")]
     public IProperty_Text Type()
     {
       return this.Property("type");

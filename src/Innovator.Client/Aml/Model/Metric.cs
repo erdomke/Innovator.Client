@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Metric </summary>
+  [ArasName("Metric")]
   public class Metric : Item
   {
     protected Metric() { }
@@ -11,36 +12,43 @@ namespace Innovator.Client.Model
     static Metric() { Innovator.Client.Item.AddNullItem<Metric>(new Metric { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>color</c> property of the item</summary>
+    [ArasName("color")]
     public IProperty_Text Color()
     {
       return this.Property("color");
     }
     /// <summary>Retrieve the <c>frequency</c> property of the item</summary>
+    [ArasName("frequency")]
     public IProperty_Text Frequency()
     {
       return this.Property("frequency");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>link</c> property of the item</summary>
+    [ArasName("link")]
     public IProperty_Text Link()
     {
       return this.Property("link");
     }
     /// <summary>Retrieve the <c>method</c> property of the item</summary>
+    [ArasName("method")]
     public IProperty_Item<Method> Method()
     {
       return this.Property("method");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>stylesheet</c> property of the item</summary>
+    [ArasName("stylesheet")]
     public IProperty_Text Stylesheet()
     {
       return this.Property("stylesheet");

@@ -33,6 +33,6 @@ namespace Innovator.Client
     /// Gets the property metadata for an itemtype by name.
     /// </summary>
     /// <param name="itemType">Name of the itemtype</param>
-    IDictionary<string, Model.Property> GetProperties(string itemType);
+    IDictionary<string, Model.IPropertyDefinition> GetProperties(string itemType);
   }
 }

@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Body </summary>
+  [ArasName("Body")]
   public class Body : Item, INullRelationship<Form>
   {
     protected Body() { }
@@ -11,36 +12,43 @@ namespace Innovator.Client.Model
     static Body() { Innovator.Client.Item.AddNullItem<Body>(new Body { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>bg_attach</c> property of the item</summary>
+    [ArasName("bg_attach")]
     public IProperty_Text BgAttach()
     {
       return this.Property("bg_attach");
     }
     /// <summary>Retrieve the <c>bg_color</c> property of the item</summary>
+    [ArasName("bg_color")]
     public IProperty_Text BgColor()
     {
       return this.Property("bg_color");
     }
     /// <summary>Retrieve the <c>bg_image</c> property of the item</summary>
+    [ArasName("bg_image")]
     public IProperty_Text BgImage()
     {
       return this.Property("bg_image");
     }
     /// <summary>Retrieve the <c>bg_repeat</c> property of the item</summary>
+    [ArasName("bg_repeat")]
     public IProperty_Text BgRepeat()
     {
       return this.Property("bg_repeat");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Search Center </summary>
+  [ArasName("Search Center")]
   public class SearchCenter : Item
   {
     protected SearchCenter() { }

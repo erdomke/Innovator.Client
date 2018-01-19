@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ForumSearch </summary>
+  [ArasName("ForumSearch")]
   public class ForumSearch : Item, INullRelationship<Forum>, IRelationship<SavedSearch>
   {
     protected ForumSearch() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static ForumSearch() { Innovator.Client.Item.AddNullItem<ForumSearch>(new ForumSearch { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>description</c> property of the item</summary>
+    [ArasName("description")]
     public IProperty_Text Description()
     {
       return this.Property("description");
     }
     /// <summary>Retrieve the <c>is_board_only</c> property of the item</summary>
+    [ArasName("is_board_only")]
     public IProperty_Boolean IsBoardOnly()
     {
       return this.Property("is_board_only");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

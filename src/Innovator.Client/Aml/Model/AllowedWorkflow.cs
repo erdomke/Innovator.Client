@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Allowed Workflow </summary>
+  [ArasName("Allowed Workflow")]
   public class AllowedWorkflow : Item, INullRelationship<ItemType>, IRelationship<WorkflowMap>
   {
     protected AllowedWorkflow() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static AllowedWorkflow() { Innovator.Client.Item.AddNullItem<AllowedWorkflow>(new AllowedWorkflow { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>is_default</c> property of the item</summary>
+    [ArasName("is_default")]
     public IProperty_Boolean IsDefault()
     {
       return this.Property("is_default");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

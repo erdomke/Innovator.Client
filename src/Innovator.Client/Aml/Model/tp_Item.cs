@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type tp_Item </summary>
+  [ArasName("tp_Item")]
   public class tp_Item : Item, Itp_Item
   {
     protected tp_Item() { }

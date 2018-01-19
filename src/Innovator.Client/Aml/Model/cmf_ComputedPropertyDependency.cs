@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_ComputedPropertyDependency </summary>
+  [ArasName("cmf_ComputedPropertyDependency")]
   public class cmf_ComputedPropertyDependency : Item, INullRelationship<cmf_ComputedProperty>, IRelationship<cmf_PropertyType>
   {
     protected cmf_ComputedPropertyDependency() { }
@@ -11,11 +12,13 @@ namespace Innovator.Client.Model
     static cmf_ComputedPropertyDependency() { Innovator.Client.Item.AddNullItem<cmf_ComputedPropertyDependency>(new cmf_ComputedPropertyDependency { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

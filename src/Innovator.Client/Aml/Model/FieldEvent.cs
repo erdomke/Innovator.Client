@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Field Event </summary>
+  [ArasName("Field Event")]
   public class FieldEvent : Item, INullRelationship<Field>, IRelationship<Method>
   {
     protected FieldEvent() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static FieldEvent() { Innovator.Client.Item.AddNullItem<FieldEvent>(new FieldEvent { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>field_event</c> property of the item</summary>
+    [ArasName("field_event")]
     public IProperty_Text FieldEventProp()
     {
       return this.Property("field_event");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

@@ -10,8 +10,8 @@ namespace Innovator.Client
   /// <seealso cref="Innovator.Client.IAmlSqlWriterSettings" />
   public class ConnectedAmlSqlWriterSettings : IAmlSqlWriterSettings
   {
-    private readonly Dictionary<string, Dictionary<string, Model.Property>> _props
-      = new Dictionary<string, Dictionary<string, Model.Property>>();
+    private readonly Dictionary<string, Dictionary<string, Model.IPropertyDefinition>> _props
+      = new Dictionary<string, Dictionary<string, Model.IPropertyDefinition>>();
     private readonly IConnection _conn;
     private string _identList;
 
@@ -56,9 +56,9 @@ namespace Innovator.Client
     /// Gets the property metadata for an itemtype by name.
     /// </summary>
     /// <param name="itemType">Name of the itemtype</param>
-    public IDictionary<string, Model.Property> GetProperties(string itemType)
+    public IDictionary<string, Model.IPropertyDefinition> GetProperties(string itemType)
     {
-      Dictionary<string, Model.Property> result;
+      Dictionary<string, Model.IPropertyDefinition> result;
       if (!_props.TryGetValue(itemType, out result))
       {
         result = _conn.Apply(@"<Item type='Property' action='get'>
@@ -69,7 +69,7 @@ namespace Innovator.Client
   </source_id>
 </Item>", itemType)
           .Items()
-          .OfType<Model.Property>()
+          .OfType<Model.IPropertyDefinition>()
           .ToDictionary(p => p.NameProp().Value);
         _props[itemType] = result;
       }

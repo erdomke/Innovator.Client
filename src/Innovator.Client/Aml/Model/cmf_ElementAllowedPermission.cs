@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_ElementAllowedPermission </summary>
+  [ArasName("cmf_ElementAllowedPermission")]
   public class cmf_ElementAllowedPermission : Item, INullRelationship<cmf_ElementType>, IRelationship<Permission>
   {
     protected cmf_ElementAllowedPermission() { }
@@ -11,11 +12,13 @@ namespace Innovator.Client.Model
     static cmf_ElementAllowedPermission() { Innovator.Client.Item.AddNullItem<cmf_ElementAllowedPermission>(new cmf_ElementAllowedPermission { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

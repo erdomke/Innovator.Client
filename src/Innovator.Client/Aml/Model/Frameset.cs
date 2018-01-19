@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Frameset </summary>
+  [ArasName("Frameset")]
   public class Frameset : Item, INullRelationship<Form>
   {
     protected Frameset() { }
@@ -11,36 +12,43 @@ namespace Innovator.Client.Model
     static Frameset() { Innovator.Client.Item.AddNullItem<Frameset>(new Frameset { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>cols</c> property of the item</summary>
+    [ArasName("cols")]
     public IProperty_Text Cols()
     {
       return this.Property("cols");
     }
     /// <summary>Retrieve the <c>frameborder</c> property of the item</summary>
+    [ArasName("frameborder")]
     public IProperty_Text Frameborder()
     {
       return this.Property("frameborder");
     }
     /// <summary>Retrieve the <c>framespacing</c> property of the item</summary>
+    [ArasName("framespacing")]
     public IProperty_Number Framespacing()
     {
       return this.Property("framespacing");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>rows_</c> property of the item</summary>
+    [ArasName("rows_")]
     public IProperty_Text Rows()
     {
       return this.Property("rows_");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

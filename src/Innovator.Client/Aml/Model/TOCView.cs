@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type TOC View </summary>
+  [ArasName("TOC View")]
   public class TOCView : Item, INullRelationship<ItemType>, IRelationship<Identity>
   {
     protected TOCView() { }
@@ -11,31 +12,37 @@ namespace Innovator.Client.Model
     static TOCView() { Innovator.Client.Item.AddNullItem<TOCView>(new TOCView { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>form</c> property of the item</summary>
+    [ArasName("form")]
     public IProperty_Item<Form> Form()
     {
       return this.Property("form");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>parameters</c> property of the item</summary>
+    [ArasName("parameters")]
     public IProperty_Text Parameters()
     {
       return this.Property("parameters");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>start_page</c> property of the item</summary>
+    [ArasName("start_page")]
     public IProperty_Text StartPage()
     {
       return this.Property("start_page");

@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type tp_Stylesheet </summary>
+  [ArasName("tp_Stylesheet")]
   public class tp_Stylesheet : Item, INullRelationship<tp_XmlSchema>
   {
     protected tp_Stylesheet() { }
@@ -11,26 +12,31 @@ namespace Innovator.Client.Model
     static tp_Stylesheet() { Innovator.Client.Item.AddNullItem<tp_Stylesheet>(new tp_Stylesheet { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>parent_stylesheet</c> property of the item</summary>
+    [ArasName("parent_stylesheet")]
     public IProperty_Item<tp_Stylesheet> ParentStylesheet()
     {
       return this.Property("parent_stylesheet");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>style_content</c> property of the item</summary>
+    [ArasName("style_content")]
     public IProperty_Text StyleContent()
     {
       return this.Property("style_content");

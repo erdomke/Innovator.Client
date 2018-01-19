@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ConversionRuleFileType </summary>
+  [ArasName("ConversionRuleFileType")]
   public class ConversionRuleFileType : Item, INullRelationship<ConversionRule>, IRelationship<FileType>
   {
     protected ConversionRuleFileType() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static ConversionRuleFileType() { Innovator.Client.Item.AddNullItem<ConversionRuleFileType>(new ConversionRuleFileType { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>enabled</c> property of the item</summary>
+    [ArasName("enabled")]
     public IProperty_Boolean Enabled()
     {
       return this.Property("enabled");
     }
     /// <summary>Retrieve the <c>options</c> property of the item</summary>
+    [ArasName("options")]
     public IProperty_Text Options()
     {
       return this.Property("options");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

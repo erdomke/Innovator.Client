@@ -20,10 +20,14 @@ namespace Innovator.Client
     /// <summary>
     /// Return the value of a property parsed into the appropriate CLR type
     /// </summary>
-    public static object AsClrValue(this IReadOnlyProperty_Base prop, Model.Property meta)
+    public static object AsClrValue(this IReadOnlyProperty_Base prop, Model.IPropertyDefinition meta)
     {
-      while (meta.DataType().Value == "foreign" && meta.ForeignProperty().HasValue())
-        meta = (Model.Property)meta.ForeignProperty().AsItem();
+      var metaProp = meta as Model.Property;
+      while (meta.DataType().Value == "foreign" && metaProp?.ForeignProperty().HasValue() == true)
+      {
+        meta = (Model.IPropertyDefinition)metaProp.ForeignProperty().AsItem();
+        metaProp = meta as Model.Property;
+      }
 
       if (!prop.HasValue())
         return null;

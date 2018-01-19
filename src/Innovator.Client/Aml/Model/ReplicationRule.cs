@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type ReplicationRule </summary>
+  [ArasName("ReplicationRule")]
   public class ReplicationRule : Item, INullRelationship<Vault>, IRelationship<Identity>
   {
     protected ReplicationRule() { }
@@ -11,51 +12,61 @@ namespace Innovator.Client.Model
     static ReplicationRule() { Innovator.Client.Item.AddNullItem<ReplicationRule>(new ReplicationRule { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>do_replicate</c> property of the item</summary>
+    [ArasName("do_replicate")]
     public IProperty_Item<Method> DoReplicate()
     {
       return this.Property("do_replicate");
     }
     /// <summary>Retrieve the <c>initiator_type</c> property of the item</summary>
+    [ArasName("initiator_type")]
     public IProperty_Text InitiatorType()
     {
       return this.Property("initiator_type");
     }
     /// <summary>Retrieve the <c>is_active</c> property of the item</summary>
+    [ArasName("is_active")]
     public IProperty_Boolean IsActive()
     {
       return this.Property("is_active");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>max_wait</c> property of the item</summary>
+    [ArasName("max_wait")]
     public IProperty_Text MaxWait()
     {
       return this.Property("max_wait");
     }
     /// <summary>Retrieve the <c>replication_mode</c> property of the item</summary>
+    [ArasName("replication_mode")]
     public IProperty_Text ReplicationMode()
     {
       return this.Property("replication_mode");
     }
     /// <summary>Retrieve the <c>replication_time</c> property of the item</summary>
+    [ArasName("replication_time")]
     public IProperty_Text ReplicationTime()
     {
       return this.Property("replication_time");
     }
     /// <summary>Retrieve the <c>replication_type</c> property of the item</summary>
+    [ArasName("replication_type")]
     public IProperty_Text ReplicationType()
     {
       return this.Property("replication_type");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

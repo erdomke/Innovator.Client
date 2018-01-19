@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Activity Assignment </summary>
+  [ArasName("Activity Assignment")]
   public class ActivityAssignment : Item, INullRelationship<Activity>, IRelationship<Identity>
   {
     protected ActivityAssignment() { }
@@ -11,71 +12,85 @@ namespace Innovator.Client.Model
     static ActivityAssignment() { Innovator.Client.Item.AddNullItem<ActivityAssignment>(new ActivityAssignment { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>claimed_by</c> property of the item</summary>
+    [ArasName("claimed_by")]
     public IProperty_Item<Identity> ClaimedBy()
     {
       return this.Property("claimed_by");
     }
     /// <summary>Retrieve the <c>closed_by</c> property of the item</summary>
+    [ArasName("closed_by")]
     public IProperty_Item<User> ClosedBy()
     {
       return this.Property("closed_by");
     }
     /// <summary>Retrieve the <c>closed_on</c> property of the item</summary>
+    [ArasName("closed_on")]
     public IProperty_Date ClosedOn()
     {
       return this.Property("closed_on");
     }
     /// <summary>Retrieve the <c>comments</c> property of the item</summary>
+    [ArasName("comments")]
     public IProperty_Text Comments()
     {
       return this.Property("comments");
     }
     /// <summary>Retrieve the <c>escalate_to</c> property of the item</summary>
+    [ArasName("escalate_to")]
     public IProperty_Item<Identity> EscalateTo()
     {
       return this.Property("escalate_to");
     }
     /// <summary>Retrieve the <c>for_all_members</c> property of the item</summary>
+    [ArasName("for_all_members")]
     public IProperty_Boolean ForAllMembers()
     {
       return this.Property("for_all_members");
     }
     /// <summary>Retrieve the <c>is_disabled</c> property of the item</summary>
+    [ArasName("is_disabled")]
     public IProperty_Boolean IsDisabled()
     {
       return this.Property("is_disabled");
     }
     /// <summary>Retrieve the <c>is_overdue</c> property of the item</summary>
+    [ArasName("is_overdue")]
     public IProperty_Boolean IsOverdue()
     {
       return this.Property("is_overdue");
     }
     /// <summary>Retrieve the <c>is_required</c> property of the item</summary>
+    [ArasName("is_required")]
     public IProperty_Boolean IsRequired()
     {
       return this.Property("is_required");
     }
     /// <summary>Retrieve the <c>path</c> property of the item</summary>
+    [ArasName("path")]
     public IProperty_Text Path()
     {
       return this.Property("path");
     }
     /// <summary>Retrieve the <c>reminders_sent</c> property of the item</summary>
+    [ArasName("reminders_sent")]
     public IProperty_Number RemindersSent()
     {
       return this.Property("reminders_sent");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>voting_weight</c> property of the item</summary>
+    [ArasName("voting_weight")]
     public IProperty_Number VotingWeight()
     {
       return this.Property("voting_weight");

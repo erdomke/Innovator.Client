@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type FileExchangeTxn </summary>
+  [ArasName("FileExchangeTxn")]
   public class FileExchangeTxn : Item
   {
     protected FileExchangeTxn() { }
@@ -11,46 +12,55 @@ namespace Innovator.Client.Model
     static FileExchangeTxn() { Innovator.Client.Item.AddNullItem<FileExchangeTxn>(new FileExchangeTxn { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>comments</c> property of the item</summary>
+    [ArasName("comments")]
     public IProperty_Text Comments()
     {
       return this.Property("comments");
     }
     /// <summary>Retrieve the <c>data</c> property of the item</summary>
+    [ArasName("data")]
     public IProperty_Text Data()
     {
       return this.Property("data");
     }
     /// <summary>Retrieve the <c>error</c> property of the item</summary>
+    [ArasName("error")]
     public IProperty_Text Error()
     {
       return this.Property("error");
     }
     /// <summary>Retrieve the <c>package</c> property of the item</summary>
+    [ArasName("package")]
     public IProperty_Item<FileExchangePackage> Package()
     {
       return this.Property("package");
     }
     /// <summary>Retrieve the <c>service_provider</c> property of the item</summary>
+    [ArasName("service_provider")]
     public IProperty_Text ServiceProvider()
     {
       return this.Property("service_provider");
     }
     /// <summary>Retrieve the <c>transfer_attempts</c> property of the item</summary>
+    [ArasName("transfer_attempts")]
     public IProperty_Number TransferAttempts()
     {
       return this.Property("transfer_attempts");
     }
     /// <summary>Retrieve the <c>txn_number</c> property of the item</summary>
+    [ArasName("txn_number")]
     public IProperty_Text TxnNumber()
     {
       return this.Property("txn_number");
     }
     /// <summary>Retrieve the <c>txn_status</c> property of the item</summary>
+    [ArasName("txn_status")]
     public IProperty_Text TxnStatus()
     {
       return this.Property("txn_status");
     }
     /// <summary>Retrieve the <c>txn_type</c> property of the item</summary>
+    [ArasName("txn_type")]
     public IProperty_Text TxnType()
     {
       return this.Property("txn_type");

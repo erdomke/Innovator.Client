@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Inherited Server Events </summary>
+  [ArasName("Inherited Server Events")]
   public class InheritedServerEvents : Item, INullRelationship<ItemType>
   {
     protected InheritedServerEvents() { }
@@ -11,11 +12,13 @@ namespace Innovator.Client.Model
     static InheritedServerEvents() { Innovator.Client.Item.AddNullItem<InheritedServerEvents>(new InheritedServerEvents { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

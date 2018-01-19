@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_Style </summary>
+  [ArasName("cmf_Style")]
   public class cmf_Style : Item
   {
     protected cmf_Style() { }
@@ -11,46 +12,55 @@ namespace Innovator.Client.Model
     static cmf_Style() { Innovator.Client.Item.AddNullItem<cmf_Style>(new cmf_Style { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>background_color</c> property of the item</summary>
+    [ArasName("background_color")]
     public IProperty_Text BackgroundColor()
     {
       return this.Property("background_color");
     }
     /// <summary>Retrieve the <c>font_family</c> property of the item</summary>
+    [ArasName("font_family")]
     public IProperty_Text FontFamily()
     {
       return this.Property("font_family");
     }
     /// <summary>Retrieve the <c>font_size</c> property of the item</summary>
+    [ArasName("font_size")]
     public IProperty_Number FontSize()
     {
       return this.Property("font_size");
     }
     /// <summary>Retrieve the <c>font_style</c> property of the item</summary>
+    [ArasName("font_style")]
     public IProperty_Text FontStyle()
     {
       return this.Property("font_style");
     }
     /// <summary>Retrieve the <c>font_weight</c> property of the item</summary>
+    [ArasName("font_weight")]
     public IProperty_Text FontWeight()
     {
       return this.Property("font_weight");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>text_align</c> property of the item</summary>
+    [ArasName("text_align")]
     public IProperty_Text TextAlign()
     {
       return this.Property("text_align");
     }
     /// <summary>Retrieve the <c>text_color</c> property of the item</summary>
+    [ArasName("text_color")]
     public IProperty_Text TextColor()
     {
       return this.Property("text_color");
     }
     /// <summary>Retrieve the <c>text_decoration</c> property of the item</summary>
+    [ArasName("text_decoration")]
     public IProperty_Text TextDecoration()
     {
       return this.Property("text_decoration");

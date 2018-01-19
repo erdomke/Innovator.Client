@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Morphae </summary>
+  [ArasName("Morphae")]
   public class Morphae : Item, INullRelationship<ItemType>, IRelationship<ItemType>
   {
     protected Morphae() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static Morphae() { Innovator.Client.Item.AddNullItem<Morphae>(new Morphae { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>implementation_order</c> property of the item</summary>
+    [ArasName("implementation_order")]
     public IProperty_Number ImplementationOrder()
     {
       return this.Property("implementation_order");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

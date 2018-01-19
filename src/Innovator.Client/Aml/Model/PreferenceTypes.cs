@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type PreferenceTypes </summary>
+  [ArasName("PreferenceTypes")]
   public class PreferenceTypes : Item
   {
     protected PreferenceTypes() { }

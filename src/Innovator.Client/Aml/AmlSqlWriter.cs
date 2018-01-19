@@ -374,8 +374,8 @@ namespace Innovator.Client
 
     private void RenderCriteria(string itemType, string name, string str)
     {
-      var props = _settings.GetProperties(itemType) ?? new Dictionary<string, Model.Property>();
-      Model.Property prop;
+      var props = _settings.GetProperties(itemType) ?? new Dictionary<string, Model.IPropertyDefinition>();
+      Model.IPropertyDefinition prop;
       if (!props.TryGetValue(name, out prop))
         prop = Item.GetNullItem<Model.Property>();
 
@@ -934,6 +934,7 @@ namespace Innovator.Client
       {
         var props = _settings.GetProperties(item.Attributes["type"]).Values;
         var orderProps = props
+          .OfType<Model.Property>()
           .Where(p => p.OrderBy().HasValue())
           .OrderBy(p => p.OrderBy().AsInt(int.MaxValue));
         foreach (var prop in orderProps)

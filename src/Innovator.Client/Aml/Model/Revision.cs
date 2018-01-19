@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Revision </summary>
+  [ArasName("Revision")]
   public class Revision : Item
   {
     protected Revision() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static Revision() { Innovator.Client.Item.AddNullItem<Revision>(new Revision { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>revision</c> property of the item</summary>
+    [ArasName("revision")]
     public IProperty_Text RevisionProp()
     {
       return this.Property("revision");

@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type tp_XmlSchemaOutputSetting </summary>
+  [ArasName("tp_XmlSchemaOutputSetting")]
   public class tp_XmlSchemaOutputSetting : Item, INullRelationship<tp_XmlSchema>
   {
     protected tp_XmlSchemaOutputSetting() { }
@@ -11,36 +12,43 @@ namespace Innovator.Client.Model
     static tp_XmlSchemaOutputSetting() { Innovator.Client.Item.AddNullItem<tp_XmlSchemaOutputSetting>(new tp_XmlSchemaOutputSetting { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>indentation</c> property of the item</summary>
+    [ArasName("indentation")]
     public IProperty_Boolean Indentation()
     {
       return this.Property("indentation");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>omit_xml_declaration</c> property of the item</summary>
+    [ArasName("omit_xml_declaration")]
     public IProperty_Boolean OmitXmlDeclaration()
     {
       return this.Property("omit_xml_declaration");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>stylesheet_id</c> property of the item</summary>
+    [ArasName("stylesheet_id")]
     public IProperty_Item<tp_Stylesheet> StylesheetId()
     {
       return this.Property("stylesheet_id");
     }
     /// <summary>Retrieve the <c>target_classification</c> property of the item</summary>
+    [ArasName("target_classification")]
     public IProperty_Text TargetClassification()
     {
       return this.Property("target_classification");

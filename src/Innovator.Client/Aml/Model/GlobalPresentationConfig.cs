@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type GlobalPresentationConfig </summary>
+  [ArasName("GlobalPresentationConfig")]
   public class GlobalPresentationConfig : Item
   {
     protected GlobalPresentationConfig() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static GlobalPresentationConfig() { Innovator.Client.Item.AddNullItem<GlobalPresentationConfig>(new GlobalPresentationConfig { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>additional_data</c> property of the item</summary>
+    [ArasName("additional_data")]
     public IProperty_Text AdditionalData()
     {
       return this.Property("additional_data");
     }
     /// <summary>Retrieve the <c>client</c> property of the item</summary>
+    [ArasName("client")]
     public IProperty_Text Client()
     {
       return this.Property("client");
     }
     /// <summary>Retrieve the <c>presentation_id</c> property of the item</summary>
+    [ArasName("presentation_id")]
     public IProperty_Item<PresentationConfiguration> PresentationId()
     {
       return this.Property("presentation_id");
     }
     /// <summary>Retrieve the <c>view_type</c> property of the item</summary>
+    [ArasName("view_type")]
     public IProperty_Text ViewType()
     {
       return this.Property("view_type");

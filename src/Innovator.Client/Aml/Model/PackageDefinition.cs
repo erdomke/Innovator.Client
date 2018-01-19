@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type PackageDefinition </summary>
+  [ArasName("PackageDefinition")]
   public class PackageDefinition : Item
   {
     protected PackageDefinition() { }
@@ -11,6 +12,7 @@ namespace Innovator.Client.Model
     static PackageDefinition() { Innovator.Client.Item.AddNullItem<PackageDefinition>(new PackageDefinition { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");

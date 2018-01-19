@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_DocumentLifeCycleState </summary>
+  [ArasName("cmf_DocumentLifeCycleState")]
   public class cmf_DocumentLifeCycleState : Item, INullRelationship<cmf_ContentType>
   {
     protected cmf_DocumentLifeCycleState() { }
@@ -11,26 +12,31 @@ namespace Innovator.Client.Model
     static cmf_DocumentLifeCycleState() { Innovator.Client.Item.AddNullItem<cmf_DocumentLifeCycleState>(new cmf_DocumentLifeCycleState { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>life_cycle_state_id</c> property of the item</summary>
+    [ArasName("life_cycle_state_id")]
     public IProperty_Item<LifeCycleState> LifeCycleStateId()
     {
       return this.Property("life_cycle_state_id");
     }
     /// <summary>Retrieve the <c>resolution_mode</c> property of the item</summary>
+    [ArasName("resolution_mode")]
     public IProperty_Text ResolutionMode()
     {
       return this.Property("resolution_mode");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");
     }
     /// <summary>Retrieve the <c>tracking_mode</c> property of the item</summary>
+    [ArasName("tracking_mode")]
     public IProperty_Text TrackingMode()
     {
       return this.Property("tracking_mode");

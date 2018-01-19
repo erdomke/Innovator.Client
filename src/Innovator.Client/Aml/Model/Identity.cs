@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Identity </summary>
+  [ArasName("Identity")]
   public class Identity : Item
   {
     protected Identity() { }
@@ -11,31 +12,37 @@ namespace Innovator.Client.Model
     static Identity() { Innovator.Client.Item.AddNullItem<Identity>(new Identity { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>description</c> property of the item</summary>
+    [ArasName("description")]
     public IProperty_Text Description()
     {
       return this.Property("description");
     }
     /// <summary>Retrieve the <c>is_alias</c> property of the item</summary>
+    [ArasName("is_alias")]
     public IProperty_Boolean IsAlias()
     {
       return this.Property("is_alias");
     }
     /// <summary>Retrieve the <c>label</c> property of the item</summary>
+    [ArasName("label")]
     public IProperty_Text Label()
     {
       return this.Property("label");
     }
     /// <summary>Retrieve the <c>maximum_pwd_age</c> property of the item</summary>
+    [ArasName("maximum_pwd_age")]
     public IProperty_Number MaximumPwdAge()
     {
       return this.Property("maximum_pwd_age");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>pwd_history_length</c> property of the item</summary>
+    [ArasName("pwd_history_length")]
     public IProperty_Number PwdHistoryLength()
     {
       return this.Property("pwd_history_length");

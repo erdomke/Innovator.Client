@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type cmf_ContentTypeView </summary>
+  [ArasName("cmf_ContentTypeView")]
   public class cmf_ContentTypeView : Item, INullRelationship<cmf_ContentType>, IRelationship<cmf_BaseView>
   {
     protected cmf_ContentTypeView() { }
@@ -11,11 +12,13 @@ namespace Innovator.Client.Model
     static cmf_ContentTypeView() { Innovator.Client.Item.AddNullItem<cmf_ContentTypeView>(new cmf_ContentTypeView { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

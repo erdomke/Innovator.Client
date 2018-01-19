@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Grid </summary>
+  [ArasName("Grid")]
   public class Grid : Item
   {
     protected Grid() { }
@@ -11,21 +12,25 @@ namespace Innovator.Client.Model
     static Grid() { Innovator.Client.Item.AddNullItem<Grid>(new Grid { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>merge_path</c> property of the item</summary>
+    [ArasName("merge_path")]
     public IProperty_Text MergePath()
     {
       return this.Property("merge_path");
     }
     /// <summary>Retrieve the <c>method</c> property of the item</summary>
+    [ArasName("method")]
     public IProperty_Item<Method> Method()
     {
       return this.Property("method");
     }
     /// <summary>Retrieve the <c>name</c> property of the item</summary>
+    [ArasName("name")]
     public IProperty_Text NameProp()
     {
       return this.Property("name");
     }
     /// <summary>Retrieve the <c>query</c> property of the item</summary>
+    [ArasName("query")]
     public IProperty_Text Query()
     {
       return this.Property("query");

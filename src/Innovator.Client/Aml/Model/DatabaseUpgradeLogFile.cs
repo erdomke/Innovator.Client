@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type DatabaseUpgradeLogFile </summary>
+  [ArasName("DatabaseUpgradeLogFile")]
   public class DatabaseUpgradeLogFile : Item, IFileContainerItems, INullRelationship<DatabaseUpgrade>, IRelationship<File>
   {
     protected DatabaseUpgradeLogFile() { }
@@ -11,11 +12,13 @@ namespace Innovator.Client.Model
     static DatabaseUpgradeLogFile() { Innovator.Client.Item.AddNullItem<DatabaseUpgradeLogFile>(new DatabaseUpgradeLogFile { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

@@ -4,6 +4,7 @@ using System;
 namespace Innovator.Client.Model
 {
   ///<summary>Class for the item type Old Password </summary>
+  [ArasName("Old Password")]
   public class OldPassword : Item, INullRelationship<User>
   {
     protected OldPassword() { }
@@ -11,16 +12,19 @@ namespace Innovator.Client.Model
     static OldPassword() { Innovator.Client.Item.AddNullItem<OldPassword>(new OldPassword { _attr = ElementAttributes.ReadOnly | ElementAttributes.Null }); }
 
     /// <summary>Retrieve the <c>behavior</c> property of the item</summary>
+    [ArasName("behavior")]
     public IProperty_Text Behavior()
     {
       return this.Property("behavior");
     }
     /// <summary>Retrieve the <c>old_pwd</c> property of the item</summary>
+    [ArasName("old_pwd")]
     public IProperty_Text OldPwd()
     {
       return this.Property("old_pwd");
     }
     /// <summary>Retrieve the <c>sort_order</c> property of the item</summary>
+    [ArasName("sort_order")]
     public IProperty_Number SortOrder()
     {
       return this.Property("sort_order");

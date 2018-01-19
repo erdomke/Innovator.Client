@@ -211,6 +211,35 @@ namespace Innovator.Client.IOM
       writer.Invoke("TIMEZONE_NAME", this.AmlContext.LocalizationContext.TimeZone);
     }
 
+    public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
+    {
+      var explicitCred = credentials as ExplicitCredentials;
+      var hashCred = credentials as ExplicitHashCredentials;
+
+      if (explicitCred != null)
+      {
+        return Promises.Resolved(new ExplicitHashCredentials(explicitCred.Database, explicitCred.Username, ElementFactory.Local.CalcMd5(explicitCred.Password)));
+      }
+      else if (hashCred != null)
+      {
+        return Promises.Resolved(hashCred);
+      }
+      else
+      {
+        throw new NotSupportedException("This connection implementation does not support the specified credential type");
+      }
+    }
+
+    public ExplicitHashCredentials HashCredentials(ICredentials credentials)
+    {
+      return HashCredentials(credentials, false).Value;
+    }
+
+    public IPromise<Version> FetchVersion(bool async)
+    {
+      return Promises.Resolved(this.Version);
+    }
+
 #region "Server Connection"    
     /// <summary>
     /// Gets the in-memory application-wide cache.

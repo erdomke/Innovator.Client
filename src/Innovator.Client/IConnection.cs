@@ -39,5 +39,12 @@
     /// <param name="relativeUrl">The relative URL</param>
     /// <returns>A full URL relative to the connection</returns>
     string MapClientUrl(string relativeUrl);
+
+    /// <summary>
+    /// Hashes the credentials for use with logging in or workflow voting
+    /// </summary>
+    /// <param name="credentials">The credentials.</param>
+    /// <returns>Hashed credentials</returns>
+    ExplicitHashCredentials HashCredentials(ICredentials credentials);
   }
 }

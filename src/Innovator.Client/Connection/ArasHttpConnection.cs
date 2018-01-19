@@ -33,6 +33,7 @@ namespace Innovator.Client.Connection
     private List<Action<IHttpRequest>> _defaults = new List<Action<IHttpRequest>>();
     private readonly ArasVaultConnection _vaultConn;
     private readonly List<KeyValuePair<string, string>> _serverInfo = new List<KeyValuePair<string, string>>();
+    private Func<SecureToken, string> _hashFunc = ElementFactory.Local.CalcMd5;
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
@@ -248,64 +249,20 @@ namespace Innovator.Client.Connection
     /// <exception cref="NotSupportedException">This connection implementation does not support the specified credential type</exception>
     public IPromise<string> Login(ICredentials credentials, bool async)
     {
-      var explicitCred = credentials as ExplicitCredentials;
-      var hashCred = credentials as ExplicitHashCredentials;
-      var winCred = credentials as WindowsCredentials;
-      var unHashedPassword = default(SecureToken);
-
-      IPromise<bool> authProcess;
-      if (explicitCred != null)
-      {
-        _httpDatabase = explicitCred.Database;
-        _httpUsername = explicitCred.Username;
-        unHashedPassword = explicitCred.Password;
-        _httpPassword = ElementFactory.Local.CalcMd5(explicitCred.Password);
-        authProcess = Promises.Resolved(true);
-      }
-      else if (hashCred != null)
-      {
-        _httpDatabase = hashCred.Database;
-        _httpUsername = hashCred.Username;
-        _httpPassword = hashCred.PasswordHash;
-        authProcess = Promises.Resolved(true);
-      }
-      else if (winCred != null)
-      {
-        var waLoginUrl = new Uri(this._innovatorClientBin, "../scripts/IOMLogin.aspx");
-        _httpDatabase = winCred.Database;
-        authProcess = UploadAml(waLoginUrl, "", "<Item />", async)
-          .Convert(r =>
-          {
-            var res = r.AsXml().DescendantsAndSelf("Result").FirstOrDefault();
-            _httpUsername = res.Element("user").Value;
-            var pwd = res.Element("password").Value;
-            if (pwd.IsNullOrWhiteSpace())
-              throw new ArgumentException("Failed to authenticate with Innovator server '" + _innovatorServerUrl + "'. Original error: " + _httpUsername, "credentials");
-            var needHash = res.Element("hash").Value;
-            if (string.Equals(needHash.Trim(), "false", StringComparison.OrdinalIgnoreCase))
-            {
-              _httpPassword = pwd;
-            }
-            else
-            {
-              unHashedPassword = pwd;
-              _httpPassword = ElementFactory.Local.CalcMd5(pwd);
-            }
-            return true;
-          });
-      }
-      else
-      {
-        throw new NotSupportedException("This connection implementation does not support the specified credential type");
-      }
-
+      var authProcess = HashCreds(credentials, async);
       _lastCredentials = credentials;
+      var unHashedPassword = default(SecureToken);
 
       var result = new Promise<string>();
       result.CancelTarget(
-        authProcess.Continue(_ =>
-          Process(new Command("<Item/>").WithAction(CommandAction.ValidateUser), async)
-        )
+        authProcess.Continue(h =>
+        {
+          unHashedPassword = h.UnhashedPassword;
+          _httpDatabase = h.Cred.Database;
+          _httpPassword = h.Cred.PasswordHash;
+          _httpUsername = h.Cred.Username;
+          return Process(new Command("<Item/>").WithAction(CommandAction.ValidateUser), async);
+        })
           .Progress(result.Notify)
           .Done(r =>
           {
@@ -323,8 +280,9 @@ namespace Innovator.Client.Connection
               && authNode.Element(afNs + "schema")?.Attribute("mode")?.Value == "SHA256"
               && _httpPassword?.Length == 32)
             {
+              _hashFunc = ElementFactory.Local.CalcSha256;
               // Switch from MD5 hashing to SHA256
-              Login(new ExplicitHashCredentials(_httpDatabase, _httpUsername, ElementFactory.Local.CalcSha256(unHashedPassword)), true)
+              Login(new ExplicitHashCredentials(_httpDatabase, _httpUsername, _hashFunc(unHashedPassword)), true)
                 .Done(result.Resolve)
                 .Fail(result.Reject);
             }
@@ -445,12 +403,12 @@ namespace Innovator.Client.Connection
           Compression = _compression
         }
       };
-      ((IArasConnection)this).SetDefaultHeaders((k, v) => { req.SetHeader(k, v); });
+      ((IArasConnection)this).SetDefaultHeaders(req.SetHeader);
       foreach (var a in _defaults)
       {
         a.Invoke(req);
       }
-      if (request.Settings != null) request.Settings.Invoke(req);
+      request.Settings?.Invoke(req);
       if (!string.IsNullOrEmpty(action)) req.SetHeader("SOAPACTION", action);
 
       var trace = new LogData(4
@@ -555,10 +513,143 @@ namespace Innovator.Client.Connection
     /// </returns>
     public IPromise<IRemoteConnection> Clone(bool async)
     {
-      var newConn = new ArasHttpConnection(Factory.DefaultService.Invoke(), _innovatorServerUrl.ToString(), _factory.ItemFactory);
-      newConn._defaults = this._defaults;
+      var newConn = new ArasHttpConnection(Factory.DefaultService.Invoke(), _innovatorServerUrl.ToString(), _factory.ItemFactory)
+      {
+        _defaults = this._defaults
+      };
       return newConn.Login(_lastCredentials, async)
         .Convert(u => (IRemoteConnection)newConn);
+    }
+
+    /// <summary>
+    /// Fetches the version from the database if it is not already known.
+    /// </summary>
+    /// <param name="async">Whether to fetch the version asynchronously</param>
+    /// <returns>A promise to return the version of the Aras installation.</returns>
+    public IPromise<Version> FetchVersion(bool async)
+    {
+      if (_arasVersion != default(Version) && _arasVersion.Major > 0)
+        return Promises.Resolved(_arasVersion);
+
+      return this.ApplyAsync(@"<Item type='Variable' action='get' select='name,value'>
+        <name condition='like'>Version*</name>
+      </Item>", async, false)
+        .Convert(res =>
+        {
+          var dict = res.Items()
+            .GroupBy(i => i.Property("name").AsString(""))
+            .ToDictionary(g => g.Key, g => g.First().Property("value").Value);
+
+          string majorStr;
+          int major;
+          string minorStr;
+          int minor;
+          string servicePackStr;
+          int servicePack;
+          string buildStr;
+          int build;
+          if (dict.TryGetValue("VersionMajor", out majorStr) && int.TryParse(majorStr, out major)
+            && dict.TryGetValue("VersionMinor", out minorStr) && int.TryParse(minorStr, out minor)
+            && dict.TryGetValue("VersionServicePack", out servicePackStr))
+          {
+            if (!dict.TryGetValue("VersionBuild", out buildStr) || !int.TryParse(buildStr, out build))
+              build = 0;
+
+            if (!int.TryParse(servicePackStr.TrimStart('S', 'P'), out servicePack))
+              servicePack = 0;
+
+            _arasVersion = new Version(major, minor, build, servicePack);
+          }
+          return _arasVersion;
+        });
+    }
+
+    private IPromise<HashData> HashCreds(ICredentials credentials, bool async)
+    {
+      var explicitCred = credentials as ExplicitCredentials;
+      var hashCred = credentials as ExplicitHashCredentials;
+      var winCred = credentials as WindowsCredentials;
+
+      if (explicitCred != null)
+      {
+        return Promises.Resolved(new HashData()
+        {
+          UnhashedPassword = explicitCred.Password,
+          Cred = new ExplicitHashCredentials(explicitCred.Database, explicitCred.Username, _hashFunc(explicitCred.Password))
+        });
+      }
+      else if (hashCred != null)
+      {
+        return Promises.Resolved(new HashData()
+        {
+          Cred = hashCred
+        });
+      }
+      else if (winCred != null)
+      {
+        var waLoginUrl = new Uri(this._innovatorClientBin, "../scripts/IOMLogin.aspx");
+        return UploadAml(waLoginUrl, "", "<Item />", async)
+          .Convert(r =>
+          {
+            var result = new HashData();
+            var res = r.AsXml().DescendantsAndSelf("Result").FirstOrDefault();
+            var username = res.Element("user").Value;
+            var pwd = res.Element("password").Value;
+            if (pwd.IsNullOrWhiteSpace())
+              throw new ArgumentException("Failed to authenticate with Innovator server '" + _innovatorServerUrl + "'. Original error: " + _httpUsername, "credentials");
+
+            var needHash = res.Element("hash").Value;
+            var password = default(string);
+            if (string.Equals(needHash.Trim(), "false", StringComparison.OrdinalIgnoreCase))
+            {
+              password = pwd;
+            }
+            else
+            {
+              result.UnhashedPassword = pwd;
+              password = _hashFunc(pwd);
+            }
+
+            result.Cred = new ExplicitHashCredentials(winCred.Database, username, password);
+            return result;
+          });
+      }
+      else
+      {
+        throw new NotSupportedException("This connection implementation does not support the specified credential type");
+      }
+    }
+
+    private class HashData
+    {
+      public ExplicitHashCredentials Cred { get; set; }
+      public SecureToken UnhashedPassword { get; set; }
+    }
+
+    /// <summary>
+    /// Hashes the credentials for use with logging in or workflow voting
+    /// </summary>
+    /// <param name="credentials">The credentials.</param>
+    /// <param name="async">Whether to perform this action asynchronously</param>
+    /// <returns>
+    /// A promise to return hashed credentials
+    /// </returns>
+    public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
+    {
+      return HashCreds(credentials, async)
+        .Convert(h => h.Cred);
+    }
+
+    /// <summary>
+    /// Hashes the credentials for use with logging in or workflow voting
+    /// </summary>
+    /// <param name="credentials">The credentials.</param>
+    /// <returns>
+    /// Hashed credentials
+    /// </returns>
+    public ExplicitHashCredentials HashCredentials(ICredentials credentials)
+    {
+      return HashCredentials(credentials, false).Value;
     }
   }
 }

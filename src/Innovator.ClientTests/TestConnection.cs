@@ -154,5 +154,10 @@ namespace Innovator.Client.Tests
     {
       return elem.Attribute(name) != null && string.Equals(elem.Attribute(name).Value, value);
     }
+
+    public ExplicitHashCredentials HashCredentials(ICredentials credentials)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

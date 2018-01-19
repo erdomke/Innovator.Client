@@ -148,6 +148,17 @@ namespace Innovator.Client
       return result;
     }
 
+    public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
+    {
+      var conn = GetConnection();
+      return conn.HashCredentials(credentials, async);
+    }
+
+    public ExplicitHashCredentials HashCredentials(ICredentials credentials)
+    {
+      return HashCredentials(credentials, false).Value;
+    }
+
     /// <summary>
     /// Individual connection which tracks the number of pending queries
     /// </summary>
@@ -170,6 +181,20 @@ namespace Innovator.Client
           return Promises.Rejected<Stream>(new ObjectDisposedException("Cannot execute a query because the connection is being disposed (i.e. logged out)."));
         Interlocked.Increment(ref _concurrentQueries);
         return _conn.Process(cmd, async)
+          .Always(() =>
+          {
+            var newCount = Interlocked.Decrement(ref _concurrentQueries);
+            if (newCount < 1 && _state == ConnectionState.Disposing)
+              ExecuteDispose();
+          });
+      }
+
+      public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
+      {
+        if (_state != ConnectionState.Normal)
+          return Promises.Rejected<ExplicitHashCredentials>(new ObjectDisposedException("Cannot execute a query because the connection is being disposed (i.e. logged out)."));
+        Interlocked.Increment(ref _concurrentQueries);
+        return _conn.HashCredentials(credentials, async)
           .Always(() =>
           {
             var newCount = Interlocked.Decrement(ref _concurrentQueries);

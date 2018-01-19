@@ -25,10 +25,10 @@ namespace Innovator.Client.Connection
     /// </value>
     CompressionType Compression { get; }
     /// <summary>
-    /// Gets the major version of the Aras installation
+    /// Gets the version of the Aras installation
     /// </summary>
     /// <value>
-    /// The major version of the Aras installation.
+    /// The version of the Aras installation.
     /// </value>
     Version Version { get; }
     /// <summary>
@@ -37,5 +37,11 @@ namespace Innovator.Client.Connection
     /// </summary>
     /// <param name="writer">The method to call with each header.</param>
     void SetDefaultHeaders(Action<string, string> writer);
+    /// <summary>
+    /// Fetches the version from the database if it is not already known.
+    /// </summary>
+    /// <param name="async">Whether to fetch the version asynchronously</param>
+    /// <returns>A promise to return the version of the Aras installation.</returns>
+    IPromise<Version> FetchVersion(bool async);
   }
 }

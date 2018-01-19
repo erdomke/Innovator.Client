@@ -147,6 +147,15 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Require use of writable session state.
+    /// </summary>
+    /// <param name="request">The HTTP request.</param>
+    public static void ForceWritableSession(this IHttpRequest request)
+    {
+      request.SetHeader(ArasHeaders.ForceWritableSessionHeader, "required");
+    }
+
 #if FILEIO && MD5
     public static string Checksum(this FileInfo fileInfo)
     {

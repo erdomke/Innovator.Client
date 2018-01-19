@@ -94,26 +94,36 @@ namespace Innovator.Client.Connection
 
     public IPromise<string> Login(ICredentials credentials, bool async)
     {
+      var mapping = GetMapping(credentials.Database);
       _lastCredentials = credentials;
-      var mapping = _mappings.FirstOrDefault(m => m.Databases.Contains(credentials.Database));
+
+      var credPromise = GetCredentials(mapping, credentials, async);
+      _current = mapping.Connection;
+      if (_settings != null)
+        _current.DefaultSettings(_settings);
+      return credPromise.Continue(cred => _current.Login(cred, async));
+    }
+
+    private ServerMapping GetMapping(string database)
+    {
+      var mapping = _mappings.FirstOrDefault(m => m.Databases.Contains(database));
       if (mapping == null)
-        throw new InvalidOperationException($"The database '{credentials.Database}' could not be found.");
+        throw new InvalidOperationException($"The database '{database}' could not be found.");
+      return mapping;
+    }
+
+    private IPromise<ICredentials> GetCredentials(ServerMapping mapping, ICredentials credentials, bool async)
+    {
       var netCred = credentials as INetCredentials;
-      IPromise<ICredentials> credPromise;
 
       var endpoint = credentials is WindowsCredentials
         ? mapping.Endpoints.AuthWin.Concat(mapping.Endpoints.Auth).FirstOrDefault()
         : mapping.Endpoints.Auth.FirstOrDefault();
 
       if (netCred != null && _authCallback != null && !string.IsNullOrEmpty(endpoint))
-        credPromise = _authCallback(netCred, endpoint, async);
+        return _authCallback(netCred, endpoint, async);
       else
-        credPromise = Promises.Resolved(credentials);
-
-      _current = mapping.Connection;
-      if (_settings != null)
-        _current.DefaultSettings(_settings);
-      return credPromise.Continue(cred => _current.Login(cred, async));
+        return Promises.Resolved(credentials);
     }
 
     public void Logout(bool unlockOnLogout)
@@ -155,6 +165,26 @@ namespace Innovator.Client.Connection
       var arasConn = _current as IArasConnection;
       if (arasConn != null)
         arasConn.SetDefaultHeaders(writer);
+    }
+
+    public IPromise<Version> FetchVersion(bool async)
+    {
+      var arasConn = _current as IArasConnection;
+      if (arasConn == null)
+        throw new NotSupportedException();
+      return arasConn.FetchVersion(async);
+    }
+
+    public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
+    {
+      var mapping = GetMapping(credentials.Database);
+      return GetCredentials(mapping, credentials, async)
+        .Continue(c => mapping.Connection.HashCredentials(c, async));
+    }
+
+    public ExplicitHashCredentials HashCredentials(ICredentials credentials)
+    {
+      return HashCredentials(credentials, false).Value;
     }
   }
 }

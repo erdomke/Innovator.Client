@@ -10,6 +10,8 @@ namespace Innovator.Client
   /// </summary>
   public class ArasHeaders : IDictionary<string, string>
   {
+    internal const string ForceWritableSessionHeader = "Aras-Set-HttpSessionState-Behavior";
+
     private readonly Dictionary<string, string> _headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
     /// <summary>
@@ -33,6 +35,21 @@ namespace Innovator.Client
     }
 
     /// <summary>
+    /// Gets or sets whether to require use of writable session state
+    /// </summary>
+    public bool ForceWritableSession
+    {
+      get { return this[ForceWritableSessionHeader] == "required"; }
+      set
+      {
+        if (value)
+          this[ForceWritableSessionHeader] = "required";
+        else
+          this.Remove(ForceWritableSessionHeader);
+      }
+    }
+
+    /// <summary>
     /// Locale to use when logging in
     /// </summary>
     public string Locale
@@ -40,6 +57,7 @@ namespace Innovator.Client
       get { return this["LOCALE"]; }
       set { this["LOCALE"] = value; }
     }
+
     /// <summary>
     /// Time zone to use with each request
     /// </summary>
@@ -48,6 +66,7 @@ namespace Innovator.Client
       get { return this["TIMEZONE_NAME"]; }
       set { this["TIMEZONE_NAME"] = value; }
     }
+
     /// <summary>
     /// User agent string to send with each request
     /// </summary>

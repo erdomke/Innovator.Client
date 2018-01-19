@@ -84,9 +84,11 @@ namespace Innovator.Client
       }
       else
       {
-        var handler = new SyncClientHandler();
-        handler.Credentials = netCred.Credentials;
-        handler.PreAuthenticate = true;
+        var handler = new SyncClientHandler()
+        {
+          Credentials = netCred.Credentials,
+          PreAuthenticate = true
+        };
         var http = new SyncHttpClient(handler);
 
         var endpointUri = new Uri(endpoint + "?db=" + netCred.Database);

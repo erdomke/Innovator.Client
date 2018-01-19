@@ -153,7 +153,7 @@ namespace Innovator.Client.Connection
 
         var client = new SyncHttpClient();
         var req = new HttpRequest();
-        _conn.SetDefaultHeaders((k, v) => { req.SetHeader(k, v); });
+        _conn.SetDefaultHeaders(req.SetHeader);
         req.SetHeader("VAULTID", vault.Id);
         foreach (var a in _conn.DefaultSettings)
         {

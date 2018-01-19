@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 
 namespace Innovator.Client.Tests
 {
@@ -116,6 +117,23 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Point 1", result.AssertItem().Property("tag_name").Value);
       var query = result.AssertItem().ToAml();
       Assert.AreEqual("<Item type=\"Measurements\" action=\"add\"><cavity>1</cavity><extradate>2015-10-12T14:53:51</extradate><measurement>27.878</measurement><notes>1</notes><opperator>6DBCE2E15B6D405793B322355A9E1D9C</opperator><session_id /><source>7DFEF415AB7444BFB9D529665C44D444</source><tag_name>Point 1</tag_name></Item>", query);
+    }
+
+    [TestMethod()]
+    public void InterpolatedString_InterfaceTest()
+    {
+      var name = "first & second > third";
+      var isCurrent = true;
+      var date = new DateTime(2015, 1, 1);
+
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
+        new Command((IFormattable)$"<Item><name>{name}</name><is_current>{isCurrent}</is_current><date>{date:yyyy-MM-dd}</date></Item>").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>",
+        new Command((IFormattable)$@"<Item>
+  <name>{name}</name>
+  <is_current>{isCurrent}</is_current>
+  <date>{date:yyyy-MM-dd}</date>
+</Item>").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
     }
 
 #if NET46

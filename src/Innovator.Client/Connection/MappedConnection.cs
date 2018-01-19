@@ -48,7 +48,7 @@ namespace Innovator.Client.Connection
       }
     }
 
-    public int Version
+    public Version Version
     {
       get
       {
@@ -73,15 +73,13 @@ namespace Innovator.Client.Connection
 
     public void DefaultSettings(Action<IHttpRequest> settings)
     {
-      if (_current != null)
-        _current.DefaultSettings(settings);
+      _current?.DefaultSettings(settings);
       _settings = settings;
     }
 
     public void Dispose()
     {
-      if (_current != null)
-        _current.Dispose();
+      _current?.Dispose();
     }
 
     public IEnumerable<string> GetDatabases()
@@ -97,7 +95,9 @@ namespace Innovator.Client.Connection
     public IPromise<string> Login(ICredentials credentials, bool async)
     {
       _lastCredentials = credentials;
-      var mapping = _mappings.First(m => m.Databases.Contains(credentials.Database));
+      var mapping = _mappings.FirstOrDefault(m => m.Databases.Contains(credentials.Database));
+      if (mapping == null)
+        throw new InvalidOperationException($"The database '{credentials.Database}' could not be found.");
       var netCred = credentials as INetCredentials;
       IPromise<ICredentials> credPromise;
 
@@ -118,15 +118,13 @@ namespace Innovator.Client.Connection
 
     public void Logout(bool unlockOnLogout)
     {
-      if (_current != null)
-        _current.Logout(unlockOnLogout);
+      _current?.Logout(unlockOnLogout);
       _current = null;
     }
 
     public void Logout(bool unlockOnLogout, bool async)
     {
-      if (_current != null)
-        _current.Logout(unlockOnLogout, async);
+      _current?.Logout(unlockOnLogout, async);
       _current = null;
     }
 

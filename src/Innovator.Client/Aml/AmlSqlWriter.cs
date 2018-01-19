@@ -528,7 +528,7 @@ namespace Innovator.Client
       FlushAttributes();
       if (localName == "Item")
       {
-        if (_tags.OfType<ItemTag>().Count() >= 2)
+        if (_tags.OfType<ItemTag>().Skip(1).Any())
           throw new NotSupportedException("Doubly-nested `Item` tags are not supported at this time");
 
         _lastItem = new ItemTag() { Name = localName };

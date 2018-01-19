@@ -19,7 +19,7 @@ namespace Innovator.Client.Connection
   {
     private CompressionType _compression;
     private readonly HttpClient _service;
-    private int _arasVersion;
+    private Version _arasVersion;
     private ServerContext _context = new ServerContext(false);
     private ElementFactory _factory;
     private string _httpDatabase;
@@ -104,7 +104,7 @@ namespace Innovator.Client.Connection
     /// <value>
     /// The major version of the Aras installation.
     /// </value>
-    public int Version
+    public Version Version
     {
       get { return _arasVersion; }
     }
@@ -360,7 +360,7 @@ namespace Innovator.Client.Connection
                     foreach (var info in elem.Elements())
                     {
                       if (info.Name.LocalName == "Version")
-                        _arasVersion = int.Parse(info.Value.Substring(0, info.Value.IndexOf('.')));
+                        _arasVersion = new Version(info.Value);
 
                       if (!string.IsNullOrEmpty(elem.Value))
                         _serverInfo.Add(new KeyValuePair<string, string>("ServerInfo/" + elem.Name.LocalName, elem.Value));
@@ -402,16 +402,19 @@ namespace Innovator.Client.Connection
     /// <param name="async">Whether to perform this action asynchronously</param>
     public void Logout(bool unlockOnLogout, bool async)
     {
-      Process(new Command("<logoff skip_unlock=\"" + (unlockOnLogout ? 0 : 1) + "\"/>").WithAction(CommandAction.LogOff), async)
-        .Done(r =>
-        {
-          _context = null;
-          _factory = null;
-          _httpDatabase = null;
-          _httpPassword = null;
-          _httpUsername = null;
-          _userId = null;
-        });
+      if (!string.IsNullOrEmpty(_httpDatabase) && !string.IsNullOrEmpty(_httpUsername))
+      {
+        Process(new Command("<logoff skip_unlock=\"" + (unlockOnLogout ? 0 : 1) + "\"/>").WithAction(CommandAction.LogOff), async)
+          .Done(r =>
+          {
+            _context = null;
+            _factory = null;
+            _httpDatabase = null;
+            _httpPassword = null;
+            _httpUsername = null;
+            _userId = null;
+          });
+      }
     }
 
     /// <summary>
@@ -464,27 +467,6 @@ namespace Innovator.Client.Connection
         { "version", _arasVersion }
       };
       return _service.PostPromise(uri, async, req, trace).Always(trace.Dispose);
-    }
-
-    internal IPromise<string> GetResult(string action, string request, bool async)
-    {
-      var result = new Promise<string>();
-      result.CancelTarget(
-        UploadAml(_innovatorServerUrl, "ApplyItem", request, async)
-          .Progress((p, m) => result.Notify(p, m))
-          .Done(r =>
-          {
-            var res = _factory.FromXml(r.AsString(), request, this);
-            if (res.Exception == null)
-            {
-              result.Resolve(res.Value);
-            }
-            else
-            {
-              result.Reject(res.Exception);
-            }
-          }).Fail(ex => { result.Reject(ex); }));
-      return result;
     }
 
     void IArasConnection.SetDefaultHeaders(Action<string, string> writer)

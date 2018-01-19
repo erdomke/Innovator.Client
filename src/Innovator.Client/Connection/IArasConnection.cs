@@ -30,7 +30,7 @@ namespace Innovator.Client.Connection
     /// <value>
     /// The major version of the Aras installation.
     /// </value>
-    int Version { get; }
+    Version Version { get; }
     /// <summary>
     /// Sets the default headers for an AML request. (e.g. AUTHUSER, AUTHPASSWORD,
     /// DATABASE, LOCALE, TIMEZONE_NAME);

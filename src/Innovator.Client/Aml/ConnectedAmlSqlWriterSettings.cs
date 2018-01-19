@@ -26,11 +26,7 @@ namespace Innovator.Client
     {
       get
       {
-        if (_identList == null)
-        {
-          _identList = _conn.Apply(new Command("<Item/>").WithAction(CommandAction.GetIdentityList)).Value ?? "";
-        }
-        return _identList;
+        return _identList ?? (_identList = _conn.Apply(new Command("<Item/>").WithAction(CommandAction.GetIdentityList)).Value ?? "");
       }
     }
     /// <summary>

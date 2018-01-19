@@ -98,6 +98,7 @@
     <Compile Include="CommandTests.cs" />
     <Compile Include="Connection\ConnectionExtensionsTests.cs" />
     <Compile Include="Connection\ConnectionPreferencesTests.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="QueryableTests.cs" />
     <Compile Include="Scratchpad.cs" />
     <Compile Include="TestConnection.cs" />

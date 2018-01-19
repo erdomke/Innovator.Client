@@ -73,7 +73,7 @@ namespace Innovator.Client
   /// &lt;/Item&gt;
   /// </code>
   /// </remarks>
-  public class ParameterSubstitution : IEnumerable<KeyValuePair<string, object>>
+  public class ParameterSubstitution : IEnumerable<KeyValuePair<string, object>>, IFormatProvider, ICustomFormatter
   {
     private const string EmptyListMatch = "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`";
 
@@ -821,6 +821,21 @@ namespace Innovator.Client
     IEnumerator IEnumerable.GetEnumerator()
     {
       return GetEnumerator();
+    }
+
+    object IFormatProvider.GetFormat(Type formatType)
+    {
+      if (formatType == typeof(ICustomFormatter))
+        return this;
+      else
+        return null;
+    }
+
+    string ICustomFormatter.Format(string format, object arg, IFormatProvider formatProvider)
+    {
+      var paramName = _parameters.Count.ToString();
+      _parameters[paramName] = arg;
+      return Style == ParameterStyle.CSharp ? "{" + paramName + "}" : "@" + paramName;
     }
 
     private class Parameter

@@ -53,7 +53,7 @@ namespace Innovator.Client.IOM
       var type = iomConnection.GetType();
       var noArgs = new object[] { };
 
-      Version = type.Assembly.GetName().Version.Major;
+      Version = type.Assembly.GetName().Version;
       _httpDatabase = (string)type.GetMethod("GetDatabaseName").Invoke(iomConnection, noArgs);
       _callAction = (Action<string, XmlDocument, XmlDocument>)Delegate.CreateDelegate(typeof(Action<string, XmlDocument, XmlDocument>), iomConnection, type.GetMethod("CallAction"));
 
@@ -81,7 +81,7 @@ namespace Innovator.Client.IOM
               foreach (var info in elem.Elements())
               {
                 if (info.Name.LocalName == "Version")
-                  Version = int.Parse(info.Value.Substring(0, info.Value.IndexOf('.')));
+                  Version = new Version(info.Value);
               }
               break;
           }
@@ -129,7 +129,7 @@ namespace Innovator.Client.IOM
     /// <value>
     /// The major version of the Aras installation.
     /// </value>
-    public int Version { get; }
+    public Version Version { get; }
 
     /// <summary>
     /// Creates an upload request used for uploading files to the server
@@ -211,7 +211,7 @@ namespace Innovator.Client.IOM
       writer.Invoke("TIMEZONE_NAME", this.AmlContext.LocalizationContext.TimeZone);
     }
 
-    #region "Server Connection"    
+#region "Server Connection"    
     /// <summary>
     /// Gets the in-memory application-wide cache.
     /// </summary>
@@ -428,7 +428,7 @@ namespace Innovator.Client.IOM
       }
     }
 
-    #endregion
+#endregion
 
     protected virtual void LazyLoadCreds()
     {

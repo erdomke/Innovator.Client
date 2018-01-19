@@ -32,6 +32,11 @@ namespace Innovator.Client
     /// </summary>
     public string Name { get; }
 
+    /// <summary>
+    /// Name of the function
+    /// </summary>
+    public string Function { get; set; }
+
     bool ICollection<SelectNode>.IsReadOnly { get { return false; } }
 
     /// <summary>
@@ -58,6 +63,17 @@ namespace Innovator.Client
     public SelectNode(string name)
     {
       Name = name;
+    }
+
+    /// <summary>
+    /// Initializes a new <see cref="SelectNode"/> instance with a property name.
+    /// </summary>
+    /// <param name="name">The name of the property to store in the node</param>
+    /// <param name="function">The name of the property function</param>
+    public SelectNode(string name, string function)
+    {
+      Name = name;
+      Function = function;
     }
 
     internal SelectNode(string name, IEnumerable<SelectNode> children)
@@ -217,6 +233,7 @@ namespace Innovator.Client
         return result;
 
       var path = new Stack<SelectNode>();
+      var curr = default(SelectNode);
       path.Push(result);
       var start = 0;
       for (var i = 0; i < select.Length; i++)
@@ -228,13 +245,51 @@ namespace Innovator.Client
               path.Peek().Add(new SelectNode(select.Substring(start, i - start).Trim()));
             start = i + 1;
             break;
-          case '(':
+          case '|':
+            if (i - start > 0)
+              path.Peek().Add(new SelectNode(select.Substring(start, i - start).Trim()));
+            curr = path.Pop();
+            if (path.Count < 1)
+            {
+              path.Push(result = new SelectNode()
+              {
+                curr
+              });
+            }
+            curr = new SelectNode();
+            path.Peek()._children.Add(curr);
+            path.Push(curr);
+            start = i + 1;
+            break;
+          case '[':
+            var idx = select.IndexOf(']', i);
+            if (idx < i) idx = select.Length;
+            var func = select.Substring(i + 1, idx - i - 1);
+
             if (i - start > 0)
             {
-              var curr = new SelectNode(select.Substring(start, i - start).Trim());
+              curr = new SelectNode(select.Substring(start, i - start).Trim(), func);
               path.Peek().Add(curr);
-              path.Push(curr);
             }
+            else if (string.IsNullOrEmpty(path.Peek().Last().Name))
+            {
+              curr = path.Peek().Last();
+              path.Peek()._children.RemoveAt(path.Peek().Count - 1);
+              foreach (var child in curr)
+              {
+                child.Function = func;
+                path.Peek().Add(child);
+              }
+            }
+
+            if (idx > i)
+              i = idx;
+            start = i + 1;
+            break;
+          case '(':
+            curr = new SelectNode(i - start > 0 ? select.Substring(start, i - start).Trim() : null);
+            path.Peek().Add(curr);
+            path.Push(curr);
             start = i + 1;
             break;
           case ')':
@@ -248,7 +303,7 @@ namespace Innovator.Client
 
       if (start < select.Length)
       {
-        result.Add(new SelectNode(select.Substring(start, select.Length - start).Trim()));
+        path.Peek().Add(new SelectNode(select.Substring(start, select.Length - start).Trim()));
       }
       return result;
     }
@@ -256,11 +311,39 @@ namespace Innovator.Client
     private static StringBuilder Write(StringBuilder builder, IEnumerable<SelectNode> items)
     {
       var first = true;
-      foreach (var item in items)
+      var delim = ',';
+      foreach (var group in items.GroupBy(i => i.Function ?? ""))
       {
-        if (!first) builder.Append(',');
-        item.Write(builder);
-        first = false;
+        var renderParentheses = group.Key != "" && group.Skip(1).Any();
+        if (renderParentheses)
+        {
+          if (!first)
+          {
+            builder.Append(delim);
+            first = true;
+          }
+          builder.Append('(');
+        }
+
+        foreach (var item in group)
+        {
+          if (first)
+          {
+            if (string.IsNullOrEmpty(item.Name)) delim = '|';
+          }
+          else
+          {
+            builder.Append(delim);
+          }
+          item.Write(builder);
+          first = false;
+        }
+
+        if (renderParentheses)
+          builder.Append(')');
+
+        if (group.Key != "")
+          builder.Append('[').Append(group.Key).Append(']');
       }
       return builder;
     }

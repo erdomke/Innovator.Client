@@ -539,10 +539,19 @@ namespace Innovator.Client
     /// </summary>
     public static int ItemMax(this IReadOnlyResult result)
     {
-      var count = result.Items().FirstOrNullItem().Attribute("itemmax").AsInt();
-      if (count.HasValue)
-        return count.Value;
-      return result.Items().Count();
+      var cntMessage = result.Message.Elements()
+          .FirstOrDefault(e => e.Name == "event"
+            && e.Attribute("name").Value == "itemmax"
+            && e.Attribute("value").HasValue());
+      if (cntMessage != null)
+      {
+        int cnt;
+        if (int.TryParse(cntMessage.Attribute("value").Value, out cnt))
+          return cnt;
+      }
+
+      return result.Items().FirstOrNullItem().Attribute("itemmax").AsInt()
+        ?? result.Items().Count();
     }
 
     /// <summary>
@@ -1110,6 +1119,26 @@ namespace Innovator.Client
     public static XmlReader CreateReader(this IReadOnlyResult elem)
     {
       return new AmlReader(elem);
+    }
+
+    /// <summary>
+    /// Returns the total number of pages founds including those
+    /// returned on other pages
+    /// </summary>
+    public static int PageMax(this IReadOnlyResult result)
+    {
+      var cntMessage = result.Message.Elements()
+          .FirstOrDefault(e => e.Name == "event"
+            && e.Attribute("name").Value == "pagemax"
+            && e.Attribute("value").HasValue());
+      if (cntMessage != null)
+      {
+        int cnt;
+        if (int.TryParse(cntMessage.Attribute("value").Value, out cnt))
+          return cnt;
+      }
+
+      return result.Items().FirstOrNullItem().Attribute("pagemax").AsInt() ?? 1;
     }
 
     /// <summary>

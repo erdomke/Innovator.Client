@@ -599,5 +599,18 @@ namespace Innovator.Client.Tests
       var item = aml.FromXml(xml).AssertItem();
       Assert.AreEqual("81C7B50296DA460CAB9498F6A01FB568", item.Id());
     }
+
+    [TestMethod()]
+    public void CompileMethodResponse()
+    {
+      var aml = ElementFactory.Local;
+      var xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><CompileMethodResponse><Result><status>ERROR: method id was not provided.</status></Result></CompileMethodResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      var result = aml.FromXml(xml);
+      Assert.AreEqual("ERROR: method id was not provided.", result.Exception.Message);
+
+      xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><CompileMethodResponse><Result><status>OK: 02C0EEA10C084E14AA5D104CB35D3227.</status></Result></CompileMethodResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      result = aml.FromXml(xml);
+      Assert.AreEqual("OK: 02C0EEA10C084E14AA5D104CB35D3227.", result.Value);
+    }
   }
 }

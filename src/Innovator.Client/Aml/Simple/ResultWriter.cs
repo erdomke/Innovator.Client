@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml;
 
 namespace Innovator.Client
@@ -19,6 +20,7 @@ namespace Innovator.Client
     private bool _readOnly;
     private string _database;
     private Command _query;
+    private StringBuilder _resultText;
 
     private Result _result;
     private Stack<string> _names;
@@ -127,10 +129,27 @@ namespace Innovator.Client
       {
         _base.WriteEndElement(_value);
       }
-      else if (_names.Any() && _names.Peek() == "Result")
+      else
       {
-        if (_value != null)
-          _result.Value = _value;
+        if (_resultText != null)
+          _resultText.Append(_value);
+
+        var elemName = default(string);
+        if (_names.Any())
+          elemName = _names.Pop();
+
+        if (elemName == "Result")
+        {
+          if (_resultText.Length > 0)
+          {
+            var str = _resultText.ToString();
+            if (_names.Any() && _names.Peek() == "CompileMethodResponse" && str.StartsWith("ERROR: "))
+              _result.Exception = _factory.ServerException(str).SetDetails(_database, _query);
+            else
+              _result.Value = str;
+          }
+          _resultText = null;
+        }
       }
       _value = null;
     }
@@ -226,6 +245,9 @@ namespace Innovator.Client
             _base = new AmlElementWriter(_factory) { ReadOnly = _readOnly };
             _base.Complete += OnComplete;
             _base.WriteStartElement(name);
+            break;
+          case "Result":
+            _resultText = new StringBuilder();
             break;
         }
         _names.Push(name);

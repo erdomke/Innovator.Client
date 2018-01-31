@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -501,7 +502,7 @@ namespace Innovator.Client
     public IResult Result(params object[] content)
     {
       var result = new Result(this);
-      if (!content.Any())
+      if (content?.Length < 1)
       {
         // do nothing
       }
@@ -509,11 +510,18 @@ namespace Innovator.Client
       {
         result.Exception = (ServerException)content[0];
       }
-      else if (content.OfType<IItem>().Any())
+      else if (content.OfType<IReadOnlyItem>().Any())
       {
-        foreach (var item in content.OfType<IItem>())
+        foreach (var item in content.OfType<IReadOnlyItem>())
         {
-          result.Add(item);
+          result.AddReadOnly(item);
+        }
+      }
+      else if (content.OfType<IEnumerable>().Any(e => e.OfType<IReadOnlyItem>().Any()))
+      {
+        foreach (var item in content.OfType<IEnumerable>().SelectMany(e => e.OfType<IReadOnlyItem>()))
+        {
+          result.AddReadOnly(item);
         }
       }
       else if (content.Length == 1)

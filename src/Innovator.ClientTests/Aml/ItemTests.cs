@@ -612,5 +612,26 @@ namespace Innovator.Client.Tests
       result = aml.FromXml(xml);
       Assert.AreEqual("OK: 02C0EEA10C084E14AA5D104CB35D3227.", result.Value);
     }
+
+    [TestMethod()]
+    public void BuildingResult()
+    {
+      var aml = ElementFactory.Local;
+      var items = new List<IReadOnlyItem>()
+      {
+        aml.Item(aml.Type("first")), aml.Item(aml.Type("second"))
+      };
+
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"first\" /><Item type=\"second\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(items).ToAml());
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"first\" /><Item type=\"second\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(aml.Item(aml.Type("first")), aml.Item(aml.Type("second"))).ToAml());
+
+      var itemsArr = new[]
+      {
+        aml.Item(aml.Type("first")), aml.Item(aml.Type("second"))
+      };
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"first\" /><Item type=\"second\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(itemsArr).ToAml());
+
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result>A string</Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result("A string").ToAml());
+    }
   }
 }

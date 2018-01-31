@@ -151,7 +151,6 @@ namespace Innovator.Client.Connection
           Uri.EscapeDataString(fileItem.Property("filename").Value),
           vault.Id));
 
-        var client = new SyncHttpClient();
         var req = new HttpRequest();
         _conn.SetDefaultHeaders(req.SetHeader);
         req.SetHeader("VAULTID", vault.Id);
@@ -176,7 +175,7 @@ namespace Innovator.Client.Connection
           { "vault_id", vault.Id },
           { "version", _conn.Version }
         };
-        return client.GetPromise(uri, async, trace, req).Always(trace.Dispose);
+        return vault.HttpClient.GetPromise(uri, async, trace, req).Always(trace.Dispose);
       });
     }
 
@@ -224,10 +223,6 @@ namespace Innovator.Client.Connection
         if (upload.Settings != null) upload.Settings.Invoke(req);
         req.Headers.TransferEncodingChunked = true;
 
-        var handler = new SyncClientHandler();
-        handler.CookieContainer = upload.Vault.Cookies;
-        var http = new SyncHttpClient(handler);
-
         var trace = new LogData(4
           , "Innovator: Execute query"
           , upload.LogListener ?? Factory.LogListener
@@ -242,8 +237,54 @@ namespace Innovator.Client.Connection
           { "vault_id", upload.Vault.Id },
           { "version", _conn.Version }
         };
-        return http.PostPromise(new Uri(upload.Vault.Url), async, req, trace).Always(trace.Dispose);
+        return upload.Vault.HttpClient.PostPromise(new Uri(upload.Vault.Url), async, req, trace).Always(trace.Dispose);
       }).Convert(r => r.AsStream);
     }
+
+    //private IPromise<Stream> UploadTransaction(UploadCommand upload, bool async)
+    //{
+    //  // Transform the vault URL (as necessary)
+    //  var urlPromise = upload.Vault.Url.IndexOf("$[") < 0 ?
+    //    Promises.Resolved(upload.Vault.Url) :
+    //    _conn.Process(new Command("<url>@0</url>", upload.Vault.Url)
+    //            .WithAction(CommandAction.TransformVaultServerURL), async)
+    //            .Convert(s => s.AsString());
+
+    //  var transIdPromise = urlPromise.Continue(u =>
+    //  {
+    //    // Determine the authentication used by the vault
+    //    if (u != upload.Vault.Url) upload.Vault.Url = u;
+
+    //    var content = new SimpleContent("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" ><SOAP-ENV:Body><BeginTransaction></BeginTransaction></SOAP-ENV:Body></SOAP-ENV:Envelope>", "text/xml; charset=UTF-8");
+    //    _conn.SetDefaultHeaders(content.Headers.Add);
+    //    content.Headers.Add("SOAPACTION", "BeginTransaction");
+    //    content.Headers.Add("VAULTID", upload.Vault.Id);
+
+    //    var req = new HttpRequest() { Content = content };
+    //    foreach (var ac in _conn.DefaultSettings)
+    //    {
+    //      ac.Invoke(req);
+    //    }
+    //    if (upload.Settings != null) upload.Settings.Invoke(req);
+
+    //    var trace = new LogData(4
+    //      , "Innovator: Execute query"
+    //      , upload.LogListener ?? Factory.LogListener
+    //      , upload.Parameters)
+    //    {
+    //      { "aras_url", _conn.MapClientUrl("../../Server") },
+    //      { "database", _conn.Database },
+    //      { "query", upload.Aml },
+    //      { "soap_action", "BeginTransaction" },
+    //      { "url", upload.Vault.Url },
+    //      { "user_id", _conn.UserId },
+    //      { "vault_id", upload.Vault.Id },
+    //      { "version", _conn.Version }
+    //    };
+    //    return upload.Vault.HttpClient.PostPromise(new Uri(upload.Vault.Url), async, req, trace).Always(trace.Dispose);
+    //  }).Convert(s => _conn.AmlContext.FromXml(s.AsStream).Value);
+
+    //  return null;
+    //}
   }
 }

@@ -9,8 +9,7 @@ namespace Innovator.Client
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   internal class IdAnnotation : IReadOnlyProperty, IReadOnlyAttribute, ILinkedAnnotation
   {
-    private ILinkedAnnotation _next;
-    private IReadOnlyElement _parent;
+    private readonly IReadOnlyElement _parent;
     private Guid _value;
 
     public ElementFactory AmlContext
@@ -19,11 +18,7 @@ namespace Innovator.Client
     }
     public bool Exists { get { return _parent != null; } }
     public string Name { get { return "id"; } }
-    public ILinkedAnnotation Next
-    {
-      get { return _next; }
-      set { _next = value; }
-    }
+    public ILinkedAnnotation Next { get; set; }
     public IReadOnlyElement Parent { get { return _parent ?? Item.GetNullItem<Item>(); } }
     public string Value { get { return _value.ToArasId(); } }
 

@@ -50,6 +50,7 @@
     <Compile Include="Aml\DateOffset.cs" />
     <Compile Include="Aml\DefaultItemFactory.cs" />
     <Compile Include="Aml\ElementFactory.cs" />
+    <Compile Include="Aml\HistoricalPropertyUpdate.cs" />
     <Compile Include="Aml\IAmlNode.cs" />
     <Compile Include="Aml\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
@@ -498,12 +499,6 @@
     <Compile Include="Connection\CacheVaultStrategy.cs" />
     <Compile Include="Connection\ConnectionExtensions.cs" />
     <Compile Include="Connection\ConnectionPool.cs" />
-    <Compile Include="Connection\Db\DbAdapter.cs" />
-    <Compile Include="Connection\Db\DbCommand.cs" />
-    <Compile Include="Connection\Db\DbConnection.cs" />
-    <Compile Include="Connection\Db\DbParameter.cs" />
-    <Compile Include="Connection\Db\DbParams.cs" />
-    <Compile Include="Connection\Db\DbReader.cs" />
     <Compile Include="Connection\DefaultVaultStrategy.cs" />
     <Compile Include="Connection\Endpoints.cs" />
     <Compile Include="Connection\IArasConnection.cs" />

@@ -1,4 +1,4 @@
-﻿using Innovator.Server;
+using Innovator.Server;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1227,6 +1227,32 @@ namespace Innovator.Client
     public static DateTimeOffset Now(this IServerContext context)
     {
       return context.AsDateTimeOffset(ServerContext._clock()).Value;
+    }
+
+    /// <summary>
+    /// Sets both the id attribute and (if necessary) the id property of the item.
+    /// </summary>
+    /// <param name="item">The item.</param>
+    /// <param name="id">The ID.</param>
+    public static void Id(this IItem item, string id)
+    {
+      item.Attribute("id").Set(id);
+      var prop = item.IdProp();
+      if (prop.Exists)
+        prop.Set(id);
+    }
+
+    /// <summary>
+    /// Sets both the id attribute and (if necessary) the id property of the item.
+    /// </summary>
+    /// <param name="item">The item.</param>
+    /// <param name="id">The ID.</param>
+    public static void Id(this IItem item, Guid id)
+    {
+      item.Attribute("id").Set(id);
+      var prop = item.IdProp();
+      if (prop.Exists)
+        prop.Set(id);
     }
 
     /// <summary>

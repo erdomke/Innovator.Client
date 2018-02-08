@@ -312,38 +312,21 @@ namespace Innovator.Client
     {
       var first = true;
       var delim = ',';
-      foreach (var group in items.GroupBy(i => i.Function ?? ""))
+      foreach (var item in items)
       {
-        var renderParentheses = group.Key != "" && group.Skip(1).Any();
-        if (renderParentheses)
+        if (first)
         {
-          if (!first)
-          {
-            builder.Append(delim);
-            first = true;
-          }
-          builder.Append('(');
+          if (string.IsNullOrEmpty(item.Name)) delim = '|';
         }
-
-        foreach (var item in group)
+        else
         {
-          if (first)
-          {
-            if (string.IsNullOrEmpty(item.Name)) delim = '|';
-          }
-          else
-          {
-            builder.Append(delim);
-          }
-          item.Write(builder);
-          first = false;
+          builder.Append(delim);
         }
+        item.Write(builder);
+        first = false;
 
-        if (renderParentheses)
-          builder.Append(')');
-
-        if (group.Key != "")
-          builder.Append('[').Append(group.Key).Append(']');
+        if (!string.IsNullOrEmpty(item.Function))
+          builder.Append('[').Append(item.Function).Append(']');
       }
       return builder;
     }

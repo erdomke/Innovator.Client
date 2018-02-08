@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
@@ -166,7 +166,10 @@ namespace Innovator.Client
       {
         if (!(value is string))
           throw new InvalidCastException();
-        if ((string)value == "") return null;
+        if (((string)value)?.Length == 0) return null;
+        if ((string)value == "__now()")
+          return OffsetToLocal(_clock()).DateTime;
+
 
         result = DateTime.Parse((string)value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
         if (_timeZone.Equals(TimeZoneData.Local)) return result;
@@ -175,6 +178,7 @@ namespace Innovator.Client
       result = TimeZoneData.ConvertTime(result, _timeZone, TimeZoneData.Local);
       return result;
     }
+
     /// <summary>
     /// Converts the <see cref="object" /> representing a date in the corporate
     /// time zone to a <see cref="DateTimeOffset" /> in the local time zone
@@ -190,34 +194,39 @@ namespace Innovator.Client
     {
       if (value == null)
         return null;
+
       if (value is DateTimeOffset)
-        return (DateTimeOffset)value;
+        return OffsetToLocal((DateTimeOffset)value);
 
       DateTime result;
       if (value is DateTime)
       {
-        result = (DateTime)value;
-        if (result.Kind == DateTimeKind.Local && _timeZone != TimeZoneData.Local)
-          result = TimeZoneData.ConvertTime(result, TimeZoneData.Local, _timeZone);
-        else if (result.Kind == DateTimeKind.Utc && _timeZone != TimeZoneData.Utc)
-          result = TimeZoneData.ConvertTime(result, TimeZoneData.Utc, _timeZone);
-        result = DateTime.SpecifyKind(result, DateTimeKind.Unspecified);
+        result = AsDateTime((DateTime)value).Value;
       }
       else
       {
         if (!(value is string))
           throw new InvalidCastException();
         var str = (string)value;
-        if (str == "") return null;
+        if (str?.Length == 0) return null;
+        if (str == "__now()")
+          return OffsetToLocal(_clock());
 
         if (str.EndsWith("Z") || TimeZoneMatch.IsMatch(str))
-          return DateTimeOffset.Parse(str, CultureInfo.InvariantCulture);
+          return OffsetToLocal(DateTimeOffset.Parse(str, CultureInfo.InvariantCulture));
 
         result = DateTime.Parse(str, CultureInfo.InvariantCulture);
       }
 
       return new DateTimeOffset(result, _timeZone.GetUtcOffset(result));
     }
+
+    private DateTimeOffset OffsetToLocal(DateTimeOffset value)
+    {
+      var date = TimeZoneData.ConvertTime(DateTime.SpecifyKind(value.ToUniversalTime().DateTime, DateTimeKind.Utc), TimeZoneData.Utc, TimeZoneData.Local);
+      return new DateTimeOffset(date, TimeZoneData.Local.GetUtcOffset(date));
+    }
+
     /// <summary>
     /// Converts the <see cref="object" /> representing a date in the corporate
     /// time zone to a <see cref="DateTime" /> in the UTC time zone
@@ -245,6 +254,8 @@ namespace Innovator.Client
         if (!(value is string))
           throw new InvalidCastException();
         if ((string)value == "") return null;
+        if ((string)value == "__now()")
+          return DateTime.SpecifyKind(_clock().ToUniversalTime().DateTime, DateTimeKind.Unspecified);
 
         result = DateTime.Parse((string)value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
         if (_timeZone == TimeZoneData.Utc)

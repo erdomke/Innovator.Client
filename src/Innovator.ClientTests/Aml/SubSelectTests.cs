@@ -52,14 +52,11 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void ParseItemSelect_ComplexFunction()
     {
-      var cols = SelectNode.FromString("major_rev,(owned_by_id,managed_by_id)[is_not_null()],team_id,id");
-      Assert.AreEqual("major_rev,team_id,id,(owned_by_id,managed_by_id)[is_not_null()]", cols.ToString());
+      const string str = "major_rev,owned_by_id[is_not_null()],managed_by_id[is_not_null()],team_id,id";
+      var cols = SelectNode.FromString(str);
+      Assert.AreEqual(str, cols.ToString());
       var expected = new string[] { "major_rev", "owned_by_id", "managed_by_id", "team_id", "id" };
       CollectionAssert.AreEqual(expected, cols.Select(c => c.Name).ToArray());
-
-      const string str = "(owned_by_id,managed_by_id)[is_not_null()]|(xp-*,id)[is_not_null()]";
-      cols = SelectNode.FromString(str);
-      Assert.AreEqual(str, cols.ToString());
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 
 namespace Innovator.Client
@@ -142,13 +142,6 @@ namespace Innovator.Client
         sql.Aml = "<sql>" + ServerContext.XmlEscape(sql.Aml) + "</sql>";
       }
       return ApplyAsyncInt(conn, sql.WithAction(CommandAction.ApplySQL), ct);
-    }
-#endif
-
-#if DBDATA
-    public static Connection.DbConnection AsDb(this IConnection conn)
-    {
-      return new Connection.DbConnection(conn);
     }
 #endif
 

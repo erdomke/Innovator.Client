@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -168,25 +168,7 @@ namespace Innovator.Client
     {
       this.WithAml(query, args);
     }
-
-#if DBDATA
-    /// <summary>
-    /// Creates an AML command that will be sent to the server.  Named AML parameters (e.g. @qty, used as attribute 
-    /// and element values) will be replaced with the corresponding arguments.
-    /// </summary>
-    /// <param name="format">Format string containing the parameters</param>
-    /// <param name="paramaters">Replacement values for the named parameters</param>
-    /// <returns>A valid AML string</returns>
-    /// /// <remarks>Property type conversion and XML formatting is performed</remarks>
-    public Command(string query, Connection.DbParams parameters) : this()
-    {
-      this.Aml = query;
-      foreach (var param in parameters)
-      {
-        _sub.AddParameter(param.ParameterName, param.Value);
-      }
-    }
-#endif
+    
     /// <summary>
     /// Creates an AML command that will be sent to the server from an <see cref="IAmlNode"/>
     /// </summary>

@@ -1,4 +1,4 @@
-﻿#if !TIMEZONEINFO
+#if !TIMEZONEINFO
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1101,11 +1101,11 @@ namespace Innovator.Client.Time
       public DateTimeKind GetCorrespondingKind(TimeZoneInfo timeZone)
       {
         DateTimeKind result;
-        if (timeZone == this.m_utcTimeZone)
+        if (timeZone.Equals(this.m_utcTimeZone ?? this.Utc))
         {
           result = DateTimeKind.Utc;
         }
-        else if (timeZone == this.m_localTimeZone)
+        else if (timeZone.Equals(this.m_localTimeZone ?? this.Local))
         {
           result = DateTimeKind.Local;
         }

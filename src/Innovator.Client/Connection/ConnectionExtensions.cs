@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 
 namespace Innovator.Client
@@ -144,6 +145,51 @@ namespace Innovator.Client
       return ApplyAsyncInt(conn, sql.WithAction(CommandAction.ApplySQL), ct);
     }
 #endif
+
+    /// <summary>
+    /// Fetches the version from the database if it is not already known.
+    /// </summary>
+    /// <param name="conn">The connection to fetch the version for</param>
+    /// <param name="async">Whether to fetch the version asynchronously</param>
+    /// <returns>A promise to return the version of the Aras installation.</returns>
+    public static IPromise<Version> FetchVersion(this IAsyncConnection conn, bool async)
+    {
+      var version = (conn as Connection.IArasConnection)?.Version;
+      if (version != default(Version) && version.Major > 0)
+        return Promises.Resolved(version);
+
+      return conn.ApplyAsync(@"<Item type='Variable' action='get' select='name,value'>
+        <name condition='like'>Version*</name>
+      </Item>", async, false)
+        .Convert(res =>
+        {
+          var dict = res.Items()
+            .GroupBy(i => i.Property("name").AsString(""))
+            .ToDictionary(g => g.Key, g => g.First().Property("value").Value);
+
+          string majorStr;
+          int major;
+          string minorStr;
+          int minor;
+          string servicePackStr;
+          int servicePack;
+          string buildStr;
+          int build;
+          if (dict.TryGetValue("VersionMajor", out majorStr) && int.TryParse(majorStr, out major)
+            && dict.TryGetValue("VersionMinor", out minorStr) && int.TryParse(minorStr, out minor)
+            && dict.TryGetValue("VersionServicePack", out servicePackStr))
+          {
+            if (!dict.TryGetValue("VersionBuild", out buildStr) || !int.TryParse(buildStr, out build))
+              build = 0;
+
+            if (!int.TryParse(servicePackStr.TrimStart('S', 'P'), out servicePack))
+              servicePack = 0;
+
+            return new Version(major, minor, build, servicePack);
+          }
+          return default(Version);
+        });
+    }
 
     /// <summary>
     /// Retrieve an item based on its type and ID

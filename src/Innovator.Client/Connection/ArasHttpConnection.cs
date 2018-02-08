@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -519,49 +519,6 @@ namespace Innovator.Client.Connection
       };
       return newConn.Login(_lastCredentials, async)
         .Convert(u => (IRemoteConnection)newConn);
-    }
-
-    /// <summary>
-    /// Fetches the version from the database if it is not already known.
-    /// </summary>
-    /// <param name="async">Whether to fetch the version asynchronously</param>
-    /// <returns>A promise to return the version of the Aras installation.</returns>
-    public IPromise<Version> FetchVersion(bool async)
-    {
-      if (_arasVersion != default(Version) && _arasVersion.Major > 0)
-        return Promises.Resolved(_arasVersion);
-
-      return this.ApplyAsync(@"<Item type='Variable' action='get' select='name,value'>
-        <name condition='like'>Version*</name>
-      </Item>", async, false)
-        .Convert(res =>
-        {
-          var dict = res.Items()
-            .GroupBy(i => i.Property("name").AsString(""))
-            .ToDictionary(g => g.Key, g => g.First().Property("value").Value);
-
-          string majorStr;
-          int major;
-          string minorStr;
-          int minor;
-          string servicePackStr;
-          int servicePack;
-          string buildStr;
-          int build;
-          if (dict.TryGetValue("VersionMajor", out majorStr) && int.TryParse(majorStr, out major)
-            && dict.TryGetValue("VersionMinor", out minorStr) && int.TryParse(minorStr, out minor)
-            && dict.TryGetValue("VersionServicePack", out servicePackStr))
-          {
-            if (!dict.TryGetValue("VersionBuild", out buildStr) || !int.TryParse(buildStr, out build))
-              build = 0;
-
-            if (!int.TryParse(servicePackStr.TrimStart('S', 'P'), out servicePack))
-              servicePack = 0;
-
-            _arasVersion = new Version(major, minor, build, servicePack);
-          }
-          return _arasVersion;
-        });
     }
 
     private IPromise<HashData> HashCreds(ICredentials credentials, bool async)

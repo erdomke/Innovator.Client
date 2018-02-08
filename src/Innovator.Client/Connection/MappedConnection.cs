@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -165,14 +165,6 @@ namespace Innovator.Client.Connection
       var arasConn = _current as IArasConnection;
       if (arasConn != null)
         arasConn.SetDefaultHeaders(writer);
-    }
-
-    public IPromise<Version> FetchVersion(bool async)
-    {
-      var arasConn = _current as IArasConnection;
-      if (arasConn == null)
-        throw new NotSupportedException();
-      return arasConn.FetchVersion(async);
     }
 
     public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)

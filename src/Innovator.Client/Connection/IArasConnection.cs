@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Innovator.Client.Connection
@@ -37,11 +37,5 @@ namespace Innovator.Client.Connection
     /// </summary>
     /// <param name="writer">The method to call with each header.</param>
     void SetDefaultHeaders(Action<string, string> writer);
-    /// <summary>
-    /// Fetches the version from the database if it is not already known.
-    /// </summary>
-    /// <param name="async">Whether to fetch the version asynchronously</param>
-    /// <returns>A promise to return the version of the Aras installation.</returns>
-    IPromise<Version> FetchVersion(bool async);
   }
 }

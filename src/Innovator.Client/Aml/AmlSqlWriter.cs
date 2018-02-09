@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -259,7 +259,7 @@ namespace Innovator.Client
 
           if (_criteriaItem != null)
           {
-            var table = _criteriaItem.From.First();
+            var table = _criteriaItem.From[0];
             table.OuterJoin = true;
             table.Criteria = table.Alias + ".id = " + _lastItem.Alias + "." + AssertPropertyName(curr.Name);
             _lastItem.From.Add(table);
@@ -800,16 +800,21 @@ namespace Innovator.Client
         else
           builder.Append(table.OuterJoin ? " left" : " inner").Append(" join ");
 
-        builder.Append(permission == AmlSqlPermissionOption.SecuredFunction ? "secured" : "innovator")
+        var secured = permission == AmlSqlPermissionOption.SecuredFunction
+          || permission == AmlSqlPermissionOption.SecuredFunctionEnviron;
+        builder.Append(secured ? "secured" : "innovator")
           .Append('.').Append(table.Name);
 
-        if (permission == AmlSqlPermissionOption.SecuredFunction)
+        if (secured)
         {
           builder.Append("('can_get','")
             .Append(_settings.IdentityList)
             .Append("',null,'")
             .Append(_settings.UserId)
-            .Append("',null)");
+            .Append("',null");
+          if (permission == AmlSqlPermissionOption.SecuredFunctionEnviron)
+            builder.Append(",null");
+          builder.Append(")");
         }
 
         if (table.Alias != table.Name)
@@ -825,7 +830,7 @@ namespace Innovator.Client
     private void AppendWhereClause(TextWriter builder, ItemTag tag, bool addPermissionChecks)
     {
       var start = 0;
-      var hasWhere = tag.RelatedWhere.Any() || tag.Where.Length > 0;
+      var hasWhere = tag.RelatedWhere.Count > 0 || tag.Where.Length > 0;
       foreach (var related in tag.RelatedWhere)
       {
         builder.Append(tag.Where.ToString(start, related.Index - start))
@@ -948,9 +953,7 @@ namespace Innovator.Client
 
     private class Tag
     {
-      private readonly Dictionary<string, string> _attrs = new Dictionary<string, string>();
-
-      public Dictionary<string, string> Attributes { get { return _attrs; } }
+      public Dictionary<string, string> Attributes { get; } = new Dictionary<string, string>();
       public string Name { get; set; }
       public bool AttributesProcessed { get; set; }
     }

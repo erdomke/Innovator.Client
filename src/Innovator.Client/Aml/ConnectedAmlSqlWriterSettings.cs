@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Innovator.Client
@@ -19,6 +20,7 @@ namespace Innovator.Client
     /// Gets the aml context used for serializing/deserializing values
     /// </summary>
     public ElementFactory AmlContext { get { return _conn.AmlContext; } }
+
     /// <summary>
     /// Gets the identity list for the current user
     /// </summary>
@@ -29,14 +31,17 @@ namespace Innovator.Client
         return _identList ?? (_identList = _conn.Apply(new Command("<Item/>").WithAction(CommandAction.GetIdentityList)).Value ?? "");
       }
     }
+
     /// <summary>
     /// How to handle permissions with the query
     /// </summary>
     public AmlSqlPermissionOption PermissionOption { get; set; }
+
     /// <summary>
     /// What portion of the SQL query to render
     /// </summary>
     public AmlSqlRenderOption RenderOption { get; set; }
+
     /// <summary>
     /// ID of the current user
     /// </summary>
@@ -50,6 +55,26 @@ namespace Innovator.Client
     public ConnectedAmlSqlWriterSettings(IConnection conn)
     {
       _conn = conn;
+    }
+
+    /// <summary>
+    /// Fluent API to set the permission option to the correct value based on the Aras version
+    /// </summary>
+    /// <param name="arasVersion">The Aras version.</param>
+    /// <returns>The current instance of <see cref="ConnectedAmlSqlWriterSettings"/></returns>
+    public ConnectedAmlSqlWriterSettings WithPermissions(Version arasVersion)
+    {
+      if (arasVersion == null)
+        return this;
+
+      var num = int.Parse(arasVersion.Major.ToString("D2") + arasVersion.Minor.ToString("D2") + arasVersion.ServicePack().Value.ToString("D2"));
+      if (num < 110005)
+        PermissionOption = AmlSqlPermissionOption.LegacyFunction;
+      else if (num < 110012)
+        PermissionOption = AmlSqlPermissionOption.SecuredFunction;
+      else
+        PermissionOption = AmlSqlPermissionOption.SecuredFunctionEnviron;
+      return this;
     }
 
     /// <summary>

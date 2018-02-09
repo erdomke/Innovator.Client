@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -154,6 +154,24 @@ namespace Innovator.Client
     public static void ForceWritableSession(this IHttpRequest request)
     {
       request.SetHeader(ArasHeaders.ForceWritableSessionHeader, "required");
+    }
+
+    /// <summary>
+    /// Returns the service pack number based on the version revision
+    /// </summary>
+    /// <param name="version">The Aras version.</param>
+    /// <returns>The service pack number</returns>
+    public static int? ServicePack(this Version version)
+    {
+      if (version == null)
+        return null;
+      if (version.Build < 6296) // 11.0.0.6296 = SP5
+        return 0;
+      if (version.Build < 6549) // 11.0.0.6549 = SP9
+        return 5;
+      if (version.Build < 6920) // 11.0.0.6920 = SP12
+        return 9;
+      return 12;
     }
 
 #if FILEIO && MD5

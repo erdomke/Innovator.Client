@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -188,57 +188,7 @@ namespace Innovator.Client.Connection
     /// <returns>A promise to return a stream of the resulting AML</returns>
     public IPromise<Stream> Upload(UploadCommand upload, bool async)
     {
-      // Transform the vault URL (as necessary)
-      var urlPromise = upload.Vault.Url.IndexOf("$[") < 0 ?
-        Promises.Resolved(upload.Vault.Url) :
-        _conn.Process(new Command("<url>@0</url>", upload.Vault.Url)
-                .WithAction(CommandAction.TransformVaultServerURL), async)
-                .Convert(s => s.AsString());
-      //GetResult("TransformVaultServerURL", "<url>" + upload.Vault.Url + "</url>", async);
-
-      return urlPromise.Continue(u =>
-      {
-        // Determine the authentication used by the vault
-        if (u != upload.Vault.Url) upload.Vault.Url = u;
-
-        // Compile the headers and AML query into the appropriate content
-        var content = new FormContent();
-        _conn.SetDefaultHeaders(content.Add);
-        content.Add("SOAPACTION", upload.Action.ToString());
-        content.Add("VAULTID", upload.Vault.Id);
-        content.Add("XMLdata", "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><ApplyItem>" +
-                                  upload.ToNormalizedAml(_conn.AmlContext.LocalizationContext) +
-                                  "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>");
-        foreach (var file in upload.Files)
-        {
-          content.Add(file.AsContent(upload, _conn.AmlContext.LocalizationContext));
-        }
-        content.Compression = _conn.Compression;
-
-        var req = new HttpRequest() { Content = content };
-        foreach (var ac in _conn.DefaultSettings)
-        {
-          ac.Invoke(req);
-        }
-        if (upload.Settings != null) upload.Settings.Invoke(req);
-        req.Headers.TransferEncodingChunked = true;
-
-        var trace = new LogData(4
-          , "Innovator: Execute query"
-          , upload.LogListener ?? Factory.LogListener
-          , upload.Parameters)
-        {
-          { "aras_url", _conn.MapClientUrl("../../Server") },
-          { "database", _conn.Database },
-          { "query", upload.Aml },
-          { "soap_action", upload.ActionString },
-          { "url", upload.Vault.Url },
-          { "user_id", _conn.UserId },
-          { "vault_id", upload.Vault.Id },
-          { "version", _conn.Version }
-        };
-        return upload.Vault.HttpClient.PostPromise(new Uri(upload.Vault.Url), async, req, trace).Always(trace.Dispose);
-      }).Convert(r => r.AsStream);
+      return upload.Commit(async);
     }
 
     //private IPromise<Stream> UploadTransaction(UploadCommand upload, bool async)

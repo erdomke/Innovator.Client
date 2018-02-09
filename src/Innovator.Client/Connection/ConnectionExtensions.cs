@@ -185,7 +185,7 @@ namespace Innovator.Client
             if (!int.TryParse(servicePackStr.TrimStart('S', 'P'), out servicePack))
               servicePack = 0;
 
-            return new Version(major, minor, build, servicePack);
+            return new Version(major, minor, servicePack, build);
           }
           return default(Version);
         });

@@ -89,7 +89,7 @@
   </PropertyGroup>-->
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET40</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net40\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>

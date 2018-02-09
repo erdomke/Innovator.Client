@@ -1,4 +1,4 @@
-﻿using Innovator.Client.Connection;
+using Innovator.Client.Connection;
 using Innovator.Server;
 using System;
 using System.Collections.Generic;
@@ -139,7 +139,10 @@ namespace Innovator.Client.IOM
     /// </returns>
     public UploadCommand CreateUploadCommand()
     {
-      return new UploadCommand(_vaultConn.VaultStrategy.WritePriority(false).Value.First());
+      var version = Version ?? new Version(255, 0);
+      if (version.Major > 9)
+        return new TransactionalUploadCommand(this, _vaultConn.VaultStrategy.WritePriority(false).Value.First());
+      return new NontransactionalUploadCommand(this, _vaultConn.VaultStrategy.WritePriority(false).Value.First());
     }
 
     /// <summary>
@@ -187,7 +190,22 @@ namespace Innovator.Client.IOM
         input.LoadXml(request.ToNormalizedAml(AmlContext.LocalizationContext));
         var output = new XmlDocument();
 
-        _callAction(request.ActionString, input, output);
+        using (new LogData(4
+          , "Innovator: Execute query"
+          , request.LogListener ?? Factory.LogListener
+          , request.Parameters)
+        {
+          { "database", _httpDatabase },
+          { "query", request.Aml },
+          { "soap_action", request.ActionString },
+          { "url", _requestUrl },
+          { "user_name", _httpUsername },
+          { "user_id", UserId },
+          { "version", Version }
+        })
+        {
+          _callAction(request.ActionString, input, output);
+        }
 
         return Promises.Resolved<Stream>(new XmlStream(() => new XmlNodeReader(output)));
       }

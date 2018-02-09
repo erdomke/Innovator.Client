@@ -502,6 +502,17 @@
     <Compile Include="Connection\DefaultVaultStrategy.cs" />
     <Compile Include="Connection\Endpoints.cs" />
     <Compile Include="Connection\IArasConnection.cs" />
+    <Compile Include="Connection\NontransactionalUploadCommand.cs" />
+    <Compile Include="Connection\TransactionalUploadCommand.cs" />
+    <Compile Include="Hash\HashFunctionAsyncBase.cs" />
+    <Compile Include="Hash\HashFunctionBase.cs" />
+    <Compile Include="Hash\IHashFunction.cs" />
+    <Compile Include="Hash\IHashFunctionAsync.cs" />
+    <Compile Include="Hash\Utilities\IntegerManipulation\RotateLeftExtensions.cs" />
+    <Compile Include="Hash\Utilities\UnifiedData\ArrayData.cs" />
+    <Compile Include="Hash\Utilities\UnifiedData\StreamData.cs" />
+    <Compile Include="Hash\Utilities\UnifiedData\UnifiedData.cs" />
+    <Compile Include="Hash\xxHash.cs" />
     <Compile Include="IOM\Innovator.cs" />
     <Compile Include="IOM\IomConnection.cs" />
     <Compile Include="Connection\IVaultFactory.cs" />
@@ -592,6 +603,7 @@
     <Compile Include="UploadCommand.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

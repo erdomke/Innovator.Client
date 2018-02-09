@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 
 namespace Innovator.Client
 {
@@ -7,7 +7,6 @@ namespace Innovator.Client
   /// </summary>
   public class Vault : ILink<Vault>
   {
-    private readonly SyncHttpClient _httpClient;
 
     /// <summary>
     /// Gets or sets the authentication scheme to use with the vault.
@@ -17,7 +16,7 @@ namespace Innovator.Client
     /// </value>
     public AuthenticationSchemes Authentication { get; set; }
 
-    internal SyncHttpClient HttpClient { get { return _httpClient; } }
+    internal SyncHttpClient HttpClient { get; }
 
     /// <summary>
     /// Gets or sets the Aras ID of the vault.
@@ -35,6 +34,25 @@ namespace Innovator.Client
     /// </value>
     public string Url { get; set; }
 
+    /// <summary>
+    /// Transforms the vault URL replacing any <c>$[]</c>-style parameters.
+    /// </summary>
+    /// <param name="conn">The connection.</param>
+    /// <param name="async">Whether to perform this action asynchronously</param>
+    /// <returns>A promise to return the transformed URL</returns>
+    public IPromise<string> TransformUrl(IAsyncConnection conn, bool async)
+    {
+      return Url.IndexOf("$[") < 0 ?
+        Promises.Resolved(Url) :
+        conn.Process(new Command("<url>@0</url>", Url)
+          .WithAction(CommandAction.TransformVaultServerURL), async)
+          .Convert(s =>
+          {
+            Url = s.AsString();
+            return Url;
+          });
+    }
+
     string ILink<Vault>.Name { get { return Id; } }
     Vault ILink<Vault>.Next { get; set; }
 
@@ -48,7 +66,7 @@ namespace Innovator.Client
       {
         CookieContainer = new CookieContainer()
       };
-      _httpClient = new SyncHttpClient(handler);
+      HttpClient = new SyncHttpClient(handler);
     }
   }
 }

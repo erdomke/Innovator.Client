@@ -195,7 +195,10 @@ namespace Innovator.Client.Connection
     /// </returns>
     public UploadCommand CreateUploadCommand()
     {
-      return new UploadCommand(_vaultConn.VaultStrategy.WritePriority(false).Value.First());
+      var version = _arasVersion ?? new Version(255, 0);
+      if (version.Major > 9)
+        return new TransactionalUploadCommand(this, _vaultConn.VaultStrategy.WritePriority(false).Value.First());
+      return new NontransactionalUploadCommand(this, _vaultConn.VaultStrategy.WritePriority(false).Value.First());
     }
 
     /// <summary>

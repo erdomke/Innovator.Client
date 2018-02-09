@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -48,6 +48,8 @@ namespace Innovator.Client
     /// </summary>
     public static IPromise<IList<object>> All(params IPromise[] promises)
     {
+      if (promises.Length < 1)
+        return Resolved((IList<object>)new object[] { });
       return new AggregatePromise(promises);
     }
 

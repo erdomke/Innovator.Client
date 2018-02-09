@@ -513,6 +513,17 @@
     <Compile Include="Connection\DefaultVaultStrategy.cs" />
     <Compile Include="Connection\Endpoints.cs" />
     <Compile Include="Connection\IArasConnection.cs" />
+    <Compile Include="Connection\NontransactionalUploadCommand.cs" />
+    <Compile Include="Connection\TransactionalUploadCommand.cs" />
+    <Compile Include="Hash\HashFunctionAsyncBase.cs" />
+    <Compile Include="Hash\HashFunctionBase.cs" />
+    <Compile Include="Hash\IHashFunction.cs" />
+    <Compile Include="Hash\IHashFunctionAsync.cs" />
+    <Compile Include="Hash\Utilities\IntegerManipulation\RotateLeftExtensions.cs" />
+    <Compile Include="Hash\Utilities\UnifiedData\ArrayData.cs" />
+    <Compile Include="Hash\Utilities\UnifiedData\StreamData.cs" />
+    <Compile Include="Hash\Utilities\UnifiedData\UnifiedData.cs" />
+    <Compile Include="Hash\xxHash.cs" />
     <Compile Include="IOM\Innovator.cs" />
     <Compile Include="IOM\IomConnection.cs" />
     <Compile Include="Connection\IVaultFactory.cs" />

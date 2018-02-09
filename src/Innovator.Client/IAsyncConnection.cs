@@ -1,4 +1,4 @@
-﻿namespace Innovator.Client
+namespace Innovator.Client
 {
   /// <summary>
   /// Interface for a connection to an Aras Innovator instance that allows asynchronous calls
@@ -10,7 +10,7 @@
     /// </summary>
     /// <param name="request">Request AML and possibly files <see cref="UploadCommand"/></param>
     /// <param name="async">Whether to perform this action asynchronously</param>
-    /// <returns>A promise to return an XML SOAP response as a string</returns>
+    /// <returns>A promise to return an XML SOAP response as a <see cref="System.IO.Stream"/></returns>
     IPromise<System.IO.Stream> Process(Command request, bool async);
 
     /// <summary>

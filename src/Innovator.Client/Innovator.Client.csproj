@@ -42,6 +42,8 @@
     <Compile Include="Aml\AmlSqlRenderOption.cs" />
     <Compile Include="Aml\AmlSqlWriter.cs" />
     <Compile Include="Aml\AmlWriterSettings.cs" />
+    <Compile Include="Aml\ClassNode.cs" />
+    <Compile Include="Aml\ClassStructure.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
     <Compile Include="Aml\ConnectedAmlSqlWriterSettings.cs" />
@@ -522,6 +524,16 @@
     <Compile Include="IO\IXmlStream.cs" />
     <Compile Include="IO\MemoryTributary.cs" />
     <Compile Include="IO\XmlStream.cs" />
+    <Compile Include="JSON\JsonArray.cs" />
+    <Compile Include="JSON\JsonObject.cs" />
+    <Compile Include="JSON\JsonValue.cs" />
+    <Compile Include="JSON\JsonValueType.cs" />
+    <Compile Include="JSON\Serialization\JsonParseException.cs" />
+    <Compile Include="JSON\Serialization\JsonReader.cs" />
+    <Compile Include="JSON\Serialization\JsonSerializationException.cs" />
+    <Compile Include="JSON\Serialization\JsonWriter.cs" />
+    <Compile Include="JSON\Serialization\TextPosition.cs" />
+    <Compile Include="JSON\Serialization\TextScanner.cs" />
     <Compile Include="Queryable\AmlQuery.cs" />
     <Compile Include="Queryable\AmlVisitor.cs" />
     <Compile Include="Queryable\ArasNameAttribute.cs" />
@@ -601,6 +613,7 @@
     <Compile Include="Server\ServerMethod\WorkflowContext.cs" />
     <Compile Include="Server\ServerMethod\WorkflowEvent.cs" />
     <Compile Include="UploadCommand.cs" />
+    <Compile Include="UploadStatus.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup />

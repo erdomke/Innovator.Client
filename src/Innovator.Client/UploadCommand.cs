@@ -14,6 +14,9 @@ namespace Innovator.Client
   public abstract class UploadCommand : Command
   {
     private readonly List<CommandFile> _files = new List<CommandFile>();
+    /// <summary>
+    /// Aras connection
+    /// </summary>
     protected readonly Connection.IArasConnection _conn;
 
     /// <summary>
@@ -42,6 +45,10 @@ namespace Innovator.Client
       }
     }
     internal IList<CommandFile> Files { get { return _files; } }
+    /// <summary>
+    /// Gets the status of the upload operation.
+    /// </summary>
+    public UploadStatus Status { get; protected set; }
     internal Vault Vault { get; }
 
     /// <summary>

@@ -6,7 +6,7 @@
     <ProjectGuid>{A0FEDAB9-13D3-4489-B17E-7156CA1BC5C2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Innovator.ClientTests</RootNamespace>
+    <RootNamespace>Innovator.Client.Tests</RootNamespace>
     <AssemblyName>Innovator.ClientTests</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="Aml\AmlReaderTests.cs" />
     <Compile Include="Aml\AmlSqlWriterTests.cs" />
+    <Compile Include="Aml\ClassStructureTests.cs" />
     <Compile Include="Aml\ElementFactoryTests.cs" />
     <Compile Include="Aml\IomTests.cs" />
     <Compile Include="Aml\ItemExtensionsTests.cs" />

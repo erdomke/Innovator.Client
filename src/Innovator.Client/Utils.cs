@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -391,7 +391,7 @@ namespace Innovator.Client
 
     public static bool IsGuid(this string value)
     {
-      if (value == null || value.Length != 32) return false;
+      if (value?.Length != 32) return false;
       for (var i = 0; i < value.Length; i++)
       {
         switch (value[i])

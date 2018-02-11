@@ -10,6 +10,7 @@ namespace Innovator.Client
   internal class TransactionalUploadCommand : UploadCommand
   {
     private IPromise<string> _transactionId;
+    private IPromise<Stream> _lastPromise;
 
     public TransactionalUploadCommand(Connection.IArasConnection conn, Vault vault) : base(conn, vault)
     {
@@ -18,67 +19,80 @@ namespace Innovator.Client
 
     public override IPromise<Stream> Commit(bool async)
     {
+      if (Status != UploadStatus.Pending)
+        return _lastPromise;
+
+      Status = UploadStatus.Committed;
       if (!Files.Any(f => f.UploadPromise != null))
-        return UploadAndApply(async);
-
-      var transactionId = default(string);
-
-      return BeginTransaction(async)
-        .Continue(t =>
-        {
-          transactionId = t;
-          return Promises.All(Files
-            .Select(f => f.UploadPromise ?? UploadFile(f, async))
-            .ToArray());
-        })
-        .Continue(l =>
-        {
-          var aml = this.ToNormalizedAml(_conn.AmlContext.LocalizationContext);
-          var content = new FormContent
+      {
+        _lastPromise = UploadAndApply(async);
+      }
+      else
+      {
+        var transactionId = default(string);
+        _lastPromise = BeginTransaction(async)
+          .Continue(t =>
           {
+            transactionId = t;
+            return Promises.All(Files
+              .Select(f => f.UploadPromise ?? UploadFile(f, async))
+              .ToArray());
+          })
+          .Continue(l =>
+          {
+            var aml = this.ToNormalizedAml(_conn.AmlContext.LocalizationContext);
+            var content = new FormContent
             {
-              "XMLData",
-              "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><ApplyItem>"
-                + aml
-                + "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+              {
+                "XMLData",
+                "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><ApplyItem>"
+                  + aml
+                  + "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+              }
+            };
+
+            var req = new HttpRequest() { Content = content };
+            _conn.SetDefaultHeaders(req.SetHeader);
+            foreach (var ac in _conn.DefaultSettings)
+            {
+              ac.Invoke(req);
             }
-          };
+            Settings?.Invoke(req);
+            req.SetHeader("SOAPAction", "CommitTransaction");
+            req.SetHeader("VAULTID", Vault.Id);
+            req.SetHeader("transactionid", transactionId);
 
-          var req = new HttpRequest() { Content = content };
-          _conn.SetDefaultHeaders(req.SetHeader);
-          foreach (var ac in _conn.DefaultSettings)
-          {
-            ac.Invoke(req);
-          }
-          Settings?.Invoke(req);
-          req.SetHeader("SOAPAction", "CommitTransaction");
-          req.SetHeader("VAULTID", Vault.Id);
-          req.SetHeader("transactionid", transactionId);
-
-          var trace = new LogData(4
-            , "Innovator: Execute vault query"
-            , LogListener ?? Factory.LogListener
-            , Parameters)
-          {
-            { "aras_url", _conn.MapClientUrl("../../Server") },
-            { "database", _conn.Database },
-            { "query", aml },
-            { "soap_action", "CommitTransaction" },
-            { "url", Vault.Url },
-            { "user_id", _conn.UserId },
-            { "vault_id", Vault.Id },
-            { "version", _conn.Version }
-          };
-          return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
-        })
-        .Convert(r => r.AsStream);
+            var trace = new LogData(4
+              , "Innovator: Execute vault query"
+              , LogListener ?? Factory.LogListener
+              , Parameters)
+            {
+              { "aras_url", _conn.MapClientUrl("../../Server") },
+              { "database", _conn.Database },
+              { "query", aml },
+              { "soap_action", "CommitTransaction" },
+              { "url", Vault.Url },
+              { "user_id", _conn.UserId },
+              { "vault_id", Vault.Id },
+              { "version", _conn.Version }
+            };
+            return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
+          })
+          .Convert(r => r.AsStream);
+      }
+      return _lastPromise;
     }
 
     public override IPromise<Stream> Rollback(bool async)
     {
-      return BeginTransaction(async)
+      if (Status == UploadStatus.RolledBack)
+        return _lastPromise;
+
+      Status = UploadStatus.RolledBack;
+      _lastPromise = BeginTransaction(async)
         .Continue(t => VaultApplyAction("RollbackTransaction", async))
         .Convert(r => r.AsStream);
+      return _lastPromise;
     }
 
     public override IPromise<string> UploadFile(string id, string path, Stream data, bool async)

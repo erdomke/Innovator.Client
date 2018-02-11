@@ -10,13 +10,19 @@ namespace Innovator.Client
 {
   internal class NontransactionalUploadCommand : UploadCommand
   {
+    private IPromise<Stream> _lastPromise;
+
     public NontransactionalUploadCommand(Connection.IArasConnection conn, Vault vault) : base(conn, vault)
     {
     }
 
     public override IPromise<Stream> Commit(bool async)
     {
-      return Promises.All(Files
+      if (Status != UploadStatus.Pending)
+        return _lastPromise;
+
+      Status = UploadStatus.Committed;
+      _lastPromise = Promises.All(Files
         .Where(f => f.UploadPromise != null)
         .Select(f => f.UploadPromise)
         .ToArray())
@@ -38,11 +44,16 @@ namespace Innovator.Client
             return Promises.Resolved((Stream)memStream);
           }
         });
+      return _lastPromise;
     }
 
     public override IPromise<Stream> Rollback(bool async)
     {
-      return Promises.All(Files
+      if (Status == UploadStatus.RolledBack)
+        return _lastPromise;
+
+      Status = UploadStatus.RolledBack;
+      _lastPromise = Promises.All(Files
         .Where(f => f.UploadPromise != null)
         .Select(f => f.UploadPromise.Continue(s =>
         {
@@ -53,6 +64,7 @@ namespace Innovator.Client
           return _conn.Process(new Command("<Item type='File' action='delete' id='@0' />", f.Id), async);
         })).ToArray())
         .Convert(l => l.OfType<Stream>().FirstOrDefault() ?? new MemoryStream());
+      return _lastPromise;
     }
 
     public override IPromise<string> UploadFile(string id, string path, Stream data, bool async)

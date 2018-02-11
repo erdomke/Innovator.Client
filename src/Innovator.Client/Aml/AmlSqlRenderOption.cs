@@ -1,4 +1,4 @@
-﻿namespace Innovator.Client
+namespace Innovator.Client
 {
   /// <summary>
   /// What type of SQL query to render
@@ -41,5 +41,9 @@
     /// A query which returns the offset of an item in a result set
     /// </summary>
     OffsetQuery = 0x200,
+    /// <summary>
+    /// Whether to ignore the <c>queryType</c> of a get query
+    /// </summary>
+    IgnoreQueryType = 0x1000,
   }
 }

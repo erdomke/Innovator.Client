@@ -686,7 +686,7 @@ namespace Innovator.Client
             .Append(_lastItem.Alias).Append(".team_id, count(*) cnt");
           AppendFromClause(writer, _lastItem.From, _settings.PermissionOption);
           writer.Append(" where ");
-          AppendWhereClause(writer, _lastItem, false);
+          AppendWhereClause(writer, _lastItem, false, false);
           writer.Append(" group by ")
             .Append(_lastItem.Alias).Append(".permission_id, ")
             .Append(_lastItem.Alias).Append(".created_by_id, ")
@@ -735,7 +735,7 @@ namespace Innovator.Client
           AppendFromClause(writer, tables, _settings.PermissionOption);
 
           writer.Append(" where ");
-          AppendWhereClause(writer, _lastItem, false);
+          AppendWhereClause(writer, _lastItem, false, false);
           writer.Append(" group by ")
             .Append(_lastItem.Alias).Append(".permission_id, ")
             .Append(_lastItem.Alias).Append(".created_by_id, ")
@@ -750,10 +750,10 @@ namespace Innovator.Client
             writer.Append(_lastItem.Select.ToString());
           if ((renderOption & AmlSqlRenderOption.FromClause) != 0)
             AppendFromClause(writer, _lastItem.From, _settings.PermissionOption);
-          if (renderOption != AmlSqlRenderOption.WhereClause)
+          if ((AmlSqlRenderOption)((int)renderOption & 0xff) != AmlSqlRenderOption.WhereClause)
             writer.Append(" where ");
           if ((renderOption & AmlSqlRenderOption.WhereClause) != 0)
-            AppendWhereClause(writer, _lastItem, true);
+            AppendWhereClause(writer, _lastItem, true, (renderOption & AmlSqlRenderOption.IgnoreQueryType) != 0);
 
           if ((renderOption & AmlSqlRenderOption.OrderByClause) != 0)
           {
@@ -827,7 +827,7 @@ namespace Innovator.Client
       }
     }
 
-    private void AppendWhereClause(TextWriter builder, ItemTag tag, bool addPermissionChecks)
+    private void AppendWhereClause(TextWriter builder, ItemTag tag, bool addPermissionChecks, bool ignoreQueryType)
     {
       var start = 0;
       var hasWhere = tag.RelatedWhere.Count > 0 || tag.Where.Length > 0;
@@ -859,7 +859,7 @@ namespace Innovator.Client
       if (!tag.Attributes.TryGetValue("queryType", out queryType))
         queryType = "current";
 
-      if (!tag.IgnoreVersions)
+      if (!tag.IgnoreVersions && !ignoreQueryType)
       {
         if (string.Equals(queryType, "current", StringComparison.OrdinalIgnoreCase))
         {

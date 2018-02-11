@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innovator.Client.Tests
 {
@@ -69,6 +69,22 @@ namespace Innovator.Client.Tests
       writer.Flush();
       Assert.AreEqual("[Part].is_active_rev = 1 and [Part].keyed_name like N'999-%'"
         , writer.ToString(AmlSqlRenderOption.WhereClause));
+    }
+
+    [TestMethod()]
+    public void Aml2Sql_WhereClause2()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item type='Can Add' typeId='3A65F41FF1FC42518A702FDA164AF420' action='get'>
+  <source_id keyed_name='Located' type='ItemType' name='Located'>5698BACD2A7A45D6AC3FA60EAB3E6566</source_id>
+  <can_add>1</can_add>
+  <related_id keyed_name='World' type='Identity'>A73B655731924CD0B027E4F4D5FCC0A9</related_id>
+  <sort_order>128</sort_order>
+</Item>").AssertItem();
+      var writer = new AmlSqlWriter(new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.None });
+      item.ToAml(writer);
+      writer.Flush();
+      Assert.AreEqual("[Can_Add].source_id = '5698BACD2A7A45D6AC3FA60EAB3E6566' and [Can_Add].can_add = 1 and [Can_Add].related_id = 'A73B655731924CD0B027E4F4D5FCC0A9' and [Can_Add].sort_order = 128"
+        , writer.ToString(AmlSqlRenderOption.WhereClause | AmlSqlRenderOption.IgnoreQueryType));
     }
 
     [TestMethod()]

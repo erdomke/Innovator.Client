@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Text;
 
@@ -20,6 +20,7 @@ namespace Innovator.Client
   /// </example>
   public class SqlBatchWriter : IDisposable
   {
+    private readonly ElementFactory _aml;
     private readonly IConnection _conn;
     private readonly StringBuilder _builder;
     private readonly ParameterSubstitution _subs;
@@ -28,9 +29,25 @@ namespace Innovator.Client
     private IPromise<Stream> _lastResult = null;
 
     /// <summary>
-    /// Nuumber of commands at which to send the query to the database
+    /// Number of commands at which to send the query to the database
     /// </summary>
     public int Threshold { get; set; }
+
+    /// <summary>Instantiate the writer</summary>
+    public SqlBatchWriter() : this(96) { }
+
+    /// <summary>Instantiate the writer with an initial capacity for the internal <see cref="StringBuilder"/></summary>
+    /// <param name="capacity"><see cref="StringBuilder"/> initial capacity</param>
+    public SqlBatchWriter(int capacity)
+    {
+      _aml = ElementFactory.Utc;
+      _subs = new ParameterSubstitution()
+      {
+        Mode = ParameterSubstitutionMode.Sql
+      };
+      this.Threshold = 3000;
+      _builder = new StringBuilder(capacity);
+    }
 
     /// <summary>Instantiate the writer with a connection</summary>
     /// <param name="conn">Server connection</param>
@@ -39,15 +56,10 @@ namespace Innovator.Client
     /// <summary>Instantiate the writer with a connection and an initial capacity for the internal <see cref="StringBuilder"/></summary>
     /// <param name="conn">Server connection</param>
     /// <param name="capacity"><see cref="StringBuilder"/> initial capacity</param>
-    public SqlBatchWriter(IConnection conn, int capacity)
+    public SqlBatchWriter(IConnection conn, int capacity) : this(capacity)
     {
-      _builder = new StringBuilder(capacity).Append("<sql>");
       _conn = conn;
-      _subs = new ParameterSubstitution()
-      {
-        Mode = ParameterSubstitutionMode.Sql
-      };
-      this.Threshold = 3000;
+      _builder.Append("<sql>");
     }
 
     /// <summary>Append a new line (empty command) to the SQL</summary>
@@ -66,8 +78,15 @@ namespace Innovator.Client
     /// buffer of SQL commands might be sent to the server after this call</remarks>
     public SqlBatchWriter Command(string value)
     {
-      _builder.AppendEscapedXml(value).AppendLine();
-      ProcessCommand(false);
+      if (_conn == null)
+      {
+        _builder.AppendLine(value);
+      }
+      else
+      {
+        _builder.AppendEscapedXml(value).AppendLine();
+        ProcessCommand(false);
+      }
       return this;
     }
     /// <summary>Append the specified command with parameters the SQL. @# (e.g. @0) style 
@@ -79,8 +98,39 @@ namespace Innovator.Client
     public SqlBatchWriter Command(string format, params object[] args)
     {
       _subs.AddIndexedParameters(args);
-      _builder.AppendEscapedXml(_subs.Substitute(format, _conn.AmlContext.LocalizationContext)).AppendLine();
-      ProcessCommand(false);
+      var value = _subs.Substitute(format, _aml.LocalizationContext);
+      if (_conn == null)
+      {
+        _builder.AppendLine(value);
+      }
+      else
+      {
+        _builder.AppendEscapedXml(value).AppendLine();
+        ProcessCommand(false);
+      }
+      _subs.ClearParameters();
+      return this;
+    }
+
+    /// <summary>Append the specified command with parameters the SQL. @# (e.g. @0) style 
+    /// parameters are replaced</summary>
+    /// <remarks>Depending on the number of commands written and the <see cref="Threshold"/>, the
+    /// buffer of SQL commands might be sent to the server after this call. See 
+    /// <see cref="Innovator.Client.Command"/> and <see cref="ParameterSubstitution"/> for more 
+    /// information on how parameters are substituted</remarks>
+    public SqlBatchWriter Command(IFormattable formattable)
+    {
+      var format = formattable.ToString(null, _subs);
+      var value = _subs.Substitute(format, _aml.LocalizationContext);
+      if (_conn == null)
+      {
+        _builder.AppendLine(value);
+      }
+      else
+      {
+        _builder.AppendEscapedXml(value).AppendLine();
+        ProcessCommand(false);
+      }
       _subs.ClearParameters();
       return this;
     }
@@ -90,7 +140,10 @@ namespace Innovator.Client
     /// call to <see cref="SqlBatchWriter.Command()"/> (or one of the overloads)</remarks>
     public SqlBatchWriter Part(string value)
     {
-      _builder.AppendEscapedXml(value);
+      if (_conn == null)
+        _builder.Append(value);
+      else
+        _builder.AppendEscapedXml(value);
       return this;
     }
 
@@ -103,7 +156,29 @@ namespace Innovator.Client
     public SqlBatchWriter Part(string format, params object[] args)
     {
       _subs.AddIndexedParameters(args);
-      _builder.AppendEscapedXml(_subs.Substitute(format, _conn.AmlContext.LocalizationContext)).AppendLine();
+      var value = _subs.Substitute(format, _aml.LocalizationContext);
+      if (_conn == null)
+        _builder.Append(value);
+      else
+        _builder.AppendEscapedXml(value);
+      _subs.ClearParameters();
+      return this;
+    }
+
+    /// <summary>Append the specified command with parameters the SQL. @# (e.g. @0) style 
+    /// parameters are replaced</summary>
+    /// <remarks>No SQL will be sent to the server until the SQL "part" has been finished with a 
+    /// call to <see cref="SqlBatchWriter.Command()"/> (or one of the overloads). See 
+    /// <see cref="Innovator.Client.Command"/> and <see cref="ParameterSubstitution"/> for more 
+    /// information on how parameters are substituted</remarks>
+    public SqlBatchWriter Part(IFormattable formattable)
+    {
+      var format = formattable.ToString(null, _subs);
+      var value = _subs.Substitute(format, _aml.LocalizationContext);
+      if (_conn == null)
+        _builder.Append(value);
+      else
+        _builder.AppendEscapedXml(value);
       _subs.ClearParameters();
       return this;
     }
@@ -150,7 +225,7 @@ namespace Innovator.Client
     /// </summary>
     public override string ToString()
     {
-      return _builder.ToString() + "</sql>";
+      return _builder + (_conn == null ? "" : "</sql>");
     }
 
     /// <summary>
@@ -158,8 +233,11 @@ namespace Innovator.Client
     /// </summary>
     public void Flush()
     {
-      ProcessCommand(true);
-      WaitLastResult();
+      if (_conn != null)
+      {
+        ProcessCommand(true);
+        WaitLastResult();
+      }
     }
 
     /// <summary>

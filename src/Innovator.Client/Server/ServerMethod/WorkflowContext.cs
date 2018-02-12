@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using Innovator.Client.Model;
 using System;
 
@@ -113,7 +113,7 @@ namespace Innovator.Server
         _contextLoaded = true;
         var aml = Conn.AmlContext;
         var query = aml.Item(aml.Type("Workflow"), aml.Action("get"),
-          aml.Select("source_type", "source_id"), aml.RelatedExpand(false),
+          aml.Select("source_type,source_id"), aml.RelatedExpand(false),
           aml.RelatedId(
             aml.Item(aml.Type("Workflow Process"), aml.Action("get"),
               aml.Relationships(
@@ -124,12 +124,12 @@ namespace Innovator.Server
             )
           )
         );
-        if (QueryDefaults != null) QueryDefaults(query);
+        QueryDefaults?.Invoke(query);
         var workflow = Conn.ItemByQuery(query.ToAml());
 
         query = aml.Item(aml.TypeId(workflow.Property("source_type").Value),
           aml.Id(workflow.SourceId().Value), aml.Action("get"));
-        if (QueryDefaults != null) QueryDefaults(query);
+        QueryDefaults?.Invoke(query);
         _context = Conn.ItemByQuery(query.ToAml());
         _result.ErrorContext(_context);
       }

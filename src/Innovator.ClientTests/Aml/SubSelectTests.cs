@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
@@ -57,6 +57,13 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(str, cols.ToString());
       var expected = new string[] { "major_rev", "owned_by_id", "managed_by_id", "team_id", "id" };
       CollectionAssert.AreEqual(expected, cols.Select(c => c.Name).ToArray());
+    }
+
+    [TestMethod()]
+    public void PropertiesToString()
+    {
+      var actual = ElementFactory.Local.Select("source_id", "source_type").Value;
+      Assert.AreEqual("source_id,source_type", actual);
     }
   }
 }

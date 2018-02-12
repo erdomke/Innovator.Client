@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -21,23 +21,6 @@ namespace Innovator.Client
     /// The query is SQL
     /// </summary>
     Sql
-  }
-
-  /// <summary>
-  /// Indicates whether parameters are @-prefixed (e.g. <c>@qty</c>) or enclosed 
-  /// in curly braces (e.g. <c>{0}</c>)
-  /// </summary>
-  public enum ParameterStyle
-  {
-    /// <summary>
-    /// Parameters are @-prefixed (e.g. <c>@qty</c>) like in SQL Server
-    /// </summary>
-    Sql,
-    /// <summary>
-    /// Parameters are enclosed in curly braces (e.g. <c>{0}</c>) like with 
-    /// <see cref="String.Format(string, object[])"/>
-    /// </summary>
-    CSharp
   }
 
   /// <summary>
@@ -104,11 +87,6 @@ namespace Innovator.Client
     public Action<string> ParameterAccessListener { get; set; }
 
     /// <summary>
-    /// Gets or sets the style of parameters being used
-    /// </summary>
-    public ParameterStyle Style { get; set; }
-
-    /// <summary>
     /// Initializes a new <see cref="ParameterSubstitution"/> instance for 
     /// substituting @-prefixed parameters with their values.
     /// </summary>
@@ -116,7 +94,6 @@ namespace Innovator.Client
     /// operation</remarks>
     public ParameterSubstitution()
     {
-      this.Style = ParameterStyle.Sql;
       this.Mode = ParameterSubstitutionMode.Aml;
     }
 
@@ -595,37 +572,55 @@ namespace Innovator.Client
     private bool TryFillParameter(string value, Parameter param)
     {
       if (value == null || value.Length < 2) return false;
-      if (this.Style == ParameterStyle.Sql)
-      {
-        if (value[0] != '@') return false;
 
-        var end = value.Length;
-        if (value[value.Length - 1] == '!')
-        {
-          param.IsRaw = true;
-          end--;
-        }
-        for (var i = 1; i < end; i++)
-        {
-          if (!char.IsLetterOrDigit(value[i]) && value[i] != '_') return false;
-        }
-        param.Name = value.Substring(1, end - 1);
-        return true;
-      }
-      else
+      var start = 0;
+      var closingBracket = false;
+      switch (value[0])
       {
-        if (value[0] != '{' || value[value.Length - 1] != '}') return false;
-        var end = value.Length - 1;
-        var i = value.IndexOf(':');
-        if (i > 0)
-          end = i;
-        int index;
-        if (!int.TryParse(value.Substring(1, end - 1), out index))
+        case '@':
+          start = 1;
+          if (value[start] == '{')
+          {
+            start++;
+            closingBracket = true;
+          }
+          break;
+        case '$':
+          if (value[1] != '{')
+            return false;
+          start = 2;
+          closingBracket = true;
+          break;
+        case '{':
+          start = 1;
+          if (value[start] == '@')
+            start++;
+          closingBracket = true;
+          break;
+        default:
           return false;
-
-        param.Name = index.ToString();
-        return true;
       }
+
+      var end = value.Length;
+      if (value[value.Length - 1] == '!')
+      {
+        param.IsRaw = true;
+        end--;
+      }
+
+      if (closingBracket)
+      {
+        if (value[end - 1] != '}')
+          return false;
+        end--;
+      }
+
+      for (var i = start; i < end; i++)
+      {
+        if (!char.IsLetterOrDigit(value[i]) && value[i] != '_') return false;
+      }
+      param.Name = value.Substring(start, end - start);
+      return true;
     }
 
     private string RenderSqlEnum(object value, bool quoteStrings, Func<object, string> format)
@@ -835,7 +830,7 @@ namespace Innovator.Client
     {
       var paramName = _parameters.Count.ToString();
       _parameters[paramName] = arg;
-      return Style == ParameterStyle.CSharp ? "{" + paramName + "}" : "@" + paramName;
+      return "@" + paramName;
     }
 
     private class Parameter

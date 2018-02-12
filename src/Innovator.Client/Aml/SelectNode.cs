@@ -220,6 +220,8 @@ namespace Innovator.Client
     /// </summary>
     public static string ToString(IEnumerable<SelectNode> items)
     {
+      if (items.All(n => string.IsNullOrEmpty(n.Name)))
+        return Write(new StringBuilder(), items.SelectMany(i => i)).ToString();
       return Write(new StringBuilder(), items).ToString();
     }
 

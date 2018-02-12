@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 
@@ -10,12 +10,39 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void CSharpSubstitute_SimpleTest()
     {
-      var sub = new ParameterSubstitution()
-      {
-        Style = ParameterStyle.CSharp
-      };
+      var sub = new ParameterSubstitution();
       sub.AddIndexedParameters(new object[] { "first & second > third", true, new DateTime(2015, 1, 1) });
-      var newQuery = sub.Substitute("<Item><name>{0}</name><is_current>{1}</is_current><date>{2:yyyy-MM-dd}</date></Item>", ElementFactory.Local.LocalizationContext);
+      var newQuery = sub.Substitute("<Item><name>{0}</name><is_current>{1}</is_current><date>{2}</date></Item>", ElementFactory.Local.LocalizationContext);
+
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>", newQuery);
+    }
+
+    [TestMethod()]
+    public void Substitute_SavedSearchParameter()
+    {
+      var sub = new ParameterSubstitution();
+      sub.AddIndexedParameters(new object[] { "first & second > third", true, new DateTime(2015, 1, 1) });
+      var newQuery = sub.Substitute("<Item><name>@{0}</name><is_current>@{1}</is_current><date>@{2}</date></Item>", ElementFactory.Local.LocalizationContext);
+
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>", newQuery);
+    }
+
+    [TestMethod()]
+    public void Substitute_XPath()
+    {
+      var sub = new ParameterSubstitution();
+      sub.AddIndexedParameters(new object[] { "first & second > third", true, new DateTime(2015, 1, 1) });
+      var newQuery = sub.Substitute("<Item><name>{@0}</name><is_current>{@1}</is_current><date>{@2}</date></Item>", ElementFactory.Local.LocalizationContext);
+
+      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>", newQuery);
+    }
+
+    [TestMethod()]
+    public void Substitute_EmailParameter()
+    {
+      var sub = new ParameterSubstitution();
+      sub.AddIndexedParameters(new object[] { "first & second > third", true, new DateTime(2015, 1, 1) });
+      var newQuery = sub.Substitute("<Item><name>${0}</name><is_current>${1}</is_current><date>${2}</date></Item>", ElementFactory.Local.LocalizationContext);
 
       Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>", newQuery);
     }

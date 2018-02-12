@@ -56,6 +56,20 @@ namespace Innovator.Client.Connection
     }
 
     /// <summary>
+    /// Creates an upload request used for uploading files to the server
+    /// </summary>
+    /// <returns>
+    /// A new upload request used for uploading files to the server
+    /// </returns>
+    public UploadCommand CreateUploadCommand()
+    {
+      var version = _conn.Version ?? new Version(255, 0);
+      if (version.Major > 9)
+        return new TransactionalUploadCommand(_conn, VaultStrategy.WritePriority(false).Value.First());
+      return new NontransactionalUploadCommand(_conn, VaultStrategy.WritePriority(false).Value.First());
+    }
+
+    /// <summary>
     /// Downloads the specified file.
     /// </summary>
     /// <param name="request">The file to download.</param>

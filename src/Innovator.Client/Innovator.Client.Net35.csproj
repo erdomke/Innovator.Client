@@ -79,7 +79,6 @@
     <Compile Include="Aml\ItemExtensions.cs" />
     <Compile Include="Aml\ItemRef.cs" />
     <Compile Include="Aml\ItemWrapper.cs" />
-    <Compile Include="Aml\JsonFormatter.cs" />
     <Compile Include="Aml\LockStatusType.cs" />
     <Compile Include="Aml\LoggedOutException.cs" />
     <Compile Include="Aml\Model\Access.cs" />

@@ -467,6 +467,7 @@
     <Compile Include="Aml\Model\xPropertyContainerItem.cs" />
     <Compile Include="Aml\Model\xPropertyDefinition.cs" />
     <Compile Include="Aml\NoItemsFoundException.cs" />
+    <Compile Include="Aml\ODataAmlReader.cs" />
     <Compile Include="Aml\ParameterSubstitution.cs" />
     <Compile Include="Aml\QueryType.cs" />
     <Compile Include="Aml\Range.cs" />
@@ -530,16 +531,9 @@
     <Compile Include="IO\IXmlStream.cs" />
     <Compile Include="IO\MemoryTributary.cs" />
     <Compile Include="IO\XmlStream.cs" />
-    <Compile Include="JSON\JsonArray.cs" />
-    <Compile Include="JSON\JsonObject.cs" />
-    <Compile Include="JSON\JsonValue.cs" />
-    <Compile Include="JSON\JsonValueType.cs" />
-    <Compile Include="JSON\Serialization\JsonParseException.cs" />
-    <Compile Include="JSON\Serialization\JsonReader.cs" />
-    <Compile Include="JSON\Serialization\JsonSerializationException.cs" />
-    <Compile Include="JSON\Serialization\JsonWriter.cs" />
-    <Compile Include="JSON\Serialization\TextPosition.cs" />
-    <Compile Include="JSON\Serialization\TextScanner.cs" />
+    <Compile Include="JSON\JsonReaderException.cs" />
+    <Compile Include="JSON\JsonTextReader.cs" />
+    <Compile Include="JSON\JsonToken.cs" />
     <Compile Include="Queryable\AmlQuery.cs" />
     <Compile Include="Queryable\AmlVisitor.cs" />
     <Compile Include="Queryable\ArasNameAttribute.cs" />

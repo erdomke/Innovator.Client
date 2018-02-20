@@ -1,3 +1,4 @@
+using Json.Embed;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -243,7 +244,7 @@ namespace Innovator.Client
     private void InitXClass(XmlReader reader)
     {
       var lastElem = default(string);
-      var hierarchyJson = default(LightJson.JsonArray);
+      var hierarchyJson = default(string);
       var currNode = default(ClassNode);
 
       while (reader.Read())
@@ -271,7 +272,7 @@ namespace Innovator.Client
               switch (lastElem)
               {
                 case "classification_hierarchy":
-                  hierarchyJson = LightJson.JsonValue.Parse(reader.Value).AsJsonArray;
+                  hierarchyJson = reader.Value;
                   break;
                 case "id":
                   Id = new Guid(reader.Value);
@@ -320,11 +321,40 @@ namespace Innovator.Client
         }
       }
 
-      foreach (var elem in hierarchyJson)
+      var fromRefId = default(string);
+      var toRefId = default(string);
+      var lastProp = default(string);
+
+      var json = new JsonTextReader(new StringReader(hierarchyJson));
+      while (json.Read())
       {
-        if (elem["fromRefId"] != LightJson.JsonValue.Null)
+        switch (json.TokenType)
         {
-          _byId[new Guid(elem["fromRefId"].AsString)].Add(_byId[new Guid(elem["toRefId"].AsString)]);
+          case JsonToken.StartObject:
+            fromRefId = null;
+            toRefId = null;
+            break;
+          case JsonToken.PropertyName:
+            lastProp = json.Value;
+            break;
+          case JsonToken.Null:
+            if (lastProp == "fromRefId")
+              fromRefId = null;
+            else
+              toRefId = null;
+            break;
+          case JsonToken.Number:
+          case JsonToken.Boolean:
+          case JsonToken.String:
+            if (lastProp == "fromRefId")
+              fromRefId = json.Value;
+            else
+              toRefId = json.Value;
+            break;
+          case JsonToken.EndObject:
+            if (fromRefId != null)
+              _byId[new Guid(fromRefId)].Add(_byId[new Guid(toRefId)]);
+            break;
         }
       }
     }

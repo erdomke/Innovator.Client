@@ -91,6 +91,7 @@
     <Compile Include="Aml\IomTests.cs" />
     <Compile Include="Aml\ItemExtensionsTests.cs" />
     <Compile Include="Aml\ItemTests.cs" />
+    <Compile Include="Aml\ODataTests.cs" />
     <Compile Include="Aml\ParameterSubstitutionTests.cs" />
     <Compile Include="Aml\PropertyTests.cs" />
     <Compile Include="Aml\ServerExceptionTests.cs" />

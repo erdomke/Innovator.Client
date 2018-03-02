@@ -151,9 +151,11 @@ namespace Innovator.Client
     /// Require use of writable session state.
     /// </summary>
     /// <param name="request">The HTTP request.</param>
-    public static void ForceWritableSession(this IHttpRequest request)
+    /// <param name="stateBehavior">Session state behavior to use</param>
+    public static void SetSessionStateBehavior(this IHttpRequest request, SessionStateBehavior stateBehavior)
     {
-      request.SetHeader(ArasHeaders.ForceWritableSessionHeader, "required");
+      if (stateBehavior != SessionStateBehavior.Default)
+        request.SetHeader(ArasHeaders.SessionStateBehaviorHeader, ArasHeaders.SessionStateBehaviorToString(stateBehavior));
     }
 
     /// <summary>

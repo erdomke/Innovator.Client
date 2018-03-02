@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 #if SERIALIZATION
 using System.Runtime.Serialization;
 #endif
@@ -73,9 +73,11 @@ namespace Innovator.Client
     }
 
     internal ServerException(string message)
-      : this(message, 1) { }
+      : this(message, "1") { }
     internal ServerException(string message, Exception innerException)
-      : this(message, 1, innerException) { }
+      : this(message ?? innerException.Message, "1", innerException, false) { }
+    internal ServerException(Exception innerException, bool serializeStackTrace)
+      : this(innerException.Message, innerException.GetType().FullName, innerException, serializeStackTrace) { }
 
 #if SERIALIZATION
     private const string FaultNodeEntry = "``FaultNode";
@@ -127,7 +129,7 @@ namespace Innovator.Client
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="code">The fault code.</param>
-    protected ServerException(string message, int code)
+    protected ServerException(string message, string code)
       : base(message)
     {
       CreateXml(message, code);
@@ -139,10 +141,16 @@ namespace Innovator.Client
     /// <param name="message">The message.</param>
     /// <param name="code">The fault code.</param>
     /// <param name="innerException">The inner exception.</param>
-    protected ServerException(string message, int code, Exception innerException)
+    /// <param name="serializeStackTrace">Whether to serialize the stack trace</param>
+    protected ServerException(string message, string code, Exception innerException, bool serializeStackTrace)
       : base(message, innerException)
     {
       CreateXml(message, code);
+      if (serializeStackTrace)
+      {
+        var aml = ElementFactory.Local;
+        _fault.Add(aml.Element("detail", aml.Element("af:legacy_faultactor", innerException.StackTrace)));
+      }
     }
 
     internal ServerException SetDetails(string database, Command query)
@@ -160,7 +168,7 @@ namespace Innovator.Client
       return new AmlReader(this);
     }
 
-    private void CreateXml(string message, int code)
+    private void CreateXml(string message, string code)
     {
       var aml = ElementFactory.Local;
       _fault = aml.Element("SOAP-ENV:Fault", aml.Element("faultcode", code), aml.Element("faultstring", message)) as Element;

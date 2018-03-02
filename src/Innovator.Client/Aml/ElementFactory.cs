@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -553,6 +553,11 @@ namespace Innovator.Client
     public ServerException ServerException(string message)
     {
       return new ServerException(message);
+    }
+    /// <summary>Create a new server exception</summary>
+    public ServerException ServerException(Exception exception, bool serializeStackTrace = false)
+    {
+      return new ServerException(exception, serializeStackTrace);
     }
     /// <summary>Create a new server exception</summary>
     public ServerException ServerException(string message, Exception innerException)

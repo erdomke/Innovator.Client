@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ namespace Innovator.Client
   /// </summary>
   public class ArasHeaders : IDictionary<string, string>
   {
-    internal const string ForceWritableSessionHeader = "Aras-Set-HttpSessionState-Behavior";
+    internal const string SessionStateBehaviorHeader = "Aras-Set-HttpSessionState-Behavior";
 
     private readonly Dictionary<string, string> _headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -37,15 +37,27 @@ namespace Innovator.Client
     /// <summary>
     /// Gets or sets whether to require use of writable session state
     /// </summary>
-    public bool ForceWritableSession
+    public SessionStateBehavior SessionStateBehavior
     {
-      get { return this[ForceWritableSessionHeader] == "required"; }
+      get
+      {
+        switch ((this[SessionStateBehaviorHeader] ?? "").ToLowerInvariant())
+        {
+          case "readonly":
+            return SessionStateBehavior.ReadOnly;
+          case "required":
+            return SessionStateBehavior.Writeable;
+          case "switch_to_initial":
+            return SessionStateBehavior.SwitchToInitial;
+        }
+        return SessionStateBehavior.Default;
+      }
       set
       {
-        if (value)
-          this[ForceWritableSessionHeader] = "required";
+        if (value == SessionStateBehavior.Default)
+          this.Remove(SessionStateBehaviorHeader);
         else
-          this.Remove(ForceWritableSessionHeader);
+          this[SessionStateBehaviorHeader] = SessionStateBehaviorToString(value);
       }
     }
 
@@ -194,6 +206,20 @@ namespace Innovator.Client
     internal IEnumerable<KeyValuePair<string, string>> NonUserAgentHeaders()
     {
       return this.Where(k => !string.Equals(k.Key, "User-Agent", StringComparison.OrdinalIgnoreCase));
+    }
+
+    internal static string SessionStateBehaviorToString(SessionStateBehavior behavior)
+    {
+      switch (behavior)
+      {
+        case Client.SessionStateBehavior.ReadOnly:
+          return "readonly";
+        case Client.SessionStateBehavior.SwitchToInitial:
+          return "switch_to_initial";
+        case Client.SessionStateBehavior.Writeable:
+          return "required";
+      }
+      return "undefined";
     }
   }
 }

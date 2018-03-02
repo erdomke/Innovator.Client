@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 
 namespace Innovator.Server
 {
@@ -31,6 +31,13 @@ namespace Innovator.Server
     /// The permissions.
     /// </value>
     IServerPermissions Permissions { get; }
+    /// <summary>
+    /// Gets the in-memory request-specific cache.
+    /// </summary>
+    /// <value>
+    /// The request cache.
+    /// </value>
+    IServerCache RequestState { get; }
     /// <summary>
     /// Gets the requested URL.
     /// </summary>

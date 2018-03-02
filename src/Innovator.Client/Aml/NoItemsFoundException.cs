@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 #if SERIALIZATION
 using System.Runtime.Serialization;
 #endif
@@ -19,7 +19,7 @@ namespace Innovator.Client
   public class NoItemsFoundException : ServerException
   {
     internal NoItemsFoundException(ElementFactory factory, string type, Command query)
-      : base("No items of type " + type + " found.", 0)
+      : base("No items of type " + type + " found.", "0")
     {
       var queryString = "?";
       if (query != null)
@@ -30,12 +30,12 @@ namespace Innovator.Client
       this._query = query;
     }
     internal NoItemsFoundException(string message)
-      : base(message, 0)
+      : base(message, "0")
     {
       CreateDetailElement();
     }
     internal NoItemsFoundException(string message, Exception innerException)
-      : base(message, 0, innerException)
+      : base(message, "0", innerException, false)
     {
       CreateDetailElement();
     }

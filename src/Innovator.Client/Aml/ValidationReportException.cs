@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 #if SERIALIZATION
 using System.Runtime.Serialization;
 #endif
@@ -41,13 +41,13 @@ namespace Innovator.Client
 
     internal ValidationReportException(string message
       , IReadOnlyItem item, string report)
-      : base(message, 1001)
+      : base(message, "1001")
     {
       CreateDetailElement(item, report);
     }
     internal ValidationReportException(string message, Exception innerException
       , IReadOnlyItem item, string report)
-      : base(message, 1001, innerException)
+      : base(message, "1001", innerException, false)
     {
       CreateDetailElement(item, report);
     }

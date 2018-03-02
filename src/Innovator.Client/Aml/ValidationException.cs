@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 #if SERIALIZATION
@@ -48,13 +48,13 @@ namespace Innovator.Client
 
     internal ValidationException(string message
       , IReadOnlyItem item, params string[] properties)
-      : base(message, properties.Any() ? 1001 : 1)
+      : base(message, properties.Any() ? "1001" : "1")
     {
       CreateDetailElement(item, properties);
     }
     internal ValidationException(string message, Exception innerException
       , IReadOnlyItem item, params string[] properties)
-      : base(message, properties.Any() ? 1001 : 1, innerException)
+      : base(message, properties.Any() ? "1001" : "1", innerException, false)
     {
       CreateDetailElement(item, properties);
     }

@@ -512,6 +512,7 @@
     <Compile Include="Connection\Endpoints.cs" />
     <Compile Include="Connection\IArasConnection.cs" />
     <Compile Include="Connection\NontransactionalUploadCommand.cs" />
+    <Compile Include="Connection\SessionStateBehavior.cs" />
     <Compile Include="Connection\TransactionalUploadCommand.cs" />
     <Compile Include="Hash\HashFunctionAsyncBase.cs" />
     <Compile Include="Hash\HashFunctionBase.cs" />

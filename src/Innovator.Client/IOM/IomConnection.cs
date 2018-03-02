@@ -32,6 +32,7 @@ namespace Innovator.Client.IOM
     private NameValueCollection _headers;
     private object _cco;
     private IServerCache _appCache;
+    private IServerCache _requestCache;
     private IServerCache _sessionCache;
     private IServerPermissions _perm;
 
@@ -40,16 +41,27 @@ namespace Innovator.Client.IOM
     /// </summary>
     /// <param name="iomConnection">The IOM connection instance which minimally implements 
     /// <c>Aras.IOM.IServerConnection</c>.</param>
-    public IomConnection(object iomConnection) : this(iomConnection, Factory.DefaultItemFactory) { }
+    public IomConnection(object iomConnection) : this(iomConnection, Factory.DefaultItemFactory, null) { }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="IomConnection"/> class.
     /// </summary>
     /// <param name="iomConnection">The IOM connection instance which minimally implements 
     /// <c>Aras.IOM.IServerConnection</c>.</param>
     /// <param name="itemFactory">The item factory.</param>
-    public IomConnection(object iomConnection, IItemFactory itemFactory)
+    public IomConnection(object iomConnection, IItemFactory itemFactory) : this(iomConnection, itemFactory, null) { }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="IomConnection"/> class.
+    /// </summary>
+    /// <param name="iomConnection">The IOM connection instance which minimally implements 
+    /// <c>Aras.IOM.IServerConnection</c>.</param>
+    /// <param name="itemFactory">The item factory.</param>
+    /// <param name="CCO">The call context object.</param>
+    public IomConnection(object iomConnection, IItemFactory itemFactory, object CCO)
     {
       _iomConnection = iomConnection;
+      _cco = CCO;
       var type = iomConnection.GetType();
       var noArgs = new object[] { };
 
@@ -269,6 +281,8 @@ namespace Innovator.Client.IOM
     {
       get
       {
+        if (_cco == null)
+          return null;
         if (_appCache != null)
           return _appCache;
 
@@ -326,6 +340,34 @@ namespace Innovator.Client.IOM
     }
 
     /// <summary>
+    /// Gets the in-memory request-specific cache.
+    /// </summary>
+    /// <value>
+    /// The request cache.
+    /// </value>
+    public IServerCache RequestState
+    {
+      get
+      {
+        if (_cco == null)
+          return null;
+        if (_requestCache != null)
+          return _requestCache;
+
+        LazyLoadCreds();
+        var session = _cco.GetType().GetProperty("RequestState").GetValue(_cco, null);
+        var indexProp = session.GetType()
+          .GetProperties()
+          .FirstOrDefault(p => p.GetIndexParameters().Length == 1 && p.GetIndexParameters()[0].ParameterType == typeof(string));
+
+        var getter = (Func<string, object>)Delegate.CreateDelegate(typeof(Func<string, object>), session, indexProp.GetGetMethod());
+        var setter = (Action<string, object>)Delegate.CreateDelegate(typeof(Action<string, object>), session, indexProp.GetSetMethod());
+        _requestCache = new Cache(getter, setter);
+        return _requestCache;
+      }
+    }
+
+    /// <summary>
     /// Gets the requested URL.
     /// </summary>
     /// <value>
@@ -350,8 +392,11 @@ namespace Innovator.Client.IOM
     {
       get
       {
-        if (_appCache != null)
+        if (_cco == null)
+          return null;
+        if (_sessionCache != null)
           return _sessionCache;
+
 
         LazyLoadCreds();
         var session = _cco.GetType().GetProperty("Session").GetValue(_cco, null);

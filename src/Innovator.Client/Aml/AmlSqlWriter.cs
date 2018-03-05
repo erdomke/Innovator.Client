@@ -249,7 +249,7 @@ namespace Innovator.Client
           if (!curr.Attributes.TryGetValue("is_null", out buffer) && buffer == "1")
             condition = "is null";
 
-          if (clause.Length > 0)
+          if (clause.Length > 0 && clause[clause.Length - 1] != '(')
           {
             if (_tags[_tags.Count - 2].Name == "or")
               clause.Append(" or ");
@@ -630,7 +630,15 @@ namespace Innovator.Client
           break;
         case "and":
         case "or":
-          _lastItem.Where.Append("(");
+          var clause = _lastItem.Where;
+          if (clause.Length > 0 && clause[clause.Length - 1] != '(')
+          {
+            if (_tags[_tags.Count - 2].Name == "or")
+              clause.Append(" or ");
+            else
+              clause.Append(" and ");
+          }
+          clause.Append("(");
           break;
         case "not":
           _lastItem.Where.Append(" not (");

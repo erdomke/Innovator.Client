@@ -48,6 +48,16 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void Substitute_Cdata()
+    {
+      var sub = new ParameterSubstitution();
+      sub.AddIndexedParameters(new object[] { "first & second > third", true, new DateTime(2015, 1, 1) });
+      var newQuery = sub.Substitute("<Item><name><![CDATA[@0]]></name><is_current>${1}</is_current><date>${2}</date></Item>", ElementFactory.Local.LocalizationContext);
+
+      Assert.AreEqual("<Item><name><![CDATA[first & second > third]]></name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>", newQuery);
+    }
+
+    [TestMethod()]
     public void SubstituteSqlString()
     {
       Assert.AreEqual(@"<sql>SELECT 5.46</sql>"

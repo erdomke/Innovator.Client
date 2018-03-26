@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -97,7 +97,7 @@ namespace Innovator.Client
       get
       {
         return string.IsNullOrEmpty(Name)
-      || (_attr & ElementAttributes.ReadOnly) > 0;
+          || (_attr & ElementAttributes.ReadOnly) != 0;
       }
       set
       {
@@ -105,6 +105,21 @@ namespace Innovator.Client
           _attr = _attr | ElementAttributes.ReadOnly;
         else
           _attr = _attr & ~ElementAttributes.ReadOnly;
+      }
+    }
+
+    internal bool PreferCData
+    {
+      get
+      {
+        return (_attr & ElementAttributes.PreferCdata) != 0;
+      }
+      set
+      {
+        if (value)
+          _attr = _attr | ElementAttributes.PreferCdata;
+        else
+          _attr = _attr & ~ElementAttributes.PreferCdata;
       }
     }
 
@@ -361,7 +376,10 @@ namespace Innovator.Client
       var elem = _content as ILinkedElement;
       if (elem == null)
       {
-        writer.WriteString(this.Value);
+        if (PreferCData && this.Value?.IndexOf("<![CDATA[") < 0)
+          writer.WriteCData(this.Value);
+        else
+          writer.WriteString(this.Value);
       }
       else
       {

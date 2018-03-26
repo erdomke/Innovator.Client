@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +15,7 @@ namespace Innovator.Client
     protected ElementFactory _factory;
     protected string _attrName;
     protected string _value;
+    protected bool _cdata;
     private bool _inElement;
     private IElementWriter _base;
     private bool _readOnly;
@@ -85,6 +86,7 @@ namespace Innovator.Client
     public override void WriteCData(string text)
     {
       AddString(text);
+      _cdata = true;
     }
 
     public override void WriteCharEntity(char ch)
@@ -127,7 +129,8 @@ namespace Innovator.Client
       _inElement = false;
       if (_base != null)
       {
-        _base.WriteEndElement(_value);
+        _base.WriteEndElement(_value, _cdata);
+        _cdata = false;
       }
       else
       {
@@ -347,7 +350,7 @@ namespace Innovator.Client
     {
       event EventHandler Complete;
       void WriteStartElement(string name);
-      void WriteEndElement(string value);
+      void WriteEndElement(string value, bool cdata);
       void WriteEndAttribute(string name, string value);
     }
 
@@ -417,7 +420,7 @@ namespace Innovator.Client
         }
       }
 
-      public void WriteEndElement(string value)
+      public void WriteEndElement(string value, bool cdata)
       {
         if (value != null)
         {
@@ -478,7 +481,10 @@ namespace Innovator.Client
 
         var elem = iElem as Element;
         if (elem != null)
+        {
           elem.ReadOnly = ReadOnly;
+          elem.PreferCData = cdata;
+        }
 
         if (_stack.Count < 1)
           OnComplete(EventArgs.Empty);
@@ -583,13 +589,14 @@ namespace Innovator.Client
         _curr.Add(new Attribute(name, value));
       }
 
-      public void WriteEndElement(string value)
+      public void WriteEndElement(string value, bool cdata)
       {
         if (value != null)
         {
           _curr.Value = value;
         }
         _curr.ReadOnly = ReadOnly;
+        _curr.PreferCData = cdata;
         _curr = _curr.Parent as Element;
         if (_curr == null
           || (!_curr.Exists && _root != _curr))

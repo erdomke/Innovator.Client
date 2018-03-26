@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Innovator.Client
 {
@@ -12,6 +12,10 @@ namespace Innovator.Client
     /// Indicates that the element represents a null element
     /// </summary>
     Null = 0x01,
+    /// <summary>
+    /// Indicates that the element should be serialized with a <c>CDATA</c> tag when possible
+    /// </summary>
+    PreferCdata = 0x02,
     /// <summary>
     /// Indicates that the element is read-only and should not be modified
     /// </summary>

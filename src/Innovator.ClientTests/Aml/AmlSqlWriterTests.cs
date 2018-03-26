@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Innovator.Client.Tests
 {
@@ -133,6 +134,7 @@ namespace Innovator.Client.Tests
     [TestMethod]
     public void Aml2Sql_Complex()
     {
+      ServerContext._clock = () => DateTimeOffset.FromFileTime(131649408000000000);
       var item = ElementFactory.Local.FromXml(@"<Item action=""get"" type=""Thing"" select="""">
   <created_on condition=""between"" origDateRange=""Dynamic|Week|-1|Week|-1"">2018-02-25T00:00:00 and 2018-03-03T23:59:59</created_on>
   <or>

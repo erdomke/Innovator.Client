@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -351,6 +351,14 @@ namespace Innovator.Client.Tests
       var str = "<a><b>Value</b></a>";
       var result = ElementFactory.Local.FromXml(str);
       Assert.AreEqual(null, result.Value);
+    }
+
+    [TestMethod()]
+    public void RoundTripCdataTag()
+    {
+      var str = "<Item><name><![CDATA[first & second > third]]></name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>";
+      var result = ElementFactory.Local.FromXml(str);
+      Assert.AreEqual(str, result.AssertItem().ToAml());
     }
   }
 }

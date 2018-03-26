@@ -17,6 +17,28 @@ namespace Innovator.Client
   /// </summary>
   public static class ItemExtensions
   {
+    /// <summary>Value converted to a <see cref="bool"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="bool"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="bool"/></exception>
+    public static bool AsBoolean(this IReadOnlyProperty_Boolean prop, bool defaultValue)
+    {
+      return prop.AsBoolean() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="bool"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="bool"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="bool"/></exception>
+    public static bool AsBoolean(this IReadOnlyAttribute attr, bool defaultValue)
+    {
+      return attr.AsBoolean() ?? defaultValue;
+    }
+
     /// <summary>
     /// Return the value of a property parsed into the appropriate CLR type
     /// </summary>
@@ -200,6 +222,158 @@ namespace Innovator.Client
         throw new InvalidOperationException();
       var context = prop.AmlContext.LocalizationContext;
       return new Range<T>(convert(parts[0], context), convert(parts[1], context));
+    }
+
+    /// <summary>Value converted to a <see cref="DateTime"/> in the local timezone using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="DateTime"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
+    /// <example>
+    /// <code lang="C#">
+    /// // If the part was created after 2016-01-01, put the name of the creator in the description
+    /// if (comp.CreatedOn().AsDateTime(DateTime.MaxValue) &gt; new DateTime(2016, 1, 1))
+    /// {
+    ///     edits.Property("description").Set("Created by: " + comp.CreatedById().KeyedName().Value);
+    /// }
+    /// </code>
+    /// </example>
+    public static DateTime AsDateTime(this IReadOnlyProperty_Date prop, DateTime defaultValue)
+    {
+      return prop.AsDateTime() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="DateTime"/> in the local timezone using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="DateTime"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
+    public static DateTime AsDateTime(this IReadOnlyAttribute attr, DateTime defaultValue)
+    {
+      return attr.AsDateTime() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="DateTimeOffset"/> in the local timezone using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="DateTimeOffset"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTimeOffset"/></exception>
+    public static DateTimeOffset AsDateTimeOffset(this IReadOnlyProperty_Date prop, DateTimeOffset defaultValue)
+    {
+      return prop.AsDateTimeOffset() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="DateTime"/> in the UTC timezone using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <returns>A <see cref="DateTime"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
+    public static DateTime AsDateTimeUtc(this IReadOnlyProperty_Date prop, DateTime defaultValue)
+    {
+      return prop.AsDateTimeUtc() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="DateTime"/> in the UTC timezone using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <returns>A <see cref="DateTime"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
+    public static DateTime AsDateTimeUtc(this IReadOnlyAttribute attr, DateTime defaultValue)
+    {
+      return attr.AsDateTimeUtc() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="double"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="double"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
+    public static double AsDouble(this IReadOnlyProperty_Number prop, double defaultValue)
+    {
+      return prop.AsDouble() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="double"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="double"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
+    public static double AsDouble(this IReadOnlyAttribute attr, double defaultValue)
+    {
+      return attr.AsDouble() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="int"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="int"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
+    public static int AsInt(this IReadOnlyProperty_Number prop, int defaultValue)
+    {
+      return prop.AsInt() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="int"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="int"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
+    public static int AsInt(this IReadOnlyAttribute attr, int defaultValue)
+    {
+      return attr.AsInt() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="long"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="long"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="long"/></exception>
+    public static long AsLong(this IReadOnlyProperty_Number prop, long defaultValue)
+    {
+      return prop.AsLong() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="long"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="long"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="long"/></exception>
+    public static long AsLong(this IReadOnlyAttribute attr, long defaultValue)
+    {
+      return attr.AsLong() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="Guid"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="prop">The property to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="Guid"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="Guid"/></exception>
+    public static Guid AsGuid<T>(this IReadOnlyProperty_Item<T> prop, Guid defaultValue)
+    {
+      return prop.AsGuid() ?? defaultValue;
+    }
+
+    /// <summary>Value converted to a <see cref="Guid"/> using the <paramref name="defaultValue"/> if null.
+    /// If the value cannot be converted, an exception is thrown</summary>
+    /// <param name="attr">The attribute to convert</param>
+    /// <param name="defaultValue">The default value to return if the value is empty</param>
+    /// <returns>A <see cref="Guid"/> or <paramref name="defaultValue"/> if the value is empty</returns>
+    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="Guid"/></exception>
+    public static Guid AsGuid(this IReadOnlyAttribute attr, Guid defaultValue)
+    {
+      return attr.AsGuid() ?? defaultValue;
     }
 
     /// <summary>

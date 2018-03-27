@@ -1,4 +1,4 @@
-﻿namespace Innovator.Client.IOM
+namespace Innovator.Client.IOM
 {
   /// <summary>
   /// Wraps a connection with a API which is compatible with 
@@ -56,13 +56,14 @@
     /// <see cref="Item"/>.
     /// </summary>
     /// <param name="sql">SQL to be sent to Innovator server.</param>
+    /// <param name="args">Parameters to be injected into the query</param>
     /// <returns>Server response.</returns>
     /// <remarks>Uses <see cref="CommandAction.ApplySQL"/> type of server request. 
     /// The returned <see cref="Item"/> object contains the XML returned from the 
     /// server.</remarks>
-    public Item applySQL(string sql)
+    public Item applySQL(string sql, params object[] args)
     {
-      return new Item(_conn, _conn.ApplySql(sql));
+      return new Item(_conn, _conn.ApplySql(sql, args));
     }
 
     /// <summary>

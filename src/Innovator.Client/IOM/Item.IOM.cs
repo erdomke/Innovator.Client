@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -607,11 +607,17 @@ namespace Innovator.Client.IOM
       _content = (object)result.Exception ?? (object)result.Value ?? result.Items().ToList();
     }
 
-    //public Item lockItem()
-    //{
-    //  var item = AssertSingle<IItem>();
-    //  var result = _conn.Lock(item.TypeName(), item.Id());
-    //}
+    public Item lockItem()
+    {
+      var id = AssertId();
+      var type = AssertTypeName();
+      var result = _conn.Apply("<Item type='@0' id='@1' action='lock'/>", type, id);
+      if (result.Exception == null)
+      {
+        this.LockedById().Set(result.AssertItem().LockedById().Value);
+      }
+      return new Item(_conn, result);
+    }
 
     // public Item newAND()
 
@@ -764,7 +770,15 @@ namespace Innovator.Client.IOM
       this.Type().Set(itemTypeName);
     }
 
-    // public Item unlockItem()
+    public Item unlockItem()
+    {
+      var id = AssertId();
+      var type = AssertTypeName();
+      var result = _conn.Apply("<Item type='@0' id='@1' action='unlock'/>", type, id);
+      if (result.Exception == null)
+        this.LockedById().Remove();
+      return new Item(_conn, result);
+    }
     #endregion
 
     /// <summary>
@@ -781,6 +795,22 @@ namespace Innovator.Client.IOM
     IEnumerator IEnumerable.GetEnumerator()
     {
       return GetEnumerator();
+    }
+
+    private string AssertId()
+    {
+      var id = Id();
+      if (string.IsNullOrEmpty(id))
+        throw new Exception("Item ID is not set");
+      return id;
+    }
+
+    private string AssertTypeName()
+    {
+      var type = TypeName();
+      if (string.IsNullOrEmpty(type))
+        throw new Exception("Item type is not set");
+      return type;
     }
   }
 }

@@ -1,4 +1,6 @@
-﻿namespace Innovator.Client
+using System;
+
+namespace Innovator.Client
 {
   /// <summary>
   /// HTTP request being sent to a server (Aras, Proxy, etc.)
@@ -6,9 +8,9 @@
   public interface IHttpRequest
   {
     /// <summary>
-    /// HTTP request timeout in milliseconds
+    /// HTTP request timeout
     /// </summary>
-    int Timeout { get; set; }
+    TimeSpan Timeout { get; set; }
 
     /// <summary>
     /// User-Agent string to send with the request

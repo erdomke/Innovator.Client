@@ -1,4 +1,4 @@
-﻿using Innovator.Client.Connection;
+using Innovator.Client.Connection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,9 +56,12 @@ namespace Innovator.Client
     {
       DefaultService = () =>
       {
-        var handler = new SyncClientHandler();
-        handler.CookieContainer = new CookieContainer();
-        return new SyncHttpClient(handler) { Timeout = TimeSpan.FromMinutes(20) };
+        var handler = new SyncClientHandler
+        {
+          CookieContainer = new CookieContainer()
+        };
+        var infinite = TimeSpan.FromMilliseconds(-1);
+        return new SyncHttpClient(handler) { Timeout = infinite };
       };
       DefaultItemFactory = new DefaultItemFactory();
       _logListener = DefaultLogListener;

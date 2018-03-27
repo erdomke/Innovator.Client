@@ -38,7 +38,7 @@ namespace Innovator.Client
     public HttpResponseMsg Send(HttpRequest request)
     {
       var wReq = CreateAndPrepareWebRequest(request);
-      wReq.Timeout = request.Timeout;
+      wReq.Timeout = (int)request.Timeout.TotalMilliseconds;
       var syncContent = request.Content as ISyncContent;
       if (syncContent != null)
       {
@@ -58,7 +58,7 @@ namespace Innovator.Client
         {
           case WebExceptionStatus.RequestCanceled:
           case WebExceptionStatus.Timeout:
-            throw new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", TimeSpan.FromMilliseconds(request.Timeout)), webex);
+            throw new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", request.Timeout), webex);
           default:
             var resp = CreateResponseMessage((HttpWebResponse)webex.Response, request);
             throw new HttpException(resp);

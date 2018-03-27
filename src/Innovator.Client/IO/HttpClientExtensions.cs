@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,7 +54,7 @@ namespace Innovator.Client
 #endif
 
       var timeout = new TimeoutSource();
-      timeout.CancelAfter(req.Timeout);
+      timeout.CancelAfter((int)req.Timeout.TotalMilliseconds);
 
       var result = service.SendAsync(req, timeout.Source.Token)
         .ContinueWith((Func<Task<HttpResponseMessage>, Task<IHttpResponse>>)HttpResponse.Create, TaskScheduler.Default)
@@ -79,7 +79,7 @@ namespace Innovator.Client
 #endif
 
       var timeout = new TimeoutSource();
-      timeout.CancelAfter(req.Timeout);
+      timeout.CancelAfter((int)req.Timeout.TotalMilliseconds);
       var respTask = service.SendAsync(req, timeout.Source.Token);
 
       var result = respTask
@@ -104,7 +104,7 @@ namespace Innovator.Client
         {
           case System.Net.WebExceptionStatus.RequestCanceled:
           case System.Net.WebExceptionStatus.Timeout:
-            return Promises.Rejected<IHttpResponse>(new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", TimeSpan.FromMilliseconds(req.Timeout))));
+            return Promises.Rejected<IHttpResponse>(new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", req.Timeout)));
           default:
             foreach (var kvp in trace)
             {

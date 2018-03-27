@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -632,6 +632,32 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"first\" /><Item type=\"second\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(itemsArr).ToAml());
 
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result>A string</Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result("A string").ToAml());
+    }
+
+    [TestMethod]
+    public void CreateRelatedItem()
+    {
+      var aml = ElementFactory.Local;
+      var item = aml.Item(aml.Property("stuff", "thing"));
+      var related = item.RelatedItem();
+      var creator = related.CreatedById().AsItem();
+      Assert.AreEqual(false, related.Exists);
+      related.KeyedName().Set("related keyed name");
+      Assert.AreEqual(true, related.Exists);
+      Assert.AreEqual("<Item><stuff>thing</stuff><related_id><Item><keyed_name>related keyed name</keyed_name></Item></related_id></Item>", item.ToAml());
+
+
+      item = aml.Item(aml.Property("stuff", "thing"));
+      related = item.RelatedItem();
+      Assert.AreEqual(false, related.Exists);
+      related.Add(aml.KeyedName("related keyed name"));
+      Assert.AreEqual(true, related.Exists);
+      Assert.AreEqual("<Item><stuff>thing</stuff><related_id><Item><keyed_name>related keyed name</keyed_name></Item></related_id></Item>", item.ToAml());
+
+      item = aml.FromXml("<Item><stuff>thing</stuff><related_id><Item><keyed_name>related keyed name</keyed_name></Item></related_id></Item>").AssertItem();
+      Assert.AreEqual("related keyed name", item.RelatedItem().KeyedName().Value);
+      item.RelatedItem().Property("name").Set("NAME");
+      Assert.AreEqual("<Item><stuff>thing</stuff><related_id><Item><keyed_name>related keyed name</keyed_name><name>NAME</name></Item></related_id></Item>", item.ToAml());
     }
   }
 }

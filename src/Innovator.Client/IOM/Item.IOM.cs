@@ -528,7 +528,7 @@ namespace Innovator.Client.IOM
       if (propertyName == "id")
         return this;
 
-      var result = ((IReadOnlyItem)this).Property(propertyName, null).AsItem();
+      var result = ((IItem)this).Property(propertyName, null).AsItem();
       if (result.Exists)
         return new Item(_conn, result);
       return null;

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace Innovator.Client
@@ -93,78 +93,43 @@ namespace Innovator.Client
       if (!this.Exists) return null;
       return _parent.AmlContext.LocalizationContext.AsBoolean(_content);
     }
-    public bool AsBoolean(bool defaultValue)
-    {
-      var result = AsBoolean();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public DateTime? AsDateTime()
     {
       if (!this.Exists) return null;
       return _parent.AmlContext.LocalizationContext.AsDateTime(_content);
     }
-    public DateTime AsDateTime(DateTime defaultValue)
-    {
-      var result = AsDateTime();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public DateTime? AsDateTimeUtc()
     {
       if (!this.Exists) return null;
       return _parent.AmlContext.LocalizationContext.AsDateTimeUtc(_content);
     }
-    public DateTime AsDateTimeUtc(DateTime defaultValue)
-    {
-      var result = AsDateTimeUtc();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public Guid? AsGuid()
     {
       if (!this.Exists || _content == null) return null;
       return new Guid(_content.ToString());
     }
-    public Guid AsGuid(Guid defaultValue)
-    {
-      var result = AsGuid();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public int? AsInt()
     {
       if (!this.Exists) return null;
       return _parent.AmlContext.LocalizationContext.AsInt(_content);
     }
-    public int AsInt(int defaultValue)
-    {
-      var result = AsInt();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public long? AsLong()
     {
       if (!this.Exists) return null;
       return _parent.AmlContext.LocalizationContext.AsLong(_content);
     }
-    public long AsLong(long defaultValue)
-    {
-      var result = AsLong();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public double? AsDouble()
     {
       if (!this.Exists) return null;
       return _parent.AmlContext.LocalizationContext.AsDouble(_content);
     }
-    public double AsDouble(double defaultValue)
-    {
-      var result = AsDouble();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public string AsString(string defaultValue)
     {
       if (!this.Exists)

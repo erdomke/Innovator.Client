@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Innovator.Client
 {
@@ -81,45 +81,25 @@ namespace Innovator.Client
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsBoolean(NeutralValue());
     }
-    public bool AsBoolean(bool defaultValue)
-    {
-      var result = AsBoolean();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public DateTime? AsDateTime()
     {
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsDateTime(NeutralValue());
     }
-    public DateTime AsDateTime(DateTime defaultValue)
-    {
-      var result = AsDateTime();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public DateTimeOffset? AsDateTimeOffset()
     {
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsDateTimeOffset(NeutralValue());
     }
-    public DateTimeOffset AsDateTimeOffset(DateTimeOffset defaultValue)
-    {
-      var result = AsDateTimeOffset();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public DateTime? AsDateTimeUtc()
     {
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsDateTimeUtc(NeutralValue());
     }
-    public DateTime AsDateTimeUtc(DateTime defaultValue)
-    {
-      var result = AsDateTimeUtc();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public Guid? AsGuid()
     {
       if (!this.Exists || _content == null) return null;
@@ -128,26 +108,27 @@ namespace Innovator.Client
         str = str.Substring(Utils.VaultPicturePrefix.Length);
       return new Guid(str);
     }
-    public Guid AsGuid(Guid defaultValue)
-    {
-      var result = AsGuid();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public int? AsInt()
     {
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsInt(NeutralValue());
     }
-    public int AsInt(int defaultValue)
-    {
-      var result = AsInt();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public IItem AsItem()
     {
-      if (!this.Exists) return Item.GetNullItem<Item>();
+      if (!this.Exists)
+      {
+        if (_parent?.Exists != true)
+          return Item.GetNullItem<Item>();
+        return new Item(AmlContext)
+        {
+          Parent = this,
+          IsNull = true,
+          ReadOnly = false
+        };
+      }
+
       var item = _content as IItem;
       var typeAttr = Attribute("type");
       if (item == null && IsGuid() && typeAttr.Exists)
@@ -185,23 +166,13 @@ namespace Innovator.Client
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsLong(NeutralValue());
     }
-    public long AsLong(long defaultValue)
-    {
-      var result = AsLong();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public double? AsDouble()
     {
       if (!this.Exists) return null;
       return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsDouble(NeutralValue());
     }
-    public double AsDouble(double defaultValue)
-    {
-      var result = AsDouble();
-      if (result.HasValue) return result.Value;
-      return defaultValue;
-    }
+
     public string AsString(string defaultValue)
     {
       if (!this.Exists || Attribute("is_null").AsBoolean(false))
@@ -212,7 +183,7 @@ namespace Innovator.Client
     public override IElement Add(object content)
     {
       if (!Exists && _parent != null)
-        _parent.Add(this);
+        AddToParent();
 
       return AddBase(content);
     }
@@ -224,11 +195,22 @@ namespace Innovator.Client
       {
         if (_parent == null)
           throw new InvalidOperationException();
-        _parent.Add(this);
+        AddToParent();
       }
 
       _content = null;
       AddBase(value);
+    }
+
+    private void AddToParent()
+    {
+      _parent.Add(this);
+      var itemParent = _parent as Item;
+      if (itemParent?.Exists == false && itemParent?.ReadOnly == false)
+      {
+        itemParent.IsNull = false;
+        itemParent.Parent.Add(itemParent);
+      }
     }
 
     private IElement AddBase(object content)
@@ -262,7 +244,11 @@ namespace Innovator.Client
 
     IReadOnlyItem IReadOnlyProperty_Item<IReadOnlyItem>.AsItem()
     {
-      return AsItem();
+      var result = AsItem();
+      var elem = result as Element;
+      if (elem != null)
+        elem.ReadOnly = true;
+      return result;
     }
 
     protected override Element Clone(IElement newParent)

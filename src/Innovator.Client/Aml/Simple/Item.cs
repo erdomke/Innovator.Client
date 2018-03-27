@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,6 +19,18 @@ namespace Innovator.Client
     /// otherwise, returns <c>false</c> to indicate that the element is just a null placeholder
     /// put in place to reduce unnecessary null reference checks</summary>
     public override bool Exists { get { return (_attr & ElementAttributes.Null) == 0; } }
+
+    internal bool IsNull
+    {
+      get { return (_attr & ElementAttributes.Null) != 0; }
+      set
+      {
+        if (value)
+          _attr = _attr | ElementAttributes.Null;
+        else
+          _attr = _attr & ~ElementAttributes.Null;
+      }
+    }
 
     /// <summary>Local XML name of the element</summary>
     public override string Name { get { return "Item"; } }
@@ -114,6 +126,17 @@ namespace Innovator.Client
       return this;
     }
 
+    public override IElement Add(object content)
+    {
+      if (!Exists && !ReadOnly)
+      {
+        IsNull = false;
+        Parent.Add(this);
+      }
+
+      return base.Add(content);
+    }
+
     /// <summary>Returns a reference to the property with the specified name</summary>
     /// <remarks>If the property does not exist, a non-null object will be returned that has an <c>Exists</c> member which will return <c>false</c></remarks>
     /// <param name="name">Name of the property</param>
@@ -198,7 +221,7 @@ namespace Innovator.Client
       if (string.IsNullOrEmpty(name))
         throw new ArgumentNullException(name);
 
-      if (Exists)
+      if (Exists || _parent != AmlElement.NullElem)
       {
         var elem = _content as ILinkedElement;
         if (elem != null)

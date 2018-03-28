@@ -44,11 +44,9 @@ namespace Innovator.Client
     /// </summary>
     public static object AsClrValue(this IReadOnlyProperty_Base prop, Model.IPropertyDefinition meta)
     {
-      var metaProp = meta as Model.Property;
-      while (meta.DataType().Value == "foreign" && metaProp?.ForeignProperty().HasValue() == true)
+      while (meta.DataType().Value == "foreign" && meta.Property("foreign_property").HasValue() == true)
       {
-        meta = (Model.IPropertyDefinition)metaProp.ForeignProperty().AsItem();
-        metaProp = meta as Model.Property;
+        meta = (Model.IPropertyDefinition)meta.Property("foreign_property").AsItem();
       }
 
       if (!prop.HasValue())

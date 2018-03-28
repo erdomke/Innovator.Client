@@ -1,3 +1,5 @@
+using System;
+
 namespace Innovator.Client.IOM
 {
   /// <summary>
@@ -32,7 +34,7 @@ namespace Innovator.Client.IOM
     /// containing the XML response returned from the server.</remarks>
     public Item applyAML(string AML, params object[] args)
     {
-      return new Item(_conn, _conn.Apply(new Command(AML, args).WithAction(CommandAction.ApplyAML)));
+      return new Item(_conn, _conn.ApplyMutable(new Command(AML, args).WithAction(CommandAction.ApplyAML)));
     }
 
     /// <summary>
@@ -47,7 +49,7 @@ namespace Innovator.Client.IOM
     /// be applied, and methods written in JavaScript cannot be applied.</remarks>
     public Item applyMethod(string methodName, string body)
     {
-      return new Item(_conn, _conn.Apply(new Command("<Item type='Method' action='@0'>@1!</Item>", methodName, body)
+      return new Item(_conn, _conn.ApplyMutable(new Command("<Item type='Method' action='@0'>@1!</Item>", methodName, body)
         .WithAction(CommandAction.ApplyMethod)));
     }
 
@@ -63,7 +65,7 @@ namespace Innovator.Client.IOM
     /// server.</remarks>
     public Item applySQL(string sql, params object[] args)
     {
-      return new Item(_conn, _conn.ApplySql(sql, args));
+      return new Item(_conn, _conn.ApplyMutable(new Command(sql, args).WithAction(CommandAction.ApplySQL)));
     }
 
     /// <summary>
@@ -92,7 +94,13 @@ namespace Innovator.Client.IOM
     /// </exception>
     public Item getItemById(string itemTypeName, string id)
     {
-      return new Item(_conn, _conn.ItemById(itemTypeName, id));
+      if (itemTypeName.IsNullOrWhiteSpace())
+        throw new ArgumentException("Item type must be specified", nameof(itemTypeName));
+      if (id.IsNullOrWhiteSpace())
+        throw new ArgumentException("ID must be specified", nameof(id));
+
+      return new Item(_conn, _conn.ApplyMutable(new Command("<Item type='@0' id='@1' action=\"get\" />", itemTypeName, id)
+                          .WithAction(CommandAction.ApplyItem)));
     }
 
     /// <summary>
@@ -111,7 +119,13 @@ namespace Innovator.Client.IOM
     /// </exception>
     public Item getItemByKeyedName(string itemTypeName, string keyedName)
     {
-      return new Item(_conn, _conn.ItemByKeyedName(itemTypeName, keyedName));
+      if (itemTypeName.IsNullOrWhiteSpace())
+        throw new ArgumentException("Item type must be specified", nameof(itemTypeName));
+      if (keyedName.IsNullOrWhiteSpace())
+        throw new ArgumentException("Keyed name must be specified", nameof(keyedName));
+
+      return new Item(_conn, _conn.ApplyMutable(new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
+                          .WithAction(CommandAction.ApplyItem)));
     }
 
     /// <summary>

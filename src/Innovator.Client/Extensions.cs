@@ -81,6 +81,20 @@ namespace Innovator.Client
       }
     }
 
+    internal static Stream Seekable(this Stream data)
+    {
+      if (data.CanSeek)
+      {
+        data.Position = 0;
+        return data;
+      }
+
+      var trib = new MemoryTributary();
+      data.CopyTo(trib);
+      trib.Position = 0;
+      return trib;
+    }
+
     /// <summary>
     /// Concatenate the string representation of a set of values to a single string separated by <paramref name="separator"/>
     /// </summary>

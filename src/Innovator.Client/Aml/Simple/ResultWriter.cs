@@ -26,14 +26,14 @@ namespace Innovator.Client
     private Result _result;
     private Stack<string> _names;
 
-    public ResultWriter(ElementFactory factory, string database, Command query)
+    public ResultWriter(ElementFactory factory, string database, Command query, bool? readOnly = null)
     {
       _factory = factory;
       _database = database;
       _query = query;
       _result = new Result(factory, database, query);
       _names = new Stack<string>();
-      _readOnly = query != null;
+      _readOnly = readOnly ?? query != null;
     }
 
     public override WriteState WriteState

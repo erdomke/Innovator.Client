@@ -12,6 +12,20 @@ namespace Innovator.Client
     private IPromise<string> _transactionId;
     private IPromise<Stream> _lastPromise;
 
+    public override string TransactionId
+    {
+      get
+      {
+        if (_transactionId?.IsResolved == true)
+          return _transactionId.Value;
+        return null;
+      }
+      set
+      {
+        _transactionId = Promises.Resolved(value);
+      }
+    }
+
     public TransactionalUploadCommand(Connection.IArasConnection conn, Vault vault) : base(conn, vault)
     {
 
@@ -23,7 +37,8 @@ namespace Innovator.Client
         return _lastPromise;
 
       Status = UploadStatus.Committed;
-      if (!Files.Any(f => f.UploadPromise != null))
+      // No transaction has been started
+      if (_transactionId == null && !Files.Any(f => f.UploadPromise != null))
       {
         _lastPromise = UploadAndApply(async);
       }

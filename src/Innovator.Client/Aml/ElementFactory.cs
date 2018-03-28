@@ -197,6 +197,18 @@ namespace Innovator.Client
       return writer.Result;
     }
 
+    /// <summary>Return a result from an XmlReader indicating that it is the result of a query performed on a specific connection</summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="query">The original query which produced the <paramref name="xml"/> response</param>
+    /// <param name="database">The name of the database which was queried</param>
+    /// <param name="readOnly">Whether or not the data coming back should be read-only</param>
+    internal IReadOnlyResult FromXml(XmlReader xml, Command query, string database, bool readOnly)
+    {
+      var writer = new ResultWriter(this, database, query, readOnly);
+      xml.CopyTo(writer);
+      return writer.Result;
+    }
+
     /// <summary>Create a new action attribute tag</summary>
     /// <remarks>action [String] The name of the Method (or Built in Action Method) to apply to the Item.</remarks>
     public IAttribute Action(string value)

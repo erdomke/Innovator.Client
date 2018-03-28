@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 
 namespace Innovator.Client
 {
@@ -13,7 +13,7 @@ namespace Innovator.Client
     }
 
 #if HTTPSYNC
-    public HttpResponseMsg Send(HttpRequest request)
+    public virtual HttpResponseMsg Send(HttpRequest request)
     {
       return _handler.Send(request);
     }

@@ -12,10 +12,13 @@ namespace Innovator.Client
   {
     private string _aml;
     private string _checksum;
-    private byte[] _data;
+    private Stream _data;
     private string _id;
     private long _length;
     private string _path;
+#if FILEIO
+    private string _filePath;
+#endif
 
     public string Aml { get { return _aml; } }
     public string Id { get { return _id; } }
@@ -28,33 +31,36 @@ namespace Innovator.Client
       _id = id;
 
 #if FILEIO
+      var fileStream = data as FileStream;
+      if (data == null || fileStream != null)
+        _filePath = fileStream?.Name ?? path;
       _path = NormalizePath(path);
 #else
       _path = path;
 #endif
 
-      if (data == null)
-      {
 #if FILEIO
+      if (!string.IsNullOrEmpty(_filePath))
+      {
         _id = id;
-        if (!File.Exists(_path)) throw new IOException("File " + _path + " does not exist");
+        if (!File.Exists(_filePath)) throw new IOException("File " + _filePath + " does not exist");
 
-        using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        using (var file = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
         using (var mD = System.Security.Cryptography.MD5.Create())
         {
-          _checksum = mD.ComputeHash(fileStream).HexString().ToUpperInvariant();
+          _checksum = mD.ComputeHash(file).HexString().ToUpperInvariant();
         }
 
-        _length = new FileInfo(_path).Length;
-#else
-        throw new NotSupportedException();
+        _length = new FileInfo(_filePath).Length;
+      } else
 #endif
+      if (data == null)
+      {
+        throw new NotSupportedException();
       }
       else
       {
-        if (data.CanSeek) data.Position = 0;
-        _data = new byte[data.Length];
-        data.Read(_data, 0, _data.Length);
+        _data = data.Seekable();
         _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
         _length = _data.Length;
       }
@@ -115,7 +121,7 @@ namespace Innovator.Client
 #if FILEIO
       if (_data == null)
       {
-        result = new SimpleContent(new FileStream(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
+        result = new SimpleContent(new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
       }
       else
       {
@@ -140,7 +146,7 @@ namespace Innovator.Client
 #if FILEIO
       if (_data == null)
       {
-        hash = new xxHash(32).ComputeHash(new FileStream(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
+        hash = new xxHash(32).ComputeHash(new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
       }
       else
       {

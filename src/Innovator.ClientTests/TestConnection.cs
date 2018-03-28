@@ -1,12 +1,16 @@
-﻿using System;
+using Innovator.Client.Connection;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
 namespace Innovator.Client.Tests
 {
-  internal class TestConnection : IConnection
+  internal class TestConnection : IArasConnection
   {
+    private ArasVaultConnection _vaultConn;
+
     public Command LastRequest { get; set; }
 
     public ElementFactory AmlContext { get { return ElementFactory.Local; } }
@@ -15,9 +19,21 @@ namespace Innovator.Client.Tests
 
     public string UserId { get { return "2D246C5838644C1C8FD34F8D2796E327"; } }
 
+    public List<Action<IHttpRequest>> DefaultSettings => new List<Action<IHttpRequest>>();
+
+    public CompressionType Compression => CompressionType.none;
+
+    public Version Version => new Version(11, 0);
+
+    public TestConnection()
+    {
+      _vaultConn = new ArasVaultConnection(this);
+      _vaultConn.InitializeStrategy();
+    }
+
     public UploadCommand CreateUploadCommand()
     {
-      throw new NotSupportedException();
+      return _vaultConn.CreateUploadCommand();
     }
 
     public string MapClientUrl(string relativeUrl)
@@ -27,6 +43,9 @@ namespace Innovator.Client.Tests
 
     public Stream Process(Command request)
     {
+      if (request is UploadCommand)
+        return _vaultConn.Upload((UploadCommand)request, false).Wait();
+
       LastRequest = request;
       var elem = XElement.Parse(request.ToNormalizedAml(this.AmlContext.LocalizationContext));
       var result = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -77,7 +96,46 @@ namespace Innovator.Client.Tests
             }
             break;
           case "User":
-            if (AttrEquals(elem, "id", "8227040ABF0A46A8AF06C18ABD3967B3"))
+            if (AttrEquals(elem, "id", "2D246C5838644C1C8FD34F8D2796E327") || elem.Element("id")?.Value == "2D246C5838644C1C8FD34F8D2796E327")
+            {
+              result = @"<Result>
+  <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
+    <default_vault keyed_name='Default' type='Vault'>
+      <Item type='Vault' typeId='8FC29FEF933641A09CEE13A604A9DC74' id='51C2A8877C4D4038A5A0C3071A863706'>
+        <id keyed_name='Default' type='Vault'>51C2A8877C4D4038A5A0C3071A863706</id>
+        <keyed_name>Default</keyed_name>
+        <vault_url_pattern>$[HTTP_PREFIX_SERVER]$[HTTP_HOST_SERVER]$[HTTP_PORT_SERVER]$[HTTP_PATH_SERVER]/vault/vaultserver.aspx</vault_url_pattern>
+        <name>Default</name>
+        <vault_url>http://server/innovator11sp12/vault/vaultserver.aspx</vault_url>
+      </Item>
+    </default_vault>
+    <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
+    <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
+    <Relationships>
+      <Item type='ReadPriority' typeId='8CFAF78BCFFB41E6A3ED838D9EC2FD7C' id='749A3C52A15247F4AB7EDE406AA19AF8'>
+        <id keyed_name='749A3C52A15247F4AB7EDE406AA19AF8' type='ReadPriority'>749A3C52A15247F4AB7EDE406AA19AF8</id>
+        <priority>10</priority>
+        <related_id keyed_name='Default' type='Vault'>
+          <Item type='Vault' typeId='8FC29FEF933641A09CEE13A604A9DC74' id='51C2A8877C4D4038A5A0C3071A863706'>
+            <id keyed_name='Default' type='Vault'>51C2A8877C4D4038A5A0C3071A863706</id>
+            <keyed_name>Default</keyed_name>
+            <vault_url_pattern>$[HTTP_PREFIX_SERVER]$[HTTP_HOST_SERVER]$[HTTP_PORT_SERVER]$[HTTP_PATH_SERVER]/vault/vaultserver.aspx</vault_url_pattern>
+            <name>Default</name>
+            <vault_url>http://server/innovator11sp12/vault/vaultserver.aspx</vault_url>
+          </Item>
+        </related_id>
+        <source_id keyed_name='First Last' type='User'>
+          <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
+            <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
+            <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
+          </Item>
+        </source_id>
+      </Item>
+    </Relationships>
+  </Item>
+</Result>";
+            }
+            else if (AttrEquals(elem, "id", "8227040ABF0A46A8AF06C18ABD3967B3"))
             {
               result = @"<Result><Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
   <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
@@ -156,6 +214,25 @@ namespace Innovator.Client.Tests
     }
 
     public ExplicitHashCredentials HashCredentials(ICredentials credentials)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void SetDefaultHeaders(Action<string, string> writer)
+    {
+      writer.Invoke("AUTHUSER", "User");
+      writer.Invoke("AUTHPASSWORD", "Password");
+      writer.Invoke("DATABASE", "Database");
+      writer.Invoke("LOCALE", "Locale");
+      writer.Invoke("TIMEZONE_NAME", "TimeZone");
+    }
+
+    public IPromise<Stream> Process(Command request, bool async)
+    {
+      return Promises.Resolved(Process(request));
+    }
+
+    public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
     {
       throw new NotImplementedException();
     }

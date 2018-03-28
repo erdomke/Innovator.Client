@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Innovator.Client.Connection
@@ -56,8 +56,8 @@ namespace Innovator.Client.Connection
     {
       if (_userInfo == null)
       {
-        _userInfo = _conn.ItemByQuery(new Command("<Item type=\"User\" action=\"get\" select=\"default_vault\" expand=\"1\"><id>@0</id><Relationships><Item type=\"ReadPriority\" action=\"get\" select=\"priority, related_id\" expand=\"1\" orderBy=\"priority\"/></Relationships></Item>", _conn.UserId), async)
-          .FailOver(() => _conn.ItemByQuery(new Command("<Item type=\"User\" action=\"get\" select=\"default_vault\" expand=\"1\"><id>@0</id></Item>", _conn.UserId), async))
+        _userInfo = _conn.ItemByQuery(new Command("<Item type='User' action='get' select='default_vault' expand='1'><id>@0</id><Relationships><Item type='ReadPriority' action='get' select='priority, related_id' expand='1' orderBy='priority'/></Relationships></Item>", _conn.UserId), async)
+          .FailOver(() => _conn.ItemByQuery(new Command("<Item type='User' action='get' select='default_vault' expand='1'><id>@0</id></Item>", _conn.UserId), async))
           .Convert<IReadOnlyItem, User>(i =>
           {
             var result = new User();

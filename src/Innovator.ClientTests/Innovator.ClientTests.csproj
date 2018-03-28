@@ -106,6 +106,7 @@
     <Compile Include="TestConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandFileTests.cs" />
+    <Compile Include="TestService.cs" />
     <Compile Include="UploadCommandTests.cs" />
   </ItemGroup>
   <ItemGroup>

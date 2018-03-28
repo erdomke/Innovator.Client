@@ -38,8 +38,7 @@ namespace System.Data.HashFunction
     /// <inheritdoc />
     public virtual byte[] ComputeHash(byte[] data)
     {
-      return ComputeHashInternal(
-          new ArrayData(data));
+      return ComputeHashInternal(new ArrayData(data));
     }
 
     /// <exception cref="System.ArgumentException">Stream \data\ must be readable.;data</exception>
@@ -49,23 +48,10 @@ namespace System.Data.HashFunction
       if (!data.CanRead)
         throw new ArgumentException("Stream \"data\" must be readable.", "data");
 
-      if (!data.CanSeek && RequiresSeekableStream)
-      {
-        byte[] buffer;
+      if (RequiresSeekableStream)
+        return ComputeHashInternal(new StreamData(data.Seekable()));
 
-        using (var ms = new MemoryStream())
-        {
-          data.CopyTo(ms);
-
-          buffer = ms.ToArray();
-        }
-
-        return ComputeHashInternal(
-            new ArrayData(buffer));
-      }
-
-      return ComputeHashInternal(
-          new StreamData(data));
+      return ComputeHashInternal(new StreamData(data));
     }
 
 

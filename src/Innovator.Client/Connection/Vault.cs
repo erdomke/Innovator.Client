@@ -62,11 +62,7 @@ namespace Innovator.Client
       this.Url = i.Property("vault_url").Value;
       this.Authentication = AuthenticationSchemes.None;
 
-      var handler = new SyncClientHandler()
-      {
-        CookieContainer = new CookieContainer()
-      };
-      HttpClient = new SyncHttpClient(handler);
+      HttpClient = (SyncHttpClient)Factory.DefaultService();
     }
   }
 }

@@ -12,6 +12,12 @@ namespace Innovator.Client
   {
     private IPromise<Stream> _lastPromise;
 
+    public override string TransactionId
+    {
+      get { return null; }
+      set { /*Do Nothing*/ }
+    }
+
     public NontransactionalUploadCommand(Connection.IArasConnection conn, Vault vault) : base(conn, vault)
     {
     }

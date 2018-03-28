@@ -56,7 +56,7 @@ namespace Innovator.Client.IOM
         aml = item.ToAml();
       }
 
-      return new Item(_conn, _conn.Apply(aml));
+      return new Item(_conn, _conn.ApplyMutable(aml));
     }
 
     //public string applyStylesheet(string xslStylesheet, string type)

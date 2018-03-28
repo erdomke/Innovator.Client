@@ -156,12 +156,7 @@ namespace System.Data.HashFunction.Utilities.UnifiedData
     /// <inheritdoc />
     public override byte[] ToArray()
     {
-      using (var ms = new MemoryStream())
-      {
-        _Data.CopyTo(ms);
-
-        return ms.ToArray();
-      }
+      return _Data.AsBytes();
     }
   }
 }

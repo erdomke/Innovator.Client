@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.IO;
 
 namespace Innovator.Client
 {
@@ -69,6 +70,18 @@ namespace Innovator.Client
       }
 #else
       return new MD5().CalculateMD5Value(value).ToString().ToLowerInvariant();
+#endif
+    }
+
+    public static string ComputeHash(Stream value)
+    {
+#if MD5
+      using (var md5Provider = System.Security.Cryptography.MD5.Create())
+      {
+        return md5Provider.ComputeHash(value).HexString();
+      }
+#else
+      return new MD5().CalculateMD5Value(value.AsBytes()).ToString().ToLowerInvariant();
 #endif
     }
 

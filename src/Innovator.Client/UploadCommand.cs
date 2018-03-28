@@ -50,6 +50,13 @@ namespace Innovator.Client
     /// </summary>
     public UploadStatus Status { get; protected set; }
     internal Vault Vault { get; }
+    /// <summary>
+    /// Gets or sets the transaction identifier.
+    /// </summary>
+    /// <value>
+    /// The transaction identifier.
+    /// </value>
+    public abstract string TransactionId { get; set; }
 
     /// <summary>
     /// Create an upload command with the specified vault metadata
@@ -59,6 +66,17 @@ namespace Innovator.Client
     {
       Vault = vault;
       _conn = conn;
+    }
+
+    /// <summary>
+    /// Add a file to the upload request
+    /// </summary>
+    /// <param name="path">Physical path of the file</param>
+    /// <param name="isNew">Is this a new file being added to the database for the first time?</param>
+    /// <returns>AML file string useful for building a larger AML statement</returns>
+    public string AddFile(string path, bool isNew = true)
+    {
+      return AddFile(_conn.AmlContext.NewId(), path, null, isNew);
     }
 
     /// <summary>

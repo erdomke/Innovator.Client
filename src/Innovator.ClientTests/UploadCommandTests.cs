@@ -1,10 +1,43 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
+using System.Text;
 
 namespace Innovator.Client.Tests
 {
   [TestClass()]
   public class UploadCommandTests
   {
+    //[TestMethod()]
+    //public void UploadFile11_VerifyHttp()
+    //{
+    //  var origService = Factory.DefaultService;
+
+    //  try
+    //  {
+    //    Factory.DefaultService = () => new TestService()
+    //    {
+    //      ResponseGenerator = req =>
+    //      {
+    //        return new System.Net.Http.HttpResponseMessage();
+    //      }
+    //    };
+    //    var conn = new TestConnection();
+    //    var upload = conn.CreateUploadCommand();
+    //    var data = new MemoryStream(Encoding.UTF8.GetBytes("Some file data"));
+    //    upload.AddFile(conn.AmlContext.NewId(), @"C:\test.txt", data);
+    //    conn.Process(upload);
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    Assert.Fail();
+    //  }
+    //  finally
+    //  {
+    //    Factory.DefaultService = origService;
+    //  }
+    //}
+
     /*[TestMethod()]
     public void AddFileQuery_DontModifyIfComplete()
     {

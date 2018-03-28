@@ -34,6 +34,21 @@ namespace Innovator.Client
       return conn.AmlContext.FromXml(conn.Process(query), query, conn);
     }
 
+    internal static IReadOnlyResult ApplyMutable(this IConnection conn, Command query, params object[] parameters)
+    {
+      query.WithAml(query.Aml, parameters);
+      var factory = conn.AmlContext;
+      if (query.Action == CommandAction.ApplySQL)
+        factory = ElementFactory.Utc;
+
+      var xml = conn.Process(query);
+      var xmlStream = xml as IXmlStream;
+      using (var xmlReader = (xmlStream == null ? System.Xml.XmlReader.Create(xml) : xmlStream.CreateReader()))
+      {
+        return factory.FromXml(xmlReader, query, conn?.Database, false);
+      }
+    }
+
     /// <summary>
     /// Get the result of executing the specified AML query
     /// </summary>
@@ -206,15 +221,12 @@ namespace Innovator.Client
     public static IReadOnlyItem ItemById(this IConnection conn, string itemTypeName, string id)
     {
       if (itemTypeName.IsNullOrWhiteSpace())
-        throw new ArgumentException("Item type must be specified", "itemTypeName");
+        throw new ArgumentException("Item type must be specified", nameof(itemTypeName));
       if (id.IsNullOrWhiteSpace())
-        throw new ArgumentException("ID must be specified", "id");
+        throw new ArgumentException("ID must be specified", nameof(id));
 
-      var aml = conn.AmlContext;
-      var query = new Command("<Item type='@0' id='@1' action=\"get\" />"
-                              , itemTypeName, id)
-                              .WithAction(CommandAction.ApplyItem);
-      return aml.FromXml(conn.Process(query), query, conn).AssertItem();
+      return conn.Apply(new Command("<Item type='@0' id='@1' action=\"get\" />", itemTypeName, id)
+                          .WithAction(CommandAction.ApplyItem)).AssertItem();
     }
 
     /// <summary>
@@ -227,9 +239,9 @@ namespace Innovator.Client
     public static T ItemById<T>(this IConnection conn, string itemTypeName, string id, Func<IReadOnlyItem, T> mapper)
     {
       if (itemTypeName.IsNullOrWhiteSpace())
-        throw new ArgumentException("Item type must be specified", "itemTypeName");
+        throw new ArgumentException("Item type must be specified", nameof(itemTypeName));
       if (id.IsNullOrWhiteSpace())
-        throw new ArgumentException("ID must be specified", "id");
+        throw new ArgumentException("ID must be specified", nameof(id));
 
       var aml = conn.AmlContext;
       var itemQuery = aml.Item(aml.Type(itemTypeName), aml.Id(id));
@@ -245,15 +257,12 @@ namespace Innovator.Client
     public static IReadOnlyItem ItemByKeyedName(this IConnection conn, string itemTypeName, string keyedName)
     {
       if (itemTypeName.IsNullOrWhiteSpace())
-        throw new ArgumentException("Item type must be specified", "itemTypeName");
+        throw new ArgumentException("Item type must be specified", nameof(itemTypeName));
       if (keyedName.IsNullOrWhiteSpace())
-        throw new ArgumentException("Keyed name must be specified", "keyedName");
+        throw new ArgumentException("Keyed name must be specified", nameof(keyedName));
 
-      var aml = conn.AmlContext;
-      var query = new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>"
-                              , itemTypeName, keyedName)
-                              .WithAction(CommandAction.ApplyItem);
-      return aml.FromXml(conn.Process(query), query, conn).AssertItem();
+      return conn.Apply(new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
+                          .WithAction(CommandAction.ApplyItem)).AssertItem();
     }
 
     /// <summary>

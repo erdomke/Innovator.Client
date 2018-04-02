@@ -19,6 +19,16 @@ namespace Innovator.Client.QueryModel
     /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override WriteState WriteState { get { return WriteState.Start; } }
 
+#if XMLLEGACY
+    /// <summary>Closes this stream and the underlying stream.</summary>
+    /// <exception cref="InvalidOperationException">A call is made to write more output after Close has been called or the result of this call is an invalid XML document.</exception>
+    /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
+    public override void Close()
+    {
+      Flush();
+    }
+#endif
+
     public override void Flush()
     {
       throw new NotImplementedException();
@@ -143,7 +153,7 @@ namespace Innovator.Client.QueryModel
             _stack.Add(new InOperator()
             {
               Left = new PropertyReference("id", table),
-              Right = new ListExpression(_buffer.ToString().Split(',').Select(i => new StringLiteral(i)))
+              Right = new ListExpression(_buffer.ToString().Split(',').Select(i => (IOperand)new StringLiteral(i)))
             });
             break;
           case "where":

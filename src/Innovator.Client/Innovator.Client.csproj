@@ -581,6 +581,10 @@
     <Compile Include="QueryModel\PropertyReference.cs" />
     <Compile Include="QueryModel\Query.cs" />
     <Compile Include="QueryModel\SqlServerVisitor.cs" />
+    <Compile Include="QueryModel\Sql\SqlLiteral.cs" />
+    <Compile Include="QueryModel\Sql\SqlNode.cs" />
+    <Compile Include="QueryModel\Sql\SqlTokenizer.cs" />
+    <Compile Include="QueryModel\Sql\SqlType.cs" />
     <Compile Include="QueryModel\StringLiteral.cs" />
     <Compile Include="QueryModel\Table.cs" />
     <Compile Include="Queryable\QueryProvider.cs" />

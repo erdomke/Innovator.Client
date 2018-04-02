@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -37,10 +37,6 @@ namespace Innovator.Client
     {
       return _value;
     }
-    public Guid AsGuid(Guid defaultValue)
-    {
-      return _value;
-    }
     public string AsString(string defaultValue)
     {
       return this.Value;
@@ -52,15 +48,7 @@ namespace Innovator.Client
     {
       throw new NotSupportedException();
     }
-    public bool AsBoolean(bool defaultValue)
-    {
-      throw new NotSupportedException();
-    }
     public DateTime? AsDateTime()
-    {
-      throw new NotSupportedException();
-    }
-    public DateTime AsDateTime(DateTime defaultValue)
     {
       throw new NotSupportedException();
     }
@@ -68,15 +56,7 @@ namespace Innovator.Client
     {
       throw new NotSupportedException();
     }
-    public DateTimeOffset AsDateTimeOffset(DateTimeOffset defaultValue)
-    {
-      throw new NotSupportedException();
-    }
     public DateTime? AsDateTimeUtc()
-    {
-      throw new NotSupportedException();
-    }
-    public DateTime AsDateTimeUtc(DateTime defaultValue)
     {
       throw new NotSupportedException();
     }
@@ -84,15 +64,7 @@ namespace Innovator.Client
     {
       throw new NotSupportedException();
     }
-    public double AsDouble(double defaultValue)
-    {
-      throw new NotSupportedException();
-    }
     public int? AsInt()
-    {
-      throw new NotSupportedException();
-    }
-    public int AsInt(int defaultValue)
     {
       throw new NotSupportedException();
     }
@@ -101,10 +73,6 @@ namespace Innovator.Client
       return _parent as IReadOnlyItem;
     }
     public long? AsLong()
-    {
-      throw new NotSupportedException();
-    }
-    public long AsLong(long defaultValue)
     {
       throw new NotSupportedException();
     }

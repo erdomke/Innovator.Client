@@ -62,6 +62,7 @@ namespace Innovator.Client
       {
         _data = data.Seekable();
         _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
+        _data.Position = 0;
         _length = _data.Length;
       }
       _aml = GetFileItem(id, path, vaultId, isNew);
@@ -117,6 +118,7 @@ namespace Innovator.Client
 
     public HttpContent AsContent(Command cmd, IServerContext context, bool multipart)
     {
+      _data.Position = 0;
       HttpContent result;
 #if FILEIO
       if (_data == null)
@@ -143,18 +145,21 @@ namespace Innovator.Client
         result.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", 0, _length - 1, _length));
 
         var hash = default(byte[]);
+
+        _data.Position = 0;
 #if FILEIO
-      if (_data == null)
-      {
-        hash = new xxHash(32).ComputeHash(new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
-      }
-      else
-      {
-        hash = new xxHash(32).ComputeHash(_data);
-      }
+        if (_data == null)
+        {
+          hash = new xxHash(32).ComputeHash(new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
+        }
+        else
+        {
+          hash = new xxHash(32).ComputeHash(_data);
+        }
 #else
         hash = new xxHash(32).ComputeHash(_data);
 #endif
+        _data.Position = 0;
         var hashStr = BitConverter.ToUInt32(hash, 0).ToString(CultureInfo.InvariantCulture);
         result.Headers.Add("Aras-Content-Range-Checksum", hashStr);
         result.Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");

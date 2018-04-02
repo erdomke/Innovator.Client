@@ -510,5 +510,12 @@ namespace Innovator.Client
       stream.Write(bytes, 0, bytes.Length);
       return stream;
     }
+
+    internal static T Pop<T>(this IList<T> list)
+    {
+      var last = list[list.Count - 1];
+      list.RemoveAt(list.Count - 1);
+      return last;
+    }
   }
 }

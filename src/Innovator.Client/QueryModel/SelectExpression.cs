@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public interface ITableOperand
+  public class SelectExpression
   {
-    void Visit(ITableVisitor visitor);
+    public IExpression Expression { get; set; }
+    public string Alias { get; set; }
   }
 }

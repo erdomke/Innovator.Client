@@ -33,11 +33,26 @@ namespace Innovator.Client.QueryModel
           expr = literal;
           return result;
         case SqlType.String:
-          expr = new StringLiteral(sql.Text.Substring(1, sql.Text.Length - 2).Replace("''", "'"));
+          var value = sql.Text.Substring(1, sql.Text.Length - 2).Replace("''", "'");
+          if (DateTime.TryParse(value, out var date))
+            expr = new DateTimeLiteral(date);
+          else
+            expr = new StringLiteral(value);
           return true;
         default:
           expr = null;
           return false;
+      }
+    }
+
+    public static string ToSqlString(this IExpression expr)
+    {
+      using (var writer = new System.IO.StringWriter())
+      {
+        var visitor = new SqlServerVisitor(writer, new NullAmlSqlWriterSettings());
+        expr.Visit(visitor);
+        writer.Flush();
+        return writer.ToString();
       }
     }
   }

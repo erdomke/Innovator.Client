@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace Innovator.Client
+namespace Innovator.Client.QueryModel
 {
   /// <summary>
   /// Settings and metadata used to generate a SQL statement from AML.  Metadata
@@ -8,10 +8,6 @@ namespace Innovator.Client
   /// </summary>
   public interface IAmlSqlWriterSettings
   {
-    /// <summary>
-    /// Gets the aml context used for serializing/deserializing values
-    /// </summary>
-    ElementFactory AmlContext { get; }
     /// <summary>
     /// Gets the identity list for the current user
     /// </summary>

@@ -15,12 +15,33 @@ namespace Innovator.Client.QueryModel
     public void SetMinMaxFromSql(string value)
     {
       var tokens = new SqlTokenizer(value).ToArray();
-      if (tokens.Length != 3)
-        throw new InvalidOperationException();
 
-      if (!string.Equals(tokens[1].Text, "and", StringComparison.OrdinalIgnoreCase)
-        || !Expression.TryGetExpression(tokens[0], out var min)
-        || !Expression.TryGetExpression(tokens[2], out var max))
+      var minText = default(SqlToken);
+      var maxText = default(SqlToken);
+      if (tokens.Length == 3)
+      {
+        if (!string.Equals(tokens[1].Text, "and", StringComparison.OrdinalIgnoreCase))
+          throw new InvalidOperationException();
+        minText = tokens[0];
+        maxText = tokens[2];
+      }
+      else
+      {
+        var andToken = tokens.Single(t => string.Equals(t.Text, "and", StringComparison.OrdinalIgnoreCase));
+        minText = new SqlToken()
+        {
+          Text = "'" + value.Substring(0, andToken.StartOffset).Trim() + "'",
+          Type = SqlType.String
+        };
+        maxText = new SqlToken()
+        {
+          Text = "'" + value.Substring(andToken.StartOffset + 3).Trim() + "'",
+          Type = SqlType.String
+        };
+      }
+
+      if (!Expression.TryGetExpression(minText, out var min)
+        || !Expression.TryGetExpression(maxText, out var max))
         throw new InvalidOperationException();
 
       Min = min;
@@ -28,5 +49,10 @@ namespace Innovator.Client.QueryModel
     }
 
     public abstract void Visit(IExpressionVisitor visitor);
+
+    public override string ToString()
+    {
+      return this.ToSqlString();
+    }
   }
 }

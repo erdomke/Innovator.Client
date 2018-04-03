@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class AndOperator : BinaryLogicalOperator, ILogical
+  public class AndOperator : BinaryOperator, ILogical
   {
     public override void Visit(IExpressionVisitor visitor)
     {

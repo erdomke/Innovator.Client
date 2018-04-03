@@ -8,6 +8,5 @@ namespace Innovator.Client.QueryModel
 {
   public interface ILogical : IOperator
   {
-    void Add(IExpression child);
   }
 }

@@ -136,17 +136,7 @@ namespace Innovator.Client.QueryModel
       throw new NotImplementedException();
     }
 
-    public void Visit(Join op)
-    {
-      throw new NotImplementedException();
-    }
-
-    public void Visit(Table op)
-    {
-      throw new NotImplementedException();
-    }
-
-    public void Visit(Query query)
+    public void Visit(QueryItem query)
     {
       throw new NotImplementedException();
     }

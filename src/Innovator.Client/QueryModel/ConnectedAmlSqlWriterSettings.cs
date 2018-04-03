@@ -2,24 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Innovator.Client
+namespace Innovator.Client.QueryModel
 {
   /// <summary>
   /// Settings and metadata used to generate a SQL statement from AML.  Metadata
   /// will be queried using the specified <see cref="IConnection"/>
   /// </summary>
-  /// <seealso cref="Innovator.Client.IAmlSqlWriterSettings" />
+  /// <seealso cref="Innovator.Client.QueryModel.IAmlSqlWriterSettings" />
   public class ConnectedAmlSqlWriterSettings : IAmlSqlWriterSettings
   {
     private readonly Dictionary<string, Dictionary<string, Model.IPropertyDefinition>> _props
       = new Dictionary<string, Dictionary<string, Model.IPropertyDefinition>>();
     private readonly IConnection _conn;
     private string _identList;
-
-    /// <summary>
-    /// Gets the aml context used for serializing/deserializing values
-    /// </summary>
-    public ElementFactory AmlContext { get { return _conn.AmlContext; } }
 
     /// <summary>
     /// Gets the identity list for the current user

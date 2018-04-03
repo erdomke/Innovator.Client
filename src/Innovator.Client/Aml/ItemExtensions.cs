@@ -452,6 +452,17 @@ namespace Innovator.Client
     }
 
     /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="node">The node.</param>
+    public static QueryModel.QueryItem ToQueryItem(this IAmlNode node)
+    {
+      var writer = new QueryModel.AmlToModelWriter();
+      node.ToAml(writer, new AmlWriterSettings());
+      return writer.Query;
+    }
+
+    /// <summary>
     /// Apply this item in the database
     /// </summary>
     public static IReadOnlyResult Apply(this IReadOnlyItem item, IConnection conn)

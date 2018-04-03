@@ -59,5 +59,10 @@ namespace Innovator.Client.QueryModel
 
       return result;
     }
+
+    public override string ToString()
+    {
+      return this.ToSqlString();
+    }
   }
 }

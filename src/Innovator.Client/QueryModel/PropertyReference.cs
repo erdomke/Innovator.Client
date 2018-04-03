@@ -9,9 +9,9 @@ namespace Innovator.Client.QueryModel
   public class PropertyReference : IOperand
   {
     public string Name { get; }
-    public Table Table { get; }
+    public QueryItem Table { get; }
 
-    public PropertyReference(string name, Table table)
+    public PropertyReference(string name, QueryItem table)
     {
       Name = name;
       Table = table;
@@ -20,6 +20,11 @@ namespace Innovator.Client.QueryModel
     public void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
+    }
+
+    public override string ToString()
+    {
+      return this.ToSqlString();
     }
   }
 }

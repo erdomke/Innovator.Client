@@ -1043,19 +1043,9 @@ namespace Innovator.Client
         return _prop.AsBoolean();
       }
 
-      public bool AsBoolean(bool defaultValue)
-      {
-        return _prop.AsBoolean(defaultValue);
-      }
-
       public DateTime? AsDateTime()
       {
         return _prop.AsDateTime();
-      }
-
-      public DateTime AsDateTime(DateTime defaultValue)
-      {
-        return _prop.AsDateTime(defaultValue);
       }
 
       public DateTimeOffset? AsDateTimeOffset()
@@ -1063,19 +1053,9 @@ namespace Innovator.Client
         return _prop.AsDateTimeOffset();
       }
 
-      public DateTimeOffset AsDateTimeOffset(DateTimeOffset defaultValue)
-      {
-        return _prop.AsDateTimeOffset(defaultValue);
-      }
-
       public DateTime? AsDateTimeUtc()
       {
         return _prop.AsDateTimeUtc();
-      }
-
-      public DateTime AsDateTimeUtc(DateTime defaultValue)
-      {
-        return _prop.AsDateTimeUtc(defaultValue);
       }
 
       public double? AsDouble()
@@ -1083,29 +1063,14 @@ namespace Innovator.Client
         return _prop.AsDouble();
       }
 
-      public double AsDouble(double defaultValue)
-      {
-        return _prop.AsDouble(defaultValue);
-      }
-
       public Guid? AsGuid()
       {
         return _prop.AsGuid();
       }
 
-      public Guid AsGuid(Guid defaultValue)
-      {
-        return _prop.AsGuid(defaultValue);
-      }
-
       public int? AsInt()
       {
         return _prop.AsInt();
-      }
-
-      public int AsInt(int defaultValue)
-      {
-        return _prop.AsInt(defaultValue);
       }
 
       public IReadOnlyItem AsItem()

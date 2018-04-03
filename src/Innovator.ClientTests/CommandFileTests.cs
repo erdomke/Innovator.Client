@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Innovator.Client;
@@ -28,7 +28,7 @@ namespace Innovator.ClientTests
     [TestMethod]
     public void CommandFile_ByPath_TestLength()
     {
-      var file = new CommandFile("ABC", testFilePath, "DEF", true);
+      var file = new CommandFile("ABC", testFilePath, null, "DEF", true);
       Console.WriteLine(file.Length);
       Assert.AreEqual(testFileSize, file.Length);
       Assert.IsTrue(file.Aml.Contains(testFileSize.ToString()));

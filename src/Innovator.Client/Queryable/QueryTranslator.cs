@@ -1,4 +1,4 @@
-﻿#if REFLECTION
+#if REFLECTION
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -270,12 +270,31 @@ namespace Innovator.Client.Queryable
         }
         return m;
       }
+      else if (m.Method.DeclaringType == typeof(ItemExtensions) && m.Method.Name == "AsBoolean")
+      {
+        var depth = GetDepth();
+        Visit(m.Arguments[0]);
+        _curr.Add(true);
+        PopElements(depth);
+        return m;
+      }
       else if (m.Method.DeclaringType == typeof(IReadOnlyProperty_Boolean) && m.Method.Name == "AsBoolean")
       {
         var depth = GetDepth();
         Visit(m.Object);
         _curr.Add(true);
         PopElements(depth);
+        return m;
+      }
+      else if (m.Method.DeclaringType == typeof(ItemExtensions)
+        && (m.Method.Name == "AsDateTime" || m.Method.Name == "AsDateTimeUtc"
+        || m.Method.Name == "AsDateTimeOffset"
+        || m.Method.Name == "AsDouble"
+        || m.Method.Name == "AsInt"
+        || m.Method.Name == "AsLong"
+        || m.Method.Name == "AsGuid"))
+      {
+        Visit(m.Arguments[0]);
         return m;
       }
       else if ((m.Method.DeclaringType == typeof(IReadOnlyProperty_Date) && m.Method.Name == "AsDateTime")

@@ -758,10 +758,15 @@ namespace Innovator.Client
             writer.Append(_lastItem.Select.ToString());
           if ((renderOption & AmlSqlRenderOption.FromClause) != 0)
             AppendFromClause(writer, _lastItem.From, _settings.PermissionOption);
-          if ((AmlSqlRenderOption)((int)renderOption & 0xff) != AmlSqlRenderOption.WhereClause)
-            writer.Append(" where ");
           if ((renderOption & AmlSqlRenderOption.WhereClause) != 0)
+          {
+            if ((renderOption & AmlSqlRenderOption.SelectClause) != 0
+              || (renderOption & AmlSqlRenderOption.FromClause) != 0)
+            {
+              writer.Append(" where ");
+            }
             AppendWhereClause(writer, _lastItem, true, (renderOption & AmlSqlRenderOption.IgnoreQueryType) != 0);
+          }
 
           if ((renderOption & AmlSqlRenderOption.OrderByClause) != 0)
           {

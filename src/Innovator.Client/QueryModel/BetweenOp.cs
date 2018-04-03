@@ -14,51 +14,17 @@ namespace Innovator.Client.QueryModel
 
     public void SetMinMaxFromSql(string value)
     {
-      if (Utils.IsNullOrWhiteSpace(value))
-        return;
+      var tokens = new SqlTokenizer(value).ToArray();
+      if (tokens.Length != 3)
+        throw new InvalidOperationException();
 
-      var i = 0;
-      while (char.IsWhiteSpace(value[i]))
-        i++;
+      if (!string.Equals(tokens[1].Text, "and", StringComparison.OrdinalIgnoreCase)
+        || !Expression.TryGetExpression(tokens[0], out var min)
+        || !Expression.TryGetExpression(tokens[2], out var max))
+        throw new InvalidOperationException();
 
-      if (value[i] == '\'')
-      {
-        var start = i + 1;
-        var end = value.IndexOf('\'', start);
-        while (end > 0 && (end + 1) < value.Length && value[end + 1] == '\'')
-          end = value.IndexOf('\'', end + 2);
-        if (end < 0)
-          throw new InvalidOperationException();
-
-        Min = new StringLiteral(value.Substring(start, end - start).Replace("''", "'"));
-
-        start = value.IndexOf('\'', end + 1);
-        end = value.IndexOf('\'', start);
-        while (end > 0 && (end + 1) < value.Length && value[end + 1] == '\'')
-          end = value.IndexOf('\'', end + 2);
-        if (end < 0)
-          throw new InvalidOperationException();
-
-        Max = new StringLiteral(value.Substring(start, end - start).Replace("''", "'"));
-      }
-      else
-      {
-        var idx = value.IndexOf("and", StringComparison.OrdinalIgnoreCase);
-        if (idx < 0)
-          throw new InvalidOperationException();
-
-        var num = value.Substring(0, idx).Trim();
-        if (FloatLiteral.TryGetNumberLiteral(num, out ILiteral min))
-          Min = min;
-        else
-          throw new InvalidOperationException();
-
-        num = value.Substring(idx + 3).Trim();
-        if (FloatLiteral.TryGetNumberLiteral(num, out ILiteral max))
-          Max = max;
-        else
-          throw new InvalidOperationException();
-      }
+      Min = min;
+      Max = max;
     }
 
     public abstract void Visit(IExpressionVisitor visitor);

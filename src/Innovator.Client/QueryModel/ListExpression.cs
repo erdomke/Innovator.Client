@@ -26,129 +26,34 @@ namespace Innovator.Client.QueryModel
       visitor.Visit(this);
     }
 
-    private enum State
-    {
-      Start,
-      ValueStart,
-      Comma,
-      StringValue,
-      NumberValue,
-      End,
-    }
-
     public static ListExpression FromSqlInClause(string clause)
     {
-      var state = State.Start;
-      var tokenStart = 0;
+      var tokenizer = new SqlTokenizer(clause);
       var result = new ListExpression();
-      for (var i = 0; i <= clause.Length; i++)
-      {
-        switch (state)
-        {
-          case State.Start:
-            if (i == clause.Length || char.IsWhiteSpace(clause[i]))
-            {
-              // Do nothing
-            }
-            else if (clause[i] == '(')
-            {
-              state = State.ValueStart;
-            }
-            else if (clause[i] == '\'')
-            {
-              state = State.StringValue;
-              tokenStart = i + 1;
-            }
-            else if (clause[i] == '-' || clause[i] == '+' || char.IsNumber(clause[i]))
-            {
-              state = State.NumberValue;
-              tokenStart = i;
-            }
-            else
-            {
-              throw new InvalidOperationException($"Character `{clause[i]}` is invalid in state {state}");
-            }
-            break;
-          case State.ValueStart:
-            if (i == clause.Length || char.IsWhiteSpace(clause[i]) || clause[i] == ',')
-            {
-              // Do nothing
-            }
-            else if (clause[i] == '\'')
-            {
-              state = State.StringValue;
-              tokenStart = i + 1;
-            }
-            else if (clause[i] == '-' || clause[i] == '+' || char.IsNumber(clause[i]))
-            {
-              state = State.NumberValue;
-              tokenStart = i;
-            }
-            else if (clause[i] == ')')
-            {
-              state = State.End;
-            }
-            else
-            {
-              throw new InvalidOperationException($"Character `{clause[i]}` is invalid in state {state}");
-            }
-            break;
-          case State.NumberValue:
-            if (i == clause.Length || clause[i] == ',' || char.IsWhiteSpace(clause[i]))
-            {
-              var value = clause.Substring(tokenStart, i - tokenStart);
-              if (FloatLiteral.TryGetNumberLiteral(value, out ILiteral literal))
-                result.Values.Add(literal);
-              else
-                throw new InvalidOperationException($"`{value}` is not a valid number");
-              state = i == clause.Length || char.IsWhiteSpace(clause[i]) ? State.Comma : State.ValueStart;
-            }
-            break;
-          case State.StringValue:
-            if (i == clause.Length)
-              throw new InvalidOperationException("Unterminated string constant");
 
-            if (clause[i] == '\'')
-            {
-              if ((i + 1) < clause.Length && clause[i + 1] == '\'')
-              {
-                i++;
-              }
-              else
-              {
-                result.Values.Add(new StringLiteral(clause.Substring(tokenStart, i - tokenStart).Replace("''", "'")));
-                state = State.Comma;
-              }
-            }
-            break;
-          case State.Comma:
-            if (i == clause.Length || char.IsWhiteSpace(clause[i]))
-            {
-              // Do nothing
-            }
-            else if (clause[i] == ',')
-            {
-              state = State.ValueStart;
-            }
-            else if (clause[i] == ')')
-            {
-              state = State.End;
-            }
-            else
-            {
-              throw new InvalidOperationException($"Character `{clause[i]}` is invalid in state {state}");
-            }
-            break;
-          case State.End:
-            if (i == clause.Length || char.IsWhiteSpace(clause[i]))
-            {
-              // Do nothing
-            }
-            else
-            {
-              throw new InvalidOperationException($"Character `{clause[i]}` is invalid in state {state}");
-            }
-            break;
+      var tokens = tokenizer.Where(t => t.Type != SqlType.Comment).ToList();
+      if (tokens[0].Text == "(")
+      {
+        tokens.RemoveAt(0);
+        if (tokens[tokens.Count - 1].Text != ")")
+          throw new InvalidOperationException();
+        tokens.RemoveAt(tokens.Count - 1);
+      }
+
+      for (var i = 0; i < tokens.Count; i++)
+      {
+        if ((i % 2) == 1)
+        {
+          if (tokens[i].Text != ",")
+            throw new InvalidOperationException();
+        }
+        else if (!Expression.TryGetExpression(tokens[i], out IExpression expr))
+        {
+          throw new InvalidOperationException();
+        }
+        else
+        {
+          result.Values.Add((IOperand)expr);
         }
       }
 

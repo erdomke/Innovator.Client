@@ -14,6 +14,8 @@ namespace Innovator.Client.QueryModel
     private List<object> _stack = new List<object>();
     private Query _query = new Query();
 
+    public Query Query { get { return _query; } }
+
     /// <summary>Gets the state of the writer.</summary>
     /// <returns>One of the <see cref="WriteState" /> values.</returns>
     /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
@@ -29,9 +31,11 @@ namespace Innovator.Client.QueryModel
     }
 #endif
 
+    /// <summary>Flushes whatever is in the buffer to the underlying streams and also flushes the underlying stream.</summary>
+    /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override void Flush()
     {
-      throw new NotImplementedException();
+      _buffer.Length = 0;
     }
 
     /// <summary>Returns the closest prefix defined in the current namespace scope for the namespace URI.</summary>
@@ -123,6 +127,7 @@ namespace Innovator.Client.QueryModel
     /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override void WriteEndAttribute()
     {
+      var value = _buffer.ToString();
       _buffer.Length = 0;
       if (_stack.LastOrDefault() is ITableOperand tableOp)
       {
@@ -130,30 +135,31 @@ namespace Innovator.Client.QueryModel
         switch (_name)
         {
           case "type":
-            table.Name = _buffer.ToString();
+            table.Name = value;
+            table.Alias = table.Alias ?? value;
             break;
           case "typeId":
-            table.Id = new Guid(_buffer.ToString());
+            table.Id = new Guid(value);
             break;
           case "alias":
-            table.Alias = _buffer.ToString();
+            table.Alias = value;
             break;
           case "action":
-            if (_buffer.ToString() != "get")
+            if (value != "get")
               throw new NotSupportedException("The only action(s) supported are `get`");
             break;
           case "id":
             _stack.Add(new EqualsOperator()
             {
               Left = new PropertyReference("id", table),
-              Right = new StringLiteral(_buffer.ToString())
+              Right = new StringLiteral(value)
             });
             break;
           case "idlist":
             _stack.Add(new InOperator()
             {
               Left = new PropertyReference("id", table),
-              Right = new ListExpression(_buffer.ToString().Split(',').Select(i => (IOperand)new StringLiteral(i)))
+              Right = new ListExpression(value.Split(',').Select(i => (IOperand)new StringLiteral(i)))
             });
             break;
           case "where":
@@ -419,6 +425,7 @@ namespace Innovator.Client.QueryModel
     /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override void WriteStartElement(string prefix, string localName, string ns)
     {
+      var newExpr = default(IExpression);
       switch (localName)
       {
         case "Item":
@@ -452,13 +459,16 @@ namespace Innovator.Client.QueryModel
           }
           break;
         case "and":
-          _stack.Add(new AndOperator());
+          newExpr = new AndOperator();
+          _stack.Add(newExpr);
           break;
         case "or":
-          _stack.Add(new OrOperator());
+          newExpr = new OrOperator();
+          _stack.Add(newExpr);
           break;
         case "not":
-          _stack.Add(new NotOperator());
+          newExpr = new NotOperator();
+          _stack.Add(newExpr);
           break;
         case "Relationships":
           throw new NotSupportedException("Relationships are not supported at this time");
@@ -466,12 +476,21 @@ namespace Innovator.Client.QueryModel
           if (_stack.Count > 0)
           {
             if (_stack.Last() is ITableOperand)
-              _stack.Add(new AndOperator());
+            {
+              newExpr = new AndOperator();
+              _stack.Add(newExpr);
+            }
+
             if (_stack.Last() is ILogical)
+            {
               _stack.Add(new PropertyReference(localName, TableFromOp(_stack.OfType<ITableOperand>().Last())));
+            }
           }
           break;
       }
+
+      if (_query.Where == null)
+        _query.Where = newExpr;
     }
 
     private Table TableFromOp(ITableOperand op)

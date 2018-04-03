@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  internal class SqlLiteral : SqlNode
+  internal class SqlToken : SqlNode
   {
     public string Text { get; set; }
 
@@ -22,7 +22,7 @@ namespace Innovator.Client.QueryModel
 
     public override bool Equals(SqlNode obj)
     {
-      var literal = obj as SqlLiteral;
+      var literal = obj as SqlToken;
       if (literal == null) return false;
       return base.Equals(obj) && this.Text == literal.Text;
     }

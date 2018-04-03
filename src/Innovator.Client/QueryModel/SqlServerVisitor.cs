@@ -12,19 +12,33 @@ namespace Innovator.Client.QueryModel
     private TextWriter _writer;
     private Stack<ILogical> _logicals = new Stack<ILogical>();
     private IServerContext _context = ElementFactory.Utc.LocalizationContext;
+    private bool _hasFromOrSelect = false;
+
+    public SqlServerVisitor(TextWriter writer)
+    {
+      _writer = writer;
+    }
 
     public void Visit(Query query)
     {
-      _writer.Write("select ");
+      VisitSelect(query.Select);
+      VisitFrom(query.From);
+      VisitWhere(query.Where);
+      VisitOrderBy(query.OrderBy);
+    }
 
-      if (query.Select.Count < 0)
+    public void VisitSelect(IEnumerable<IExpression> select)
+    {
+      _hasFromOrSelect = true;
+      _writer.Write("select ");
+      if (!select.Any())
       {
         _writer.Write("*");
       }
       else
       {
         var first = true;
-        foreach (var prop in query.Select)
+        foreach (var prop in select)
         {
           if (!first)
             _writer.Write(", ");
@@ -32,19 +46,32 @@ namespace Innovator.Client.QueryModel
           prop.Visit(this);
         }
       }
+    }
 
+    public void VisitFrom(ITableOperand from)
+    {
+      _hasFromOrSelect = true;
       _writer.Write(" from ");
-      query.From.Visit(this);
-      if (query.Where != null)
+      from.Visit(this);
+    }
+
+    public void VisitWhere(IExpression where)
+    {
+      if (where != null)
       {
-        _writer.Write(" where ");
-        query.Where.Visit(this);
+        if (_hasFromOrSelect)
+          _writer.Write(" where ");
+        where.Visit(this);
       }
-      if (query.OrderBy.Count > 0)
+    }
+
+    public void VisitOrderBy(IEnumerable<OrderByExpression> orderBy)
+    {
+      if (orderBy.Any())
       {
         _writer.Write(" order by ");
         var first = true;
-        foreach (var prop in query.OrderBy)
+        foreach (var prop in orderBy)
         {
           if (!first)
             _writer.Write(", ");
@@ -334,7 +361,7 @@ namespace Innovator.Client.QueryModel
       _writer.Write('[');
       _writer.Write(op.Name);
       _writer.Write(']');
-      if (!string.Equals(op.Alias, op.Name, StringComparison.OrdinalIgnoreCase))
+      if (!string.IsNullOrEmpty(op.Alias) && !string.Equals(op.Alias, op.Name, StringComparison.OrdinalIgnoreCase))
       {
         _writer.Write(" as ");
         _writer.Write(op.Alias);

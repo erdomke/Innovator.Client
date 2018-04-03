@@ -547,6 +547,7 @@
     <Compile Include="QueryModel\BooleanLiteral.cs" />
     <Compile Include="QueryModel\DateTimeLiteral.cs" />
     <Compile Include="QueryModel\EqualsOperator.cs" />
+    <Compile Include="QueryModel\Expression.cs" />
     <Compile Include="QueryModel\FloatLiteral.cs" />
     <Compile Include="QueryModel\FunctionExpression.cs" />
     <Compile Include="QueryModel\GreaterThanOperator.cs" />
@@ -581,7 +582,7 @@
     <Compile Include="QueryModel\PropertyReference.cs" />
     <Compile Include="QueryModel\Query.cs" />
     <Compile Include="QueryModel\SqlServerVisitor.cs" />
-    <Compile Include="QueryModel\Sql\SqlLiteral.cs" />
+    <Compile Include="QueryModel\Sql\SqlToken.cs" />
     <Compile Include="QueryModel\Sql\SqlNode.cs" />
     <Compile Include="QueryModel\Sql\SqlTokenizer.cs" />
     <Compile Include="QueryModel\Sql\SqlType.cs" />

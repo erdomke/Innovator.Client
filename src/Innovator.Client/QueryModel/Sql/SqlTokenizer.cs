@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  internal class SqlTokenizer : IEnumerable<SqlLiteral>
+  internal class SqlTokenizer : IEnumerable<SqlToken>
   {
     private string _text;
     private int _i = 0;
     private State _state;
-    private SqlLiteral _current = new SqlLiteral();
+    private SqlToken _current = new SqlToken();
 
     private enum State
     {
@@ -34,9 +34,9 @@ namespace Innovator.Client.QueryModel
       _text = text;
     }
 
-    public IEnumerator<SqlLiteral> GetEnumerator()
+    public IEnumerator<SqlToken> GetEnumerator()
     {
-      SqlLiteral prev;
+      SqlToken prev;
 
       var en = BasicEnumerator();
       if (!en.MoveNext())
@@ -154,7 +154,7 @@ namespace Innovator.Client.QueryModel
       yield return prev;
     }
 
-    public static bool KeywordPrecedesTable(SqlLiteral value)
+    public static bool KeywordPrecedesTable(SqlToken value)
     {
       if (value == null || value.Type != SqlType.Keyword)
         return false;
@@ -174,7 +174,7 @@ namespace Innovator.Client.QueryModel
       return false;
     }
 
-    public IEnumerator<SqlLiteral> BasicEnumerator()
+    public IEnumerator<SqlToken> BasicEnumerator()
     {
       _i = 0;
       while (_i < _text.Length)
@@ -182,7 +182,7 @@ namespace Innovator.Client.QueryModel
         switch (_state)
         {
           case State.Start:
-            _current = new SqlLiteral();
+            _current = new SqlToken();
             if (StartsWith('/', '*'))
             {
               _current.StartOffset = _i;
@@ -232,7 +232,8 @@ namespace Innovator.Client.QueryModel
               _current.StartOffset = _i;
               _state = State.Identifier;
             }
-            else if (char.IsDigit(_text[_i]))
+            else if (char.IsDigit(_text[_i])
+              || ((_text[_i] == '-' || _text[_i] == '+') && (_i + 1) < _text.Length && char.IsDigit(_text[_i + 1])))
             {
               _current.StartOffset = _i;
               _state = State.NumericLiteral;
@@ -248,7 +249,7 @@ namespace Innovator.Client.QueryModel
             }
             else
             {
-              yield return new SqlLiteral()
+              yield return new SqlToken()
               {
                 StartOffset = _i,
                 Text = _text[_i].ToString(),

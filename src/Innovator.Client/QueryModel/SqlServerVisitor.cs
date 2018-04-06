@@ -27,26 +27,104 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(QueryItem query)
     {
-      if ((_renderOption & AmlSqlRenderOption.SelectClause) != 0)
-        VisitSelect(query);
-      if ((_renderOption & AmlSqlRenderOption.FromClause) != 0)
-        VisitFrom(query);
-      if ((_renderOption & AmlSqlRenderOption.WhereClause) != 0)
-        VisitWhere(query);
-      if ((_renderOption & AmlSqlRenderOption.OrderByClause) != 0)
-        VisitOrderBy(query);
-
-      if ((_renderOption & AmlSqlRenderOption.OffsetClause) != 0)
+      switch (_renderOption)
       {
-        if (query.Fetch > 0 && query.Offset > 0)
-        {
-          _writer.Write(" offset ");
-          _writer.Write(query.Offset);
-          _writer.Write(" rows fetch next ");
-          _writer.Write(query.Fetch);
-          _writer.Write(" rows only");
-        }
+        case AmlSqlRenderOption.CountQuery:
+          _writer.Write("select isnull(sum(cnt), 0) count from (select ");
+          WritePermissionFields(query);
+          _writer.Write(", count(*) cnt ");
+          VisitFrom(query);
+          VisitWhere(query);
+          _writer.Write(" group by ");
+          WritePermissionFields(query);
+          _writer.Write(") perm where ");
+          WritePermissionCheck(() => _writer.Write("perm"));
+          break;
+        case AmlSqlRenderOption.OffsetQuery:
+          _writer.Write("select isnull(sum(cnt), 0) offset from ( select ");
+          WritePermissionFields(query);
+          _writer.Write(", count(*) cnt from ");
+          VisitTableName(query);
+          _writer.Write(" inner join ( select ");
+          var first = true;
+          foreach (var orderBy in query.OrderBy)
+          {
+            if (!first)
+              _writer.Write(", ");
+            first = false;
+            orderBy.Expression.Visit(this);
+          }
+          _writer.Write(" ");
+          VisitFrom(query);
+          VisitWhere(query);
+          _writer.Write(") offset on ");
+
+          var cols = query.OrderBy;
+          for (var i = 0; i < cols.Count; i++)
+          {
+            if (i > 0)
+              _writer.Write(" or ");
+            _writer.Write('(');
+            for (var j = 0; j < i; j++)
+            {
+              WriteAlias(query);
+              _writer.Append('.');
+              cols[j].Expression.Visit(this);
+              _writer.Write(" = offset.");
+              cols[j].Expression.Visit(this);
+              _writer.Write(" and ");
+            }
+            WriteAlias(query);
+            _writer.Write('.');
+            cols[i].Expression.Visit(this);
+            _writer.Write(cols[i].Ascending ? " < " : " > ");
+            _writer.Write("offset.");
+            cols[i].Expression.Visit(this);
+            _writer.Write(')');
+          }
+
+          _writer.Write(" group by ");
+          WritePermissionFields(query);
+          _writer.Write(" ) perm where ");
+          WritePermissionCheck(() => _writer.Write("perm"));
+          break;
+        default:
+          if ((_renderOption & AmlSqlRenderOption.SelectClause) != 0)
+            VisitSelect(query);
+          if ((_renderOption & AmlSqlRenderOption.FromClause) != 0)
+            VisitFrom(query);
+          if ((_renderOption & AmlSqlRenderOption.WhereClause) != 0)
+            VisitWhere(query);
+          if ((_renderOption & AmlSqlRenderOption.OrderByClause) != 0)
+            VisitOrderBy(query);
+
+          if ((_renderOption & AmlSqlRenderOption.OffsetClause) != 0)
+          {
+            if (query.Fetch > 0 && query.Offset > 0)
+            {
+              _writer.Write(" offset ");
+              _writer.Write(query.Offset);
+              _writer.Write(" rows fetch next ");
+              _writer.Write(query.Fetch);
+              _writer.Write(" rows only");
+            }
+          }
+          break;
       }
+    }
+
+    private void WritePermissionFields(QueryItem query)
+    {
+      WriteAlias(query);
+      _writer.Write(".permission_id, ");
+      WriteAlias(query);
+      _writer.Write(".created_by_id, ");
+      WriteAlias(query);
+      _writer.Write(".managed_by_id, ");
+      WriteAlias(query);
+      _writer.Write(".owned_by_id, ");
+      WriteAlias(query);
+      _writer.Write(".team_id");
     }
 
     private void VisitSelect(QueryItem query)
@@ -126,10 +204,25 @@ namespace Innovator.Client.QueryModel
 
     private void VisitTableName(QueryItem item)
     {
-      _writer.Write("[innovator].[");
+      var secured = _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction
+        || _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron;
+      _writer.Write(secured ? "[secured].[" : "[innovator].[");
       var sqlName = item.Name.Replace(' ', '_');
       _writer.Write(sqlName);
       _writer.Write("]");
+
+      if (secured)
+      {
+        _writer.Append("('can_get','")
+          .Append(_settings.IdentityList)
+          .Append("',null,'")
+          .Append(_settings.UserId)
+          .Append("',null");
+        if (_settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron)
+          _writer.Append(",null");
+        _writer.Append(")");
+      }
+
       if (!string.IsNullOrEmpty(item.Alias) && !string.Equals(item.Alias, sqlName, StringComparison.OrdinalIgnoreCase))
       {
         _writer.Write(" as [");
@@ -158,19 +251,22 @@ namespace Innovator.Client.QueryModel
     private void VisitWhere(QueryItem query)
     {
       var criteria = new List<IExpression>();
-      if (query.Where != null)
+      var clause = AddPermissionCheck(query);
+
+      if (_settings.RenderOption == AmlSqlRenderOption.OffsetQuery)
       {
-        var clause = query.Where;
-        if (_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction)
+        if (!query.Attributes.TryGetValue("offsetId", out var offsetId))
+          throw new InvalidOperationException("No `offsetId` attribute was specified");
+
+        clause = AppendCriteria(clause, new EqualsOperator()
         {
-          clause = new AndOperator()
-          {
-            Left = clause,
-            Right = new LegacyPermissionFunction(query)
-          };
-        }
-        criteria.Add(clause);
+          Left = new PropertyReference("id", query),
+          Right = new StringLiteral(offsetId)
+        });
       }
+
+      if (clause != null)
+        criteria.Add(clause);
       AddJoinsToCriteria(query, criteria);
 
       if (criteria.Count > 0)
@@ -191,23 +287,41 @@ namespace Innovator.Client.QueryModel
       }
     }
 
+    private IExpression AddPermissionCheck(QueryItem query)
+    {
+      var clause = query.Where;
+      if (_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction
+          && _renderOption != AmlSqlRenderOption.CountQuery
+          && _renderOption != AmlSqlRenderOption.OffsetQuery)
+      {
+        clause = AppendCriteria(clause, new LegacyPermissionFunction(query));
+      }
+      return clause;
+    }
+
+    private IExpression AppendCriteria(IExpression orig, IExpression additional)
+    {
+      if (orig == null)
+        return additional;
+      return new AndOperator()
+      {
+        Left = orig,
+        Right = additional
+      };
+    }
+
     private void AddJoinsToCriteria(QueryItem query, IList<IExpression> criteria)
     {
       foreach (var join in query.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
       {
-        if (join.Right.Where != null)
+        if (join.Right.Where != null
+          || (join.Type == JoinType.Inner
+            && _settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction
+            && _renderOption != AmlSqlRenderOption.CountQuery
+            && _renderOption != AmlSqlRenderOption.OffsetQuery))
         {
           TryFillName(join.Right);
-          var clause = join.Right.Where;
-          if (_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction)
-          {
-            clause = new AndOperator()
-            {
-              Left = clause,
-              Right = new LegacyPermissionFunction(join.Right)
-            };
-          }
-          criteria.Add(clause);
+          criteria.Add(AddPermissionCheck(join.Right));
         }
         AddJoinsToCriteria(join.Right, criteria);
       }
@@ -505,19 +619,23 @@ namespace Innovator.Client.QueryModel
 
     private void Visit(LegacyPermissionFunction perm)
     {
+      WritePermissionCheck(() => WriteAlias(perm.Table));
+    }
 
+    private void WritePermissionCheck(Action writeAlias)
+    {
       _writer.Write("( SELECT p FROM innovator.[");
       _writer.Write(_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction ? "GetDiscoverPermissions" : "EvaluatePermissions");
       _writer.Write("] ('can_get', ");
-      WriteAlias(perm.Table);
+      writeAlias();
       _writer.Write(".permission_id, ");
-      WriteAlias(perm.Table);
+      writeAlias();
       _writer.Write(".created_by_id, ");
-      WriteAlias(perm.Table);
+      writeAlias();
       _writer.Write(".managed_by_id, ");
-      WriteAlias(perm.Table);
+      writeAlias();
       _writer.Write(".owned_by_id, ");
-      WriteAlias(perm.Table);
+      writeAlias();
       _writer.Write(".team_id, '");
       _writer.Write(_settings.IdentityList);
       _writer.Write("', null, '");

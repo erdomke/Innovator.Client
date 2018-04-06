@@ -588,6 +588,126 @@ namespace Innovator.Client
     }
 
     /// <summary>
+    /// Removes system properties from an item
+    /// </summary>
+    /// <param name="item">The item.</param>
+    /// <param name="doRemoveProperty">The property callback.  Return <c>true</c> to remove the property</param>
+    public static void RemoveSystemProperties(this IItem item, Func<string, bool> doRemoveProperty = null)
+    {
+      if (doRemoveProperty?.Invoke("is_released") != false)
+        item.IsReleased().Remove();
+      if (doRemoveProperty?.Invoke("not_lockable") != false)
+        item.NotLockable().Remove();
+
+      if (doRemoveProperty?.Invoke("state") != false)
+      {
+        item.State().Remove();
+        item.CurrentState().Remove();
+      }
+
+      if (doRemoveProperty?.Invoke("release_date") != false)
+        item.Property("release_date").Remove();
+      if (doRemoveProperty?.Invoke("effective_date") != false)
+        item.Property("effective_date").Remove();
+      if (doRemoveProperty?.Invoke("superseded_date") != false)
+        item.Property("superseded_date").Remove();
+
+      if (item.TypeName() != "RelationshipType" && doRemoveProperty?.Invoke("behavior") != false)
+        item.Property("behavior").Remove();
+
+      if (doRemoveProperty?.Invoke("permission_id") != false)
+        item.PermissionId().Remove();
+
+      if (doRemoveProperty?.Invoke("created_by_id") != false)
+        item.CreatedById().Remove();
+      if (doRemoveProperty?.Invoke("created_on") != false)
+        item.CreatedOn().Remove();
+      if (doRemoveProperty?.Invoke("modified_by_id") != false)
+        item.ModifiedById().Remove();
+      if (doRemoveProperty?.Invoke("modified_on") != false)
+        item.ModifiedOn().Remove();
+
+      if (doRemoveProperty?.Invoke("major_rev") != false)
+        item.MajorRev().Remove();
+      if (doRemoveProperty?.Invoke("minor_rev") != false)
+        item.MinorRev().Remove();
+
+      if (doRemoveProperty?.Invoke("cache_query") != false)
+        item.Property("cache_query").Remove();
+      if (doRemoveProperty?.Invoke("config_id") != false)
+        item.ConfigId().Remove();
+      if (doRemoveProperty?.Invoke("core") != false)
+        item.Property("core").Remove();
+      if (doRemoveProperty?.Invoke("generation") != false)
+        item.Generation().Remove();
+      if (doRemoveProperty?.Invoke("history_id") != false)
+        item.Property("history_id").Remove();
+      if (doRemoveProperty?.Invoke("is_cached") != false)
+        item.Property("is_cached").Remove();
+
+      if (doRemoveProperty?.Invoke("is_current") != false)
+        item.IsCurrent().Remove();
+      if (doRemoveProperty?.Invoke("keyed_name") != false)
+        item.KeyedName().Remove();
+      if (doRemoveProperty?.Invoke("locked_by_id") != false)
+        item.LockedById().Remove();
+      if (doRemoveProperty?.Invoke("new_version") != false)
+        item.NewVersion().Remove();
+      if (doRemoveProperty?.Invoke("itemtype") != false)
+        item.Property("itemtype").Remove();
+
+      if (item.TypeName() != "Field" && item.TypeName() != "Body" && doRemoveProperty?.Invoke("css") != false)
+        item.Property("css").Remove();
+
+      if (item.Parent.Name == "Relationships")
+        item.SourceId().Remove();
+    }
+
+    /// <summary>
+    /// Creates a duplicate of the item object, removing system properties, and setting a new ID.
+    /// </summary>
+    /// <param name="item">The item to duplicate</param>
+    /// <param name="cloneSettings">The clone settings.</param>
+    /// <returns>The cloned/duplicated item</returns>
+    public static IItem CloneAsNew(this IReadOnlyItem item, CloneSettings cloneSettings = null)
+    {
+      var newItem = item.Clone();
+      ProcessClone(newItem, cloneSettings, item.TypeName());
+      return newItem;
+    }
+
+    private static void ProcessClone(IItem item, CloneSettings cloneSettings, string path)
+    {
+      item.Where().Remove();
+      item.IdList().Remove();
+      item.Action().Set("add");
+      item.RemoveSystemProperties(cloneSettings?.DoRemoveSystemProperty);
+      var newId = item.AmlContext.NewId();
+      item.Attribute("id").Set(newId);
+      item.Property("id").Remove();
+
+      foreach (var nullProp in item.Elements().OfType<IProperty_Base>().Where(p => p.IsNull().Exists && !p.HasValue()))
+      {
+        nullProp.Remove();
+      }
+
+      foreach (var child in item.Elements().SelectMany(e => e.Elements().OfType<IItem>()))
+      {
+        path += "/" + child.Parent.Name + "/" + child.TypeName();
+        if (cloneSettings?.DoCloneItem?.Invoke(path, child) == false)
+        {
+          ((IProperty_Base)child.Parent).Set(child.Id());
+        }
+        else
+        {
+          child.Parent.Attribute("keyed_name").Remove();
+          child.Parent.Attribute("type").Remove();
+          ProcessClone(child, cloneSettings, path);
+        }
+      }
+    }
+
+    /// <summary>
     /// Send an AML edit query to the database with the body of the <c>&lt;Item /&gt;</c> tag being the contents specified
     /// </summary>
     /// <param name="item">Item to edit</param>

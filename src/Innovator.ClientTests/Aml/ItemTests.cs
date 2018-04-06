@@ -140,6 +140,86 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void CloneAsNew()
+    {
+      var aml = @"<Item type='PCO'>
+  <Relationships>
+    <Item type='PCO Task' typeId='34D0942644C04D6D975C871961559FAA' id='A68D766FBB974F03925D9AA468F5E61C'>
+      <copied_from is_null='1' />
+      <id keyed_name='A68D766FBB974F03925D9AA468F5E61C' type='PCO Task'>A68D766FBB974F03925D9AA468F5E61C</id>
+      <related_id keyed_name='Confirm material handling and storage requirements' type='Task'>
+        <Item type='Task' typeId='3B76D2C3A38142BBAA09995160D485A4' id='13E475EB99D44AC29C94A6F63DCBBD7C'>
+          <config_id keyed_name='Confirm material handling and storage requirements' type='Task'>13E475EB99D44AC29C94A6F63DCBBD7C</config_id>
+          <created_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</created_by_id>
+          <created_on>2018-04-06T08:32:35</created_on>
+          <current_state name='Planning' keyed_name='Planning' type='Life Cycle State'>ED755CB822BD4D50A91E1219CD3599AC</current_state>
+          <date_due_target>2018-04-06T08:32:35</date_due_target>
+          <generation>1</generation>
+          <id keyed_name='Confirm material handling and storage requirements' type='Task'>13E475EB99D44AC29C94A6F63DCBBD7C</id>
+          <indent>0</indent>
+          <is_complete>0</is_complete>
+          <is_current>1</is_current>
+          <is_released>0</is_released>
+          <keyed_name>Confirm material handling and storage requirements</keyed_name>
+          <modified_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</modified_by_id>
+          <modified_on>2018-04-06T08:32:35</modified_on>
+          <new_version>0</new_version>
+          <not_lockable>0</not_lockable>
+          <owned_by_id keyed_name='* Owner' type='Identity'>
+            <Item type='Identity' typeId='E582AB17663F4EF28460015B2BE9E094' id='538B300BB2A347F396C436E9EEE1976C'>
+              <id keyed_name='* Owner' type='Identity'>538B300BB2A347F396C436E9EEE1976C</id>
+              <is_alias>0</is_alias>
+              <itemtype>E582AB17663F4EF28460015B2BE9E094</itemtype>
+            </Item>
+          </owned_by_id>
+          <parent_project keyed_name='PCO-16549' type='Simple Project'>B0D545C34B9C449088394C164D846FAB</parent_project>
+          <permission_id keyed_name='Task - Planning' type='Permission'>FA094E3BE840483895602050EBFC62CB</permission_id>
+          <state>Planning</state>
+          <state_image>../images/customer/images/Project_Planning22.png</state_image>
+          <team_id keyed_name='B0D545C34B9C449088394C164D846FAB' type='Team'>B69BCA6C8B354CFBB9BB4CBBE6D51C56</team_id>
+          <name>Confirm material handling and storage requirements</name>
+          <itemtype>3B76D2C3A38142BBAA09995160D485A4</itemtype>
+        </Item>
+      </related_id>
+      <source_id keyed_name='PCO-16549' type='Process Change Order'>B0D545C34B9C449088394C164D846FAB</source_id>
+    </Item>
+  </Relationships>
+</Item>";
+      var item = ElementFactory.Local.FromXml(aml).AssertItem();
+      var settings = new CloneSettings()
+      {
+        DoCloneItem = (path, i) => !path.EndsWith("/Identity", StringComparison.OrdinalIgnoreCase)
+      };
+
+
+      var pco = item.CloneAsNew(settings);
+      Assert.IsFalse(pco.Elements().OfType<IReadOnlyProperty>().Any());
+      Assert.AreNotEqual(item.Id(), pco.Id());
+
+      var pcoTask = pco.Relationships().Single();
+      Assert.AreNotEqual(item.Relationships().Single().Id(), pcoTask.Id());
+      Assert.AreEqual(1, pcoTask.Elements().OfType<IReadOnlyProperty>().Count());
+
+      var task = pcoTask.RelatedItem();
+      var origTask = item.Relationships().Single().RelatedItem();
+      Assert.AreNotEqual(origTask.Id(), task.Id());
+
+      var clonedProps = new string[]
+      {
+        "date_due_target",
+        "indent",
+        "is_complete",
+        "name",
+        "owned_by_id",
+        "parent_project",
+        "state_image",
+        "team_id",
+      };
+      CollectionAssert.AreEqual(clonedProps, task.Elements().OfType<IReadOnlyProperty>().Select(p => p.Name).OrderBy(n => n).ToArray());
+      Assert.AreEqual(origTask.OwnedById().Value, task.OwnedById().Value);
+    }
+
+    [TestMethod()]
     public void CloneTest()
     {
       var itemAml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"">

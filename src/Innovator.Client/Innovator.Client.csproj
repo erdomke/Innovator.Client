@@ -43,6 +43,7 @@
     <Compile Include="Aml\AmlWriterSettings.cs" />
     <Compile Include="Aml\ClassNode.cs" />
     <Compile Include="Aml\ClassStructure.cs" />
+    <Compile Include="Aml\CloneSettings.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
     <Compile Include="QueryModel\ConnectedAmlSqlWriterSettings.cs" />

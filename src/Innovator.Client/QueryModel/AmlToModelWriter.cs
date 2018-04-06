@@ -344,6 +344,7 @@ namespace Innovator.Client.QueryModel
           item.Select.Add(new SelectExpression() { Expression = new PropertyReference(prop.Name, item) });
           // TODO: Handle subselects
         }
+        item.Attributes.Remove("select");
       }
 
       if (item.Attributes.TryGetValue("fetch", out var fetchStr) && int.TryParse(fetchStr, out var fetch))
@@ -353,11 +354,14 @@ namespace Innovator.Client.QueryModel
           item.Offset = offset;
         else
           item.Offset = 0;
+        item.Attributes.Remove("fetch");
+        item.Attributes.Remove("offset");
       }
       else if (item.Attributes.TryGetValue("maxRecords", out var maxRecordsStr) && int.TryParse(maxRecordsStr, out var maxRecords))
       {
         item.Fetch = maxRecords;
         item.Offset = 0;
+        item.Attributes.Remove("maxRecords");
       }
       else if (item.Attributes.TryGetValue("pagesize", out var pagesizeStr) && int.TryParse(pagesizeStr, out var pagesize))
       {
@@ -366,18 +370,44 @@ namespace Innovator.Client.QueryModel
           item.Offset = (page - 1) * pagesize;
         else
           item.Offset = 0;
+
+        item.Attributes.Remove("pagesize");
+        item.Attributes.Remove("page");
+      }
+
+      if (item.Attributes.TryGetValue("orderBy", out var orderBy) && !string.IsNullOrEmpty(orderBy))
+      {
+        foreach (var col in orderBy.Split(',')
+          .Select(c =>
+          {
+            var parts = c.Split(' ');
+            return new OrderByExpression()
+            {
+              Expression = new PropertyReference(parts[0], item),
+              Ascending = !(parts.Length == 2 && string.Equals(parts[1], "DESC", StringComparison.OrdinalIgnoreCase))
+            };
+          }))
+        {
+          item.OrderBy.Add(col);
+        }
+        item.Attributes.Remove("orderBy");
       }
 
       var queryType = default(string);
       if (!item.Attributes.TryGetValue("queryType", out queryType))
         queryType = "Current";
-      if (string.Equals(queryType, "Current", StringComparison.OrdinalIgnoreCase))
+      if (string.Equals(queryType, "ignore", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(queryType, "skip", StringComparison.OrdinalIgnoreCase))
+      {
+        // Do nothing
+      }
+      else if (string.Equals(queryType, "Current", StringComparison.OrdinalIgnoreCase))
       {
         var visitor = new PropNameVisitor();
         if (item.Where != null)
           item.Where.Visit(visitor);
 
-        if (!visitor.PropertyNames.Contains("id"))
+        if (!visitor.PropertyNames.Contains("id") && !visitor.PropertyNames.Contains("generation"))
         {
           var whereClause = (IExpression)new EqualsOperator()
           {
@@ -410,7 +440,6 @@ namespace Innovator.Client.QueryModel
       {
         throw new NotSupportedException();
       }
-
     }
 
     private class PropNameVisitor : SimpleVisitor

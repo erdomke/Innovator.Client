@@ -51,13 +51,13 @@
   <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />
     <Compile Include="Aml\AmlSqlRenderOption.cs" />
-    <Compile Include="Aml\AmlSqlWriter.cs" />
     <Compile Include="Aml\AmlWriterSettings.cs" />
     <Compile Include="Aml\ClassNode.cs" />
     <Compile Include="Aml\ClassStructure.cs" />
+    <Compile Include="Aml\CloneSettings.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
-    <Compile Include="Aml\ConnectedAmlSqlWriterSettings.cs" />
+    <Compile Include="QueryModel\ConnectedAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\Core.cs" />
     <Compile Include="Aml\DateMagnitude.cs" />
     <Compile Include="Aml\DateOffset.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="Aml\ElementFactory.cs" />
     <Compile Include="Aml\HistoricalPropertyUpdate.cs" />
     <Compile Include="Aml\IAmlNode.cs" />
-    <Compile Include="Aml\IAmlSqlWriterSettings.cs" />
+    <Compile Include="QueryModel\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
     <Compile Include="Aml\IAttribute.cs" />
     <Compile Include="Aml\IElement.cs" />
@@ -556,8 +556,10 @@
     <Compile Include="QueryModel\BetweenOperator.cs" />
     <Compile Include="QueryModel\BinaryOperator.cs" />
     <Compile Include="QueryModel\BooleanLiteral.cs" />
+    <Compile Include="QueryModel\Cardinality.cs" />
     <Compile Include="QueryModel\DateTimeLiteral.cs" />
     <Compile Include="QueryModel\EqualsOperator.cs" />
+    <Compile Include="QueryModel\Expression.cs" />
     <Compile Include="QueryModel\FloatLiteral.cs" />
     <Compile Include="QueryModel\FunctionExpression.cs" />
     <Compile Include="QueryModel\GreaterThanOperator.cs" />
@@ -572,8 +574,6 @@
     <Compile Include="QueryModel\IQueryVisitor.cs" />
     <Compile Include="QueryModel\IsOperand.cs" />
     <Compile Include="QueryModel\IsOperator.cs" />
-    <Compile Include="QueryModel\ITableOperand.cs" />
-    <Compile Include="QueryModel\ITableVisitor.cs" />
     <Compile Include="QueryModel\Join.cs" />
     <Compile Include="QueryModel\JoinType.cs" />
     <Compile Include="QueryModel\IntegerLiteral.cs" />
@@ -586,18 +586,20 @@
     <Compile Include="QueryModel\NotInOperator.cs" />
     <Compile Include="QueryModel\NotLikeOperator.cs" />
     <Compile Include="QueryModel\NotOperator.cs" />
+    <Compile Include="QueryModel\NullAmlSqlWriterSettings.cs" />
     <Compile Include="QueryModel\ObjectLiteral.cs" />
     <Compile Include="QueryModel\OrderByExpression.cs" />
     <Compile Include="QueryModel\OrOperator.cs" />
     <Compile Include="QueryModel\PropertyReference.cs" />
-    <Compile Include="QueryModel\Query.cs" />
+    <Compile Include="QueryModel\QueryItem.cs" />
+    <Compile Include="QueryModel\SelectExpression.cs" />
+    <Compile Include="QueryModel\SimpleVisitor.cs" />
     <Compile Include="QueryModel\SqlServerVisitor.cs" />
-    <Compile Include="QueryModel\Sql\SqlLiteral.cs" />
+    <Compile Include="QueryModel\Sql\SqlToken.cs" />
     <Compile Include="QueryModel\Sql\SqlNode.cs" />
     <Compile Include="QueryModel\Sql\SqlTokenizer.cs" />
     <Compile Include="QueryModel\Sql\SqlType.cs" />
     <Compile Include="QueryModel\StringLiteral.cs" />
-    <Compile Include="QueryModel\Table.cs" />
     <Compile Include="Queryable\QueryProvider.cs" />
     <Compile Include="Queryable\QuerySettings.cs" />
     <Compile Include="Queryable\QueryTranslator.cs" />
@@ -647,7 +649,6 @@
     <Compile Include="Promise\PromiseResult.cs" />
     <Compile Include="Promise\Promises.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryModel\BinaryLogicalOperator.cs" />
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Security\SecureToken.cs" />
     <Compile Include="Security\SecureToken.Portable.cs" />

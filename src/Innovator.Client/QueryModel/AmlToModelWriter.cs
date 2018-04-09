@@ -9,6 +9,21 @@ namespace Innovator.Client.QueryModel
 {
   public class AmlToModelWriter : XmlWriter
   {
+    private static HashSet<string> _dateProps = new HashSet<string>()
+    {
+      "created_on", "modified_on"
+    };
+
+    private static HashSet<string> _intProps = new HashSet<string>()
+    {
+      "generation", "sort_order"
+    };
+
+    private static HashSet<string> _boolProps = new HashSet<string>()
+    {
+      "new_version", "not_lockable"
+    };
+
     private readonly StringBuilder _buffer = new StringBuilder();
     private IServerContext _context;
     private string _name;
@@ -322,7 +337,29 @@ namespace Innovator.Client.QueryModel
           }
           else
           {
-            binOp.Right = new ObjectLiteral(value, (PropertyReference)binOp.Left);
+            var leftProp = (PropertyReference)binOp.Left;
+
+            if ((leftProp.Name.StartsWith("is_") || _boolProps.Contains(leftProp.Name))
+              && (value == "1" || value == "0"))
+            {
+              binOp.Right = new BooleanLiteral(value == "1");
+            }
+            else if ((leftProp.Name.StartsWith("date_")
+                || leftProp.Name.EndsWith("_date")
+                || _dateProps.Contains(leftProp.Name))
+              && DateTime.TryParse(value, out var dateValue))
+            {
+              binOp.Right = new DateTimeLiteral(dateValue);
+            }
+            else if (_intProps.Contains(leftProp.Name)
+              && long.TryParse(value, out var lng))
+            {
+              binOp.Right = new IntegerLiteral(lng);
+            }
+            else
+            {
+              binOp.Right = new ObjectLiteral(value, leftProp);
+            }
           }
         }
 

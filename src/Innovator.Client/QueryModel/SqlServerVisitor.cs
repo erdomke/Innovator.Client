@@ -80,8 +80,8 @@ namespace Innovator.Client.QueryModel
           VisitWhere(query);
           _writer.Write(") offset on ");
 
-          var cols = GetOrderBy(query).ToList();
-          for (var i = 0; i < cols.Count; i++)
+          var cols = GetOrderBy(query).ToArray();
+          for (var i = 0; i < cols.Length; i++)
           {
             if (i > 0)
               _writer.Write(" or ");
@@ -89,19 +89,27 @@ namespace Innovator.Client.QueryModel
             for (var j = 0; j < i; j++)
             {
               WriteAlias(query);
-              _writer.Append('.');
-              cols[j].Expression.Visit(this);
-              _writer.Write(" = offset.");
-              cols[j].Expression.Visit(this);
-              _writer.Write(" and ");
+              _writer.Append(".[");
+              _writer.Write(((PropertyReference)cols[j].Expression).Name);
+              _writer.Write("] = offset.[");
+              _writer.Write(((PropertyReference)cols[j].Expression).Name);
+              _writer.Write("] and ");
             }
             WriteAlias(query);
-            _writer.Write('.');
-            cols[i].Expression.Visit(this);
-            _writer.Write(cols[i].Ascending ? " < " : " > ");
-            _writer.Write("offset.");
-            cols[i].Expression.Visit(this);
-            _writer.Write(')');
+            _writer.Append(".[");
+            _writer.Write(((PropertyReference)cols[i].Expression).Name);
+            _writer.Write(cols[i].Ascending ? "] < " : "] > ");
+            _writer.Write("offset.[");
+            _writer.Write(((PropertyReference)cols[i].Expression).Name);
+            _writer.Write("])");
+          }
+
+          var genVisitor = new GenerationCriteriaVisitor();
+          query.Where.Visit(genVisitor);
+          if (genVisitor.Criteria != null)
+          {
+            _writer.Write(" where ");
+            genVisitor.Criteria.Visit(this);
           }
 
           _writer.Write(" group by ");
@@ -131,6 +139,21 @@ namespace Innovator.Client.QueryModel
             }
           }
           break;
+      }
+    }
+
+    private class GenerationCriteriaVisitor : SimpleVisitor
+    {
+      public IExpression Criteria { get; set; }
+
+      public override void Visit(EqualsOperator op)
+      {
+        if (op.Left is PropertyReference prop
+          && op.Right is BooleanLiteral boolLit
+          && (prop.Name == "is_current" || prop.Name == "is_active_rev"))
+        {
+          Criteria = op;
+        }
       }
     }
 

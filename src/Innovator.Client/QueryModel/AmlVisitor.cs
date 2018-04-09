@@ -300,7 +300,7 @@ namespace Innovator.Client.QueryModel
         if (!query.Select.All(s => s.Expression is PropertyReference))
           throw new NotSupportedException();
         _writer.WriteAttributeString("select"
-          , string.Join(",", query.Select.Select(s => ((PropertyReference)s.Expression).Name)));
+          , query.Select.Select(s => ((PropertyReference)s.Expression).Name).GroupConcat(","));
       }
 
       if (query.OrderBy.Any())
@@ -308,7 +308,7 @@ namespace Innovator.Client.QueryModel
         if (!query.OrderBy.All(s => s.Expression is PropertyReference))
           throw new NotSupportedException();
         _writer.WriteAttributeString("orderBy"
-          , string.Join(",", query.OrderBy.Select(s => ((PropertyReference)s.Expression).Name + (s.Ascending ? "" : " DESC"))));
+          , query.OrderBy.Select(s => ((PropertyReference)s.Expression).Name + (s.Ascending ? "" : " DESC")).GroupConcat(","));
       }
 
       if (isCurrentVisitor.IdExpr != null)
@@ -320,7 +320,7 @@ namespace Innovator.Client.QueryModel
         else if (isCurrentVisitor.IdExpr is ListExpression listOp)
         {
           _writer.WriteAttributeString("idlist"
-            , string.Join(",", listOp.Values.OfType<StringLiteral>().Select(s => s.Value)));
+            , listOp.Values.OfType<StringLiteral>().Select(s => s.Value).GroupConcat(","));
         }
         else
         {

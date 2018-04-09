@@ -21,8 +21,6 @@ namespace Innovator.Client.QueryModel
       _writer = writer;
       _settings = settings;
       _renderOption = _settings.RenderOption;
-      if (_renderOption == AmlSqlRenderOption.Default)
-        _renderOption = AmlSqlRenderOption.SelectQuery;
     }
 
     public SqlServerVisitor(TextWriter writer, IAmlSqlWriterSettings settings, IServerContext context)
@@ -33,6 +31,23 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(QueryItem query)
     {
+      if (_renderOption == AmlSqlRenderOption.Default)
+      {
+        if (query.Attributes.TryGetValue("offsetId", out var offsetId))
+        {
+          _renderOption = AmlSqlRenderOption.OffsetQuery;
+        }
+        else if (query.Attributes.TryGetValue("returnMode", out var returnMode)
+          && string.Equals(returnMode, "countOnly", StringComparison.Ordinal))
+        {
+          _renderOption = AmlSqlRenderOption.CountQuery;
+        }
+        else
+        {
+          _renderOption = AmlSqlRenderOption.SelectQuery;
+        }
+      }
+
       switch (_renderOption)
       {
         case AmlSqlRenderOption.CountQuery:
@@ -212,6 +227,12 @@ namespace Innovator.Client.QueryModel
     {
       var secured = _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction
         || _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron;
+      if (_renderOption == AmlSqlRenderOption.CountQuery
+        || _renderOption == AmlSqlRenderOption.OffsetQuery)
+      {
+        secured = false;
+      }
+
       _writer.Write(secured ? "[secured].[" : "[innovator].[");
       var sqlName = item.Type.Replace(' ', '_');
       _writer.Write(sqlName);

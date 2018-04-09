@@ -37,20 +37,9 @@ namespace Innovator.Client.QueryModel
       return Value.GetHashCode();
     }
 
-    public static bool TryGetNumberLiteral(string value, out ILiteral literal)
+    public override string ToString()
     {
-      if (long.TryParse(value, out long lng))
-      {
-        literal = new IntegerLiteral(lng);
-        return true;
-      }
-      else if (double.TryParse(value, out double dbl))
-      {
-        literal = new FloatLiteral(dbl);
-        return true;
-      }
-      literal = null;
-      return false;
+      return Value.ToString();
     }
   }
 }

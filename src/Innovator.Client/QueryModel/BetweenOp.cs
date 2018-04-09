@@ -14,53 +14,45 @@ namespace Innovator.Client.QueryModel
 
     public void SetMinMaxFromSql(string value)
     {
-      if (Utils.IsNullOrWhiteSpace(value))
-        return;
+      var tokens = new SqlTokenizer(value).ToArray();
 
-      var i = 0;
-      while (char.IsWhiteSpace(value[i]))
-        i++;
-
-      if (value[i] == '\'')
+      var minText = default(SqlToken);
+      var maxText = default(SqlToken);
+      if (tokens.Length == 3)
       {
-        var start = i + 1;
-        var end = value.IndexOf('\'', start);
-        while (end > 0 && (end + 1) < value.Length && value[end + 1] == '\'')
-          end = value.IndexOf('\'', end + 2);
-        if (end < 0)
+        if (!string.Equals(tokens[1].Text, "and", StringComparison.OrdinalIgnoreCase))
           throw new InvalidOperationException();
-
-        Min = new StringLiteral(value.Substring(start, end - start).Replace("''", "'"));
-
-        start = value.IndexOf('\'', end + 1);
-        end = value.IndexOf('\'', start);
-        while (end > 0 && (end + 1) < value.Length && value[end + 1] == '\'')
-          end = value.IndexOf('\'', end + 2);
-        if (end < 0)
-          throw new InvalidOperationException();
-
-        Max = new StringLiteral(value.Substring(start, end - start).Replace("''", "'"));
+        minText = tokens[0];
+        maxText = tokens[2];
       }
       else
       {
-        var idx = value.IndexOf("and", StringComparison.OrdinalIgnoreCase);
-        if (idx < 0)
-          throw new InvalidOperationException();
-
-        var num = value.Substring(0, idx).Trim();
-        if (FloatLiteral.TryGetNumberLiteral(num, out ILiteral min))
-          Min = min;
-        else
-          throw new InvalidOperationException();
-
-        num = value.Substring(idx + 3).Trim();
-        if (FloatLiteral.TryGetNumberLiteral(num, out ILiteral max))
-          Max = max;
-        else
-          throw new InvalidOperationException();
+        var andToken = tokens.Single(t => string.Equals(t.Text, "and", StringComparison.OrdinalIgnoreCase));
+        minText = new SqlToken()
+        {
+          Text = "'" + value.Substring(0, andToken.StartOffset).Trim() + "'",
+          Type = SqlType.String
+        };
+        maxText = new SqlToken()
+        {
+          Text = "'" + value.Substring(andToken.StartOffset + 3).Trim() + "'",
+          Type = SqlType.String
+        };
       }
+
+      if (!Expression.TryGetExpression(minText, out var min)
+        || !Expression.TryGetExpression(maxText, out var max))
+        throw new InvalidOperationException();
+
+      Min = min;
+      Max = max;
     }
 
     public abstract void Visit(IExpressionVisitor visitor);
+
+    public override string ToString()
+    {
+      return this.ToSqlString();
+    }
   }
 }

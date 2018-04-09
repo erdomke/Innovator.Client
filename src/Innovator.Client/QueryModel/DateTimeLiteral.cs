@@ -10,9 +10,19 @@ namespace Innovator.Client.QueryModel
   {
     public DateTime Value { get; set; }
 
+    public DateTimeLiteral(DateTime value)
+    {
+      Value = value;
+    }
+
     public void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
+    }
+
+    public override string ToString()
+    {
+      return Value.ToString();
     }
   }
 }

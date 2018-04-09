@@ -17,5 +17,10 @@ namespace Innovator.Client.QueryModel
     {
       visitor.Visit(this);
     }
+
+    public override string ToString()
+    {
+      return this.ToSqlString();
+    }
   }
 }

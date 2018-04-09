@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Innovator.Client
 {
@@ -360,7 +360,7 @@ namespace Innovator.Client.Time
             if (baseOffset != TimeSpan.Zero)
             {
               writer.Write(", TimeSpan.FromSeconds(");
-              writer.Write(rule.DaylightDelta.TotalSeconds);
+              writer.Write(baseOffset.TotalSeconds);
               writer.Write(")");
             }
             writer.WriteLine("),");

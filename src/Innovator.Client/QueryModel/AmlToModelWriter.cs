@@ -10,9 +10,18 @@ namespace Innovator.Client.QueryModel
   public class AmlToModelWriter : XmlWriter
   {
     private readonly StringBuilder _buffer = new StringBuilder();
+    private IServerContext _context;
     private string _name;
     private List<object> _stack = new List<object>();
-    private Query _query = new Query();
+
+    private QueryItem _query;
+    public QueryItem Query { get { return _query; } }
+
+    public AmlToModelWriter(IServerContext context)
+    {
+      _query = new QueryItem(context);
+      _context = context;
+    }
 
     /// <summary>Gets the state of the writer.</summary>
     /// <returns>One of the <see cref="WriteState" /> values.</returns>
@@ -29,9 +38,11 @@ namespace Innovator.Client.QueryModel
     }
 #endif
 
+    /// <summary>Flushes whatever is in the buffer to the underlying streams and also flushes the underlying stream.</summary>
+    /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override void Flush()
     {
-      throw new NotImplementedException();
+      _buffer.Length = 0;
     }
 
     /// <summary>Returns the closest prefix defined in the current namespace scope for the namespace URI.</summary>
@@ -123,41 +134,42 @@ namespace Innovator.Client.QueryModel
     /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override void WriteEndAttribute()
     {
+      var value = _buffer.ToString();
       _buffer.Length = 0;
-      if (_stack.LastOrDefault() is ITableOperand tableOp)
+      if (_stack.LastOrDefault() is Join join)
       {
-        var table = TableFromOp(tableOp);
+        var table = join.Right;
         switch (_name)
         {
           case "type":
-            table.Name = _buffer.ToString();
-            break;
-          case "typeId":
-            table.Id = new Guid(_buffer.ToString());
+            table.Name = value;
             break;
           case "alias":
-            table.Alias = _buffer.ToString();
+            table.Alias = value;
             break;
           case "action":
-            if (_buffer.ToString() != "get")
+            if (value != "get")
               throw new NotSupportedException("The only action(s) supported are `get`");
             break;
           case "id":
             _stack.Add(new EqualsOperator()
             {
               Left = new PropertyReference("id", table),
-              Right = new StringLiteral(_buffer.ToString())
+              Right = new StringLiteral(value)
             });
             break;
           case "idlist":
             _stack.Add(new InOperator()
             {
               Left = new PropertyReference("id", table),
-              Right = new ListExpression(_buffer.ToString().Split(',').Select(i => (IOperand)new StringLiteral(i)))
+              Right = new ListExpression(value.Split(',').Select(i => (IOperand)new StringLiteral(i)))
             });
             break;
           case "where":
             throw new NotSupportedException();
+          default:
+            table.Attributes[_name] = value;
+            break;
         }
       }
       else if (_stack.LastOrDefault() is PropertyReference)
@@ -166,7 +178,7 @@ namespace Innovator.Client.QueryModel
         {
           // Technically not valid AML, but why not.
           case "is_null":
-            switch (_buffer.ToString())
+            switch (value)
             {
               case "1":
                 _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.@null });
@@ -177,7 +189,7 @@ namespace Innovator.Client.QueryModel
             }
             break;
           case "condition":
-            switch (_buffer.ToString())
+            switch (value)
             {
               case "between":
                 _stack.Add(new BetweenOperator() { Left = (IExpression)_stack.Pop() });
@@ -274,48 +286,258 @@ namespace Innovator.Client.QueryModel
             default:
               throw new NotSupportedException();
           }
-          ((ILogical)_stack.Last()).Add(isOp);
         }
         else if (last is InOperator inOp)
         {
           inOp.Right = ListExpression.FromSqlInClause(value);
-          ((ILogical)_stack.Last()).Add(inOp);
         }
         else if (last is BetweenOp betweenOp)
         {
           betweenOp.SetMinMaxFromSql(value);
-          ((ILogical)_stack.Last()).Add(betweenOp);
         }
         else if (last is PropertyReference prop)
         {
-          last = new EqualsOperator()
+          if (_stack.OfType<Join>().Last().Right.Joins.Any(j => j.Right.TypeProvider == prop))
           {
-            Left = prop
-          };
+            last = null;
+          }
+          else
+          {
+            last = new EqualsOperator()
+            {
+              Left = prop
+            };
+          }
         }
 
-        if (last is BinaryOperator binOp)
+        if (!(last is ILogical) && last is BinaryOperator binOp)
         {
           if (value == "__now()")
           {
             binOp.Right = new FunctionExpression() { Name = "GetDate" };
           }
+          else if (binOp is LikeOperator || binOp is NotLikeOperator)
+          {
+            binOp.Right = new StringLiteral(value.Replace('*', '%'));
+          }
           else
           {
             binOp.Right = new ObjectLiteral(value, (PropertyReference)binOp.Left);
           }
-
-          ((ILogical)_stack.Last()).Add(binOp);
         }
-        else if (last is ILogical logical)
+
+        if (last is IExpression expr)
         {
-          var lastLogical = _stack.OfType<ILogical>().LastOrDefault();
-          if (lastLogical == null)
-            _query.Where = lastLogical;
-          else
-            lastLogical.Add(logical);
+          AddToCondition(expr);
+        }
+        else if (last is Join join)
+        {
+          NormalizeItem(join.Right);
         }
       }
+    }
+
+    private void NormalizeItem(QueryItem item)
+    {
+      if (item.Attributes.TryGetValue("select", out var selectStmt))
+      {
+        var node = SelectNode.FromString(selectStmt);
+        if (node.Count > 0 && string.IsNullOrEmpty(node[0].Name))
+          node = node[0];
+
+        foreach (var prop in node)
+        {
+          item.Select.Add(new SelectExpression() { Expression = new PropertyReference(prop.Name, item) });
+          // TODO: Handle subselects
+        }
+        item.Attributes.Remove("select");
+      }
+
+      if (item.Attributes.TryGetValue("fetch", out var fetchStr) && int.TryParse(fetchStr, out var fetch))
+      {
+        item.Fetch = fetch;
+        if (item.Attributes.TryGetValue("offset", out var offsetStr) && int.TryParse(offsetStr, out var offset))
+          item.Offset = offset;
+        else
+          item.Offset = 0;
+        item.Attributes.Remove("fetch");
+        item.Attributes.Remove("offset");
+      }
+      else if (item.Attributes.TryGetValue("maxRecords", out var maxRecordsStr) && int.TryParse(maxRecordsStr, out var maxRecords))
+      {
+        item.Fetch = maxRecords;
+        item.Offset = 0;
+        item.Attributes.Remove("maxRecords");
+      }
+      else if (item.Attributes.TryGetValue("pagesize", out var pagesizeStr) && int.TryParse(pagesizeStr, out var pagesize))
+      {
+        item.Fetch = pagesize;
+        if (item.Attributes.TryGetValue("page", out var pageStr) && int.TryParse(pageStr, out var page) && page > 1)
+          item.Offset = (page - 1) * pagesize;
+        else
+          item.Offset = 0;
+
+        item.Attributes.Remove("pagesize");
+        item.Attributes.Remove("page");
+      }
+
+      if (item.Attributes.TryGetValue("orderBy", out var orderBy) && !string.IsNullOrEmpty(orderBy))
+      {
+        foreach (var col in orderBy.Split(',')
+          .Select(c =>
+          {
+            var parts = c.Split(' ');
+            return new OrderByExpression()
+            {
+              Expression = new PropertyReference(parts[0], item),
+              Ascending = !(parts.Length == 2 && string.Equals(parts[1], "DESC", StringComparison.OrdinalIgnoreCase))
+            };
+          }))
+        {
+          item.OrderBy.Add(col);
+        }
+        item.Attributes.Remove("orderBy");
+      }
+
+      var queryType = default(string);
+      if (!item.Attributes.TryGetValue("queryType", out queryType))
+        queryType = "Current";
+      if (string.Equals(queryType, "ignore", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(queryType, "skip", StringComparison.OrdinalIgnoreCase))
+      {
+        // Do nothing
+      }
+      else if (string.Equals(queryType, "Current", StringComparison.OrdinalIgnoreCase))
+      {
+        var visitor = new PropNameVisitor();
+        if (item.Where != null)
+          item.Where.Visit(visitor);
+
+        if (!visitor.PropertyNames.Contains("id") && !visitor.PropertyNames.Contains("generation"))
+        {
+          var whereClause = (IExpression)new EqualsOperator()
+          {
+            Left = new PropertyReference("is_current", item),
+            Right = new BooleanLiteral(true)
+          };
+
+          if (item.Where != null)
+          {
+            whereClause = new AndOperator()
+            {
+              Left = item.Where,
+              Right = whereClause
+            };
+          }
+
+          item.Where = whereClause;
+        }
+      }
+      else if (string.Equals(queryType, "Latest", StringComparison.OrdinalIgnoreCase))
+      {
+        var visitor = new PropNameVisitor();
+        if (item.Where != null)
+          item.Where.Visit(visitor);
+
+        if (!visitor.PropertyNames.Contains("is_active_rev"))
+          throw new NotSupportedException();
+      }
+      else
+      {
+        throw new NotSupportedException();
+      }
+    }
+
+    private class PropNameVisitor : SimpleVisitor
+    {
+      private HashSet<string> _props = new HashSet<string>();
+
+      public HashSet<string> PropertyNames { get { return _props; } }
+
+      public override void Visit(PropertyReference op)
+      {
+        base.Visit(op);
+        _props.Add(op.Name);
+      }
+    }
+
+    private void AddToCondition(IExpression expr)
+    {
+      var term = SimplifyTerm(expr);
+      if (term == null)
+        return;
+
+      if (_stack.Last() is ILogical)
+      {
+        if (_stack.Last() is BinaryOperator binOp)
+        {
+          if (binOp.Left == null)
+          {
+            binOp.Left = term;
+          }
+          else if (binOp.Right == null)
+          {
+            binOp.Right = term;
+          }
+          else
+          {
+            var newOp = binOp is AndOperator ? (BinaryOperator)new AndOperator() : new OrOperator();
+            newOp.Left = (IExpression)_stack.Pop();
+            newOp.Right = term;
+            _stack.Add(newOp);
+          }
+        }
+        else if (_stack.Last() is NotOperator not)
+        {
+          if (not.Arg == null)
+          {
+            not.Arg = term;
+          }
+          else
+          {
+            not.Arg = new AndOperator()
+            {
+              Left = not.Arg,
+              Right = term
+            };
+          }
+        }
+      }
+      else if (_stack.Last() is Join join)
+      {
+        if (join.Right.Where == null)
+        {
+          join.Right.Where = term;
+        }
+        else
+        {
+          join.Right.Where = new AndOperator()
+          {
+            Left = join.Right.Where,
+            Right = term
+          };
+        }
+      }
+
+    }
+
+    private IExpression SimplifyTerm(IExpression expr)
+    {
+      if (expr is ILogical)
+      {
+        if (expr is BinaryOperator binOp)
+        {
+          if (binOp.Right == null)
+            return binOp.Left;
+        }
+        else if (expr is NotOperator not)
+        {
+          if (not.Arg == null)
+            return null;
+        }
+      }
+
+      return expr;
     }
 
     /// <summary>Writes out an entity reference as &amp;name;.</summary>
@@ -422,34 +644,49 @@ namespace Innovator.Client.QueryModel
       switch (localName)
       {
         case "Item":
-          if (_query.From == null)
+          var prop = _stack.LastOrDefault() as PropertyReference;
+          var join = new Join()
           {
-            _query.From = new Table();
-            _stack.Add(_query.From);
-          }
-          else if (_stack.Last() is PropertyReference prop)
-          {
-            var newTable = new Table()
+            Left = _stack.OfType<Join>().LastOrDefault()?.Right,
+            Right = new QueryItem(_context)
             {
               TypeProvider = prop
-            };
-            _query.From = new Join()
+            },
+            Type = JoinType.Inner,
+          };
+
+          if (join.Left != null)
+          {
+            if (prop != null)
             {
-              Left = _query.From,
-              Right = newTable,
-              Type = JoinType.LeftOuter,
-              Condition = new EqualsOperator()
+              join.Condition = new EqualsOperator()
               {
                 Left = prop,
-                Right = new PropertyReference("id", newTable)
-              }
-            };
-            _stack.Add(_query.From);
+                Right = new PropertyReference("id", join.Right)
+              };
+              join.Left.Joins.Add(join);
+            }
+            else if (_stack.LastOrDefault() is Relationships)
+            {
+              join.Condition = new EqualsOperator()
+              {
+                Left = new PropertyReference("id", join.Left),
+                Right = new PropertyReference("source_id", join.Right)
+              };
+              join.Type = JoinType.LeftOuter;
+              join.Left.Joins.Add(join);
+            }
+            else
+            {
+              throw new NotSupportedException();
+            }
           }
           else
           {
-            throw new InvalidOperationException();
+            _query = join.Right;
           }
+
+          _stack.Add(join);
           break;
         case "and":
           _stack.Add(new AndOperator());
@@ -461,22 +698,15 @@ namespace Innovator.Client.QueryModel
           _stack.Add(new NotOperator());
           break;
         case "Relationships":
-          throw new NotSupportedException("Relationships are not supported at this time");
+          _stack.Add(new Relationships());
+          break;
         default:
           if (_stack.Count > 0)
           {
-            if (_stack.Last() is ITableOperand)
-              _stack.Add(new AndOperator());
-            if (_stack.Last() is ILogical)
-              _stack.Add(new PropertyReference(localName, TableFromOp(_stack.OfType<ITableOperand>().Last())));
+            _stack.Add(new PropertyReference(localName, _stack.OfType<Join>().Last().Right));
           }
           break;
       }
-    }
-
-    private Table TableFromOp(ITableOperand op)
-    {
-      return (op as Table) ?? (Table)((Join)op).Right;
     }
 
     /// <summary>Writes the given text content.</summary>
@@ -505,6 +735,11 @@ namespace Innovator.Client.QueryModel
     public override void WriteWhitespace(string ws)
     {
       WriteString(ws);
+    }
+
+    // Placeholder class for the relationships tag
+    private class Relationships
+    {
     }
   }
 }

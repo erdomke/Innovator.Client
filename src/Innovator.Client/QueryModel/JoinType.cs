@@ -10,6 +10,5 @@ namespace Innovator.Client.QueryModel
   {
     Inner,
     LeftOuter,
-    RightOuter
   }
 }

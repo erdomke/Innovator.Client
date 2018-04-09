@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public interface IQueryVisitor : IExpressionVisitor, ITableVisitor
+  public interface IQueryVisitor : IExpressionVisitor
   {
-    void Visit(Query query);
+    void Visit(QueryItem query);
   }
 }

@@ -12,5 +12,10 @@ namespace Innovator.Client.QueryModel
     public IExpression Right { get; set; }
 
     public abstract void Visit(IExpressionVisitor visitor);
+
+    public override string ToString()
+    {
+      return this.ToSqlString();
+    }
   }
 }

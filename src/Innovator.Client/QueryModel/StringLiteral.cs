@@ -36,5 +36,10 @@ namespace Innovator.Client.QueryModel
     {
       return Value?.GetHashCode() ?? 0;
     }
+
+    public override string ToString()
+    {
+      return Value;
+    }
   }
 }

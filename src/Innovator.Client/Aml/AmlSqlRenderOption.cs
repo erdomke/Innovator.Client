@@ -41,9 +41,5 @@ namespace Innovator.Client
     /// A query which returns the offset of an item in a result set
     /// </summary>
     OffsetQuery = 0x200,
-    /// <summary>
-    /// Whether to ignore the <c>queryType</c> of a get query
-    /// </summary>
-    IgnoreQueryType = 0x1000,
   }
 }

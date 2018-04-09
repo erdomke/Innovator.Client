@@ -10,6 +10,11 @@ namespace Innovator.Client.QueryModel
   {
     public bool Value { get; set; }
 
+    public BooleanLiteral(bool value)
+    {
+      Value = value;
+    }
+
     public void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
@@ -30,6 +35,11 @@ namespace Innovator.Client.QueryModel
     public override int GetHashCode()
     {
       return Value.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+      return Value.ToString();
     }
   }
 }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public interface ITableVisitor
+  public enum Cardinality
   {
-    void Visit(Join op);
-    void Visit(Table op);
+    OneToOne,
+    OneToMany
   }
 }

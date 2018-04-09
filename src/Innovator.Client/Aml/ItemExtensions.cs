@@ -457,7 +457,8 @@ namespace Innovator.Client
     /// <param name="node">The node.</param>
     public static QueryModel.QueryItem ToQueryItem(this IAmlNode node)
     {
-      var writer = new QueryModel.AmlToModelWriter();
+      var context = (node as IReadOnlyElement)?.AmlContext ?? ElementFactory.Local;
+      var writer = new QueryModel.AmlToModelWriter(context.LocalizationContext);
       node.ToAml(writer, new AmlWriterSettings());
       return writer.Query;
     }

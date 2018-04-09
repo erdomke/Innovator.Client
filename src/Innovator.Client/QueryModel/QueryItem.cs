@@ -15,8 +15,14 @@ namespace Innovator.Client.QueryModel
     private List<SelectExpression> _select = new List<SelectExpression>();
     private Dictionary<string, string> _attributes = new Dictionary<string, string>();
 
+    public QueryItem(IServerContext context)
+    {
+      Context = context;
+    }
+
     public string Alias { get; set; }
     public IDictionary<string, string> Attributes { get { return _attributes; } }
+    public IServerContext Context { get; }
     public string Name { get; set; }
     public PropertyReference TypeProvider { get; set; }
     public int? Fetch { get; set; }
@@ -29,7 +35,8 @@ namespace Innovator.Client.QueryModel
 
     public void ToAml(XmlWriter writer, AmlWriterSettings settings)
     {
-      throw new NotImplementedException();
+      var visitor = new AmlVisitor(Context, writer);
+      visitor.Visit(this);
     }
 
     public string ToSql(IAmlSqlWriterSettings settings)

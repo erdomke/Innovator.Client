@@ -25,6 +25,12 @@ namespace Innovator.Client.QueryModel
         _renderOption = AmlSqlRenderOption.SelectQuery;
     }
 
+    public SqlServerVisitor(TextWriter writer, IAmlSqlWriterSettings settings, IServerContext context)
+      : this(writer, settings)
+    {
+      _context = context;
+    }
+
     public void Visit(QueryItem query)
     {
       switch (_renderOption)

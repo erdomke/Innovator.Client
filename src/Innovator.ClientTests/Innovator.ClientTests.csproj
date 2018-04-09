@@ -94,6 +94,7 @@
     <Compile Include="Aml\ODataTests.cs" />
     <Compile Include="Aml\ParameterSubstitutionTests.cs" />
     <Compile Include="Aml\PropertyTests.cs" />
+    <Compile Include="Aml\QueryModelToAml.cs" />
     <Compile Include="Aml\ServerExceptionTests.cs" />
     <Compile Include="Aml\SqlBatchWriterTests.cs" />
     <Compile Include="Aml\SubSelectTests.cs" />

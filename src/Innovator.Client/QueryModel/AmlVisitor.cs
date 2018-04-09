@@ -10,16 +10,22 @@ namespace Innovator.Client.QueryModel
 {
   class AmlVisitor : IQueryVisitor
   {
+    private static readonly HashSet<string> _attributesToWrite = new HashSet<string>()
+    {
+      "queryDate"
+    };
+
     private XmlWriter _writer;
     private SqlServerVisitor _sqlVisitor;
     private IServerContext _context;
 
     private Stack<ILogical> _logicals = new Stack<ILogical>();
 
-    public AmlVisitor(XmlWriter writer)
+    public AmlVisitor(IServerContext context, XmlWriter writer)
     {
       _writer = writer;
-      _sqlVisitor = new SqlServerVisitor(new XmlTextWriter(writer), new NullAmlSqlWriterSettings());
+      _context = context;
+      _sqlVisitor = new SqlServerVisitor(new XmlTextWriter(writer), new NullAmlSqlWriterSettings(), context);
     }
 
     public void Visit(AndOperator op)
@@ -61,6 +67,8 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(EqualsOperator op)
     {
+      if (IsIsCurrentCriteria(op))
+        return;
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
       _writer.WriteStartElement(prop.Name);
@@ -88,22 +96,12 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(GreaterThanOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "gt");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "gt");
     }
 
     public void Visit(GreaterThanOrEqualsOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "ge");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "ge");
     }
 
     public void Visit(InOperator op)
@@ -149,32 +147,17 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(LessThanOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "lt");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "lt");
     }
 
     public void Visit(LessThanOrEqualsOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "le");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "le");
     }
 
     public void Visit(LikeOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "like");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "like");
     }
 
     public void Visit(ListExpression op)
@@ -203,12 +186,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(NotEqualsOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "ne");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "ne");
     }
 
     public void Visit(NotInOperator op)
@@ -223,12 +201,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(NotLikeOperator op)
     {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "not like");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      Visit(op, "not like");
     }
 
     public void Visit(NotOperator op)
@@ -268,6 +241,16 @@ namespace Innovator.Client.QueryModel
       _writer.WriteString(op.Value);
     }
 
+    private void Visit(BinaryOperator op, string condition)
+    {
+      if (!(op.Left is PropertyReference prop))
+        throw new NotSupportedException();
+      _writer.WriteStartElement(prop.Name);
+      _writer.WriteAttributeString("condition", condition);
+      op.Right.Visit(this);
+      _writer.WriteEndElement();
+    }
+
     public void Visit(QueryItem query)
     {
       _logicals.Push(new AndOperator());
@@ -300,13 +283,162 @@ namespace Innovator.Client.QueryModel
       }
 
       _writer.WriteAttributeString("action", "get");
-      foreach (var attr in query.Attributes)
+      foreach (var attr in query.Attributes.Where(a => _attributesToWrite.Contains(a.Key)))
       {
         _writer.WriteAttributeString(attr.Key, attr.Value);
       }
-      query.Where?.Visit(this);
+      var isCurrentVisitor = new IsCurrentVisitor();
+      query.Where?.Visit(isCurrentVisitor);
+      if (!isCurrentVisitor.IsCurrent
+        && !isCurrentVisitor.GenerationCriteria)
+      {
+        _writer.WriteAttributeString("queryType", "Latest");
+      }
+
+      if (query.Select.Any())
+      {
+        if (!query.Select.All(s => s.Expression is PropertyReference))
+          throw new NotSupportedException();
+        _writer.WriteAttributeString("select"
+          , string.Join(",", query.Select.Select(s => ((PropertyReference)s.Expression).Name)));
+      }
+
+      if (query.OrderBy.Any())
+      {
+        if (!query.OrderBy.All(s => s.Expression is PropertyReference))
+          throw new NotSupportedException();
+        _writer.WriteAttributeString("orderBy"
+          , string.Join(",", query.OrderBy.Select(s => ((PropertyReference)s.Expression).Name + (s.Ascending ? "" : " DESC"))));
+      }
+
+      if (isCurrentVisitor.IdExpr != null)
+      {
+        if (isCurrentVisitor.IdExpr is StringLiteral str)
+        {
+          _writer.WriteAttributeString("id", str.Value);
+        }
+        else if (isCurrentVisitor.IdExpr is ListExpression listOp)
+        {
+          _writer.WriteAttributeString("idlist"
+            , string.Join(",", listOp.Values.OfType<StringLiteral>().Select(s => s.Value)));
+        }
+        else
+        {
+          throw new NotSupportedException();
+        }
+      }
+      else
+      {
+        query.Where?.Visit(this);
+      }
+
+      var rels = new List<QueryItem>();
+      foreach (var join in query.Joins.Where(j => j.Condition is EqualsOperator))
+      {
+        var eq = (EqualsOperator)join.Condition;
+        var props = new[] {
+          eq.Left as PropertyReference,
+          eq.Right as PropertyReference
+        }.Where(p => p != null).ToArray();
+        if (props.Length != 2 && join.Type == JoinType.Inner)
+          throw new NotSupportedException();
+
+        var currProp = props.Single(p => object.ReferenceEquals(p.Table, query));
+        var otherProp = props.Single(p => !object.ReferenceEquals(p.Table, query));
+        if (currProp.Name == "id" && otherProp.Name == "source_id")
+        {
+          rels.Add(join.Right);
+        }
+        else if (otherProp.Name == "id")
+        {
+          _writer.WriteStartElement(currProp.Name);
+          Visit(join.Right);
+          _writer.WriteEndElement();
+        }
+        else
+        {
+          throw new NotSupportedException();
+        }
+      }
+
+      if (rels.Count > 0)
+      {
+        _writer.WriteStartElement("Relationships");
+        foreach (var rel in rels)
+        {
+          Visit(rel);
+        }
+        _writer.WriteEndElement();
+      }
+
       _writer.WriteEndElement();
       _logicals.Pop();
+    }
+
+    private static bool IsIsCurrentCriteria(EqualsOperator op)
+    {
+      var prop = op.Left as PropertyReference;
+      var boolLiteral = op.Right as BooleanLiteral;
+      return prop?.Name == "is_current"
+        && boolLiteral?.Value == true;
+    }
+
+    private class IsCurrentVisitor : SimpleVisitor
+    {
+      private List<IOperator> _ops = new List<IOperator>();
+
+      public bool GenerationCriteria { get; set; }
+      public bool IsCurrent { get; set; } = false;
+      public IExpression IdExpr { get; set; }
+
+      public override void Visit(AndOperator op)
+      {
+        _ops.Add(op);
+        base.Visit(op);
+        _ops.Pop();
+      }
+
+      public override void Visit(EqualsOperator op)
+      {
+        IsCurrent = IsIsCurrentCriteria(op);
+        if ((op.Left as PropertyReference)?.Name == "id"
+          && op.Right is StringLiteral
+          && _ops.All(o => o is AndOperator))
+        {
+          GenerationCriteria = true;
+          IdExpr = op.Right;
+        }
+      }
+
+      public override void Visit(InOperator op)
+      {
+        if ((op.Left as PropertyReference)?.Name == "id"
+          && _ops.All(o => o is AndOperator))
+        {
+          GenerationCriteria = true;
+          IdExpr = op.Right;
+        }
+      }
+
+      public override void Visit(NotOperator op)
+      {
+        _ops.Add(op);
+        base.Visit(op);
+        _ops.Pop();
+      }
+
+      public override void Visit(OrOperator op)
+      {
+        _ops.Add(op);
+        base.Visit(op);
+        _ops.Pop();
+      }
+
+      public override void Visit(PropertyReference op)
+      {
+        if (op.Name == "generation" || op.Name == "id")
+          GenerationCriteria = true;
+      }
     }
 
     private class XmlTextWriter : TextWriter

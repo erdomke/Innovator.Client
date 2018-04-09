@@ -10,11 +10,18 @@ namespace Innovator.Client.QueryModel
   public class AmlToModelWriter : XmlWriter
   {
     private readonly StringBuilder _buffer = new StringBuilder();
+    private IServerContext _context;
     private string _name;
     private List<object> _stack = new List<object>();
 
-    private QueryItem _query = new QueryItem();
+    private QueryItem _query;
     public QueryItem Query { get { return _query; } }
+
+    public AmlToModelWriter(IServerContext context)
+    {
+      _query = new QueryItem(context);
+      _context = context;
+    }
 
     /// <summary>Gets the state of the writer.</summary>
     /// <returns>One of the <see cref="WriteState" /> values.</returns>
@@ -136,7 +143,6 @@ namespace Innovator.Client.QueryModel
         {
           case "type":
             table.Name = value;
-            table.Alias = table.Alias ?? value;
             break;
           case "alias":
             table.Alias = value;
@@ -642,7 +648,7 @@ namespace Innovator.Client.QueryModel
           var join = new Join()
           {
             Left = _stack.OfType<Join>().LastOrDefault()?.Right,
-            Right = new QueryItem()
+            Right = new QueryItem(_context)
             {
               TypeProvider = prop
             },

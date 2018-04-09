@@ -85,7 +85,7 @@ namespace Innovator.Client.Tests
       settings.PermissionOption = AmlSqlPermissionOption.None;
       settings.RenderOption = AmlSqlRenderOption.WhereClause;
       var sql = item.ToQueryItem().ToSql(settings);
-      Assert.AreEqual("[Can Add].[source_id] = '5698BACD2A7A45D6AC3FA60EAB3E6566' and [Can Add].[can_add] = 1 and [Can Add].[related_id] = 'A73B655731924CD0B027E4F4D5FCC0A9' and [Can Add].[sort_order] = 128 and [Can Add].[is_current] = '1'"
+      Assert.AreEqual("[Can_Add].[source_id] = '5698BACD2A7A45D6AC3FA60EAB3E6566' and [Can_Add].[can_add] = 1 and [Can_Add].[related_id] = 'A73B655731924CD0B027E4F4D5FCC0A9' and [Can_Add].[sort_order] = 128 and [Can_Add].[is_current] = '1'"
         , sql);
     }
 

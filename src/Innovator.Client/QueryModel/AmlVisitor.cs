@@ -256,8 +256,8 @@ namespace Innovator.Client.QueryModel
       _logicals.Push(new AndOperator());
       _writer.WriteStartElement("Item");
 
-      if (!string.IsNullOrEmpty(query.Name))
-        _writer.WriteAttributeString("type", query.Name);
+      if (!string.IsNullOrEmpty(query.Type))
+        _writer.WriteAttributeString("type", query.Type);
       if (!string.IsNullOrEmpty(query.Alias))
         _writer.WriteAttributeString("alias", query.Alias);
 

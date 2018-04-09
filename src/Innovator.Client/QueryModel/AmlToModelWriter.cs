@@ -142,7 +142,7 @@ namespace Innovator.Client.QueryModel
         switch (_name)
         {
           case "type":
-            table.Name = value;
+            table.Type = value;
             break;
           case "alias":
             table.Alias = value;
@@ -387,6 +387,15 @@ namespace Innovator.Client.QueryModel
           .Select(c =>
           {
             var parts = c.Split(' ');
+            if (parts.Length > 2)
+              throw new NotSupportedException();
+            if (parts.Length == 2
+              && !string.Equals(parts[1], "asc", StringComparison.OrdinalIgnoreCase)
+              && !string.Equals(parts[1], "desc", StringComparison.OrdinalIgnoreCase))
+            {
+              throw new NotSupportedException();
+            }
+
             return new OrderByExpression()
             {
               Expression = new PropertyReference(parts[0], item),

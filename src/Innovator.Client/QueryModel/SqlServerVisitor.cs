@@ -53,7 +53,7 @@ namespace Innovator.Client.QueryModel
           VisitTableName(query);
           _writer.Write(" inner join ( select ");
           var first = true;
-          foreach (var orderBy in query.OrderBy)
+          foreach (var orderBy in GetOrderBy(query))
           {
             if (!first)
               _writer.Write(", ");
@@ -65,7 +65,7 @@ namespace Innovator.Client.QueryModel
           VisitWhere(query);
           _writer.Write(") offset on ");
 
-          var cols = query.OrderBy;
+          var cols = GetOrderBy(query).ToList();
           for (var i = 0; i < cols.Count; i++)
           {
             if (i > 0)
@@ -173,12 +173,12 @@ namespace Innovator.Client.QueryModel
 
     private void TryFillName(QueryItem item)
     {
-      if (string.IsNullOrEmpty(item.Name) && !string.IsNullOrEmpty(item.TypeProvider?.Table.Name))
+      if (string.IsNullOrEmpty(item.Type) && !string.IsNullOrEmpty(item.TypeProvider?.Table.Type))
       {
-        var props = _settings.GetProperties(item.TypeProvider.Table.Name);
+        var props = _settings.GetProperties(item.TypeProvider.Table.Type);
         if (props != null && props.TryGetValue(item.TypeProvider.Name, out var propDefn))
         {
-          item.Name = propDefn.DataSource().KeyedName().Value;
+          item.Type = propDefn.DataSource().KeyedName().Value;
         }
       }
     }
@@ -191,7 +191,7 @@ namespace Innovator.Client.QueryModel
       if (!string.IsNullOrEmpty(item.Alias))
         _writer.Write(item.Alias);
       else
-        _writer.Write(item.Name.Replace(' ', '_'));
+        _writer.Write(item.Type.Replace(' ', '_'));
       _writer.Write(']');
     }
 
@@ -213,7 +213,7 @@ namespace Innovator.Client.QueryModel
       var secured = _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction
         || _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron;
       _writer.Write(secured ? "[secured].[" : "[innovator].[");
-      var sqlName = item.Name.Replace(' ', '_');
+      var sqlName = item.Type.Replace(' ', '_');
       _writer.Write(sqlName);
       _writer.Write("]");
 
@@ -335,18 +335,44 @@ namespace Innovator.Client.QueryModel
 
     private void VisitOrderBy(QueryItem query)
     {
-      if (query.OrderBy.Any())
+      var orderBy = GetOrderBy(query);
+      _writer.Write(" order by ");
+      var first = true;
+      foreach (var prop in orderBy)
       {
-        _writer.Write(" order by ");
-        var first = true;
-        foreach (var prop in query.OrderBy)
-        {
-          if (!first)
-            _writer.Write(", ");
-          first = false;
-          Visit(prop);
-        }
+        if (!first)
+          _writer.Write(", ");
+        first = false;
+        Visit(prop);
       }
+    }
+
+    private IEnumerable<OrderByExpression> GetOrderBy(QueryItem query)
+    {
+      if (query.OrderBy.Count > 0)
+        return query.OrderBy;
+
+      var props = _settings.GetProperties(query.Type).Values;
+      var orderProps = props
+          .OfType<Model.Property>()
+          .Where(p => p.OrderBy().HasValue())
+          .OrderBy(p => p.OrderBy().AsInt(int.MaxValue))
+          .Select(p => new OrderByExpression()
+          {
+            Expression = new PropertyReference(p.NameProp().Value, query)
+          })
+          .ToArray();
+
+      if (orderProps.Length > 0)
+        return orderProps;
+
+      return new[]
+      {
+        new OrderByExpression()
+        {
+          Expression = new PropertyReference("id", query)
+        }
+      };
     }
 
     private void Visit(OrderByExpression op)
@@ -547,9 +573,9 @@ namespace Innovator.Client.QueryModel
     public void Visit(ObjectLiteral op)
     {
       var dataType = default(string);
-      if (!string.IsNullOrEmpty(op.TypeProvider?.Table.Name))
+      if (!string.IsNullOrEmpty(op.TypeProvider?.Table.Type))
       {
-        var props = _settings.GetProperties(op.TypeProvider?.Table.Name);
+        var props = _settings.GetProperties(op.TypeProvider?.Table.Type);
         if (props != null && props.TryGetValue(op.TypeProvider.Name, out var propDefn))
         {
           dataType = propDefn.DataType().Value;

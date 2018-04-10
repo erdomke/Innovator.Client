@@ -65,6 +65,10 @@ namespace Innovator.Client.IOM
     /// server.</remarks>
     public Item applySQL(string sql, params object[] args)
     {
+      if (!sql.TrimStart().StartsWith("<"))
+      {
+        sql = "<sql>" + ServerContext.XmlEscape(sql) + "</sql>";
+      }
       return new Item(_conn, _conn.ApplyMutable(new Command(sql, args).WithAction(CommandAction.ApplySQL)));
     }
 

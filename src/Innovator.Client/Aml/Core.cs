@@ -1,4 +1,4 @@
-﻿namespace Innovator.Client
+namespace Innovator.Client
 {
   /// <summary>
   /// Extension methods for retrieving core AML properties and attributes
@@ -97,7 +97,7 @@
     /// <summary>Retrieve the <c>typeID</c> attribute of the item</summary>
     public static IAttribute TypeId(this IItem item)
     {
-      return item.Attribute("typeID");
+      return item.Attribute("typeId");
     }
     /// <summary>Retrieve the <c>where</c> attribute of the item</summary>
     public static IAttribute Where(this IItem item)

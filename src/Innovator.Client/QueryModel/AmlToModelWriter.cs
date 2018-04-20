@@ -278,7 +278,7 @@ namespace Innovator.Client.QueryModel
     {
       if (_stack.Count > 0)
       {
-        var value = _buffer.ToString();
+        var value = _buffer.ToString() ?? "";
         _buffer.Length = 0;
 
         var last = _stack.Pop();
@@ -297,6 +297,8 @@ namespace Innovator.Client.QueryModel
               break;
             case "null":
               isOp.Right = IsOperand.@null;
+              break;
+            case "":
               break;
             default:
               throw new NotSupportedException();

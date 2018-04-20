@@ -90,6 +90,23 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void Aml2Sql_WhereClause3()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item type='Activity Assignment' action='get' queryType='ignore'>
+  <source_id>E7D1C2C5431C4ECF9BA5ADAE0AC50377</source_id>
+  <closed_on condition='is null'></closed_on>
+  <is_disabled>0</is_disabled>
+  <is_required>1</is_required>
+</Item>").AssertItem();
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
+      settings.PermissionOption = AmlSqlPermissionOption.None;
+      settings.RenderOption = AmlSqlRenderOption.WhereClause;
+      var sql = item.ToQueryItem().ToSql(settings);
+      Assert.AreEqual("[Activity_Assignment].[source_id] = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and [Activity_Assignment].[closed_on] is null and [Activity_Assignment].[is_disabled] = '0' and [Activity_Assignment].[is_required] = '1'"
+        , sql);
+    }
+
+    [TestMethod()]
     public void Aml2Sql_OrderBy()
     {
       var item = ElementFactory.Local.FromXml(@"<Item type='Part' action='get' orderBy='item_number'>

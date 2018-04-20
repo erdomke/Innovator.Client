@@ -534,10 +534,10 @@ namespace Innovator.Client.QueryModel
       {
         case IsOperand.@null:
         case IsOperand.notDefined:
-          _writer.Write(" null");
+          _writer.Write("null");
           break;
         default:
-          _writer.Write(" not null");
+          _writer.Write("not null");
           break;
       }
     }

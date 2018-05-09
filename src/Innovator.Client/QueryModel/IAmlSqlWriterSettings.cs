@@ -6,7 +6,7 @@ namespace Innovator.Client.QueryModel
   /// Settings and metadata used to generate a SQL statement from AML.  Metadata
   /// will be queried using the specified <see cref="IConnection"/>
   /// </summary>
-  public interface IAmlSqlWriterSettings
+  public interface IAmlSqlWriterSettings : IQueryWriterSettings
   {
     /// <summary>
     /// Gets the identity list for the current user
@@ -24,11 +24,5 @@ namespace Innovator.Client.QueryModel
     /// ID of the current user
     /// </summary>
     string UserId { get; }
-
-    /// <summary>
-    /// Gets the property metadata for an itemtype by name.
-    /// </summary>
-    /// <param name="itemType">Name of the itemtype</param>
-    IDictionary<string, Model.IPropertyDefinition> GetProperties(string itemType);
   }
 }

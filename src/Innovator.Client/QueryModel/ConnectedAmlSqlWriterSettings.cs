@@ -53,6 +53,27 @@ namespace Innovator.Client.QueryModel
     }
 
     /// <summary>
+    /// Clones this instance.
+    /// </summary>
+    /// <returns>A new instance with the same settings and cached data.</returns>
+    public ConnectedAmlSqlWriterSettings Clone()
+    {
+      var result = new ConnectedAmlSqlWriterSettings(_conn)
+      {
+        _identList = _identList,
+        PermissionOption = PermissionOption,
+        RenderOption = RenderOption
+      };
+
+      foreach (var kvp in _props)
+      {
+        result._props[kvp.Key] = kvp.Value;
+      }
+
+      return result;
+    }
+
+    /// <summary>
     /// Fluent API to set the permission option to the correct value based on the Aras version
     /// </summary>
     /// <param name="arasVersion">The Aras version.</param>
@@ -69,6 +90,42 @@ namespace Innovator.Client.QueryModel
         PermissionOption = AmlSqlPermissionOption.SecuredFunction;
       else
         PermissionOption = AmlSqlPermissionOption.SecuredFunctionEnviron;
+      return this;
+    }
+
+    /// <summary>
+    /// Fluent API to cache property data for one (or more) item types
+    /// </summary>
+    /// <param name="itemTypeNames">List of item type names to cache properties for</param>
+    /// <returns>The current instance of <see cref="ConnectedAmlSqlWriterSettings"/></returns>
+    public ConnectedAmlSqlWriterSettings WithCachedProperties(params string[] itemTypeNames)
+    {
+      var notCachedNames = itemTypeNames.Where(n => !_props.ContainsKey(n)).ToArray();
+      foreach (var type in _conn.Apply(@"<Item type='ItemType' action='get' select='name'>
+  <name condition='in'>@0</name>
+  <Relationships>
+    <Item type='Property' action='get' />
+  </Relationships>
+</Item>", notCachedNames)
+        .Items())
+      {
+        _props[type.Property("name").Value] = type
+          .Relationships()
+          .OfType<Model.IPropertyDefinition>()
+          .ToDictionary(p => p.NameProp().Value);
+      }
+      return this;
+    }
+
+    /// <summary>
+    /// Fluent API to cache property data
+    /// </summary>
+    /// <param name="itemType">The item type</param>
+    /// <param name="properties">The properties.</param>
+    /// <returns>The current instance of <see cref="ConnectedAmlSqlWriterSettings"/></returns>
+    public ConnectedAmlSqlWriterSettings WithCachedProperties(string itemType, Dictionary<string, Model.IPropertyDefinition> properties)
+    {
+      _props[itemType] = properties;
       return this;
     }
 

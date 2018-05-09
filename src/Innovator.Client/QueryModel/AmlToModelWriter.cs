@@ -166,20 +166,6 @@ namespace Innovator.Client.QueryModel
             if (value != "get")
               throw new NotSupportedException("The only action(s) supported are `get`");
             break;
-          case "id":
-            _stack.Add(new EqualsOperator()
-            {
-              Left = new PropertyReference("id", table),
-              Right = new StringLiteral(value)
-            });
-            break;
-          case "idlist":
-            _stack.Add(new InOperator()
-            {
-              Left = new PropertyReference("id", table),
-              Right = new ListExpression(value.Split(',').Select(i => (IOperand)new StringLiteral(i)))
-            });
-            break;
           case "where":
             throw new NotSupportedException();
           default:
@@ -390,6 +376,25 @@ namespace Innovator.Client.QueryModel
           // TODO: Handle subselects
         }
         item.Attributes.Remove("select");
+      }
+
+      if (item.Attributes.TryGetValue("id", out var id))
+      {
+        item.Where = new EqualsOperator()
+        {
+          Left = new PropertyReference("id", item),
+          Right = new StringLiteral(id)
+        };
+        item.Attributes.Remove("id");
+      }
+      else if (item.Attributes.TryGetValue("idlist", out var idlist))
+      {
+        item.Where = new InOperator()
+        {
+          Left = new PropertyReference("id", item),
+          Right = new ListExpression(idlist.Split(',').Select(i => (IOperand)new StringLiteral(i)))
+        };
+        item.Attributes.Remove("idlist");
       }
 
       if (item.Attributes.TryGetValue("fetch", out var fetchStr) && int.TryParse(fetchStr, out var fetch))

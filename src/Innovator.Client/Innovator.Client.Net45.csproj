@@ -568,6 +568,7 @@
     <Compile Include="QueryModel\IOperand.cs" />
     <Compile Include="QueryModel\IOperator.cs" />
     <Compile Include="QueryModel\IQueryVisitor.cs" />
+    <Compile Include="QueryModel\IQueryWriterSettings.cs" />
     <Compile Include="QueryModel\IsOperand.cs" />
     <Compile Include="QueryModel\IsOperator.cs" />
     <Compile Include="QueryModel\Join.cs" />
@@ -584,6 +585,7 @@
     <Compile Include="QueryModel\NotOperator.cs" />
     <Compile Include="QueryModel\NullAmlSqlWriterSettings.cs" />
     <Compile Include="QueryModel\ObjectLiteral.cs" />
+    <Compile Include="QueryModel\ODataVisitor.cs" />
     <Compile Include="QueryModel\OrderByExpression.cs" />
     <Compile Include="QueryModel\OrOperator.cs" />
     <Compile Include="QueryModel\PropertyReference.cs" />

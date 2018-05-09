@@ -187,5 +187,18 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("[Thing].[created_on] between '2018-02-25T05:00:00' and '2018-03-04T04:59:59' and ([Thing].[state] like N'%Canceled%' or [Thing].[state] like N'%Closed%' or [Thing].[state] like N'%Closed : Conversion%' or [Thing].[state] like N'%Review%' or [Thing].[state] like N'%In Work%') and ([Thing].[classification] like N'Suspect Part' or [Thing].[classification] like N'Suspect Part/Customer' or [Thing].[classification] like N'Suspect Part/Incoming' or [Thing].[classification] like N'Suspect Part/Production' or [Thing].[classification] like N'Suspect Part/%' or [Thing].[classification] like N'Suspect Part/Customer/%' or [Thing].[classification] like N'Suspect Part/Incoming/%' or [Thing].[classification] like N'Suspect Part/Production/%') and [Thing].[is_current] = '1' and ([Identity].[keyed_name] like N'%john smith%' or [Identity].[keyed_name] like N'%jane doe%') and [Identity].[is_current] = '1'"
         , sql);
     }
+
+    [TestMethod]
+    public void Aml2Sql_IdAttribute()
+    {
+      var item = ElementFactory.Local.FromXml("<Item type='DFMEA' action='get' id='18427D78485C4755BA8746CF1F839405' select='id'/>").AssertItem();
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        RenderOption = AmlSqlRenderOption.SelectQuery,
+        PermissionOption = AmlSqlPermissionOption.None
+      };
+      var sql = item.ToQueryItem().ToSql(settings);
+      Assert.AreEqual("select [DFMEA].[id] from [innovator].[DFMEA] where [DFMEA].[id] = '18427D78485C4755BA8746CF1F839405' order by [DFMEA].[id]", sql);
+    }
   }
 }

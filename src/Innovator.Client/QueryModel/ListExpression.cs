@@ -26,34 +26,57 @@ namespace Innovator.Client.QueryModel
       visitor.Visit(this);
     }
 
-    public static ListExpression FromSqlInClause(string clause)
+    public static ListExpression FromSqlInClause(string clause, PropertyReference prop = null)
     {
-      var tokenizer = new SqlTokenizer(clause);
       var result = new ListExpression();
-
-      var tokens = tokenizer.Where(t => t.Type != SqlType.Comment).ToList();
-      if (tokens[0].Text == "(")
+      if (clause.IndexOf('\'') < 0)
       {
-        tokens.RemoveAt(0);
-        if (tokens[tokens.Count - 1].Text != ")")
-          throw new InvalidOperationException();
-        tokens.RemoveAt(tokens.Count - 1);
-      }
-
-      for (var i = 0; i < tokens.Count; i++)
-      {
-        if ((i % 2) == 1)
+        var parts = clause.Split(',');
+        if (parts.All(p => double.TryParse(p, out var dbl)))
         {
-          if (tokens[i].Text != ",")
-            throw new InvalidOperationException();
-        }
-        else if (!Expression.TryGetExpression(tokens[i], out IExpression expr))
-        {
-          throw new InvalidOperationException();
+          foreach (var part in parts)
+          {
+            if (long.TryParse(part, out var lng))
+              result.Values.Add(new IntegerLiteral(lng));
+            else
+              result.Values.Add(new FloatLiteral(double.Parse(part)));
+          }
         }
         else
         {
-          result.Values.Add((IOperand)expr);
+          foreach (var part in parts)
+          {
+            result.Values.Add(new StringLiteral(part));
+          }
+        }
+      }
+      else
+      {
+        var tokenizer = new SqlTokenizer(clause);
+        var tokens = tokenizer.Where(t => t.Type != SqlType.Comment).ToList();
+        if (tokens[0].Text == "(")
+        {
+          tokens.RemoveAt(0);
+          if (tokens[tokens.Count - 1].Text != ")")
+            throw new InvalidOperationException();
+          tokens.RemoveAt(tokens.Count - 1);
+        }
+
+        for (var i = 0; i < tokens.Count; i++)
+        {
+          if ((i % 2) == 1)
+          {
+            if (tokens[i].Text != ",")
+              throw new InvalidOperationException();
+          }
+          else if (!Expression.TryGetExpression(tokens[i], out IExpression expr))
+          {
+            throw new InvalidOperationException();
+          }
+          else
+          {
+            result.Values.Add((IOperand)expr);
+          }
         }
       }
 

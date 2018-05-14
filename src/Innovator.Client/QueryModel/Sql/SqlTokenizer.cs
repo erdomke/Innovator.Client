@@ -233,7 +233,8 @@ namespace Innovator.Client.QueryModel
               _state = State.Identifier;
             }
             else if (char.IsDigit(_text[_i])
-              || ((_text[_i] == '-' || _text[_i] == '+') && (_i + 1) < _text.Length && char.IsDigit(_text[_i + 1])))
+              || ((_text[_i] == '-' || _text[_i] == '+' || _text[_i] == '.') && (_i + 1) < _text.Length && char.IsDigit(_text[_i + 1]))
+              || ((_text[_i] == '-' || _text[_i] == '+') && (_i + 2) < _text.Length && _text[_i + 1] == '.' && char.IsDigit(_text[_i + 2])))
             {
               _current.StartOffset = _i;
               _state = State.NumericLiteral;
@@ -246,6 +247,21 @@ namespace Innovator.Client.QueryModel
             else if (char.IsWhiteSpace(_text[_i]))
             {
               _state = State.Whitespace;
+            }
+            else if (StartsWith('<', '>')
+              || StartsWith('<', '=')
+              || StartsWith('>', '=')
+              || StartsWith('!', '=')
+              || StartsWith('!', '<')
+              || StartsWith('!', '>'))
+            {
+              yield return new SqlToken()
+              {
+                StartOffset = _i,
+                Text = _text.Substring(_i, 2),
+                Type = SqlType.Operator
+              };
+              _i++;
             }
             else
             {

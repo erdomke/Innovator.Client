@@ -1,8 +1,9 @@
 using Innovator.Client.QueryModel;
+using Innovator.Client.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Innovator.Client.Tests
+namespace Innovator.Client.QueryModel.Tests
 {
   [TestClass()]
   public class AmlSqlWriterTests
@@ -103,6 +104,35 @@ namespace Innovator.Client.Tests
       settings.RenderOption = AmlSqlRenderOption.WhereClause;
       var sql = item.ToQueryItem().ToSql(settings);
       Assert.AreEqual("[Activity_Assignment].[source_id] = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and [Activity_Assignment].[closed_on] is null and [Activity_Assignment].[is_disabled] = '0' and [Activity_Assignment].[is_required] = '1'"
+        , sql);
+    }
+
+    [TestMethod()]
+    public void Aml2Sql_WhereClause4()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item type='Activity Assignment' action='get' queryType='ignore' where=""closed_on is null and is_disabled = '0'"">
+  <source_id>E7D1C2C5431C4ECF9BA5ADAE0AC50377</source_id>
+  <is_required>1</is_required>
+</Item>").AssertItem();
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
+      settings.PermissionOption = AmlSqlPermissionOption.None;
+      settings.RenderOption = AmlSqlRenderOption.WhereClause;
+      var sql = item.ToQueryItem().ToSql(settings);
+      Assert.AreEqual("[Activity_Assignment].[source_id] = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and [Activity_Assignment].[is_required] = '1' and [Activity_Assignment].[closed_on] is null and [Activity_Assignment].[is_disabled] = '0'"
+        , sql);
+    }
+
+
+    [TestMethod()]
+    public void Aml2Sql_WhereClause5()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item type='Activity Assignment' action='get' queryType='ignore' where=""closed_on is null and is_disabled = '0'"">
+</Item>").AssertItem();
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
+      settings.PermissionOption = AmlSqlPermissionOption.None;
+      settings.RenderOption = AmlSqlRenderOption.WhereClause;
+      var sql = item.ToQueryItem().ToSql(settings);
+      Assert.AreEqual("[Activity_Assignment].[closed_on] is null and [Activity_Assignment].[is_disabled] = '0'"
         , sql);
     }
 

@@ -166,8 +166,6 @@ namespace Innovator.Client.QueryModel
             if (value != "get")
               throw new NotSupportedException("The only action(s) supported are `get`");
             break;
-          case "where":
-            throw new NotSupportedException();
           default:
             table.Attributes[_name] = value;
             break;
@@ -182,10 +180,10 @@ namespace Innovator.Client.QueryModel
             switch (value)
             {
               case "1":
-                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.@null });
+                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.Null });
                 break;
               case "0":
-                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.notNull });
+                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.NotNull });
                 break;
             }
             break;
@@ -211,16 +209,16 @@ namespace Innovator.Client.QueryModel
                 _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop() });
                 break;
               case "is defined":
-                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.defined });
+                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.Defined });
                 break;
               case "is not defined":
-                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.notDefined });
+                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.NotDefined });
                 break;
               case "is not null":
-                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.notNull });
+                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.NotNull });
                 break;
               case "is null":
-                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.@null });
+                _stack.Add(new IsOperator() { Left = (IExpression)_stack.Pop(), Right = IsOperand.Null });
                 break;
               case "le":
                 _stack.Add(new LessThanOrEqualsOperator() { Left = (IExpression)_stack.Pop() });
@@ -273,16 +271,16 @@ namespace Innovator.Client.QueryModel
           switch (value)
           {
             case "defined":
-              isOp.Right = IsOperand.defined;
+              isOp.Right = IsOperand.Defined;
               break;
             case "not defined":
-              isOp.Right = IsOperand.notDefined;
+              isOp.Right = IsOperand.NotDefined;
               break;
             case "not null":
-              isOp.Right = IsOperand.notNull;
+              isOp.Right = IsOperand.NotNull;
               break;
             case "null":
-              isOp.Right = IsOperand.@null;
+              isOp.Right = IsOperand.Null;
               break;
             case "":
               break;
@@ -325,29 +323,7 @@ namespace Innovator.Client.QueryModel
           }
           else
           {
-            var leftProp = (PropertyReference)binOp.Left;
-
-            if ((leftProp.Name.StartsWith("is_") || _boolProps.Contains(leftProp.Name))
-              && (value == "1" || value == "0"))
-            {
-              binOp.Right = new BooleanLiteral(value == "1");
-            }
-            else if ((leftProp.Name.StartsWith("date_")
-                || leftProp.Name.EndsWith("_date")
-                || _dateProps.Contains(leftProp.Name))
-              && DateTime.TryParse(value, out var dateValue))
-            {
-              binOp.Right = new DateTimeLiteral(dateValue);
-            }
-            else if (_intProps.Contains(leftProp.Name)
-              && long.TryParse(value, out var lng))
-            {
-              binOp.Right = new IntegerLiteral(lng);
-            }
-            else
-            {
-              binOp.Right = new ObjectLiteral(value, leftProp);
-            }
+            binOp.Right = NormalizeLiteral((PropertyReference)binOp.Left, value);
           }
         }
 
@@ -359,6 +335,32 @@ namespace Innovator.Client.QueryModel
         {
           NormalizeItem(join.Right);
         }
+      }
+    }
+
+    internal static ILiteral NormalizeLiteral(PropertyReference prop, string value, bool parseInts = true)
+    {
+      if ((prop.Name.StartsWith("is_") || _boolProps.Contains(prop.Name))
+        && (value == "1" || value == "0"))
+      {
+        return new BooleanLiteral(value == "1");
+      }
+      else if ((prop.Name.StartsWith("date_")
+          || prop.Name.EndsWith("_date")
+          || _dateProps.Contains(prop.Name))
+        && DateTime.TryParse(value, out var dateValue))
+      {
+        return new DateTimeLiteral(dateValue);
+      }
+      else if (parseInts
+        && _intProps.Contains(prop.Name)
+        && long.TryParse(value, out var lng))
+      {
+        return new IntegerLiteral(lng);
+      }
+      else
+      {
+        return new ObjectLiteral(value, prop);
       }
     }
 
@@ -385,7 +387,6 @@ namespace Innovator.Client.QueryModel
           Left = new PropertyReference("id", item),
           Right = new StringLiteral(id)
         };
-        item.Attributes.Remove("id");
       }
       else if (item.Attributes.TryGetValue("idlist", out var idlist))
       {
@@ -394,8 +395,27 @@ namespace Innovator.Client.QueryModel
           Left = new PropertyReference("id", item),
           Right = new ListExpression(idlist.Split(',').Select(i => (IOperand)new StringLiteral(i)))
         };
-        item.Attributes.Remove("idlist");
+
       }
+      else if (item.Attributes.TryGetValue("where", out var whereClause))
+      {
+        var clause = SqlWhereParser.Parse(whereClause, item);
+        if (item.Where == null)
+        {
+          item.Where = clause;
+        }
+        else
+        {
+          item.Where = new AndOperator()
+          {
+            Left = item.Where,
+            Right = clause
+          };
+        }
+      }
+      item.Attributes.Remove("id");
+      item.Attributes.Remove("idlist");
+      item.Attributes.Remove("where");
 
       if (item.Attributes.TryGetValue("fetch", out var fetchStr) && int.TryParse(fetchStr, out var fetch))
       {

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class LikeOperator : BinaryOperator
+  public class ModulusOperator : BinaryOperator
   {
-    public override int Precedence => (int)PrecedenceLevel.Comparison;
+    public override int Precedence => (int)PrecedenceLevel.Multiplicative;
 
     public override void Visit(IExpressionVisitor visitor)
     {

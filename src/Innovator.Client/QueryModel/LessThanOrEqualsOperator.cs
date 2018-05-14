@@ -8,6 +8,8 @@ namespace Innovator.Client.QueryModel
 {
   public class LessThanOrEqualsOperator : BinaryOperator
   {
+    public override int Precedence => (int)PrecedenceLevel.Comparison;
+
     public override void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);

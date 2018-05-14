@@ -8,5 +8,6 @@ namespace Innovator.Client.QueryModel
 {
   public interface IOperator : IExpression
   {
+    int Precedence { get; }
   }
 }

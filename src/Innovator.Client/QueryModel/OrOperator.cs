@@ -8,6 +8,8 @@ namespace Innovator.Client.QueryModel
 {
   public class OrOperator : BinaryOperator, ILogical
   {
+    public override int Precedence => (int)PrecedenceLevel.Or;
+
     public override void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);

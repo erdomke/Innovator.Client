@@ -11,6 +11,8 @@ namespace Innovator.Client.QueryModel
     public IExpression Left { get; set; }
     public IExpression Right { get; set; }
 
+    public abstract int Precedence { get; }
+
     public abstract void Visit(IExpressionVisitor visitor);
 
     public override string ToString()

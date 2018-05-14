@@ -11,6 +11,8 @@ namespace Innovator.Client.QueryModel
     public IExpression Left { get; set; }
     public ListExpression Right { get; set; }
 
+    public int Precedence => (int)PrecedenceLevel.Comparison;
+
     public void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);

@@ -511,6 +511,16 @@ namespace Innovator.Client
       return stream;
     }
 
+    internal static void Push<T>(this IList<T> list, T value)
+    {
+      list.Add(value);
+    }
+
+    internal static T Peek<T>(this IList<T> list)
+    {
+      return list.Last();
+    }
+
     internal static T Pop<T>(this IList<T> list)
     {
       var last = list[list.Count - 1];

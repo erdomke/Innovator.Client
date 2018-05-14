@@ -33,5 +33,10 @@ namespace Innovator.Client.QueryModel
     void Visit(OrOperator op);
     void Visit(PropertyReference op);
     void Visit(StringLiteral op);
+    void Visit(MultiplicationOperator op);
+    void Visit(DivisionOperator op);
+    void Visit(ModulusOperator op);
+    void Visit(AdditionOperator op);
+    void Visit(SubtractionOperator op);
   }
 }

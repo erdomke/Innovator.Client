@@ -33,6 +33,22 @@ namespace Innovator.Client.QueryModel.Tests
         new FloatLiteral(-2.34e-3), new StringLiteral("string"), new StringLiteral("quote'd"), new IntegerLiteral(345)
       };
       CollectionAssert.AreEqual(expected, (List<IOperand>)actual.Values);
+
+      clause = "-2.34e-3,+345";
+      actual = ListExpression.FromSqlInClause(clause);
+      expected = new List<IOperand>()
+      {
+        new FloatLiteral(-2.34e-3), new IntegerLiteral(345)
+      };
+      CollectionAssert.AreEqual(expected, (List<IOperand>)actual.Values);
+
+      clause = "string,quote";
+      actual = ListExpression.FromSqlInClause(clause);
+      expected = new List<IOperand>()
+      {
+        new StringLiteral("string"), new StringLiteral("quote")
+      };
+      CollectionAssert.AreEqual(expected, (List<IOperand>)actual.Values);
     }
   }
 }

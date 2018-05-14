@@ -128,13 +128,13 @@ namespace Innovator.Client.QueryModel
       var condition = default(string);
       switch (op.Right)
       {
-        case IsOperand.defined:
+        case IsOperand.Defined:
           condition = "is defined";
           break;
-        case IsOperand.notDefined:
+        case IsOperand.NotDefined:
           condition = "is not defined";
           break;
-        case IsOperand.notNull:
+        case IsOperand.NotNull:
           condition = "is not null";
           break;
         default:
@@ -381,6 +381,31 @@ namespace Innovator.Client.QueryModel
       var boolLiteral = op.Right as BooleanLiteral;
       return prop?.Name == "is_current"
         && boolLiteral?.Value == true;
+    }
+
+    public void Visit(MultiplicationOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(DivisionOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(ModulusOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(AdditionOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(SubtractionOperator op)
+    {
+      throw new NotSupportedException();
     }
 
     private class IsCurrentVisitor : SimpleVisitor

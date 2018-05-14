@@ -12,6 +12,8 @@ namespace Innovator.Client.QueryModel
     public IExpression Min { get; set; }
     public IExpression Max { get; set; }
 
+    public int Precedence => (int)PrecedenceLevel.Comparison;
+
     public void SetMinMaxFromSql(string value)
     {
       var tokens = new SqlTokenizer(value).ToArray();

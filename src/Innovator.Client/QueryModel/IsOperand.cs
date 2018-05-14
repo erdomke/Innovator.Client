@@ -8,9 +8,9 @@ namespace Innovator.Client.QueryModel
 {
   public enum IsOperand
   {
-    @null,
-    notNull,
-    defined,
-    notDefined
+    Null,
+    NotNull,
+    Defined,
+    NotDefined
   }
 }

@@ -532,8 +532,8 @@ namespace Innovator.Client.QueryModel
       _writer.Write(" is ");
       switch (op.Right)
       {
-        case IsOperand.@null:
-        case IsOperand.notDefined:
+        case IsOperand.Null:
+        case IsOperand.NotDefined:
           _writer.Write("null");
           break;
         default:
@@ -610,6 +610,7 @@ namespace Innovator.Client.QueryModel
     public void Visit(NotOperator op)
     {
       _logicals.Push(op);
+      _writer.Write(" not ");
       op.Arg.Visit(this);
       _logicals.Pop();
     }
@@ -717,6 +718,31 @@ namespace Innovator.Client.QueryModel
       _writer.Write("', null, '");
       _writer.Write(_settings.UserId);
       _writer.Write("', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0");
+    }
+
+    public void Visit(MultiplicationOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(DivisionOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(ModulusOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(AdditionOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(SubtractionOperator op)
+    {
+      throw new NotImplementedException();
     }
 
     private class LegacyPermissionFunction : IExpression

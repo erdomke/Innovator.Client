@@ -133,5 +133,35 @@ namespace Innovator.Client.QueryModel
     public virtual void Visit(PropertyReference op) { }
 
     public virtual void Visit(StringLiteral op) { }
+
+    public virtual void Visit(MultiplicationOperator op)
+    {
+      op.Left.Visit(this);
+      op.Right.Visit(this);
+    }
+
+    public virtual void Visit(DivisionOperator op)
+    {
+      op.Left.Visit(this);
+      op.Right.Visit(this);
+    }
+
+    public virtual void Visit(ModulusOperator op)
+    {
+      op.Left.Visit(this);
+      op.Right.Visit(this);
+    }
+
+    public virtual void Visit(AdditionOperator op)
+    {
+      op.Left.Visit(this);
+      op.Right.Visit(this);
+    }
+
+    public virtual void Visit(SubtractionOperator op)
+    {
+      op.Left.Visit(this);
+      op.Right.Visit(this);
+    }
   }
 }

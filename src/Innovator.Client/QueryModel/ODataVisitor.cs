@@ -121,8 +121,8 @@ namespace Innovator.Client.QueryModel
       op.Left.Visit(this);
       switch (op.Right)
       {
-        case IsOperand.defined:
-        case IsOperand.notNull:
+        case IsOperand.Defined:
+        case IsOperand.NotNull:
           _writer.Write(" ne ");
           break;
         default:
@@ -345,6 +345,31 @@ namespace Innovator.Client.QueryModel
       _writer.Write('\'');
       _writer.Write(op.Value.Replace("'", "''"));
       _writer.Write('\'');
+    }
+
+    public void Visit(MultiplicationOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(DivisionOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(ModulusOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(AdditionOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(SubtractionOperator op)
+    {
+      throw new NotImplementedException();
     }
 
     private IEnumerable<PropertyReference> GetPropTree(PropertyReference curr)

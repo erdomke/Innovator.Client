@@ -14,8 +14,6 @@ namespace Innovator.Client.QueryModel
     Binary,
     Identifier,
     Keyword,
-    Operator,
-    Query,
-    QueryExpr
+    Operator
   }
 }

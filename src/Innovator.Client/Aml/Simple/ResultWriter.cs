@@ -257,7 +257,7 @@ namespace Innovator.Client
       }
     }
 
-    public void OnComplete(object sender, EventArgs e)
+    private void OnComplete(object sender, EventArgs e)
     {
       var itemWriter = _base as ItemElementWriter;
       if (itemWriter != null)

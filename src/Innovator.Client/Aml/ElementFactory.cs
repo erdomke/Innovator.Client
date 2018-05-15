@@ -134,6 +134,19 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>
+    /// Return a result from a method which writes to an <see cref="XmlWriter"/>
+    /// </summary>
+    /// <param name="writer">The callback to write to a writer.</param>
+    public IResult FromXml(Action<XmlWriter> writer)
+    {
+      using (var w = new ResultWriter(this, null, null))
+      {
+        writer(w);
+        return w.Result;
+      }
+    }
+
     /// <summary>Return a result from a stream</summary>
     /// <param name="xml">XML data</param>
     public IResult FromXml(Stream xml)
@@ -144,6 +157,7 @@ namespace Innovator.Client
         return FromXml(xmlReader);
       }
     }
+
     /// <summary>Return a result from an AML text reader</summary>
     /// <param name="xml">XML data</param>
     public IResult FromXml(TextReader xml)
@@ -153,6 +167,7 @@ namespace Innovator.Client
         return FromXml(xmlReader);
       }
     }
+
     /// <summary>Return a result from an XML reader</summary>
     /// <param name="xml">XML data</param>
     public IResult FromXml(XmlReader xml)

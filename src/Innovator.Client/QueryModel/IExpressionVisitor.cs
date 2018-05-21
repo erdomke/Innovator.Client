@@ -38,5 +38,9 @@ namespace Innovator.Client.QueryModel
     void Visit(ModulusOperator op);
     void Visit(AdditionOperator op);
     void Visit(SubtractionOperator op);
+    void Visit(NegationOperator op);
+    void Visit(ConcatenationOperator op);
+    void Visit(ParameterReference op);
+    void Visit(AllProperties op);
   }
 }

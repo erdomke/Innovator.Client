@@ -101,5 +101,48 @@ namespace Innovator.Client.QueryModel
       var visitor = new SqlServerVisitor(writer, settings);
       visitor.Visit(this);
     }
+
+    internal PropertyReference GetProperty(IEnumerable<string> path)
+    {
+      if (!path.Any())
+        throw new ArgumentException();
+
+      var table = this;
+      var prop = default(PropertyReference);
+      foreach (var segment in path)
+      {
+        if (prop != null)
+          table = GetOrAddTable(prop);
+        prop = new PropertyReference(segment, table);
+      }
+
+      return prop;
+    }
+
+    private QueryItem GetOrAddTable(PropertyReference prop)
+    {
+      var join = prop.Table.Joins.FirstOrDefault(j => j.Condition is EqualsOperator eq
+        && new[] { eq.Left, eq.Right }.OfType<PropertyReference>()
+          .Any(p => p.Table == prop.Table && p.Name == prop.Name));
+      if (join != null)
+        return join.Right;
+
+      var newTable = new QueryItem(this.Context)
+      {
+        TypeProvider = prop
+      };
+      prop.Table.Joins.Add(new Join()
+      {
+        Left = prop.Table,
+        Right = newTable,
+        Condition = new EqualsOperator()
+        {
+          Left = prop,
+          Right = new PropertyReference("id", newTable)
+        },
+        Type = JoinType.Inner
+      });
+      return newTable;
+    }
   }
 }

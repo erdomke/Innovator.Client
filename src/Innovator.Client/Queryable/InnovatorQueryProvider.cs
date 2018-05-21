@@ -1,4 +1,5 @@
-﻿#if REFLECTION
+#if REFLECTION
+using Innovator.Client.QueryModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Innovator.Client.Queryable
     public override object Execute(Expression expression)
     {
       var query = Translate(expression);
-      var result = _conn.Apply(query.Aml.ToAml());
+      var result = _conn.Apply(query.ToAml());
       return ConvertResult(result, expression, query);
     }
 
@@ -37,7 +38,7 @@ namespace Innovator.Client.Queryable
         return Promises.Resolved(Execute(expression));
 
       var query = Translate(expression);
-      return asyncConn.ApplyAsync(query.Aml.ToAml(), true, false)
+      return asyncConn.ApplyAsync(query.ToAml(), true, false)
         .Convert(result => (object)ConvertResult(result, expression, query));
     }
 
@@ -60,25 +61,24 @@ namespace Innovator.Client.Queryable
     internal AmlQuery Translate(Expression expression)
     {
       expression = Evaluator.PartialEval(expression);
-      var result = new QueryTranslator(_conn.AmlContext, _settings).Translate(expression);
+      var result = new QueryTranslator(_conn.AmlContext).Translate(expression);
+      result.Settings = _settings;
 
       // Add AML for force propery expansion
-      if (_includePaths.Any())
+      if (_includePaths.Count > 0)
       {
-        var aml = result.Aml.AmlContext;
         foreach (var path in _includePaths)
         {
-          var parts = path.Split(new char[] { '.', '/' });
-          var currItem = result.Aml;
-          foreach (var part in parts)
+          var parts = (path + "/id").Split(new char[] { '.', '/' });
+          var table = result.QueryItem.GetProperty(parts).Table;
+          table.Select.Add(new SelectExpression()
           {
-            var prop = currItem.Property(part);
-            if (!prop.HasValue())
-              prop.Add(aml.Item(aml.Action("get")));
-            currItem = prop.AsItem();
-          }
+            Expression = new AllProperties(table) { XProperties = false },
+            OnlyReturnNonNull = true
+          });
         }
       }
+
       return result;
     }
 

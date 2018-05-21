@@ -1,4 +1,5 @@
-﻿#if REFLECTION
+#if REFLECTION
+using Innovator.Client.QueryModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
@@ -7,23 +8,25 @@ namespace Innovator.Client.Queryable
 {
   internal class SelectVisitor : AmlVisitor
   {
-    private SelectNode _select;
-    private List<string> _buffer = new List<string>();
+    private QueryItem _table;
+    private readonly List<string> _buffer = new List<string>();
+    private readonly List<PropertyReference> _props = new List<PropertyReference>();
 
-    public SelectNode GetSelect(Expression e)
+    public IEnumerable<PropertyReference> GetProperties(Expression e, QueryItem table)
     {
-      _select = new SelectNode();
+      _props.Clear();
+      _table = table;
       _buffer.Clear();
       Visit(e);
       FlushBuffer();
-      return _select;
+      return _props;
     }
 
     private void FlushBuffer()
     {
       if (_buffer.Count > 0)
       {
-        _select.EnsurePath(_buffer.ToArray());
+        _props.Add(_table.GetProperty(_buffer));
         _buffer.Clear();
       }
     }

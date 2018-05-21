@@ -163,5 +163,20 @@ namespace Innovator.Client.QueryModel
       op.Left.Visit(this);
       op.Right.Visit(this);
     }
+
+    public virtual void Visit(NegationOperator op)
+    {
+      op.Arg.Visit(this);
+    }
+
+    public virtual void Visit(ConcatenationOperator op)
+    {
+      op.Left.Visit(this);
+      op.Right.Visit(this);
+    }
+
+    public virtual void Visit(ParameterReference op) { }
+
+    public virtual void Visit(AllProperties op) { }
   }
 }

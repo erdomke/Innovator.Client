@@ -270,46 +270,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(ObjectLiteral op)
     {
-      var dataType = default(string);
-      if (!string.IsNullOrEmpty(op.TypeProvider?.Table.Type))
-      {
-        var props = _settings.GetProperties(op.TypeProvider?.Table.Type);
-        if (props != null && props.TryGetValue(op.TypeProvider.Name, out var propDefn))
-        {
-          dataType = propDefn.DataType().Value;
-          if (dataType == "foreign")
-            dataType = null;
-        }
-      }
-
-      if (dataType == "boolean")
-      {
-        Visit(new BooleanLiteral(op.Value == "1"));
-      }
-      else if ((dataType == null || dataType == "date")
-        && DateTime.TryParse(op.Value, out DateTime date))
-      {
-        Visit(new DateTimeLiteral(date));
-      }
-      else if ((dataType == null || dataType == "integer")
-        && long.TryParse(op.Value, out long lng))
-      {
-        Visit(new IntegerLiteral(lng));
-      }
-      else if ((dataType == null || dataType == "float" || dataType == "decimal")
-        && double.TryParse(op.Value, out double dbl))
-      {
-        Visit(new FloatLiteral(dbl));
-      }
-      else
-      {
-        if (dataType == "item" || dataType == "md5" || op.Value.IsGuid())
-          _writer.Write('\'');
-        else
-          _writer.Write("N'");
-        _writer.Write(op.Value.Replace("'", "''"));
-        _writer.Write('\'');
-      }
+      op.Normalize(_settings).Visit(this);
     }
 
     public void Visit(OrOperator op)
@@ -368,6 +329,26 @@ namespace Innovator.Client.QueryModel
     }
 
     public void Visit(SubtractionOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(NegationOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(ConcatenationOperator op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(ParameterReference op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(AllProperties op)
     {
       throw new NotImplementedException();
     }

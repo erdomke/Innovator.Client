@@ -41,7 +41,7 @@ namespace Innovator.Client.Tests
 </Item>").AssertItem();
 
       var aml = item.ToQueryItem().ToAml();
-      Assert.AreEqual(@"<Item type=""Part"" maxRecords=""100"" action=""get"" queryDate=""2017-05-11T17:37:00"" queryType=""Latest"" select=""id""><is_active_rev>1</is_active_rev></Item>"
+      Assert.AreEqual(@"<Item type=""Part"" action=""get"" maxRecords=""100"" queryDate=""2017-05-11T17:37:00"" queryType=""Latest"" select=""id""><is_active_rev>1</is_active_rev></Item>"
         , aml);
     }
 
@@ -51,7 +51,7 @@ namespace Innovator.Client.Tests
       var item = ElementFactory.Local.FromXml(@"<Item type='Part' action='get' page='2' pagesize='100' select='id'>
 </Item>").AssertItem();
       var aml = item.ToQueryItem().ToAml();
-      Assert.AreEqual(@"<Item type=""Part"" page=""2"" pagesize=""100"" action=""get"" select=""id"" />"
+      Assert.AreEqual(@"<Item type=""Part"" action=""get"" page=""2"" pagesize=""100"" select=""id"" />"
         , aml);
     }
 

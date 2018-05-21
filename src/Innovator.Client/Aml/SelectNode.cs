@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -114,18 +114,18 @@ namespace Innovator.Client
     /// Ensure that the path of properties exists in the select statement
     /// </summary>
     /// <example>Sending in <c>"created_by_id, first_name"</c> will result in the select statement <c>created_by_id(first_name)</c></example>
-    public void EnsurePath(params string[] path)
+    public SelectNode EnsurePath(params string[] path)
     {
-      EnsurePath((IEnumerable<string>)path);
+      return EnsurePath((IEnumerable<string>)path);
     }
 
     /// <summary>
     /// Ensure that the path of properties exists in the select statement
     /// </summary>
     /// <example>Sending in <c>new string[] {"created_by_id, first_name"}</c> will result in the select statement <c>created_by_id(first_name)</c></example>
-    public void EnsurePath(IEnumerable<string> path)
+    public SelectNode EnsurePath(IEnumerable<string> path)
     {
-      if (!path.Any()) return;
+      if (!path.Any()) return this;
       if (_children == null) _children = new List<SelectNode>();
       var name = path.First();
       var match = _children.Find(c => c.Name == name);
@@ -134,7 +134,7 @@ namespace Innovator.Client
         match = new SelectNode(name);
         _children.Add(match);
       }
-      match.EnsurePath(path.Skip(1));
+      return match.EnsurePath(path.Skip(1));
     }
 
     /// <summary>
@@ -144,6 +144,15 @@ namespace Innovator.Client
     {
       foreach (var child in item)
         Add(child);
+    }
+
+    /// <summary>
+    /// Sets the function.
+    /// </summary>
+    public SelectNode WithFunction(string function)
+    {
+      Function = function;
+      return this;
     }
 
     /// <summary>
@@ -198,7 +207,7 @@ namespace Innovator.Client
     {
       if (string.IsNullOrEmpty(Name))
       {
-        builder.EnsureCapacity(_children.Count * 5);
+        builder.EnsureCapacity(Count * 5);
         Write(builder, _children);
       }
       else
@@ -207,7 +216,7 @@ namespace Innovator.Client
         if (_children != null)
         {
           builder.Append('(');
-          builder.EnsureCapacity(_children.Count * 5);
+          builder.EnsureCapacity(Count * 5);
           Write(builder, _children);
           builder.Append(')');
         }

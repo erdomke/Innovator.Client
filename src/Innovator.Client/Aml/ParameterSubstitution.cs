@@ -571,55 +571,11 @@ namespace Innovator.Client
 
     private bool TryFillParameter(string value, Parameter param)
     {
-      if (value == null || value.Length < 2) return false;
-
-      var start = 0;
-      var closingBracket = false;
-      switch (value[0])
-      {
-        case '@':
-          start = 1;
-          if (value[start] == '{')
-          {
-            start++;
-            closingBracket = true;
-          }
-          break;
-        case '$':
-          if (value[1] != '{')
-            return false;
-          start = 2;
-          closingBracket = true;
-          break;
-        case '{':
-          start = 1;
-          if (value[start] == '@')
-            start++;
-          closingBracket = true;
-          break;
-        default:
-          return false;
-      }
-
-      var end = value.Length;
-      if (value[value.Length - 1] == '!')
-      {
-        param.IsRaw = true;
-        end--;
-      }
-
-      if (closingBracket)
-      {
-        if (value[end - 1] != '}')
-          return false;
-        end--;
-      }
-
-      for (var i = start; i < end; i++)
-      {
-        if (!char.IsLetterOrDigit(value[i]) && value[i] != '_') return false;
-      }
-      param.Name = value.Substring(start, end - start);
+      var p = QueryModel.ParameterReference.TryCreate(value);
+      if (p == null)
+        return false;
+      param.Name = p.Name;
+      param.IsRaw = p.IsRaw;
       return true;
     }
 

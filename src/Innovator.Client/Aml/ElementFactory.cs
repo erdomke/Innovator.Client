@@ -134,6 +134,17 @@ namespace Innovator.Client
       }
     }
 
+    /// <summary>Return a result from a <see cref="IAmlNode"/></summary>
+    /// <param name="aml">XML data</param>
+    public IResult FromXml(IAmlNode aml)
+    {
+      using (var writer = new ResultWriter(this, null, null))
+      {
+        aml.ToAml(writer, new AmlWriterSettings());
+        return writer.Result;
+      }
+    }
+
     /// <summary>
     /// Return a result from a method which writes to an <see cref="XmlWriter"/>
     /// </summary>

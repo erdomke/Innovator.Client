@@ -1,4 +1,5 @@
-﻿#if REFLECTION
+#if REFLECTION
+using Innovator.Client.QueryModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -111,7 +112,14 @@ namespace Innovator.Client.Queryable
     {
       var innProvider = (InnovatorQueryProvider)_provider;
       var query = innProvider.Translate(this._expression);
-      query.Aml.ToAml(writer, settings);
+      query.ToAml(writer, settings);
+    }
+
+    public QueryItem ToQueryItem()
+    {
+      var innProvider = (InnovatorQueryProvider)_provider;
+      var query = innProvider.Translate(this._expression);
+      return query.QueryItem;
     }
 
     IQueryResult IInnovatorQuery.Apply()

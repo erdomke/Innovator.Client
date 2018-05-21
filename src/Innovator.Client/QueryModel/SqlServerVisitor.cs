@@ -11,7 +11,7 @@ namespace Innovator.Client.QueryModel
   {
     private TextWriter _writer;
     private IAmlSqlWriterSettings _settings;
-    private Stack<ILogical> _logicals = new Stack<ILogical>();
+    private Stack<IOperator> _operators = new Stack<IOperator>();
     private IServerContext _context = ElementFactory.Utc.LocalizationContext;
     private bool _hasFromOrSelect = false;
     private AmlSqlRenderOption _renderOption;
@@ -426,30 +426,41 @@ namespace Innovator.Client.QueryModel
         _writer.Write(" DESC");
     }
 
-    public void Visit(AndOperator op)
+    private void AddParenthesesIfNeeded(IOperator op, Action render)
     {
-      var paren = _logicals.Count > 0 && _logicals.Peek() is NotOperator;
+      var paren = _operators.Count > 0 && _operators.Peek().Precedence > op.Precedence;
 
       if (paren)
         _writer.Write('(');
-      _logicals.Push(op);
+      _operators.Push(op);
 
-      op.Left.Visit(this);
-      _writer.Write(" and ");
-      op.Right.Visit(this);
+      render();
 
-      _logicals.Pop();
+      _operators.Pop();
       if (paren)
         _writer.Write(')');
     }
 
+    public void Visit(AndOperator op)
+    {
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" and ");
+        op.Right.Visit(this);
+      });
+    }
+
     public void Visit(BetweenOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" between ");
-      op.Min.Visit(this);
-      _writer.Write(" and ");
-      op.Max.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" between ");
+        op.Min.Visit(this);
+        _writer.Write(" and ");
+        op.Max.Visit(this);
+      });
     }
 
     public void Visit(BooleanLiteral op)
@@ -468,9 +479,12 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(EqualsOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" = ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" = ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(FloatLiteral op)
@@ -502,23 +516,32 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(GreaterThanOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" > ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" > ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(GreaterThanOrEqualsOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" >= ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" >= ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(InOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" in ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" in ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(IntegerLiteral op)
@@ -528,39 +551,51 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(IsOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" is ");
-      switch (op.Right)
+      AddParenthesesIfNeeded(op, () =>
       {
-        case IsOperand.Null:
-        case IsOperand.NotDefined:
-          _writer.Write("null");
-          break;
-        default:
-          _writer.Write("not null");
-          break;
-      }
+        op.Left.Visit(this);
+        _writer.Write(" is ");
+        switch (op.Right)
+        {
+          case IsOperand.Null:
+          case IsOperand.NotDefined:
+            _writer.Write("null");
+            break;
+          default:
+            _writer.Write("not null");
+            break;
+        }
+      });
     }
 
     public void Visit(LessThanOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" < ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" < ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(LessThanOrEqualsOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" <= ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" <= ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(LikeOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" like ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" like ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(ListExpression op)
@@ -579,105 +614,74 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(NotBetweenOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" not between ");
-      op.Min.Visit(this);
-      _writer.Write(" and ");
-      op.Max.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" not between ");
+        op.Min.Visit(this);
+        _writer.Write(" and ");
+        op.Max.Visit(this);
+      });
     }
 
     public void Visit(NotEqualsOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" <> ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" <> ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(NotInOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" not in ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" not in ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(NotLikeOperator op)
     {
-      op.Left.Visit(this);
-      _writer.Write(" not like ");
-      op.Right.Visit(this);
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" not like ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(NotOperator op)
     {
-      _logicals.Push(op);
-      _writer.Write(" not ");
-      op.Arg.Visit(this);
-      _logicals.Pop();
+      AddParenthesesIfNeeded(op, () =>
+      {
+        _writer.Write(" not ");
+        op.Arg.Visit(this);
+      });
     }
 
     public void Visit(ObjectLiteral op)
     {
-      var dataType = default(string);
-      if (!string.IsNullOrEmpty(op.TypeProvider?.Table.Type))
-      {
-        var props = _settings.GetProperties(op.TypeProvider?.Table.Type);
-        if (props != null && props.TryGetValue(op.TypeProvider.Name, out var propDefn))
-        {
-          dataType = propDefn.DataType().Value;
-          if (dataType == "foreign")
-            dataType = null;
-        }
-      }
-
-      if (dataType == "boolean")
-      {
-        Visit(new BooleanLiteral(op.Value == "1"));
-      }
-      else if ((dataType == null || dataType == "date")
-        && DateTime.TryParse(op.Value, out DateTime date))
-      {
-        Visit(new DateTimeLiteral(date));
-      }
-      else if ((dataType == null || dataType == "integer")
-        && long.TryParse(op.Value, out long lng))
-      {
-        Visit(new IntegerLiteral(lng));
-      }
-      else if ((dataType == null || dataType == "float" || dataType == "decimal")
-        && double.TryParse(op.Value, out double dbl))
-      {
-        Visit(new FloatLiteral(dbl));
-      }
-      else
-      {
-        if (dataType == "item" || dataType == "md5" || op.Value.IsGuid())
-          _writer.Write('\'');
-        else
-          _writer.Write("N'");
-        _writer.Write(op.Value.Replace("'", "''"));
-        _writer.Write('\'');
-      }
+      op.Normalize(_settings).Visit(this);
     }
 
     public void Visit(OrOperator op)
     {
-      var paren = _logicals.Count > 0 && !(_logicals.Peek() is OrOperator);
-
-      if (paren)
-        _writer.Write('(');
-      _logicals.Push(op);
-
-      op.Left.Visit(this);
-      _writer.Write(" or ");
-      op.Right.Visit(this);
-
-      _logicals.Pop();
-      if (paren)
-        _writer.Write(')');
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" or ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(PropertyReference op)
     {
+      if (op.Name.StartsWith("xp-"))
+        throw new NotSupportedException();
       WriteAlias(op.Table);
       _writer.Write(".[");
       _writer.Write(op.Name);
@@ -722,27 +726,85 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(MultiplicationOperator op)
     {
-      throw new NotImplementedException();
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" * ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(DivisionOperator op)
     {
-      throw new NotImplementedException();
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" / ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(ModulusOperator op)
     {
-      throw new NotImplementedException();
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" % ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(AdditionOperator op)
     {
-      throw new NotImplementedException();
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" + ");
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(SubtractionOperator op)
     {
-      throw new NotImplementedException();
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" - ");
+        op.Right.Visit(this);
+      });
+    }
+
+    public void Visit(NegationOperator op)
+    {
+      AddParenthesesIfNeeded(op, () =>
+      {
+        _writer.Write(" -");
+        op.Arg.Visit(this);
+      });
+    }
+
+    public void Visit(ConcatenationOperator op)
+    {
+      AddParenthesesIfNeeded(op, () =>
+      {
+        op.Left.Visit(this);
+        _writer.Write(" + ");
+        op.Right.Visit(this);
+      });
+    }
+
+    public void Visit(ParameterReference op)
+    {
+      _writer.Write('@');
+      _writer.Write(op.Name);
+    }
+
+    public void Visit(AllProperties op)
+    {
+      if (op.XProperties)
+        throw new NotSupportedException();
+      WriteAlias(op.Table);
+      _writer.Write(".*");
     }
 
     private class LegacyPermissionFunction : IExpression

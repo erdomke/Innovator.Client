@@ -10,5 +10,6 @@ namespace Innovator.Client.QueryModel
   {
     public IExpression Expression { get; set; }
     public string Alias { get; set; }
+    public bool OnlyReturnNonNull { get; set; }
   }
 }

@@ -213,7 +213,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(ObjectLiteral op)
     {
-      _writer.WriteString(op.Value);
+      _writer.WriteString(_context.Format(op.Value));
     }
 
     public void Visit(OrOperator op)
@@ -260,7 +260,7 @@ namespace Innovator.Client.QueryModel
         _writer.WriteAttributeString("type", query.Type);
       if (!string.IsNullOrEmpty(query.Alias))
         _writer.WriteAttributeString("alias", query.Alias);
-
+      _writer.WriteAttributeString("action", "get");
       if (query.Fetch > 0)
       {
         if ((query.Offset ?? 0) < 1)
@@ -276,13 +276,16 @@ namespace Innovator.Client.QueryModel
           }
           else
           {
-            _writer.WriteAttributeString("fetch", query.Fetch.Value.ToString());
-            _writer.WriteAttributeString("offset", query.Offset.Value.ToString());
+            throw new NotSupportedException();
           }
         }
       }
+      else if (query.Offset > 0)
+      {
+        _writer.WriteAttributeString("page", "2");
+        _writer.WriteAttributeString("pagesize", query.Offset.Value.ToString());
+      }
 
-      _writer.WriteAttributeString("action", "get");
       foreach (var attr in query.Attributes.Where(a => _attributesToWrite.Contains(a.Key)))
       {
         _writer.WriteAttributeString(attr.Key, attr.Value);
@@ -295,15 +298,20 @@ namespace Innovator.Client.QueryModel
         _writer.WriteAttributeString("queryType", "Latest");
       }
 
-      if (query.Select.Any())
-      {
-        if (!query.Select.All(s => s.Expression is PropertyReference))
-          throw new NotSupportedException();
-        _writer.WriteAttributeString("select"
-          , query.Select.Select(s => ((PropertyReference)s.Expression).Name).GroupConcat(","));
-      }
+      var joins = query.Joins.Select(j => new AmlJoin(query, j)).ToArray();
+      if (joins.Any(j => !j.IsItemProperty() && !j.IsRelationship()))
+        throw new NotSupportedException();
 
-      if (query.OrderBy.Any())
+      var node = new SelectNode();
+      GetSelect(node, query, joins);
+      var includeNodes = node.Where(SelectAllOnly).ToArray();
+      foreach (var include in includeNodes)
+        node.Remove(include);
+
+      if (!SelectAllOnly(node))
+        _writer.WriteAttributeString("select", node.ToString());
+
+      if (query.OrderBy.Count > 0)
       {
         if (!query.OrderBy.All(s => s.Expression is PropertyReference))
           throw new NotSupportedException();
@@ -327,52 +335,128 @@ namespace Innovator.Client.QueryModel
           throw new NotSupportedException();
         }
       }
+      else if (isCurrentVisitor.IsCurrent && query.Where is AndOperator andOp
+        && (andOp.Left is BooleanLiteral || andOp.Right is BooleanLiteral))
+      {
+        var boolean = new[] { andOp.Left, andOp.Right }.OfType<BooleanLiteral>().First();
+        if (!boolean.Value)
+          _writer.WriteAttributeString("id", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+      }
+      else if (query.Where is BooleanLiteral boolean)
+      {
+        if (!boolean.Value)
+          _writer.WriteAttributeString("id", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+      }
       else
       {
         query.Where?.Visit(this);
       }
 
-      var rels = new List<QueryItem>();
-      foreach (var join in query.Joins.Where(j => j.Condition is EqualsOperator))
+      foreach (var join in joins.Where(j => j.IsItemProperty() && j.HasCriteria()))
       {
-        var eq = (EqualsOperator)join.Condition;
-        var props = new[] {
-          eq.Left as PropertyReference,
-          eq.Right as PropertyReference
-        }.Where(p => p != null).ToArray();
-        if (props.Length != 2 && join.Type == JoinType.Inner)
-          throw new NotSupportedException();
-
-        var currProp = props.Single(p => object.ReferenceEquals(p.Table, query));
-        var otherProp = props.Single(p => !object.ReferenceEquals(p.Table, query));
-        if (currProp.Name == "id" && otherProp.Name == "source_id")
-        {
-          rels.Add(join.Right);
-        }
-        else if (otherProp.Name == "id")
-        {
-          _writer.WriteStartElement(currProp.Name);
-          Visit(join.Right);
-          _writer.WriteEndElement();
-        }
-        else
-        {
-          throw new NotSupportedException();
-        }
+        _writer.WriteStartElement(join.CurrentProp.Name);
+        Visit(join.Table);
+        _writer.WriteEndElement();
       }
 
-      if (rels.Count > 0)
+      foreach (var include in includeNodes)
+      {
+        _writer.WriteStartElement(include.Name);
+        _writer.WriteStartElement("Item");
+        _writer.WriteAttributeString("action", "get");
+        _writer.WriteEndElement();
+        _writer.WriteEndElement();
+      }
+
+      if (joins.Any(j => j.IsRelationship()))
       {
         _writer.WriteStartElement("Relationships");
-        foreach (var rel in rels)
+        foreach (var rel in joins.Where(j => j.IsRelationship()))
         {
-          Visit(rel);
+          Visit(rel.Table);
         }
         _writer.WriteEndElement();
       }
 
       _writer.WriteEndElement();
       _logicals.Pop();
+    }
+
+    private bool SelectAllOnly(SelectNode node)
+    {
+      return node.Count == 1 && node[0].Name == "*" && node[0].Function == "is_not_null()";
+    }
+
+    private void GetSelect(SelectNode parent, QueryItem item, IEnumerable<AmlJoin> joins)
+    {
+      if (item.Select.Count > 0)
+      {
+        foreach (var select in item.Select)
+        {
+          if (select.Expression is PropertyReference prop)
+          {
+            parent.Add(new SelectNode(prop.Name)
+              .WithFunction(select.OnlyReturnNonNull ? "is_not_null()" : ""));
+          }
+          else if (select.Expression is AllProperties all)
+          {
+            parent.Add(new SelectNode(all.XProperties ? "xp-*" : "*")
+              .WithFunction(select.OnlyReturnNonNull ? "is_not_null()" : ""));
+          }
+          else
+          {
+            throw new NotSupportedException();
+          }
+        }
+      }
+      else
+      {
+        parent.Add(new SelectNode("*").WithFunction("is_not_null()"));
+      }
+
+      foreach (var join in joins.Where(j => j.IsItemProperty() && !j.HasCriteria() && j.Table.Select.Count > 0))
+      {
+        var node = parent.EnsurePath(join.CurrentProp.Name);
+        GetSelect(node, join.Table, join.Table.Joins.Select(j => new AmlJoin(join.Table, j)));
+      }
+    }
+
+    private class AmlJoin
+    {
+      public PropertyReference CurrentProp { get; set; }
+      public PropertyReference OtherProp { get; set; }
+      public QueryItem Table { get; set; }
+
+      public AmlJoin(QueryItem parent, Join join)
+      {
+        if (!(join.Condition is EqualsOperator eq))
+          throw new NotSupportedException();
+        var props = new[] { eq.Left, eq.Right }
+          .OfType<PropertyReference>()
+          .ToArray();
+        if (props.Length != 2 && join.Type == JoinType.Inner)
+          throw new NotSupportedException();
+
+        CurrentProp = props.Single(p => ReferenceEquals(p.Table, parent));
+        OtherProp = props.Single(p => !ReferenceEquals(p.Table, parent));
+        Table = OtherProp.Table;
+      }
+
+      public bool IsRelationship()
+      {
+        return CurrentProp.Name == "id" && OtherProp.Name == "source_id";
+      }
+
+      public bool IsItemProperty()
+      {
+        return OtherProp.Name == "id";
+      }
+
+      public bool HasCriteria()
+      {
+        return !((Table?.Where is EqualsOperator e && e.Left is PropertyReference p && p.Name == "is_current")
+          || Table.Where == null);
+      }
     }
 
     private static bool IsIsCurrentCriteria(EqualsOperator op)
@@ -404,6 +488,29 @@ namespace Innovator.Client.QueryModel
     }
 
     public void Visit(SubtractionOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(NegationOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(ConcatenationOperator op)
+    {
+      throw new NotSupportedException();
+    }
+
+    public void Visit(ParameterReference op)
+    {
+      _writer.WriteString("@");
+      _writer.WriteString(op.Name);
+      if (op.IsRaw)
+        _writer.WriteString("!");
+    }
+
+    public void Visit(AllProperties op)
     {
       throw new NotSupportedException();
     }

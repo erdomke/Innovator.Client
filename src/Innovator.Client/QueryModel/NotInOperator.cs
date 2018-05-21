@@ -6,12 +6,37 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class NotInOperator : IOperator
+  public class NotInOperator : IBooleanOperator
   {
     public IExpression Left { get; set; }
     public ListExpression Right { get; set; }
 
     public int Precedence => (int)PrecedenceLevel.Comparison;
+
+    public IExpression ToConditional()
+    {
+      var list = Right;
+      if (list.Values.Count < 1)
+        throw new NotSupportedException();
+      var result = (IExpression)new NotEqualsOperator()
+      {
+        Left = Left,
+        Right = list.Values[0]
+      };
+      foreach (var value in list.Values.Skip(1))
+      {
+        result = new AndOperator()
+        {
+          Left = result,
+          Right = new NotEqualsOperator()
+          {
+            Left = Left,
+            Right = value
+          }
+        };
+      }
+      return result;
+    }
 
     public void Visit(IExpressionVisitor visitor)
     {

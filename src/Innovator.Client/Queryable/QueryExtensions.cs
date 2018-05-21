@@ -1,4 +1,4 @@
-﻿#if REFLECTION
+#if REFLECTION
 using Innovator.Client.Model;
 using Innovator.Client.Queryable;
 using System;
@@ -19,7 +19,7 @@ namespace Innovator.Client
       {
         var nameAttr = typeof(T).GetCustomAttributes(false).OfType<ArasNameAttribute>().FirstOrDefault();
         if (nameAttr == null)
-          throw new ArgumentNullException("itemType", "The name of the item type must be specified");
+          throw new ArgumentNullException(nameof(itemType), "The name of the item type must be specified");
         itemType = nameAttr.Name;
       }
       return new InnovatorQuery<T>(new InnovatorQueryProvider(conn, settings), itemType);

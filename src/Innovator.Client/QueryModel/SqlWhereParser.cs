@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  internal class SqlWhereParser
+  internal static class SqlWhereParser
   {
     public static IExpression Parse(string whereClause, QueryItem table)
     {
@@ -149,11 +149,11 @@ namespace Innovator.Client.QueryModel
         binOp.Right = output.Pop();
         binOp.Left = output.Pop();
         if (binOp.Left is PropertyReference prop && binOp.Right is StringLiteral str)
-          binOp.Right = AmlToModelWriter.NormalizeLiteral(prop, str.Value, false);
+          binOp.Right = AmlToModelWriter.NormalizeLiteral(prop, str.Value, AmlToModelWriter.AllowedTypes.SqlStrings);
       }
-      else if (op is NotOperator notOp)
+      else if (op is UnaryOperator unaryOp)
       {
-        notOp.Arg = output.Pop();
+        unaryOp.Arg = output.Pop();
       }
       else if (op is BetweenOp between)
       {
@@ -166,9 +166,9 @@ namespace Innovator.Client.QueryModel
         if (between.Left is PropertyReference prop)
         {
           if (between.Min is StringLiteral minStr)
-            between.Min = AmlToModelWriter.NormalizeLiteral(prop, minStr.Value, false);
+            between.Min = AmlToModelWriter.NormalizeLiteral(prop, minStr.Value, AmlToModelWriter.AllowedTypes.SqlStrings);
           if (between.Max is StringLiteral maxStr)
-            between.Max = AmlToModelWriter.NormalizeLiteral(prop, maxStr.Value, false);
+            between.Max = AmlToModelWriter.NormalizeLiteral(prop, maxStr.Value, AmlToModelWriter.AllowedTypes.SqlStrings);
         }
       }
       else if (op is IsOperator isOp)
@@ -259,7 +259,7 @@ namespace Innovator.Client.QueryModel
             break;
           case SqlType.Number:
           case SqlType.String:
-            if (Expression.TryGetExpression(tokens[index++], out var expr))
+            if (Expressions.TryGetExpression(tokens[index++], out var expr))
               yield return expr;
             else
               throw new NotSupportedException();
@@ -307,10 +307,21 @@ namespace Innovator.Client.QueryModel
                 yield return new ModulusOperator();
                 break;
               case "+":
-                yield return new AdditionOperator();
+                if ((index - 2 >= 0 && tokens[index - 2].Type == SqlType.String)
+                  || (index < tokens.Length && tokens[index].Type == SqlType.String))
+                {
+                  yield return new ConcatenationOperator();
+                }
+                else
+                {
+                  yield return new AdditionOperator();
+                }
                 break;
               case "-":
-                yield return new SubtractionOperator();
+                if (index - 2 >= 0 && (tokens[index - 2].Type == SqlType.Operator || tokens[index - 2].Type == SqlType.Keyword))
+                  yield return new NegationOperator();
+                else
+                  yield return new SubtractionOperator();
                 break;
               default:
                 throw new NotSupportedException();

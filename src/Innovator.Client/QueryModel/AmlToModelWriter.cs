@@ -338,21 +338,43 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    internal static ILiteral NormalizeLiteral(PropertyReference prop, string value, bool parseInts = true)
+    [Flags]
+    internal enum AllowedTypes
     {
-      if ((prop.Name.StartsWith("is_") || _boolProps.Contains(prop.Name))
+      None = 0,
+      Boolean = 1,
+      DateTime = 2,
+      Integer = 4,
+      Parameter = 8,
+      SqlStrings = Boolean | DateTime,
+      All = -1
+    }
+
+    internal static ILiteral NormalizeLiteral(PropertyReference prop, string value
+      , AllowedTypes allowedTypes = AllowedTypes.All)
+    {
+      if ((allowedTypes & AllowedTypes.Parameter) != 0)
+      {
+        var param = ParameterReference.TryCreate(value);
+        if (param != null)
+          return param;
+      }
+
+      if ((allowedTypes & AllowedTypes.Boolean) != 0
+        && (prop.Name.StartsWith("is_") || _boolProps.Contains(prop.Name))
         && (value == "1" || value == "0"))
       {
         return new BooleanLiteral(value == "1");
       }
-      else if ((prop.Name.StartsWith("date_")
+      else if ((allowedTypes & AllowedTypes.DateTime) != 0
+        && (prop.Name.StartsWith("date_")
           || prop.Name.EndsWith("_date")
           || _dateProps.Contains(prop.Name))
         && DateTime.TryParse(value, out var dateValue))
       {
         return new DateTimeLiteral(dateValue);
       }
-      else if (parseInts
+      else if ((allowedTypes & AllowedTypes.Integer) != 0
         && _intProps.Contains(prop.Name)
         && long.TryParse(value, out var lng))
       {
@@ -361,6 +383,27 @@ namespace Innovator.Client.QueryModel
       else
       {
         return new ObjectLiteral(value, prop);
+      }
+    }
+
+    private void VisitSelectNode(SelectNode prop, QueryItem item)
+    {
+      var expr = default(IExpression);
+      if (prop.Name == "*")
+        expr = new AllProperties(item) { XProperties = false };
+      else if (prop.Name == "xp-*")
+        expr = new AllProperties(item) { XProperties = true };
+      else
+        expr = new PropertyReference(prop.Name, item);
+
+      item.Select.Add(new SelectExpression()
+      {
+        Expression = expr,
+        OnlyReturnNonNull = string.Equals(prop.Function, "is_not_null()", StringComparison.OrdinalIgnoreCase)
+      });
+      foreach (var child in prop)
+      {
+        VisitSelectNode(child, item.GetProperty(new[] { prop.Name, "id" }).Table);
       }
     }
 
@@ -374,8 +417,7 @@ namespace Innovator.Client.QueryModel
 
         foreach (var prop in node)
         {
-          item.Select.Add(new SelectExpression() { Expression = new PropertyReference(prop.Name, item) });
-          // TODO: Handle subselects
+          VisitSelectNode(prop, item);
         }
         item.Attributes.Remove("select");
       }

@@ -6,8 +6,45 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  internal static class Expression
+  internal static class Expressions
   {
+    public static bool TryGetLiteral(object value, out ILiteral literal)
+    {
+      literal = null;
+      if (value is bool b)
+        literal = new BooleanLiteral(b);
+      else if (value is byte by)
+        literal = new IntegerLiteral(by);
+      else if (value is sbyte sb)
+        literal = new IntegerLiteral(sb);
+      else if (value is short sh)
+        literal = new IntegerLiteral(sh);
+      else if (value is ushort us)
+        literal = new IntegerLiteral(us);
+      else if (value is int i)
+        literal = new IntegerLiteral(i);
+      else if (value is uint ui)
+        literal = new IntegerLiteral(ui);
+      else if (value is long l)
+        literal = new IntegerLiteral(l);
+      else if (value is ulong ul)
+        literal = new IntegerLiteral((long)ul);
+      else if (value is float f)
+        literal = new FloatLiteral(f);
+      else if (value is double d)
+        literal = new FloatLiteral(d);
+      else if (value is DateTime dt)
+        literal = new DateTimeLiteral(dt);
+      else if (value is Guid g)
+        literal = new StringLiteral(g.ToArasId());
+      else if (value is string str)
+        literal = new StringLiteral(str);
+      else
+        return false;
+
+      return true;
+    }
+
     public static bool TryGetNumberLiteral(string value, out ILiteral literal)
     {
       if (long.TryParse(value, out long lng))

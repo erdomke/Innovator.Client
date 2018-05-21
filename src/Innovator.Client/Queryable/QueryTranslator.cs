@@ -1,29 +1,76 @@
 #if REFLECTION
+using Innovator.Client.QueryModel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Innovator.Client.Queryable
 {
-  /// <summary>
-  /// Class for converting a LINQ expression to an AML query
-  /// </summary>
   internal class QueryTranslator : AmlVisitor
   {
     private ElementFactory _aml;
-    private IItem _query;
-    private IElement _curr;
+    private IExpression _curr;
     private LambdaExpression _projector;
-    private QuerySettings _settings;
-    private Stack<ExpressionType> _lastBinary = new Stack<ExpressionType>();
+    private QueryItem _query;
 
-    public QueryTranslator(ElementFactory factory, QuerySettings settings)
+    public QueryTranslator(ElementFactory factory)
     {
       _aml = factory;
-      _settings = settings ?? new QuerySettings();
+    }
+
+    /// <summary>
+    /// Translate a LINQ expression to an AML query
+    /// </summary>
+    internal AmlQuery Translate(Expression expression)
+    {
+      _query = new QueryItem(_aml.LocalizationContext);
+      this.Visit(expression);
+      Normalize(_query);
+      return new AmlQuery(_query, _aml, _projector);
+    }
+
+    private void Normalize(QueryItem query)
+    {
+      var visitor = new NormalizeVisitor();
+      query.Where?.Visit(visitor);
+      if (!visitor.LatestQuery)
+      {
+        if (query.Where == null)
+        {
+          query.Where = new EqualsOperator()
+          {
+            Left = new PropertyReference("is_current", query),
+            Right = new BooleanLiteral(true)
+          };
+        }
+        else
+        {
+          query.Where = new AndOperator()
+          {
+            Left = query.Where,
+            Right = new EqualsOperator()
+            {
+              Left = new PropertyReference("is_current", query),
+              Right = new BooleanLiteral(true)
+            }
+          };
+        }
+      }
+    }
+
+    private class NormalizeVisitor : SimpleVisitor
+    {
+      public bool LatestQuery { get; set; }
+
+      public override void Visit(PropertyReference op)
+      {
+        if (op.Name == "generation" || op.Name == "is_current" || op.Name == "is_active_rev" || op.Name == "id")
+          LatestQuery = true;
+      }
     }
 
     private static Expression StripQuotes(Expression e)
@@ -34,125 +81,13 @@ namespace Innovator.Client.Queryable
       return e;
     }
 
-    /// <summary>
-    /// Translate a LINQ expression to an AML query
-    /// </summary>
-    internal AmlQuery Translate(Expression expression)
-    {
-      _query = _aml.Item(_aml.Action("get"));
-      _curr = _query;
-      this.Visit(expression);
-      SimplifyConditionals(_query);
-      return new AmlQuery() { Aml = _query, Projection = _projector };
-    }
-
-    /// <summary>
-    /// Initially, a very verbose conditional structure of `and` and `or` elements are used.
-    /// Take this structure and convert it to a simpler, but equivalent, structure
-    /// </summary>
-    private void SimplifyConditionals(IItem item)
-    {
-      var flattenGroup = NonItemDescendants(item).Select(CanFlattenItemChain).FirstOrDefault(g => g != null);
-      while (flattenGroup != null)
-      {
-        var first = flattenGroup.First();
-        var newCondition = first.Parent.Name == "and" ? _aml.And() : _aml.Or();
-
-        foreach (var elem in flattenGroup)
-        {
-          foreach (var child in elem.Element("Item").Elements().OfType<IElement>().ToArray())
-          {
-            child.Remove();
-            newCondition.Add(child);
-          }
-        }
-        ((IElement)first.Element("Item")).Add(newCondition);
-
-        foreach (var elem in flattenGroup.Skip(1).ToArray())
-        {
-          elem.Remove();
-        }
-
-        var parent = first.Parent;
-        var grandParent = parent.Parent;
-        if (parent.Elements().Count() == 1)
-        {
-          first.Remove();
-          grandParent.Add(first);
-          parent.Remove();
-        }
-
-        flattenGroup = NonItemDescendants(item).Select(CanFlattenItemChain).FirstOrDefault(g => g != null);
-      }
-
-      var toFlatten = NonItemDescendants(item).FirstOrDefault(CanFlatten);
-      while (toFlatten != null)
-      {
-        foreach (var child in toFlatten.Elements().ToArray())
-        {
-          child.Remove();
-          toFlatten.Parent.Add(child);
-        }
-        toFlatten.Remove();
-        toFlatten = NonItemDescendants(item).FirstOrDefault(CanFlatten);
-      }
-
-      if (_settings.ModifyQuery != null)
-        _settings.ModifyQuery(item);
-
-      foreach (var childItem in DescendantItems(item))
-      {
-        SimplifyConditionals(childItem);
-      }
-    }
-
-    private IEnumerable<IElement> NonItemDescendants(IElement elem)
-    {
-      foreach (var child in elem.Elements().Where(c => c.Name != "Item"))
-      {
-        yield return child;
-        foreach (var descendant in NonItemDescendants(child))
-          yield return descendant;
-      }
-    }
-
-    private IEnumerable<IItem> DescendantItems(IElement elem)
-    {
-      foreach (var child in elem.Elements())
-      {
-        var item = child as IItem;
-        if (item != null)
-          yield return item;
-        else
-          foreach (var descendant in DescendantItems(child))
-            yield return descendant;
-      }
-    }
-
-    private bool CanFlatten(IElement elem)
-    {
-      return (elem.Name == "and" && elem.Parent.Name != "or")
-        || (elem.Name == "or" && elem.Parent.Name == "or");
-    }
-
-    private IEnumerable<IElement> CanFlattenItemChain(IElement elem)
-    {
-      if (elem.Name != "and" && elem.Name != "or")
-        return null;
-
-      return elem.Elements()
-        .GroupBy(c => c.Name)
-        .FirstOrDefault(g => g.All(c => c.Element("Item").Exists) && g.Count() > 1);
-    }
-
     protected override Expression VisitMethodCall(MethodCallExpression m)
     {
       if (VisitAmlMethod(m))
         return m;
-
       if (m.Method.DeclaringType == typeof(System.Linq.Queryable))
       {
-        SelectNode subSelect;
+        IEnumerable<PropertyReference> props;
         switch (m.Method.Name)
         {
           case "Where":
@@ -162,97 +97,105 @@ namespace Innovator.Client.Queryable
             {
               if (!((bool)((ConstantExpression)lambda.Body).Value))
               {
-                _curr.Attribute("id").Set("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+                _query.Where = new BooleanLiteral(false);
               }
             }
             else
             {
-              this.Visit(lambda.Body);
+              _query.Where = VisitAndReturn(lambda.Body);
             }
             return m;
           case "Take":
             this.Visit(m.Arguments[0]);
-            var pagesize = _curr.Attribute("pagesize").AsInt();
-            var take = (int)((ConstantExpression)m.Arguments[1]).Value;
-            if (pagesize.HasValue && _curr.Attribute("page").AsInt(0) == 2)
-            {
-              if ((pagesize.Value % take) == 0)
-              {
-                _curr.Attribute("page").Set(pagesize.Value / take + 1);
-                _curr.Attribute("pagesize").Set(take);
-              }
-            }
-            else
-            {
-              _curr.Attribute("maxRecords").Set(take);
-            }
+            _query.Fetch = (int)((ConstantExpression)m.Arguments[1]).Value;
             return m;
           case "Skip":
             this.Visit(m.Arguments[0]);
-            var maxRecords = _curr.Attribute("maxRecords").AsInt();
-            var skip = (int)((ConstantExpression)m.Arguments[1]).Value;
-            if (maxRecords.HasValue && (skip % maxRecords.Value) == 0)
-            {
-              _curr.Attribute("maxRecords").Remove();
-              _curr.Attribute("page").Set(skip / maxRecords.Value + 1);
-              _curr.Attribute("pagesize").Set(maxRecords.Value);
-            }
-            else
-            {
-              _curr.Attribute("page").Set(2);
-              _curr.Attribute("pagesize").Set(skip);
-            }
+            _query.Offset = (int)((ConstantExpression)m.Arguments[1]).Value;
             return m;
           case "Select":
             this.Visit(m.Arguments[0]);
             _projector = (LambdaExpression)StripQuotes(m.Arguments[1]);
-            subSelect = new SelectVisitor().GetSelect(_projector);
-            _curr.Attribute("select").Set(subSelect.ToString());
+            props = new SelectVisitor().GetProperties(_projector, _query);
+            foreach (var prop in props)
+            {
+              prop.Table.Select.Add(new SelectExpression()
+              {
+                Expression = prop
+              });
+            }
             return m;
           case "OrderBy":
             this.Visit(m.Arguments[0]);
-            subSelect = new SelectVisitor().GetSelect(StripQuotes(m.Arguments[1]));
-            _curr.Attribute("orderBy").Set(subSelect.First().ToString());
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Clear();
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = true,
+                Expression = prop
+              });
+            }
             return m;
           case "OrderByDescending":
             this.Visit(m.Arguments[0]);
-            subSelect = new SelectVisitor().GetSelect(StripQuotes(m.Arguments[1]));
-            _curr.Attribute("orderBy").Set(subSelect.First().ToString() + " DESC");
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Clear();
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = false,
+                Expression = prop
+              });
+            }
             return m;
           case "ThenBy":
             this.Visit(m.Arguments[0]);
-            subSelect = new SelectVisitor().GetSelect(StripQuotes(m.Arguments[1]));
-            _curr.Attribute("orderBy").Set(_curr.Attribute("orderBy").Value + "," + subSelect.First().ToString());
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = true,
+                Expression = prop
+              });
+            }
             return m;
           case "ThenByDescending":
             this.Visit(m.Arguments[0]);
-            subSelect = new SelectVisitor().GetSelect(StripQuotes(m.Arguments[1]));
-            _curr.Attribute("orderBy").Set(_curr.Attribute("orderBy").Value + "," + subSelect.First().ToString() + " DESC");
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = false,
+                Expression = prop
+              });
+            }
             return m;
         }
       }
       else if ((m.Method.DeclaringType == typeof(Enumerable) && m.Method.Name == "Contains")
         || (m.Method.DeclaringType.IsGenericType && m.Method.DeclaringType.GetGenericTypeDefinition() == typeof(HashSet<>) && m.Method.Name == "Contains"))
       {
-        this.Visit(m.Arguments.Last());
-        _curr.Attribute("condition").Set("in");
-        var builder = new StringBuilder();
+        var inOp = new InOperator()
+        {
+          Left = VisitAndReturn(m.Arguments.Last())
+        };
+
         var enumerable = (IEnumerable)((ConstantExpression)(m.Object ?? m.Arguments[0])).Value;
-        IFormattable format;
+        var list = new ListExpression();
         foreach (var obj in enumerable)
         {
-          if (builder.Length > 0)
-            builder.Append(",");
-          if (ServerContext.TryCastNumber(obj, out format))
-          {
-            builder.Append(_aml.LocalizationContext.Format(obj));
-          }
+          if (Expressions.TryGetLiteral(obj, out var lit))
+            list.Values.Add(lit);
           else
-          {
-            builder.Append("'").Append(_aml.LocalizationContext.Format(obj)).Append("'");
-          }
+            throw new NotSupportedException($"Cannot handle literals of type {obj.GetType().Name}");
         }
-        _curr.Add(builder.ToString());
+        inOp.Right = list;
+        _curr = inOp;
         return m;
       }
       else if (m.Method.DeclaringType == typeof(object) && m.Method.Name == "Equals")
@@ -261,29 +204,38 @@ namespace Innovator.Client.Queryable
           && m.Arguments[0].NodeType == ExpressionType.Constant
           && ((ConstantExpression)m.Arguments[0]).Value is IReadOnlyItem)
         {
-          _curr.Add(_aml.IdProp(((IReadOnlyItem)((ConstantExpression)m.Arguments[0]).Value).Id()));
+          _curr = new EqualsOperator()
+          {
+            Left = new PropertyReference("id", _query),
+            Right = new StringLiteral(((IReadOnlyItem)((ConstantExpression)m.Arguments[0]).Value).Id())
+          };
         }
         else
         {
-          Visit(m.Object);
-          Visit(m.Arguments[0]);
+          _curr = new EqualsOperator()
+          {
+            Left = VisitAndReturn(m.Object),
+            Right = VisitAndReturn(m.Arguments[0])
+          }.Normalize();
         }
         return m;
       }
       else if (m.Method.DeclaringType == typeof(ItemExtensions) && m.Method.Name == "AsBoolean")
       {
-        var depth = GetDepth();
-        Visit(m.Arguments[0]);
-        _curr.Add(true);
-        PopElements(depth);
+        _curr = new EqualsOperator()
+        {
+          Left = VisitAndReturn(m.Arguments[0]),
+          Right = new BooleanLiteral(true)
+        };
         return m;
       }
       else if (m.Method.DeclaringType == typeof(IReadOnlyProperty_Boolean) && m.Method.Name == "AsBoolean")
       {
-        var depth = GetDepth();
-        Visit(m.Object);
-        _curr.Add(true);
-        PopElements(depth);
+        _curr = new EqualsOperator()
+        {
+          Left = VisitAndReturn(m.Object),
+          Right = new BooleanLiteral(true)
+        };
         return m;
       }
       else if (m.Method.DeclaringType == typeof(ItemExtensions)
@@ -311,31 +263,69 @@ namespace Innovator.Client.Queryable
       }
       else if (m.Method.DeclaringType == typeof(string))
       {
-        var depth = GetDepth();
         switch (m.Method.Name)
         {
           case "StartsWith":
-            this.Visit(m.Object);
-            _curr.Add(_aml.Condition(Condition.Like)
-              , ((ConstantExpression)m.Arguments[0]).Value.ToString().Replace("%", "[%]") + "*");
-            PopElements(depth);
-            return m;
           case "EndsWith":
-            this.Visit(m.Object);
-            _curr.Add(_aml.Condition(Condition.Like)
-              , "*" + ((ConstantExpression)m.Arguments[0]).Value.ToString().Replace("%", "[%]"));
-            PopElements(depth);
-            return m;
           case "Contains":
-            this.Visit(m.Object);
-            _curr.Add(_aml.Condition(Condition.Like)
-              , "*" + ((ConstantExpression)m.Arguments[0]).Value.ToString().Replace("%", "[%]") + "*");
-            PopElements(depth);
+            var left = VisitAndReturn(m.Object);
+            var right = VisitAndReturn(m.Arguments[0]);
+
+            if (right is StringLiteral str)
+            {
+              switch (m.Method.Name)
+              {
+                case "StartsWith":
+                  str.Value = str.Value.Replace("%", "[%]") + "%";
+                  break;
+                case "EndsWith":
+                  str.Value = "%" + str.Value.Replace("%", "[%]");
+                  break;
+                case "Contains":
+                  str.Value = "%" + str.Value.Replace("%", "[%]") + "%";
+                  break;
+              }
+            }
+            else
+            {
+              switch (m.Method.Name)
+              {
+                case "StartsWith":
+                  right = new ConcatenationOperator()
+                  {
+                    Left = right,
+                    Right = new StringLiteral("%")
+                  };
+                  break;
+                case "EndsWith":
+                  right = new ConcatenationOperator()
+                  {
+                    Left = new StringLiteral("%"),
+                    Right = right
+                  };
+                  break;
+                case "Contains":
+                  right = new ConcatenationOperator()
+                  {
+                    Left = new StringLiteral("%"),
+                    Right = new ConcatenationOperator()
+                    {
+                      Left = right,
+                      Right = new StringLiteral("%")
+                    }
+                  };
+                  break;
+              }
+            }
+
+            _curr = new LikeOperator() { Left = left, Right = right };
             return m;
           case "IsNullOrEmpty":
-            this.Visit(m.Arguments[0]);
-            _curr.Add(_aml.Condition(Condition.IsNull), "");
-            PopElements(depth);
+            _curr = new IsOperator()
+            {
+              Left = VisitAndReturn(m.Arguments[0]),
+              Right = IsOperand.Null
+            };
             return m;
         }
       }
@@ -343,206 +333,129 @@ namespace Innovator.Client.Queryable
       return base.VisitMethodCall(m);
     }
 
-    protected override void VisitProperty(string name)
-    {
-      if (_curr is IReadOnlyProperty)
-        VisitItem();
-      PushElement(_aml.Property(name));
-    }
-
-    protected override void VisitItem()
-    {
-      PushElement(_aml.Item(_aml.Action("get")));
-    }
-
     protected override Expression VisitUnary(UnaryExpression u)
     {
+      var arg = VisitAndReturn(u.Operand);
       switch (u.NodeType)
       {
         case ExpressionType.Not:
-          var op = _aml.Not();
-          _curr.Add(op);
-          _curr = op;
-          this.Visit(u.Operand);
-          _curr = _curr.Parent;
+          _curr = new NotOperator() { Arg = arg }.Normalize();
           break;
         case ExpressionType.Convert:
-          this.Visit(u.Operand);
-
-          var isComparison = (_lastBinary.Count > 0 &&
-            (_lastBinary.Peek() == ExpressionType.Equal
-            || _lastBinary.Peek() == ExpressionType.NotEqual
-            || _lastBinary.Peek() == ExpressionType.LessThan
-            || _lastBinary.Peek() == ExpressionType.LessThanOrEqual
-            || _lastBinary.Peek() == ExpressionType.GreaterThan
-            || _lastBinary.Peek() == ExpressionType.GreaterThanOrEqual));
-
-          if (u.Type == typeof(bool) && !isComparison)
-            SetValue(true);
+          break;
+        case ExpressionType.Negate:
+        case ExpressionType.NegateChecked:
+          _curr = new NegationOperator() { Arg = arg };
           break;
         default:
-          throw new NotSupportedException(string.Format("The unary operator '{0}' is not supported", u.NodeType));
+          throw new NotSupportedException($"The unary operator '{u.NodeType}' is not supported");
       }
-
       return u;
-    }
-
-    private int GetDepth()
-    {
-      var result = 0;
-      var check = _curr;
-      while (check.Parent.Exists)
-      {
-        result++;
-        check = check.Parent;
-      }
-      return result;
     }
 
     protected override Expression VisitBinary(BinaryExpression b)
     {
-      _lastBinary.Push(b.NodeType);
-
-      try
+      var left = VisitAndReturn(b.Left);
+      var right = VisitAndReturn(b.Right);
+      switch (b.NodeType)
       {
-
-        var left = b.Left;
-        var right = b.Right;
-        if (b.Left is ConstantExpression && !(b.Right is ConstantExpression))
-        {
-          left = b.Right;
-          right = b.Left;
-        }
-
-        var constExpr = right as ConstantExpression;
-        var isNull = constExpr != null && constExpr.Value == null;
-        var depth = GetDepth();
-
-        switch (b.NodeType)
-        {
-          case ExpressionType.OrElse:
-          case ExpressionType.AndAlso:
-            var newParent = PushElement(b.NodeType == ExpressionType.OrElse ? _aml.Or() : _aml.And());
-            this.Visit(left);
-            this.Visit(right);
-            break;
-          case ExpressionType.Equal:
-            if (left.NodeType == ExpressionType.Parameter && constExpr != null && constExpr.Value is IReadOnlyItem)
-            {
-              _curr.Add(_aml.IdProp(((IReadOnlyItem)constExpr.Value).Id()));
-            }
-            else if (isNull)
-            {
-              this.Visit(left);
-              _curr.Add(_aml.Condition(Condition.IsNull));
-              this.Visit(right);
-            }
-            else if ((left.NodeType == ExpressionType.Equal
-                || left.NodeType == ExpressionType.NotEqual
-                || left.NodeType == ExpressionType.LessThan
-                || left.NodeType == ExpressionType.LessThanOrEqual
-                || left.NodeType == ExpressionType.GreaterThan
-                || left.NodeType == ExpressionType.GreaterThanOrEqual)
-              && constExpr != null && constExpr.Value is bool)
-            {
-              // Simplify the expression that was build because there is a not followed by a parenthetical
-              this.Visit(left);
-            }
-            else
-            {
-              this.Visit(left);
-              this.Visit(right);
-            }
-            break;
-          case ExpressionType.NotEqual:
-            if (left.NodeType == ExpressionType.Parameter && constExpr != null && constExpr.Value is IReadOnlyItem)
-            {
-              _curr.Add(_aml.IdProp(_aml.Condition(Condition.NotEqual), ((IReadOnlyItem)constExpr.Value).Id()));
-            }
-            else
-            {
-              this.Visit(left);
-              if (isNull)
-                _curr.Add(_aml.Condition(Condition.IsNotNull));
-              else
-                _curr.Add(_aml.Condition(Condition.NotEqual));
-              this.Visit(right);
-            }
-            break;
-          default:
-            this.Visit(left);
-            switch (b.NodeType)
-            {
-              case ExpressionType.LessThan:
-                _curr.Add(_aml.Condition(Condition.LessThan));
-                break;
-              case ExpressionType.LessThanOrEqual:
-                _curr.Add(_aml.Condition(Condition.LessThanEqual));
-                break;
-              case ExpressionType.GreaterThan:
-                _curr.Add(_aml.Condition(Condition.GreaterThan));
-                break;
-              case ExpressionType.GreaterThanOrEqual:
-                _curr.Add(_aml.Condition(Condition.GreaterThanEqual));
-                break;
-              default:
-                throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported", b.NodeType));
-            }
-            this.Visit(right);
-            break;
-        }
-
-        PopElements(depth);
-        return b;
+        case ExpressionType.Add:
+          _curr = new AdditionOperator() { Left = left, Right = right };
+          break;
+        case ExpressionType.AndAlso:
+          _curr = new AndOperator() { Left = left, Right = right };
+          break;
+        case ExpressionType.Divide:
+          _curr = new DivisionOperator() { Left = left, Right = right };
+          break;
+        case ExpressionType.Equal:
+          if (left == null && b.Left.NodeType == ExpressionType.Parameter)
+          {
+            VisitProperty("id");
+            left = _curr;
+          }
+          _curr = new EqualsOperator() { Left = left, Right = right }.Normalize();
+          if (right is NullLiteral)
+            _curr = new IsOperator() { Left = left, Right = IsOperand.Null };
+          break;
+        case ExpressionType.GreaterThan:
+          _curr = new GreaterThanOperator() { Left = left, Right = right }.Normalize();
+          break;
+        case ExpressionType.GreaterThanOrEqual:
+          _curr = new GreaterThanOrEqualsOperator() { Left = left, Right = right }.Normalize();
+          break;
+        case ExpressionType.LessThan:
+          _curr = new LessThanOperator() { Left = left, Right = right }.Normalize();
+          break;
+        case ExpressionType.LessThanOrEqual:
+          _curr = new LessThanOrEqualsOperator() { Left = left, Right = right }.Normalize();
+          break;
+        case ExpressionType.Modulo:
+          _curr = new ModulusOperator() { Left = left, Right = right };
+          break;
+        case ExpressionType.Multiply:
+          _curr = new MultiplicationOperator() { Left = left, Right = right };
+          break;
+        case ExpressionType.NotEqual:
+          if (left == null && b.Left.NodeType == ExpressionType.Parameter)
+          {
+            VisitProperty("id");
+            left = _curr;
+          }
+          _curr = new NotEqualsOperator() { Left = left, Right = right }.Normalize();
+          if (right is NullLiteral)
+            _curr = new IsOperator() { Left = left, Right = IsOperand.NotNull };
+          break;
+        case ExpressionType.OrElse:
+          _curr = new OrOperator() { Left = left, Right = right };
+          break;
+        case ExpressionType.Subtract:
+          _curr = new SubtractionOperator() { Left = left, Right = right };
+          break;
+        default:
+          throw new NotSupportedException($"The binary operator '{b.NodeType}' is not supported");
       }
-      finally
-      {
-        _lastBinary.Pop();
-      }
+      return b;
     }
 
     protected override Expression VisitConstant(ConstantExpression c)
     {
-      if (_inInvocationArguments)
-        return c;
-
-      var q = c.Value as IInnovatorQuery;
-      if (q != null)
-      {
-        _curr.Attribute("type").Set(q.ItemType);
-      }
-      else if (c.Value == null)
-      {
-        // Do nothing (already covered earlier)
-      }
+      if (c.Value == null)
+        _curr = new NullLiteral();
+      else if (Expressions.TryGetLiteral(c.Value, out var lit))
+        _curr = lit;
+      else if (c.Value is IReadOnlyItem item)
+        _curr = new StringLiteral(item.Id());
+      else if (c.Value is IInnovatorQuery query)
+        _query.Type = query.ItemType;
       else
-      {
-        SetValue(c.Value);
-      }
+        throw new NotSupportedException($"Cannot handle literals of type {c.Type.Name}");
       return c;
     }
 
-    private void SetValue(object value)
+    protected override void VisitProperty(string name)
     {
-      var prop = _curr as IProperty;
-      if (prop != null)
-        prop.Set(value);
+      if (_curr is PropertyReference prop)
+        _curr = prop.Table.GetProperty(new[] { name });
       else
-        _curr.Add(value);
+        _curr = new PropertyReference(name, _query);
     }
 
-    private void PopElements(int origDepth)
+    private IExpression VisitAndReturn(Expression expr)
     {
-      var pop = GetDepth() - origDepth;
-      for (var i = 0; i < pop; i++)
-        _curr = _curr.Parent;
-    }
-    private IElement PushElement(IElement elem)
-    {
-      _curr.Add(elem);
-      _curr = elem;
+      _curr = null;
+      this.Visit(expr);
       return _curr;
     }
+
+    private class NullLiteral : IExpression
+    {
+      public void Visit(IExpressionVisitor visitor)
+      {
+        throw new NotSupportedException();
+      }
+    }
+
   }
 }
 #endif

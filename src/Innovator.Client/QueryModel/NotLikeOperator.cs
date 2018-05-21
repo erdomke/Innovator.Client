@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class NotLikeOperator : BinaryOperator
+  public class NotLikeOperator : BinaryOperator, IBooleanOperator
   {
     public override int Precedence => (int)PrecedenceLevel.Comparison;
 

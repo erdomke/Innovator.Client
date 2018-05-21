@@ -8,6 +8,23 @@ namespace Innovator.Client.QueryModel
 {
   public class BetweenOperator : BetweenOp
   {
+    public override IExpression ToConditional()
+    {
+      return new AndOperator()
+      {
+        Left = new GreaterThanOrEqualsOperator()
+        {
+          Left = Left,
+          Right = Min
+        },
+        Right = new LessThanOrEqualsOperator()
+        {
+          Left = Left,
+          Right = Max
+        }
+      };
+    }
+
     public override void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);

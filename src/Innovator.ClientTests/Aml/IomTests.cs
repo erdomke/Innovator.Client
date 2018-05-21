@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -347,18 +347,18 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("0", second.getProperty("range_inclusive"));
     }
 #if XMLLEGACY
-    [TestMethod]
-    public void TestIomConnection()
-    {
-      var prefs = SavedConnections.Load().Default;
-      var exp = (ExplicitCredentials)prefs.Credentials;
-      var password = exp.Password.UseString<string>((ref string p) => new string(p.ToCharArray()));
-      var iConn = Aras.IOM.IomFactory.CreateHttpServerConnection(prefs.Url, exp.Database, exp.Username, password);
-      //iConn.Login();
-      var conn = new IOM.IomConnection(iConn);
-      var item = conn.Apply("<Item type='ItemType' action='get' id='450906E86E304F55A34B3C0D65C097EA' select='name'></Item>").AssertItem();
-      Assert.AreEqual("ItemType", item.Property("name").Value);
-    }
+    //[TestMethod]
+    //public void TestIomConnection()
+    //{
+    //  var prefs = SavedConnections.Load().Default;
+    //  var exp = (ExplicitCredentials)prefs.Credentials;
+    //  var password = exp.Password.UseString<string>((ref string p) => new string(p.ToCharArray()));
+    //  var iConn = Aras.IOM.IomFactory.CreateHttpServerConnection(prefs.Url, exp.Database, exp.Username, password);
+    //  //iConn.Login();
+    //  var conn = new IOM.IomConnection(iConn);
+    //  var item = conn.Apply("<Item type='ItemType' action='get' id='450906E86E304F55A34B3C0D65C097EA' select='name'></Item>").AssertItem();
+    //  Assert.AreEqual("ItemType", item.Property("name").Value);
+    //}
 #endif
   }
 }

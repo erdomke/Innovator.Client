@@ -16,6 +16,7 @@ namespace Innovator.Client.QueryModel
     SubComparison = 8,
     Additive = 9,
     Multiplicative = 10,
+    Negation = 11,
     Parentheses = 15
   }
 }

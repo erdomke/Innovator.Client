@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class IsOperator : IOperator
+  public class IsOperator : IBooleanOperator
   {
     public IExpression Left { get; set; }
     public IsOperand Right { get; set; }

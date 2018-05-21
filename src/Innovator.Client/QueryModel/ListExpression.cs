@@ -69,7 +69,7 @@ namespace Innovator.Client.QueryModel
             if (tokens[i].Text != ",")
               throw new InvalidOperationException();
           }
-          else if (!Expression.TryGetExpression(tokens[i], out IExpression expr))
+          else if (!Expressions.TryGetExpression(tokens[i], out IExpression expr))
           {
             throw new InvalidOperationException();
           }

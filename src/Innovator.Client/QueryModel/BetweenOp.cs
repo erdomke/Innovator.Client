@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public abstract class BetweenOp : IOperator
+  public abstract class BetweenOp : IBooleanOperator
   {
     public IExpression Left { get; set; }
     public IExpression Min { get; set; }
     public IExpression Max { get; set; }
 
     public int Precedence => (int)PrecedenceLevel.Comparison;
+
+    public abstract IExpression ToConditional();
 
     public void SetMinMaxFromSql(string value)
     {
@@ -42,8 +44,8 @@ namespace Innovator.Client.QueryModel
         };
       }
 
-      if (!Expression.TryGetExpression(minText, out var min)
-        || !Expression.TryGetExpression(maxText, out var max))
+      if (!Expressions.TryGetExpression(minText, out var min)
+        || !Expressions.TryGetExpression(maxText, out var max))
         throw new InvalidOperationException();
 
       Min = min;

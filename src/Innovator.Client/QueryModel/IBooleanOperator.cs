@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  internal interface ILogical : IOperator, IBooleanOperator
+  internal interface IBooleanOperator : IOperator
   {
   }
 }

@@ -47,6 +47,9 @@
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
     <Compile Include="QueryModel\AdditionOperator.cs" />
+    <Compile Include="QueryModel\AllProperties.cs" />
+    <Compile Include="QueryModel\CloneVisitor.cs" />
+    <Compile Include="QueryModel\ConcatenationOperator.cs" />
     <Compile Include="QueryModel\ConnectedAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\Core.cs" />
     <Compile Include="Aml\DateMagnitude.cs" />
@@ -56,6 +59,7 @@
     <Compile Include="Aml\HistoricalPropertyUpdate.cs" />
     <Compile Include="Aml\IAmlNode.cs" />
     <Compile Include="QueryModel\DivisionOperator.cs" />
+    <Compile Include="QueryModel\Expressions.cs" />
     <Compile Include="QueryModel\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
     <Compile Include="Aml\IAttribute.cs" />
@@ -550,11 +554,11 @@
     <Compile Include="QueryModel\Cardinality.cs" />
     <Compile Include="QueryModel\DateTimeLiteral.cs" />
     <Compile Include="QueryModel\EqualsOperator.cs" />
-    <Compile Include="QueryModel\Expression.cs" />
     <Compile Include="QueryModel\FloatLiteral.cs" />
     <Compile Include="QueryModel\FunctionExpression.cs" />
     <Compile Include="QueryModel\GreaterThanOperator.cs" />
     <Compile Include="QueryModel\GreaterThanOrEqualsOperator.cs" />
+    <Compile Include="QueryModel\IBooleanOperator.cs" />
     <Compile Include="QueryModel\IExpression.cs" />
     <Compile Include="QueryModel\IExpressionVisitor.cs" />
     <Compile Include="QueryModel\ILiteral.cs" />
@@ -575,6 +579,7 @@
     <Compile Include="QueryModel\ListExpression.cs" />
     <Compile Include="QueryModel\ModulusOperator.cs" />
     <Compile Include="QueryModel\MultiplicationOperator.cs" />
+    <Compile Include="QueryModel\NegationOperator.cs" />
     <Compile Include="QueryModel\NotBetweenOperator.cs" />
     <Compile Include="QueryModel\NotEqualsOperator.cs" />
     <Compile Include="QueryModel\NotInOperator.cs" />
@@ -585,8 +590,10 @@
     <Compile Include="QueryModel\ODataVisitor.cs" />
     <Compile Include="QueryModel\OrderByExpression.cs" />
     <Compile Include="QueryModel\OrOperator.cs" />
+    <Compile Include="QueryModel\ParameterReference.cs" />
     <Compile Include="QueryModel\PrecedenceLevel.cs" />
     <Compile Include="QueryModel\PropertyReference.cs" />
+    <Compile Include="QueryModel\QueryBuilderVisitor.cs" />
     <Compile Include="QueryModel\QueryItem.cs" />
     <Compile Include="QueryModel\SelectExpression.cs" />
     <Compile Include="QueryModel\SimpleVisitor.cs" />
@@ -647,6 +654,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryModel\SqlWhereParser.cs" />
     <Compile Include="QueryModel\SubtractionOperator.cs" />
+    <Compile Include="QueryModel\UnaryOperator.cs" />
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Security\SecureToken.cs" />
     <Compile Include="Security\SecureToken.Portable.cs" />

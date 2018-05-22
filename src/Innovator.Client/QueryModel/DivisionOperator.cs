@@ -6,13 +6,32 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class DivisionOperator : BinaryOperator
+  public class DivisionOperator : BinaryOperator, INormalize
   {
     public override int Precedence => (int)PrecedenceLevel.Multiplicative;
 
     public override void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
+    }
+
+    public IExpression Normalize()
+    {
+      if (Expressions.TryGetLong(Left, out var i1)
+        && Expressions.TryGetLong(Right, out var i2))
+      {
+        if (i1 % i2 == 0)
+          return new IntegerLiteral(i1 / i2);
+        else
+          return new FloatLiteral((double)i1 / i2);
+      }
+      else if (Expressions.TryGetDouble(Left, out var d1)
+        && Expressions.TryGetDouble(Right, out var d2))
+      {
+        return new FloatLiteral(d1 / d2);
+      }
+
+      return this;
     }
   }
 }

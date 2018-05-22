@@ -201,6 +201,9 @@ namespace Innovator.Client.QueryModel
         throw new NotSupportedException();
       }
 
+      if (op is INormalize norm)
+        return norm.Normalize();
+
       return op;
     }
 

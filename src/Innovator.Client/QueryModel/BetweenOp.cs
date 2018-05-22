@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public abstract class BetweenOp : IBooleanOperator
+  public abstract class BetweenOp : IBooleanOperator, INormalize
   {
     public IExpression Left { get; set; }
     public IExpression Min { get; set; }
     public IExpression Max { get; set; }
 
     public int Precedence => (int)PrecedenceLevel.Comparison;
+    QueryItem ITableProvider.Table { get; set; }
 
     public abstract IExpression ToConditional();
 
@@ -57,6 +58,24 @@ namespace Innovator.Client.QueryModel
     public override string ToString()
     {
       return this.ToSqlString();
+    }
+
+    public virtual IExpression Normalize()
+    {
+      var tables = new[] { Left, Min, Max }
+        .OfType<ITableProvider>()
+        .Select(t => t.Table)
+        .Distinct()
+        .ToArray();
+      if (tables.Length == 1)
+        ((ITableProvider)this).Table = tables[0];
+
+      if (Min is EqualsOperator eq && eq.Right is BooleanLiteral)
+        Min = eq.Left;
+      if (Max is EqualsOperator eq2 && eq2.Right is BooleanLiteral)
+        Max = eq2.Left;
+
+      return this;
     }
   }
 }

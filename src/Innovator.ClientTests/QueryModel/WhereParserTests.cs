@@ -31,9 +31,7 @@ namespace Innovator.Client.QueryModel.Tests
       var expr = SqlWhereParser.Parse("not [User].owned_by_id >= 'first' and [User].managed_by_id <> 'another'", _table);
       var andOp = expr as AndOperator;
       Assert.IsNotNull(andOp);
-      var notOp = andOp.Left as NotOperator;
-      Assert.IsNotNull(notOp);
-      Assert.IsInstanceOfType(notOp.Arg, typeof(GreaterThanOrEqualsOperator));
+      Assert.IsInstanceOfType(andOp.Left, typeof(LessThanOperator));
       Assert.IsInstanceOfType(andOp.Right, typeof(NotEqualsOperator));
     }
 
@@ -122,8 +120,8 @@ namespace Innovator.Client.QueryModel.Tests
 
       var between = andOp.Right as BetweenOperator;
       Assert.IsNotNull(between);
-      Assert.IsInstanceOfType(between.Min, typeof(SubtractionOperator));
-      Assert.IsInstanceOfType(between.Max, typeof(AdditionOperator));
+      Assert.AreEqual(0, Math.Abs(Math.Round((between.Min as FloatLiteral).Value - 0.05, 12)));
+      Assert.AreEqual(0, Math.Abs(Math.Round((between.Max as FloatLiteral).Value - 0.07, 12)));
     }
 
     [TestMethod]
@@ -140,8 +138,8 @@ namespace Innovator.Client.QueryModel.Tests
 
       var between = andOp.Right as NotBetweenOperator;
       Assert.IsNotNull(between);
-      Assert.IsInstanceOfType(between.Min, typeof(SubtractionOperator));
-      Assert.IsInstanceOfType(between.Max, typeof(AdditionOperator));
+      Assert.AreEqual(0, Math.Abs(Math.Round((between.Min as FloatLiteral).Value - 0.05, 12)));
+      Assert.AreEqual(0, Math.Abs(Math.Round((between.Max as FloatLiteral).Value - 0.07, 12)));
     }
 
     [TestMethod]

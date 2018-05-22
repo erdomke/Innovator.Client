@@ -14,6 +14,7 @@ namespace Innovator.Client.Queryable
   {
     private ElementFactory _aml;
     private IExpression _curr;
+    private PropertyReference _lastProp;
     private LambdaExpression _projector;
     private QueryItem _query;
 
@@ -45,7 +46,7 @@ namespace Innovator.Client.Queryable
           {
             Left = new PropertyReference("is_current", query),
             Right = new BooleanLiteral(true)
-          };
+          }.Normalize();
         }
         else
         {
@@ -56,8 +57,8 @@ namespace Innovator.Client.Queryable
             {
               Left = new PropertyReference("is_current", query),
               Right = new BooleanLiteral(true)
-            }
-          };
+            }.Normalize()
+          }.Normalize();
         }
       }
     }
@@ -195,7 +196,7 @@ namespace Innovator.Client.Queryable
             throw new NotSupportedException($"Cannot handle literals of type {obj.GetType().Name}");
         }
         inOp.Right = list;
-        _curr = inOp;
+        _curr = inOp.Normalize();
         return m;
       }
       else if (m.Method.DeclaringType == typeof(object) && m.Method.Name == "Equals")
@@ -208,7 +209,7 @@ namespace Innovator.Client.Queryable
           {
             Left = new PropertyReference("id", _query),
             Right = new StringLiteral(((IReadOnlyItem)((ConstantExpression)m.Arguments[0]).Value).Id())
-          };
+          }.Normalize();
         }
         else
         {
@@ -226,7 +227,7 @@ namespace Innovator.Client.Queryable
         {
           Left = VisitAndReturn(m.Arguments[0]),
           Right = new BooleanLiteral(true)
-        };
+        }.Normalize();
         return m;
       }
       else if (m.Method.DeclaringType == typeof(IReadOnlyProperty_Boolean) && m.Method.Name == "AsBoolean")
@@ -235,7 +236,7 @@ namespace Innovator.Client.Queryable
         {
           Left = VisitAndReturn(m.Object),
           Right = new BooleanLiteral(true)
-        };
+        }.Normalize();
         return m;
       }
       else if (m.Method.DeclaringType == typeof(ItemExtensions)
@@ -295,14 +296,14 @@ namespace Innovator.Client.Queryable
                   {
                     Left = right,
                     Right = new StringLiteral("%")
-                  };
+                  }.Normalize();
                   break;
                 case "EndsWith":
                   right = new ConcatenationOperator()
                   {
                     Left = new StringLiteral("%"),
                     Right = right
-                  };
+                  }.Normalize();
                   break;
                 case "Contains":
                   right = new ConcatenationOperator()
@@ -312,20 +313,20 @@ namespace Innovator.Client.Queryable
                     {
                       Left = right,
                       Right = new StringLiteral("%")
-                    }
-                  };
+                    }.Normalize()
+                  }.Normalize();
                   break;
               }
             }
 
-            _curr = new LikeOperator() { Left = left, Right = right };
+            _curr = new LikeOperator() { Left = left, Right = right }.Normalize();
             return m;
           case "IsNullOrEmpty":
             _curr = new IsOperator()
             {
               Left = VisitAndReturn(m.Arguments[0]),
               Right = IsOperand.Null
-            };
+            }.Normalize();
             return m;
         }
       }
@@ -335,17 +336,16 @@ namespace Innovator.Client.Queryable
 
     protected override Expression VisitUnary(UnaryExpression u)
     {
-      var arg = VisitAndReturn(u.Operand);
       switch (u.NodeType)
       {
         case ExpressionType.Not:
-          _curr = new NotOperator() { Arg = arg }.Normalize();
+          _curr = new NotOperator() { Arg = VisitAndReturn(u.Operand) }.Normalize();
           break;
         case ExpressionType.Convert:
-          break;
+          return base.VisitUnary(u);
         case ExpressionType.Negate:
         case ExpressionType.NegateChecked:
-          _curr = new NegationOperator() { Arg = arg };
+          _curr = new NegationOperator() { Arg = VisitAndReturn(u.Operand) }.Normalize();
           break;
         default:
           throw new NotSupportedException($"The unary operator '{u.NodeType}' is not supported");
@@ -360,13 +360,13 @@ namespace Innovator.Client.Queryable
       switch (b.NodeType)
       {
         case ExpressionType.Add:
-          _curr = new AdditionOperator() { Left = left, Right = right };
+          _curr = new AdditionOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.AndAlso:
-          _curr = new AndOperator() { Left = left, Right = right };
+          _curr = new AndOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.Divide:
-          _curr = new DivisionOperator() { Left = left, Right = right };
+          _curr = new DivisionOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.Equal:
           if (left == null && b.Left.NodeType == ExpressionType.Parameter)
@@ -376,7 +376,7 @@ namespace Innovator.Client.Queryable
           }
           _curr = new EqualsOperator() { Left = left, Right = right }.Normalize();
           if (right is NullLiteral)
-            _curr = new IsOperator() { Left = left, Right = IsOperand.Null };
+            _curr = new IsOperator() { Left = left, Right = IsOperand.Null }.Normalize();
           break;
         case ExpressionType.GreaterThan:
           _curr = new GreaterThanOperator() { Left = left, Right = right }.Normalize();
@@ -391,10 +391,10 @@ namespace Innovator.Client.Queryable
           _curr = new LessThanOrEqualsOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.Modulo:
-          _curr = new ModulusOperator() { Left = left, Right = right };
+          _curr = new ModulusOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.Multiply:
-          _curr = new MultiplicationOperator() { Left = left, Right = right };
+          _curr = new MultiplicationOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.NotEqual:
           if (left == null && b.Left.NodeType == ExpressionType.Parameter)
@@ -404,13 +404,13 @@ namespace Innovator.Client.Queryable
           }
           _curr = new NotEqualsOperator() { Left = left, Right = right }.Normalize();
           if (right is NullLiteral)
-            _curr = new IsOperator() { Left = left, Right = IsOperand.NotNull };
+            _curr = new IsOperator() { Left = left, Right = IsOperand.NotNull }.Normalize();
           break;
         case ExpressionType.OrElse:
-          _curr = new OrOperator() { Left = left, Right = right };
+          _curr = new OrOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.Subtract:
-          _curr = new SubtractionOperator() { Left = left, Right = right };
+          _curr = new SubtractionOperator() { Left = left, Right = right }.Normalize();
           break;
         default:
           throw new NotSupportedException($"The binary operator '{b.NodeType}' is not supported");
@@ -435,15 +435,17 @@ namespace Innovator.Client.Queryable
 
     protected override void VisitProperty(string name)
     {
-      if (_curr is PropertyReference prop)
-        _curr = prop.Table.GetProperty(new[] { name });
+      if (_lastProp != null)
+        _curr = _lastProp.Table.GetProperty(new[] { _lastProp.Name, name });
       else
         _curr = new PropertyReference(name, _query);
+      _lastProp = (PropertyReference)_curr;
     }
 
     private IExpression VisitAndReturn(Expression expr)
     {
       _curr = null;
+      _lastProp = null;
       this.Visit(expr);
       return _curr;
     }

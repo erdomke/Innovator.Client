@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class EqualsOperator : BinaryOperator, IBooleanOperator
+  public class EqualsOperator : BinaryOperator, IBooleanOperator, INormalize
   {
     public override int Precedence => (int)PrecedenceLevel.Comparison;
+    QueryItem ITableProvider.Table { get; set; }
 
     public override void Visit(IExpressionVisitor visitor)
     {
@@ -23,22 +24,24 @@ namespace Innovator.Client.QueryModel
         {
           Left = Right,
           Right = Left
-        };
+        }.Normalize();
       }
       else if (Left is IBooleanOperator && Right is BooleanLiteral boolean)
       {
         if (boolean.Value)
           return Left;
         else
-          return new NotOperator() { Arg = Left };
+          return new NotOperator() { Arg = Left }.Normalize();
       }
       else if (Right is IBooleanOperator && Left is BooleanLiteral boolean2)
       {
         if (boolean2.Value)
           return Right;
         else
-          return new NotOperator() { Arg = Right };
+          return new NotOperator() { Arg = Right }.Normalize();
       }
+
+      SetTable();
       return this;
     }
   }

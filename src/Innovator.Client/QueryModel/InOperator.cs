@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class InOperator : IOperator, IBooleanOperator
+  public class InOperator : IOperator, IBooleanOperator, INormalize
   {
     public IExpression Left { get; set; }
     public ListExpression Right { get; set; }
 
     public int Precedence => (int)PrecedenceLevel.Comparison;
+    QueryItem ITableProvider.Table { get; set; }
 
     public IExpression ToConditional()
     {
@@ -22,7 +23,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = Left,
         Right = list.Values[0]
-      };
+      }.Normalize();
       foreach (var value in list.Values.Skip(1))
       {
         result = new OrOperator()
@@ -32,8 +33,8 @@ namespace Innovator.Client.QueryModel
           {
             Left = Left,
             Right = value
-          }
-        };
+          }.Normalize()
+        }.Normalize();
       }
       return result;
     }
@@ -46,6 +47,13 @@ namespace Innovator.Client.QueryModel
     public override string ToString()
     {
       return this.ToSqlString();
+    }
+
+    public IExpression Normalize()
+    {
+      if (Left is ITableProvider tbl)
+        ((ITableProvider)this).Table = tbl.Table;
+      return this;
     }
   }
 }

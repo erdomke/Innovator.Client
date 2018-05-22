@@ -292,6 +292,10 @@ namespace Innovator.Client.QueryModel
         {
           inOp.Right = ListExpression.FromSqlInClause(value);
         }
+        else if (last is NotInOperator ninOp)
+        {
+          ninOp.Right = ListExpression.FromSqlInClause(value);
+        }
         else if (last is BetweenOp betweenOp)
         {
           betweenOp.SetMinMaxFromSql(value);
@@ -651,6 +655,9 @@ namespace Innovator.Client.QueryModel
             return null;
         }
       }
+
+      if (expr is INormalize norm)
+        return norm.Normalize();
 
       return expr;
     }

@@ -19,5 +19,20 @@ namespace Innovator.Client.QueryModel
     {
       return this.ToSqlString();
     }
+
+    protected void SetTable()
+    {
+      var boolOp = this as IBooleanOperator;
+      if (boolOp == null)
+        return;
+
+      var tables = new[] { Left, Right }
+        .OfType<ITableProvider>()
+        .Select(p => p.Table)
+        .Distinct()
+        .ToArray();
+      if (tables.Length == 1)
+        boolOp.Table = tables[0];
+    }
   }
 }

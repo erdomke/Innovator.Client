@@ -564,12 +564,14 @@
     <Compile Include="QueryModel\ILiteral.cs" />
     <Compile Include="QueryModel\ILogical.cs" />
     <Compile Include="QueryModel\InOperator.cs" />
+    <Compile Include="QueryModel\INormalize.cs" />
     <Compile Include="QueryModel\IOperand.cs" />
     <Compile Include="QueryModel\IOperator.cs" />
     <Compile Include="QueryModel\IQueryVisitor.cs" />
     <Compile Include="QueryModel\IQueryWriterSettings.cs" />
     <Compile Include="QueryModel\IsOperand.cs" />
     <Compile Include="QueryModel\IsOperator.cs" />
+    <Compile Include="QueryModel\ITableProvider.cs" />
     <Compile Include="QueryModel\Join.cs" />
     <Compile Include="QueryModel\JoinType.cs" />
     <Compile Include="QueryModel\IntegerLiteral.cs" />

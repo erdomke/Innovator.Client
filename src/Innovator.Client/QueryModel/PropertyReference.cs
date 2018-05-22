@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class PropertyReference : IOperand
+  public class PropertyReference : IOperand, ITableProvider
   {
     public string Name { get; }
-    public QueryItem Table { get; }
+    public QueryItem Table { get; set; }
 
     public PropertyReference(string name, QueryItem table)
     {

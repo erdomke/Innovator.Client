@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class LessThanOperator : BinaryOperator, IBooleanOperator
+  public class LessThanOperator : BinaryOperator, IBooleanOperator, INormalize
   {
     public override int Precedence => (int)PrecedenceLevel.Comparison;
+    QueryItem ITableProvider.Table { get; set; }
 
     public override void Visit(IExpressionVisitor visitor)
     {
@@ -23,8 +24,10 @@ namespace Innovator.Client.QueryModel
         {
           Left = Right,
           Right = Left
-        };
+        }.Normalize();
       }
+
+      SetTable();
       return this;
     }
   }

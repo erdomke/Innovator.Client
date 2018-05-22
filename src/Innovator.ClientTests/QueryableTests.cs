@@ -191,11 +191,11 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void Queryable_ChildItemLogical()
     {
-      var aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().IsCurrent().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><or><generation condition=\"gt\">0</generation><and><keyed_name condition=\"like\">%Domke%</keyed_name><is_current>1</is_current></and></or></Item></created_by_id></Item>", aml);
+      var aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().IsReleased().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0));
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><or><and><keyed_name condition=\"like\">%Domke%</keyed_name><is_released>1</is_released></and><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
 
-      aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && (i.CreatedById().AsItem().IsCurrent().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0)));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name><or><is_current>1</is_current><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
+      aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && (i.CreatedById().AsItem().IsReleased().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0)));
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name><or><is_released>1</is_released><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().Generation().AsInt(0) > 0));
       Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name><generation condition=\"gt\">0</generation></Item></created_by_id></Item>", aml);
@@ -237,7 +237,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><is_versionable>1</is_versionable></Item>", aml);
 
       aml = TestQueryString("?$filter=not is_versionable");
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><not><is_versionable>1</is_versionable></not></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><is_versionable>0</is_versionable></Item>", aml);
     }
 
     [TestMethod()]

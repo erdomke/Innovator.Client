@@ -45,6 +45,33 @@ namespace Innovator.Client.QueryModel
       return true;
     }
 
+    public static bool TryGetLong(IExpression expr, out long value)
+    {
+      if (expr is IntegerLiteral integer)
+      {
+        value = integer.Value;
+        return true;
+      }
+      value = 0;
+      return false;
+    }
+
+    public static bool TryGetDouble(IExpression expr, out double value)
+    {
+      if (expr is IntegerLiteral integer)
+      {
+        value = integer.Value;
+        return true;
+      }
+      else if (expr is FloatLiteral fl)
+      {
+        value = fl.Value;
+        return true;
+      }
+      value = 0;
+      return false;
+    }
+
     public static bool TryGetNumberLiteral(string value, out ILiteral literal)
     {
       if (long.TryParse(value, out long lng))
@@ -92,5 +119,6 @@ namespace Innovator.Client.QueryModel
         return writer.ToString();
       }
     }
+
   }
 }

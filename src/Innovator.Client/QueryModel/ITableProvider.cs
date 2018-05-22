@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  internal interface IBooleanOperator : IOperator, ITableProvider
+  internal interface ITableProvider
   {
-
+    QueryItem Table { get; set; }
   }
 }

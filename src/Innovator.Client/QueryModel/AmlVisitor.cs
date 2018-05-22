@@ -18,8 +18,8 @@ namespace Innovator.Client.QueryModel
     private XmlWriter _writer;
     private SqlServerVisitor _sqlVisitor;
     private IServerContext _context;
-
     private Stack<ILogical> _logicals = new Stack<ILogical>();
+    private QueryItem _currQuery;
 
     public AmlVisitor(IServerContext context, XmlWriter writer)
     {
@@ -30,29 +30,27 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(AndOperator op)
     {
-      var needsElem = _logicals.Peek() is OrOperator;
-      if (needsElem)
-        _writer.WriteStartElement("and");
-
-      _logicals.Push(op);
-      op.Left.Visit(this);
-      op.Right.Visit(this);
-      _logicals.Pop();
-
-      if (needsElem)
-        _writer.WriteEndElement();
+      EnterContext(op, () =>
+      {
+        op.Left.Visit(this);
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(BetweenOperator op)
     {
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "between");
-      op.Min.Visit(_sqlVisitor);
-      _writer.WriteString(" and ");
-      op.Max.Visit(_sqlVisitor);
-      _writer.WriteEndElement();
+
+      EnterContext(op, () =>
+      {
+        _writer.WriteStartElement(prop.Name);
+        _writer.WriteAttributeString("condition", "between");
+        op.Min.Visit(_sqlVisitor);
+        _writer.WriteString(" and ");
+        op.Max.Visit(_sqlVisitor);
+        _writer.WriteEndElement();
+      });
     }
 
     public void Visit(BooleanLiteral op)
@@ -71,9 +69,12 @@ namespace Innovator.Client.QueryModel
         return;
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      EnterContext(op, () =>
+      {
+        _writer.WriteStartElement(prop.Name);
+        op.Right.Visit(this);
+        _writer.WriteEndElement();
+      });
     }
 
     public void Visit(FloatLiteral op)
@@ -96,22 +97,26 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(GreaterThanOperator op)
     {
-      Visit(op, "gt");
+      EnterContext(op, () => Visit(op, "gt"));
     }
 
     public void Visit(GreaterThanOrEqualsOperator op)
     {
-      Visit(op, "ge");
+      EnterContext(op, () => Visit(op, "ge"));
     }
 
     public void Visit(InOperator op)
     {
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "in");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+
+      EnterContext(op, () =>
+      {
+        _writer.WriteStartElement(prop.Name);
+        _writer.WriteAttributeString("condition", "in");
+        op.Right.Visit(this);
+        _writer.WriteEndElement();
+      });
     }
 
     public void Visit(IntegerLiteral op)
@@ -123,41 +128,45 @@ namespace Innovator.Client.QueryModel
     {
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
 
-      var condition = default(string);
-      switch (op.Right)
+      EnterContext(op, () =>
       {
-        case IsOperand.Defined:
-          condition = "is defined";
-          break;
-        case IsOperand.NotDefined:
-          condition = "is not defined";
-          break;
-        case IsOperand.NotNull:
-          condition = "is not null";
-          break;
-        default:
-          condition = "is null";
-          break;
-      }
-      _writer.WriteAttributeString("condition", condition);
-      _writer.WriteEndElement();
+        _writer.WriteStartElement(prop.Name);
+
+        var condition = default(string);
+        switch (op.Right)
+        {
+          case IsOperand.Defined:
+            condition = "is defined";
+            break;
+          case IsOperand.NotDefined:
+            condition = "is not defined";
+            break;
+          case IsOperand.NotNull:
+            condition = "is not null";
+            break;
+          default:
+            condition = "is null";
+            break;
+        }
+        _writer.WriteAttributeString("condition", condition);
+        _writer.WriteEndElement();
+      });
     }
 
     public void Visit(LessThanOperator op)
     {
-      Visit(op, "lt");
+      EnterContext(op, () => Visit(op, "lt"));
     }
 
     public void Visit(LessThanOrEqualsOperator op)
     {
-      Visit(op, "le");
+      EnterContext(op, () => Visit(op, "le"));
     }
 
     public void Visit(LikeOperator op)
     {
-      Visit(op, "like");
+      EnterContext(op, () => Visit(op, "like"));
     }
 
     public void Visit(ListExpression op)
@@ -176,39 +185,44 @@ namespace Innovator.Client.QueryModel
     {
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "not between");
-      op.Min.Visit(_sqlVisitor);
-      _writer.WriteString(" and ");
-      op.Max.Visit(_sqlVisitor);
-      _writer.WriteEndElement();
+
+      EnterContext(op, () =>
+      {
+        _writer.WriteStartElement(prop.Name);
+        _writer.WriteAttributeString("condition", "not between");
+        op.Min.Visit(_sqlVisitor);
+        _writer.WriteString(" and ");
+        op.Max.Visit(_sqlVisitor);
+        _writer.WriteEndElement();
+      });
     }
 
     public void Visit(NotEqualsOperator op)
     {
-      Visit(op, "ne");
+      EnterContext(op, () => Visit(op, "ne"));
     }
 
     public void Visit(NotInOperator op)
     {
       if (!(op.Left is PropertyReference prop))
         throw new NotSupportedException();
-      _writer.WriteStartElement(prop.Name);
-      _writer.WriteAttributeString("condition", "not in");
-      op.Right.Visit(this);
-      _writer.WriteEndElement();
+      EnterContext(op, () =>
+      {
+        _writer.WriteStartElement(prop.Name);
+        _writer.WriteAttributeString("condition", "not in");
+        op.Right.Visit(this);
+        _writer.WriteEndElement();
+      });
     }
 
     public void Visit(NotLikeOperator op)
     {
-      Visit(op, "not like");
+      EnterContext(op, () => Visit(op, "not like"));
     }
 
     public void Visit(NotOperator op)
     {
-      _writer.WriteStartElement("not");
-      op.Arg.Visit(this);
-      _writer.WriteEndElement();
+      EnterContext(op, () => op.Arg.Visit(this));
     }
 
     public void Visit(ObjectLiteral op)
@@ -218,17 +232,11 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(OrOperator op)
     {
-      var needsElem = !(_logicals.Peek() is OrOperator);
-      if (needsElem)
-        _writer.WriteStartElement("or");
-
-      _logicals.Push(op);
-      op.Left.Visit(this);
-      op.Right.Visit(this);
-      _logicals.Pop();
-
-      if (needsElem)
-        _writer.WriteEndElement();
+      EnterContext(op, () =>
+      {
+        op.Left.Visit(this);
+        op.Right.Visit(this);
+      });
     }
 
     public void Visit(PropertyReference op)
@@ -249,6 +257,71 @@ namespace Innovator.Client.QueryModel
       _writer.WriteAttributeString("condition", condition);
       op.Right.Visit(this);
       _writer.WriteEndElement();
+    }
+
+    private void EnterContext(ITableProvider op, Action callback)
+    {
+      var origQuery = _currQuery;
+      var path = BuildPath(origQuery, op.Table);
+      var needsLogical = false;
+      try
+      {
+        _currQuery = op.Table ?? origQuery;
+        foreach (var elem in path)
+        {
+          _writer.WriteStartElement(elem);
+          if (elem == "Item")
+            _writer.WriteAttributeString("action", "get");
+        }
+        if (path.Count > 0)
+          _logicals.Push(new AndOperator());
+
+        needsLogical = op is NotOperator
+          || (op is AndOperator && _logicals.Peek() is OrOperator)
+          || (op is OrOperator && !(_logicals.Peek() is OrOperator));
+        if (needsLogical)
+        {
+          if (op is NotOperator)
+            _writer.WriteStartElement("not");
+          else if (op is AndOperator)
+            _writer.WriteStartElement("and");
+          else if (op is OrOperator)
+            _writer.WriteStartElement("or");
+        }
+
+        if (op is ILogical log)
+          _logicals.Push(log);
+
+        callback();
+      }
+      finally
+      {
+        if (op is ILogical)
+          _logicals.Pop();
+        if (needsLogical)
+          _writer.WriteEndElement();
+        if (path.Count > 0)
+          _logicals.Pop();
+        foreach (var elem in path)
+          _writer.WriteEndElement();
+        _currQuery = origQuery;
+      }
+    }
+
+    private IList<string> BuildPath(QueryItem start, QueryItem end)
+    {
+      var path = new List<string>();
+
+      var curr = end;
+      while (curr != null && !ReferenceEquals(curr, start))
+      {
+        path.Add("Item");
+        path.Add(curr.TypeProvider.Name);
+        curr = curr.TypeProvider.Table;
+      }
+
+      path.Reverse();
+      return path;
     }
 
     public void Visit(QueryItem query)
@@ -293,7 +366,8 @@ namespace Innovator.Client.QueryModel
       var isCurrentVisitor = new IsCurrentVisitor();
       query.Where?.Visit(isCurrentVisitor);
       if (!isCurrentVisitor.IsCurrent
-        && !isCurrentVisitor.GenerationCriteria)
+        && !isCurrentVisitor.GenerationCriteria
+        && !(query.Where is BooleanLiteral))
       {
         _writer.WriteAttributeString("queryType", "Latest");
       }
@@ -319,6 +393,7 @@ namespace Innovator.Client.QueryModel
           , query.OrderBy.Select(s => ((PropertyReference)s.Expression).Name + (s.Ascending ? "" : " DESC")).GroupConcat(","));
       }
 
+      _currQuery = query;
       if (isCurrentVisitor.IdExpr != null)
       {
         if (isCurrentVisitor.IdExpr is StringLiteral str)

@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class NotInOperator : IBooleanOperator
+  public class NotInOperator : IBooleanOperator, INormalize
   {
     public IExpression Left { get; set; }
     public ListExpression Right { get; set; }
 
     public int Precedence => (int)PrecedenceLevel.Comparison;
+    QueryItem ITableProvider.Table { get; set; }
 
     public IExpression ToConditional()
     {
       var list = Right;
       if (list.Values.Count < 1)
         throw new NotSupportedException();
-      var result = (IExpression)new NotEqualsOperator()
+      var result = new NotEqualsOperator()
       {
         Left = Left,
         Right = list.Values[0]
-      };
+      }.Normalize();
       foreach (var value in list.Values.Skip(1))
       {
         result = new AndOperator()
@@ -32,8 +33,8 @@ namespace Innovator.Client.QueryModel
           {
             Left = Left,
             Right = value
-          }
-        };
+          }.Normalize()
+        }.Normalize();
       }
       return result;
     }
@@ -41,6 +42,13 @@ namespace Innovator.Client.QueryModel
     public void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
+    }
+
+    public IExpression Normalize()
+    {
+      if (Left is ITableProvider tbl)
+        ((ITableProvider)this).Table = tbl.Table;
+      return this;
     }
 
     public override string ToString()

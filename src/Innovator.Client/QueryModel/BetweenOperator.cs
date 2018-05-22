@@ -16,12 +16,12 @@ namespace Innovator.Client.QueryModel
         {
           Left = Left,
           Right = Min
-        },
+        }.Normalize(),
         Right = new LessThanOrEqualsOperator()
         {
           Left = Left,
           Right = Max
-        }
+        }.Normalize()
       };
     }
 

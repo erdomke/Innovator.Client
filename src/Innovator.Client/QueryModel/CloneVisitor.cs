@@ -235,7 +235,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(ObjectLiteral op)
     {
-      _clone = new ObjectLiteral(op.Value, op.TypeProvider);
+      _clone = new ObjectLiteral(op.Value, op.TypeProvider, op.Context);
     }
 
     public void Visit(OrOperator op)

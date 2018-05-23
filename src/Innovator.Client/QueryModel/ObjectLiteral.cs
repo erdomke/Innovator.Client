@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,13 +9,15 @@ namespace Innovator.Client.QueryModel
 {
   public class ObjectLiteral : ILiteral
   {
-    public object Value { get; }
+    public IServerContext Context { get; }
     public PropertyReference TypeProvider { get; }
+    public object Value { get; }
 
-    public ObjectLiteral(object value, PropertyReference prop)
+    public ObjectLiteral(object value, PropertyReference prop, IServerContext context)
     {
-      Value = value;
+      Context = context;
       TypeProvider = prop;
+      Value = value;
     }
 
     public void Visit(IExpressionVisitor visitor)
@@ -50,17 +53,18 @@ namespace Innovator.Client.QueryModel
         return new BooleanLiteral(str == "1");
       }
       else if ((dataType == null || dataType == "date")
-        && DateTime.TryParse(str, out DateTime date))
+        && Context.TryParseDateTime(str, out var date)
+        && date.HasValue)
       {
-        return new DateTimeLiteral(date);
+        return new DateTimeLiteral(date.Value);
       }
       else if ((dataType == null || dataType == "integer")
-        && long.TryParse(str, out long lng))
+        && long.TryParse(str, NumberStyles.Integer, CultureInfo.InvariantCulture, out long lng))
       {
         return new IntegerLiteral(lng);
       }
       else if ((dataType == null || dataType == "float" || dataType == "decimal")
-        && double.TryParse(str, out double dbl))
+        && double.TryParse(str, NumberStyles.Float, CultureInfo.InvariantCulture, out double dbl))
       {
         return new FloatLiteral(dbl);
       }

@@ -8,8 +8,9 @@ namespace Innovator.Client.QueryModel
 {
   internal static class SqlWhereParser
   {
-    public static IExpression Parse(string whereClause, QueryItem table)
+    public static IExpression Parse(string whereClause, QueryItem table, IServerContext context = null)
     {
+      context = context ?? ElementFactory.Utc.LocalizationContext;
       var tokens = new SqlTokenizer(whereClause).Where(t => t.Type != SqlType.Comment).ToArray();
       var expressions = GetExpressions(tokens, table).ToArray();
 
@@ -51,7 +52,7 @@ namespace Innovator.Client.QueryModel
           {
             while (ops.Count > 0 && !IsOpenParen(ops.Peek()))
             {
-              output.Push(HandleOperator(ops.Pop(), output));
+              output.Push(HandleOperator(ops.Pop(), output, context));
             }
             var parenExpr = ops.Pop();
             if (!IsOpenParen(last))
@@ -104,7 +105,7 @@ namespace Innovator.Client.QueryModel
           {
             while (ops.Count > 0 && precedence <= GetPrecedence(ops.Peek()) && !IsOpenParen(ops.Peek()))
             {
-              output.Push(HandleOperator(ops.Pop(), output));
+              output.Push(HandleOperator(ops.Pop(), output, context));
             }
             ops.Push(expr);
           }
@@ -114,7 +115,7 @@ namespace Innovator.Client.QueryModel
 
       while (ops.Count > 0)
       {
-        output.Push(HandleOperator(ops.Pop(), output));
+        output.Push(HandleOperator(ops.Pop(), output, context));
       }
 
       if (output.Count == 1)
@@ -142,14 +143,14 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    private static IExpression HandleOperator(IExpression op, List<IExpression> output)
+    private static IExpression HandleOperator(IExpression op, List<IExpression> output, IServerContext context)
     {
       if (op is BinaryOperator binOp)
       {
         binOp.Right = output.Pop();
         binOp.Left = output.Pop();
         if (binOp.Left is PropertyReference prop && binOp.Right is StringLiteral str)
-          binOp.Right = AmlToModelWriter.NormalizeLiteral(prop, str.Value, AmlToModelWriter.AllowedTypes.SqlStrings);
+          binOp.Right = AmlToModelWriter.NormalizeLiteral(prop, str.Value, context, AmlToModelWriter.AllowedTypes.SqlStrings);
       }
       else if (op is UnaryOperator unaryOp)
       {
@@ -166,9 +167,9 @@ namespace Innovator.Client.QueryModel
         if (between.Left is PropertyReference prop)
         {
           if (between.Min is StringLiteral minStr)
-            between.Min = AmlToModelWriter.NormalizeLiteral(prop, minStr.Value, AmlToModelWriter.AllowedTypes.SqlStrings);
+            between.Min = AmlToModelWriter.NormalizeLiteral(prop, minStr.Value, context, AmlToModelWriter.AllowedTypes.SqlStrings);
           if (between.Max is StringLiteral maxStr)
-            between.Max = AmlToModelWriter.NormalizeLiteral(prop, maxStr.Value, AmlToModelWriter.AllowedTypes.SqlStrings);
+            between.Max = AmlToModelWriter.NormalizeLiteral(prop, maxStr.Value, context, AmlToModelWriter.AllowedTypes.SqlStrings);
         }
       }
       else if (op is IsOperator isOp)

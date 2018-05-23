@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Innovator.Client.Tests
 {
@@ -84,8 +85,8 @@ namespace Innovator.Client.Tests
     public void AmlRoundTrip_Complex()
     {
       ServerContext._clock = () => DateTimeOffset.FromFileTime(131649408000000000);
-      var item = ElementFactory.Local.FromXml(@"<Item action=""get"" type=""Thing"" select="""">
-  <created_on condition=""between"" origDateRange=""Dynamic|Week|-1|Week|-1"">2018-02-25T00:00:00 and 2018-03-03T23:59:59</created_on>
+      var xml = XElement.Parse(@"<Item action=""get"" type=""Thing"" select="""">
+  <created_on condition=""between"" origDateRange=""Dynamic|Week|-1|Week|-1"">2017-02-25T00:00:00 and 2017-03-03T23:59:59</created_on>
   <or>
     <state condition=""like"">*Canceled*</state>
     <state condition=""like"">*Closed*</state>
@@ -111,7 +112,8 @@ namespace Innovator.Client.Tests
       </or>
     </Item>
   </owned_by_id>
-</Item>").AssertItem();
+</Item>");
+      var item = ElementFactory.Local.FromXml(xml.CreateReader()).AssertItem();
       var aml = item.ToQueryItem().ToAml();
       Assert.AreEqual(@"<Item type=""Thing"" action=""get""><created_on condition=""between"">'2018-02-25T00:00:00' and '2018-03-03T23:59:59'</created_on><or><state condition=""like"">%Canceled%</state><state condition=""like"">%Closed%</state><state condition=""like"">%Closed : Conversion%</state><state condition=""like"">%Review%</state><state condition=""like"">%In Work%</state></or><or><classification condition=""like"">Suspect Part</classification><classification condition=""like"">Suspect Part/Customer</classification><classification condition=""like"">Suspect Part/Incoming</classification><classification condition=""like"">Suspect Part/Production</classification><classification condition=""like"">Suspect Part/%</classification><classification condition=""like"">Suspect Part/Customer/%</classification><classification condition=""like"">Suspect Part/Incoming/%</classification><classification condition=""like"">Suspect Part/Production/%</classification></or><owned_by_id><Item type=""Identity"" action=""get""><or><keyed_name condition=""like"">%john smith%</keyed_name><keyed_name condition=""like"">%jane doe%</keyed_name></or></Item></owned_by_id></Item>"
         , aml);

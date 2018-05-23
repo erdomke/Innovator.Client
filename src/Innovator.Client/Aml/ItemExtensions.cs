@@ -1,6 +1,7 @@
 using Innovator.Server;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -455,12 +456,16 @@ namespace Innovator.Client
     /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
     /// </summary>
     /// <param name="node">The node.</param>
-    public static QueryModel.QueryItem ToQueryItem(this IAmlNode node)
+    public static QueryModel.QueryItem ToQueryItem(this IAmlNode node, IServerContext context = null)
     {
-      var context = (node as IReadOnlyElement)?.AmlContext ?? ElementFactory.Local;
-      var writer = new QueryModel.AmlToModelWriter(context.LocalizationContext);
-      node.ToAml(writer, new AmlWriterSettings());
-      return writer.Query;
+      context = context
+        ?? (node as IReadOnlyElement)?.AmlContext.LocalizationContext
+        ?? ElementFactory.Local.LocalizationContext;
+      using (var writer = new QueryModel.AmlToModelWriter(context))
+      {
+        node.ToAml(writer, new AmlWriterSettings());
+        return writer.Query;
+      }
     }
 
     /// <summary>
@@ -1633,6 +1638,56 @@ namespace Innovator.Client
           AppendInnerText(child, builder);
         }
       }
+    }
+
+    public static bool TryParseDateTime(this IServerContext context, object value, out DateTime? parsed)
+    {
+      parsed = null;
+      if (value == null)
+        return true;
+
+      DateTime result;
+      if (value is DateTime)
+      {
+        result = (DateTime)value;
+        if (result.Kind == DateTimeKind.Utc)
+          parsed = TimeZoneData.ConvertTime(result, TimeZoneData.Utc, TimeZoneData.Local);
+        else
+          parsed = result;
+        return true;
+      }
+      else
+      {
+        if (!(value is string))
+          return false;
+        if (((string)value)?.Length == 0)
+          return true;
+
+        if ((string)value == "__now()")
+        {
+          parsed = context.Now().DateTime;
+          return true;
+        }
+
+
+        if (!DateTime.TryParse((string)value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result))
+          return false;
+
+        if (context.GetTimeZone().Equals(TimeZoneData.Local))
+        {
+          parsed = result;
+          return true;
+        }
+      }
+      result = DateTime.SpecifyKind(result, DateTimeKind.Unspecified);
+      result = TimeZoneData.ConvertTime(result, context.GetTimeZone(), TimeZoneData.Local);
+      parsed = result;
+      return true;
+    }
+
+    internal static TimeZoneData GetTimeZone(this IServerContext context)
+    {
+      return (context as ServerContext)?.TimeZoneData ?? TimeZoneData.ById(context.TimeZone);
     }
   }
 }

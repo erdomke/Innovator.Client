@@ -10,10 +10,10 @@ namespace Innovator.Client.QueryModel
 {
   public class QueryItem : IAmlNode
   {
-    private List<Join> _joins = new List<Join>();
-    private List<OrderByExpression> _orderBy = new List<OrderByExpression>();
-    private List<SelectExpression> _select = new List<SelectExpression>();
-    private Dictionary<string, string> _attributes = new Dictionary<string, string>();
+    private readonly List<Join> _joins = new List<Join>();
+    private readonly List<OrderByExpression> _orderBy = new List<OrderByExpression>();
+    private readonly List<SelectExpression> _select = new List<SelectExpression>();
+    private readonly Dictionary<string, string> _attributes = new Dictionary<string, string>();
 
     public QueryItem(IServerContext context)
     {
@@ -143,6 +143,99 @@ namespace Innovator.Client.QueryModel
         Type = JoinType.Inner
       });
       return newTable;
+    }
+
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    public static QueryItem FromXml(Stream xml, IServerContext context = null)
+    {
+      var xmlStream = xml as IXmlStream;
+      using (var xmlReader = (xmlStream == null ? XmlReader.Create(xml) : xmlStream.CreateReader()))
+      {
+        return FromXml(xmlReader, context);
+      }
+    }
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    public static QueryItem FromXml(TextReader xml, IServerContext context = null)
+    {
+      using (var xmlReader = XmlReader.Create(xml))
+      {
+        return FromXml(xmlReader, context);
+      }
+    }
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    /// <param name="args">Arguments to substitute into the query</param>
+    public static QueryItem FromXml(string xml, IServerContext context, params object[] args)
+    {
+      return FromXml(w =>
+      {
+        var sub = new ParameterSubstitution();
+        sub.AddIndexedParameters(args);
+        sub.Substitute(xml, context, w);
+      }, context);
+    }
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="xml">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    public static QueryItem FromXml(XmlReader xml, IServerContext context = null)
+    {
+      return FromXml(w => xml.CopyTo(w), context);
+    }
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="node">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    public static QueryItem FromXml(IAmlNode node, IServerContext context = null)
+    {
+      context = context
+        ?? (node as IReadOnlyElement)?.AmlContext.LocalizationContext
+        ?? ElementFactory.Local.LocalizationContext;
+      return FromXml(w => node.ToAml(w, new AmlWriterSettings()), context);
+    }
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="cmd">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    public static QueryItem FromXml(Command cmd, IServerContext context = null)
+    {
+      context = context ?? ElementFactory.Local.LocalizationContext;
+      return FromXml(w => cmd.ToNormalizedAml(context, w), context);
+    }
+
+    /// <summary>
+    /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="writer">XML data</param>
+    /// <param name="context">Localization context for parsing and formating data</param>
+    public static QueryItem FromXml(Action<XmlWriter> writer, IServerContext context = null)
+    {
+      context = context ?? ElementFactory.Local.LocalizationContext;
+      using (var w = new AmlToModelWriter(context))
+      {
+        writer(w);
+        return w.Query;
+      }
     }
   }
 }

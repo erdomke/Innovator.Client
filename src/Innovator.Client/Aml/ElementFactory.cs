@@ -114,7 +114,7 @@ namespace Innovator.Client
     /// <param name="args">Arguments to substitute into the query</param>
     public IResult FromXml(string xml, params object[] args)
     {
-      using (var writer = new ResultWriter(this, null, null))
+      using (var writer = new ResultWriter(this, null, null, false))
       {
         var sub = new ParameterSubstitution();
         sub.AddIndexedParameters(args);
@@ -127,7 +127,7 @@ namespace Innovator.Client
     /// <param name="aml">XML data</param>
     public IResult FromXml(Command aml)
     {
-      using (var writer = new ResultWriter(this, null, null))
+      using (var writer = new ResultWriter(this, null, null, false))
       {
         aml.ToNormalizedAml(LocalizationContext, writer);
         return writer.Result;
@@ -138,7 +138,7 @@ namespace Innovator.Client
     /// <param name="aml">XML data</param>
     public IResult FromXml(IAmlNode aml)
     {
-      using (var writer = new ResultWriter(this, null, null))
+      using (var writer = new ResultWriter(this, null, null, false))
       {
         aml.ToAml(writer, new AmlWriterSettings());
         return writer.Result;
@@ -151,7 +151,7 @@ namespace Innovator.Client
     /// <param name="writer">The callback to write to a writer.</param>
     public IResult FromXml(Action<XmlWriter> writer)
     {
-      using (var w = new ResultWriter(this, null, null))
+      using (var w = new ResultWriter(this, null, null, false))
       {
         writer(w);
         return w.Result;

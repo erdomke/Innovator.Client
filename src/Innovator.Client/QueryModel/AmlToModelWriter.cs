@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,32 +10,32 @@ namespace Innovator.Client.QueryModel
 {
   public class AmlToModelWriter : XmlWriter
   {
-    private static HashSet<string> _dateProps = new HashSet<string>()
+    private static readonly HashSet<string> _dateProps = new HashSet<string>()
     {
       "created_on", "modified_on"
     };
 
-    private static HashSet<string> _intProps = new HashSet<string>()
+    private static readonly HashSet<string> _intProps = new HashSet<string>()
     {
       "generation", "sort_order"
     };
 
-    private static HashSet<string> _boolProps = new HashSet<string>()
+    private static readonly HashSet<string> _boolProps = new HashSet<string>()
     {
       "new_version", "not_lockable"
     };
 
+    private readonly Dictionary<string, string> _attrBuffer = new Dictionary<string, string>();
     private readonly StringBuilder _buffer = new StringBuilder();
-    private IServerContext _context;
+    private readonly IServerContext _context;
     private string _name;
-    private List<object> _stack = new List<object>();
+    private readonly List<object> _stack = new List<object>();
 
-    private QueryItem _query;
-    public QueryItem Query { get { return _query; } }
+    public QueryItem Query { get; private set; }
 
     public AmlToModelWriter(IServerContext context)
     {
-      _query = new QueryItem(context);
+      Query = new QueryItem(context);
       _context = context;
     }
 
@@ -243,7 +244,14 @@ namespace Innovator.Client.QueryModel
                 break;
             }
             break;
+          default:
+            _attrBuffer[_name] = value;
+            break;
         }
+      }
+      else
+      {
+        _attrBuffer[_name] = value;
       }
     }
 
@@ -266,68 +274,105 @@ namespace Innovator.Client.QueryModel
         _buffer.Length = 0;
 
         var last = _stack.Pop();
-        if (last is IsOperator isOp)
+        if (_attrBuffer.TryGetValue("origDateRange", out var dateRange)
+          && ParameterSubstitution.TryDeserializeDateRange(dateRange, out var dateStart, out var dateEnd)
+          && (dateStart.HasValue || dateEnd.HasValue))
         {
-          switch (value)
-          {
-            case "defined":
-              isOp.Right = IsOperand.Defined;
-              break;
-            case "not defined":
-              isOp.Right = IsOperand.NotDefined;
-              break;
-            case "not null":
-              isOp.Right = IsOperand.NotNull;
-              break;
-            case "null":
-              isOp.Right = IsOperand.Null;
-              break;
-            case "":
-              break;
-            default:
-              throw new NotSupportedException();
-          }
-        }
-        else if (last is InOperator inOp)
-        {
-          inOp.Right = ListExpression.FromSqlInClause(value);
-        }
-        else if (last is NotInOperator ninOp)
-        {
-          ninOp.Right = ListExpression.FromSqlInClause(value);
-        }
-        else if (last is BetweenOp betweenOp)
-        {
-          betweenOp.SetMinMaxFromSql(value);
-        }
-        else if (last is PropertyReference prop)
-        {
-          if (_stack.OfType<Join>().Last().Right.Joins.Any(j => j.Right.TypeProvider == prop))
-          {
-            last = null;
-          }
-          else
-          {
-            last = new EqualsOperator()
-            {
-              Left = prop
-            };
-          }
-        }
+          var prop = (last as BinaryOperator)?.Left ?? (last as BetweenOp)?.Left;
+          if (prop == null)
+            throw new NotSupportedException();
 
-        if (!(last is ILogical) && last is BinaryOperator binOp)
-        {
-          if (value == "__now()")
+          if (dateStart.HasValue && dateEnd.HasValue)
           {
-            binOp.Right = new FunctionExpression() { Name = "GetDate" };
+            last = new BetweenOperator()
+            {
+              Left = prop,
+              Min = new DateTimeLiteral(dateStart.Value.AsDate(_context.Now(), false)),
+              Max = new DateTimeLiteral(dateEnd.Value.AsDate(_context.Now(), true)),
+            }.Normalize();
           }
-          else if (binOp is LikeOperator || binOp is NotLikeOperator)
+          else if (dateStart.HasValue)
           {
-            binOp.Right = new StringLiteral(value.Replace('*', '%'));
+            last = new GreaterThanOrEqualsOperator()
+            {
+              Left = prop,
+              Right = new DateTimeLiteral(dateStart.Value.AsDate(_context.Now(), false))
+            }.Normalize();
           }
           else
           {
-            binOp.Right = NormalizeLiteral((PropertyReference)binOp.Left, value);
+            last = new LessThanOrEqualsOperator()
+            {
+              Left = prop,
+              Right = new DateTimeLiteral(dateEnd.Value.AsDate(_context.Now(), true))
+            }.Normalize();
+          }
+        }
+        else
+        {
+          if (last is IsOperator isOp)
+          {
+            switch (value)
+            {
+              case "defined":
+                isOp.Right = IsOperand.Defined;
+                break;
+              case "not defined":
+                isOp.Right = IsOperand.NotDefined;
+                break;
+              case "not null":
+                isOp.Right = IsOperand.NotNull;
+                break;
+              case "null":
+                isOp.Right = IsOperand.Null;
+                break;
+              case "":
+                break;
+              default:
+                throw new NotSupportedException();
+            }
+          }
+          else if (last is InOperator inOp)
+          {
+            inOp.Right = ListExpression.FromSqlInClause(value);
+          }
+          else if (last is NotInOperator ninOp)
+          {
+            ninOp.Right = ListExpression.FromSqlInClause(value);
+          }
+          else if (last is BetweenOp betweenOp)
+          {
+            betweenOp.SetMinMaxFromSql(value);
+          }
+          else if (last is PropertyReference prop)
+          {
+            if (_stack.OfType<Join>().Last().Right.Joins.Any(j => j.Right.TypeProvider == prop))
+            {
+              last = null;
+            }
+            else
+            {
+              last = new EqualsOperator()
+              {
+                Left = prop
+              };
+            }
+          }
+
+          if (!(last is ILogical) && last is BinaryOperator binOp)
+          {
+            if (value == "__now()")
+            {
+              binOp.Right = new FunctionExpression() { Name = "GetDate" };
+            }
+            else if (binOp is LikeOperator || binOp is NotLikeOperator)
+            {
+              binOp.Right = new StringLiteral(value.Replace('*', '%'));
+            }
+            else
+            {
+              binOp.Right = NormalizeLiteral((PropertyReference)binOp.Left, value, _context);
+            }
           }
         }
 
@@ -355,7 +400,7 @@ namespace Innovator.Client.QueryModel
     }
 
     internal static ILiteral NormalizeLiteral(PropertyReference prop, string value
-      , AllowedTypes allowedTypes = AllowedTypes.All)
+      , IServerContext context, AllowedTypes allowedTypes = AllowedTypes.All)
     {
       if ((allowedTypes & AllowedTypes.Parameter) != 0)
       {
@@ -374,19 +419,20 @@ namespace Innovator.Client.QueryModel
         && (prop.Name.StartsWith("date_")
           || prop.Name.EndsWith("_date")
           || _dateProps.Contains(prop.Name))
-        && DateTime.TryParse(value, out var dateValue))
+        && context.TryParseDateTime(value, out var dateValue)
+        && dateValue.HasValue)
       {
-        return new DateTimeLiteral(dateValue);
+        return new DateTimeLiteral(dateValue.Value);
       }
       else if ((allowedTypes & AllowedTypes.Integer) != 0
         && _intProps.Contains(prop.Name)
-        && long.TryParse(value, out var lng))
+        && long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var lng))
       {
         return new IntegerLiteral(lng);
       }
       else
       {
-        return new ObjectLiteral(value, prop);
+        return new ObjectLiteral(value, prop, context);
       }
     }
 
@@ -763,6 +809,7 @@ namespace Innovator.Client.QueryModel
     /// <exception cref="InvalidOperationException">An <see cref="XmlWriter" /> method was called before a previous asynchronous operation finished. In this case, <see cref="InvalidOperationException" /> is thrown with the message “An asynchronous operation is already in progress.”</exception>
     public override void WriteStartElement(string prefix, string localName, string ns)
     {
+      _attrBuffer.Clear();
       switch (localName)
       {
         case "Item":
@@ -805,7 +852,7 @@ namespace Innovator.Client.QueryModel
           }
           else
           {
-            _query = join.Right;
+            Query = join.Right;
           }
 
           _stack.Add(join);

@@ -420,6 +420,7 @@ namespace Innovator.Client
 
       return string.Join("|", parts);
     }
+
     internal static string SerializeDateRange(Range<DateOffset> range)
     {
       return SerializeDateRange(range.Minimum, range.Maximum);

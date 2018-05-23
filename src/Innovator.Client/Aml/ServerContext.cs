@@ -31,22 +31,27 @@ namespace Innovator.Client
     /// Gets the default language code configured for the Aras user
     /// </summary>
     public string DefaultLanguageCode { get; set; }
+
     /// <summary>
     /// Gets the default language suffix configured for the Aras user
     /// </summary>
     public string DefaultLanguageSuffix { get; set; }
+
     /// <summary>
     /// Gets the language code configured for the Aras user
     /// </summary>
     public string LanguageCode { get; set; }
+
     /// <summary>
     /// Gets the language suffix configured for the Aras user
     /// </summary>
     public string LanguageSuffix { get; set; }
+
     /// <summary>
     /// Gets the locale configured for the user.
     /// </summary>
     public string Locale { get; set; }
+
     /// <summary>
     /// Gets the corporate time zone ID for the Aras installation
     /// </summary>
@@ -54,6 +59,11 @@ namespace Innovator.Client
     {
       get { return _timeZone.Id; }
       set { _timeZone = TimeZoneData.ById(value); }
+    }
+
+    internal TimeZoneData TimeZoneData
+    {
+      get { return _timeZone; }
     }
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -140,6 +150,7 @@ namespace Innovator.Client
         throw new InvalidCastException();
       }
     }
+
     /// <summary>
     /// Converts the <see cref="object" /> representing a date in the corporate
     /// time zone to a <see cref="DateTime" /> in the local time zone
@@ -153,29 +164,8 @@ namespace Innovator.Client
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
     public DateTime? AsDateTime(object value)
     {
-      if (value == null) return null;
-      DateTime result;
-      if (value is DateTime)
-      {
-        result = (DateTime)value;
-        if (result.Kind == DateTimeKind.Utc)
-          return TimeZoneData.ConvertTime(result, TimeZoneData.Utc, TimeZoneData.Local);
-        return result;
-      }
-      else
-      {
-        if (!(value is string))
-          throw new InvalidCastException();
-        if (((string)value)?.Length == 0) return null;
-        if ((string)value == "__now()")
-          return OffsetToLocal(_clock()).DateTime;
-
-
-        result = DateTime.Parse((string)value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-        if (_timeZone.Equals(TimeZoneData.Local)) return result;
-      }
-      result = DateTime.SpecifyKind(result, DateTimeKind.Unspecified);
-      result = TimeZoneData.ConvertTime(result, _timeZone, TimeZoneData.Local);
+      if (!this.TryParseDateTime(value, out var result))
+        throw new InvalidCastException();
       return result;
     }
 
@@ -268,6 +258,7 @@ namespace Innovator.Client
       result = TimeZoneData.ConvertTime(result, _timeZone, TimeZoneData.Utc);
       return result;
     }
+
     /// <summary>
     /// Converts the <see cref="object" /> to a <see cref="decimal" /> based on
     /// the locale and time zone

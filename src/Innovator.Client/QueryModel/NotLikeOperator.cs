@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class NotLikeOperator : BinaryOperator, IBooleanOperator, INormalize
+  internal class NotLikeOperator : LikeOperator
   {
-    public override int Precedence => (int)PrecedenceLevel.Comparison;
-    QueryItem ITableProvider.Table { get; set; }
-
-    public IExpression Normalize()
+    public override IExpression Normalize()
     {
-      SetTable();
-      return this;
+      return new NotOperator()
+      {
+        Arg = base.Normalize()
+      }.Normalize();
     }
 
     public override void Visit(IExpressionVisitor visitor)
     {
-      visitor.Visit(this);
+      throw new NotSupportedException();
     }
   }
 }

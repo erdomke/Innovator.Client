@@ -92,26 +92,7 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    public virtual void Visit(NotBetweenOperator op)
-    {
-      op.Left.Visit(this);
-      op.Min.Visit(this);
-      op.Max.Visit(this);
-    }
-
     public virtual void Visit(NotEqualsOperator op)
-    {
-      op.Left.Visit(this);
-      op.Right.Visit(this);
-    }
-
-    public virtual void Visit(NotInOperator op)
-    {
-      op.Left.Visit(this);
-      op.Right.Visit(this);
-    }
-
-    public virtual void Visit(NotLikeOperator op)
     {
       op.Left.Visit(this);
       op.Right.Visit(this);
@@ -178,5 +159,7 @@ namespace Innovator.Client.QueryModel
     public virtual void Visit(ParameterReference op) { }
 
     public virtual void Visit(AllProperties op) { }
+
+    public virtual void Visit(PatternList op) { }
   }
 }

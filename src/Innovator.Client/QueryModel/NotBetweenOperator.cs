@@ -6,28 +6,19 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class NotBetweenOperator : BetweenOp
+  internal class NotBetweenOperator : BetweenOperator
   {
-    public override IExpression ToConditional()
+    public override IExpression Normalize()
     {
-      return new OrOperator()
+      return new NotOperator()
       {
-        Left = new LessThanOperator()
-        {
-          Left = Left,
-          Right = Min
-        },
-        Right = new GreaterThanOperator()
-        {
-          Left = Left,
-          Right = Max
-        }
-      };
+        Arg = base.Normalize()
+      }.Normalize();
     }
 
     public override void Visit(IExpressionVisitor visitor)
     {
-      visitor.Visit(this);
+      throw new NotSupportedException();
     }
   }
 }

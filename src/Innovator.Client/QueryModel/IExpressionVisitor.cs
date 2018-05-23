@@ -24,10 +24,7 @@ namespace Innovator.Client.QueryModel
     void Visit(LessThanOrEqualsOperator op);
     void Visit(LikeOperator op);
     void Visit(ListExpression op);
-    void Visit(NotBetweenOperator op);
     void Visit(NotEqualsOperator op);
-    void Visit(NotInOperator op);
-    void Visit(NotLikeOperator op);
     void Visit(NotOperator op);
     void Visit(ObjectLiteral op);
     void Visit(OrOperator op);
@@ -42,5 +39,6 @@ namespace Innovator.Client.QueryModel
     void Visit(ConcatenationOperator op);
     void Visit(ParameterReference op);
     void Visit(AllProperties op);
+    void Visit(PatternList op);
   }
 }

@@ -39,7 +39,7 @@ namespace Innovator.Client.QueryModel
               {
                 break;
               }
-              else if (ops[i] is BetweenOp)
+              else if (ops[i] is BetweenOperator)
               {
                 expr = new AndBetweenOperator();
                 break;
@@ -60,7 +60,7 @@ namespace Innovator.Client.QueryModel
               var args = new List<IExpression>();
               FlattenArgs(args, output.Pop());
               if (ops.Count > 0
-                && (ops.Peek() is InOperator || ops.Peek() is NotInOperator)
+                && ops.Peek() is InOperator
                 && parenExpr is ListExpression listExpr)
               {
                 foreach (var arg in args.Cast<IOperand>())
@@ -145,7 +145,14 @@ namespace Innovator.Client.QueryModel
 
     private static IExpression HandleOperator(IExpression op, List<IExpression> output, IServerContext context)
     {
-      if (op is BinaryOperator binOp)
+      if (op is LikeOperator like)
+      {
+        like.Right = output.Pop();
+        like.Left = output.Pop();
+        if (like.Right is StringLiteral str)
+          like.Right = PatternParser.SqlServer.Parse(str.Value);
+      }
+      else if (op is BinaryOperator binOp)
       {
         binOp.Right = output.Pop();
         binOp.Left = output.Pop();
@@ -156,7 +163,7 @@ namespace Innovator.Client.QueryModel
       {
         unaryOp.Arg = output.Pop();
       }
-      else if (op is BetweenOp between)
+      else if (op is BetweenOperator between)
       {
         if (!(output.Pop() is AndOperator andOp))
           throw new NotSupportedException();
@@ -189,13 +196,6 @@ namespace Innovator.Client.QueryModel
           throw new NotSupportedException();
         inOp.Right = list;
         inOp.Left = output.Pop();
-      }
-      else if (op is NotInOperator notInOp)
-      {
-        if (!(output.Pop() is ListExpression list))
-          throw new NotSupportedException();
-        notInOp.Right = list;
-        notInOp.Left = output.Pop();
       }
       else
       {

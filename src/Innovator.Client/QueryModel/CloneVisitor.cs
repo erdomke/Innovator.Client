@@ -188,37 +188,9 @@ namespace Innovator.Client.QueryModel
       _clone = clone;
     }
 
-    public void Visit(NotBetweenOperator op)
-    {
-      _clone = new NotBetweenOperator()
-      {
-        Left = Clone(op.Left),
-        Min = Clone(op.Min),
-        Max = Clone(op.Max)
-      };
-    }
-
     public void Visit(NotEqualsOperator op)
     {
       _clone = new NotEqualsOperator()
-      {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
-      };
-    }
-
-    public void Visit(NotInOperator op)
-    {
-      _clone = new NotInOperator()
-      {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
-      };
-    }
-
-    public void Visit(NotLikeOperator op)
-    {
-      _clone = new NotLikeOperator()
       {
         Left = Clone(op.Left),
         Right = Clone(op.Right)
@@ -348,6 +320,12 @@ namespace Innovator.Client.QueryModel
         return result;
       Visit(query);
       return _query;
+    }
+
+    public void Visit(PatternList op)
+    {
+      // TODO: Actually clone this
+      _clone = op;
     }
   }
 }

@@ -39,7 +39,7 @@ namespace Innovator.Client.QueryModel
       return result;
     }
 
-    public void Visit(IExpressionVisitor visitor)
+    public virtual void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
     }
@@ -49,7 +49,7 @@ namespace Innovator.Client.QueryModel
       return this.ToSqlString();
     }
 
-    public IExpression Normalize()
+    public virtual IExpression Normalize()
     {
       if (Left is ITableProvider tbl)
         ((ITableProvider)this).Table = tbl.Table;

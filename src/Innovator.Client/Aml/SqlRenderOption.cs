@@ -1,9 +1,12 @@
-namespace Innovator.Client
+using System;
+
+namespace Innovator.Client.QueryModel
 {
   /// <summary>
   /// What type of SQL query to render
   /// </summary>
-  public enum AmlSqlRenderOption
+  [Flags]
+  public enum SqlRenderOption
   {
     /// <summary>
     /// The default render option.  This is the same as <see cref="SelectQuery"/>

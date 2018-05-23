@@ -22,18 +22,6 @@ namespace Innovator.Client.QueryModel
         return new NotEqualsOperator() { Left = eq.Left, Right = eq.Right }.Normalize();
       else if (Arg is NotEqualsOperator neq)
         return new EqualsOperator() { Left = neq.Left, Right = neq.Right }.Normalize();
-      else if (Arg is BetweenOperator btw)
-        return new NotBetweenOperator() { Left = btw.Left, Min = btw.Min, Max = btw.Max }.Normalize();
-      else if (Arg is NotBetweenOperator nbtw)
-        return new BetweenOperator() { Left = nbtw.Left, Min = nbtw.Min, Max = nbtw.Max }.Normalize();
-      else if (Arg is InOperator inOp)
-        return new NotInOperator() { Left = inOp.Left, Right = inOp.Right }.Normalize();
-      else if (Arg is NotInOperator ninOp)
-        return new InOperator() { Left = ninOp.Left, Right = ninOp.Right }.Normalize();
-      else if (Arg is LikeOperator like)
-        return new NotLikeOperator() { Left = like.Left, Right = like.Right }.Normalize();
-      else if (Arg is NotLikeOperator nlike)
-        return new LikeOperator() { Left = nlike.Left, Right = nlike.Right }.Normalize();
       else if (Arg is LessThanOperator less)
         return new GreaterThanOrEqualsOperator() { Left = less.Left, Right = less.Right }.Normalize();
       else if (Arg is LessThanOrEqualsOperator lessEq)

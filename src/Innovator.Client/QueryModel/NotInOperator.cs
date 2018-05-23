@@ -6,54 +6,19 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class NotInOperator : IBooleanOperator, INormalize
+  internal class NotInOperator : InOperator
   {
-    public IExpression Left { get; set; }
-    public ListExpression Right { get; set; }
-
-    public int Precedence => (int)PrecedenceLevel.Comparison;
-    QueryItem ITableProvider.Table { get; set; }
-
-    public IExpression ToConditional()
+    public override IExpression Normalize()
     {
-      var list = Right;
-      if (list.Values.Count < 1)
-        throw new NotSupportedException();
-      var result = new NotEqualsOperator()
+      return new NotOperator()
       {
-        Left = Left,
-        Right = list.Values[0]
+        Arg = base.Normalize()
       }.Normalize();
-      foreach (var value in list.Values.Skip(1))
-      {
-        result = new AndOperator()
-        {
-          Left = result,
-          Right = new NotEqualsOperator()
-          {
-            Left = Left,
-            Right = value
-          }.Normalize()
-        }.Normalize();
-      }
-      return result;
     }
 
-    public void Visit(IExpressionVisitor visitor)
+    public override void Visit(IExpressionVisitor visitor)
     {
-      visitor.Visit(this);
-    }
-
-    public IExpression Normalize()
-    {
-      if (Left is ITableProvider tbl)
-        ((ITableProvider)this).Table = tbl.Table;
-      return this;
-    }
-
-    public override string ToString()
-    {
-      return this.ToSqlString();
+      throw new NotSupportedException();
     }
   }
 }

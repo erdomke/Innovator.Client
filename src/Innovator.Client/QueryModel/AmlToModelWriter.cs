@@ -278,7 +278,7 @@ namespace Innovator.Client.QueryModel
           && ParameterSubstitution.TryDeserializeDateRange(dateRange, out var dateStart, out var dateEnd)
           && (dateStart.HasValue || dateEnd.HasValue))
         {
-          var prop = (last as BinaryOperator)?.Left ?? (last as BetweenOp)?.Left;
+          var prop = (last as BinaryOperator)?.Left ?? (last as BetweenOperator)?.Left;
           if (prop == null)
             throw new NotSupportedException();
 
@@ -336,11 +336,7 @@ namespace Innovator.Client.QueryModel
           {
             inOp.Right = ListExpression.FromSqlInClause(value);
           }
-          else if (last is NotInOperator ninOp)
-          {
-            ninOp.Right = ListExpression.FromSqlInClause(value);
-          }
-          else if (last is BetweenOp betweenOp)
+          else if (last is BetweenOperator betweenOp)
           {
             betweenOp.SetMinMaxFromSql(value);
           }
@@ -365,9 +361,9 @@ namespace Innovator.Client.QueryModel
             {
               binOp.Right = new FunctionExpression() { Name = "GetDate" };
             }
-            else if (binOp is LikeOperator || binOp is NotLikeOperator)
+            else if (binOp is LikeOperator)
             {
-              binOp.Right = new StringLiteral(value.Replace('*', '%'));
+              binOp.Right = PatternParser.SqlServer.Parse(value.Replace('*', '%'));
             }
             else
             {

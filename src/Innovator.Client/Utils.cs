@@ -527,5 +527,14 @@ namespace Innovator.Client
       list.RemoveAt(list.Count - 1);
       return last;
     }
+
+    public static bool ListEquals<T>(IList<T> x, IList<T> y)
+    {
+      if (x.Count == y.Count)
+      {
+        return x.Intersect(y).Count() == x.Count;
+      }
+      return false;
+    }
   }
 }

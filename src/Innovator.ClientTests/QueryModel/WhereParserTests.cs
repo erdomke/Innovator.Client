@@ -70,7 +70,7 @@ namespace Innovator.Client.QueryModel.Tests
       var expr = SqlWhereParser.Parse("prop not like 'val%' OR [User].owned_by_id is not null", _table);
       var orOp = expr as OrOperator;
       Assert.IsNotNull(orOp);
-      Assert.IsInstanceOfType(orOp.Left, typeof(NotLikeOperator));
+      Assert.IsInstanceOfType(orOp.Left, typeof(NotOperator));
 
       var isOp = orOp.Right as IsOperator;
       Assert.IsNotNull(isOp);
@@ -136,7 +136,7 @@ namespace Innovator.Client.QueryModel.Tests
       Assert.IsNotNull(andOp);
       Assert.IsInstanceOfType(andOp.Left, typeof(GreaterThanOrEqualsOperator));
 
-      var between = andOp.Right as NotBetweenOperator;
+      var between = (andOp.Right as NotOperator)?.Arg as BetweenOperator;
       Assert.IsNotNull(between);
       Assert.AreEqual(0, Math.Abs(Math.Round((between.Min as FloatLiteral).Value - 0.05, 12)));
       Assert.AreEqual(0, Math.Abs(Math.Round((between.Max as FloatLiteral).Value - 0.07, 12)));

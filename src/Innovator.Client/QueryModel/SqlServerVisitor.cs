@@ -9,186 +9,72 @@ namespace Innovator.Client.QueryModel
 {
   public class SqlServerVisitor : IQueryVisitor
   {
-    private TextWriter _writer;
-    private IAmlSqlWriterSettings _settings;
-    private Stack<IOperator> _operators = new Stack<IOperator>();
-    private IServerContext _context = ElementFactory.Utc.LocalizationContext;
+    private readonly Stack<IOperator> _operators = new Stack<IOperator>();
+    private readonly IServerContext _context = ElementFactory.Utc.LocalizationContext;
     private bool _hasFromOrSelect = false;
-    private AmlSqlRenderOption _renderOption;
 
-    public SqlServerVisitor(TextWriter writer, IAmlSqlWriterSettings settings)
+    public SqlRenderOption RenderOption { get; set; }
+    protected IQueryWriterSettings Settings { get; }
+    protected TextWriter Writer { get; }
+
+    public SqlServerVisitor(TextWriter writer, IQueryWriterSettings settings)
     {
-      _writer = writer;
-      _settings = settings;
-      _renderOption = _settings.RenderOption;
+      Writer = writer;
+      Settings = settings;
+      RenderOption = (settings as IAmlSqlWriterSettings)?.RenderOption ?? SqlRenderOption.Default;
     }
 
-    public SqlServerVisitor(TextWriter writer, IAmlSqlWriterSettings settings, IServerContext context)
+    public SqlServerVisitor(TextWriter writer, IQueryWriterSettings settings, IServerContext context)
       : this(writer, settings)
     {
       _context = context;
     }
 
-    public void Visit(QueryItem query)
+    public virtual void Visit(QueryItem query)
     {
-      if (_renderOption == AmlSqlRenderOption.Default)
+      if (RenderOption == SqlRenderOption.Default)
+        RenderOption = SqlRenderOption.SelectQuery;
+
+      if ((RenderOption & SqlRenderOption.SelectClause) != 0)
+        VisitSelect(query);
+      if ((RenderOption & SqlRenderOption.FromClause) != 0)
+        VisitFrom(query);
+      if ((RenderOption & SqlRenderOption.WhereClause) != 0)
+        VisitWhere(query);
+      if ((RenderOption & SqlRenderOption.OrderByClause) != 0)
+        VisitOrderBy(query);
+
+      if ((RenderOption & SqlRenderOption.OffsetClause) != 0)
       {
-        if (query.Attributes.TryGetValue("offsetId", out var offsetId))
+        if (query.Fetch > 0 && query.Offset > 0)
         {
-          _renderOption = AmlSqlRenderOption.OffsetQuery;
-        }
-        else if (query.Attributes.TryGetValue("returnMode", out var returnMode)
-          && string.Equals(returnMode, "countOnly", StringComparison.Ordinal))
-        {
-          _renderOption = AmlSqlRenderOption.CountQuery;
-        }
-        else
-        {
-          _renderOption = AmlSqlRenderOption.SelectQuery;
-        }
-      }
-
-      switch (_renderOption)
-      {
-        case AmlSqlRenderOption.CountQuery:
-          _writer.Write("select isnull(sum(cnt), 0) count from (select ");
-          WritePermissionFields(query);
-          _writer.Write(", count(*) cnt ");
-          VisitFrom(query);
-          VisitWhere(query);
-          _writer.Write(" group by ");
-          WritePermissionFields(query);
-          _writer.Write(") perm where ");
-          WritePermissionCheck(() => _writer.Write("perm"));
-          break;
-        case AmlSqlRenderOption.OffsetQuery:
-          _writer.Write("select isnull(sum(cnt), 0) offset from ( select ");
-          WritePermissionFields(query);
-          _writer.Write(", count(*) cnt from ");
-          VisitTableName(query);
-          _writer.Write(" inner join ( select ");
-          var first = true;
-          foreach (var orderBy in GetOrderBy(query))
-          {
-            if (!first)
-              _writer.Write(", ");
-            first = false;
-            orderBy.Expression.Visit(this);
-          }
-          _writer.Write(" ");
-          VisitFrom(query);
-          VisitWhere(query);
-          _writer.Write(") offset on ");
-
-          var cols = GetOrderBy(query).ToArray();
-          for (var i = 0; i < cols.Length; i++)
-          {
-            if (i > 0)
-              _writer.Write(" or ");
-            _writer.Write('(');
-            for (var j = 0; j < i; j++)
-            {
-              WriteAlias(query);
-              _writer.Append(".[");
-              _writer.Write(((PropertyReference)cols[j].Expression).Name);
-              _writer.Write("] = offset.[");
-              _writer.Write(((PropertyReference)cols[j].Expression).Name);
-              _writer.Write("] and ");
-            }
-            WriteAlias(query);
-            _writer.Append(".[");
-            _writer.Write(((PropertyReference)cols[i].Expression).Name);
-            _writer.Write(cols[i].Ascending ? "] < " : "] > ");
-            _writer.Write("offset.[");
-            _writer.Write(((PropertyReference)cols[i].Expression).Name);
-            _writer.Write("])");
-          }
-
-          var genVisitor = new GenerationCriteriaVisitor();
-          query.Where.Visit(genVisitor);
-          if (genVisitor.Criteria != null)
-          {
-            _writer.Write(" where ");
-            genVisitor.Criteria.Visit(this);
-          }
-
-          _writer.Write(" group by ");
-          WritePermissionFields(query);
-          _writer.Write(" ) perm where ");
-          WritePermissionCheck(() => _writer.Write("perm"));
-          break;
-        default:
-          if ((_renderOption & AmlSqlRenderOption.SelectClause) != 0)
-            VisitSelect(query);
-          if ((_renderOption & AmlSqlRenderOption.FromClause) != 0)
-            VisitFrom(query);
-          if ((_renderOption & AmlSqlRenderOption.WhereClause) != 0)
-            VisitWhere(query);
-          if ((_renderOption & AmlSqlRenderOption.OrderByClause) != 0)
-            VisitOrderBy(query);
-
-          if ((_renderOption & AmlSqlRenderOption.OffsetClause) != 0)
-          {
-            if (query.Fetch > 0 && query.Offset > 0)
-            {
-              _writer.Write(" offset ");
-              _writer.Write(query.Offset);
-              _writer.Write(" rows fetch next ");
-              _writer.Write(query.Fetch);
-              _writer.Write(" rows only");
-            }
-          }
-          break;
-      }
-    }
-
-    private class GenerationCriteriaVisitor : SimpleVisitor
-    {
-      public IExpression Criteria { get; set; }
-
-      public override void Visit(EqualsOperator op)
-      {
-        if (op.Left is PropertyReference prop
-          && op.Right is BooleanLiteral boolLit
-          && (prop.Name == "is_current" || prop.Name == "is_active_rev"))
-        {
-          Criteria = op;
+          Writer.Write(" offset ");
+          Writer.Write(query.Offset);
+          Writer.Write(" rows fetch next ");
+          Writer.Write(query.Fetch);
+          Writer.Write(" rows only");
         }
       }
     }
 
-    private void WritePermissionFields(QueryItem query)
-    {
-      WriteAlias(query);
-      _writer.Write(".permission_id, ");
-      WriteAlias(query);
-      _writer.Write(".created_by_id, ");
-      WriteAlias(query);
-      _writer.Write(".managed_by_id, ");
-      WriteAlias(query);
-      _writer.Write(".owned_by_id, ");
-      WriteAlias(query);
-      _writer.Write(".team_id");
-    }
-
-    private void VisitSelect(QueryItem query)
+    protected virtual void VisitSelect(QueryItem query)
     {
       _hasFromOrSelect = true;
-      _writer.Write("select ");
+      Writer.Write("select ");
 
-      if ((_renderOption & AmlSqlRenderOption.OffsetClause) != 0
+      if ((RenderOption & SqlRenderOption.OffsetClause) != 0
         && query.Fetch > 0
         && (query.Offset ?? 0) < 1)
       {
-        _writer.Write("top ");
-        _writer.Write(query.Fetch);
-        _writer.Write(' ');
+        Writer.Write("top ");
+        Writer.Write(query.Fetch);
+        Writer.Write(' ');
       }
 
-      if (!query.Select.Any())
+      if (query.Select.Count == 0)
       {
         WriteAlias(query);
-        _writer.Write(".*");
+        Writer.Write(".*");
       }
       else
       {
@@ -196,24 +82,23 @@ namespace Innovator.Client.QueryModel
         foreach (var prop in query.Select)
         {
           if (!first)
-            _writer.Write(", ");
+            Writer.Write(", ");
           first = false;
           prop.Expression.Visit(this);
           if (!string.IsNullOrEmpty(prop.Alias))
           {
-            _writer.Write(" as [");
-            _writer.Write(prop.Alias);
-            _writer.Write("]");
+            Writer.Write(" as ");
+            WriteIdentifier(prop.Alias);
           }
         }
       }
     }
 
-    private void TryFillName(QueryItem item)
+    protected void TryFillName(QueryItem item)
     {
       if (string.IsNullOrEmpty(item.Type) && !string.IsNullOrEmpty(item.TypeProvider?.Table.Type))
       {
-        var props = _settings.GetProperties(item.TypeProvider.Table.Type);
+        var props = Settings.GetProperties(item.TypeProvider.Table.Type);
         if (props != null && props.TryGetValue(item.TypeProvider.Name, out var propDefn))
         {
           item.Type = propDefn.DataSource().KeyedName().Value;
@@ -221,75 +106,88 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    private void WriteAlias(QueryItem item)
+    protected virtual void WriteAlias(QueryItem item)
     {
       TryFillName(item);
-
-      _writer.Write('[');
-      if (!string.IsNullOrEmpty(item.Alias))
-        _writer.Write(item.Alias);
+      if (string.IsNullOrEmpty(item.Alias))
+        WriteTableName(item);
       else
-        _writer.Write(item.Type.Replace(' ', '_'));
-      _writer.Write(']');
+        WriteIdentifier(item.Alias);
     }
 
-    private void VisitFrom(QueryItem item)
+    protected virtual void WriteIdentifier(string identifier)
+    {
+      if (NeedsQuotes(identifier))
+      {
+        Writer.Write('[');
+        Writer.Write(identifier);
+        Writer.Write(']');
+      }
+      else
+      {
+        Writer.Write(identifier);
+      }
+    }
+
+    protected virtual bool NeedsQuotes(string identifier)
+    {
+      if (string.IsNullOrEmpty(identifier))
+        return true;
+
+      if (!(char.IsLetter(identifier[0]) || identifier[0] == '_'))
+        return true;
+
+      for (var i = 1; i < identifier.Length; i++)
+      {
+        if (char.IsLetterOrDigit(identifier[i])
+          || identifier[i] == '_'
+          || identifier[i] == '$'
+          || identifier[i] == '@'
+          || identifier[i] == '#')
+        {
+          // Do nothing
+        }
+        else
+        {
+          return true;
+        }
+      }
+
+      return SqlTokenizer.IsKeyword(identifier);
+    }
+
+    protected virtual void VisitFrom(QueryItem item)
     {
       if (_hasFromOrSelect)
-        _writer.Write(" ");
+        Writer.Write(" ");
       _hasFromOrSelect = true;
-      _writer.Write("from ");
-      VisitTableName(item);
+      Writer.Write("from ");
+      WriteTableDefinition(item);
       foreach (var join in item.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
       {
         VisitJoin(join);
       }
     }
 
-    private void VisitTableName(QueryItem item)
+    protected virtual void WriteTableDefinition(QueryItem item)
     {
-      var secured = _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction
-        || _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron;
-      if (_renderOption == AmlSqlRenderOption.CountQuery
-        || _renderOption == AmlSqlRenderOption.OffsetQuery)
-      {
-        secured = false;
-      }
-
-      _writer.Write(secured ? "[secured].[" : "[innovator].[");
-      var sqlName = item.Type.Replace(' ', '_');
-      _writer.Write(sqlName);
-      _writer.Write("]");
-
-      if (secured)
-      {
-        _writer.Append("('can_get','")
-          .Append(_settings.IdentityList)
-          .Append("',null,'")
-          .Append(_settings.UserId)
-          .Append("',null");
-        if (_settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron)
-          _writer.Append(",null");
-        _writer.Append(")");
-      }
-
-      if (!string.IsNullOrEmpty(item.Alias) && !string.Equals(item.Alias, sqlName, StringComparison.OrdinalIgnoreCase))
-      {
-        _writer.Write(" as [");
-        _writer.Write(item.Alias);
-        _writer.Write("]");
-      }
+      WriteIdentifier(item.Type);
     }
 
-    private void VisitJoin(Join join)
+    protected virtual void WriteTableName(QueryItem item)
+    {
+      WriteIdentifier(item.Type);
+    }
+
+    protected virtual void VisitJoin(Join join)
     {
       if (join.Type == JoinType.Inner)
-        _writer.Write(" inner join ");
+        Writer.Write(" inner join ");
       else
-        _writer.Write(" left join ");
+        Writer.Write(" left join ");
 
-      VisitTableName(join.Right);
-      _writer.Write(" on ");
+      WriteTableDefinition(join.Right);
+      Writer.Write(" on ");
       join.Condition.Visit(this);
 
       foreach (var otherJoin in join.Right.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
@@ -298,27 +196,15 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    private void VisitWhere(QueryItem query)
+    protected virtual void VisitWhere(QueryItem query)
     {
       var criteria = new List<IExpression>();
-      var clause = AddPermissionCheck(query);
-
-      if (_settings.RenderOption == AmlSqlRenderOption.OffsetQuery)
-      {
-        if (!query.Attributes.TryGetValue("offsetId", out var offsetId))
-          throw new InvalidOperationException("No `offsetId` attribute was specified");
-
-        clause = AppendCriteria(clause, new EqualsOperator()
-        {
-          Left = new PropertyReference("id", query),
-          Right = new StringLiteral(offsetId)
-        });
-      }
-
-      if (clause != null)
-        criteria.Add(clause);
       AddJoinsToCriteria(query, criteria);
+      VisitWhere(query, criteria);
+    }
 
+    protected void VisitWhere(QueryItem query, List<IExpression> criteria)
+    {
       if (criteria.Count > 0)
       {
         var expr = criteria[0];
@@ -332,98 +218,54 @@ namespace Innovator.Client.QueryModel
         }
 
         if (_hasFromOrSelect)
-          _writer.Write(" where ");
+          Writer.Write(" where ");
         expr.Visit(this);
       }
-    }
-
-    private IExpression AddPermissionCheck(QueryItem query)
-    {
-      var clause = query.Where;
-      if (_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction
-          && _renderOption != AmlSqlRenderOption.CountQuery
-          && _renderOption != AmlSqlRenderOption.OffsetQuery)
-      {
-        clause = AppendCriteria(clause, new LegacyPermissionFunction(query));
-      }
-      return clause;
-    }
-
-    private IExpression AppendCriteria(IExpression orig, IExpression additional)
-    {
-      if (orig == null)
-        return additional;
-      return new AndOperator()
-      {
-        Left = orig,
-        Right = additional
-      };
     }
 
     private void AddJoinsToCriteria(QueryItem query, IList<IExpression> criteria)
     {
       foreach (var join in query.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
       {
-        if (join.Right.Where != null
-          || (join.Type == JoinType.Inner
-            && _settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction
-            && _renderOption != AmlSqlRenderOption.CountQuery
-            && _renderOption != AmlSqlRenderOption.OffsetQuery))
+        if (join.Right.Where != null)
         {
           TryFillName(join.Right);
-          criteria.Add(AddPermissionCheck(join.Right));
+          criteria.Add(join.Right.Where);
         }
         AddJoinsToCriteria(join.Right, criteria);
       }
     }
 
-    private void VisitOrderBy(QueryItem query)
+    protected virtual void VisitOrderBy(QueryItem query)
     {
       var orderBy = GetOrderBy(query);
-      _writer.Write(" order by ");
-      var first = true;
-      foreach (var prop in orderBy)
+      if (orderBy.Any())
       {
-        if (!first)
-          _writer.Write(", ");
-        first = false;
-        Visit(prop);
+        Writer.Write(" order by ");
+        var first = true;
+        foreach (var prop in orderBy)
+        {
+          if (!first)
+            Writer.Write(", ");
+          first = false;
+          Visit(prop);
+        }
       }
     }
 
-    private IEnumerable<OrderByExpression> GetOrderBy(QueryItem query)
+    protected virtual IEnumerable<OrderByExpression> GetOrderBy(QueryItem query)
     {
       if (query.OrderBy.Count > 0)
         return query.OrderBy;
 
-      var props = _settings.GetProperties(query.Type).Values;
-      var orderProps = props
-          .OfType<Model.Property>()
-          .Where(p => p.OrderBy().HasValue())
-          .OrderBy(p => p.OrderBy().AsInt(int.MaxValue))
-          .Select(p => new OrderByExpression()
-          {
-            Expression = new PropertyReference(p.NameProp().Value, query)
-          })
-          .ToArray();
-
-      if (orderProps.Length > 0)
-        return orderProps;
-
-      return new[]
-      {
-        new OrderByExpression()
-        {
-          Expression = new PropertyReference("id", query)
-        }
-      };
+      return Enumerable.Empty<OrderByExpression>();
     }
 
     private void Visit(OrderByExpression op)
     {
       op.Expression.Visit(this);
       if (!op.Ascending)
-        _writer.Write(" DESC");
+        Writer.Write(" desc");
     }
 
     private void AddParenthesesIfNeeded(IOperator op, Action render)
@@ -431,395 +273,346 @@ namespace Innovator.Client.QueryModel
       var paren = _operators.Count > 0 && _operators.Peek().Precedence > op.Precedence;
 
       if (paren)
-        _writer.Write('(');
+        Writer.Write('(');
       _operators.Push(op);
 
       render();
 
       _operators.Pop();
       if (paren)
-        _writer.Write(')');
+        Writer.Write(')');
     }
 
-    public void Visit(AndOperator op)
+    public virtual void Visit(AndOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" and ");
+        Writer.Write(" and ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(BetweenOperator op)
+    public virtual void Visit(BetweenOperator op)
+    {
+      Visit(op, false);
+    }
+
+    protected virtual void Visit(BetweenOperator op, bool not)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" between ");
+        Writer.Write((not ? " not" : "") + " between ");
         op.Min.Visit(this);
-        _writer.Write(" and ");
+        Writer.Write(" and ");
         op.Max.Visit(this);
       });
     }
 
-    public void Visit(BooleanLiteral op)
+    public virtual void Visit(BooleanLiteral op)
     {
-      _writer.Write('\'');
-      _writer.Write(_context.Format(op.Value));
-      _writer.Write('\'');
+      Writer.Write('\'');
+      Writer.Write(_context.Format(op.Value));
+      Writer.Write('\'');
     }
 
-    public void Visit(DateTimeLiteral op)
+    public virtual void Visit(DateTimeLiteral op)
     {
-      _writer.Write('\'');
-      _writer.Write(_context.Format(op.Value));
-      _writer.Write('\'');
+      Writer.Write('\'');
+      Writer.Write(_context.Format(op.Value));
+      Writer.Write('\'');
     }
 
-    public void Visit(EqualsOperator op)
+    public virtual void Visit(EqualsOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" = ");
+        Writer.Write(" = ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(FloatLiteral op)
+    public virtual void Visit(FloatLiteral op)
     {
-      _writer.Write(_context.Format(op.Value));
+      Writer.Write(_context.Format(op.Value));
     }
 
-    public void Visit(FunctionExpression op)
+    public virtual void Visit(FunctionExpression op)
     {
-      var name = op.Name;
-      switch (name.ToLowerInvariant())
-      {
-        case "getdate":
-          name = "GetUtcDate";
-          break;
-      }
-      _writer.Write(name);
-      _writer.Write('(');
+      Writer.Write(op.Name);
+      Writer.Write('(');
       var first = true;
       foreach (var arg in op.Args)
       {
         if (!first)
-          _writer.Write(", ");
+          Writer.Write(", ");
         first = false;
         arg.Visit(this);
       }
-      _writer.Write(')');
+      Writer.Write(')');
     }
 
-    public void Visit(GreaterThanOperator op)
+    public virtual void Visit(GreaterThanOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" > ");
+        Writer.Write(" > ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(GreaterThanOrEqualsOperator op)
+    public virtual void Visit(GreaterThanOrEqualsOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" >= ");
+        Writer.Write(" >= ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(InOperator op)
+    public virtual void Visit(InOperator op)
+    {
+      Visit(op, false);
+    }
+
+    protected virtual void Visit(InOperator op, bool not)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" in ");
+        Writer.Write((not ? " not" : "") + " in ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(IntegerLiteral op)
+    public virtual void Visit(IntegerLiteral op)
     {
-      _writer.Write(_context.Format(op.Value));
+      Writer.Write(_context.Format(op.Value));
     }
 
-    public void Visit(IsOperator op)
+    public virtual void Visit(IsOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" is ");
+        Writer.Write(" is ");
         switch (op.Right)
         {
           case IsOperand.Null:
           case IsOperand.NotDefined:
-            _writer.Write("null");
+            Writer.Write("null");
             break;
           default:
-            _writer.Write("not null");
+            Writer.Write("not null");
             break;
         }
       });
     }
 
-    public void Visit(LessThanOperator op)
+    public virtual void Visit(LessThanOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" < ");
+        Writer.Write(" < ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(LessThanOrEqualsOperator op)
+    public virtual void Visit(LessThanOrEqualsOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" <= ");
+        Writer.Write(" <= ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(LikeOperator op)
+    public virtual void Visit(LikeOperator op)
+    {
+      Visit(op, false);
+    }
+
+    protected virtual void Visit(LikeOperator op, bool not)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" like ");
+        Writer.Write((not ? " not" : "") + " like ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(ListExpression op)
+    public virtual void Visit(ListExpression op)
     {
-      _writer.Write('(');
+      Writer.Write('(');
       var first = true;
       foreach (var arg in op.Values)
       {
         if (!first)
-          _writer.Write(", ");
+          Writer.Write(", ");
         first = false;
         arg.Visit(this);
       }
-      _writer.Write(')');
+      Writer.Write(')');
     }
 
-    public void Visit(NotBetweenOperator op)
+    public virtual void Visit(NotEqualsOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" not between ");
-        op.Min.Visit(this);
-        _writer.Write(" and ");
-        op.Max.Visit(this);
-      });
-    }
-
-    public void Visit(NotEqualsOperator op)
-    {
-      AddParenthesesIfNeeded(op, () =>
-      {
-        op.Left.Visit(this);
-        _writer.Write(" <> ");
+        Writer.Write(" <> ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(NotInOperator op)
+    public virtual void Visit(NotOperator op)
     {
-      AddParenthesesIfNeeded(op, () =>
+      if (op.Arg is BetweenOperator btw)
       {
-        op.Left.Visit(this);
-        _writer.Write(" not in ");
-        op.Right.Visit(this);
-      });
-    }
-
-    public void Visit(NotLikeOperator op)
-    {
-      AddParenthesesIfNeeded(op, () =>
+        Visit(btw, true);
+      }
+      else if (op.Arg is InOperator inOp)
       {
-        op.Left.Visit(this);
-        _writer.Write(" not like ");
-        op.Right.Visit(this);
-      });
-    }
-
-    public void Visit(NotOperator op)
-    {
-      AddParenthesesIfNeeded(op, () =>
+        Visit(inOp, true);
+      }
+      else if (op.Arg is LikeOperator like)
       {
-        _writer.Write(" not ");
-        op.Arg.Visit(this);
-      });
-    }
-
-    public void Visit(ObjectLiteral op)
-    {
-      op.Normalize(_settings).Visit(this);
-    }
-
-    public void Visit(OrOperator op)
-    {
-      AddParenthesesIfNeeded(op, () =>
-      {
-        op.Left.Visit(this);
-        _writer.Write(" or ");
-        op.Right.Visit(this);
-      });
-    }
-
-    public void Visit(PropertyReference op)
-    {
-      if (op.Name.StartsWith("xp-"))
-        throw new NotSupportedException();
-      WriteAlias(op.Table);
-      _writer.Write(".[");
-      _writer.Write(op.Name);
-      _writer.Write(']');
-    }
-
-    public void Visit(StringLiteral op)
-    {
-      if (op.Value.IsGuid())
-        _writer.Write('\'');
+        Visit(like, true);
+      }
       else
-        _writer.Write("N'");
-      _writer.Write(op.Value.Replace("'", "''"));
-      _writer.Write('\'');
+      {
+        AddParenthesesIfNeeded(op, () =>
+        {
+          Writer.Write(" not ");
+          op.Arg.Visit(this);
+        });
+      }
     }
 
-    private void Visit(LegacyPermissionFunction perm)
+    public virtual void Visit(ObjectLiteral op)
     {
-      WritePermissionCheck(() => WriteAlias(perm.Table));
+      op.Normalize(Settings).Visit(this);
     }
 
-    private void WritePermissionCheck(Action writeAlias)
-    {
-      _writer.Write("( SELECT p FROM innovator.[");
-      _writer.Write(_settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction ? "GetDiscoverPermissions" : "EvaluatePermissions");
-      _writer.Write("] ('can_get', ");
-      writeAlias();
-      _writer.Write(".permission_id, ");
-      writeAlias();
-      _writer.Write(".created_by_id, ");
-      writeAlias();
-      _writer.Write(".managed_by_id, ");
-      writeAlias();
-      _writer.Write(".owned_by_id, ");
-      writeAlias();
-      _writer.Write(".team_id, '");
-      _writer.Write(_settings.IdentityList);
-      _writer.Write("', null, '");
-      _writer.Write(_settings.UserId);
-      _writer.Write("', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0");
-    }
-
-    public void Visit(MultiplicationOperator op)
+    public virtual void Visit(OrOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" * ");
+        Writer.Write(" or ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(DivisionOperator op)
+    public virtual void Visit(PropertyReference op)
+    {
+      WriteAlias(op.Table);
+      Writer.Write(".");
+      WriteIdentifier(op.Name);
+    }
+
+    public virtual void Visit(StringLiteral op)
+    {
+      Writer.Write("'");
+      Writer.Write(op.Value.Replace("'", "''"));
+      Writer.Write('\'');
+    }
+
+    public virtual void Visit(MultiplicationOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" / ");
+        Writer.Write(" * ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(ModulusOperator op)
+    public virtual void Visit(DivisionOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" % ");
+        Writer.Write(" / ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(AdditionOperator op)
+    public virtual void Visit(ModulusOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" + ");
+        Writer.Write(" % ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(SubtractionOperator op)
+    public virtual void Visit(AdditionOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" - ");
+        Writer.Write(" + ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(NegationOperator op)
+    public virtual void Visit(SubtractionOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
-        _writer.Write(" -");
+        op.Left.Visit(this);
+        Writer.Write(" - ");
+        op.Right.Visit(this);
+      });
+    }
+
+    public virtual void Visit(NegationOperator op)
+    {
+      AddParenthesesIfNeeded(op, () =>
+      {
+        Writer.Write(" -");
         op.Arg.Visit(this);
       });
     }
 
-    public void Visit(ConcatenationOperator op)
+    public virtual void Visit(ConcatenationOperator op)
     {
       AddParenthesesIfNeeded(op, () =>
       {
         op.Left.Visit(this);
-        _writer.Write(" + ");
+        Writer.Write(" + ");
         op.Right.Visit(this);
       });
     }
 
-    public void Visit(ParameterReference op)
+    public virtual void Visit(ParameterReference op)
     {
-      _writer.Write('@');
-      _writer.Write(op.Name);
+      Writer.Write('@');
+      Writer.Write(op.Name);
     }
 
-    public void Visit(AllProperties op)
+    public virtual void Visit(AllProperties op)
     {
       if (op.XProperties)
         throw new NotSupportedException();
       WriteAlias(op.Table);
-      _writer.Write(".*");
+      Writer.Write(".*");
     }
 
-    private class LegacyPermissionFunction : IExpression
+    public virtual void Visit(PatternList op)
     {
-      public QueryItem Table { get; }
-
-      public LegacyPermissionFunction(QueryItem table)
-      {
-        Table = table;
-      }
-
-      public void Visit(IExpressionVisitor visitor)
-      {
-        ((SqlServerVisitor)visitor).Visit(this);
-      }
+      var writer = new SqlPatternWriter(PatternParser.SqlServer);
+      op.Visit(writer);
+      Visit(new StringLiteral(writer.ToString()));
     }
   }
 }

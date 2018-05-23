@@ -104,6 +104,7 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="QueryableTests.cs" />
     <Compile Include="QueryModel\ListExpressionTests.cs" />
+    <Compile Include="QueryModel\PatternTests.cs" />
     <Compile Include="QueryModel\WhereParserTests.cs" />
     <Compile Include="Scratchpad.cs" />
     <Compile Include="TestConnection.cs" />

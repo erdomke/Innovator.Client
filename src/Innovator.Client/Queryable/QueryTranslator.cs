@@ -277,13 +277,13 @@ namespace Innovator.Client.Queryable
               switch (m.Method.Name)
               {
                 case "StartsWith":
-                  str.Value = str.Value.Replace("%", "[%]") + "%";
+                  right = PatternParser.SqlServer.Parse(str.Value.Replace("%", "[%]") + "%");
                   break;
                 case "EndsWith":
-                  str.Value = "%" + str.Value.Replace("%", "[%]");
+                  right = PatternParser.SqlServer.Parse("%" + str.Value.Replace("%", "[%]"));
                   break;
                 case "Contains":
-                  str.Value = "%" + str.Value.Replace("%", "[%]") + "%";
+                  right = PatternParser.SqlServer.Parse("%" + str.Value.Replace("%", "[%]") + "%");
                   break;
               }
             }

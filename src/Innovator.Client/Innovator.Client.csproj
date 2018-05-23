@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />
-    <Compile Include="Aml\AmlSqlRenderOption.cs" />
+    <Compile Include="Aml\SqlRenderOption.cs" />
     <Compile Include="Aml\AmlWriterSettings.cs" />
     <Compile Include="Aml\ClassNode.cs" />
     <Compile Include="Aml\ClassStructure.cs" />
@@ -48,6 +48,7 @@
     <Compile Include="Aml\Condition.cs" />
     <Compile Include="QueryModel\AdditionOperator.cs" />
     <Compile Include="QueryModel\AllProperties.cs" />
+    <Compile Include="QueryModel\ArasSqlServerVisitor.cs" />
     <Compile Include="QueryModel\CloneVisitor.cs" />
     <Compile Include="QueryModel\ConcatenationOperator.cs" />
     <Compile Include="QueryModel\ConnectedAmlSqlWriterSettings.cs" />
@@ -547,7 +548,6 @@
     <Compile Include="QueryModel\AmlToModelWriter.cs" />
     <Compile Include="QueryModel\AmlVisitor.cs" />
     <Compile Include="QueryModel\AndOperator.cs" />
-    <Compile Include="QueryModel\BetweenOp.cs" />
     <Compile Include="QueryModel\BetweenOperator.cs" />
     <Compile Include="QueryModel\BinaryOperator.cs" />
     <Compile Include="QueryModel\BooleanLiteral.cs" />
@@ -593,6 +593,20 @@
     <Compile Include="QueryModel\OrderByExpression.cs" />
     <Compile Include="QueryModel\OrOperator.cs" />
     <Compile Include="QueryModel\ParameterReference.cs" />
+    <Compile Include="QueryModel\Pattern\Anchor.cs" />
+    <Compile Include="QueryModel\Pattern\AnchorType.cs" />
+    <Compile Include="QueryModel\Pattern\Capture.cs" />
+    <Compile Include="QueryModel\Pattern\CharSet.cs" />
+    <Compile Include="QueryModel\Pattern\IMatch.cs" />
+    <Compile Include="QueryModel\Pattern\IPatternSegment.cs" />
+    <Compile Include="QueryModel\Pattern\IPatternVisitor.cs" />
+    <Compile Include="QueryModel\Pattern\Pattern.cs" />
+    <Compile Include="QueryModel\Pattern\PatternParser.cs" />
+    <Compile Include="QueryModel\Pattern\PatternList.cs" />
+    <Compile Include="QueryModel\Pattern\RegExpWriter.cs" />
+    <Compile Include="QueryModel\Pattern\Repetition.cs" />
+    <Compile Include="QueryModel\Pattern\SqlPatternWriter.cs" />
+    <Compile Include="QueryModel\Pattern\StringMatch.cs" />
     <Compile Include="QueryModel\PrecedenceLevel.cs" />
     <Compile Include="QueryModel\PropertyReference.cs" />
     <Compile Include="QueryModel\QueryBuilderVisitor.cs" />

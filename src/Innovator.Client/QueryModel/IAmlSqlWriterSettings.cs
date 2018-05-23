@@ -19,7 +19,7 @@ namespace Innovator.Client.QueryModel
     /// <summary>
     /// What portion of the SQL query to render
     /// </summary>
-    AmlSqlRenderOption RenderOption { get; }
+    SqlRenderOption RenderOption { get; }
     /// <summary>
     /// ID of the current user
     /// </summary>

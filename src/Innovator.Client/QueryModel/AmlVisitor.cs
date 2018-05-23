@@ -181,43 +181,9 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    public void Visit(NotBetweenOperator op)
-    {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-
-      EnterContext(op, () =>
-      {
-        _writer.WriteStartElement(prop.Name);
-        _writer.WriteAttributeString("condition", "not between");
-        op.Min.Visit(_sqlVisitor);
-        _writer.WriteString(" and ");
-        op.Max.Visit(_sqlVisitor);
-        _writer.WriteEndElement();
-      });
-    }
-
     public void Visit(NotEqualsOperator op)
     {
       EnterContext(op, () => Visit(op, "ne"));
-    }
-
-    public void Visit(NotInOperator op)
-    {
-      if (!(op.Left is PropertyReference prop))
-        throw new NotSupportedException();
-      EnterContext(op, () =>
-      {
-        _writer.WriteStartElement(prop.Name);
-        _writer.WriteAttributeString("condition", "not in");
-        op.Right.Visit(this);
-        _writer.WriteEndElement();
-      });
-    }
-
-    public void Visit(NotLikeOperator op)
-    {
-      EnterContext(op, () => Visit(op, "not like"));
     }
 
     public void Visit(NotOperator op)
@@ -588,6 +554,13 @@ namespace Innovator.Client.QueryModel
     public void Visit(AllProperties op)
     {
       throw new NotSupportedException();
+    }
+
+    public void Visit(PatternList op)
+    {
+      var writer = new SqlPatternWriter(PatternParser.SqlServer);
+      op.Visit(writer);
+      _writer.WriteString(writer.ToString());
     }
 
     private class IsCurrentVisitor : SimpleVisitor

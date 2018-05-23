@@ -1,3 +1,26 @@
+/*
+ * https://docs.microsoft.com/en-us/vsts/collaborate/wiql-syntax?view=vsts
+ * https://msdn.microsoft.com/en-us/library/aa394054(v=vs.85).aspx
+ * http://docs.oasis-open.org/odata/odata/v4.0/errata03/os/complete/part2-url-conventions/odata-v4.0-errata03-os-part2-url-conventions-complete.html
+ * https://developer.atlassian.com/server/confluence/advanced-searching-using-cql/
+ * https://confluence.atlassian.com/jirasoftwarecloud/advanced-searching-764478330.html
+ * https://docs.newrelic.com/docs/insights/nrql-new-relic-query-language/nrql-resources/nrql-syntax-components-functions
+ * https://www.ibm.com/developerworks/community/wikis/form/anonymous/api/wiki/02db2a84-fc66-4667-b760-54e495526ec1/page/87348f89-b8b4-4c4a-94bd-ecbe1e4e8857/attachment/2f27f2b3-3583-4b3c-8ad1-ed35bb4e4279/media/MaximoNextGenRESTAPI%20%285%29.pdf
+ * https://developers.google.com/chart/interactive/docs/querylanguage
+ * 
+ * https://restdb.io/docs/querying-with-the-api
+ * https://tools.ietf.org/html/draft-nottingham-atompub-fiql-00
+ * http://htsql.org/doc/overview.html
+ *
+ * IDEAS:
+ *    FunctionReference should be an abstract base class with instance classes.  However, don't
+ *      make visitors handle each instance individually
+ *    Create an "under" or "isa" operator for heirarchical fields
+ *    Add QueryDate or "asof" as a property for the QueryItem.  Then, don't include "is_current"
+ *      in the query model. (Will help with federation scenarios.)
+ *      
+ */
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -98,7 +121,7 @@ namespace Innovator.Client.QueryModel
     /// <param name="settings">The settings.</param>
     public void ToSql(TextWriter writer, IAmlSqlWriterSettings settings)
     {
-      var visitor = new SqlServerVisitor(writer, settings);
+      var visitor = new ArasSqlServerVisitor(writer, settings);
       visitor.Visit(this);
     }
 

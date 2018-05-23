@@ -1,4 +1,4 @@
-namespace Innovator.Client
+namespace Innovator.Client.QueryModel
 {
   /// <summary>
   /// What SQL permission check to include in the SQL query

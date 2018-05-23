@@ -13,7 +13,7 @@ namespace Innovator.Client.QueryModel
 
     public AmlSqlPermissionOption PermissionOption => AmlSqlPermissionOption.None;
 
-    public AmlSqlRenderOption RenderOption => AmlSqlRenderOption.Default;
+    public SqlRenderOption RenderOption => SqlRenderOption.Default;
 
     public string UserId => null;
 

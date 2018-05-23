@@ -250,31 +250,11 @@ namespace Innovator.Client.QueryModel
       throw new NotSupportedException();
     }
 
-    public void Visit(NotBetweenOperator op)
-    {
-      op.ToConditional().Visit(this);
-    }
-
     public void Visit(NotEqualsOperator op)
     {
       _conditionWriter.WriteStartElement("ne");
       op.Left.Visit(this);
       op.Right.Visit(this);
-      _conditionWriter.WriteEndElement();
-    }
-
-    public void Visit(NotInOperator op)
-    {
-      op.ToConditional().Visit(this);
-    }
-
-    public void Visit(NotLikeOperator op)
-    {
-      _conditionWriter.WriteStartElement("not");
-      _conditionWriter.WriteStartElement("like");
-      op.Left.Visit(this);
-      op.Right.Visit(this);
-      _conditionWriter.WriteEndElement();
       _conditionWriter.WriteEndElement();
     }
 
@@ -353,9 +333,16 @@ namespace Innovator.Client.QueryModel
       _parameters.Add(op);
     }
 
-    public void Visit(AllProperties op)
+    void IExpressionVisitor.Visit(AllProperties op)
     {
       throw new NotSupportedException();
+    }
+
+    public void Visit(PatternList op)
+    {
+      var writer = new SqlPatternWriter(PatternParser.SqlServer);
+      op.Visit(writer);
+      _writer.WriteString(writer.ToString());
     }
 
     private IEnumerable<IExpression> Flatten<T>(T op) where T : BinaryOperator

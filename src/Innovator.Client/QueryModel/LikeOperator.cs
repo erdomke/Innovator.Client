@@ -11,7 +11,7 @@ namespace Innovator.Client.QueryModel
     public override int Precedence => (int)PrecedenceLevel.Comparison;
     QueryItem ITableProvider.Table { get; set; }
 
-    public IExpression Normalize()
+    public virtual IExpression Normalize()
     {
       SetTable();
       return this;

@@ -230,33 +230,11 @@ namespace Innovator.Client.QueryModel
       _writer.Write(')');
     }
 
-    public void Visit(NotBetweenOperator op)
-    {
-      throw new NotImplementedException();
-    }
-
     public void Visit(NotEqualsOperator op)
     {
       op.Left.Visit(this);
       _writer.Write(" ne ");
       op.Right.Visit(this);
-    }
-
-    public void Visit(NotInOperator op)
-    {
-      throw new NotImplementedException();
-    }
-
-    public void Visit(NotLikeOperator op)
-    {
-      new NotOperator()
-      {
-        Arg = new LikeOperator()
-        {
-          Left = op.Left,
-          Right = op.Right
-        }
-      }.Visit(this);
     }
 
     public void Visit(NotOperator op)
@@ -349,6 +327,11 @@ namespace Innovator.Client.QueryModel
     }
 
     public void Visit(AllProperties op)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Visit(PatternList op)
     {
       throw new NotImplementedException();
     }

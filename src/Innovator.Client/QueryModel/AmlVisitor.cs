@@ -84,14 +84,16 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(FunctionExpression op)
     {
-      if (string.Equals(op.Name, "GetDate", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(op.Name, "GetUtcDate", StringComparison.OrdinalIgnoreCase))
+      if (op is Functions.NewGuid)
       {
-        _writer.WriteString("__now()");
+        new StringLiteral(Guid.NewGuid().ToArasId()).Visit(this);
       }
       else
       {
-        throw new NotSupportedException();
+        var eval = op.Evaluate();
+        if (eval is FunctionExpression)
+          throw new NotSupportedException();
+        eval.Visit(this);
       }
     }
 

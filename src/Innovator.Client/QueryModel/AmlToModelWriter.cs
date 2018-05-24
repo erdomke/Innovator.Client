@@ -359,7 +359,7 @@ namespace Innovator.Client.QueryModel
           {
             if (value == "__now()")
             {
-              binOp.Right = new FunctionExpression() { Name = "GetDate" };
+              binOp.Right = new Functions.CurrentDateTime();
             }
             else if (binOp is LikeOperator)
             {

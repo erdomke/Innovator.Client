@@ -103,13 +103,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(FunctionExpression op)
     {
-      var clone = new FunctionExpression()
-      {
-        Name = op.Name
-      };
-      foreach (var arg in op.Args)
-        clone.Args.Add(Clone(arg));
-      _clone = clone;
+      _clone = op.Clone(Clone);
     }
 
     public void Visit(GreaterThanOperator op)

@@ -69,25 +69,25 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(FunctionExpression op)
     {
-      var name = op.Name;
-      switch (name.ToLowerInvariant())
-      {
-        case "getdate":
-          name = "now";
-          break;
-      }
+      //var name = op.Name;
+      //switch (name.ToLowerInvariant())
+      //{
+      //  case "getdate":
+      //    name = "now";
+      //    break;
+      //}
 
-      _writer.Write(name);
-      _writer.Write('(');
-      var first = true;
-      foreach (var arg in op.Args)
-      {
-        if (!first)
-          _writer.Write(", ");
-        first = false;
-        arg.Visit(this);
-      }
-      _writer.Write(')');
+      //_writer.Write(name);
+      //_writer.Write('(');
+      //var first = true;
+      //foreach (var arg in op.Args)
+      //{
+      //  if (!first)
+      //    _writer.Write(", ");
+      //  first = false;
+      //  arg.Visit(this);
+      //}
+      //_writer.Write(')');
     }
 
     public void Visit(GreaterThanOperator op)
@@ -148,72 +148,72 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(LikeOperator op)
     {
-      if (!(op.Left is PropertyReference prop && op.Right is StringLiteral str))
-        throw new NotSupportedException();
+      //if (!(op.Left is PropertyReference prop && op.Right is StringLiteral str))
+      //  throw new NotSupportedException();
 
-      var val = str.Value;
-      var start = 0;
-      var length = val.Length;
-      var func = "";
-      if (val.StartsWith("%") && val.EndsWith("%"))
-      {
-        start++;
-        length--;
-        func = "contains";
-      }
-      else if (val.StartsWith("%"))
-      {
-        start++;
-        func = "endswith";
-      }
-      else if (val.EndsWith("%"))
-      {
-        length--;
-        func = "startswith";
-      }
+      //var val = str.Value;
+      //var start = 0;
+      //var length = val.Length;
+      //var func = "";
+      //if (val.StartsWith("%") && val.EndsWith("%"))
+      //{
+      //  start++;
+      //  length--;
+      //  func = "contains";
+      //}
+      //else if (val.StartsWith("%"))
+      //{
+      //  start++;
+      //  func = "endswith";
+      //}
+      //else if (val.EndsWith("%"))
+      //{
+      //  length--;
+      //  func = "startswith";
+      //}
 
-      var output = new StringBuilder();
-      for (var i = start; i < length; i++)
-      {
-        switch (val[i])
-        {
-          case '%':
-            throw new NotSupportedException();
-          case '[':
-            if (i + 2 < length && val[i + 2] == ']')
-            {
-              output.Append(val[i + 1]);
-              i += 2;
-            }
-            else
-            {
-              throw new NotSupportedException();
-            }
-            break;
-          default:
-            output.Append(val[i]);
-            break;
-        }
-      }
+      //var output = new StringBuilder();
+      //for (var i = start; i < length; i++)
+      //{
+      //  switch (val[i])
+      //  {
+      //    case '%':
+      //      throw new NotSupportedException();
+      //    case '[':
+      //      if (i + 2 < length && val[i + 2] == ']')
+      //      {
+      //        output.Append(val[i + 1]);
+      //        i += 2;
+      //      }
+      //      else
+      //      {
+      //        throw new NotSupportedException();
+      //      }
+      //      break;
+      //    default:
+      //      output.Append(val[i]);
+      //      break;
+      //  }
+      //}
 
-      if (string.IsNullOrEmpty(func))
-      {
-        new EqualsOperator()
-        {
-          Left = prop,
-          Right = new StringLiteral(output.ToString())
-        }.Visit(this);
-      }
-      else
-      {
-        new FunctionExpression()
-        {
-          Name = func,
-          Args = {
-            prop, new StringLiteral(output.ToString())
-          }
-        }.Visit(this);
-      }
+      //if (string.IsNullOrEmpty(func))
+      //{
+      //  new EqualsOperator()
+      //  {
+      //    Left = prop,
+      //    Right = new StringLiteral(output.ToString())
+      //  }.Visit(this);
+      //}
+      //else
+      //{
+      //  new FunctionExpression()
+      //  {
+      //    Name = func,
+      //    Args = {
+      //      prop, new StringLiteral(output.ToString())
+      //    }
+      //  }.Visit(this);
+      //}
     }
 
     public void Visit(ListExpression op)

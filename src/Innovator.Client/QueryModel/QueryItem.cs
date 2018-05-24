@@ -13,16 +13,23 @@
  * http://htsql.org/doc/overview.html
  *
  * IDEAS:
+ *    Add an ICoercible interface to literals, properties, attributes, etc. for value mapping
+ *    Add support for mapping the values in a query to another data model
  *    FunctionReference should be an abstract base class with instance classes.  However, don't
  *      make visitors handle each instance individually
  *    Create an "under" or "isa" operator for heirarchical fields
- *      
+ *    
+ *    IQueryable with Entity Framework: https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/clr-method-to-canonical-function-mapping
+ *    With Evaluator.PartialEval, don't evaluate methods I want to translate
  */
 
+using Innovator.Client.Queryable;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -261,5 +268,41 @@ namespace Innovator.Client.QueryModel
         return w.Query;
       }
     }
+
+#if REFLECTION
+    public static QueryItem FromLinq(string itemType, Func<IOrderedQueryable<IReadOnlyItem>, IQueryable> writer, IServerContext context = null)
+    {
+      return FromLinq<IReadOnlyItem>(itemType, writer, context);
+    }
+
+    public static QueryItem FromLinq<T>(string itemType, Func<IOrderedQueryable<T>, IQueryable> writer, IServerContext context = null) where T : IReadOnlyItem
+    {
+      context = context ?? ElementFactory.Local.LocalizationContext;
+
+      var queryable = writer(new InnovatorQuery<T>(new Provider(context), itemType));
+      var provider = (Provider)queryable.Provider;
+      return provider.Translate(queryable.Expression);
+    }
+
+    private class Provider : QueryProvider
+    {
+      private readonly IServerContext _context;
+
+      public Provider(IServerContext context)
+      {
+        _context = context;
+      }
+
+      public override object Execute(Expression expression) => throw new NotSupportedException();
+
+      internal QueryItem Translate(Expression expression)
+      {
+        expression = Evaluator.PartialEval(expression);
+        return new QueryTranslator(new ElementFactory(_context))
+          .Translate(expression)
+          .QueryItem;
+      }
+    }
+#endif
   }
 }

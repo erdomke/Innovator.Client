@@ -61,6 +61,9 @@
     <Compile Include="Aml\IAmlNode.cs" />
     <Compile Include="QueryModel\DivisionOperator.cs" />
     <Compile Include="QueryModel\Expressions.cs" />
+    <Compile Include="QueryModel\Functions\DateTimeFunctions.cs" />
+    <Compile Include="QueryModel\Functions\MathFunctions.cs" />
+    <Compile Include="QueryModel\Functions\StringFunctions.cs" />
     <Compile Include="QueryModel\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
     <Compile Include="Aml\IAttribute.cs" />

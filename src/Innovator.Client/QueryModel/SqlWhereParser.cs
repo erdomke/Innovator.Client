@@ -68,12 +68,13 @@ namespace Innovator.Client.QueryModel
                   listExpr.Values.Add(arg);
                 }
               }
-              else if (parenExpr is FunctionExpression funcExpr)
+              else if (parenExpr is SqlFunction funcExpr)
               {
                 foreach (var arg in args)
                 {
-                  funcExpr.Args.Add(arg);
+                  funcExpr.Add(arg);
                 }
+                parenExpr = funcExpr.Normalize();
               }
               else if (args.Count == 1)
               {
@@ -91,10 +92,7 @@ namespace Innovator.Client.QueryModel
             if (expr is ListExpression && last is PropertyReference prop)
             {
               output.Pop();
-              ops.Push(new FunctionExpression()
-              {
-                Name = prop.Name
-              });
+              ops.Push(new SqlFunction(prop.Name));
             }
             else
             {
@@ -400,6 +398,249 @@ namespace Innovator.Client.QueryModel
     private class AndBetweenOperator : AndOperator
     {
       public override int Precedence => (int)PrecedenceLevel.SubComparison;
+    }
+
+    private class SqlFunction : FunctionExpression, INormalize
+    {
+      private int _ptr;
+      public override string Name { get; }
+
+      public SqlFunction(string name) : base(16)
+      {
+        Name = name;
+      }
+
+      public void Add(IExpression expression)
+      {
+        _args[_ptr++] = expression;
+      }
+
+      public IExpression Normalize()
+      {
+        switch (Name.ToLowerInvariant())
+        {
+          case "abs":
+            if (_ptr == 1)
+              return new Functions.Abs() { Value = _args[0] };
+            break;
+          case "ceiling":
+            if (_ptr == 1)
+              return new Functions.Ceiling() { Value = _args[0] };
+            break;
+          case "concat":
+            if (_ptr < 1)
+              throw new NotSupportedException();
+            if (_ptr == 1)
+              return _args[0];
+            var concat = (IExpression)new ConcatenationOperator()
+            {
+              Left = _args[0],
+              Right = _args[1]
+            }.Normalize();
+            for (var i = 2; i < _ptr; i++)
+            {
+              concat = new ConcatenationOperator()
+              {
+                Left = concat,
+                Right = _args[i]
+              }.Normalize();
+            }
+            return concat;
+          case "dateadd":
+            if (_ptr == 3 && _args[0] is PropertyReference prop)
+            {
+              switch (prop.Name.ToLowerInvariant())
+              {
+                case "year":
+                case "yy":
+                case "yyyy":
+                  return new Functions.AddYears() { Expression = _args[2], Number = _args[1] };
+                case "month":
+                case "mm":
+                case "m":
+                  return new Functions.AddMonths() { Expression = _args[2], Number = _args[1] };
+                case "day":
+                case "dd":
+                case "d":
+                  return new Functions.AddDays() { Expression = _args[2], Number = _args[1] };
+                case "hour":
+                case "hh":
+                  return new Functions.AddHours() { Expression = _args[2], Number = _args[1] };
+                case "minute":
+                case "mi":
+                case "n":
+                  return new Functions.AddMinutes() { Expression = _args[2], Number = _args[1] };
+                case "second":
+                case "ss":
+                case "s":
+                  return new Functions.AddSeconds() { Expression = _args[2], Number = _args[1] };
+                case "millisecond":
+                case "ms":
+                  return new Functions.AddMilliseconds() { Expression = _args[2], Number = _args[1] };
+                case "microsecond":
+                case "mcs":
+                  return new Functions.AddMicroseconds() { Expression = _args[2], Number = _args[1] };
+                case "nanosecond":
+                case "ns":
+                  return new Functions.AddNanoseconds() { Expression = _args[2], Number = _args[1] };
+              }
+            }
+            break;
+          case "datediff":
+            if (_ptr == 3 && _args[0] is PropertyReference prop2)
+            {
+              switch (prop2.Name.ToLowerInvariant())
+              {
+                case "year":
+                case "yy":
+                case "yyyy":
+                  return new Functions.DiffYears() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "month":
+                case "mm":
+                case "m":
+                  return new Functions.DiffMonths() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "day":
+                case "dd":
+                case "d":
+                  return new Functions.DiffDays() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "hour":
+                case "hh":
+                  return new Functions.DiffHours() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "minute":
+                case "mi":
+                case "n":
+                  return new Functions.DiffMinutes() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "second":
+                case "ss":
+                case "s":
+                  return new Functions.DiffSeconds() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "millisecond":
+                case "ms":
+                  return new Functions.DiffMilliseconds() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "microsecond":
+                case "mcs":
+                  return new Functions.DiffMicroseconds() { StartExpression = _args[1], EndExpression = _args[2] };
+                case "nanosecond":
+                case "ns":
+                  return new Functions.DiffNanoseconds() { StartExpression = _args[1], EndExpression = _args[2] };
+              }
+            }
+            break;
+          case "datepart":
+            if (_ptr == 2 && _args[0] is PropertyReference prop3)
+            {
+              switch (prop3.Name.ToLowerInvariant())
+              {
+                case "year":
+                case "yy":
+                case "yyyy":
+                  return new Functions.Year() { Expression = _args[1] };
+                case "month":
+                case "mm":
+                case "m":
+                  return new Functions.Month() { Expression = _args[1] };
+                case "day":
+                case "dd":
+                case "d":
+                  return new Functions.Day() { Expression = _args[1] };
+                case "hour":
+                case "hh":
+                  return new Functions.Hour() { Expression = _args[1] };
+                case "minute":
+                case "mi":
+                case "n":
+                  return new Functions.Minute() { Expression = _args[1] };
+                case "second":
+                case "ss":
+                case "s":
+                  return new Functions.Second() { Expression = _args[1] };
+                case "millisecond":
+                case "ms":
+                  return new Functions.Millisecond() { Expression = _args[1] };
+              }
+            }
+            break;
+          case "day":
+            if (_ptr == 1)
+              return new Functions.Day() { Expression = _args[0] };
+            break;
+          case "floor":
+            if (_ptr == 1)
+              return new Functions.Floor() { Value = _args[0] };
+            break;
+          case "getdate":
+            if (_ptr == 0)
+              return new Functions.CurrentDateTime();
+            break;
+          case "getutcdate":
+            if (_ptr == 0)
+              return new Functions.CurrentUtcDateTime();
+            break;
+          case "left":
+            if (_ptr == 2)
+              return new Functions.Left() { String = _args[0], Length = _args[1] };
+            break;
+          case "lower":
+            if (_ptr == 1)
+              return new Functions.ToLower() { String = _args[0] };
+            break;
+          case "ltrim":
+            if (_ptr == 1)
+              return new Functions.LTrim() { String = _args[0] };
+            break;
+          case "month":
+            if (_ptr == 1)
+              return new Functions.Month() { Expression = _args[0] };
+            break;
+          case "newid":
+            if (_ptr == 0)
+              return new Functions.NewGuid();
+            break;
+          case "power":
+            if (_ptr == 2)
+              return new Functions.Power() { Value = _args[0], Exponent = _args[1] };
+            break;
+          case "replace":
+            if (_ptr == 3)
+              return new Functions.Replace() { String = _args[0], Find = _args[1], Substitute = _args[2] };
+            break;
+          case "reverse":
+            if (_ptr == 1)
+              return new Functions.Reverse() { String = _args[0] };
+            break;
+          case "right":
+            if (_ptr == 2)
+              return new Functions.Right() { String = _args[0], Length = _args[1] };
+            break;
+          case "round":
+            if (_ptr == 2 || (_ptr == 3 && _args[2] is IntegerLiteral iLit && iLit.Value == 0))
+              return new Functions.Round() { Value = _args[0], Digits = _args[1] };
+            if (_ptr == 3)
+              return new Functions.Truncate() { Value = _args[0], Digits = _args[1] };
+            break;
+          case "rtrim":
+            if (_ptr == 1)
+              return new Functions.RTrim() { String = _args[0] };
+            break;
+          case "substring":
+            if (_ptr == 3)
+              return new Functions.Substring() { String = _args[0], Start = _args[1], Length = _args[2] };
+            break;
+          case "trim":
+            if (_ptr == 1)
+              return new Functions.Trim() { String = _args[0] };
+            break;
+          case "upper":
+            if (_ptr == 1)
+              return new Functions.ToUpper() { String = _args[0] };
+            break;
+          case "year":
+            if (_ptr == 1)
+              return new Functions.Year() { Expression = _args[0] };
+            break;
+        }
+        throw new NotSupportedException();
+      }
     }
 
     private static int GetPrecedence(IExpression expr)

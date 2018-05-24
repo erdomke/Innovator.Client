@@ -101,9 +101,8 @@ namespace Innovator.Client.QueryModel.Tests
       var ltOp = andOp.Right as LessThanOperator;
       Assert.IsNotNull(ltOp);
 
-      var func = ltOp.Right as FunctionExpression;
+      var func = ltOp.Right as Functions.AddMonths;
       Assert.IsNotNull(func);
-      Assert.AreEqual(3, func.Args.Count);
     }
 
     [TestMethod]
@@ -150,9 +149,9 @@ namespace Innovator.Client.QueryModel.Tests
       Assert.IsNotNull(inOp);
       Assert.AreEqual(7, inOp.Right.Values.Count);
 
-      var func = inOp.Left as FunctionExpression;
+      var func = inOp.Left as Functions.Substring;
       Assert.IsNotNull(func);
-      Assert.AreEqual(3, func.Args.Count);
+      Assert.AreEqual(3, func.Args.Count());
     }
   }
 }

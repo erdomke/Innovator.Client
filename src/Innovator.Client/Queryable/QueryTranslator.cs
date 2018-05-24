@@ -309,12 +309,87 @@ namespace Innovator.Client.Queryable
 
             _curr = new LikeOperator() { Left = left, Right = right }.Normalize();
             return m;
+          case "Concat":
+            if (m.Arguments.Count == 1)
+            {
+              _curr = VisitAndReturn(m.Arguments[0]);
+            }
+            else if (m.Arguments.Count > 1)
+            {
+              _curr = new ConcatenationOperator()
+              {
+                Left = VisitAndReturn(m.Arguments[0]),
+                Right = VisitAndReturn(m.Arguments[1]),
+              }.Normalize();
+              for (var i = 2; i < m.Arguments.Count; i++)
+              {
+                _curr = new ConcatenationOperator()
+                {
+                  Left = _curr,
+                  Right = VisitAndReturn(m.Arguments[i]),
+                }.Normalize();
+              }
+            }
+            return m;
+          case "Equals":
+            _curr = new EqualsOperator()
+            {
+              Left = VisitAndReturn(m.Arguments[0]),
+              Right = VisitAndReturn(m.Arguments[1])
+            }.Normalize();
+            return m;
           case "IsNullOrEmpty":
             _curr = new IsOperator()
             {
               Left = VisitAndReturn(m.Arguments[0]),
               Right = IsOperand.Null
             }.Normalize();
+            return m;
+        }
+      }
+      else if (m.Method.DeclaringType.FullName == "Microsoft.VisualBasic.Strings")
+      {
+        switch (m.Method.Name)
+        {
+          case "Trim":
+            _curr = new QueryModel.Functions.Trim() { String = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "LTrim":
+            _curr = new QueryModel.Functions.LTrim() { String = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "RTrim":
+            _curr = new QueryModel.Functions.RTrim() { String = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Len":
+            _curr = new QueryModel.Functions.Length() { String = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Left":
+            _curr = new QueryModel.Functions.Left()
+            {
+              String = VisitAndReturn(m.Arguments[0]),
+              Length = VisitAndReturn(m.Arguments[1])
+            };
+            return m;
+          case "Mid":
+            _curr = new QueryModel.Functions.Substring()
+            {
+              String = VisitAndReturn(m.Arguments[0]),
+              Start = VisitAndReturn(m.Arguments[1]),
+              Length = VisitAndReturn(m.Arguments[2])
+            };
+            return m;
+          case "Right":
+            _curr = new QueryModel.Functions.Right()
+            {
+              String = VisitAndReturn(m.Arguments[0]),
+              Length = VisitAndReturn(m.Arguments[1])
+            };
+            return m;
+          case "UCase":
+            _curr = new QueryModel.Functions.ToUpper() { String = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "LCase":
+            _curr = new QueryModel.Functions.ToLower() { String = VisitAndReturn(m.Arguments[0]) };
             return m;
         }
       }

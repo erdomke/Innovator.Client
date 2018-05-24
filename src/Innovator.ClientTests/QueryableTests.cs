@@ -8,6 +8,7 @@ using Innovator.Client.Queryable;
 using System.Collections;
 using Innovator.Client.Model;
 using ODataToolkit;
+using Innovator.Client.QueryModel;
 
 namespace Innovator.Client.Tests
 {
@@ -390,6 +391,13 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name><state>Something</state></Item></created_by_id></Item>"
         , TestQueryString("?$filter=created_by_id/keyed_name eq 'Test' and created_by_id/state eq 'Something'"));
+    }
+
+    [TestMethod()]
+    public void Queryable_Function_Now()
+    {
+      var model = QueryItem.FromLinq("Part", q => q.Where(i => i.ModifiedOn().AsDateTime() > DateTime.Now));
+      Assert.IsTrue(model.Where is GreaterThanOperator op && op.Right is QueryModel.Functions.CurrentDateTime);
     }
   }
 }

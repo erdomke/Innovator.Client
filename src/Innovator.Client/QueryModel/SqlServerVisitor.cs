@@ -341,17 +341,14 @@ namespace Innovator.Client.QueryModel
 
     public virtual void Visit(FunctionExpression op)
     {
-      Writer.Write(op.Name);
-      Writer.Write('(');
-      var first = true;
-      foreach (var arg in op.Args)
+      if (op is Functions.CurrentDateTime || op is Functions.CurrentUtcDateTime)
       {
-        if (!first)
-          Writer.Write(", ");
-        first = false;
-        arg.Visit(this);
+        Writer.Write("getutcdate()");
       }
-      Writer.Write(')');
+      else
+      {
+        throw new NotSupportedException();
+      }
     }
 
     public virtual void Visit(GreaterThanOperator op)

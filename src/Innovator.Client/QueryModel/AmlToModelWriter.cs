@@ -278,15 +278,15 @@ namespace Innovator.Client.QueryModel
           && ParameterSubstitution.TryDeserializeDateRange(dateRange, out var dateStart, out var dateEnd)
           && (dateStart.HasValue || dateEnd.HasValue))
         {
-          var prop = (last as BinaryOperator)?.Left ?? (last as BetweenOperator)?.Left;
-          if (prop == null)
+          var property = (last as BinaryOperator)?.Left ?? (last as BetweenOperator)?.Left;
+          if (property == null)
             throw new NotSupportedException();
 
           if (dateStart.HasValue && dateEnd.HasValue)
           {
             last = new BetweenOperator()
             {
-              Left = prop,
+              Left = property,
               Min = new DateTimeLiteral(dateStart.Value.AsDate(_context.Now(), false)),
               Max = new DateTimeLiteral(dateEnd.Value.AsDate(_context.Now(), true)),
             }.Normalize();
@@ -295,7 +295,7 @@ namespace Innovator.Client.QueryModel
           {
             last = new GreaterThanOrEqualsOperator()
             {
-              Left = prop,
+              Left = property,
               Right = new DateTimeLiteral(dateStart.Value.AsDate(_context.Now(), false))
             }.Normalize();
           }
@@ -303,7 +303,7 @@ namespace Innovator.Client.QueryModel
           {
             last = new LessThanOrEqualsOperator()
             {
-              Left = prop,
+              Left = property,
               Right = new DateTimeLiteral(dateEnd.Value.AsDate(_context.Now(), true))
             }.Normalize();
           }
@@ -340,9 +340,9 @@ namespace Innovator.Client.QueryModel
           {
             betweenOp.SetMinMaxFromSql(value);
           }
-          else if (last is PropertyReference prop)
+          else if (last is PropertyReference property)
           {
-            if (_stack.OfType<Join>().Last().Right.Joins.Any(j => j.Right.TypeProvider == prop))
+            if (_stack.OfType<Join>().Last().Right.Joins.Any(j => j.Right.TypeProvider == property))
             {
               last = null;
             }
@@ -350,7 +350,7 @@ namespace Innovator.Client.QueryModel
             {
               last = new EqualsOperator()
               {
-                Left = prop
+                Left = property
               };
             }
           }
@@ -372,7 +372,29 @@ namespace Innovator.Client.QueryModel
           }
         }
 
-        if (last is IExpression expr)
+        if (last is BinaryOperator genOp
+          && genOp.Left is PropertyReference prop
+          && (prop.Name == "generation" || prop.Name == "id"))
+        {
+          Query.Version = new VersionCriteria()
+          {
+            Condition = genOp
+          };
+          if (prop.Name == "id")
+            AddToCondition(genOp);
+        }
+        else if (last is InOperator genOp2
+          && genOp2.Left is PropertyReference prop2
+          && (prop2.Name == "generation" || prop2.Name == "id"))
+        {
+          Query.Version = new VersionCriteria()
+          {
+            Condition = genOp2
+          };
+          if (prop2.Name == "id")
+            AddToCondition(genOp2);
+        }
+        else if (last is IExpression expr)
         {
           AddToCondition(expr);
         }
@@ -475,6 +497,10 @@ namespace Innovator.Client.QueryModel
           Left = new PropertyReference("id", item),
           Right = new StringLiteral(id)
         };
+        item.Version = new VersionCriteria()
+        {
+          Condition = item.Where
+        };
       }
       else if (item.Attributes.TryGetValue("idlist", out var idlist))
       {
@@ -483,7 +509,10 @@ namespace Innovator.Client.QueryModel
           Left = new PropertyReference("id", item),
           Right = new ListExpression(idlist.Split(',').Select(i => (IOperand)new StringLiteral(i)))
         };
-
+        item.Version = new VersionCriteria()
+        {
+          Condition = item.Where
+        };
       }
       else if (item.Attributes.TryGetValue("where", out var whereClause))
       {
@@ -563,63 +592,32 @@ namespace Innovator.Client.QueryModel
       var queryType = default(string);
       if (!item.Attributes.TryGetValue("queryType", out queryType))
         queryType = "Current";
-      if (string.Equals(queryType, "ignore", StringComparison.OrdinalIgnoreCase)
-        || string.Equals(queryType, "skip", StringComparison.OrdinalIgnoreCase))
+      if (item.Version != null)
       {
         // Do nothing
       }
+      else if (string.Equals(queryType, "ignore", StringComparison.OrdinalIgnoreCase)
+        || string.Equals(queryType, "skip", StringComparison.OrdinalIgnoreCase))
+      {
+        item.Version = null;
+      }
       else if (string.Equals(queryType, "Current", StringComparison.OrdinalIgnoreCase))
       {
-        var visitor = new PropNameVisitor();
-        if (item.Where != null)
-          item.Where.Visit(visitor);
-
-        if (!visitor.PropertyNames.Contains("id") && !visitor.PropertyNames.Contains("generation"))
-        {
-          var whereClause = (IExpression)new EqualsOperator()
-          {
-            Left = new PropertyReference("is_current", item),
-            Right = new BooleanLiteral(true)
-          };
-
-          if (item.Where != null)
-          {
-            whereClause = new AndOperator()
-            {
-              Left = item.Where,
-              Right = whereClause
-            };
-          }
-
-          item.Where = whereClause;
-        }
+        item.Version = new CurrentVersion();
       }
       else if (string.Equals(queryType, "Latest", StringComparison.OrdinalIgnoreCase))
       {
-        var visitor = new PropNameVisitor();
-        if (item.Where != null)
-          item.Where.Visit(visitor);
-
-        if (!visitor.PropertyNames.Contains("is_active_rev"))
-          throw new NotSupportedException();
+        if (item.Attributes.TryGetValue("queryDate", out var queryDateStr))
+          item.Version = new LatestMatch() { AsOf = DateTime.Parse(queryDateStr) };
+        else
+          item.Version = new LatestMatch() { AsOf = DateTime.Now };
       }
       else
       {
         throw new NotSupportedException();
       }
-    }
-
-    private class PropNameVisitor : SimpleVisitor
-    {
-      private HashSet<string> _props = new HashSet<string>();
-
-      public HashSet<string> PropertyNames { get { return _props; } }
-
-      public override void Visit(PropertyReference op)
-      {
-        base.Visit(op);
-        _props.Add(op.Name);
-      }
+      item.Attributes.Remove("queryType");
+      item.Attributes.Remove("queryDate");
     }
 
     private void AddToCondition(IExpression expr)

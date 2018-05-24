@@ -16,8 +16,6 @@
  *    FunctionReference should be an abstract base class with instance classes.  However, don't
  *      make visitors handle each instance individually
  *    Create an "under" or "isa" operator for heirarchical fields
- *    Add QueryDate or "asof" as a property for the QueryItem.  Then, don't include "is_current"
- *      in the query model. (Will help with federation scenarios.)
  *      
  */
 
@@ -71,7 +69,6 @@ namespace Innovator.Client.QueryModel
     /// Gets or sets how many records to skip.
     /// </summary>
     public int? Offset { get; set; }
-
     /// <summary>
     /// Gets the joined tables.
     /// </summary>
@@ -84,6 +81,10 @@ namespace Innovator.Client.QueryModel
     /// Gets the select columns to return.
     /// </summary>
     public IList<SelectExpression> Select { get { return _select; } }
+    /// <summary>
+    /// Gets or sets the version.
+    /// </summary>
+    public IVersionCriteria Version { get; set; }
     /// <summary>
     /// Gets or sets the criteria used to filter the items to return.
     /// </summary>

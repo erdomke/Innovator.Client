@@ -82,10 +82,10 @@ namespace Innovator.Client.Tests
       var compare = a.Item(a.Type("ItemType"), a.Id("4F1AC04A2B484F3ABA4E20DB63808A88"));
 
       var aml = TestAml(q => q.Where(i => i == compare));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.Equals(compare)));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>", aml);
     }
 
     [TestMethod()]
@@ -120,10 +120,10 @@ namespace Innovator.Client.Tests
     public void Queryable_Id()
     {
       var aml = TestAml(q => q.Where(i => i.Id() == "4F1AC04A2B484F3ABA4E20DB63808A88"));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.Attribute("id").Value == "4F1AC04A2B484F3ABA4E20DB63808A88"));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>", aml);
     }
 
     [TestMethod()]
@@ -138,11 +138,11 @@ namespace Innovator.Client.Tests
     {
       var ids = new string[] { "4F1AC04A2B484F3ABA4E20DB63808A88", "B88C14B99EF449828C5D926E39EE8B89" };
       var aml = TestAml(q => q.Where(i => ids.Contains(i.Id())));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" idlist=\"4F1AC04A2B484F3ABA4E20DB63808A88,B88C14B99EF449828C5D926E39EE8B89\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id condition=\"in\">'4F1AC04A2B484F3ABA4E20DB63808A88', 'B88C14B99EF449828C5D926E39EE8B89'</id></Item>", aml);
 
       var hash = new HashSet<string>(ids);
       aml = TestAml(q => q.Where(i => hash.Contains(i.Id())));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" idlist=\"4F1AC04A2B484F3ABA4E20DB63808A88,B88C14B99EF449828C5D926E39EE8B89\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id condition=\"in\">'4F1AC04A2B484F3ABA4E20DB63808A88', 'B88C14B99EF449828C5D926E39EE8B89'</id></Item>", aml);
     }
 
     [TestMethod()]
@@ -251,7 +251,7 @@ namespace Innovator.Client.Tests
     public void QueryString_GuidId()
     {
       var aml = TestQueryString("?$filter=id eq guid'4F1AC04A-2B48-4F3A-BA4E-20DB63808A88'");
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\" />", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>", aml);
     }
 
     [TestMethod()]
@@ -372,14 +372,14 @@ namespace Innovator.Client.Tests
     public void Queryable_Include()
     {
       var aml = TestAml(q => q.Include("created_by_id").Where(i => i.Id() == "4F1AC04A2B484F3ABA4E20DB63808A88"));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\"><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
     }
 
     [TestMethod()]
     public void QueryString_Include()
     {
       var aml = TestQueryString("?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id");
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" id=\"4F1AC04A2B484F3ABA4E20DB63808A88\"><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>", aml);
     }
 
     [TestMethod()]

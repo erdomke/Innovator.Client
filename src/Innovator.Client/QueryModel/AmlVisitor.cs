@@ -329,14 +329,13 @@ namespace Innovator.Client.QueryModel
       {
         _writer.WriteAttributeString(attr.Key, attr.Value);
       }
-      var isCurrentVisitor = new IsCurrentVisitor();
-      query.Where?.Visit(isCurrentVisitor);
-      if (!isCurrentVisitor.IsCurrent
-        && !isCurrentVisitor.GenerationCriteria
-        && !(query.Where is BooleanLiteral))
+
+      if (query.Version is LatestMatch latest)
       {
+        _writer.WriteAttributeString("queryDate", _context.Format(latest.AsOf));
         _writer.WriteAttributeString("queryType", "Latest");
       }
+
 
       var joins = query.Joins.Select(j => new AmlJoin(query, j)).ToArray();
       if (joins.Any(j => !j.IsItemProperty() && !j.IsRelationship()))
@@ -360,28 +359,28 @@ namespace Innovator.Client.QueryModel
       }
 
       _currQuery = query;
-      if (isCurrentVisitor.IdExpr != null)
+      if (query.Version is VersionCriteria vers && query.Version == query.Where)
       {
-        if (isCurrentVisitor.IdExpr is StringLiteral str)
+        if (vers.Condition is InOperator inOp
+          && inOp.Left is PropertyReference prop1
+          && prop1.Name == "id")
+        {
+          _writer.WriteAttributeString("idlist", inOp.Right.Values
+            .OfType<StringLiteral>()
+            .Select(s => s.Value)
+            .GroupConcat(","));
+        }
+        else if (vers.Condition is EqualsOperator eqOp
+          && eqOp.Left is PropertyReference prop2
+          && prop2.Name == "id"
+          && eqOp.Right is StringLiteral str)
         {
           _writer.WriteAttributeString("id", str.Value);
-        }
-        else if (isCurrentVisitor.IdExpr is ListExpression listOp)
-        {
-          _writer.WriteAttributeString("idlist"
-            , listOp.Values.OfType<StringLiteral>().Select(s => s.Value).GroupConcat(","));
         }
         else
         {
           throw new NotSupportedException();
         }
-      }
-      else if (isCurrentVisitor.IsCurrent && query.Where is AndOperator andOp
-        && (andOp.Left is BooleanLiteral || andOp.Right is BooleanLiteral))
-      {
-        var boolean = new[] { andOp.Left, andOp.Right }.OfType<BooleanLiteral>().First();
-        if (!boolean.Value)
-          _writer.WriteAttributeString("id", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
       }
       else if (query.Where is BooleanLiteral boolean)
       {
@@ -495,8 +494,7 @@ namespace Innovator.Client.QueryModel
 
       public bool HasCriteria()
       {
-        return !((Table?.Where is EqualsOperator e && e.Left is PropertyReference p && p.Name == "is_current")
-          || Table.Where == null);
+        return Table.Where != null;
       }
     }
 
@@ -561,64 +559,6 @@ namespace Innovator.Client.QueryModel
       var writer = new SqlPatternWriter(PatternParser.SqlServer);
       op.Visit(writer);
       _writer.WriteString(writer.ToString());
-    }
-
-    private class IsCurrentVisitor : SimpleVisitor
-    {
-      private List<IOperator> _ops = new List<IOperator>();
-
-      public bool GenerationCriteria { get; set; }
-      public bool IsCurrent { get; set; } = false;
-      public IExpression IdExpr { get; set; }
-
-      public override void Visit(AndOperator op)
-      {
-        _ops.Add(op);
-        base.Visit(op);
-        _ops.Pop();
-      }
-
-      public override void Visit(EqualsOperator op)
-      {
-        IsCurrent = IsIsCurrentCriteria(op);
-        if ((op.Left as PropertyReference)?.Name == "id"
-          && op.Right is StringLiteral
-          && _ops.All(o => o is AndOperator))
-        {
-          GenerationCriteria = true;
-          IdExpr = op.Right;
-        }
-      }
-
-      public override void Visit(InOperator op)
-      {
-        if ((op.Left as PropertyReference)?.Name == "id"
-          && _ops.All(o => o is AndOperator))
-        {
-          GenerationCriteria = true;
-          IdExpr = op.Right;
-        }
-      }
-
-      public override void Visit(NotOperator op)
-      {
-        _ops.Add(op);
-        base.Visit(op);
-        _ops.Pop();
-      }
-
-      public override void Visit(OrOperator op)
-      {
-        _ops.Add(op);
-        base.Visit(op);
-        _ops.Pop();
-      }
-
-      public override void Visit(PropertyReference op)
-      {
-        if (op.Name == "generation" || op.Name == "id")
-          GenerationCriteria = true;
-      }
     }
 
     private class XmlTextWriter : TextWriter

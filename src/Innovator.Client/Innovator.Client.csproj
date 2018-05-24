@@ -572,6 +572,9 @@
     <Compile Include="QueryModel\IsOperand.cs" />
     <Compile Include="QueryModel\IsOperator.cs" />
     <Compile Include="QueryModel\ITableProvider.cs" />
+    <Compile Include="QueryModel\Version\VersionCriteria.cs" />
+    <Compile Include="QueryModel\Version\CurrentVersion.cs" />
+    <Compile Include="QueryModel\Version\IVersionCriteria.cs" />
     <Compile Include="QueryModel\Join.cs" />
     <Compile Include="QueryModel\JoinType.cs" />
     <Compile Include="QueryModel\IntegerLiteral.cs" />
@@ -671,6 +674,7 @@
     <Compile Include="QueryModel\SqlWhereParser.cs" />
     <Compile Include="QueryModel\SubtractionOperator.cs" />
     <Compile Include="QueryModel\UnaryOperator.cs" />
+    <Compile Include="QueryModel\Version\LatestMatch.cs" />
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Security\SecureToken.cs" />
     <Compile Include="Security\SecureToken.Portable.cs" />

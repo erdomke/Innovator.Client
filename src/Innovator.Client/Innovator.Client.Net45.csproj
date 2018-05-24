@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,14 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />
+    <Compile Include="Aml\SqlRenderOption.cs" />
     <Compile Include="Aml\AmlWriterSettings.cs" />
     <Compile Include="Aml\ClassNode.cs" />
     <Compile Include="Aml\ClassStructure.cs" />
     <Compile Include="Aml\CloneSettings.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
-    <Compile Include="Aml\SqlRenderOption.cs" />
-    <Compile Include="Queryable\QueryTranslator.cs" />
     <Compile Include="QueryModel\AdditionOperator.cs" />
     <Compile Include="QueryModel\AllProperties.cs" />
     <Compile Include="QueryModel\ArasSqlServerVisitor.cs" />
@@ -68,6 +67,7 @@
     <Compile Include="Aml\HistoricalPropertyUpdate.cs" />
     <Compile Include="Aml\IAmlNode.cs" />
     <Compile Include="QueryModel\DivisionOperator.cs" />
+    <Compile Include="QueryModel\Expressions.cs" />
     <Compile Include="QueryModel\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
     <Compile Include="Aml\IAttribute.cs" />
@@ -561,7 +561,6 @@
     <Compile Include="QueryModel\Cardinality.cs" />
     <Compile Include="QueryModel\DateTimeLiteral.cs" />
     <Compile Include="QueryModel\EqualsOperator.cs" />
-    <Compile Include="QueryModel\Expressions.cs" />
     <Compile Include="QueryModel\FloatLiteral.cs" />
     <Compile Include="QueryModel\FunctionExpression.cs" />
     <Compile Include="QueryModel\GreaterThanOperator.cs" />
@@ -580,6 +579,9 @@
     <Compile Include="QueryModel\IsOperand.cs" />
     <Compile Include="QueryModel\IsOperator.cs" />
     <Compile Include="QueryModel\ITableProvider.cs" />
+    <Compile Include="QueryModel\Version\VersionCriteria.cs" />
+    <Compile Include="QueryModel\Version\CurrentVersion.cs" />
+    <Compile Include="QueryModel\Version\IVersionCriteria.cs" />
     <Compile Include="QueryModel\Join.cs" />
     <Compile Include="QueryModel\JoinType.cs" />
     <Compile Include="QueryModel\IntegerLiteral.cs" />
@@ -609,8 +611,8 @@
     <Compile Include="QueryModel\Pattern\IPatternSegment.cs" />
     <Compile Include="QueryModel\Pattern\IPatternVisitor.cs" />
     <Compile Include="QueryModel\Pattern\Pattern.cs" />
-    <Compile Include="QueryModel\Pattern\PatternList.cs" />
     <Compile Include="QueryModel\Pattern\PatternParser.cs" />
+    <Compile Include="QueryModel\Pattern\PatternList.cs" />
     <Compile Include="QueryModel\Pattern\RegExpWriter.cs" />
     <Compile Include="QueryModel\Pattern\Repetition.cs" />
     <Compile Include="QueryModel\Pattern\SqlPatternWriter.cs" />
@@ -629,6 +631,7 @@
     <Compile Include="QueryModel\StringLiteral.cs" />
     <Compile Include="Queryable\QueryProvider.cs" />
     <Compile Include="Queryable\QuerySettings.cs" />
+    <Compile Include="Queryable\QueryTranslator.cs" />
     <Compile Include="Queryable\SelectVisitor.cs" />
     <Compile Include="Queryable\TypeHelper.cs" />
     <Compile Include="Connection\IVaultStrategy.cs" />
@@ -678,6 +681,7 @@
     <Compile Include="QueryModel\SqlWhereParser.cs" />
     <Compile Include="QueryModel\SubtractionOperator.cs" />
     <Compile Include="QueryModel\UnaryOperator.cs" />
+    <Compile Include="QueryModel\Version\LatestMatch.cs" />
     <Compile Include="Security\Md5.cs" />
     <Compile Include="Security\SecureToken.cs" />
     <Compile Include="Security\SecureToken.Portable.cs" />

@@ -30,7 +30,7 @@ namespace Innovator.Client.Tests
       var item = ElementFactory.Local.FromXml(@"<Item action='get' type='Part' select='config_id'><id condition='in'>'71B2D9633CA14B1486E1FE473C7CF950','C0A0F17A9E3346D380ED015B1FD1F2A7','C5F56BF14FB64AB3BD0AF6AEE67AF00A'</id></Item>").AssertItem();
 
       var aml = item.ToQueryItem().ToAml();
-      Assert.AreEqual(@"<Item type=""Part"" action=""get"" select=""config_id"" idlist=""71B2D9633CA14B1486E1FE473C7CF950,C0A0F17A9E3346D380ED015B1FD1F2A7,C5F56BF14FB64AB3BD0AF6AEE67AF00A"" />"
+      Assert.AreEqual(@"<Item type=""Part"" action=""get"" select=""config_id""><id condition=""in"">'71B2D9633CA14B1486E1FE473C7CF950', 'C0A0F17A9E3346D380ED015B1FD1F2A7', 'C5F56BF14FB64AB3BD0AF6AEE67AF00A'</id></Item>"
         , aml);
     }
 

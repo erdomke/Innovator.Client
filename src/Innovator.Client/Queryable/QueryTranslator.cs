@@ -39,27 +39,15 @@ namespace Innovator.Client.Queryable
       var visitor = new NormalizeVisitor();
       query.Where?.Visit(visitor);
       if (!visitor.LatestQuery)
+        query.Version = new CurrentVersion();
+
+      if (query.Where is PropertyReference)
       {
-        if (query.Where == null)
+        query.Where = new EqualsOperator()
         {
-          query.Where = new EqualsOperator()
-          {
-            Left = new PropertyReference("is_current", query),
-            Right = new BooleanLiteral(true)
-          }.Normalize();
-        }
-        else
-        {
-          query.Where = new AndOperator()
-          {
-            Left = query.Where,
-            Right = new EqualsOperator()
-            {
-              Left = new PropertyReference("is_current", query),
-              Right = new BooleanLiteral(true)
-            }.Normalize()
-          }.Normalize();
-        }
+          Left = query.Where,
+          Right = new BooleanLiteral(true)
+        }.Normalize();
       }
     }
 

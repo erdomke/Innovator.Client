@@ -94,6 +94,15 @@ namespace Innovator.Client.QueryModel
 
           var genVisitor = new GenerationCriteriaVisitor();
           query.Where.Visit(genVisitor);
+          if (query.Version is CurrentVersion)
+          {
+            genVisitor.Criteria = new EqualsOperator()
+            {
+              Left = new PropertyReference("is_current", query),
+              Right = new BooleanLiteral(true)
+            };
+          }
+
           if (genVisitor.Criteria != null)
           {
             Writer.Write(" where ");
@@ -205,6 +214,15 @@ namespace Innovator.Client.QueryModel
     private IExpression AddPermissionCheck(QueryItem query)
     {
       var clause = query.Where;
+      if (query.Version is CurrentVersion)
+      {
+        clause = AppendCriteria(clause, new EqualsOperator()
+        {
+          Left = new PropertyReference("is_current", query),
+          Right = new BooleanLiteral(true)
+        }.Normalize());
+      }
+
       if (((IAmlSqlWriterSettings)Settings).PermissionOption == AmlSqlPermissionOption.LegacyFunction
           && RenderOption != SqlRenderOption.CountQuery
           && RenderOption != SqlRenderOption.OffsetQuery)

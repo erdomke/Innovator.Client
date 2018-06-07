@@ -15,6 +15,7 @@ namespace Innovator.Client.QueryModel
     {
       this.InverseSet = false;
     }
+
     public CharSet(char defined)
     {
       switch (defined)
@@ -49,6 +50,11 @@ namespace Innovator.Client.QueryModel
         default:
           throw new ArgumentOutOfRangeException();
       }
+    }
+
+    public void Add(char ch)
+    {
+      Chars.Add(ch);
     }
 
     public void AddRange(char start, char end)
@@ -116,15 +122,18 @@ namespace Innovator.Client.QueryModel
 
     public bool ContentEquals(IMatch value)
     {
-      var set = value as CharSet;
-      if (set == null)
-      {
+      if (!(value is CharSet set))
         return false;
-      }
-      else
-      {
-        return this.InverseSet == set.InverseSet && Utils.ListEquals(this.Chars, set.Chars);
-      }
+
+      return this.InverseSet == set.InverseSet && Utils.ListEquals(this.Chars, set.Chars);
+    }
+
+    public IMatch Clone()
+    {
+      var result = new CharSet() { InverseSet = InverseSet };
+      result.AddRange(Chars);
+      result.Repeat.Set(Repeat);
+      return result;
     }
   }
 }

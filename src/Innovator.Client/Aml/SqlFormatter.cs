@@ -167,7 +167,7 @@ namespace Innovator.Client
       var converted = value;
       if (value.Kind != DateTimeKind.Utc)
       {
-        converted = TimeZoneData.ConvertTime(value, TimeZoneData.Local, TimeZoneData.Utc);
+        converted = DateTimeZone.ConvertTime(value, DateTimeZone.Local, DateTimeZone.Utc);
       }
       return converted.ToString("s");
     }

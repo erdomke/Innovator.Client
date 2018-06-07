@@ -35,7 +35,7 @@ namespace Innovator.Client
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <returns>A <see cref="bool"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="bool"/></exception>
-    public static bool AsBoolean(this IReadOnlyAttribute attr, bool defaultValue)
+    public static bool AsBoolean(this ICoercible attr, bool defaultValue)
     {
       return attr.AsBoolean() ?? defaultValue;
     }
@@ -243,13 +243,23 @@ namespace Innovator.Client
       return prop.AsDateTime() ?? defaultValue;
     }
 
+    public static DateTime? AsDateTime(this IServerContext context, object value)
+    {
+      return context.AsZonedDateTime(value)?.LocalDateTime;
+    }
+
+    public static DateTime? AsDateTimeUtc(this IServerContext context, object value)
+    {
+      return context.AsZonedDateTime(value)?.UtcDateTime;
+    }
+
     /// <summary>Value converted to a <see cref="DateTime"/> in the local timezone using the <paramref name="defaultValue"/> if null.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <param name="attr">The attribute to convert</param>
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <returns>A <see cref="DateTime"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
-    public static DateTime AsDateTime(this IReadOnlyAttribute attr, DateTime defaultValue)
+    public static DateTime AsDateTime(this ICoercible attr, DateTime defaultValue)
     {
       return attr.AsDateTime() ?? defaultValue;
     }
@@ -282,7 +292,7 @@ namespace Innovator.Client
     /// <param name="attr">The attribute to convert</param>
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
-    public static DateTime AsDateTimeUtc(this IReadOnlyAttribute attr, DateTime defaultValue)
+    public static DateTime AsDateTimeUtc(this ICoercible attr, DateTime defaultValue)
     {
       return attr.AsDateTimeUtc() ?? defaultValue;
     }
@@ -304,7 +314,7 @@ namespace Innovator.Client
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <returns>A <see cref="double"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
-    public static double AsDouble(this IReadOnlyAttribute attr, double defaultValue)
+    public static double AsDouble(this ICoercible attr, double defaultValue)
     {
       return attr.AsDouble() ?? defaultValue;
     }
@@ -326,7 +336,7 @@ namespace Innovator.Client
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <returns>A <see cref="int"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
-    public static int AsInt(this IReadOnlyAttribute attr, int defaultValue)
+    public static int AsInt(this ICoercible attr, int defaultValue)
     {
       return attr.AsInt() ?? defaultValue;
     }
@@ -348,7 +358,7 @@ namespace Innovator.Client
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <returns>A <see cref="long"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="long"/></exception>
-    public static long AsLong(this IReadOnlyAttribute attr, long defaultValue)
+    public static long AsLong(this ICoercible attr, long defaultValue)
     {
       return attr.AsLong() ?? defaultValue;
     }
@@ -370,7 +380,7 @@ namespace Innovator.Client
     /// <param name="defaultValue">The default value to return if the value is empty</param>
     /// <returns>A <see cref="Guid"/> or <paramref name="defaultValue"/> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="Guid"/></exception>
-    public static Guid AsGuid(this IReadOnlyAttribute attr, Guid defaultValue)
+    public static Guid AsGuid(this ICoercible attr, Guid defaultValue)
     {
       return attr.AsGuid() ?? defaultValue;
     }
@@ -458,14 +468,9 @@ namespace Innovator.Client
     /// <param name="node">The node.</param>
     public static QueryModel.QueryItem ToQueryItem(this IAmlNode node, IServerContext context = null)
     {
-      context = context
+      return QueryModel.QueryItem.FromXml(node, context = context
         ?? (node as IReadOnlyElement)?.AmlContext.LocalizationContext
-        ?? ElementFactory.Local.LocalizationContext;
-      using (var writer = new QueryModel.AmlToModelWriter(context))
-      {
-        node.ToAml(writer, new AmlWriterSettings());
-        return writer.Query;
-      }
+        ?? ElementFactory.Local.LocalizationContext);
     }
 
     /// <summary>
@@ -1481,7 +1486,7 @@ namespace Innovator.Client
     /// Given a range of dynamic date offsets (e.g. 3 days ago to today) and a specific date for 
     /// "today", calculate the corresponding static date range
     /// </summary>
-    public static Range<DateTime> AsDateRange(this Range<DateOffset> range, DateTimeOffset todaysDate)
+    public static Range<DateTime> AsDateRange(this Range<DateOffset> range, ZonedDateTime todaysDate)
     {
       return new Range<DateTime>(range.Minimum.AsDate(todaysDate), range.Maximum.AsDate(todaysDate, true));
     }
@@ -1498,9 +1503,9 @@ namespace Innovator.Client
     /// <summary>
     /// Return the system time expressed in the timezone of the server
     /// </summary>
-    public static DateTimeOffset Now(this IServerContext context)
+    public static ZonedDateTime Now(this IServerContext context)
     {
-      return context.AsDateTimeOffset(ServerContext._clock()).Value;
+      return ServerContext._clock().WithZone(context.GetTimeZone());
     }
 
     /// <summary>
@@ -1640,54 +1645,52 @@ namespace Innovator.Client
       }
     }
 
-    public static bool TryParseDateTime(this IServerContext context, object value, out DateTime? parsed)
+    public static bool TryParseDateTime(this IServerContext context, object value, out ZonedDateTime? parsed)
     {
       parsed = null;
       if (value == null)
         return true;
 
-      DateTime result;
-      if (value is DateTime)
+      var zone = context.GetTimeZone();
+      if (value is DateTime date)
       {
-        result = (DateTime)value;
-        if (result.Kind == DateTimeKind.Utc)
-          parsed = TimeZoneData.ConvertTime(result, TimeZoneData.Utc, TimeZoneData.Local);
-        else
-          parsed = result;
+        parsed = new ZonedDateTime(date, zone);
+        return true;
+      }
+      else if (value is DateTimeOffset dateOffset)
+      {
+        parsed = new ZonedDateTime(dateOffset.UtcDateTime, zone);
+        return true;
+      }
+      else if (value is ZonedDateTime zoned)
+      {
+        parsed = zoned.WithZone(zone);
         return true;
       }
       else
       {
-        if (!(value is string))
+        if (!(value is string str))
           return false;
-        if (((string)value)?.Length == 0)
+        if (str?.Length == 0)
           return true;
 
-        if ((string)value == "__now()")
+        if (str == "__now()")
         {
-          parsed = context.Now().DateTime;
+          parsed = context.Now();
           return true;
         }
 
-
-        if (!DateTime.TryParse((string)value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out result))
+        if (!ZonedDateTime.TryParse(str, zone, out var result))
           return false;
 
-        if (context.GetTimeZone().Equals(TimeZoneData.Local))
-        {
-          parsed = result;
-          return true;
-        }
+        parsed = result;
+        return true;
       }
-      result = DateTime.SpecifyKind(result, DateTimeKind.Unspecified);
-      result = TimeZoneData.ConvertTime(result, context.GetTimeZone(), TimeZoneData.Local);
-      parsed = result;
-      return true;
     }
 
-    internal static TimeZoneData GetTimeZone(this IServerContext context)
+    public static DateTimeZone GetTimeZone(this IServerContext context)
     {
-      return (context as ServerContext)?.TimeZoneData ?? TimeZoneData.ById(context.TimeZone);
+      return (context as ServerContext)?.Zone ?? DateTimeZone.ById(context.TimeZone);
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 
 namespace Innovator.Client
@@ -49,31 +49,13 @@ namespace Innovator.Client
     bool? AsBoolean(object value);
     /// <summary>
     /// Converts the <see cref="object"/> representing a date in the corporate
-    /// time zone to a <see cref="DateTime"/> in the local time zone
+    /// time zone to a <see cref="ZonedDateTime"/>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns><c>null</c> if <paramref name="value"/> is null or empty. 
-    /// A <see cref="DateTime"/> if <paramref name="value"/> is convertible.
+    /// A <see cref="ZonedDateTime"/> if <paramref name="value"/> is convertible.
     /// Otherwise, an exception is thrown</returns>
-    DateTime? AsDateTime(object value);
-    /// <summary>
-    /// Converts the <see cref="object"/> representing a date in the corporate
-    /// time zone to a <see cref="DateTimeOffset"/> in the local time zone
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns><c>null</c> if <paramref name="value"/> is null or empty. 
-    /// A <see cref="DateTimeOffset"/> if <paramref name="value"/> is convertible.
-    /// Otherwise, an exception is thrown</returns>
-    DateTimeOffset? AsDateTimeOffset(object value);
-    /// <summary>
-    /// Converts the <see cref="object"/> representing a date in the corporate
-    /// time zone to a <see cref="DateTime"/> in the UTC time zone
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns><c>null</c> if <paramref name="value"/> is null or empty. 
-    /// A <see cref="DateTime"/> if <paramref name="value"/> is convertible.
-    /// Otherwise, an exception is thrown</returns>
-    DateTime? AsDateTimeUtc(object value);
+    ZonedDateTime? AsZonedDateTime(object value);
     /// <summary>
     /// Converts the <see cref="object"/> to a <see cref="decimal"/> based on 
     /// the locale and time zone

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Innovator.Client.QueryModel
 {
-  public class SqlPatternWriter : IPatternVisitor
+  internal class SqlPatternWriter : IPatternVisitor
   {
     private enum WriteState
     {
@@ -150,7 +150,7 @@ namespace Innovator.Client.QueryModel
       throw new NotSupportedException();
     }
 
-    public void Visit(StringMatch value)
+    public virtual void Visit(StringMatch value)
     {
       StartWriting();
 
@@ -161,10 +161,12 @@ namespace Innovator.Client.QueryModel
 
       if (_defn.AllowCharSet)
       {
-        str = str.Replace("[", "[[]").
-                  Replace(_defn.Pattern_Anything.ToString(), "[" + _defn.Pattern_Anything.ToString() + "]").
-                  Replace(_defn.Pattern_SingleChar.ToString(), "[" + _defn.Pattern_SingleChar.ToString() + "]");
-        if (_defn.Pattern_SingleDigit != '\0') str = str.Replace(_defn.Pattern_SingleDigit.ToString(), "[" + _defn.Pattern_SingleDigit.ToString() + "]");
+        str = str.Replace("[", "[[]")
+          .Replace(_defn.Pattern_Anything.ToString(), "[" + _defn.Pattern_Anything.ToString() + "]");
+        if (_defn.Pattern_SingleChar != '\0')
+          str = str.Replace(_defn.Pattern_SingleChar.ToString(), "[" + _defn.Pattern_SingleChar.ToString() + "]");
+        if (_defn.Pattern_SingleDigit != '\0')
+          str = str.Replace(_defn.Pattern_SingleDigit.ToString(), "[" + _defn.Pattern_SingleDigit.ToString() + "]");
         _writer.Write(str);
       }
       else

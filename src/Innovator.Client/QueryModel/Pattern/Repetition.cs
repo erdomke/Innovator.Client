@@ -18,10 +18,17 @@ namespace Innovator.Client.QueryModel
       this.MaxCount = 1;
     }
 
+    internal void Set(Repetition other)
+    {
+      this.Greedy = other.Greedy;
+      this.MinCount = other.MinCount;
+      this.MaxCount = other.MaxCount;
+    }
+
     public override string ToString()
     {
       string result;
-      
+
       if (this.MinCount == 1 && this.MaxCount == 1)
       {
         return string.Empty;

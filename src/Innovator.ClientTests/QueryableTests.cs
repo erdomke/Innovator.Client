@@ -93,28 +93,28 @@ namespace Innovator.Client.Tests
     public void Queryable_StartsWith()
     {
       var aml = TestAml(q => q.Where(i => i.Property("name").Value.StartsWith("Part")));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">Part%</name></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">Part*</name></Item>", aml);
     }
 
     [TestMethod()]
     public void Queryable_EndsWith()
     {
       var aml = TestAml(q => q.Where(i => i.Property("name").Value.EndsWith("Part")));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">%Part</name></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">*Part</name></Item>", aml);
     }
 
     [TestMethod()]
     public void Queryable_Contains()
     {
       var aml = TestAml(q => q.Where(i => i.Property("name").Value.Contains("Part")));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">%Part%</name></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">*Part*</name></Item>", aml);
     }
 
     [TestMethod()]
     public void Queryable_StringNullOrEmpty()
     {
       var aml = TestAml(q => q.Where(i => !string.IsNullOrEmpty(i.Property("name").Value)));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><not><name condition=\"is null\" /></not></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><not><or><name condition=\"is null\" /><name></name></or></not></Item>", aml);
     }
 
     [TestMethod()]
@@ -150,10 +150,10 @@ namespace Innovator.Client.Tests
     public void Queryable_ChildItem()
     {
       var aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke")));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name></Item></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">*Domke*</keyed_name></Item></created_by_id></Item>", aml);
 
       TestAml(q => q.Where(i => i.Property("created_by_id").AsItem().Property("keyed_name").AsString("").Contains("Domke")));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name></Item></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">*Domke*</keyed_name></Item></created_by_id></Item>", aml);
     }
 
     [TestMethod()]
@@ -193,16 +193,16 @@ namespace Innovator.Client.Tests
     public void Queryable_ChildItemLogical()
     {
       var aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().IsReleased().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><or><and><keyed_name condition=\"like\">%Domke%</keyed_name><is_released>1</is_released></and><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><or><and><keyed_name condition=\"like\">*Domke*</keyed_name><is_released>1</is_released></and><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && (i.CreatedById().AsItem().IsReleased().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0)));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name><or><is_released>1</is_released><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">*Domke*</keyed_name><or><is_released>1</is_released><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().Generation().AsInt(0) > 0));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name><generation condition=\"gt\">0</generation></Item></created_by_id></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">*Domke*</keyed_name><generation condition=\"gt\">0</generation></Item></created_by_id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") || i.Generation().AsInt(0) > 0));
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><or><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">%Domke%</keyed_name></Item></created_by_id><generation condition=\"gt\">0</generation></or></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><or><created_by_id><Item action=\"get\"><keyed_name condition=\"like\">*Domke*</keyed_name></Item></created_by_id><generation condition=\"gt\">0</generation></or></Item>", aml);
     }
 
     [TestMethod()]
@@ -291,7 +291,7 @@ namespace Innovator.Client.Tests
     public void QueryString_Functions()
     {
       var aml = TestQueryString("?$callback=jQuery112304312923812233427_1494592722830&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(name)%2C%27c%27)");
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">c%</name></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><name condition=\"like\">c*</name></Item>", aml);
     }
 
     [TestMethod()]
@@ -331,7 +331,7 @@ namespace Innovator.Client.Tests
     public void QueryString_Random()
     {
       var aml = TestQueryString("?$callback=jQuery1124032885557251554487_1494968811401&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(keyed_name)%2C%27kent+ypma%27)");
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><keyed_name condition=\"like\">kent ypma%</keyed_name></Item>", aml);
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><keyed_name condition=\"like\">kent ypma*</keyed_name></Item>", aml);
     }
 
 
@@ -398,6 +398,23 @@ namespace Innovator.Client.Tests
     {
       var model = QueryItem.FromLinq("Part", q => q.Where(i => i.ModifiedOn().AsDateTime() > DateTime.Now));
       Assert.IsTrue(model.Where is GreaterThanOperator op && op.Right is QueryModel.Functions.CurrentDateTime);
+    }
+
+    [TestMethod()]
+    public void Queryable_Function_DayDiff()
+    {
+      var model = QueryItem.FromLinq("Part", q => q.Where(i => (i.ModifiedOn().AsDateTime(DateTime.MinValue) - i.CreatedOn().AsDateTime(DateTime.MinValue)).TotalDays > 4));
+      Assert.IsTrue(model.Where is GreaterThanOperator op
+        && op.Left is QueryModel.Functions.DiffDays diff
+        && diff.StartExpression is PropertyReference prop
+        && prop.Name == "created_on");
+    }
+
+    [TestMethod()]
+    public void Queryable_Function_Regex()
+    {
+      var model = QueryItem.FromLinq("Part", q => q.Where(i => System.Text.RegularExpressions.Regex.IsMatch(i.Property("item_number").Value, @"\d{3}-\d{4}")));
+      Assert.IsTrue(model.Where is LikeOperator op && op.Right is PatternList);
     }
   }
 }

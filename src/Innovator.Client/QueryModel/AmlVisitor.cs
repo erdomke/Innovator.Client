@@ -219,7 +219,13 @@ namespace Innovator.Client.QueryModel
 
     private void Visit(BinaryOperator op, string condition)
     {
-      if (!(op.Left is PropertyReference prop))
+      var left = op.Left;
+      if (left is Functions.ToLower lower)
+        left = lower.String;
+      else if (left is Functions.ToUpper upper)
+        left = upper.String;
+
+      if (!(left is PropertyReference prop))
         throw new NotSupportedException();
       _writer.WriteStartElement(prop.Name);
       _writer.WriteAttributeString("condition", condition);
@@ -558,9 +564,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(PatternList op)
     {
-      var writer = new SqlPatternWriter(PatternParser.SqlServer);
-      op.Visit(writer);
-      _writer.WriteString(writer.ToString());
+      _writer.WriteString(AmlLikeParser.Instance.Render(op));
     }
 
     private class XmlTextWriter : TextWriter

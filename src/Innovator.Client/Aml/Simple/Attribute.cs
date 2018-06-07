@@ -5,6 +5,9 @@ namespace Innovator.Client
 {
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   internal class Attribute : IAttribute, ILinkedAnnotation
+#if FILEIO
+    , IConvertible
+#endif
   {
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private Element _parent;
@@ -12,17 +15,11 @@ namespace Innovator.Client
     private string _name;
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private object _content;
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private ILinkedAnnotation _next;
 
-    public bool Exists { get { return _next != null; } }
+    public bool Exists { get { return Next != null; } }
     public string Name { get { return _name; } }
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public ILinkedAnnotation Next
-    {
-      get { return _next; }
-      set { _next = value; }
-    }
+    public ILinkedAnnotation Next { get; set; }
     public string Value
     {
       get
@@ -65,9 +62,7 @@ namespace Innovator.Client
       _content = attr.Value;
       _parent = parent;
     }
-
-    private static Attribute _nullAttr = new Attribute(null);
-    public static Attribute NullAttr { get { return _nullAttr; } }
+    public static Attribute NullAttr { get; } = new Attribute(null);
 
     public void Set(object value)
     {
@@ -163,5 +158,98 @@ namespace Innovator.Client
     {
       return Value;
     }
+
+#if FILEIO
+    #region IConvertible
+    TypeCode IConvertible.GetTypeCode()
+    {
+      return TypeCode.Object;
+    }
+
+    bool IConvertible.ToBoolean(IFormatProvider provider)
+    {
+      return AsBoolean().Value;
+    }
+
+    char IConvertible.ToChar(IFormatProvider provider)
+    {
+      if (Value?.Length == 1)
+        return Value[0];
+      throw new InvalidCastException();
+    }
+
+    sbyte IConvertible.ToSByte(IFormatProvider provider)
+    {
+      return Convert.ToSByte(AsInt().Value);
+    }
+
+    byte IConvertible.ToByte(IFormatProvider provider)
+    {
+      return Convert.ToByte(AsInt().Value);
+    }
+
+    short IConvertible.ToInt16(IFormatProvider provider)
+    {
+      return Convert.ToInt16(AsInt().Value);
+    }
+
+    ushort IConvertible.ToUInt16(IFormatProvider provider)
+    {
+      return Convert.ToUInt16(AsInt().Value);
+    }
+
+    int IConvertible.ToInt32(IFormatProvider provider)
+    {
+      return AsInt().Value;
+    }
+
+    uint IConvertible.ToUInt32(IFormatProvider provider)
+    {
+      return Convert.ToUInt32(AsInt().Value);
+    }
+
+    long IConvertible.ToInt64(IFormatProvider provider)
+    {
+      return AsLong().Value;
+    }
+
+    ulong IConvertible.ToUInt64(IFormatProvider provider)
+    {
+      return Convert.ToUInt64(AsLong().Value);
+    }
+
+    float IConvertible.ToSingle(IFormatProvider provider)
+    {
+      return Convert.ToSingle(AsDouble().Value);
+    }
+
+    double IConvertible.ToDouble(IFormatProvider provider)
+    {
+      return AsDouble().Value;
+    }
+
+    decimal IConvertible.ToDecimal(IFormatProvider provider)
+    {
+      if (!this.Exists)
+        throw new InvalidCastException();
+      return _parent.AmlContext.LocalizationContext.AsDecimal(_content).Value;
+    }
+
+    DateTime IConvertible.ToDateTime(IFormatProvider provider)
+    {
+      return AsDateTime().Value;
+    }
+
+    string IConvertible.ToString(IFormatProvider provider)
+    {
+      return Value;
+    }
+
+    object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+    {
+      return Convert.ChangeType(Value, conversionType, provider);
+    }
+    #endregion
+#endif
   }
 }

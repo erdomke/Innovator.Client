@@ -484,10 +484,10 @@ namespace Innovator.Client
       {
         param.Original = value;
         if (param.IsRaw) return param.WithValue((param.Original ?? "").ToString());
-        if (context == "le" && value is DateOffset)
-          value = ((DateOffset)value).AsDate(_context.Now(), true);
-        else if (context == "lt" && value is DateOffset)
-          value = ((DateOffset)value).AsDate(_context.Now(), true).AddMilliseconds(1);
+        if (context == "le" && value is DateOffset offset1)
+          value = offset1.AsDate(_context.Now(), true);
+        else if (context == "lt" && value is DateOffset offset2)
+          value = offset2.AsDate(_context.Now(), true).AddMilliseconds(1);
 
         switch (context)
         {

@@ -9,8 +9,17 @@ namespace Innovator.Client.QueryModel
   public class CloneVisitor : IQueryVisitor
   {
     private IExpression _clone;
+    private PropertyReference _prop;
     private QueryItem _query;
     private readonly Dictionary<QueryItem, QueryItem> _clones = new Dictionary<QueryItem, QueryItem>();
+    private Func<PropertyReference, PropertyReference> _propMapper;
+    private Func<PropertyReference, ILiteral, ILiteral> _valueMapper;
+
+    public CloneVisitor()
+    {
+      _propMapper = op => new PropertyReference(op.Name, GetTable(op.Table));
+      _valueMapper = (prop, literal) => CloneAndReturn(literal);
+    }
 
     public void Visit(QueryItem query)
     {
@@ -31,7 +40,7 @@ namespace Innovator.Client.QueryModel
           Type = join.Type,
           Left = Clone(join.Left),
           Right = Clone(join.Right),
-          Condition = Clone(join.Condition),
+          Condition = CloneAndReturn(join.Condition),
         });
       }
 
@@ -40,7 +49,7 @@ namespace Innovator.Client.QueryModel
         newQuery.OrderBy.Add(new OrderByExpression()
         {
           Ascending = orderBy.Ascending,
-          Expression = Clone(orderBy.Expression)
+          Expression = CloneAndReturn(orderBy.Expression)
         });
       }
 
@@ -49,250 +58,411 @@ namespace Innovator.Client.QueryModel
         newQuery.Select.Add(new SelectExpression()
         {
           Alias = select.Alias,
-          Expression = Clone(select.Expression),
+          Expression = CloneAndReturn(select.Expression),
           OnlyReturnNonNull = select.OnlyReturnNonNull
         });
       }
 
-      newQuery.Where = Clone(query.Where);
+      newQuery.Where = CloneAndReturn(query.Where);
       _query = newQuery;
     }
 
-    public void Visit(AndOperator op)
+    void IExpressionVisitor.Visit(AndOperator op)
     {
-      _clone = new AndOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(AndOperator op)
+    {
+      return new AndOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneAndReturn(op.Right)
       };
     }
 
-    public void Visit(BetweenOperator op)
+    void IExpressionVisitor.Visit(BetweenOperator op)
     {
-      _clone = new BetweenOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(BetweenOperator op)
+    {
+      return new BetweenOperator()
       {
-        Left = Clone(op.Left),
-        Min = Clone(op.Min),
-        Max = Clone(op.Max)
+        Left = CloneAndReturn(op.Left),
+        Min = CloneValue(op.Left, op.Min),
+        Max = CloneValue(op.Left, op.Max)
       };
     }
 
-    public void Visit(BooleanLiteral op)
+    void IExpressionVisitor.Visit(BooleanLiteral op)
     {
-      _clone = new BooleanLiteral(op.Value);
+      _clone = Clone(op);
     }
 
-    public void Visit(DateTimeLiteral op)
+    public virtual IExpression Clone(BooleanLiteral op)
     {
-      _clone = new DateTimeLiteral(op.Value);
+      return new BooleanLiteral(op.Value);
     }
 
-    public void Visit(EqualsOperator op)
+    void IExpressionVisitor.Visit(DateTimeLiteral op)
     {
-      _clone = new EqualsOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(DateTimeLiteral op)
+    {
+      return new DateTimeLiteral(op.Value);
+    }
+
+    void IExpressionVisitor.Visit(EqualsOperator op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(EqualsOperator op)
+    {
+      return new EqualsOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(FloatLiteral op)
+    void IExpressionVisitor.Visit(FloatLiteral op)
     {
-      _clone = new FloatLiteral(op.Value);
+      _clone = Clone(op);
     }
 
-    public void Visit(FunctionExpression op)
+    public virtual IExpression Clone(FloatLiteral op)
     {
-      _clone = op.Clone(Clone);
+      return new FloatLiteral(op.Value);
     }
 
-    public void Visit(GreaterThanOperator op)
+    void IExpressionVisitor.Visit(FunctionExpression op)
     {
-      _clone = new GreaterThanOperator()
+      _clone = op.Clone(CloneAndReturn);
+    }
+
+    void IExpressionVisitor.Visit(GreaterThanOperator op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(GreaterThanOperator op)
+    {
+      return new GreaterThanOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(GreaterThanOrEqualsOperator op)
+    void IExpressionVisitor.Visit(GreaterThanOrEqualsOperator op)
     {
-      _clone = new GreaterThanOrEqualsOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(GreaterThanOrEqualsOperator op)
+    {
+      return new GreaterThanOrEqualsOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(InOperator op)
+    void IExpressionVisitor.Visit(InOperator op)
     {
-      _clone = new InOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(InOperator op)
+    {
+      _prop = op.Left as PropertyReference;
+      return new InOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneAndReturn(op.Right)
       };
     }
 
-    public void Visit(IntegerLiteral op)
+    void IExpressionVisitor.Visit(IntegerLiteral op)
     {
-      _clone = new IntegerLiteral(op.Value);
+      _clone = Clone(op);
     }
 
-    public void Visit(IsOperator op)
+    public virtual IExpression Clone(IntegerLiteral op)
     {
-      _clone = new IsOperator()
+      return new IntegerLiteral(op.Value);
+    }
+
+    void IExpressionVisitor.Visit(IsOperator op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(IsOperator op)
+    {
+      return new IsOperator()
       {
-        Left = Clone(op.Left),
+        Left = CloneAndReturn(op.Left),
         Right = op.Right
       };
     }
 
-    public void Visit(LessThanOperator op)
+    void IExpressionVisitor.Visit(LessThanOperator op)
     {
-      _clone = new LessThanOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(LessThanOperator op)
+    {
+      return new LessThanOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(LessThanOrEqualsOperator op)
+    void IExpressionVisitor.Visit(LessThanOrEqualsOperator op)
     {
-      _clone = new LessThanOrEqualsOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(LessThanOrEqualsOperator op)
+    {
+      return new LessThanOrEqualsOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(LikeOperator op)
+    void IExpressionVisitor.Visit(LikeOperator op)
     {
-      _clone = new LikeOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(LikeOperator op)
+    {
+      return new LikeOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(ListExpression op)
+    void IExpressionVisitor.Visit(ListExpression op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(ListExpression op)
     {
       var clone = new ListExpression();
       foreach (var value in op.Values)
-        clone.Values.Add(Clone(value));
-      _clone = clone;
+        clone.Values.Add((IOperand)CloneValue(_prop, value));
+      return clone;
     }
 
-    public void Visit(NotEqualsOperator op)
+    void IExpressionVisitor.Visit(NotEqualsOperator op)
     {
-      _clone = new NotEqualsOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(NotEqualsOperator op)
+    {
+      return new NotEqualsOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(NotOperator op)
+    void IExpressionVisitor.Visit(NotOperator op)
     {
-      _clone = new NotOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(NotOperator op)
+    {
+      return new NotOperator()
       {
-        Arg = Clone(op.Arg)
+        Arg = CloneAndReturn(op.Arg)
       };
     }
 
-    public void Visit(ObjectLiteral op)
+    void IExpressionVisitor.Visit(ObjectLiteral op)
     {
-      _clone = new ObjectLiteral(op.Value, op.TypeProvider, op.Context);
+      _clone = Clone(op);
     }
 
-    public void Visit(OrOperator op)
+    public virtual IExpression Clone(ObjectLiteral op)
     {
-      _clone = new OrOperator()
+      return new ObjectLiteral(op.Value, op.TypeProvider, op.Context);
+    }
+
+    void IExpressionVisitor.Visit(OrOperator op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(OrOperator op)
+    {
+      return new OrOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneAndReturn(op.Right)
       };
     }
 
-    public void Visit(PropertyReference op)
+    void IExpressionVisitor.Visit(PropertyReference op)
     {
-      _clone = new PropertyReference(op.Name, GetTable(op.Table));
+      _clone = Clone(op);
     }
 
-    public void Visit(StringLiteral op)
+    public virtual IExpression Clone(PropertyReference op)
     {
-      _clone = new StringLiteral(op.Value);
+      return _propMapper(op);
     }
 
-    public void Visit(MultiplicationOperator op)
+    void IExpressionVisitor.Visit(StringLiteral op)
     {
-      _clone = new MultiplicationOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(StringLiteral op)
+    {
+      return new StringLiteral(op.Value);
+    }
+
+    void IExpressionVisitor.Visit(MultiplicationOperator op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(MultiplicationOperator op)
+    {
+      return new MultiplicationOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(DivisionOperator op)
+    void IExpressionVisitor.Visit(DivisionOperator op)
     {
-      _clone = new DivisionOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(DivisionOperator op)
+    {
+      return new DivisionOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(ModulusOperator op)
+    void IExpressionVisitor.Visit(ModulusOperator op)
     {
-      _clone = new ModulusOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(ModulusOperator op)
+    {
+      return new ModulusOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(AdditionOperator op)
+    void IExpressionVisitor.Visit(AdditionOperator op)
     {
-      _clone = new AdditionOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(AdditionOperator op)
+    {
+      return new AdditionOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(SubtractionOperator op)
+    void IExpressionVisitor.Visit(SubtractionOperator op)
     {
-      _clone = new SubtractionOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(SubtractionOperator op)
+    {
+      return new SubtractionOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(NegationOperator op)
+    void IExpressionVisitor.Visit(NegationOperator op)
     {
-      _clone = new NegationOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(NegationOperator op)
+    {
+      return new NegationOperator()
       {
-        Arg = Clone(op.Arg)
+        Arg = CloneAndReturn(op.Arg)
       };
     }
 
-    public void Visit(ConcatenationOperator op)
+    void IExpressionVisitor.Visit(ConcatenationOperator op)
     {
-      _clone = new ConcatenationOperator()
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(ConcatenationOperator op)
+    {
+      return new ConcatenationOperator()
       {
-        Left = Clone(op.Left),
-        Right = Clone(op.Right)
+        Left = CloneAndReturn(op.Left),
+        Right = CloneValue(op.Left, op.Right)
       };
     }
 
-    public void Visit(ParameterReference op)
+    void IExpressionVisitor.Visit(ParameterReference op)
     {
-      _clone = new ParameterReference(op.Name, op.IsRaw);
+      _clone = Clone(op);
     }
 
-    public void Visit(AllProperties op)
+    public virtual IExpression Clone(ParameterReference op)
     {
-      _clone = new AllProperties(op.Table) { XProperties = op.XProperties };
+      return new ParameterReference(op.Name, op.IsRaw);
+    }
+
+    void IExpressionVisitor.Visit(AllProperties op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(AllProperties op)
+    {
+      return new AllProperties(op.Table) { XProperties = op.XProperties };
+    }
+
+    void IExpressionVisitor.Visit(PatternList op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(PatternList op)
+    {
+      return op.Clone();
     }
 
     private QueryItem GetTable(QueryItem orig)
@@ -302,7 +472,20 @@ namespace Innovator.Client.QueryModel
       return orig;
     }
 
-    private T Clone<T>(T expr) where T : IExpression
+    private IExpression CloneValue(IExpression left, IExpression right)
+    {
+      if (left is PropertyReference prop && right is ILiteral literal)
+        return ClonePropertyValue(prop, literal);
+      else
+        return CloneAndReturn(right);
+    }
+
+    protected virtual IExpression ClonePropertyValue(PropertyReference prop, ILiteral literal)
+    {
+      return _valueMapper(prop, literal);
+    }
+
+    private T CloneAndReturn<T>(T expr) where T : IExpression
     {
       expr.Visit(this);
       return (T)_clone;
@@ -316,10 +499,5 @@ namespace Innovator.Client.QueryModel
       return _query;
     }
 
-    public void Visit(PatternList op)
-    {
-      // TODO: Actually clone this
-      _clone = op;
-    }
   }
 }

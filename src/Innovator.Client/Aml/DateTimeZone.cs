@@ -5,7 +5,7 @@ namespace Innovator.Client
   /// <summary>
   /// Represents metadata for a timezone including daylight savings time history
   /// </summary>
-  public partial class TimeZoneData : IEquatable<TimeZoneData>
+  public partial class DateTimeZone : IEquatable<DateTimeZone>
   {
     /// <summary>
     /// Determines whether the specified <see cref="System.Object" />, is equal to this instance.
@@ -16,7 +16,7 @@ namespace Innovator.Client
     /// </returns>
     public override bool Equals(object obj)
     {
-      var tzd = obj as TimeZoneData;
+      var tzd = obj as DateTimeZone;
       if (tzd == null)
         return false;
       return Equals(tzd);
@@ -30,7 +30,7 @@ namespace Innovator.Client
     /// <returns>
     /// The result of the operator.
     /// </returns>
-    public static bool operator ==(TimeZoneData a, TimeZoneData b)
+    public static bool operator ==(DateTimeZone a, DateTimeZone b)
     {
       // If both are null, or both are same instance, return true.
       if (System.Object.ReferenceEquals(a, b))
@@ -52,7 +52,7 @@ namespace Innovator.Client
     /// <returns>
     /// The result of the operator.
     /// </returns>
-    public static bool operator !=(TimeZoneData a, TimeZoneData b)
+    public static bool operator !=(DateTimeZone a, DateTimeZone b)
     {
       return !(a == b);
     }
@@ -100,7 +100,7 @@ namespace Innovator.Client
     /// <returns>
     /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
     /// </returns>
-    public bool Equals(TimeZoneData other)
+    public bool Equals(DateTimeZone other)
     {
       return _timeZone.Equals(other._timeZone);
     }
@@ -119,7 +119,7 @@ namespace Innovator.Client
     /// -or-
     /// The <see cref="System.DateTime.Kind"/> property of the <paramref name="value"/> parameter is 
     /// <see cref="System.DateTimeKind.Utc"/>, but the <paramref name="from"/> parameter does not equal 
-    /// <see cref="TimeZoneData.Utc"/>
+    /// <see cref="DateTimeZone.Utc"/>
     /// -or-
     /// The
     /// <paramref name="value"/> parameter is an invalid time (that is, it represents a time that does
@@ -128,15 +128,15 @@ namespace Innovator.Client
     /// -or-
     /// The <paramref name="to"/> parameter is null.
     /// </exception>
-    public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
+    public static DateTime ConvertTime(DateTime value, DateTimeZone from, DateTimeZone to)
     {
       return TimeZoneInfo.ConvertTime(value, from._timeZone, to._timeZone);
     }
 
     /// <summary>
-    /// Retrieves a <see cref="TimeZoneData"/> object from the registry based on its identifier.
+    /// Retrieves a <see cref="DateTimeZone"/> object from the registry based on its identifier.
     /// </summary>
-    /// <param name="value">The time zone identifier, which corresponds to the <see cref="TimeZoneData.Id"/> property.</param>
+    /// <param name="value">The time zone identifier, which corresponds to the <see cref="DateTimeZone.Id"/> property.</param>
     /// <returns>An object whose identifier is the value of the <paramref name="value"/> parameter.</returns>
     /// <exception cref="OutOfMemoryException">The system does not have enough memory to hold information about the time zone.</exception>
     /// <exception cref="ArgumentNullException">The <paramref name="value"/> parameter is null</exception>
@@ -149,9 +149,9 @@ namespace Innovator.Client
     /// <exception cref="System.InvalidTimeZoneException">
     /// The time zone identifier was found, but the registry data is corrupted.    
     /// </exception>
-    public static TimeZoneData ById(string value)
+    public static DateTimeZone ById(string value)
     {
-      return new TimeZoneData() { _timeZone = TimeZoneInfo.FindSystemTimeZoneById(value) };
+      return new DateTimeZone() { _timeZone = TimeZoneInfo.FindSystemTimeZoneById(value) };
     }
 
     /// <summary>
@@ -163,13 +163,13 @@ namespace Innovator.Client
     /// <exception cref="ArgumentNullException">
     /// The value of the <paramref name="to"/> parameter is null.
     /// </exception>
-    public static DateTimeOffset ConvertTime(DateTimeOffset value, TimeZoneData to)
+    public static DateTimeOffset ConvertTime(DateTimeOffset value, DateTimeZone to)
     {
       return TimeZoneInfo.ConvertTime(value, to._timeZone);
     }
 
-    private static readonly TimeZoneData _local = new TimeZoneData() { _timeZone = TimeZoneInfo.Local };
-    private static readonly TimeZoneData _utc = new TimeZoneData() { _timeZone = TimeZoneInfo.Utc };
+    private static readonly DateTimeZone _local = new DateTimeZone() { _timeZone = TimeZoneInfo.Local };
+    private static readonly DateTimeZone _utc = new DateTimeZone() { _timeZone = TimeZoneInfo.Utc };
 #else
     private Innovator.Client.Time.TimeZoneInfo _timeZone;
 
@@ -213,7 +213,7 @@ namespace Innovator.Client
     /// <returns>
     /// true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
     /// </returns>
-    public bool Equals(TimeZoneData other)
+    public bool Equals(DateTimeZone other)
     {
       return _timeZone.Equals(other._timeZone);
     }
@@ -232,7 +232,7 @@ namespace Innovator.Client
     /// -or-
     /// The <see cref="System.DateTime.Kind"/> property of the <paramref name="value"/> parameter is 
     /// <see cref="System.DateTimeKind.Utc"/>, but the <paramref name="from"/> parameter does not equal 
-    /// <see cref="TimeZoneData.Utc"/>
+    /// <see cref="DateTimeZone.Utc"/>
     /// -or-
     /// The
     /// <paramref name="value"/> parameter is an invalid time (that is, it represents a time that does
@@ -241,15 +241,15 @@ namespace Innovator.Client
     /// -or-
     /// The <paramref name="to"/> parameter is null.
     /// </exception>
-    public static DateTime ConvertTime(DateTime value, TimeZoneData from, TimeZoneData to)
+    public static DateTime ConvertTime(DateTime value, DateTimeZone from, DateTimeZone to)
     {
       return Time.TimeZoneInfo.ConvertTime(value, from._timeZone, to._timeZone);
     }
 
     /// <summary>
-    /// Retrieves a <see cref="TimeZoneData"/> object from the registry based on its identifier.
+    /// Retrieves a <see cref="DateTimeZone"/> object from the registry based on its identifier.
     /// </summary>
-    /// <param name="value">The time zone identifier, which corresponds to the <see cref="TimeZoneData.Id"/> property.</param>
+    /// <param name="value">The time zone identifier, which corresponds to the <see cref="DateTimeZone.Id"/> property.</param>
     /// <returns>An object whose identifier is the value of the <paramref name="value"/> parameter.</returns>
     /// <exception cref="OutOfMemoryException">The system does not have enough memory to hold information about the time zone.</exception>
     /// <exception cref="ArgumentNullException">The <paramref name="value"/> parameter is null</exception>
@@ -259,9 +259,9 @@ namespace Innovator.Client
     /// <exception cref="Security.SecurityException">The process does not have the permissions required to read from the registry
     /// key that contains the time zone information.
     /// </exception>
-    public static TimeZoneData ById(string value)
+    public static DateTimeZone ById(string value)
     {
-      return new TimeZoneData() { _timeZone = Time.TimeZoneInfo.ById(value) };
+      return new DateTimeZone() { _timeZone = Time.TimeZoneInfo.ById(value) };
     }
 
     /// <summary>
@@ -273,16 +273,16 @@ namespace Innovator.Client
     /// <exception cref="ArgumentNullException">
     /// The value of the <paramref name="to"/> parameter is null.
     /// </exception>
-    public static DateTimeOffset ConvertTime(DateTimeOffset value, TimeZoneData to)
+    public static DateTimeOffset ConvertTime(DateTimeOffset value, DateTimeZone to)
     {
       return Time.TimeZoneInfo.ConvertTime(value, to._timeZone);
     }
 
-    private static readonly TimeZoneData _local = new TimeZoneData()
+    private static readonly DateTimeZone _local = new DateTimeZone()
     {
       _timeZone = Time.TimeZoneInfo.ByStandardName(TimeZoneInfo.Local.StandardName)
     };
-    private static readonly TimeZoneData _utc = new TimeZoneData()
+    private static readonly DateTimeZone _utc = new DateTimeZone()
     {
       _timeZone = Time.TimeZoneInfo.ById("UTC")
     };
@@ -294,7 +294,7 @@ namespace Innovator.Client
     /// <value>
     /// The time zone information for the local time zone.
     /// </value>
-    public static TimeZoneData Local { get { return _local; } }
+    public static DateTimeZone Local { get { return _local; } }
 
     /// <summary>
     /// Gets time zone information for the UTC time zone.
@@ -302,7 +302,7 @@ namespace Innovator.Client
     /// <value>
     /// The time zone information for the UTC time zone.
     /// </value>
-    public static TimeZoneData Utc { get { return _utc; } }
+    public static DateTimeZone Utc { get { return _utc; } }
   }
 
 #if DEBUG && TIMEZONEINFO

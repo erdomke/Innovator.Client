@@ -18,7 +18,6 @@ namespace Innovator.Client.QueryModel
     private Pattern _pat;
     private StringMatch _strMatch;
     private CharSet _set;
-    private readonly PatternSimplifyVisitor _simplify = new PatternSimplifyVisitor();
 
     public PatternParser() { }
     public PatternParser(char anything, char singleChar, char singleDigit, char escape)
@@ -37,12 +36,12 @@ namespace Innovator.Client.QueryModel
       this.Pattern_SingleChar = singleChar;
       this.Pattern_SingleDigit = singleDigit;
       this.Pattern_Escape = escape;
-      this.AllowCharSet = true;
+      this.AllowCharSet = inverseSet != '\0' || setRange != '\0';
       this.Pattern_InverseSet = inverseSet;
       this.Pattern_SetRange = setRange;
     }
 
-    public PatternList Parse(string str)
+    public virtual PatternList Parse(string str)
     {
       _pat = new Pattern();
       _strMatch = new StringMatch();
@@ -116,7 +115,7 @@ namespace Innovator.Client.QueryModel
           _pat.Matches.Add(_set);
           _set = null;
         }
-        else if (str[i] == '[' && !inRange)
+        else if (str[i] == '[' && !inRange && AllowCharSet)
         {
           FinishStringMatch();
           inRange = true;
@@ -144,8 +143,15 @@ namespace Innovator.Client.QueryModel
 
       var patOpts = new PatternList();
       patOpts.Patterns.Add(_pat);
-      patOpts.Visit(_simplify);
+      patOpts.Visit(RegexParser.Simplify);
       return patOpts;
+    }
+
+    public virtual string Render(PatternList pattern)
+    {
+      var writer = new SqlPatternWriter(this);
+      pattern.Visit(writer);
+      return writer.ToString();
     }
 
     private void FinishStringMatch()
@@ -154,88 +160,6 @@ namespace Innovator.Client.QueryModel
       {
         _pat.Matches.Add(_strMatch);
         _strMatch = new StringMatch();
-      }
-    }
-
-    private class PatternSimplifyVisitor : IPatternVisitor
-    {
-      public void Visit(Anchor value)
-      {
-        // Do Nothing
-      }
-
-      public void Visit(Capture value)
-      {
-        value.Options.Visit(this);
-      }
-
-      public void Visit(CharSet value)
-      {
-        // Do Nothing
-      }
-
-      public void Visit(Pattern value)
-      {
-        var i = 0;
-        CharSet currSet;
-        while (i < value.Matches.Count)
-        {
-          currSet = value.Matches[i] as CharSet;
-          if (currSet != null && !currSet.InverseSet && currSet.Chars.Count == 1)
-          {
-            // Convert single character character sets into string matches
-            if (i > 0 && value.Matches[i - 1] is StringMatch)
-            {
-              ((StringMatch)value.Matches[i - 1]).Match.Append(currSet.Chars[0]);
-              value.Matches.RemoveAt(i);
-            }
-            else if ((i + 1) < value.Matches.Count && value.Matches[i + 1] is StringMatch)
-            {
-              ((StringMatch)value.Matches[i + 1]).Match.Insert(0, currSet.Chars[0]);
-              value.Matches.RemoveAt(i);
-            }
-            else
-            {
-              value.Matches[i] = new StringMatch(currSet.Chars[0]);
-              i++;
-            }
-          }
-          else if (i > 0 && value.Matches[i - 1].ContentEquals(value.Matches[i]))
-          {
-            // Concatenate consecutive matches together as merely a repeat.
-            value.Matches[i - 1].Repeat.MinCount++;
-            if (value.Matches[i - 1].Repeat.MaxCount < int.MaxValue) value.Matches[i - 1].Repeat.MaxCount++;
-            value.Matches.RemoveAt(i);
-          }
-          else if (i > 0 && value.Matches[i - 1] is StringMatch && value.Matches[i] is StringMatch)
-          {
-            // Concatenate consecutive string matches together.
-            ((StringMatch)value.Matches[i - 1]).Match.Append(((StringMatch)value.Matches[i]).Match);
-            value.Matches.RemoveAt(i);
-          }
-          else
-          {
-            i++;
-          }
-        }
-      }
-
-      public void Visit(PatternList value)
-      {
-        foreach (var pat in value.Patterns)
-        {
-          pat.Visit(this);
-        }
-      }
-
-      public void Visit(Repetition value)
-      {
-        // Do Nothing
-      }
-
-      public void Visit(StringMatch value)
-      {
-        // Do Nothing
       }
     }
 

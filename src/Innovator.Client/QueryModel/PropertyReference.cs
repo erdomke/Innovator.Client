@@ -26,5 +26,31 @@ namespace Innovator.Client.QueryModel
     {
       return this.ToSqlString();
     }
+
+    internal QueryItem GetOrAddTable(IServerContext context)
+    {
+      var join = Table.Joins.FirstOrDefault(j => j.Condition is EqualsOperator eq
+        && new[] { eq.Left, eq.Right }.OfType<PropertyReference>()
+          .Any(p => p.Table == Table && p.Name == Name));
+      if (join != null)
+        return join.Right;
+
+      var newTable = new QueryItem(context)
+      {
+        TypeProvider = this
+      };
+      Table.Joins.Add(new Join()
+      {
+        Left = Table,
+        Right = newTable,
+        Condition = new EqualsOperator()
+        {
+          Left = this,
+          Right = new PropertyReference("id", newTable)
+        },
+        Type = JoinType.Inner
+      });
+      return newTable;
+    }
   }
 }

@@ -39,7 +39,47 @@ namespace Innovator.Client.QueryModel
 
     public override string ToString()
     {
-      return Value.ToString();
+      return ElementFactory.Local.LocalizationContext.Format(Value);
+    }
+
+    public bool? AsBoolean()
+    {
+      return Value;
+    }
+
+    public DateTime? AsDateTime()
+    {
+      throw new InvalidCastException();
+    }
+
+    public DateTime? AsDateTimeUtc()
+    {
+      throw new InvalidCastException();
+    }
+
+    public double? AsDouble()
+    {
+      throw new InvalidCastException();
+    }
+
+    public Guid? AsGuid()
+    {
+      throw new InvalidCastException();
+    }
+
+    public int? AsInt()
+    {
+      throw new InvalidCastException();
+    }
+
+    public long? AsLong()
+    {
+      throw new InvalidCastException();
+    }
+
+    public string AsString(string defaultValue)
+    {
+      return ElementFactory.Local.LocalizationContext.Format(Value) ?? defaultValue;
     }
   }
 }

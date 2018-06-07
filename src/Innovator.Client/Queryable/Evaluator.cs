@@ -1,4 +1,4 @@
-﻿#if REFLECTION
+#if REFLECTION
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -30,9 +30,17 @@ namespace Innovator.Client.Queryable
 
     private static bool CanBeEvaluatedLocally(Expression expression)
     {
-      var call = expression as MethodCallExpression;
-      if (call != null && call.Method.DeclaringType == typeof(System.Linq.Queryable))
+      if (expression is MethodCallExpression call && (call.Method.DeclaringType == typeof(System.Linq.Queryable)
+        || (call.Method.DeclaringType == typeof(Guid) && call.Method.Name == "NewGuid")))
+      {
         return false;
+      }
+      if (expression is MemberExpression prop && prop.Member.DeclaringType == typeof(DateTime)
+        && (prop.Member.Name == "Now" || prop.Member.Name == "UtcNow"))
+      {
+        return false;
+      }
+
       return expression.NodeType != ExpressionType.Parameter
         && expression.NodeType != ExpressionType.Lambda;
     }

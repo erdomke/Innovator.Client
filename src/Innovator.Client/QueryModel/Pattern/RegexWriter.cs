@@ -6,12 +6,12 @@ using System.IO;
 
 namespace Innovator.Client.QueryModel
 {
-  public class RegExpWriter : IPatternVisitor
+  public class RegexWriter : IPatternVisitor
   {
     private TextWriter _writer;
 
-    public RegExpWriter() : this(new StringWriter()) { }
-    public RegExpWriter(TextWriter writer)
+    public RegexWriter() : this(new StringWriter()) { }
+    public RegexWriter(TextWriter writer)
     {
       _writer = writer;
     }

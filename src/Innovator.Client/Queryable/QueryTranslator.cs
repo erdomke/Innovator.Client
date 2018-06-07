@@ -201,11 +201,32 @@ namespace Innovator.Client.Queryable
         }
         else
         {
-          _curr = new EqualsOperator()
+          var left = VisitAndReturn(m.Object ?? m.Arguments[0]);
+          var right = VisitAndReturn(m.Arguments[m.Object == null ? 1 : 0]);
+          if (right is NullLiteral)
           {
-            Left = VisitAndReturn(m.Object),
-            Right = VisitAndReturn(m.Arguments[0])
-          }.Normalize();
+            _curr = new IsOperator()
+            {
+              Left = left,
+              Right = IsOperand.Null
+            }.Normalize();
+          }
+          else if (left is NullLiteral)
+          {
+            _curr = new IsOperator()
+            {
+              Left = right,
+              Right = IsOperand.Null
+            }.Normalize();
+          }
+          else
+          {
+            _curr = new EqualsOperator()
+            {
+              Left = left,
+              Right = right
+            }.Normalize();
+          }
         }
         return m;
       }
@@ -332,18 +353,197 @@ namespace Innovator.Client.Queryable
             }
             return m;
           case "Equals":
-            _curr = new EqualsOperator()
+            if (m.Object == null)
             {
-              Left = VisitAndReturn(m.Arguments[0]),
-              Right = VisitAndReturn(m.Arguments[1])
+              _curr = new EqualsOperator()
+              {
+                Left = VisitAndReturn(m.Arguments[0]),
+                Right = VisitAndReturn(m.Arguments[1])
+              }.Normalize();
+            }
+            else
+            {
+              _curr = new EqualsOperator()
+              {
+                Left = VisitAndReturn(m.Object),
+                Right = VisitAndReturn(m.Arguments[0])
+              }.Normalize();
+            }
+            return m;
+          case "IndexOf":
+            _curr = new QueryModel.Functions.IndexOf()
+            {
+              String = VisitAndReturn(m.Object),
+              Target = VisitAndReturn(m.Arguments[0]),
+            };
+            return m;
+          case "Insert":
+            _curr = new ConcatenationOperator()
+            {
+              Left = new ConcatenationOperator()
+              {
+                Left = new QueryModel.Functions.Substring()
+                {
+                  String = VisitAndReturn(m.Object),
+                  Start = new IntegerLiteral(1),
+                  Length = VisitAndReturn(m.Arguments[0])
+                },
+                Right = VisitAndReturn(m.Arguments[1])
+              }.Normalize(),
+              Right = new QueryModel.Functions.Substring()
+              {
+                String = VisitAndReturn(m.Object),
+                Start = new AdditionOperator()
+                {
+                  Left = VisitAndReturn(m.Arguments[0]),
+                  Right = new IntegerLiteral(1),
+                }.Normalize(),
+                Length = new SubtractionOperator()
+                {
+                  Left = new QueryModel.Functions.Length()
+                  {
+                    String = VisitAndReturn(m.Object),
+                  },
+                  Right = VisitAndReturn(m.Arguments[0])
+                }.Normalize()
+              }
             }.Normalize();
             return m;
           case "IsNullOrEmpty":
-            _curr = new IsOperator()
+            _curr = new OrOperator()
             {
-              Left = VisitAndReturn(m.Arguments[0]),
-              Right = IsOperand.Null
-            }.Normalize();
+              Left = new IsOperator()
+              {
+                Left = VisitAndReturn(m.Arguments[0]),
+                Right = IsOperand.Null
+              }.Normalize(),
+              Right = new EqualsOperator()
+              {
+                Left = VisitAndReturn(m.Arguments[0]),
+                Right = new StringLiteral("")
+              }
+            };
+            return m;
+          case "Remove":
+            if (m.Arguments.Count == 1)
+            {
+              _curr = new QueryModel.Functions.Substring()
+              {
+                String = VisitAndReturn(m.Object),
+                Start = new IntegerLiteral(1),
+                Length = VisitAndReturn(m.Arguments[0])
+              };
+            }
+            else if (m.Arguments.Count == 2)
+            {
+              _curr = new ConcatenationOperator()
+              {
+                Left = new QueryModel.Functions.Substring()
+                {
+                  String = VisitAndReturn(m.Object),
+                  Start = new IntegerLiteral(1),
+                  Length = VisitAndReturn(m.Arguments[0])
+                },
+                Right = new QueryModel.Functions.Substring()
+                {
+                  String = VisitAndReturn(m.Object),
+                  Start = new AdditionOperator()
+                  {
+                    Left = new AdditionOperator()
+                    {
+                      Left = VisitAndReturn(m.Arguments[0]),
+                      Right = VisitAndReturn(m.Arguments[1]),
+                    }.Normalize(),
+                    Right = new IntegerLiteral(1)
+                  }.Normalize(),
+                  Length = new SubtractionOperator()
+                  {
+                    Left = new SubtractionOperator()
+                    {
+                      Left = new QueryModel.Functions.Length()
+                      {
+                        String = VisitAndReturn(m.Object)
+                      },
+                      Right = VisitAndReturn(m.Arguments[0])
+                    }.Normalize(),
+                    Right = VisitAndReturn(m.Arguments[1])
+                  }.Normalize()
+                }
+              }.Normalize();
+            }
+            return m;
+          case "Replace":
+            _curr = new QueryModel.Functions.Replace()
+            {
+              String = VisitAndReturn(m.Object),
+              Find = VisitAndReturn(m.Arguments[0]),
+              Substitute = VisitAndReturn(m.Arguments[1]),
+            };
+            return m;
+          case "Substring":
+            if (m.Arguments.Count == 1)
+            {
+              _curr = new QueryModel.Functions.Substring()
+              {
+                String = VisitAndReturn(m.Object),
+                Start = new AdditionOperator()
+                {
+                  Left = VisitAndReturn(m.Arguments[0]),
+                  Right = new IntegerLiteral(1)
+                }.Normalize(),
+                Length = new SubtractionOperator()
+                {
+                  Left = new QueryModel.Functions.Length()
+                  {
+                    String = VisitAndReturn(m.Object)
+                  },
+                  Right = VisitAndReturn(m.Arguments[0])
+                }.Normalize()
+              };
+            }
+            else if (m.Arguments.Count == 2)
+            {
+              _curr = new QueryModel.Functions.Substring()
+              {
+                String = VisitAndReturn(m.Object),
+                Start = new AdditionOperator()
+                {
+                  Left = VisitAndReturn(m.Arguments[0]),
+                  Right = new IntegerLiteral(1)
+                }.Normalize(),
+                Length = VisitAndReturn(m.Arguments[1])
+              };
+            }
+            return m;
+          case "ToLower":
+            _curr = new QueryModel.Functions.ToLower()
+            {
+              String = VisitAndReturn(m.Object),
+            };
+            return m;
+          case "ToUpper":
+            _curr = new QueryModel.Functions.ToUpper()
+            {
+              String = VisitAndReturn(m.Object),
+            };
+            return m;
+          case "Trim":
+            _curr = new QueryModel.Functions.Trim()
+            {
+              String = VisitAndReturn(m.Object),
+            };
+            return m;
+          case "TrimEnd":
+            _curr = new QueryModel.Functions.RTrim()
+            {
+              String = VisitAndReturn(m.Object),
+            };
+            return m;
+          case "TrimStart":
+            _curr = new QueryModel.Functions.LTrim()
+            {
+              String = VisitAndReturn(m.Object),
+            };
             return m;
         }
       }
@@ -393,8 +593,436 @@ namespace Innovator.Client.Queryable
             return m;
         }
       }
+      else if (m.Method.DeclaringType == typeof(DateTime) || m.Method.DeclaringType == typeof(DateTimeOffset))
+      {
+        switch (m.Method.Name)
+        {
+          case "Equals":
+            if (m.Object == null)
+            {
+              _curr = new EqualsOperator()
+              {
+                Left = VisitAndReturn(m.Arguments[0]),
+                Right = VisitAndReturn(m.Arguments[1]),
+              }.Normalize();
+            }
+            else
+            {
+              _curr = new EqualsOperator()
+              {
+                Left = VisitAndReturn(m.Object),
+                Right = VisitAndReturn(m.Arguments[0]),
+              }.Normalize();
+            }
+            return m;
+          case "Add":
+            if (m.Arguments[0] is ConstantExpression c && c.Value is TimeSpan ts)
+            {
+              if (ts.TotalDays >= 1)
+              {
+                _curr = new QueryModel.Functions.AddDays()
+                {
+                  Expression = VisitAndReturn(m.Object),
+                  Number = new FloatLiteral(ts.TotalDays)
+                };
+              }
+              else if (ts.TotalHours >= 1)
+              {
+                _curr = new QueryModel.Functions.AddHours()
+                {
+                  Expression = VisitAndReturn(m.Object),
+                  Number = new FloatLiteral(ts.TotalHours)
+                };
+              }
+              else if (ts.TotalMinutes >= 1)
+              {
+                _curr = new QueryModel.Functions.AddMinutes()
+                {
+                  Expression = VisitAndReturn(m.Object),
+                  Number = new FloatLiteral(ts.TotalMinutes)
+                };
+              }
+              else if (ts.TotalSeconds >= 1)
+              {
+                _curr = new QueryModel.Functions.AddSeconds()
+                {
+                  Expression = VisitAndReturn(m.Object),
+                  Number = new FloatLiteral(ts.TotalSeconds)
+                };
+              }
+              else
+              {
+                _curr = new QueryModel.Functions.AddMilliseconds()
+                {
+                  Expression = VisitAndReturn(m.Object),
+                  Number = new FloatLiteral(ts.TotalMilliseconds)
+                };
+              }
+              return m;
+            }
+            break;
+          case "AddDays":
+            _curr = new QueryModel.Functions.AddDays()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+          case "AddHours":
+            _curr = new QueryModel.Functions.AddHours()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+          case "AddMilliseconds":
+            _curr = new QueryModel.Functions.AddMilliseconds()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+          case "AddMinutes":
+            _curr = new QueryModel.Functions.AddMinutes()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+          case "AddMonths":
+            _curr = new QueryModel.Functions.AddMonths()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+          case "AddSeconds":
+            _curr = new QueryModel.Functions.AddSeconds()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+          case "AddYears":
+            _curr = new QueryModel.Functions.AddYears()
+            {
+              Expression = VisitAndReturn(m.Object),
+              Number = VisitAndReturn(m.Arguments[0])
+            };
+            return m;
+        }
+      }
+      else if (m.Method.DeclaringType.FullName == "Microsoft.VisualBasic.DateAndTime")
+      {
+        switch (m.Method.Name)
+        {
+          case "Year":
+            _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Month":
+            _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Day":
+            _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Hour":
+            _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Minute":
+            _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Second":
+            _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "DatePart":
+            if (m.Arguments[0] is ConstantExpression c)
+            {
+              switch ((int)c.Value)
+              {
+                case 0:
+                  _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  return m;
+                case 2:
+                  _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  return m;
+                case 4:
+                  _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  return m;
+                case 7:
+                  _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  return m;
+                case 8:
+                  _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  return m;
+                case 9:
+                  _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  return m;
+              }
+            }
+            break;
+          case "DateDiff":
+            if (m.Arguments[0] is ConstantExpression c1)
+            {
+              switch ((int)c1.Value)
+              {
+                case 0:
+                  _curr = new QueryModel.Functions.DiffYears()
+                  {
+                    StartExpression = VisitAndReturn(m.Arguments[0]),
+                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                  };
+                  return m;
+                case 2:
+                  _curr = new QueryModel.Functions.DiffMonths()
+                  {
+                    StartExpression = VisitAndReturn(m.Arguments[0]),
+                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                  };
+                  return m;
+                case 4:
+                  _curr = new QueryModel.Functions.DiffDays()
+                  {
+                    StartExpression = VisitAndReturn(m.Arguments[0]),
+                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                  };
+                  return m;
+                case 7:
+                  _curr = new QueryModel.Functions.DiffHours()
+                  {
+                    StartExpression = VisitAndReturn(m.Arguments[0]),
+                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                  };
+                  return m;
+                case 8:
+                  _curr = new QueryModel.Functions.DiffMinutes()
+                  {
+                    StartExpression = VisitAndReturn(m.Arguments[0]),
+                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                  };
+                  return m;
+                case 9:
+                  _curr = new QueryModel.Functions.DiffSeconds()
+                  {
+                    StartExpression = VisitAndReturn(m.Arguments[0]),
+                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                  };
+                  return m;
+              }
+            }
+            break;
+        }
+      }
+      else if (m.Method.DeclaringType == typeof(Guid))
+      {
+        switch (m.Method.Name)
+        {
+          case "NewGuid":
+            _curr = new QueryModel.Functions.NewGuid();
+            return m;
+        }
+      }
+      else if (m.Method.DeclaringType == typeof(Decimal))
+      {
+        switch (m.Method.Name)
+        {
+          case "Ceiling":
+            _curr = new QueryModel.Functions.Ceiling() { Value = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Floor":
+            _curr = new QueryModel.Functions.Floor() { Value = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Round":
+            if (m.Arguments.Count > 1 && m.Arguments[1].Type == typeof(int))
+            {
+              _curr = new QueryModel.Functions.Round()
+              {
+                Value = VisitAndReturn(m.Arguments[0]),
+                Digits = VisitAndReturn(m.Arguments[1])
+              };
+            }
+            else
+            {
+              _curr = new QueryModel.Functions.Round()
+              {
+                Value = VisitAndReturn(m.Arguments[0]),
+                Digits = new IntegerLiteral(0)
+              };
+            }
+            return m;
+        }
+      }
+      else if (m.Method.DeclaringType == typeof(Math))
+      {
+        switch (m.Method.Name)
+        {
+          case "Abs":
+            _curr = new QueryModel.Functions.Abs() { Value = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Ceiling":
+            _curr = new QueryModel.Functions.Ceiling() { Value = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Floor":
+            _curr = new QueryModel.Functions.Floor() { Value = VisitAndReturn(m.Arguments[0]) };
+            return m;
+          case "Round":
+            if (m.Arguments.Count > 1 && m.Arguments[1].Type == typeof(int))
+            {
+              _curr = new QueryModel.Functions.Round()
+              {
+                Value = VisitAndReturn(m.Arguments[0]),
+                Digits = VisitAndReturn(m.Arguments[1])
+              };
+            }
+            else
+            {
+              _curr = new QueryModel.Functions.Round()
+              {
+                Value = VisitAndReturn(m.Arguments[0]),
+                Digits = new IntegerLiteral(0)
+              };
+            }
+            return m;
+          case "Power":
+            _curr = new QueryModel.Functions.Power()
+            {
+              Value = VisitAndReturn(m.Arguments[0]),
+              Exponent = VisitAndReturn(m.Arguments[1])
+            };
+            return m;
+          case "Truncate":
+            _curr = new QueryModel.Functions.Truncate()
+            {
+              Value = VisitAndReturn(m.Arguments[0]),
+              Digits = new IntegerLiteral(0)
+            };
+            return m;
+        }
+      }
+      else if (m.Method.DeclaringType == typeof(System.Text.RegularExpressions.Regex)
+        && m.Method.Name == "IsMatch" && m.Arguments[1] is ConstantExpression c && c.Value is string str)
+      {
+        _curr = new LikeOperator()
+        {
+          Left = VisitAndReturn(m.Arguments[0]),
+          Right = RegexParser.Parse(str)
+        };
+        return m;
+      }
 
       return base.VisitMethodCall(m);
+    }
+
+    protected override Expression VisitMemberAccess(MemberExpression m)
+    {
+      if (m.Member.DeclaringType == typeof(DateTime) || m.Member.DeclaringType == typeof(DateTimeOffset))
+      {
+        switch (m.Member.Name)
+        {
+          case "Now":
+            _curr = new QueryModel.Functions.CurrentDateTime();
+            return m;
+          case "UtcNow":
+            _curr = new QueryModel.Functions.CurrentUtcDateTime();
+            return m;
+          case "Date":
+            _curr = new QueryModel.Functions.TruncateTime()
+            {
+              Expression = VisitAndReturn(m.Expression)
+            };
+            return m;
+          case "Day":
+            _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "DayOfYear":
+            _curr = new QueryModel.Functions.DayOfYear() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "Hour":
+            _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "Millisecond":
+            _curr = new QueryModel.Functions.Millisecond() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "Minute":
+            _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "Month":
+            _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "Second":
+            _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+          case "Year":
+            _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturn(m.Expression) };
+            return m;
+        }
+      }
+      else if (m.Member.DeclaringType.FullName == "Microsoft.VisualBasic.DateAndTime")
+      {
+        switch (m.Member.Name)
+        {
+          case "Now":
+            _curr = new QueryModel.Functions.CurrentDateTime();
+            return m;
+        }
+      }
+      else if (m.Member.DeclaringType == typeof(string))
+      {
+        switch (m.Member.Name)
+        {
+          case "Length":
+            _curr = new QueryModel.Functions.Length()
+            {
+              String = VisitAndReturn(m.Expression)
+            };
+            return m;
+        }
+      }
+      else if (m.Member.DeclaringType == typeof(TimeSpan)
+        && m.Expression is BinaryExpression binEx
+        && binEx.NodeType == ExpressionType.Subtract)
+      {
+        switch (m.Member.Name)
+        {
+          case "TotalDays":
+          case "Days":
+            _curr = new QueryModel.Functions.DiffDays()
+            {
+              EndExpression = VisitAndReturn(binEx.Left),
+              StartExpression = VisitAndReturn(binEx.Right),
+            };
+            return m;
+          case "TotalHours":
+            _curr = new QueryModel.Functions.DiffHours()
+            {
+              EndExpression = VisitAndReturn(binEx.Left),
+              StartExpression = VisitAndReturn(binEx.Right),
+            };
+            return m;
+          case "TotalMinutes":
+            _curr = new QueryModel.Functions.DiffMinutes()
+            {
+              EndExpression = VisitAndReturn(binEx.Left),
+              StartExpression = VisitAndReturn(binEx.Right),
+            };
+            return m;
+          case "TotalSeconds":
+            _curr = new QueryModel.Functions.DiffSeconds()
+            {
+              EndExpression = VisitAndReturn(binEx.Left),
+              StartExpression = VisitAndReturn(binEx.Right),
+            };
+            return m;
+          case "TotalMilliseconds":
+            _curr = new QueryModel.Functions.DiffMilliseconds()
+            {
+              EndExpression = VisitAndReturn(binEx.Left),
+              StartExpression = VisitAndReturn(binEx.Right),
+            };
+            return m;
+        }
+      }
+
+      return base.VisitMemberAccess(m);
     }
 
     protected override Expression VisitUnary(UnaryExpression u)

@@ -21,11 +21,11 @@ namespace Innovator.Client
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public sealed class ServerContext : IServerContext
   {
-    internal static Func<DateTimeOffset> _clock = () => DateTimeOffset.UtcNow;
+    internal static Func<ZonedDateTime> _clock = () => new ZonedDateTime(DateTime.UtcNow, DateTimeZone.Local);
 
     private const string DoubleFixedPoint = "0.###################################################################################################################################################################################################################################################################################################################################################";
     private readonly static Regex TimeZoneMatch = new Regex(@"(^|\s)[+-]\d{1,2}(:\d{1,2})?($|\s)");
-    private TimeZoneData _timeZone;
+    private DateTimeZone _timeZone;
 
     /// <summary>
     /// Gets the default language code configured for the Aras user
@@ -58,10 +58,10 @@ namespace Innovator.Client
     public string TimeZone
     {
       get { return _timeZone.Id; }
-      set { _timeZone = TimeZoneData.ById(value); }
+      set { _timeZone = DateTimeZone.ById(value); }
     }
 
-    internal TimeZoneData TimeZoneData
+    internal DateTimeZone Zone
     {
       get { return _timeZone; }
     }
@@ -82,9 +82,12 @@ namespace Innovator.Client
     /// Otherwise, the local time zone will be used</param>
     public ServerContext(bool utc)
     {
-      _timeZone = utc ? TimeZoneData.Utc : TimeZoneData.Local;
+      _timeZone = utc ? DateTimeZone.Utc : DateTimeZone.Local;
+      this.DefaultLanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
       this.LanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+      this.Locale = CultureInfo.CurrentCulture.Name;
     }
+
     /// <summary>
     /// Create a server context using the specified time zone name
     /// </summary>
@@ -129,19 +132,19 @@ namespace Innovator.Client
     public bool? AsBoolean(object value)
     {
       if (value == null) return null;
-      if (value is bool) return (bool)value;
-      if (!(value is string))
+      if (value is bool b) return b;
+      if (!(value is string str))
         throw new InvalidCastException();
 
-      if ((string)value == "0")
+      if (str == "0")
       {
         return false;
       }
-      else if ((string)value == "1")
+      else if (str == "1")
       {
         return true;
       }
-      else if ((string)value == "")
+      else if (str == "")
       {
         return null;
       }
@@ -153,109 +156,19 @@ namespace Innovator.Client
 
     /// <summary>
     /// Converts the <see cref="object" /> representing a date in the corporate
-    /// time zone to a <see cref="DateTime" /> in the local time zone
+    /// time zone to a <see cref="ZonedDateTime" />
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>
     /// <c>null</c> if <paramref name="value" /> is null or empty.
-    /// A <see cref="DateTime" /> if <paramref name="value" /> is convertible.
+    /// A <see cref="ZonedDateTime" /> if <paramref name="value" /> is convertible.
     /// Otherwise, an exception is thrown
     /// </returns>
-    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
-    public DateTime? AsDateTime(object value)
+    /// <exception cref="InvalidCastException"></exception>
+    public ZonedDateTime? AsZonedDateTime(object value)
     {
       if (!this.TryParseDateTime(value, out var result))
         throw new InvalidCastException();
-      return result;
-    }
-
-    /// <summary>
-    /// Converts the <see cref="object" /> representing a date in the corporate
-    /// time zone to a <see cref="DateTimeOffset" /> in the local time zone
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>
-    /// <c>null</c> if <paramref name="value" /> is null or empty.
-    /// A <see cref="DateTimeOffset" /> if <paramref name="value" /> is convertible.
-    /// Otherwise, an exception is thrown
-    /// </returns>
-    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTimeOffset"/></exception>
-    public DateTimeOffset? AsDateTimeOffset(object value)
-    {
-      if (value == null)
-        return null;
-
-      if (value is DateTimeOffset)
-        return OffsetToLocal((DateTimeOffset)value);
-
-      DateTime result;
-      if (value is DateTime)
-      {
-        result = AsDateTime((DateTime)value).Value;
-      }
-      else
-      {
-        if (!(value is string))
-          throw new InvalidCastException();
-        var str = (string)value;
-        if (str?.Length == 0) return null;
-        if (str == "__now()")
-          return OffsetToLocal(_clock());
-
-        if (str.EndsWith("Z") || TimeZoneMatch.IsMatch(str))
-          return OffsetToLocal(DateTimeOffset.Parse(str, CultureInfo.InvariantCulture));
-
-        result = DateTime.Parse(str, CultureInfo.InvariantCulture);
-      }
-
-      return new DateTimeOffset(result, _timeZone.GetUtcOffset(result));
-    }
-
-    private DateTimeOffset OffsetToLocal(DateTimeOffset value)
-    {
-      var date = TimeZoneData.ConvertTime(DateTime.SpecifyKind(value.ToUniversalTime().DateTime, DateTimeKind.Utc), TimeZoneData.Utc, TimeZoneData.Local);
-      return new DateTimeOffset(date, TimeZoneData.Local.GetUtcOffset(date));
-    }
-
-    /// <summary>
-    /// Converts the <see cref="object" /> representing a date in the corporate
-    /// time zone to a <see cref="DateTime" /> in the UTC time zone
-    /// </summary>
-    /// <param name="value">The value.</param>
-    /// <returns>
-    /// <c>null</c> if <paramref name="value" /> is null or empty.
-    /// A <see cref="DateTime" /> if <paramref name="value" /> is convertible.
-    /// Otherwise, an exception is thrown
-    /// </returns>
-    /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
-    public DateTime? AsDateTimeUtc(object value)
-    {
-      if (value == null) return null;
-      DateTime result;
-      if (value is DateTime)
-      {
-        result = (DateTime)value;
-        if (result.Kind == DateTimeKind.Local)
-          return TimeZoneData.ConvertTime(result, TimeZoneData.Local, TimeZoneData.Utc);
-        return result;
-      }
-      else
-      {
-        if (!(value is string))
-          throw new InvalidCastException();
-        if ((string)value == "") return null;
-        if ((string)value == "__now()")
-          return DateTime.SpecifyKind(_clock().ToUniversalTime().DateTime, DateTimeKind.Unspecified);
-
-        result = DateTime.Parse((string)value, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-        if (_timeZone == TimeZoneData.Utc)
-        {
-          result = DateTime.SpecifyKind(result, DateTimeKind.Utc);
-          return result;
-        }
-      }
-      result = DateTime.SpecifyKind(result, DateTimeKind.Unspecified);
-      result = TimeZoneData.ConvertTime(result, _timeZone, TimeZoneData.Utc);
       return result;
     }
 
@@ -272,13 +185,11 @@ namespace Innovator.Client
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="decimal"/></exception>
     public decimal? AsDecimal(object value)
     {
-      if (value == null) return null;
-      if (value is decimal) return (decimal)value;
-      if (!(value is string))
-        throw new InvalidCastException();
-      if ((string)value == "") return null;
-      return decimal.Parse((string)value, CultureInfo.InvariantCulture);
+      if (value == null || (value is string str && str.Length < 1))
+        return null;
+      return Convert.ToDecimal(value, CultureInfo.InvariantCulture);
     }
+
     /// <summary>
     /// Converts the <see cref="object" /> to a <see cref="double" /> based on
     /// the locale and time zone
@@ -292,13 +203,11 @@ namespace Innovator.Client
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="double"/></exception>
     public double? AsDouble(object value)
     {
-      if (value == null) return null;
-      if (value is double) return (double)value;
-      if (!(value is string))
-        throw new InvalidCastException();
-      if ((string)value == "") return null;
-      return double.Parse((string)value, CultureInfo.InvariantCulture);
+      if (value == null || (value is string str && str.Length < 1))
+        return null;
+      return Convert.ToDouble(value, CultureInfo.InvariantCulture);
     }
+
     /// <summary>
     /// Converts the <see cref="object" /> to a <see cref="int" /> based on
     /// the locale and time zone
@@ -312,13 +221,16 @@ namespace Innovator.Client
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="int"/></exception>
     public int? AsInt(object value)
     {
-      if (value == null) return null;
-      if (value is int) return (int)value;
-      if (!(value is string))
+      if (value == null || (value is string str && str.Length < 1))
+        return null;
+      if ((value is double d && Math.Abs(d % 1) > (double.Epsilon * 100))
+        || (value is float f && Math.Abs(f % 1) > (float.Epsilon * 100)))
+      {
         throw new InvalidCastException();
-      if ((string)value == "") return null;
-      return int.Parse((string)value, CultureInfo.InvariantCulture);
+      }
+      return Convert.ToInt32(value, CultureInfo.InvariantCulture);
     }
+
     /// <summary>
     /// Converts the <see cref="object" /> to a <see cref="long" /> based on
     /// the locale and time zone
@@ -332,12 +244,14 @@ namespace Innovator.Client
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="long"/></exception>
     public long? AsLong(object value)
     {
-      if (value == null) return null;
-      if (value is long) return (long)value;
-      if (!(value is string))
+      if (value == null || (value is string str && str.Length < 1))
+        return null;
+      if ((value is double d && Math.Abs(d % 1) > (double.Epsilon * 100))
+        || (value is float f && Math.Abs(f % 1) > (float.Epsilon * 100)))
+      {
         throw new InvalidCastException();
-      if ((string)value == "") return null;
-      return long.Parse((string)value, CultureInfo.InvariantCulture);
+      }
+      return Convert.ToInt64(value, CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -366,9 +280,9 @@ namespace Innovator.Client
       {
         return null;
       }
-      else if (value is bool)
+      else if (value is bool b)
       {
-        if ((bool)value)
+        if (b)
         {
           return "1";
         }
@@ -377,9 +291,9 @@ namespace Innovator.Client
           return "0";
         }
       }
-      else if (value is Condition)
+      else if (value is Condition condition)
       {
-        switch ((Condition)value)
+        switch (condition)
         {
           case Condition.Between:
             return "between";
@@ -419,41 +333,40 @@ namespace Innovator.Client
       {
         return numberRenderer(number);
       }
-      else if (value is Guid)
+      else if (value is Guid guid)
       {
-        return ((Guid)value).ToString("N").ToUpperInvariant();
+        return guid.ToString("N").ToUpperInvariant();
       }
-      else if (value is DateTime)
+      else if (value is DateTime dateTime)
       {
-        return Render((DateTime)value);
+        return Render(dateTime);
       }
-      else if (value is Range<DateOffset>)
+      else if (value is Range<DateOffset> dateRange)
       {
-        var statDates = ((Range<DateOffset>)value).AsDateRange(this.Now());
+        var statDates = (dateRange).AsDateRange(this.Now());
         return stringRenderer(statDates.Minimum.ToString("s") + " and " + statDates.Maximum.ToString("s"));
       }
-      else if (value is IRange)
+      else if (value is IRange range)
       {
-        var range = (IRange)value;
         return Format(range.Minimum, numberRenderer, stringRenderer)
           + " and "
           + Format(range.Maximum, numberRenderer, stringRenderer);
       }
-      else if (value is DateOffset)
+      else if (value is DateOffset dateOffset)
       {
-        return ((DateOffset)value).AsDate(this.Now()).ToString("s");
+        return dateOffset.AsDate(this.Now()).ToString("s");
       }
-      else if (value is IReadOnlyItem)
+      else if (value is IReadOnlyItem item)
       {
-        return ((IReadOnlyItem)value).Id();
+        return item.Id();
       }
-      else if (value is IReadOnlyProperty)
+      else if (value is IReadOnlyProperty_Base prop)
       {
-        return ((IReadOnlyProperty)value).Value;
+        return prop.Value;
       }
-      else if (value is IReadOnlyAttribute)
+      else if (value is IReadOnlyAttribute attr)
       {
-        return ((IReadOnlyAttribute)value).Value;
+        return attr.Value;
       }
       else
       {
@@ -466,14 +379,14 @@ namespace Innovator.Client
       var converted = value;
       if (value.Kind == DateTimeKind.Utc)
       {
-        if (_timeZone != TimeZoneData.Utc)
+        if (_timeZone != DateTimeZone.Utc)
         {
-          converted = TimeZoneData.ConvertTime(value, TimeZoneData.Utc, _timeZone);
+          converted = DateTimeZone.ConvertTime(value, DateTimeZone.Utc, _timeZone);
         }
       }
-      else if (_timeZone != TimeZoneData.Local) // Assume local
+      else if (_timeZone != DateTimeZone.Local) // Assume local
       {
-        converted = TimeZoneData.ConvertTime(value, TimeZoneData.Local, _timeZone);
+        converted = DateTimeZone.ConvertTime(value, DateTimeZone.Local, _timeZone);
       }
       return converted.ToString("s");
     }
@@ -569,6 +482,5 @@ namespace Innovator.Client
       number = null;
       return false;
     }
-
   }
 }

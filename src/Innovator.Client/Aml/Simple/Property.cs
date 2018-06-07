@@ -3,6 +3,9 @@ using System;
 namespace Innovator.Client
 {
   internal class Property : Element, IProperty
+#if FILEIO
+    , IConvertible
+#endif
   {
     private IElement _parent;
 
@@ -31,11 +34,13 @@ namespace Innovator.Client
       else if (content.Length > 0)
         Add(content);
     }
+
     public Property(IElement parent, string name)
     {
       Name = name;
       _parent = parent;
     }
+
     private Property(IElement parent, Property clone)
     {
       Name = clone.Name;
@@ -43,38 +48,30 @@ namespace Innovator.Client
       CopyData(clone);
     }
 
-    private readonly static Property _nullProp;
-    private readonly static Property _defaultGeneration;
-    private readonly static Property _defaultIsCurrent;
-    private readonly static Property _defaultIsReleased;
-    private readonly static Property _defaultMajorRev;
-    private readonly static Property _defaultNewVersion;
-    private readonly static Property _defaultNotLockable;
-
     static Property()
     {
-      _nullProp = new Property(null) { ReadOnly = true };
-      _defaultGeneration = new Property("generation", "1") { ReadOnly = true };
-      _defaultGeneration.Next = _defaultGeneration;
-      _defaultIsCurrent = new Property("is_current", "1") { ReadOnly = true };
-      _defaultIsCurrent.Next = _defaultIsCurrent;
-      _defaultIsReleased = new Property("is_released", "0") { ReadOnly = true };
-      _defaultIsReleased.Next = _defaultIsReleased;
-      _defaultMajorRev = new Property("major_rev", "A") { ReadOnly = true };
-      _defaultMajorRev.Next = _defaultMajorRev;
-      _defaultNewVersion = new Property("new_version", "0") { ReadOnly = true };
-      _defaultNewVersion.Next = _defaultNewVersion;
-      _defaultNotLockable = new Property("not_lockable", "0") { ReadOnly = true };
-      _defaultNotLockable.Next = _defaultNotLockable;
+      NullProp = new Property(null) { ReadOnly = true };
+      DefaultGeneration = new Property("generation", "1") { ReadOnly = true };
+      DefaultGeneration.Next = DefaultGeneration;
+      DefaultIsCurrent = new Property("is_current", "1") { ReadOnly = true };
+      DefaultIsCurrent.Next = DefaultIsCurrent;
+      DefaultIsReleased = new Property("is_released", "0") { ReadOnly = true };
+      DefaultIsReleased.Next = DefaultIsReleased;
+      DefaultMajorRev = new Property("major_rev", "A") { ReadOnly = true };
+      DefaultMajorRev.Next = DefaultMajorRev;
+      DefaultNewVersion = new Property("new_version", "0") { ReadOnly = true };
+      DefaultNewVersion.Next = DefaultNewVersion;
+      DefaultNotLockable = new Property("not_lockable", "0") { ReadOnly = true };
+      DefaultNotLockable.Next = DefaultNotLockable;
     }
 
-    public static Property NullProp { get { return _nullProp; } }
-    public static Property DefaultGeneration { get { return _defaultGeneration; } }
-    public static Property DefaultIsCurrent { get { return _defaultIsCurrent; } }
-    public static Property DefaultIsReleased { get { return _defaultIsReleased; } }
-    public static Property DefaultMajorRev { get { return _defaultMajorRev; } }
-    public static Property DefaultNewVersion { get { return _defaultNewVersion; } }
-    public static Property DefaultNotLockable { get { return _defaultNotLockable; } }
+    public static Property NullProp { get; }
+    public static Property DefaultGeneration { get; }
+    public static Property DefaultIsCurrent { get; }
+    public static Property DefaultIsReleased { get; }
+    public static Property DefaultMajorRev { get; }
+    public static Property DefaultNewVersion { get; }
+    public static Property DefaultNotLockable { get; }
 
     public bool? AsBoolean()
     {
@@ -91,7 +88,7 @@ namespace Innovator.Client
     public DateTimeOffset? AsDateTimeOffset()
     {
       if (!this.Exists) return null;
-      return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsDateTimeOffset(NeutralValue());
+      return (_parent == null ? ElementFactory.Local : _parent.AmlContext).LocalizationContext.AsZonedDateTime(NeutralValue())?.ToDateTimeOffset();
     }
 
     public DateTime? AsDateTimeUtc()
@@ -255,5 +252,98 @@ namespace Innovator.Client
     {
       return new Property(newParent, this);
     }
+
+#if FILEIO
+    #region IConvertible
+    TypeCode IConvertible.GetTypeCode()
+    {
+      return TypeCode.Object;
+    }
+
+    bool IConvertible.ToBoolean(IFormatProvider provider)
+    {
+      return AsBoolean().Value;
+    }
+
+    char IConvertible.ToChar(IFormatProvider provider)
+    {
+      if (Value?.Length == 1)
+        return Value[0];
+      throw new InvalidCastException();
+    }
+
+    sbyte IConvertible.ToSByte(IFormatProvider provider)
+    {
+      return Convert.ToSByte(AsInt().Value);
+    }
+
+    byte IConvertible.ToByte(IFormatProvider provider)
+    {
+      return Convert.ToByte(AsInt().Value);
+    }
+
+    short IConvertible.ToInt16(IFormatProvider provider)
+    {
+      return Convert.ToInt16(AsInt().Value);
+    }
+
+    ushort IConvertible.ToUInt16(IFormatProvider provider)
+    {
+      return Convert.ToUInt16(AsInt().Value);
+    }
+
+    int IConvertible.ToInt32(IFormatProvider provider)
+    {
+      return AsInt().Value;
+    }
+
+    uint IConvertible.ToUInt32(IFormatProvider provider)
+    {
+      return Convert.ToUInt32(AsInt().Value);
+    }
+
+    long IConvertible.ToInt64(IFormatProvider provider)
+    {
+      return AsLong().Value;
+    }
+
+    ulong IConvertible.ToUInt64(IFormatProvider provider)
+    {
+      return Convert.ToUInt64(AsLong().Value);
+    }
+
+    float IConvertible.ToSingle(IFormatProvider provider)
+    {
+      return Convert.ToSingle(AsDouble().Value);
+    }
+
+    double IConvertible.ToDouble(IFormatProvider provider)
+    {
+      return AsDouble().Value;
+    }
+
+    decimal IConvertible.ToDecimal(IFormatProvider provider)
+    {
+      if (!this.Exists)
+        throw new InvalidCastException();
+      return _parent.AmlContext.LocalizationContext.AsDecimal(_content).Value;
+    }
+
+    DateTime IConvertible.ToDateTime(IFormatProvider provider)
+    {
+      return AsDateTime().Value;
+    }
+
+    string IConvertible.ToString(IFormatProvider provider)
+    {
+      return Value;
+    }
+
+    object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+    {
+      return Convert.ChangeType(Value, conversionType, provider);
+    }
+    #endregion
+#endif
   }
 }

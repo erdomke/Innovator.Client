@@ -8,10 +8,11 @@ namespace Innovator.Client.QueryModel
 {
   public class ParameterReference : ILiteral
   {
+    public string DefaultValue { get; set; }
     public bool IsRaw { get; private set; }
-    public string Name { get; private set; }
+    public string Name { get; internal set; }
 
-    private ParameterReference() { }
+    internal ParameterReference() { }
 
     public ParameterReference(string name, bool isRaw)
     {
@@ -78,6 +79,46 @@ namespace Innovator.Client.QueryModel
     public void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
+    }
+
+    bool? ICoercible.AsBoolean()
+    {
+      throw new NotSupportedException();
+    }
+
+    DateTime? ICoercible.AsDateTime()
+    {
+      throw new NotSupportedException();
+    }
+
+    DateTime? ICoercible.AsDateTimeUtc()
+    {
+      throw new NotSupportedException();
+    }
+
+    double? ICoercible.AsDouble()
+    {
+      throw new NotSupportedException();
+    }
+
+    Guid? ICoercible.AsGuid()
+    {
+      throw new NotSupportedException();
+    }
+
+    int? ICoercible.AsInt()
+    {
+      throw new NotSupportedException();
+    }
+
+    long? ICoercible.AsLong()
+    {
+      throw new NotSupportedException();
+    }
+
+    string ICoercible.AsString(string defaultValue)
+    {
+      throw new NotSupportedException();
     }
   }
 }

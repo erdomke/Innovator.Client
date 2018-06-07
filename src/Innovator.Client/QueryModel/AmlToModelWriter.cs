@@ -8,19 +8,19 @@ using System.Xml;
 
 namespace Innovator.Client.QueryModel
 {
-  public class AmlToModelWriter : XmlWriter
+  internal class AmlToModelWriter : XmlWriter
   {
-    private static readonly HashSet<string> _dateProps = new HashSet<string>()
+    private static HashSet<string> DateProps { get; } = new HashSet<string>()
     {
       "created_on", "modified_on"
     };
 
-    private static readonly HashSet<string> _intProps = new HashSet<string>()
+    private static HashSet<string> IntProps { get; } = new HashSet<string>()
     {
       "generation", "sort_order"
     };
 
-    private static readonly HashSet<string> _boolProps = new HashSet<string>()
+    internal static HashSet<string> BoolProps { get; } = new HashSet<string>()
     {
       "new_version", "not_lockable"
     };
@@ -287,8 +287,8 @@ namespace Innovator.Client.QueryModel
             last = new BetweenOperator()
             {
               Left = property,
-              Min = new DateTimeLiteral(dateStart.Value.AsDate(_context.Now(), false)),
-              Max = new DateTimeLiteral(dateEnd.Value.AsDate(_context.Now(), true)),
+              Min = new DateOffsetLiteral(_context, dateStart.Value, false),
+              Max = new DateOffsetLiteral(_context, dateEnd.Value, true),
             }.Normalize();
           }
           else if (dateStart.HasValue)
@@ -296,7 +296,7 @@ namespace Innovator.Client.QueryModel
             last = new GreaterThanOrEqualsOperator()
             {
               Left = property,
-              Right = new DateTimeLiteral(dateStart.Value.AsDate(_context.Now(), false))
+              Right = new DateOffsetLiteral(_context, dateStart.Value, false)
             }.Normalize();
           }
           else
@@ -304,7 +304,7 @@ namespace Innovator.Client.QueryModel
             last = new LessThanOrEqualsOperator()
             {
               Left = property,
-              Right = new DateTimeLiteral(dateEnd.Value.AsDate(_context.Now(), true))
+              Right = new DateOffsetLiteral(_context, dateEnd.Value, true)
             }.Normalize();
           }
         }
@@ -363,7 +363,7 @@ namespace Innovator.Client.QueryModel
             }
             else if (binOp is LikeOperator)
             {
-              binOp.Right = PatternParser.SqlServer.Parse(value.Replace('*', '%'));
+              binOp.Right = AmlLikeParser.Instance.Parse(value);
             }
             else
             {
@@ -428,7 +428,7 @@ namespace Innovator.Client.QueryModel
       }
 
       if ((allowedTypes & AllowedTypes.Boolean) != 0
-        && (prop.Name.StartsWith("is_") || _boolProps.Contains(prop.Name))
+        && (prop.Name.StartsWith("is_") || BoolProps.Contains(prop.Name))
         && (value == "1" || value == "0"))
       {
         return new BooleanLiteral(value == "1");
@@ -436,21 +436,26 @@ namespace Innovator.Client.QueryModel
       else if ((allowedTypes & AllowedTypes.DateTime) != 0
         && (prop.Name.StartsWith("date_")
           || prop.Name.EndsWith("_date")
-          || _dateProps.Contains(prop.Name))
+          || DateProps.Contains(prop.Name))
         && context.TryParseDateTime(value, out var dateValue)
         && dateValue.HasValue)
       {
-        return new DateTimeLiteral(dateValue.Value);
+        return new DateTimeLiteral(dateValue.Value.LocalDateTime);
       }
       else if ((allowedTypes & AllowedTypes.Integer) != 0
-        && _intProps.Contains(prop.Name)
+        && IntProps.Contains(prop.Name)
         && long.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var lng))
       {
         return new IntegerLiteral(lng);
       }
-      else
+      else if (DateTime.TryParse(value, out var dt)
+        || double.TryParse(value, out var d))
       {
         return new ObjectLiteral(value, prop, context);
+      }
+      else
+      {
+        return new StringLiteral(value);
       }
     }
 

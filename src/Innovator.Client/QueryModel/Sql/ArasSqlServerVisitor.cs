@@ -47,7 +47,7 @@ namespace Innovator.Client.QueryModel
           Writer.Write(" group by ");
           WritePermissionFields(query);
           Writer.Write(") perm where ");
-          WritePermissionCheck(() => Writer.Write("perm"));
+          WritePermissionCheck(() => Writer.Write("perm."));
           break;
         case SqlRenderOption.OffsetQuery:
           Writer.Write("select isnull(sum(cnt), 0) offset from ( select ");
@@ -77,14 +77,14 @@ namespace Innovator.Client.QueryModel
             for (var j = 0; j < i; j++)
             {
               WriteAlias(query);
-              Writer.Append(".[");
+              Writer.Append("[");
               Writer.Write(((PropertyReference)cols[j].Expression).Name);
               Writer.Write("] = offset.[");
               Writer.Write(((PropertyReference)cols[j].Expression).Name);
               Writer.Write("] and ");
             }
             WriteAlias(query);
-            Writer.Append(".[");
+            Writer.Append("[");
             Writer.Write(((PropertyReference)cols[i].Expression).Name);
             Writer.Write(cols[i].Ascending ? "] < " : "] > ");
             Writer.Write("offset.[");
@@ -112,7 +112,7 @@ namespace Innovator.Client.QueryModel
           Writer.Write(" group by ");
           WritePermissionFields(query);
           Writer.Write(" ) perm where ");
-          WritePermissionCheck(() => Writer.Write("perm"));
+          WritePermissionCheck(() => Writer.Write("perm."));
           break;
         default:
           base.Visit(query);
@@ -138,15 +138,15 @@ namespace Innovator.Client.QueryModel
     private void WritePermissionFields(QueryItem query)
     {
       WriteAlias(query);
-      Writer.Write(".permission_id, ");
+      Writer.Write("permission_id, ");
       WriteAlias(query);
-      Writer.Write(".created_by_id, ");
+      Writer.Write("created_by_id, ");
       WriteAlias(query);
-      Writer.Write(".managed_by_id, ");
+      Writer.Write("managed_by_id, ");
       WriteAlias(query);
-      Writer.Write(".owned_by_id, ");
+      Writer.Write("owned_by_id, ");
       WriteAlias(query);
-      Writer.Write(".team_id");
+      Writer.Write("team_id");
     }
 
     protected override void WriteTableDefinition(QueryItem item)
@@ -317,15 +317,15 @@ namespace Innovator.Client.QueryModel
       Writer.Write(settings.PermissionOption == AmlSqlPermissionOption.LegacyFunction ? "GetDiscoverPermissions" : "EvaluatePermissions");
       Writer.Write("] ('can_get', ");
       writeAlias();
-      Writer.Write(".permission_id, ");
+      Writer.Write("permission_id, ");
       writeAlias();
-      Writer.Write(".created_by_id, ");
+      Writer.Write("created_by_id, ");
       writeAlias();
-      Writer.Write(".managed_by_id, ");
+      Writer.Write("managed_by_id, ");
       writeAlias();
-      Writer.Write(".owned_by_id, ");
+      Writer.Write("owned_by_id, ");
       writeAlias();
-      Writer.Write(".team_id, '");
+      Writer.Write("team_id, '");
       Writer.Write(settings.IdentityList);
       Writer.Write("', null, '");
       Writer.Write(settings.UserId);

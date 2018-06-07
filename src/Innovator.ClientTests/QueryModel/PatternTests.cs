@@ -10,18 +10,30 @@ namespace Innovator.Client.QueryModel.Tests
   [TestClass]
   public class PatternTests
   {
-    private PatternParser Default = new PatternParser('%', '_', '\0', '\0');
-    private PatternParser Access = new PatternParser('*', '?', '#', '\0', '!', '-');
-    private PatternParser Wql = new PatternParser('%', '_', '\0', '\0', '^', '=');
-    private PatternParser SqlServer = new PatternParser('%', '_', '\0', '\0', '^', '-');
-    private PatternParser MySql = new PatternParser('%', '_', '\0', '\\');
+    private readonly PatternParser Default = new PatternParser('%', '_', '\0', '\0');
+    private readonly PatternParser Access = new PatternParser('*', '?', '#', '\0', '!', '-');
+    private readonly PatternParser Wql = new PatternParser('%', '_', '\0', '\0', '^', '=');
+    private readonly PatternParser SqlServer = new PatternParser('%', '_', '\0', '\0', '^', '-');
+    private readonly PatternParser MySql = new PatternParser('%', '_', '\0', '\\');
 
     private void TestSqlPattern(PatternParser inputDefn, PatternParser outputDefn, string input, string expected)
     {
       var patternOpts = inputDefn.Parse(input);
-      var writer = new SqlPatternWriter(outputDefn);
+      Assert.AreEqual(expected, outputDefn.Render(patternOpts));
+    }
+
+    private void TestRegExp(string input, string expected)
+    {
+      var patternOpts = RegexParser.Parse(input);
+      var writer = new RegexWriter();
       patternOpts.Visit(writer);
       Assert.AreEqual(expected, writer.ToString());
+    }
+
+    private void TestRegExpToSql(PatternParser outputDefn, string input, string expected)
+    {
+      var patternOpts = RegexParser.Parse(input);
+      Assert.AreEqual(expected, outputDefn.Render(patternOpts));
     }
 
     [TestMethod]
@@ -77,5 +89,35 @@ namespace Innovator.Client.QueryModel.Tests
     [TestMethod]
     public void PatternMatch_ParseRender26() { TestSqlPattern(SqlServer, Access, "de[^l]%", "de[!l]*"); }
 
+    [TestMethod]
+    public void RegExp_ParseRender01() { TestRegExp(@"[ace]{3}-[ace]{4}", @"[ace]{3}-[ace]{4}"); }
+    [TestMethod]
+    public void RegExp_ParseRender02() { TestRegExp(@"\d{3}-\d{4}", @"\d{3}-\d{4}"); }
+    [TestMethod]
+    public void RegExp_ParseRender03() { TestRegExp(@"[0-9]{3}-[0-9]{4}", @"\d{3}-\d{4}"); }
+    [TestMethod]
+    public void RegExp_ParseRender04() { TestRegExp(@"\d\d\d-\d\d\d\d", @"\d{3}-\d{4}"); }
+    [TestMethod]
+    public void RegExp_ParseRender05() { TestRegExp(@"\d{3}stuff(thing|another)*\w+[a-d]?", @"\d{3}stuff(thing|another)*\w+[a-d]?"); }
+    [TestMethod]
+    public void RegExp_ParseRender06() { TestRegExp(@"first[.]second", @"first\.second"); }
+    [TestMethod]
+    public void RegExp_ParseRender07() { TestRegExp(@"first\.second", @"first\.second"); }
+
+
+    [TestMethod]
+    public void RegExpToSql_ParseRender01() { TestRegExpToSql(SqlServer, @"[ace]{3}-[ace]{4}", @"%[ace][ace][ace]-[ace][ace][ace][ace]%"); }
+    [TestMethod]
+    public void RegExpToSql_ParseRender02() { TestRegExpToSql(SqlServer, @"\d{3}-\d{4}", @"%[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]%"); }
+    [TestMethod]
+    public void RegExpToSql_ParseRender03() { TestRegExpToSql(SqlServer, @"[0-9]{3}-[0-9]{4}", @"%[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]%"); }
+    [TestMethod]
+    public void RegExpToSql_ParseRender04() { TestRegExpToSql(SqlServer, @"\d\d\d-\d\d\d\d", @"%[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]%"); }
+    [TestMethod]
+    public void RegExpToSql_ParseRender05() { TestRegExpToSql(Access, @"\d{3}-\d{4}", @"*###-####*"); }
+    [TestMethod]
+    public void RegExpToSql_ParseRender06() { TestRegExpToSql(SqlServer, @"\d{3}.*stuff.{2}", @"%[0-9][0-9][0-9]%stuff__%"); }
+    [TestMethod]
+    public void RegExpToSql_ParseRender07() { TestRegExpToSql(Wql, @"\D{3}.*stuff.{2}", @"%[^0=9][^0=9][^0=9]%stuff__%"); }
   }
 }

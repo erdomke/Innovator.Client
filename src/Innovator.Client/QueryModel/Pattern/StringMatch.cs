@@ -29,9 +29,20 @@ namespace Innovator.Client.QueryModel
     {
       visitor.Visit(this);
     }
+
     public bool ContentEquals(IMatch value)
     {
-      return false;
+      if (!(value is StringMatch str))
+        return false;
+      return str.Match.ToString() == Match.ToString();
+    }
+
+    public IMatch Clone()
+    {
+      var result = new StringMatch();
+      result.Match.Append(Match.ToString());
+      result.Repeat.Set(Repeat);
+      return result;
     }
   }
 }

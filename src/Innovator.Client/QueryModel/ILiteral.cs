@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public interface ILiteral : IOperand
+  public interface ILiteral : IOperand, ICoercible
   {
   }
 }

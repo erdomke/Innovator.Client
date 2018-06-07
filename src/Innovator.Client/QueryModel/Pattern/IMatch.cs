@@ -8,6 +8,7 @@ namespace Innovator.Client.QueryModel
   public interface IMatch : IPatternSegment
   {
     Repetition Repeat { get; }
+    IMatch Clone();
     bool ContentEquals(IMatch value);
   }
 }

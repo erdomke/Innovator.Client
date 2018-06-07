@@ -97,5 +97,46 @@ namespace Innovator.Client.QueryModel
     {
       return Value;
     }
+
+    public bool? AsBoolean()
+    {
+      return ElementFactory.Local.LocalizationContext.AsBoolean(Value);
+    }
+
+    public DateTime? AsDateTime()
+    {
+      return ElementFactory.Local.LocalizationContext.AsDateTime(Value);
+    }
+
+    public DateTime? AsDateTimeUtc()
+    {
+      return ElementFactory.Local.LocalizationContext.AsDateTimeUtc(Value);
+    }
+
+    public double? AsDouble()
+    {
+      return ElementFactory.Local.LocalizationContext.AsDouble(Value);
+    }
+
+    public Guid? AsGuid()
+    {
+      if (Value == null) return null;
+      return new Guid(Value);
+    }
+
+    public int? AsInt()
+    {
+      return ElementFactory.Local.LocalizationContext.AsInt(Value);
+    }
+
+    public long? AsLong()
+    {
+      return ElementFactory.Local.LocalizationContext.AsLong(Value);
+    }
+
+    public string AsString(string defaultValue)
+    {
+      return ElementFactory.Local.LocalizationContext.Format(Value) ?? defaultValue;
+    }
   }
 }

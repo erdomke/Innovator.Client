@@ -13,26 +13,23 @@
  * http://htsql.org/doc/overview.html
  *
  * IDEAS:
- *    Add an ICoercible interface to literals, properties, attributes, etc. for value mapping
  *    Add support for mapping the values in a query to another data model
- *    FunctionReference should be an abstract base class with instance classes.  However, don't
- *      make visitors handle each instance individually
  *    Create an "under" or "isa" operator for heirarchical fields
  *    
  *    IQueryable with Entity Framework: https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/clr-method-to-canonical-function-mapping
- *    With Evaluator.PartialEval, don't evaluate methods I want to translate
  */
 
+#if REFLECTION
 using Innovator.Client.Queryable;
+using System.Linq.Expressions;
+#endif
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+using Innovator.Client.Model;
 
 namespace Innovator.Client.QueryModel
 {
@@ -98,6 +95,38 @@ namespace Innovator.Client.QueryModel
     public IExpression Where { get; set; }
 
     /// <summary>
+    /// Add a condition to the <see cref="Where"/> clause using an <see cref="AndOperator"/>.
+    /// </summary>
+    /// <param name="expr">Expression to add</param>
+    public void AddCondition(IExpression expr)
+    {
+      if (Where == null)
+      {
+        Where = expr;
+      }
+      else
+      {
+        Where = new AndOperator()
+        {
+          Left = Where,
+          Right = expr
+        }.Normalize();
+      }
+    }
+
+    /// <summary>
+    /// Add a condition to the <see cref="Where"/> clause using an <see cref="AndOperator"/>.
+    /// </summary>
+    /// <param name="prop">Definition of the property</param>
+    /// <param name="value">Serialized query to parse</param>
+    /// <param name="parser">Parser settings to use</param>
+    /// <param name="condition">The condition operate to use (if specified)</param>
+    public void AddCondition(IPropertyDefinition prop, string value, SimpleSearchParser parser, Condition condition = Condition.Undefined)
+    {
+      AddCondition(parser.Parse(this, prop, value, condition));
+    }
+
+    /// <summary>
     /// Write the query to the specified <see cref="XmlWriter" /> as AML
     /// </summary>
     /// <param name="writer"><see cref="XmlWriter" /> to write the node to</param>
@@ -112,11 +141,11 @@ namespace Innovator.Client.QueryModel
     /// Write the query as SQL
     /// </summary>
     /// <param name="settings">The settings.</param>
-    public string ToSql(IAmlSqlWriterSettings settings)
+    public string ToArasSql(IAmlSqlWriterSettings settings)
     {
       using (var writer = new StringWriter())
       {
-        ToSql(writer, settings);
+        ToArasSql(writer, settings);
         writer.Flush();
         return writer.ToString();
       }
@@ -127,10 +156,35 @@ namespace Innovator.Client.QueryModel
     /// </summary>
     /// <param name="writer">The writer</param>
     /// <param name="settings">The settings.</param>
-    public void ToSql(TextWriter writer, IAmlSqlWriterSettings settings)
+    public void ToArasSql(TextWriter writer, IAmlSqlWriterSettings settings)
     {
       var visitor = new ArasSqlServerVisitor(writer, settings);
       visitor.Visit(this);
+    }
+
+    internal PropertyReference GetProperty(IPropertyDefinition propDefn)
+    {
+      var defn = propDefn;
+      var prop = new PropertyReference(defn.NameProp().Value
+        ?? defn.KeyedName().Value
+        ?? defn.IdProp().KeyedName().Value, this);
+
+      while (defn.DataType().Value == "foreign"
+        && defn.Property("foreign_property").HasValue()
+        && defn.DataSource().KeyedName().HasValue())
+      {
+        var linkProp = new PropertyReference(defn.DataSource().KeyedName().Value, prop.Table);
+        var table = linkProp.GetOrAddTable(Context);
+
+        defn = (IPropertyDefinition)defn.Property("foreign_property").AsItem();
+        if (string.IsNullOrEmpty(table.Type))
+          table.Type = defn.SourceId().Attribute("name").Value ?? defn.SourceId().KeyedName().Value;
+        prop = new PropertyReference(defn.NameProp().Value
+          ?? defn.KeyedName().Value
+          ?? defn.IdProp().KeyedName().Value, table);
+      }
+
+      return prop;
     }
 
     internal PropertyReference GetProperty(IEnumerable<string> path)
@@ -143,37 +197,11 @@ namespace Innovator.Client.QueryModel
       foreach (var segment in path)
       {
         if (prop != null)
-          table = GetOrAddTable(prop);
+          table = prop.GetOrAddTable(Context);
         prop = new PropertyReference(segment, table);
       }
 
       return prop;
-    }
-
-    private QueryItem GetOrAddTable(PropertyReference prop)
-    {
-      var join = prop.Table.Joins.FirstOrDefault(j => j.Condition is EqualsOperator eq
-        && new[] { eq.Left, eq.Right }.OfType<PropertyReference>()
-          .Any(p => p.Table == prop.Table && p.Name == prop.Name));
-      if (join != null)
-        return join.Right;
-
-      var newTable = new QueryItem(this.Context)
-      {
-        TypeProvider = prop
-      };
-      prop.Table.Joins.Add(new Join()
-      {
-        Left = prop.Table,
-        Right = newTable,
-        Condition = new EqualsOperator()
-        {
-          Left = prop,
-          Right = new PropertyReference("id", newTable)
-        },
-        Type = JoinType.Inner
-      });
-      return newTable;
     }
 
 
@@ -262,7 +290,7 @@ namespace Innovator.Client.QueryModel
     public static QueryItem FromXml(Action<XmlWriter> writer, IServerContext context = null)
     {
       context = context ?? ElementFactory.Local.LocalizationContext;
-      using (var w = new AmlToModelWriter(context))
+      using (var w = new AnyAmlWriter(context))
       {
         writer(w);
         return w.Query;

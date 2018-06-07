@@ -24,6 +24,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 <!--
   <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
@@ -84,24 +85,24 @@
 
   <!--
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>-->
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET40</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET40;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net40\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net45\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;INTERPOLATEDSTR;HTTPSYNC;ENVIRONMENT</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;INTERPOLATEDSTR;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net46\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>

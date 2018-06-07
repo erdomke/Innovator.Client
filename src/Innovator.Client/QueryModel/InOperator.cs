@@ -51,6 +51,9 @@ namespace Innovator.Client.QueryModel
 
     public virtual IExpression Normalize()
     {
+      if (Right?.Values.Count == 1)
+        return new EqualsOperator() { Left = Left, Right = Right.Values[0] }.Normalize();
+
       if (Left is ITableProvider tbl)
         ((ITableProvider)this).Table = tbl.Table;
       return this;

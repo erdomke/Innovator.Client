@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\net35</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35;DATEFORMATLIST</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -26,10 +26,11 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\publish\Innovator.Client\lib\net35</OutputPath>
-    <DefineConstants>TRACE;SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35</DefineConstants>
+    <DefineConstants>TRACE;SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35;DATEFORMATLIST</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HttpClientPolyfill">
@@ -50,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />
+    <Compile Include="Aml\DateTimeZone.cs" />
+    <Compile Include="Aml\ICoercible.cs" />
     <Compile Include="Aml\SqlRenderOption.cs" />
     <Compile Include="Aml\AmlWriterSettings.cs" />
     <Compile Include="Aml\ClassNode.cs" />
@@ -57,9 +60,15 @@
     <Compile Include="Aml\CloneSettings.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
+    <Compile Include="Aml\ZonedDateTime.cs" />
     <Compile Include="QueryModel\AdditionOperator.cs" />
     <Compile Include="QueryModel\AllProperties.cs" />
-    <Compile Include="QueryModel\ArasSqlServerVisitor.cs" />
+    <Compile Include="QueryModel\AnyAmlWriter.cs" />
+    <Compile Include="QueryModel\DateOffsetLiteral.cs" />
+    <Compile Include="QueryModel\Pattern\AmlLikeParser.cs" />
+    <Compile Include="QueryModel\QueryBuilderWriter.cs" />
+    <Compile Include="QueryModel\SimpleSearchParser.cs" />
+    <Compile Include="QueryModel\Sql\ArasSqlServerVisitor.cs" />
     <Compile Include="QueryModel\CloneVisitor.cs" />
     <Compile Include="QueryModel\ConcatenationOperator.cs" />
     <Compile Include="QueryModel\ConnectedAmlSqlWriterSettings.cs" />
@@ -72,6 +81,9 @@
     <Compile Include="Aml\IAmlNode.cs" />
     <Compile Include="QueryModel\DivisionOperator.cs" />
     <Compile Include="QueryModel\Expressions.cs" />
+    <Compile Include="QueryModel\Functions\DateTimeFunctions.cs" />
+    <Compile Include="QueryModel\Functions\MathFunctions.cs" />
+    <Compile Include="QueryModel\Functions\StringFunctions.cs" />
     <Compile Include="QueryModel\IAmlSqlWriterSettings.cs" />
     <Compile Include="Aml\IAmlXPath.cs" />
     <Compile Include="Aml\IAttribute.cs" />
@@ -504,7 +516,6 @@
     <Compile Include="Aml\SqlBatchWriter.cs" />
     <Compile Include="Aml\SqlFormatter.cs" />
     <Compile Include="Aml\SelectNode.cs" />
-    <Compile Include="Aml\TimeZoneData.cs" />
     <Compile Include="Aml\TimeZoneInfo.cs" />
     <Compile Include="Aml\TimeZoneInfo.Records.cs" />
     <Compile Include="Aml\ValidationException.cs" />
@@ -583,6 +594,9 @@
     <Compile Include="QueryModel\IsOperand.cs" />
     <Compile Include="QueryModel\IsOperator.cs" />
     <Compile Include="QueryModel\ITableProvider.cs" />
+    <Compile Include="QueryModel\Pattern\PatternSimplifyVisitor.cs" />
+    <Compile Include="QueryModel\Pattern\RegexParser.cs" />
+    <Compile Include="QueryModel\Sql\OracleSqlVisitor.cs" />
     <Compile Include="QueryModel\Version\VersionCriteria.cs" />
     <Compile Include="QueryModel\Version\CurrentVersion.cs" />
     <Compile Include="QueryModel\Version\IVersionCriteria.cs" />
@@ -617,7 +631,7 @@
     <Compile Include="QueryModel\Pattern\Pattern.cs" />
     <Compile Include="QueryModel\Pattern\PatternParser.cs" />
     <Compile Include="QueryModel\Pattern\PatternList.cs" />
-    <Compile Include="QueryModel\Pattern\RegExpWriter.cs" />
+    <Compile Include="QueryModel\Pattern\RegexWriter.cs" />
     <Compile Include="QueryModel\Pattern\Repetition.cs" />
     <Compile Include="QueryModel\Pattern\SqlPatternWriter.cs" />
     <Compile Include="QueryModel\Pattern\StringMatch.cs" />
@@ -627,7 +641,7 @@
     <Compile Include="QueryModel\QueryItem.cs" />
     <Compile Include="QueryModel\SelectExpression.cs" />
     <Compile Include="QueryModel\SimpleVisitor.cs" />
-    <Compile Include="QueryModel\SqlServerVisitor.cs" />
+    <Compile Include="QueryModel\Sql\SqlServerVisitor.cs" />
     <Compile Include="QueryModel\Sql\SqlToken.cs" />
     <Compile Include="QueryModel\Sql\SqlNode.cs" />
     <Compile Include="QueryModel\Sql\SqlTokenizer.cs" />
@@ -682,7 +696,7 @@
     <Compile Include="Promise\PromiseResult.cs" />
     <Compile Include="Promise\Promises.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueryModel\SqlWhereParser.cs" />
+    <Compile Include="QueryModel\Sql\SqlWhereParser.cs" />
     <Compile Include="QueryModel\SubtractionOperator.cs" />
     <Compile Include="QueryModel\UnaryOperator.cs" />
     <Compile Include="QueryModel\Version\LatestMatch.cs" />

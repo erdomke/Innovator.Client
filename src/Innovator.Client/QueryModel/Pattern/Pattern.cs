@@ -23,5 +23,13 @@ namespace Innovator.Client.QueryModel
     {
       visitor.Visit(this);
     }
+
+    public Pattern Clone()
+    {
+      var result = new Pattern();
+      foreach (var match in Matches)
+        result.Matches.Add(match.Clone());
+      return result;
+    }
   }
 }

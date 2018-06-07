@@ -388,6 +388,46 @@ namespace Innovator.Client.QueryModel
       {
         throw new NotSupportedException();
       }
+
+      bool? ICoercible.AsBoolean()
+      {
+        return null;
+      }
+
+      DateTime? ICoercible.AsDateTime()
+      {
+        return null;
+      }
+
+      DateTime? ICoercible.AsDateTimeUtc()
+      {
+        return null;
+      }
+
+      double? ICoercible.AsDouble()
+      {
+        return null;
+      }
+
+      Guid? ICoercible.AsGuid()
+      {
+        return null;
+      }
+
+      int? ICoercible.AsInt()
+      {
+        return null;
+      }
+
+      long? ICoercible.AsLong()
+      {
+        return null;
+      }
+
+      string ICoercible.AsString(string defaultValue)
+      {
+        return defaultValue;
+      }
     }
 
     private class NotIsOperator : NotOperator

@@ -10,10 +10,11 @@ namespace Innovator.Client.QueryModel
   public class SqlServerVisitor : IQueryVisitor
   {
     private readonly Stack<IOperator> _operators = new Stack<IOperator>();
-    private readonly IServerContext _context = ElementFactory.Utc.LocalizationContext;
     private bool _hasFromOrSelect = false;
 
     public SqlRenderOption RenderOption { get; set; }
+
+    protected IServerContext Context { get; } = ElementFactory.Utc.LocalizationContext;
     protected IQueryWriterSettings Settings { get; }
     protected TextWriter Writer { get; }
 
@@ -27,7 +28,7 @@ namespace Innovator.Client.QueryModel
     public SqlServerVisitor(TextWriter writer, IQueryWriterSettings settings, IServerContext context)
       : this(writer, settings)
     {
-      _context = context;
+      Context = context;
     }
 
     public virtual void Visit(QueryItem query)
@@ -43,18 +44,8 @@ namespace Innovator.Client.QueryModel
         VisitWhere(query);
       if ((RenderOption & SqlRenderOption.OrderByClause) != 0)
         VisitOrderBy(query);
-
       if ((RenderOption & SqlRenderOption.OffsetClause) != 0)
-      {
-        if (query.Fetch > 0 && query.Offset > 0)
-        {
-          Writer.Write(" offset ");
-          Writer.Write(query.Offset);
-          Writer.Write(" rows fetch next ");
-          Writer.Write(query.Fetch);
-          Writer.Write(" rows only");
-        }
-      }
+        VisitOffsetClause(query);
     }
 
     protected virtual void VisitSelect(QueryItem query)
@@ -62,19 +53,12 @@ namespace Innovator.Client.QueryModel
       _hasFromOrSelect = true;
       Writer.Write("select ");
 
-      if ((RenderOption & SqlRenderOption.OffsetClause) != 0
-        && query.Fetch > 0
-        && (query.Offset ?? 0) < 1)
-      {
-        Writer.Write("top ");
-        Writer.Write(query.Fetch);
-        Writer.Write(' ');
-      }
+      VisitTopRecords(query);
 
       if (query.Select.Count == 0)
       {
         WriteAlias(query);
-        Writer.Write(".*");
+        Writer.Write("*");
       }
       else
       {
@@ -94,6 +78,18 @@ namespace Innovator.Client.QueryModel
       }
     }
 
+    protected virtual void VisitTopRecords(QueryItem query)
+    {
+      if ((RenderOption & SqlRenderOption.OffsetClause) != 0
+        && query.Fetch > 0
+        && (query.Offset ?? 0) < 1)
+      {
+        Writer.Write("top ");
+        Writer.Write(query.Fetch);
+        Writer.Write(' ');
+      }
+    }
+
     protected void TryFillName(QueryItem item)
     {
       if (string.IsNullOrEmpty(item.Type) && !string.IsNullOrEmpty(item.TypeProvider?.Table.Type))
@@ -109,10 +105,14 @@ namespace Innovator.Client.QueryModel
     protected virtual void WriteAlias(QueryItem item)
     {
       TryFillName(item);
-      if (string.IsNullOrEmpty(item.Alias))
-        WriteTableName(item);
-      else
-        WriteIdentifier(item.Alias);
+      if (!string.IsNullOrEmpty(item.Alias) || !string.IsNullOrEmpty(item.Type))
+      {
+        if (string.IsNullOrEmpty(item.Alias))
+          WriteTableName(item);
+        else
+          WriteIdentifier(item.Alias);
+        Writer.Write('.');
+      }
     }
 
     protected virtual void WriteIdentifier(string identifier)
@@ -268,7 +268,19 @@ namespace Innovator.Client.QueryModel
         Writer.Write(" desc");
     }
 
-    private void AddParenthesesIfNeeded(IOperator op, Action render)
+    protected virtual void VisitOffsetClause(QueryItem query)
+    {
+      if (query.Fetch > 0 && query.Offset > 0)
+      {
+        Writer.Write(" offset ");
+        Writer.Write(query.Offset);
+        Writer.Write(" rows fetch next ");
+        Writer.Write(query.Fetch);
+        Writer.Write(" rows only");
+      }
+    }
+
+    protected void AddParenthesesIfNeeded(IOperator op, Action render)
     {
       var paren = _operators.Count > 0 && _operators.Peek().Precedence > op.Precedence;
 
@@ -293,7 +305,7 @@ namespace Innovator.Client.QueryModel
       });
     }
 
-    public virtual void Visit(BetweenOperator op)
+    public void Visit(BetweenOperator op)
     {
       Visit(op, false);
     }
@@ -313,14 +325,14 @@ namespace Innovator.Client.QueryModel
     public virtual void Visit(BooleanLiteral op)
     {
       Writer.Write('\'');
-      Writer.Write(_context.Format(op.Value));
+      Writer.Write(Context.Format(op.Value));
       Writer.Write('\'');
     }
 
     public virtual void Visit(DateTimeLiteral op)
     {
       Writer.Write('\'');
-      Writer.Write(_context.Format(op.Value));
+      Writer.Write(Context.Format(op.Value));
       Writer.Write('\'');
     }
 
@@ -336,7 +348,7 @@ namespace Innovator.Client.QueryModel
 
     public virtual void Visit(FloatLiteral op)
     {
-      Writer.Write(_context.Format(op.Value));
+      Writer.Write(Context.Format(op.Value));
     }
 
     public virtual void Visit(FunctionExpression op)
@@ -371,7 +383,7 @@ namespace Innovator.Client.QueryModel
       });
     }
 
-    public virtual void Visit(InOperator op)
+    public void Visit(InOperator op)
     {
       Visit(op, false);
     }
@@ -388,7 +400,7 @@ namespace Innovator.Client.QueryModel
 
     public virtual void Visit(IntegerLiteral op)
     {
-      Writer.Write(_context.Format(op.Value));
+      Writer.Write(Context.Format(op.Value));
     }
 
     public virtual void Visit(IsOperator op)
@@ -430,7 +442,7 @@ namespace Innovator.Client.QueryModel
       });
     }
 
-    public virtual void Visit(LikeOperator op)
+    public void Visit(LikeOperator op)
     {
       Visit(op, false);
     }
@@ -511,7 +523,6 @@ namespace Innovator.Client.QueryModel
     public virtual void Visit(PropertyReference op)
     {
       WriteAlias(op.Table);
-      Writer.Write(".");
       WriteIdentifier(op.Name);
     }
 
@@ -602,14 +613,12 @@ namespace Innovator.Client.QueryModel
       if (op.XProperties)
         throw new NotSupportedException();
       WriteAlias(op.Table);
-      Writer.Write(".*");
+      Writer.Write("*");
     }
 
     public virtual void Visit(PatternList op)
     {
-      var writer = new SqlPatternWriter(PatternParser.SqlServer);
-      op.Visit(writer);
-      Visit(new StringLiteral(writer.ToString()));
+      Visit(new StringLiteral(PatternParser.SqlServer.Render(op)));
     }
   }
 }

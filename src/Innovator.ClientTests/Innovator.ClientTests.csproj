@@ -85,6 +85,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Aml\AmlReaderTests.cs" />
+    <Compile Include="QueryModel\AmlSearchTests.cs" />
     <Compile Include="QueryModel\AmlSqlWriterTests.cs" />
     <Compile Include="Aml\ClassStructureTests.cs" />
     <Compile Include="Aml\ElementFactoryTests.cs" />

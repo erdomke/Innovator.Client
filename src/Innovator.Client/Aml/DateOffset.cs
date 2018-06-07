@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
 namespace Innovator.Client
 {
   /// <summary>
   /// A relative date specified by a magnitude and offset
   /// </summary>
-  public struct DateOffset : IComparable<DateOffset>, IComparable
+  public struct DateOffset : IEquatable<DateOffset>, IComparable<DateOffset>, IComparable
   {
     private readonly short _offset;
 
@@ -44,72 +44,36 @@ namespace Innovator.Client
     /// </summary>
     /// <param name="todaysDate">This should be expressed in the local timezone</param>
     /// <param name="isEndDate">Indicates whether this date be used as the end date of an inclusive range</param>
-    public DateTime AsDate(DateTimeOffset todaysDate, bool isEndDate = false)
+    public DateTime AsDate(ZonedDateTime todaysDate, bool isEndDate = false)
     {
       var offset = _offset;
-      DateTimeOffset result;
+      ZonedDateTime result;
 
       if (isEndDate) offset++;
       switch (Magnitude)
       {
         case DateMagnitude.BusinessDay:
-          var offsetMagn = Math.Abs(offset);
-          var offsetSign = Math.Sign(offset);
-          var i = 0;
-          result = todaysDate;
-          while (i < offsetMagn)
-          {
-            result = result.AddDays(offsetSign);
-            if (result.DayOfWeek != DayOfWeek.Sunday && result.DayOfWeek != DayOfWeek.Saturday)
-              i++;
-          }
+          result = todaysDate.StartOfDay().AddBusinessDays(offset);
           break;
         case DateMagnitude.Week:
-          result = GetWeekStart(todaysDate, FirstDayOfWeek).AddDays(offset * 7);
+          result = todaysDate.StartOfWeek(FirstDayOfWeek).AddDays(offset * 7);
           break;
         case DateMagnitude.Month:
-          result = new DateTimeOffset(todaysDate.Year, todaysDate.Month, 1, 0, 0, 0, todaysDate.Offset).AddMonths(offset);
+          result = todaysDate.StartOfMonth().AddMonths(offset);
           break;
         case DateMagnitude.Quarter:
-          switch (todaysDate.Month)
-          {
-            case 1:
-            case 2:
-            case 3:
-              result = new DateTimeOffset(todaysDate.Year, 1, 1, 0, 0, 0, todaysDate.Offset).AddMonths(offset * 3);
-              break;
-            case 4:
-            case 5:
-            case 6:
-              result = new DateTimeOffset(todaysDate.Year, 4, 1, 0, 0, 0, todaysDate.Offset).AddMonths(offset * 3);
-              break;
-            case 7:
-            case 8:
-            case 9:
-              result = new DateTimeOffset(todaysDate.Year, 7, 1, 0, 0, 0, todaysDate.Offset).AddMonths(offset * 3);
-              break;
-            default:
-              result = new DateTimeOffset(todaysDate.Year, 10, 1, 0, 0, 0, todaysDate.Offset).AddMonths(offset * 3);
-              break;
-          }
+          result = todaysDate.StartOfQuarter().AddMonths(offset * 3);
           break;
         case DateMagnitude.Year:
-          result = new DateTimeOffset(todaysDate.Year, 1, 1, 0, 0, 0, todaysDate.Offset).AddYears(offset);
+          result = todaysDate.StartOfYear().AddYears(offset);
           break;
         default:
           result = todaysDate.AddDays(offset);
           break;
       }
 
-      if (isEndDate) return result.Date.AddMilliseconds(-1);
-      return result.Date;
-    }
-
-    internal static DateTimeOffset GetWeekStart(DateTimeOffset value, DayOfWeek firstDayOfWeek = DayOfWeek.Sunday)
-    {
-      var offset = (int)firstDayOfWeek - (int)value.DayOfWeek;
-      if (offset > 0) offset -= 7;
-      return value.AddDays(offset);
+      if (isEndDate) return result.StartOfDay().AddMilliseconds(-1).LocalDateTime;
+      return result.StartOfDay().LocalDateTime;
     }
 
     private const int DaysInFourYears = 1461;
@@ -156,9 +120,60 @@ namespace Innovator.Client
     /// <exception cref="NotSupportedException">If <paramref name="obj"/> is not of type <see cref="DateOffset"/></exception>
     public int CompareTo(object obj)
     {
-      if (obj is DateOffset)
-        return CompareTo((DateOffset)obj);
+      if (obj is DateOffset offset)
+        return CompareTo(offset);
       throw new NotSupportedException();
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (obj is DateOffset offset)
+        return Equals(offset);
+      return false;
+    }
+
+    public override int GetHashCode()
+    {
+      return this._offset.GetHashCode()
+        ^ this.Magnitude.GetHashCode()
+        ^ this.FirstDayOfWeek.GetHashCode();
+    }
+
+    public bool Equals(DateOffset other)
+    {
+      return this._offset == other._offset
+        && this.Magnitude == other.Magnitude
+        && this.FirstDayOfWeek == other.FirstDayOfWeek;
+    }
+
+    public static bool operator ==(DateOffset left, DateOffset right)
+    {
+      return left.Equals(right);
+    }
+
+    public static bool operator !=(DateOffset left, DateOffset right)
+    {
+      return !(left == right);
+    }
+
+    public static bool operator <(DateOffset left, DateOffset right)
+    {
+      return left.CompareTo(right) < 0;
+    }
+
+    public static bool operator <=(DateOffset left, DateOffset right)
+    {
+      return left.CompareTo(right) <= 0;
+    }
+
+    public static bool operator >(DateOffset left, DateOffset right)
+    {
+      return left.CompareTo(right) > 0;
+    }
+
+    public static bool operator >=(DateOffset left, DateOffset right)
+    {
+      return left.CompareTo(right) >= 0;
     }
   }
 }

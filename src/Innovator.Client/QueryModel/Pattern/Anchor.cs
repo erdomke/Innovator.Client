@@ -7,21 +7,13 @@ namespace Innovator.Client.QueryModel
 {
   public class Anchor : IMatch
   {
-    private Repetition _repeat = new Repetition();
+    public Repetition Repeat { get; } = new Repetition();
+    public AnchorType Type { get; set; }
 
-    public Repetition Repeat 
-    { 
-      get
-      {
-        return _repeat;
-      }
-    }
-    public AnchorType Type {get; set;}
-
-    public Anchor() {}
+    public Anchor() { }
     public Anchor(char type)
     {
-      switch (type) 
+      switch (type)
       {
         case '^':
           this.Type = AnchorType.Start_Line;
@@ -53,11 +45,11 @@ namespace Innovator.Client.QueryModel
         case AnchorType.End_BeforeNewline:
           return @"\Z";
         case AnchorType.End_Line:
-          return @"$";
+          return "$";
         case AnchorType.Start_Absolute:
           return @"\A";
         case AnchorType.Start_Line:
-          return @"^";
+          return "^";
         case AnchorType.WordBoundary:
           return @"\b";
       }
@@ -68,9 +60,17 @@ namespace Innovator.Client.QueryModel
     {
       visitor.Visit(this);
     }
+
     public bool ContentEquals(IMatch value)
     {
       return false;
+    }
+
+    public IMatch Clone()
+    {
+      var result = new Anchor() { Type = Type };
+      result.Repeat.Set(Repeat);
+      return result;
     }
   }
 }

@@ -56,7 +56,7 @@ namespace Innovator.Client.QueryModel
         && Context.TryParseDateTime(str, out var date)
         && date.HasValue)
       {
-        return new DateTimeLiteral(date.Value);
+        return new DateTimeLiteral(date.Value.LocalDateTime);
       }
       else if ((dataType == null || dataType == "integer")
         && long.TryParse(str, NumberStyles.Integer, CultureInfo.InvariantCulture, out long lng))
@@ -76,7 +76,48 @@ namespace Innovator.Client.QueryModel
 
     public override string ToString()
     {
-      return Value?.ToString();
+      return ElementFactory.Local.LocalizationContext.Format(Value);
+    }
+
+    public bool? AsBoolean()
+    {
+      return ElementFactory.Local.LocalizationContext.AsBoolean(Value);
+    }
+
+    public DateTime? AsDateTime()
+    {
+      return ElementFactory.Local.LocalizationContext.AsDateTime(Value);
+    }
+
+    public DateTime? AsDateTimeUtc()
+    {
+      return ElementFactory.Local.LocalizationContext.AsDateTimeUtc(Value);
+    }
+
+    public double? AsDouble()
+    {
+      return ElementFactory.Local.LocalizationContext.AsDouble(Value);
+    }
+
+    public Guid? AsGuid()
+    {
+      if (Value == null) return null;
+      return new Guid(Value.ToString());
+    }
+
+    public int? AsInt()
+    {
+      return ElementFactory.Local.LocalizationContext.AsInt(Value);
+    }
+
+    public long? AsLong()
+    {
+      return ElementFactory.Local.LocalizationContext.AsLong(Value);
+    }
+
+    public string AsString(string defaultValue)
+    {
+      return ElementFactory.Local.LocalizationContext.Format(Value) ?? defaultValue;
     }
   }
 }

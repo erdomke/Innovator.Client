@@ -340,9 +340,7 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(PatternList op)
     {
-      var writer = new SqlPatternWriter(PatternParser.SqlServer);
-      op.Visit(writer);
-      _writer.WriteString(writer.ToString());
+      _writer.WriteString(PatternParser.SqlServer.Render(op));
     }
 
     private IEnumerable<IExpression> Flatten<T>(T op) where T : BinaryOperator

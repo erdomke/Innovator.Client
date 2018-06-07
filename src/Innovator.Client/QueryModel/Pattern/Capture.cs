@@ -7,29 +7,32 @@ namespace Innovator.Client.QueryModel
 {
   public class Capture : IMatch
   {
-    private Repetition _repeat = new Repetition();
-
-    public Repetition Repeat
-    {
-      get
-      {
-        return _repeat;
-      }
-    }
-    public PatternList Options { get; set; }
+    public Repetition Repeat { get; } = new Repetition();
+    public PatternList Options { get; } = new PatternList();
 
     public override string ToString()
     {
-      return "(" + this.Options.ToString() + ")" + _repeat.ToString();
+      return "(" + this.Options + ")" + Repeat;
     }
 
     public void Visit(IPatternVisitor visitor)
     {
       visitor.Visit(this);
     }
+
     public bool ContentEquals(IMatch value)
     {
       return false;
+    }
+
+    public IMatch Clone()
+    {
+      var result = new Capture();
+      result.Options.Options = Options.Options;
+      foreach (var pattern in Options.Patterns)
+        result.Options.Patterns.Add(pattern.Clone());
+      result.Repeat.Set(Repeat);
+      return result;
     }
   }
 }

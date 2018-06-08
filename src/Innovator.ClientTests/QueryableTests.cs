@@ -330,8 +330,8 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void QueryString_Random()
     {
-      var aml = TestQueryString("?$callback=jQuery1124032885557251554487_1494968811401&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(keyed_name)%2C%27kent+ypma%27)");
-      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><keyed_name condition=\"like\">kent ypma*</keyed_name></Item>", aml);
+      var aml = TestQueryString("?$callback=jQuery1124032885557251554487_1494968811401&%24inlinecount=allpages&%24format=json&%24filter=startswith(tolower(keyed_name)%2C%27john+doe%27)");
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><keyed_name condition=\"like\">john doe*</keyed_name></Item>", aml);
     }
 
 

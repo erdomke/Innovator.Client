@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel.Functions
 {
-  public class IndexOf : FunctionExpression
+  public class IndexOf_Zero : FunctionExpression
   {
-    public IndexOf() : base(2) { }
+    public IndexOf_Zero() : base(2) { }
+
+    public IExpression Target { get => _args[0]; set => _args[0] = value; }
+    public IExpression String { get => _args[1]; set => _args[1] = value; }
+  }
+
+  public class IndexOf_One : FunctionExpression
+  {
+    public IndexOf_One() : base(2) { }
 
     public IExpression Target { get => _args[0]; set => _args[0] = value; }
     public IExpression String { get => _args[1]; set => _args[1] = value; }
@@ -74,13 +82,59 @@ namespace Innovator.Client.QueryModel.Functions
     public IExpression String { get => _args[0]; set => _args[0] = value; }
   }
 
-  public class Substring : FunctionExpression
+  public class Substring_Zero : FunctionExpression
   {
-    public Substring() : base(3) { }
+    public Substring_Zero() : base(3) { }
 
     public IExpression String { get => _args[0]; set => _args[0] = value; }
     public IExpression Start { get => _args[1]; set => _args[1] = value; }
     public IExpression Length { get => _args[2]; set => _args[2] = value; }
+  }
+
+  public class Substring_One : FunctionExpression
+  {
+    public Substring_One() : base(3) { }
+
+    public IExpression String { get => _args[0]; set => _args[0] = value; }
+    public IExpression Start { get => _args[1]; set => _args[1] = value; }
+    public IExpression Length { get => _args[2]; set => _args[2] = value; }
+
+    public static IExpression FromZeroBased(IExpression str, IExpression start, IExpression length = null)
+    {
+      if (length == null)
+      {
+        return new Substring_One()
+        {
+          String = str,
+          Start = new AdditionOperator()
+          {
+            Left = start,
+            Right = new IntegerLiteral(1)
+          }.Normalize(),
+          Length = new SubtractionOperator()
+          {
+            Left = new Length()
+            {
+              String = str
+            },
+            Right = start
+          }.Normalize()
+        };
+      }
+      else
+      {
+        return new Substring_One()
+        {
+          String = str,
+          Start = new AdditionOperator()
+          {
+            Left = start,
+            Right = new IntegerLiteral(1)
+          }.Normalize(),
+          Length = length
+        };
+      }
+    }
   }
 
   public class ToLower : FunctionExpression

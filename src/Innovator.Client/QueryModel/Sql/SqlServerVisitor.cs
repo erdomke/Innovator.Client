@@ -348,7 +348,10 @@ namespace Innovator.Client.QueryModel
 
     public virtual void Visit(FloatLiteral op)
     {
-      Writer.Write(Context.Format(op.Value));
+      var str = Context.Format(op.Value);
+      if (str.IndexOf('.') < 0)
+        str += ".0";
+      Writer.Write(str);
     }
 
     public virtual void Visit(FunctionExpression op)

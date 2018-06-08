@@ -8,7 +8,7 @@ namespace Innovator.Client.QueryModel
 {
   public class ParameterReference : ILiteral
   {
-    public string DefaultValue { get; set; }
+    public object DefaultValue { get; set; }
     public bool IsRaw { get; private set; }
     public string Name { get; internal set; }
 

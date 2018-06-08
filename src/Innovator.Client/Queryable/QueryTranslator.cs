@@ -280,55 +280,7 @@ namespace Innovator.Client.Queryable
           case "Contains":
             var left = VisitAndReturn(m.Object);
             var right = VisitAndReturn(m.Arguments[0]);
-
-            if (right is StringLiteral str)
-            {
-              switch (m.Method.Name)
-              {
-                case "StartsWith":
-                  right = PatternParser.SqlServer.Parse(str.Value.Replace("%", "[%]") + "%");
-                  break;
-                case "EndsWith":
-                  right = PatternParser.SqlServer.Parse("%" + str.Value.Replace("%", "[%]"));
-                  break;
-                case "Contains":
-                  right = PatternParser.SqlServer.Parse("%" + str.Value.Replace("%", "[%]") + "%");
-                  break;
-              }
-            }
-            else
-            {
-              switch (m.Method.Name)
-              {
-                case "StartsWith":
-                  right = new ConcatenationOperator()
-                  {
-                    Left = right,
-                    Right = new StringLiteral("%")
-                  }.Normalize();
-                  break;
-                case "EndsWith":
-                  right = new ConcatenationOperator()
-                  {
-                    Left = new StringLiteral("%"),
-                    Right = right
-                  }.Normalize();
-                  break;
-                case "Contains":
-                  right = new ConcatenationOperator()
-                  {
-                    Left = new StringLiteral("%"),
-                    Right = new ConcatenationOperator()
-                    {
-                      Left = right,
-                      Right = new StringLiteral("%")
-                    }.Normalize()
-                  }.Normalize();
-                  break;
-              }
-            }
-
-            _curr = new LikeOperator() { Left = left, Right = right }.Normalize();
+            _curr = LikeOperator.FromMethod(m.Method.Name, left, right);
             return m;
           case "Concat":
             if (m.Arguments.Count == 1)
@@ -371,7 +323,7 @@ namespace Innovator.Client.Queryable
             }
             return m;
           case "IndexOf":
-            _curr = new QueryModel.Functions.IndexOf()
+            _curr = new QueryModel.Functions.IndexOf_One()
             {
               String = VisitAndReturn(m.Object),
               Target = VisitAndReturn(m.Arguments[0]),
@@ -382,7 +334,7 @@ namespace Innovator.Client.Queryable
             {
               Left = new ConcatenationOperator()
               {
-                Left = new QueryModel.Functions.Substring()
+                Left = new QueryModel.Functions.Substring_One()
                 {
                   String = VisitAndReturn(m.Object),
                   Start = new IntegerLiteral(1),
@@ -390,7 +342,7 @@ namespace Innovator.Client.Queryable
                 },
                 Right = VisitAndReturn(m.Arguments[1])
               }.Normalize(),
-              Right = new QueryModel.Functions.Substring()
+              Right = new QueryModel.Functions.Substring_One()
               {
                 String = VisitAndReturn(m.Object),
                 Start = new AdditionOperator()
@@ -427,7 +379,7 @@ namespace Innovator.Client.Queryable
           case "Remove":
             if (m.Arguments.Count == 1)
             {
-              _curr = new QueryModel.Functions.Substring()
+              _curr = new QueryModel.Functions.Substring_One()
               {
                 String = VisitAndReturn(m.Object),
                 Start = new IntegerLiteral(1),
@@ -438,13 +390,13 @@ namespace Innovator.Client.Queryable
             {
               _curr = new ConcatenationOperator()
               {
-                Left = new QueryModel.Functions.Substring()
+                Left = new QueryModel.Functions.Substring_One()
                 {
                   String = VisitAndReturn(m.Object),
                   Start = new IntegerLiteral(1),
                   Length = VisitAndReturn(m.Arguments[0])
                 },
-                Right = new QueryModel.Functions.Substring()
+                Right = new QueryModel.Functions.Substring_One()
                 {
                   String = VisitAndReturn(m.Object),
                   Start = new AdditionOperator()
@@ -482,38 +434,9 @@ namespace Innovator.Client.Queryable
             return m;
           case "Substring":
             if (m.Arguments.Count == 1)
-            {
-              _curr = new QueryModel.Functions.Substring()
-              {
-                String = VisitAndReturn(m.Object),
-                Start = new AdditionOperator()
-                {
-                  Left = VisitAndReturn(m.Arguments[0]),
-                  Right = new IntegerLiteral(1)
-                }.Normalize(),
-                Length = new SubtractionOperator()
-                {
-                  Left = new QueryModel.Functions.Length()
-                  {
-                    String = VisitAndReturn(m.Object)
-                  },
-                  Right = VisitAndReturn(m.Arguments[0])
-                }.Normalize()
-              };
-            }
+              _curr = QueryModel.Functions.Substring_One.FromZeroBased(VisitAndReturn(m.Object), VisitAndReturn(m.Arguments[0]));
             else if (m.Arguments.Count == 2)
-            {
-              _curr = new QueryModel.Functions.Substring()
-              {
-                String = VisitAndReturn(m.Object),
-                Start = new AdditionOperator()
-                {
-                  Left = VisitAndReturn(m.Arguments[0]),
-                  Right = new IntegerLiteral(1)
-                }.Normalize(),
-                Length = VisitAndReturn(m.Arguments[1])
-              };
-            }
+              _curr = QueryModel.Functions.Substring_One.FromZeroBased(VisitAndReturn(m.Object), VisitAndReturn(m.Arguments[0]), VisitAndReturn(m.Arguments[1]));
             return m;
           case "ToLower":
             _curr = new QueryModel.Functions.ToLower()
@@ -571,7 +494,7 @@ namespace Innovator.Client.Queryable
             };
             return m;
           case "Mid":
-            _curr = new QueryModel.Functions.Substring()
+            _curr = new QueryModel.Functions.Substring_One()
             {
               String = VisitAndReturn(m.Arguments[0]),
               Start = VisitAndReturn(m.Arguments[1]),

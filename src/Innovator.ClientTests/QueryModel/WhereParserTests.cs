@@ -149,7 +149,7 @@ namespace Innovator.Client.QueryModel.Tests
       Assert.IsNotNull(inOp);
       Assert.AreEqual(7, inOp.Right.Values.Count);
 
-      var func = inOp.Left as Functions.Substring;
+      var func = inOp.Left as Functions.Substring_One;
       Assert.IsNotNull(func);
       Assert.AreEqual(3, func.Args.Count());
     }

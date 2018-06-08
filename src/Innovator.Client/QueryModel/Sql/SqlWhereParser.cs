@@ -87,17 +87,14 @@ namespace Innovator.Client.QueryModel
             }
             output.Push(parenExpr);
           }
+          else if (expr is ListExpression && last is PropertyReference prop)
+          {
+            output.Pop();
+            ops.Push(new SqlFunction(prop.Name));
+          }
           else if (ops.Count < 1 || precedence > GetPrecedence(ops.Peek()))
           {
-            if (expr is ListExpression && last is PropertyReference prop)
-            {
-              output.Pop();
-              ops.Push(new SqlFunction(prop.Name));
-            }
-            else
-            {
-              ops.Push(expr);
-            }
+            ops.Push(expr);
           }
           else
           {
@@ -367,72 +364,6 @@ namespace Innovator.Client.QueryModel
       return new PropertyReference(tokens[index - 1].Text.TrimStart('[').TrimEnd(']'), table);
     }
 
-    private class EndParen : IExpression
-    {
-      public void Visit(IExpressionVisitor visitor)
-      {
-        throw new NotSupportedException();
-      }
-    }
-
-    private class Comma : BinaryOperator
-    {
-      public override int Precedence => (int)PrecedenceLevel.Comma;
-
-      public override void Visit(IExpressionVisitor visitor)
-      {
-        throw new NotSupportedException();
-      }
-    }
-
-    private class NullLiteral : ILiteral
-    {
-      public void Visit(IExpressionVisitor visitor)
-      {
-        throw new NotSupportedException();
-      }
-
-      bool? ICoercible.AsBoolean()
-      {
-        return null;
-      }
-
-      DateTime? ICoercible.AsDateTime()
-      {
-        return null;
-      }
-
-      DateTime? ICoercible.AsDateTimeUtc()
-      {
-        return null;
-      }
-
-      double? ICoercible.AsDouble()
-      {
-        return null;
-      }
-
-      Guid? ICoercible.AsGuid()
-      {
-        return null;
-      }
-
-      int? ICoercible.AsInt()
-      {
-        return null;
-      }
-
-      long? ICoercible.AsLong()
-      {
-        return null;
-      }
-
-      string ICoercible.AsString(string defaultValue)
-      {
-        return defaultValue;
-      }
-    }
-
     private class NotIsOperator : NotOperator
     {
       public override int Precedence => (int)PrecedenceLevel.SubComparison;
@@ -667,7 +598,7 @@ namespace Innovator.Client.QueryModel
             break;
           case "substring":
             if (_ptr == 3)
-              return new Functions.Substring() { String = _args[0], Start = _args[1], Length = _args[2] };
+              return new Functions.Substring_One() { String = _args[0], Start = _args[1], Length = _args[2] };
             break;
           case "trim":
             if (_ptr == 1)

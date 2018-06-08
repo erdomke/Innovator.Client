@@ -166,6 +166,17 @@ namespace Innovator.Client.QueryModel
       visitor.Visit(this);
     }
 
+    public string ToOData(IQueryWriterSettings settings, IServerContext context, ODataVersion version = ODataVersion.All)
+    {
+      using (var writer = new StringWriter())
+      {
+        var visitor = new ODataVisitor(writer, settings, context, version);
+        visitor.Visit(this);
+        writer.Flush();
+        return writer.ToString();
+      }
+    }
+
     internal PropertyReference GetProperty(IPropertyDefinition propDefn)
     {
       var defn = propDefn;
@@ -299,6 +310,12 @@ namespace Innovator.Client.QueryModel
         writer(w);
         return w.Query;
       }
+    }
+
+    public static QueryItem FromOData(string url, IServerContext context = null, ODataVersion version = ODataVersion.All)
+    {
+      context = context ?? ElementFactory.Local.LocalizationContext;
+      return ODataParser.Parse(url, context, version);
     }
 
 #if REFLECTION

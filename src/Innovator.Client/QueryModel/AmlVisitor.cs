@@ -383,7 +383,7 @@ namespace Innovator.Client.QueryModel
 
       if (query.OrderBy.Count > 0)
       {
-        if (!query.OrderBy.All(s => s.Expression is PropertyReference))
+        if (!query.OrderBy.All(s => s.Expression is PropertyReference prop && prop.Table == query))
           throw new NotSupportedException();
         _writer.WriteAttributeString("orderBy"
           , query.OrderBy.Select(s => ((PropertyReference)s.Expression).Name + (s.Ascending ? "" : " DESC")).GroupConcat(","));

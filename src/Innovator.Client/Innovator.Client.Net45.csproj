@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -59,7 +59,18 @@
     <Compile Include="QueryModel\AdditionOperator.cs" />
     <Compile Include="QueryModel\AllProperties.cs" />
     <Compile Include="QueryModel\AnyAmlWriter.cs" />
+    <Compile Include="QueryModel\Comma.cs" />
+    <Compile Include="QueryModel\Criteria.cs" />
     <Compile Include="QueryModel\DateOffsetLiteral.cs" />
+    <Compile Include="QueryModel\EndParen.cs" />
+    <Compile Include="QueryModel\NullLiteral.cs" />
+    <Compile Include="QueryModel\OData\ODataExtensions.cs" />
+    <Compile Include="QueryModel\OData\ODataParser.cs" />
+    <Compile Include="QueryModel\OData\ODataVersion.cs" />
+    <Compile Include="QueryModel\OData\ParseException.cs" />
+    <Compile Include="QueryModel\OData\ODataToken.cs" />
+    <Compile Include="QueryModel\OData\ODataTokenizer.cs" />
+    <Compile Include="QueryModel\OData\ODataTokenType.cs" />
     <Compile Include="QueryModel\Pattern\AmlLikeParser.cs" />
     <Compile Include="QueryModel\QueryBuilderWriter.cs" />
     <Compile Include="QueryModel\SimpleSearchParser.cs" />
@@ -612,7 +623,7 @@
     <Compile Include="QueryModel\NotOperator.cs" />
     <Compile Include="QueryModel\NullAmlSqlWriterSettings.cs" />
     <Compile Include="QueryModel\ObjectLiteral.cs" />
-    <Compile Include="QueryModel\ODataVisitor.cs" />
+    <Compile Include="QueryModel\OData\ODataVisitor.cs" />
     <Compile Include="QueryModel\OrderByExpression.cs" />
     <Compile Include="QueryModel\OrOperator.cs" />
     <Compile Include="QueryModel\ParameterReference.cs" />

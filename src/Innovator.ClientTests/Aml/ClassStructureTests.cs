@@ -102,6 +102,9 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Metal", node.Label);
       Assert.AreEqual("Material/Metal", node.Path);
       Assert.AreEqual(false, node.IsLeaf);
+
+      node.Attributes["description"] = "Some help text";
+      Assert.AreEqual(@"<class id=""4F1AC04A2B484F3ABA4E20DB63808A88""><class name=""Component"" id=""0D83A764A1EA0CB66E34980C4B50F7E7"" /><class name=""Assembly"" id=""512FF7893DBCD6D1AC1F55B87A480934"" /><class name=""Material"" id=""64801C21172EEEB61692B77CB5E0ABF1""><class id=""2BDA1978BBA744E581F9B90F683EA939"" name=""Plastic"" /><class id=""2BE155A3B7C642BEABDB3980BFC8511F"" name=""Metal"" description=""Some help text""><class id=""38603DB4AB534CEB9714DCB99FF14BEC"" name=""Steel"" /><class id=""79FE34C1987A49E9AA9B7022DDA99335"" name=""Aluminum"" /></class></class><class name=""Software"" id=""74DB7ADB15E0E70BD729E8837D0FF3C9"" /></class>", cStruct.ToItemTypeStructure());
     }
 
     [TestMethod()]

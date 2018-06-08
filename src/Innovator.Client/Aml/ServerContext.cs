@@ -282,14 +282,7 @@ namespace Innovator.Client
       }
       else if (value is bool b)
       {
-        if (b)
-        {
-          return "1";
-        }
-        else
-        {
-          return "0";
-        }
+        return b ? "1" : "0";
       }
       else if (value is Condition condition)
       {
@@ -341,6 +334,14 @@ namespace Innovator.Client
       {
         return Render(dateTime);
       }
+      else if (value is QueryModel.DateTimeLiteral dateTimeLit)
+      {
+        return Render(dateTimeLit.Value);
+      }
+      else if (value is ZonedDateTime zoned)
+      {
+        return Render(zoned.UtcDateTime);
+      }
       else if (value is Range<DateOffset> dateRange)
       {
         var statDates = (dateRange).AsDateRange(this.Now());
@@ -354,7 +355,15 @@ namespace Innovator.Client
       }
       else if (value is DateOffset dateOffset)
       {
-        return dateOffset.AsDate(this.Now()).ToString("s");
+        return Render(dateOffset.AsDate(this.Now()));
+      }
+      else if (value is QueryModel.DateOffsetLiteral offsetLit)
+      {
+        return Render(offsetLit.Offset.AsDate(this.Now()));
+      }
+      else if (value is QueryModel.PatternList pattern)
+      {
+        return QueryModel.AmlLikeParser.Instance.Render(pattern);
       }
       else if (value is IReadOnlyItem item)
       {
@@ -422,7 +431,7 @@ namespace Innovator.Client
       if (arg == null) return null;
 
       var parts = (format ?? "").Split(':');
-      var sql = new SqlFormatter(this);
+      var sql = new SqlFormatter();
       string formatString;
 
       switch (parts[0])

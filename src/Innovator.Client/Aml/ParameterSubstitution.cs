@@ -58,6 +58,8 @@ namespace Innovator.Client
   /// </remarks>
   public class ParameterSubstitution : IEnumerable<KeyValuePair<string, object>>, IFormatProvider, ICustomFormatter
   {
+    internal const string DateRangeAttribute = "origDateRange";
+
     private const string EmptyListMatch = "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`";
 
     private IServerContext _context;
@@ -225,7 +227,7 @@ namespace Innovator.Client
       if (_context != context)
       {
         _context = context;
-        _sqlFormatter = new SqlFormatter(context);
+        _sqlFormatter = new SqlFormatter();
       }
 
       return query[i] == '<' && this.Mode == ParameterSubstitutionMode.Aml
@@ -284,7 +286,7 @@ namespace Innovator.Client
                 {
                   condition = param;
                 }
-                else if (xmlReader.LocalName == "origDateRange" && !TryDeserializeDateRange(xmlReader.Value, out offsetStart, out offsetEnd))
+                else if (xmlReader.LocalName == DateRangeAttribute && !TryDeserializeDateRange(xmlReader.Value, out offsetStart, out offsetEnd))
                 {
                   offsetStart = null;
                   offsetEnd = null;
@@ -358,8 +360,8 @@ namespace Innovator.Client
                 {
                   if (condition == null)
                     xmlWriter.WriteAttributeString("condition", "between");
-                  if (!attrs.Any(p => p.Name == "origDateRange"))
-                    xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange((Range<DateOffset>)param.Original));
+                  if (!attrs.Any(p => p.Name == DateRangeAttribute))
+                    xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange((Range<DateOffset>)param.Original));
                 }
                 else
                 {
@@ -370,9 +372,9 @@ namespace Innovator.Client
               else if (param.Original is DateOffset && condition != null)
               {
                 if (condition.Value == "le" || condition.Value == "lt")
-                  xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange(null, (DateOffset)param.Original));
+                  xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange(null, (DateOffset)param.Original));
                 else
-                  xmlWriter.WriteAttributeString("origDateRange", SerializeDateRange((DateOffset)param.Original, null));
+                  xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange((DateOffset)param.Original, null));
               }
 
               if (param.Value != null)

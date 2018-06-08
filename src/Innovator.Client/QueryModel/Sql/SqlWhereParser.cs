@@ -330,7 +330,10 @@ namespace Innovator.Client.QueryModel
             }
             break;
           case SqlType.Identifier:
-            yield return TryGetProperty(tokens, ref index, table);
+            if (tokens[index].Text[0] == '@')
+              yield return new ParameterReference(tokens[index].Text.Substring(1), false);
+            else
+              yield return TryGetProperty(tokens, ref index, table);
             break;
           default:
             throw new NotSupportedException();

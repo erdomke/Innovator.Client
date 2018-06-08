@@ -226,14 +226,15 @@ namespace Innovator.Client
       {
         isNull.Remove();
 
-        var range = _content as IRange;
-        if (range != null)
+        if (_content is IRange range)
         {
           this.Condition().Set(Condition.Between);
 
-          if (_content is Range<DateOffset>)
-            this.Attribute("origDateRange")
-              .Set(ParameterSubstitution.SerializeDateRange((Range<DateOffset>)_content));
+          if (_content is Range<DateOffset> dateRange)
+          {
+            Attribute(ParameterSubstitution.DateRangeAttribute)
+              .Set(ParameterSubstitution.SerializeDateRange(dateRange));
+          }
         }
       }
       return result;

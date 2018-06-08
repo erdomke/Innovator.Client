@@ -156,6 +156,11 @@ namespace Innovator.Client.QueryModel
             case "filter_xml":
               item.Attributes["filter_xml"] = value;
               break;
+            case "offset_fetch_xml":
+              var offsetXml = XElement.Parse(value);
+              item.Offset = (int?)offsetXml.Element("option")?.Element("offset");
+              item.Fetch = (int?)offsetXml.Element("option")?.Element("fetch");
+              break;
           }
         }
         else if (_meta.Peek() is SelectExpression select)

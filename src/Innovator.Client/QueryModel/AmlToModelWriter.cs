@@ -274,7 +274,7 @@ namespace Innovator.Client.QueryModel
         _buffer.Length = 0;
 
         var last = _stack.Pop();
-        if (_attrBuffer.TryGetValue("origDateRange", out var dateRange)
+        if (_attrBuffer.TryGetValue(ParameterSubstitution.DateRangeAttribute, out var dateRange)
           && ParameterSubstitution.TryDeserializeDateRange(dateRange, out var dateStart, out var dateEnd)
           && (dateStart.HasValue || dateEnd.HasValue))
         {

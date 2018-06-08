@@ -12,6 +12,10 @@
  * https://tools.ietf.org/html/draft-nottingham-atompub-fiql-00
  * http://htsql.org/doc/overview.html
  *
+ * https://lucene.apache.org/core/6_0_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html
+ * https://docs.microsoft.com/en-us/rest/api/searchservice/lucene-query-syntax-in-azure-search
+ * https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html
+ *
  * IDEAS:
  *    Add support for mapping the values in a query to another data model
  *    Create an "under" or "isa" operator for heirarchical fields

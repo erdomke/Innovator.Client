@@ -19,8 +19,11 @@ namespace Innovator.Client.QueryModel
 
     internal IExpression Parse(QueryItem table, IPropertyDefinition prop, string value, Condition condition = Condition.Undefined)
     {
-      var propRef = table.GetProperty(prop);
-      if (prop.DataType().Value == "item")
+      var propRef = new PropertyReference(prop.NameProp().Value
+        ?? prop.KeyedName().Value
+        ?? prop.IdProp().KeyedName().Value, table);
+      var meta = prop.Metadata();
+      if (meta.DataType().Value == "item")
         propRef = new PropertyReference("keyed_name", propRef.GetOrAddTable(table.Context));
 
       var expressions = new List<IExpression>();
@@ -67,7 +70,7 @@ namespace Innovator.Client.QueryModel
         }
         else
         {
-          switch (prop.DataType().AsString("").ToLowerInvariant())
+          switch (meta.DataType().AsString("").ToLowerInvariant())
           {
             case "boolean":
               expressions.Add(Boolean.Parse(propRef, val, condition));
@@ -346,14 +349,19 @@ namespace Innovator.Client.QueryModel
         {
           switch (value[value.Length - 1])
           {
+            case 'P': exponent = 15; break;
             case 'T': exponent = 12; break;
             case 'G': exponent = 9; break;
             case 'M': exponent = 6; break;
+            case 'K':
             case 'k': exponent = 3; break;
             case 'm': exponent = -3; break;
+            case '\u00B5':
+            case '\u03BC':
             case 'u': exponent = -6; break;
             case 'n': exponent = -9; break;
             case 'p': exponent = -12; break;
+            case 'f': exponent = -15; break;
           }
         }
 

@@ -45,15 +45,11 @@ namespace Innovator.Client
     /// </summary>
     public static object AsClrValue(this IReadOnlyProperty_Base prop, Model.IPropertyDefinition meta)
     {
-      while (meta.DataType().Value == "foreign" && meta.Property("foreign_property").HasValue() == true)
-      {
-        meta = (Model.IPropertyDefinition)meta.Property("foreign_property").AsItem();
-      }
-
+      meta = meta.Metadata();
       if (!prop.HasValue())
         return null;
 
-      var range = prop.Attribute("origDateRange").Value;
+      var range = prop.Attribute(ParameterSubstitution.DateRangeAttribute).Value;
       DateOffset? offsetStart;
       DateOffset? offsetEnd;
       if (!string.IsNullOrEmpty(range)
@@ -161,6 +157,16 @@ namespace Innovator.Client
               return prop.Value;
           }
       }
+    }
+
+    internal static Model.IPropertyDefinition Metadata(this Model.IPropertyDefinition prop)
+    {
+      var meta = prop;
+      while (meta.DataType().Value == "foreign" && meta.Property("foreign_property").HasValue() == true)
+      {
+        meta = (Model.IPropertyDefinition)meta.Property("foreign_property").AsItem();
+      }
+      return meta;
     }
 
     private static T[] AsList<T>(IReadOnlyProperty_Base prop, Func<string, IServerContext, T> convert)

@@ -53,6 +53,7 @@
     <Compile Include="QueryModel\AdditionOperator.cs" />
     <Compile Include="QueryModel\AllProperties.cs" />
     <Compile Include="QueryModel\AnyAmlWriter.cs" />
+    <Compile Include="QueryModel\Criteria.cs" />
     <Compile Include="QueryModel\DateOffsetLiteral.cs" />
     <Compile Include="QueryModel\Pattern\AmlLikeParser.cs" />
     <Compile Include="QueryModel\QueryBuilderWriter.cs" />

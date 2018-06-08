@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Text;
 
@@ -6,13 +6,6 @@ namespace Innovator.Client
 {
   internal class SqlFormatter : IFormatProvider, ICustomFormatter
   {
-    private readonly IServerContext _context;
-
-    public SqlFormatter(IServerContext context)
-    {
-      _context = context;
-    }
-
     public object GetFormat(Type formatType)
     {
       if (formatType == typeof(ICustomFormatter))
@@ -96,27 +89,18 @@ namespace Innovator.Client
     {
       return Render(arg,
           n => n.ToString(null, CultureInfo.InvariantCulture),
-          s => SqlEscape(arg, null));
+          s => SqlEscape(s, null));
     }
 
     private string Render(object arg, Func<IFormattable, string> numberRenderer, Func<object, string> stringRenderer)
     {
-      IFormattable number;
       if (arg == null)
       {
         return "null";
       }
-      else if (arg is DateTime)
+      else if (arg is Condition condition)
       {
-        return Render((DateTime)arg);
-      }
-      else if (arg is bool || arg is Guid)
-      {
-        return _context.Format(arg);
-      }
-      else if (arg is Condition)
-      {
-        switch ((Condition)arg)
+        switch (condition)
         {
           case Condition.Between:
             return "between";
@@ -152,24 +136,18 @@ namespace Innovator.Client
             throw new NotSupportedException();
         }
       }
-      else if (ServerContext.TryCastNumber(arg, out number))
+      else if (arg is QueryModel.PatternList pattern)
+      {
+        return stringRenderer(QueryModel.PatternParser.SqlServer.Render(pattern));
+      }
+      else if (ServerContext.TryCastNumber(arg, out IFormattable number))
       {
         return numberRenderer(number);
       }
       else
       {
-        return stringRenderer(arg.ToString());
+        return stringRenderer(ElementFactory.Utc.LocalizationContext.Format(arg));
       }
-    }
-
-    private string Render(DateTime value)
-    {
-      var converted = value;
-      if (value.Kind != DateTimeKind.Utc)
-      {
-        converted = DateTimeZone.ConvertTime(value, DateTimeZone.Local, DateTimeZone.Utc);
-      }
-      return converted.ToString("s");
     }
   }
 }

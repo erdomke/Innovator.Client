@@ -16,7 +16,7 @@ namespace Innovator.Client
   /// <seealso cref="Innovator.Client.ClassNode" />
   public class ClassStructure : ClassNode
   {
-    private readonly Dictionary<Guid, ClassNode> _byId = new Dictionary<Guid, ClassNode>();
+    private readonly Dictionary<string, ClassNode> _byId = new Dictionary<string, ClassNode>();
 
     /// <summary>
     /// Gets the <see cref="ClassNode"/> with the specified identifier
@@ -54,7 +54,7 @@ namespace Innovator.Client
       get
       {
         ClassNode result;
-        if (_byId.TryGetValue(id, out result))
+        if (_byId.TryGetValue(id.ToArasId(), out result))
           return result;
         return default(ClassNode);
       }
@@ -69,6 +69,7 @@ namespace Innovator.Client
     /// otherwise, <c>false</c>.
     /// </value>
     public bool LeafClassOnly { get; private set; } = true;
+
     /// <summary>
     /// Gets a value indicating whether items should be assigned to a
     /// single class only.
@@ -144,6 +145,7 @@ namespace Innovator.Client
         .Concat(Descendants());
     }
 
+
     private void Init(XmlReader reader)
     {
       while (reader.Read())
@@ -214,7 +216,7 @@ namespace Innovator.Client
       if (reader.NodeType != XmlNodeType.Element)
         reader.MoveToContent();
 
-      Id = new Guid(reader.GetAttribute("id"));
+      Id = reader.GetAttribute("id");
       _byId[Id] = this;
       var stack = new Stack<ClassNode>();
       stack.Push(this);
@@ -223,12 +225,16 @@ namespace Innovator.Client
         switch (reader.NodeType)
         {
           case XmlNodeType.Element:
-            var newClass = new ClassNode()
+            var newClass = new ClassNode();
+
+            var moreAttributes = reader.MoveToFirstAttribute();
+            while (moreAttributes)
             {
-              Name = reader.GetAttribute("name"),
-              Label = reader.GetAttribute("name"),
-              Id = new Guid(reader.GetAttribute("id"))
-            };
+              newClass.Attributes[reader.LocalName] = reader.Value;
+              moreAttributes = reader.MoveToNextAttribute();
+            }
+            reader.MoveToElement();
+
             stack.Peek().Add(newClass);
             _byId[newClass.Id] = newClass;
             if (!reader.IsEmptyElement)
@@ -256,7 +262,7 @@ namespace Innovator.Client
             {
               currNode = new ClassNode()
               {
-                Id = new Guid(reader.GetAttribute("id"))
+                Id = reader.GetAttribute("id")
               };
               _byId[currNode.Id] = currNode;
             }
@@ -274,17 +280,42 @@ namespace Innovator.Client
                 case "classification_hierarchy":
                   hierarchyJson = reader.Value;
                   break;
-                case "id":
-                  Id = new Guid(reader.Value);
-                  break;
-                case "name":
-                  Name = reader.Value;
-                  break;
                 case "select_only_leaf_class":
                   LeafClassOnly = reader.Value == "1";
                   break;
                 case "select_only_single_class":
                   SingleClassOnly = reader.Value == "1";
+                  break;
+                case "behavior":
+                case "classification":
+                case "config_id":
+                case "created_by_id":
+                case "created_on":
+                case "css":
+                case "current_state":
+                case "generation":
+                case "is_current":
+                case "is_released":
+                case "keyed_name":
+                case "locked_by_id":
+                case "major_rev":
+                case "managed_by_id":
+                case "minor_rev":
+                case "modified_by_id":
+                case "modified_on":
+                case "new_version":
+                case "not_lockable":
+                case "owned_by_id":
+                case "permission_id":
+                case "related_id":
+                case "sort_order":
+                case "source_id":
+                case "state":
+                case "team_id":
+                  // Do nothing
+                  break;
+                default:
+                  Attributes[lastElem] = reader.Value;
                   break;
               }
             }
@@ -292,28 +323,51 @@ namespace Innovator.Client
             {
               switch (lastElem)
               {
-                case "name":
-                  currNode.Name = reader.Value;
-                  break;
-                case "label":
-                  currNode.Label = reader.Value;
+                case "behavior":
+                case "classification":
+                case "config_id":
+                case "created_by_id":
+                case "created_on":
+                case "css":
+                case "current_state":
+                case "generation":
+                case "is_current":
+                case "is_released":
+                case "keyed_name":
+                case "locked_by_id":
+                case "major_rev":
+                case "managed_by_id":
+                case "minor_rev":
+                case "modified_by_id":
+                case "modified_on":
+                case "new_version":
+                case "not_lockable":
+                case "owned_by_id":
+                case "permission_id":
+                case "related_id":
+                case "sort_order":
+                case "source_id":
+                case "state":
+                case "team_id":
+                  // Do nothing
                   break;
                 case "ref_id":
-                  var refId = new Guid(reader.Value);
+                  var refId = reader.Value;
                   if (refId == this.Id)
                   {
-                    this.Name = currNode.Name;
                     this.Label = currNode.Label;
                     _byId[currNode.Id] = this;
                     _byId[this.Id] = this;
+                    this.Attributes["root-id"] = currNode.Id;
                   }
                   else
                   {
                     _byId[refId] = currNode;
                   }
+                  currNode.Attributes[lastElem] = reader.Value;
                   break;
-                case "xproperties_sort_order":
-                  currNode.PropertySortOrder = reader.Value;
+                default:
+                  currNode.Attributes[lastElem] = reader.Value;
                   break;
               }
             }
@@ -353,7 +407,7 @@ namespace Innovator.Client
             break;
           case JsonToken.EndObject:
             if (fromRefId != null)
-              _byId[new Guid(fromRefId)].Add(_byId[new Guid(toRefId)]);
+              _byId[fromRefId].Add(_byId[toRefId]);
             break;
         }
       }

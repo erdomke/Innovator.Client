@@ -168,7 +168,7 @@ namespace Innovator.Client
     {
       this.WithAml(query, args);
     }
-    
+
     /// <summary>
     /// Creates an AML command that will be sent to the server from an <see cref="IAmlNode"/>
     /// </summary>
@@ -332,7 +332,7 @@ namespace Innovator.Client
     public string ToNormalizedAml(IServerContext context)
     {
       var aml = this.Aml;
-      if (_sub.ParamCount > 0 || aml.IndexOf("origDateRange") > 0)
+      if (_sub.ParamCount > 0 || aml.IndexOf(ParameterSubstitution.DateRangeAttribute) > 0)
         return _sub.Substitute(aml, context);
       return aml;
     }
@@ -346,7 +346,7 @@ namespace Innovator.Client
     public void ToNormalizedAml(IServerContext context, TextWriter writer)
     {
       var aml = this.Aml;
-      if (_sub.ParamCount > 0 || aml.IndexOf("origDateRange") > 0)
+      if (_sub.ParamCount > 0 || aml.IndexOf(ParameterSubstitution.DateRangeAttribute) > 0)
         _sub.Substitute(aml, context, writer);
       else
         writer.Write(aml);
@@ -361,7 +361,7 @@ namespace Innovator.Client
     public void ToNormalizedAml(IServerContext context, XmlWriter writer)
     {
       var aml = this.Aml;
-      if (_sub.ParamCount > 0 || aml.IndexOf("origDateRange") > 0)
+      if (_sub.ParamCount > 0 || aml.IndexOf(ParameterSubstitution.DateRangeAttribute) > 0)
       {
         _sub.Substitute(aml, context, writer);
       }

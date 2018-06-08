@@ -64,7 +64,21 @@ namespace Innovator.Client.QueryModel
 
       _writer.WriteEndElement();  // Relationships
 
-      if (query.Where != null)
+      var where = query.Where;
+      if (query.Version is CurrentVersion)
+      {
+        where = new AndOperator()
+        {
+          Left = where,
+          Right = new EqualsOperator()
+          {
+            Left = new PropertyReference("is_current", query),
+            Right = new BooleanLiteral(true)
+          }.Normalize()
+        }.Normalize();
+      }
+
+      if (where != null)
       {
         using (var strWriter = new StringWriter())
         using (_conditionWriter = XmlWriter.Create(strWriter, new XmlWriterSettings()
@@ -106,7 +120,7 @@ namespace Innovator.Client.QueryModel
           _conditionWriter.Flush();
           strWriter.Flush();
 
-          _writer.WriteStartElement("filter_xml");
+          _writer.WriteStartElement("offset_fetch_xml");
           _writer.WriteCData(strWriter.ToString());
           _writer.WriteEndElement();
         }

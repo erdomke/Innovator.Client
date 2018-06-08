@@ -15,10 +15,10 @@ namespace Innovator.Client.QueryModel
       "queryDate"
     };
 
-    private XmlWriter _writer;
-    private SqlServerVisitor _sqlVisitor;
-    private IServerContext _context;
-    private Stack<ILogical> _logicals = new Stack<ILogical>();
+    private readonly XmlWriter _writer;
+    private readonly SqlServerVisitor _sqlVisitor;
+    private readonly IServerContext _context;
+    private readonly Stack<ILogical> _logicals = new Stack<ILogical>();
     private QueryItem _currQuery;
 
     public AmlVisitor(IServerContext context, XmlWriter writer)
@@ -46,6 +46,11 @@ namespace Innovator.Client.QueryModel
       {
         _writer.WriteStartElement(prop.Name);
         _writer.WriteAttributeString("condition", "between");
+        if (op.Min is DateOffsetLiteral minOffset && op.Max is DateOffsetLiteral maxOffset)
+        {
+          _writer.WriteAttributeString(ParameterSubstitution.DateRangeAttribute
+            , ParameterSubstitution.SerializeDateRange(minOffset.Offset, maxOffset.Offset));
+        }
         op.Min.Visit(_sqlVisitor);
         _writer.WriteString(" and ");
         op.Max.Visit(_sqlVisitor);
@@ -229,6 +234,24 @@ namespace Innovator.Client.QueryModel
         throw new NotSupportedException();
       _writer.WriteStartElement(prop.Name);
       _writer.WriteAttributeString("condition", condition);
+
+      if (op.Right is DateOffsetLiteral offset)
+      {
+        switch (condition)
+        {
+          case "le":
+          case "lt":
+            _writer.WriteAttributeString(ParameterSubstitution.DateRangeAttribute
+              , ParameterSubstitution.SerializeDateRange(null, offset.Offset));
+            break;
+          case "gt":
+          case "ge":
+            _writer.WriteAttributeString(ParameterSubstitution.DateRangeAttribute
+              , ParameterSubstitution.SerializeDateRange(offset.Offset, null));
+            break;
+        }
+      }
+
       op.Right.Visit(this);
       _writer.WriteEndElement();
     }

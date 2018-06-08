@@ -32,6 +32,14 @@ namespace Innovator.Client.QueryModel
         else
           return boolRight;
       }
+      else if (Left is null)
+      {
+        return Right;
+      }
+      else if (Right is null)
+      {
+        return Left;
+      }
 
       if (Left is PropertyReference)
       {

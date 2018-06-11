@@ -65,5 +65,10 @@ namespace Innovator.Client.QueryModel
     {
       return ElementFactory.Local.LocalizationContext.Format(Value) ?? defaultValue;
     }
+
+    public virtual object AsClrValue()
+    {
+      return Value;
+    }
   }
 }

@@ -81,44 +81,50 @@ namespace Innovator.Client.QueryModel
       visitor.Visit(this);
     }
 
-    bool? ICoercible.AsBoolean()
+    public bool? AsBoolean()
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.AsBoolean(DefaultValue);
     }
 
-    DateTime? ICoercible.AsDateTime()
+    public DateTime? AsDateTime()
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.AsDateTime(DefaultValue);
     }
 
-    DateTime? ICoercible.AsDateTimeUtc()
+    public DateTime? AsDateTimeUtc()
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.AsDateTimeUtc(DefaultValue);
     }
 
-    double? ICoercible.AsDouble()
+    public double? AsDouble()
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.AsDouble(DefaultValue);
     }
 
-    Guid? ICoercible.AsGuid()
+    public Guid? AsGuid()
     {
-      throw new NotSupportedException();
+      if (DefaultValue == null) return null;
+      return new Guid(DefaultValue.ToString());
     }
 
-    int? ICoercible.AsInt()
+    public int? AsInt()
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.AsInt(DefaultValue);
     }
 
-    long? ICoercible.AsLong()
+    public long? AsLong()
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.AsLong(DefaultValue);
     }
 
-    string ICoercible.AsString(string defaultValue)
+    public string AsString(string defaultValue)
     {
-      throw new NotSupportedException();
+      return ElementFactory.Local.LocalizationContext.Format(DefaultValue) ?? defaultValue;
+    }
+
+    public object AsClrValue()
+    {
+      return DefaultValue;
     }
   }
 }

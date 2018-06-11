@@ -26,5 +26,10 @@ namespace Innovator.Client.QueryModel
       Offset = offset;
       IsEnd = isEnd;
     }
+
+    public override object AsClrValue()
+    {
+      return Offset;
+    }
   }
 }

@@ -87,5 +87,10 @@ namespace Innovator.Client.QueryModel
         result.Patterns.Add(pattern.Clone());
       return result;
     }
+
+    public object AsClrValue()
+    {
+      return ToString();
+    }
   }
 }

@@ -9,8 +9,20 @@ namespace Innovator.Client.QueryModel
 {
   public class SimpleSearchParser
   {
+    private IServerContext _context;
+
     public HashSet<char> OrDelimiters { get; } = new HashSet<char>() { '|' };
     public char OrEscapeCharacter { get; set; } = '\\';
+
+    public IServerContext Context
+    {
+      get { return _context; }
+      set
+      {
+        _context = value;
+        Date.SetContext(value);
+      }
+    }
 
     public BooleanParser Boolean { get; } = new BooleanParser();
     public DateParser Date { get; } = new DateParser();
@@ -171,9 +183,31 @@ namespace Innovator.Client.QueryModel
 
     public class StringParser : ISimpleParser
     {
-      public bool AllowCharacterRanges { get; set; } = true;
+      private bool _allowCharRanges = true;
+      private bool _isPercentWildcard = true;
+      private PatternParser _parser = AmlLikeParser.Instance;
+
+      public bool AllowCharacterRanges
+      {
+        get { return _allowCharRanges; }
+        set
+        {
+          _allowCharRanges = value;
+          SetParser();
+        }
+      }
+
       public bool DefaultSearchIsContains { get; set; } = false;
-      public bool IsPercentWildcard { get; set; } = true;
+
+      public bool IsPercentWildcard
+      {
+        get { return _isPercentWildcard; }
+        set
+        {
+          _isPercentWildcard = value;
+          SetParser();
+        }
+      }
 
       public IExpression Parse(PropertyReference prop, string value, Condition condition = Condition.Undefined)
       {
@@ -192,24 +226,12 @@ namespace Innovator.Client.QueryModel
 
         if (condition == Condition.Like || condition == Condition.NotLike)
         {
-          var parser = default(PatternParser);
-          if (IsPercentWildcard)
-          {
-            parser = AllowCharacterRanges ? AmlLikeParser.Instance : AmlLikeParser.NoCharSet;
-          }
-          else
-          {
-            parser = AllowCharacterRanges
-              ? new AmlLikeParser('*', '\0', '\0', '\0', '^', '-')
-              : new AmlLikeParser('*', '\0', '\0', '\0', '\0', '\0');
-          }
-
           if (condition == Condition.NotLike)
           {
             return new NotLikeOperator()
             {
               Left = prop,
-              Right = parser.Parse(value)
+              Right = _parser.Parse(value)
             }.Normalize();
           }
           else
@@ -217,7 +239,7 @@ namespace Innovator.Client.QueryModel
             return new LikeOperator()
             {
               Left = prop,
-              Right = parser.Parse(value)
+              Right = _parser.Parse(value)
             }.Normalize();
           }
         }
@@ -240,6 +262,25 @@ namespace Innovator.Client.QueryModel
             default:
               throw new InvalidOperationException();
           }
+        }
+      }
+
+      public string Render(PatternList pattern)
+      {
+        return _parser.Render(pattern);
+      }
+
+      private void SetParser()
+      {
+        if (_isPercentWildcard)
+        {
+          _parser = _allowCharRanges ? AmlLikeParser.Instance : AmlLikeParser.NoCharSet;
+        }
+        else
+        {
+          _parser = _allowCharRanges
+            ? new AmlLikeParser('*', '\0', '\0', '\0', '^', '-')
+            : new AmlLikeParser('*', '\0', '\0', '\0', '\0', '\0');
         }
       }
     }
@@ -382,39 +423,28 @@ namespace Innovator.Client.QueryModel
     {
       private readonly HashSet<string> _dateFormats = new HashSet<string>();
       private CultureInfo _culture;
-      private IServerContext _context;
       private DateTimeZone _tz;
 
-      public IServerContext Context
+      public void SetContext(IServerContext context)
       {
-        get { return _context; }
-        set
-        {
-          _context = value;
-          _tz = DateTimeZone.ById(_context.TimeZone);
-          _culture = new CultureInfo(_context.Locale);
-          var dateFormatting = _culture.DateTimeFormat;
-          _dateFormats.Clear();
-          _dateFormats.Add(dateFormatting.SortableDateTimePattern);
-          _dateFormats.Add(dateFormatting.UniversalSortableDateTimePattern);
-          _dateFormats.Add("yyyy");
-          _dateFormats.Add("yyyy-MM");
-          _dateFormats.Add("yyyy-MM-dd");
+        _tz = DateTimeZone.ById(context.TimeZone);
+        _culture = new CultureInfo(context.Locale);
+        var dateFormatting = _culture.DateTimeFormat;
+        _dateFormats.Clear();
+        _dateFormats.Add(dateFormatting.SortableDateTimePattern);
+        _dateFormats.Add(dateFormatting.UniversalSortableDateTimePattern);
+        _dateFormats.Add("yyyy");
+        _dateFormats.Add("yyyy-MM");
+        _dateFormats.Add("yyyy-MM-dd");
 #if DATEFORMATLIST
-          _dateFormats.UnionWith(dateFormatting.GetAllDateTimePatterns().Where(f => f.IndexOf('y') >= 0));
+        _dateFormats.UnionWith(dateFormatting.GetAllDateTimePatterns().Where(f => f.IndexOf('y') >= 0));
 #endif
-          _dateFormats.Add(dateFormatting.FullDateTimePattern);
-          _dateFormats.Add(dateFormatting.LongDatePattern);
-          _dateFormats.Add(dateFormatting.ShortDatePattern);
-          _dateFormats.Add(dateFormatting.ShortDatePattern + " " + dateFormatting.LongTimePattern);
-          _dateFormats.Add(dateFormatting.ShortDatePattern + " " + dateFormatting.ShortTimePattern);
-          _dateFormats.Add(dateFormatting.YearMonthPattern);
-        }
-      }
-
-      public DateParser()
-      {
-        Context = ElementFactory.Local.LocalizationContext;
+        _dateFormats.Add(dateFormatting.FullDateTimePattern);
+        _dateFormats.Add(dateFormatting.LongDatePattern);
+        _dateFormats.Add(dateFormatting.ShortDatePattern);
+        _dateFormats.Add(dateFormatting.ShortDatePattern + " " + dateFormatting.LongTimePattern);
+        _dateFormats.Add(dateFormatting.ShortDatePattern + " " + dateFormatting.ShortTimePattern);
+        _dateFormats.Add(dateFormatting.YearMonthPattern);
       }
 
       public IExpression Parse(PropertyReference prop, string value, Condition condition = Condition.Undefined)
@@ -522,16 +552,6 @@ namespace Innovator.Client.QueryModel
           default:
             throw new InvalidOperationException();
         }
-      }
-
-      /// <summary>
-      /// If the kind is anything other than UTC, assume the corporate time zone and convert to local.
-      /// </summary>
-      /// <param name="value">The value.</param>
-      /// <returns>The value in the local time zone</returns>
-      private DateTime CorporateToLocal(DateTime value)
-      {
-        return Context.AsDateTime(value.Kind == DateTimeKind.Utc ? value : (object)value.ToString("s")).Value;
       }
 
       private class DateTimeParse

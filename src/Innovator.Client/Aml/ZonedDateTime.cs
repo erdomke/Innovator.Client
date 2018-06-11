@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
-  public struct ZonedDateTime : IEquatable<ZonedDateTime>, IComparable<ZonedDateTime>, IFormattable
+  public struct ZonedDateTime : IEquatable<ZonedDateTime>, IComparable<ZonedDateTime>, IComparable, IFormattable
   {
     public DateTime LocalDateTime { get { return DateTimeZone.ConvertTime(UtcDateTime, DateTimeZone.Utc, DateTimeZone.Local); } }
 
@@ -253,6 +253,21 @@ namespace Innovator.Client
     public string ToString(string format, IFormatProvider formatProvider)
     {
       return ZoneDateTime.ToString(format, formatProvider);
+    }
+
+    public int CompareTo(object obj)
+    {
+      if (obj is ZonedDateTime zonded)
+        return CompareTo(zonded);
+      if (obj is DateTimeOffset offset)
+        return UtcDateTime.CompareTo(offset.UtcDateTime);
+      if (!(obj is DateTime date))
+        throw new NotSupportedException();
+
+      if (date.Kind == DateTimeKind.Utc)
+        return UtcDateTime.CompareTo(date);
+
+      return UtcDateTime.CompareTo(DateTimeZone.ConvertTime(date, DateTimeZone.Local, DateTimeZone.Utc));
     }
 
     public static bool operator ==(ZonedDateTime left, ZonedDateTime right)

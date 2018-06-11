@@ -6,6 +6,22 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel.Functions
 {
+  public class Contains : FunctionExpression
+  {
+    public Contains() : base(2) { }
+
+    public IExpression String { get => _args[0]; set => _args[0] = value; }
+    public IExpression Find { get => _args[1]; set => _args[1] = value; }
+  }
+
+  public class EndsWith : FunctionExpression
+  {
+    public EndsWith() : base(2) { }
+
+    public IExpression String { get => _args[0]; set => _args[0] = value; }
+    public IExpression Find { get => _args[1]; set => _args[1] = value; }
+  }
+
   public class IndexOf_Zero : FunctionExpression
   {
     public IndexOf_Zero() : base(2) { }
@@ -80,6 +96,14 @@ namespace Innovator.Client.QueryModel.Functions
     public RTrim() : base(1) { }
 
     public IExpression String { get => _args[0]; set => _args[0] = value; }
+  }
+
+  public class StartsWith : FunctionExpression
+  {
+    public StartsWith() : base(2) { }
+
+    public IExpression String { get => _args[0]; set => _args[0] = value; }
+    public IExpression Find { get => _args[1]; set => _args[1] = value; }
   }
 
   public class Substring_Zero : FunctionExpression

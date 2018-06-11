@@ -61,6 +61,7 @@
     <Compile Include="QueryModel\OData\ODataExtensions.cs" />
     <Compile Include="QueryModel\OData\ODataParser.cs" />
     <Compile Include="QueryModel\OData\ODataVersion.cs" />
+    <Compile Include="QueryModel\OData\ODataVisitor.cs" />
     <Compile Include="QueryModel\OData\ParseException.cs" />
     <Compile Include="QueryModel\OData\ODataToken.cs" />
     <Compile Include="QueryModel\OData\ODataTokenizer.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="QueryModel\Pattern\AmlLikeParser.cs" />
     <Compile Include="QueryModel\QueryBuilderWriter.cs" />
     <Compile Include="QueryModel\SimpleSearchParser.cs" />
+    <Compile Include="QueryModel\SimpleSearchVisitor.cs" />
     <Compile Include="QueryModel\Sql\ArasSqlServerVisitor.cs" />
     <Compile Include="QueryModel\CloneVisitor.cs" />
     <Compile Include="QueryModel\ConcatenationOperator.cs" />
@@ -617,7 +619,6 @@
     <Compile Include="QueryModel\NotOperator.cs" />
     <Compile Include="QueryModel\NullAmlSqlWriterSettings.cs" />
     <Compile Include="QueryModel\ObjectLiteral.cs" />
-    <Compile Include="QueryModel\ODataVisitor.cs" />
     <Compile Include="QueryModel\OrderByExpression.cs" />
     <Compile Include="QueryModel\OrOperator.cs" />
     <Compile Include="QueryModel\ParameterReference.cs" />

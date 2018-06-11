@@ -32,82 +32,75 @@ namespace Innovator.Client.QueryModel
             right = new PatternList()
             {
               Patterns =
-                    {
-                      new Pattern() {
-                        Matches =
-                        {
-                          new Anchor() { Type = AnchorType.Start_Absolute },
-                          new StringMatch(str.Value)
-                        }
-                      }
-                    }
+              {
+                new Pattern() {
+                  Matches =
+                  {
+                    new Anchor() { Type = AnchorType.Start_Absolute },
+                    new StringMatch(str.Value)
+                  }
+                }
+              }
             };
             break;
           case "endswith":
             right = new PatternList()
             {
               Patterns =
-                    {
-                      new Pattern() {
-                        Matches =
-                        {
-                          new StringMatch(str.Value),
-                          new Anchor() { Type = AnchorType.End_Absolute }
-                        }
-                      }
-                    }
+              {
+                new Pattern() {
+                  Matches =
+                  {
+                    new StringMatch(str.Value),
+                    new Anchor() { Type = AnchorType.End_Absolute }
+                  }
+                }
+              }
             };
             break;
           case "contains":
             right = new PatternList()
             {
               Patterns =
-                    {
-                      new Pattern() {
-                        Matches = { new StringMatch(str.Value) }
-                      }
-                    }
+              {
+                new Pattern() {
+                  Matches = { new StringMatch(str.Value) }
+                }
+              }
             };
             break;
           default:
             throw new NotSupportedException();
         }
+
+        return new LikeOperator() { Left = left, Right = right }.Normalize();
       }
       else
       {
         switch (name.ToLowerInvariant())
         {
           case "startswith":
-            right = new ConcatenationOperator()
+            return new Functions.StartsWith()
             {
-              Left = right,
-              Right = new StringLiteral("%")
-            }.Normalize();
-            break;
+              String = left,
+              Find = right
+            };
           case "endswith":
-            right = new ConcatenationOperator()
+            return new Functions.EndsWith()
             {
-              Left = new StringLiteral("%"),
-              Right = right
-            }.Normalize();
-            break;
+              String = left,
+              Find = right
+            };
           case "contains":
-            right = new ConcatenationOperator()
+            return new Functions.Contains()
             {
-              Left = new StringLiteral("%"),
-              Right = new ConcatenationOperator()
-              {
-                Left = right,
-                Right = new StringLiteral("%")
-              }.Normalize()
-            }.Normalize();
-            break;
+              String = left,
+              Find = right
+            };
           default:
             throw new NotSupportedException();
         }
       }
-
-      return new LikeOperator() { Left = left, Right = right }.Normalize();
     }
   }
 }

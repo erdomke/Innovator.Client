@@ -8,5 +8,6 @@ namespace Innovator.Client.QueryModel
 {
   public interface ILiteral : IOperand, ICoercible
   {
+    object AsClrValue();
   }
 }

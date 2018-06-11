@@ -83,7 +83,36 @@ namespace Innovator.Client.QueryModel
 
     private void WriteEncoded(string value)
     {
-      _writer.Write(Uri.EscapeDataString(value));
+      foreach (var b in Encoding.UTF8.GetBytes(value))
+      {
+        if ((b >= 'a' && b <= 'z')
+          || (b >= 'A' && b <= 'Z')
+          || (b >= '0' && b <= '9')
+          || b == '/'
+          || b == '?'
+          || b == '-'
+          || b == '.'
+          || b == '_'
+          || b == '~'
+          || b == '!'
+          || b == '$'
+          || b == '\''
+          || b == '('
+          || b == ')'
+          || b == '*'
+          || b == ','
+          || b == ';'
+          || b == ':'
+          || b == '@')
+        {
+          _writer.Write((char)b);
+        }
+        else
+        {
+          _writer.Write('%');
+          _writer.Write(b.ToString("X2"));
+        }
+      }
     }
 
     public void Visit(AndOperator op)
@@ -162,6 +191,9 @@ namespace Innovator.Client.QueryModel
         case "year":
         case "ceiling":
         case "floor":
+        case "startswith":
+        case "endswith":
+        case "contains":
           // Do nothing
           break;
         case "round":
@@ -226,19 +258,19 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(IntegerLiteral op)
     {
-      try
+      if (op.Value <= int.MaxValue && op.Value >= int.MinValue)
       {
         var i = (int)op.Value;
         WriteEncoded(_context.Format(i));
       }
-      catch (OverflowException)
+      else if (_version.OnlySupportsV2OrV3())
       {
-        if (_version.OnlySupportsV2OrV3())
-          WriteEncoded(_context.Format(op.Value) + "L");
-        else
-          WriteEncoded(_context.Format(op.Value));
+        WriteEncoded(_context.Format(op.Value) + "L");
       }
-
+      else
+      {
+        WriteEncoded(_context.Format(op.Value));
+      }
     }
 
     public void Visit(IsOperator op)
@@ -379,15 +411,16 @@ namespace Innovator.Client.QueryModel
       {
         if (!first)
           WriteEncoded("/");
-        WriteEncoded(op.Name);
+        first = false;
+        WriteEncoded(prop.Name);
       }
     }
 
     public void Visit(StringLiteral op)
     {
-      _writer.Write('\'');
+      WriteEncoded("'");
       WriteEncoded(op.Value.Replace("'", "''"));
-      _writer.Write('\'');
+      WriteEncoded("'");
     }
 
     public void Visit(MultiplicationOperator op)

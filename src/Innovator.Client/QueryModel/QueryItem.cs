@@ -166,6 +166,16 @@ namespace Innovator.Client.QueryModel
       visitor.Visit(this);
     }
 
+    public IEnumerable<Criteria> ToCriteria(SimpleSearchParser parser)
+    {
+      if (Where == null)
+        return Enumerable.Empty<Criteria>();
+
+      var visitor = new SimpleSearchVisitor(parser);
+      Where.Visit(visitor);
+      return visitor.Criteria;
+    }
+
     public string ToOData(IQueryWriterSettings settings, IServerContext context, ODataVersion version = ODataVersion.All)
     {
       using (var writer = new StringWriter())

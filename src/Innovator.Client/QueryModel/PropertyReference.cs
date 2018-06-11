@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public class PropertyReference : IOperand, ITableProvider
+  public class PropertyReference : IOperand, ITableProvider, IEquatable<PropertyReference>
   {
     public string Name { get; }
     public QueryItem Table { get; set; }
@@ -51,6 +51,43 @@ namespace Innovator.Client.QueryModel
         Type = JoinType.Inner
       });
       return newTable;
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (obj is PropertyReference prop)
+        return Equals(prop);
+      return false;
+    }
+
+    public bool Equals(PropertyReference other)
+    {
+      if (other == null)
+        return false;
+      return string.Equals(other.Name, Name, StringComparison.OrdinalIgnoreCase)
+        && other.Table == Table;
+    }
+
+    public override int GetHashCode()
+    {
+      return (Name?.GetHashCode() ?? 0)
+        ^ (Table?.GetHashCode() ?? 0);
+    }
+
+    public static bool operator ==(PropertyReference left, PropertyReference right)
+    {
+      if (ReferenceEquals(left, right))
+        return true;
+
+      if (ReferenceEquals(left, null) || ReferenceEquals(right, null))
+        return false;
+
+      return left.Equals(right);
+    }
+
+    public static bool operator !=(PropertyReference left, PropertyReference right)
+    {
+      return !(left == right);
     }
   }
 }

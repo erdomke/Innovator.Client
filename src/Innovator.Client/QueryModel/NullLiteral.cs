@@ -52,5 +52,10 @@ namespace Innovator.Client.QueryModel
     {
       return defaultValue;
     }
+
+    public object AsClrValue()
+    {
+      return null;
+    }
   }
 }

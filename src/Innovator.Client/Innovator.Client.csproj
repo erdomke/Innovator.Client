@@ -54,9 +54,11 @@
     <Compile Include="QueryModel\AllProperties.cs" />
     <Compile Include="QueryModel\AnyAmlWriter.cs" />
     <Compile Include="QueryModel\Comma.cs" />
+    <Compile Include="QueryModel\CountAggregate.cs" />
     <Compile Include="QueryModel\Criteria.cs" />
     <Compile Include="QueryModel\DateOffsetLiteral.cs" />
     <Compile Include="QueryModel\EndParen.cs" />
+    <Compile Include="QueryModel\IgnoreNode.cs" />
     <Compile Include="QueryModel\NullLiteral.cs" />
     <Compile Include="QueryModel\OData\ODataExtensions.cs" />
     <Compile Include="QueryModel\OData\ODataParser.cs" />

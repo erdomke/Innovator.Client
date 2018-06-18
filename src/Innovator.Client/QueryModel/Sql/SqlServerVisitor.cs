@@ -17,6 +17,7 @@ namespace Innovator.Client.QueryModel
     protected IServerContext Context { get; } = ElementFactory.Utc.LocalizationContext;
     protected IQueryWriterSettings Settings { get; }
     protected TextWriter Writer { get; }
+    protected SqlRenderOption WriteState { get; set; } = SqlRenderOption.Default;
 
     public SqlServerVisitor(TextWriter writer, IQueryWriterSettings settings)
     {
@@ -50,31 +51,40 @@ namespace Innovator.Client.QueryModel
 
     protected virtual void VisitSelect(QueryItem query)
     {
-      _hasFromOrSelect = true;
-      Writer.Write("select ");
-
-      VisitTopRecords(query);
-
-      if (query.Select.Count == 0)
+      var prevState = WriteState;
+      try
       {
-        WriteAlias(query);
-        Writer.Write("*");
-      }
-      else
-      {
-        var first = true;
-        foreach (var prop in query.Select)
+        WriteState = SqlRenderOption.SelectClause;
+        _hasFromOrSelect = true;
+        Writer.Write("select ");
+
+        VisitTopRecords(query);
+
+        if (query.Select.Count == 0)
         {
-          if (!first)
-            Writer.Write(", ");
-          first = false;
-          prop.Expression.Visit(this);
-          if (!string.IsNullOrEmpty(prop.Alias))
+          WriteAlias(query);
+          Writer.Write("*");
+        }
+        else
+        {
+          var first = true;
+          foreach (var prop in query.Select)
           {
-            Writer.Write(" as ");
-            WriteIdentifier(prop.Alias);
+            if (!first)
+              Writer.Write(", ");
+            first = false;
+            prop.Expression.Visit(this);
+            if (!string.IsNullOrEmpty(prop.Alias))
+            {
+              Writer.Write(" as ");
+              WriteIdentifier(prop.Alias);
+            }
           }
         }
+      }
+      finally
+      {
+        WriteState = prevState;
       }
     }
 
@@ -104,7 +114,6 @@ namespace Innovator.Client.QueryModel
 
     protected virtual void WriteAlias(QueryItem item)
     {
-      TryFillName(item);
       if (!string.IsNullOrEmpty(item.Alias) || !string.IsNullOrEmpty(item.Type))
       {
         if (string.IsNullOrEmpty(item.Alias))
@@ -158,24 +167,36 @@ namespace Innovator.Client.QueryModel
 
     protected virtual void VisitFrom(QueryItem item)
     {
-      if (_hasFromOrSelect)
-        Writer.Write(" ");
-      _hasFromOrSelect = true;
-      Writer.Write("from ");
-      WriteTableDefinition(item);
-      foreach (var join in item.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
+      var prevState = WriteState;
+      try
       {
-        VisitJoin(join);
+        WriteState = SqlRenderOption.FromClause;
+
+        if (_hasFromOrSelect)
+          Writer.Write(" ");
+        _hasFromOrSelect = true;
+        Writer.Write("from ");
+        WriteTableDefinition(item);
+        foreach (var join in item.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
+        {
+          VisitJoin(join);
+        }
+      }
+      finally
+      {
+        WriteState = prevState;
       }
     }
 
     protected virtual void WriteTableDefinition(QueryItem item)
     {
+      TryFillName(item);
       WriteIdentifier(item.Type);
     }
 
     protected virtual void WriteTableName(QueryItem item)
     {
+      TryFillName(item);
       WriteIdentifier(item.Type);
     }
 
@@ -198,9 +219,19 @@ namespace Innovator.Client.QueryModel
 
     protected virtual void VisitWhere(QueryItem query)
     {
-      var criteria = new List<IExpression>();
-      AddJoinsToCriteria(query, criteria);
-      VisitWhere(query, criteria);
+      var prevState = WriteState;
+      try
+      {
+        WriteState = SqlRenderOption.WhereClause;
+
+        var criteria = new List<IExpression>();
+        AddJoinsToCriteria(query, criteria);
+        VisitWhere(query, criteria);
+      }
+      finally
+      {
+        WriteState = prevState;
+      }
     }
 
     protected void VisitWhere(QueryItem query, List<IExpression> criteria)
@@ -238,18 +269,28 @@ namespace Innovator.Client.QueryModel
 
     protected virtual void VisitOrderBy(QueryItem query)
     {
-      var orderBy = GetOrderBy(query);
-      if (orderBy.Any())
+      var prevState = WriteState;
+      try
       {
-        Writer.Write(" order by ");
-        var first = true;
-        foreach (var prop in orderBy)
+        WriteState = SqlRenderOption.OrderByClause;
+
+        var orderBy = GetOrderBy(query);
+        if (orderBy.Any())
         {
-          if (!first)
-            Writer.Write(", ");
-          first = false;
-          Visit(prop);
+          Writer.Write(" order by ");
+          var first = true;
+          foreach (var prop in orderBy)
+          {
+            if (!first)
+              Writer.Write(", ");
+            first = false;
+            Visit(prop);
+          }
         }
+      }
+      finally
+      {
+        WriteState = prevState;
       }
     }
 
@@ -270,13 +311,23 @@ namespace Innovator.Client.QueryModel
 
     protected virtual void VisitOffsetClause(QueryItem query)
     {
-      if (query.Fetch > 0 && query.Offset > 0)
+      var prevState = WriteState;
+      try
       {
-        Writer.Write(" offset ");
-        Writer.Write(query.Offset);
-        Writer.Write(" rows fetch next ");
-        Writer.Write(query.Fetch);
-        Writer.Write(" rows only");
+        WriteState = SqlRenderOption.OffsetClause;
+
+        if (query.Fetch > 0 && query.Offset > 0)
+        {
+          Writer.Write(" offset ");
+          Writer.Write(query.Offset);
+          Writer.Write(" rows fetch next ");
+          Writer.Write(query.Fetch);
+          Writer.Write(" rows only");
+        }
+      }
+      finally
+      {
+        WriteState = prevState;
       }
     }
 
@@ -622,6 +673,18 @@ namespace Innovator.Client.QueryModel
     public virtual void Visit(PatternList op)
     {
       Visit(new StringLiteral(PatternParser.SqlServer.Render(op)));
+    }
+
+    public virtual void Visit(CountAggregate op)
+    {
+      if (WriteState == SqlRenderOption.SelectClause)
+      {
+        Writer.Write("count(*)");
+      }
+      else
+      {
+        throw new NotSupportedException();
+      }
     }
   }
 }

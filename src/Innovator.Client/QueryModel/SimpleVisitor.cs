@@ -161,5 +161,7 @@ namespace Innovator.Client.QueryModel
     public virtual void Visit(AllProperties op) { }
 
     public virtual void Visit(PatternList op) { }
+
+    public virtual void Visit(CountAggregate op) { }
   }
 }

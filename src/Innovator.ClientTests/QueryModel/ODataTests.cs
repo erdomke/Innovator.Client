@@ -121,6 +121,7 @@ namespace Innovator.Client.QueryModel.Tests
     [DataRow("Part?$format=json&$filter=concrete/name eq 'Apple' and concrete/age eq 5", "<Item type=\"Part\" action=\"get\"><concrete><Item action=\"get\"><name>Apple</name><age>5</age></Item></concrete></Item>")]
     [DataRow("ItemType?$filter=created_by_id/keyed_name eq 'Test'", "<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name></Item></created_by_id></Item>")]
     [DataRow("ItemType?$filter=created_by_id/keyed_name eq 'Test' and created_by_id/state eq 'Something'", "<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><keyed_name>Test</keyed_name><state>Something</state></Item></created_by_id></Item>")]
+    [DataRow("Program%20Part?$filter=false+and+startswith(related_id/keyed_name,%27903%27)", "<Item type=\"Program Part\" action=\"get\" id=\"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\" />")]
     public void NestedToAml(string odata, string expected)
     {
       var item = QueryItem.FromOData(odata);

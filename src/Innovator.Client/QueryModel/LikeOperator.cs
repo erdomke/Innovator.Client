@@ -13,6 +13,22 @@ namespace Innovator.Client.QueryModel
 
     public virtual IExpression Normalize()
     {
+      if (Right is PatternList pattern
+        && pattern.Patterns.Count == 1
+        && pattern.Patterns[0].Matches.Count == 3
+        && pattern.Patterns[0].Matches[0] is Anchor start
+        && start.Type == AnchorType.Start_Absolute
+        && pattern.Patterns[0].Matches[1] is StringMatch str
+        && pattern.Patterns[0].Matches[2] is Anchor end
+        && end.Type == AnchorType.End_Absolute)
+      {
+        return new EqualsOperator()
+        {
+          Left = Left,
+          Right = new StringLiteral(str.ToString())
+        };
+      }
+
       SetTable();
       return this;
     }

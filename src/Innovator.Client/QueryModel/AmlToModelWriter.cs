@@ -403,6 +403,8 @@ namespace Innovator.Client.QueryModel
           NormalizeItem(join.Right);
         }
       }
+
+      _attrBuffer.Clear();
     }
 
     [Flags]
@@ -493,6 +495,23 @@ namespace Innovator.Client.QueryModel
           VisitSelectNode(prop, item);
         }
         item.Attributes.Remove("select");
+      }
+
+      if (item.Attributes.TryGetValue("returnMode", out var returnMode) && returnMode == "countOnly")
+      {
+        item.Select.Clear();
+        item.Select.Add(new SelectExpression()
+        {
+          Expression = new CountAggregate() { TablePath = { item } }
+        });
+        item.Attributes.Remove("returnMode");
+      }
+
+      if (item.Attributes.TryGetValue("isCriteria", out var isCriteria))
+      {
+        if (isCriteria == "0")
+          item.Where = null;
+        item.Attributes.Remove("isCriteria");
       }
 
       if (item.Attributes.TryGetValue("id", out var id))
@@ -812,7 +831,13 @@ namespace Innovator.Client.QueryModel
       switch (localName)
       {
         case "Item":
-          var prop = _stack.LastOrDefault() as PropertyReference;
+          var last = _stack.LastOrDefault();
+          var prop = last as PropertyReference;
+          if (prop == null && last is EqualsOperator eq)
+            prop = eq.Left as PropertyReference;
+          else if (prop == null && last is InOperator inOp)
+            prop = inOp.Left as PropertyReference;
+
           var join = new Join()
           {
             Left = _stack.OfType<Join>().LastOrDefault()?.Right,
@@ -841,7 +866,7 @@ namespace Innovator.Client.QueryModel
                 Left = new PropertyReference("id", join.Left),
                 Right = new PropertyReference("source_id", join.Right)
               };
-              join.Type = JoinType.LeftOuter;
+              join.Type = JoinType.Inner;
               join.Left.Joins.Add(join);
             }
             else

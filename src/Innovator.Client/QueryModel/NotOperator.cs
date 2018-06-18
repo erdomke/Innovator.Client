@@ -36,6 +36,8 @@ namespace Innovator.Client.QueryModel
         return new BooleanLiteral(!boolean.Value);
       else if (Arg is PropertyReference)
         return new EqualsOperator() { Left = Arg, Right = new BooleanLiteral(false) }.Normalize();
+      else if (Arg is IgnoreNode)
+        return Arg;
 
       if (Arg is ITableProvider tbl)
         ((ITableProvider)this).Table = tbl.Table;

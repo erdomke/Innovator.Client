@@ -314,6 +314,13 @@ namespace Innovator.Client.QueryModel
 
     public void Visit(LikeOperator op)
     {
+      var norm = op.Normalize();
+      if (!object.ReferenceEquals(norm, op))
+      {
+        norm.Visit(this);
+        return;
+      }
+
       if (!(op.Right is PatternList pattern && pattern.Patterns.Count == 1))
         throw new NotSupportedException();
 
@@ -536,6 +543,11 @@ namespace Innovator.Client.QueryModel
       if (op is NotOperator)
         return (int)PrecedenceLevel.Negation;
       return op.Precedence;
+    }
+
+    public void Visit(CountAggregate op)
+    {
+      throw new NotSupportedException();
     }
   }
 }

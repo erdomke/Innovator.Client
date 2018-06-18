@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
@@ -212,6 +213,9 @@ namespace Innovator.Client.QueryModel
             case "parent_ref_id":
               queryRef.ParentRefId = value;
               break;
+            case "ref_id":
+              queryRef.RefId = value;
+              break;
             case "start_query_reference_path":
               queryRef.StartQueryReferencePath = value;
               break;
@@ -219,59 +223,125 @@ namespace Innovator.Client.QueryModel
         }
         else if (name == "qry_QueryDefinition")
         {
-          var dict = _items
-            .ToDictionary(i =>
-            {
-              if (i.Attributes.TryGetValue("ref_id", out var refId))
-                return refId;
-              return Guid.NewGuid().ToArasId();
-            });
+          var settings = new FilterSettings()
+          {
+            Items = _items
+              .Where(i => i.Attributes.ContainsKey("ref_id"))
+              .ToDictionary(i => i.Attributes["ref_id"]),
+          };
 
           foreach (var reference in _refs.Where(r => !string.IsNullOrEmpty(r.ParentRefId)))
           {
-            var parent = dict[reference.ParentRefId];
-            var child = dict[reference.ChildRefId];
-            parent.Joins.Add(new Join()
+            var parent = settings.Items[reference.ParentRefId];
+            var child = settings.Items[reference.ChildRefId];
+            settings.ItemCallback = x =>
             {
-              Condition = ProcessFilter(XElement.Parse(reference.FilterXml), x =>
-              {
-                if (string.Equals(x, "parent::Item", StringComparison.OrdinalIgnoreCase))
-                  return parent;
-                return child;
-              }, null),
+              if (string.Equals(x, "parent::Item", StringComparison.OrdinalIgnoreCase))
+                return parent;
+              return child;
+            };
+            var join = new Join()
+            {
+              Condition = ProcessFilter(XElement.Parse(reference.FilterXml), settings, null),
               Left = parent,
               Right = child,
               Type = JoinType.LeftOuter
-            });
+            };
+            parent.Joins.Add(join);
+            settings.Joins[reference.RefId] = join;
           }
 
           foreach (var i in _items)
           {
             if (i.Attributes.TryGetValue("filter_xml", out var filter))
             {
-              i.Attributes.Remove(filter);
-              i.Where = ProcessFilter(XElement.Parse(filter), x =>
+              settings.ItemCallback = x =>
               {
                 if (string.Equals(x, "child::Item", StringComparison.OrdinalIgnoreCase))
                   return i.Joins[0].Right;
                 return i;
-              }, null);
+              };
+              i.Attributes.Remove(filter);
+              i.Where = ProcessFilter(XElement.Parse(filter), settings, null);
             }
           }
 
-          Query = dict[_refs
-            .First(r => string.IsNullOrEmpty(r.ParentRefId))
-            .ChildRefId];
+          var rootRef = _refs.First(r => string.IsNullOrEmpty(r.ParentRefId));
+
+          Query = settings.Items[rootRef.ChildRefId];
+          if (!string.IsNullOrEmpty(rootRef.FilterXml))
+          {
+            settings.ItemCallback = x =>
+            {
+              if (string.Equals(x, "child::Item", StringComparison.OrdinalIgnoreCase))
+                return Query.Joins[0].Right;
+              return Query;
+            };
+            Query.AddCondition(ProcessFilter(XElement.Parse(rootRef.FilterXml), settings, null));
+          }
         }
       }
     }
 
-    private IExpression ProcessFilter(XElement elem, Func<string, QueryItem> itemCallback, PropertyReference prop)
+    private IExpression ReplaceParameters(string value)
     {
-      switch (elem.Name.LocalName.ToLowerInvariant())
+      const char invalid = '\uFFFF';
+
+      var parameters = new List<ParameterReference>();
+      var str = Regex.Replace(value, @"(\$\$)|(\$\w+)", match =>
+      {
+        if (match.Value == "$$")
+          return "$";
+
+        var param = _parameters.Find(p => p.Name == match.Value.Substring(1));
+        if (param == null)
+          throw new ArgumentException($"Invalid parameter name `{match.Value}`");
+
+        parameters.Add(param);
+        return invalid.ToString();
+      });
+
+      if (str == invalid.ToString() && parameters.Count == 1)
+        return parameters[0];
+      if (parameters.Count == 0)
+        return new StringLiteral(str);
+
+      var parts = str.Split(invalid);
+      var expressions = new List<IExpression>();
+      for (var i = 0; i < parts.Length; i++)
+      {
+        if (i > 0)
+          expressions.Add(parameters[i - 1]);
+        if (!string.IsNullOrEmpty(parts[i]))
+          expressions.Add(new StringLiteral(parts[i]));
+      }
+
+      var result = expressions[0];
+      for (var i = 1; i < expressions.Count; i++)
+      {
+        result = new ConcatenationOperator()
+        {
+          Left = result,
+          Right = expressions[i]
+        }.Normalize();
+      }
+      return result;
+    }
+
+    private class FilterSettings
+    {
+      public Func<string, QueryItem> ItemCallback { get; set; }
+      public Dictionary<string, QueryItem> Items { get; set; }
+      public Dictionary<string, Join> Joins { get; } = new Dictionary<string, Join>();
+    }
+
+    private IExpression ProcessFilter(XElement elem, FilterSettings settings, PropertyReference prop)
+    {
+      var elemName = elem.Name.LocalName.ToLowerInvariant();
+      switch (elemName)
       {
         case "property":
-          return itemCallback(elem.Attribute("query_items_xpath")?.Value)
+          return settings.ItemCallback(elem.Attribute("query_items_xpath")?.Value)
             .GetProperty(new[] { elem.Attribute("name")?.Value });
         case "constant":
           if (long.TryParse(elem.Value, out var lng)
@@ -280,15 +350,23 @@ namespace Innovator.Client.QueryModel
           {
             return new ObjectLiteral(elem.Value, prop, _context);
           }
-          else if (elem.Value.StartsWith("$"))
+          else if (elem.Value.IndexOf('$') >= 0)
           {
-            return _parameters.Find(p => p.Name == elem.Value.Substring(1))
-              ?? new ParameterReference(elem.Value.Substring(1), false);
+            return ReplaceParameters(elem.Value);
           }
           else
           {
             return new StringLiteral(elem.Value);
           }
+        case "count":
+          var path = elem.Element("query_reference_path").Value.Split('/');
+
+          var result = new CountAggregate();
+          foreach (var table in path.Select(s => settings.Joins[s].Right))
+          {
+            result.TablePath.Add(table);
+          }
+          return result;
         case "eq":
         case "ne":
         case "gt":
@@ -296,9 +374,26 @@ namespace Innovator.Client.QueryModel
         case "lt":
         case "le":
         case "like":
-          var left = ProcessFilter(elem.Elements().First(), itemCallback, prop);
-          var right = ProcessFilter(elem.Elements().ElementAt(1), itemCallback, left as PropertyReference);
-          switch (elem.Name.LocalName.ToLowerInvariant())
+          var left = ProcessFilter(elem.Elements().First(), settings, prop);
+          var right = ProcessFilter(elem.Elements().ElementAt(1), settings, left as PropertyReference);
+
+          if (left is CountAggregate cnt
+            && right is IntegerLiteral iLit
+            && Parents(elem)
+              .All(p => string.Equals(p.Name.LocalName, "condition", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(p.Name.LocalName, "and", StringComparison.OrdinalIgnoreCase))
+            && ((elemName == "gt" && iLit.Value == 0)
+              || (elemName == "ge" && iLit.Value == 1)))
+          {
+            var refPath = elem.Element("count").Element("query_reference_path").Value.Split('/');
+            foreach (var join in refPath.Select(s => settings.Joins[s]))
+            {
+              join.Type = JoinType.Inner;
+            }
+            return new IgnoreNode();
+          }
+
+          switch (elemName)
           {
             case "eq":
               return new EqualsOperator() { Left = left, Right = right }.Normalize();
@@ -321,13 +416,13 @@ namespace Innovator.Client.QueryModel
         case "null":
           return new IsOperator()
           {
-            Left = ProcessFilter(elem.Elements().First(), itemCallback, prop),
+            Left = ProcessFilter(elem.Elements().First(), settings, prop),
             Right = IsOperand.Null
           }.Normalize();
         case "and":
         case "or":
           var children = elem.Elements()
-            .Select(e => ProcessFilter(e, itemCallback, prop))
+            .Select(e => ProcessFilter(e, settings, prop))
             .ToArray();
           if (children.Length < 1)
           {
@@ -375,12 +470,22 @@ namespace Innovator.Client.QueryModel
         case "not":
           return new NotOperator()
           {
-            Arg = ProcessFilter(elem.Elements().First(), itemCallback, prop)
+            Arg = ProcessFilter(elem.Elements().First(), settings, prop)
           }.Normalize();
         case "condition":
-          return ProcessFilter(elem.Elements().First(), itemCallback, prop);
+          return ProcessFilter(elem.Elements().First(), settings, prop);
       }
       throw new InvalidOperationException();
+    }
+
+    private IEnumerable<XElement> Parents(XElement elem)
+    {
+      var curr = elem.Parent;
+      while (curr != null)
+      {
+        yield return curr;
+        curr = curr.Parent;
+      }
     }
 
     public override void WriteEntityRef(string name)
@@ -477,6 +582,7 @@ namespace Innovator.Client.QueryModel
       public string ChildRefId { get; set; }
       public string FilterXml { get; set; }
       public string ParentRefId { get; set; }
+      public string RefId { get; set; }
       public string StartQueryReferencePath { get; set; }
     }
   }

@@ -267,6 +267,13 @@ namespace Innovator.Client.QueryModel
 
       public string Render(PatternList pattern)
       {
+        if (DefaultSearchIsContains
+          && pattern.Patterns.Count == 1
+          && pattern.Patterns[0].Matches.Count == 1
+          && pattern.Patterns[0].Matches[0] is StringMatch str)
+        {
+          return str.Match.ToString();
+        }
         return _parser.Render(pattern);
       }
 

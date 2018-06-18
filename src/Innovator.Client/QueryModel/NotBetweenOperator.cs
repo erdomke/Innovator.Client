@@ -12,7 +12,12 @@ namespace Innovator.Client.QueryModel
     {
       return new NotOperator()
       {
-        Arg = base.Normalize()
+        Arg = new BetweenOperator()
+        {
+          Left = Left,
+          Min = Min,
+          Max = Max
+        }.Normalize()
       }.Normalize();
     }
 

@@ -106,6 +106,19 @@ namespace Innovator.Client.QueryModel
       return new BooleanLiteral(op.Value);
     }
 
+    void IExpressionVisitor.Visit(CountAggregate op)
+    {
+      _clone = Clone(op);
+    }
+
+    public virtual IExpression Clone(CountAggregate op)
+    {
+      var result = new CountAggregate();
+      foreach (var table in op.TablePath)
+        result.TablePath.Add(GetTable(table));
+      return result;
+    }
+
     void IExpressionVisitor.Visit(DateTimeLiteral op)
     {
       _clone = Clone(op);

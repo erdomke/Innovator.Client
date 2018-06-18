@@ -25,8 +25,10 @@ namespace Innovator.Client.QueryModel
         {
           RenderOption = SqlRenderOption.OffsetQuery;
         }
-        else if (query.Attributes.TryGetValue("returnMode", out var returnMode)
-          && string.Equals(returnMode, "countOnly", StringComparison.Ordinal))
+        else if (query.Select.Count == 1
+          && query.Select[0].Expression is CountAggregate cnt
+          && cnt.TablePath.Count == 1
+          && cnt.TablePath[0] == query)
         {
           RenderOption = SqlRenderOption.CountQuery;
         }
@@ -151,6 +153,7 @@ namespace Innovator.Client.QueryModel
 
     protected override void WriteTableDefinition(QueryItem item)
     {
+      TryFillName(item);
       var _settings = (IAmlSqlWriterSettings)Settings;
       var secured = _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunction
         || _settings.PermissionOption == AmlSqlPermissionOption.SecuredFunctionEnviron;
@@ -185,6 +188,7 @@ namespace Innovator.Client.QueryModel
 
     protected override void WriteTableName(QueryItem item)
     {
+      TryFillName(item);
       WriteIdentifier(item.Type.Replace(' ', '_'));
     }
 

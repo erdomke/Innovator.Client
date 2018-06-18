@@ -210,6 +210,7 @@ namespace Innovator.Client.QueryModel
       var origList = _criteria;
       var orCriteria = new List<Criteria>();
       _criteria = orCriteria;
+
       try
       {
 
@@ -219,6 +220,18 @@ namespace Innovator.Client.QueryModel
           {
             props.Add(prop);
             bin.Visit(this);
+          }
+          else if (crit is InOperator inOp && inOp.Left is PropertyReference inProp)
+          {
+            props.Add(inProp);
+            foreach (var value in inOp.Right.Values)
+            {
+              new EqualsOperator()
+              {
+                Left = inProp,
+                Right = value
+              }.Normalize().Visit(this);
+            }
           }
           else
           {
@@ -410,6 +423,11 @@ namespace Innovator.Client.QueryModel
         name = prop.Table.TypeProvider.Name;
 
       Criteria.Add(new Criteria(name, condition, value, _parser));
+    }
+
+    public void Visit(CountAggregate op)
+    {
+      throw new NotSupportedException();
     }
   }
 }

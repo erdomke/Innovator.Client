@@ -372,14 +372,25 @@ namespace Innovator.Client.QueryModel
       if (joins.Any(j => !j.IsItemProperty() && !j.IsRelationship()))
         throw new NotSupportedException();
 
-      var node = new SelectNode();
-      GetSelect(node, query, joins);
-      var includeNodes = node.Where(SelectAllOnly).ToArray();
-      foreach (var include in includeNodes)
-        node.Remove(include);
+      var includeNodes = Enumerable.Empty<SelectNode>();
+      if (query.Select.Count == 1
+          && query.Select[0].Expression is CountAggregate cnt
+          && cnt.TablePath.Count == 1
+          && cnt.TablePath[0] == query)
+      {
+        _writer.WriteAttributeString("returnMode", "countOnly");
+      }
+      else
+      {
+        var node = new SelectNode();
+        GetSelect(node, query, joins);
+        includeNodes = node.Where(SelectAllOnly).ToArray();
+        foreach (var include in includeNodes)
+          node.Remove(include);
 
-      if (!SelectAllOnly(node))
-        _writer.WriteAttributeString("select", node.ToString());
+        if (!SelectAllOnly(node))
+          _writer.WriteAttributeString("select", node.ToString());
+      }
 
       if (query.OrderBy.Count > 0)
       {
@@ -505,7 +516,7 @@ namespace Innovator.Client.QueryModel
         var props = new[] { eq.Left, eq.Right }
           .OfType<PropertyReference>()
           .ToArray();
-        if (props.Length != 2 && join.Type == JoinType.Inner)
+        if (props.Length != 2 || join.Type != JoinType.Inner)
           throw new NotSupportedException();
 
         CurrentProp = props.Single(p => ReferenceEquals(p.Table, parent));
@@ -588,6 +599,11 @@ namespace Innovator.Client.QueryModel
     public void Visit(PatternList op)
     {
       _writer.WriteString(AmlLikeParser.Instance.Render(op));
+    }
+
+    public void Visit(CountAggregate op)
+    {
+      throw new NotSupportedException();
     }
 
     private class XmlTextWriter : TextWriter

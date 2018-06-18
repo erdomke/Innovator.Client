@@ -100,6 +100,14 @@ namespace Innovator.Client.QueryModel
         else
           throw new NotSupportedException();
       }
+      else if (Value is PatternList pattern)
+      {
+        return _parser.String.Render(pattern);
+      }
+      else if (Value is string && Condition == Condition.Equal && _parser.String.DefaultSearchIsContains)
+      {
+        throw new NotSupportedException();
+      }
       else
       {
         return _parser.Context.Format(value);

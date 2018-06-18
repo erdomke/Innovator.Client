@@ -32,11 +32,11 @@ namespace Innovator.Client.QueryModel
         else
           return Left;
       }
-      else if (Left is null)
+      else if (Left is null || Left is IgnoreNode)
       {
         return Right;
       }
-      else if (Right is null)
+      else if (Right is null || Right is IgnoreNode)
       {
         return Left;
       }

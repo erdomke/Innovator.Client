@@ -356,5 +356,10 @@ namespace Innovator.Client.QueryModel
     {
       _writer.WriteString(PatternParser.SqlServer.Render(op));
     }
+
+    public void Visit(CountAggregate op)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

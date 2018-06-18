@@ -12,7 +12,11 @@ namespace Innovator.Client.QueryModel
     {
       return new NotOperator()
       {
-        Arg = base.Normalize()
+        Arg = new LikeOperator()
+        {
+          Left = Left,
+          Right = Right
+        }.Normalize()
       }.Normalize();
     }
 

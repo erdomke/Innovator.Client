@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innovator.Client.Net45", "I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innovator.ClientTests.NetFull", "Innovator.ClientTests\Innovator.ClientTests.NetFull.csproj", "{A0FEDAB9-13D3-4489-B17E-7156CA1BC5C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueryModelTests", "QueryModelTests\QueryModelTests.csproj", "{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,16 @@ Global
 		{A0FEDAB9-13D3-4489-B17E-7156CA1BC5C2}.NET46|Any CPU.Build.0 = NET46|Any CPU
 		{A0FEDAB9-13D3-4489-B17E-7156CA1BC5C2}.Release|Any CPU.ActiveCfg = NET46|Any CPU
 		{A0FEDAB9-13D3-4489-B17E-7156CA1BC5C2}.Release|Any CPU.Build.0 = NET46|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.NET35|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.NET35|Any CPU.Build.0 = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.NET45|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.NET45|Any CPU.Build.0 = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.NET46|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.NET46|Any CPU.Build.0 = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8A9F6B9-FDA3-4605-A217-AD4061F9D7E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -51,9 +51,9 @@ namespace Innovator.Client.QueryModel
           _writer.WriteAttributeString(ParameterSubstitution.DateRangeAttribute
             , ParameterSubstitution.SerializeDateRange(minOffset.Offset, maxOffset.Offset));
         }
-        op.Min.Visit(_sqlVisitor);
+        op.Min.Visit(op.Min is DateTimeLiteral ? (IExpressionVisitor)this : _sqlVisitor);
         _writer.WriteString(" and ");
-        op.Max.Visit(_sqlVisitor);
+        op.Max.Visit(op.Max is DateTimeLiteral ? (IExpressionVisitor)this : _sqlVisitor);
         _writer.WriteEndElement();
       });
     }
@@ -516,7 +516,7 @@ namespace Innovator.Client.QueryModel
         var props = new[] { eq.Left, eq.Right }
           .OfType<PropertyReference>()
           .ToArray();
-        if (props.Length != 2 || join.Type != JoinType.Inner)
+        if (props.Length != 2)
           throw new NotSupportedException();
 
         CurrentProp = props.Single(p => ReferenceEquals(p.Table, parent));

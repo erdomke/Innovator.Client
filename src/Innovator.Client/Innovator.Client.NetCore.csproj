@@ -6,15 +6,13 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <VersionPrefix>2017.03.15.0347</VersionPrefix>
     <Authors>Eric Domke</Authors>
-    <TargetFrameworks>net40;net45;net46;netstandard1.1;netstandard1.3</TargetFrameworks>
+    <TargetFrameworks>net40;net45;net46;netstandard1.1;netstandard1.3;netstandard2.0</TargetFrameworks>
     <AssemblyName>innovator.client</AssemblyName>
     <PackageId>innovator.client</PackageId>
     <PackageTags>aras;innovator</PackageTags>
     <PackageProjectUrl>http://erdomke.github.io/InnovatorAdmin/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/erdomke/InnovatorAdmin</RepositoryUrl>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.1' ">1.6.0</NetStandardImplicitPackageVersion>
-    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.0</NetStandardImplicitPackageVersion>
     <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -26,18 +24,6 @@
     <GenerateNeutralResourcesLanguageAttribute>false</GenerateNeutralResourcesLanguageAttribute>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
-<!--
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
-    <PackageReference Include="HttpClientPolyfill" Version="1.0.0.6" />
-    <PackageReference Include="TaskParallelLibrary" Version="1.0.2856.0" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System" />
-  </ItemGroup>-->
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
     <PackageReference Include="HttpClientPolyfill" Version="1.0.0.6" />
@@ -75,34 +61,20 @@
     <Reference Include="System" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
-    <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.1" />
-  </ItemGroup>
-
-  <!--
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET35;DATEFORMATLIST</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>-->
-
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET40;DATEFORMATLIST</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;PROTECTEDDATA;REFLECTION;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;NET40;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net40\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;PROTECTEDDATA;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net45\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' ">
-    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;INTERPOLATEDSTR;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;PROTECTEDDATA;REFLECTION;TASKS;MD5;SLEEP;INTERPOLATEDSTR;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\net46\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
@@ -115,5 +87,11 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <DefineConstants>$(DefineConstants);TIMEZONEINFO;INTERPOLATEDSTR;FILEIO;TASKS;MD5</DefineConstants>
     <DocumentationFile>bin\Release\netstandard1.3\Innovator.Client.XML</DocumentationFile>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);SERIALIZATION;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;INTERPOLATEDSTR;HTTPSYNC;ENVIRONMENT;DATEFORMATLIST</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Release\netstandard2.0\Innovator.Client.XML</DocumentationFile>
   </PropertyGroup>
 </Project>

@@ -26,6 +26,22 @@ namespace Innovator.Client.QueryModel
           Right = Left
         }.Normalize();
       }
+      else if (Left is Functions.IndexOf_Zero indexZero && Right is IntegerLiteral intZero && intZero.Value == -1)
+      {
+        return new Functions.Contains()
+        {
+          String = indexZero.Target,
+          Find = indexZero.String
+        };
+      }
+      else if (Left is Functions.IndexOf_One indexOne && Right is IntegerLiteral intOne && intOne.Value == 0)
+      {
+        return new Functions.Contains()
+        {
+          String = indexOne.Target,
+          Find = indexOne.String
+        };
+      }
 
       SetTable();
       return this;

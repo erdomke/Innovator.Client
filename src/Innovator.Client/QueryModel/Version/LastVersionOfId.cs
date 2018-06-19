@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
-  public enum JoinType
+  public class LastVersionOfId : IVersionCriteria
   {
-    LeftOuter,
-    Inner,
+    public string Id { get; set; }
   }
 }

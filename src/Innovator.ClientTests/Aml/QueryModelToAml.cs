@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Innovator.Client.Tests
+namespace Innovator.Client.QueryModel.Tests
 {
   [TestClass]
   public class QueryModelToAml
@@ -115,7 +115,18 @@ namespace Innovator.Client.Tests
 </Item>");
       var item = ElementFactory.Local.FromXml(xml.CreateReader()).AssertItem();
       var aml = item.ToQueryItem().ToAml();
-      Assert.AreEqual(@"<Item type=""Thing"" action=""get""><created_on condition=""between"" origDateRange=""Week|-1|Week|-1|Sunday"">'2018-02-25T00:00:00' and '2018-03-03T23:59:59'</created_on><or><state condition=""like"">*Canceled*</state><state condition=""like"">*Closed*</state><state condition=""like"">*Closed : Conversion*</state><state condition=""like"">*Review*</state><state condition=""like"">*In Work*</state></or><or><classification>Suspect Part</classification><classification>Suspect Part/Customer</classification><classification>Suspect Part/Incoming</classification><classification>Suspect Part/Production</classification><classification condition=""like"">Suspect Part/*</classification><classification condition=""like"">Suspect Part/Customer/*</classification><classification condition=""like"">Suspect Part/Incoming/*</classification><classification condition=""like"">Suspect Part/Production/*</classification></or><owned_by_id><Item type=""Identity"" action=""get""><or><keyed_name condition=""like"">*john smith*</keyed_name><keyed_name condition=""like"">*jane doe*</keyed_name></or></Item></owned_by_id></Item>"
+      Assert.AreEqual(@"<Item type=""Thing"" action=""get""><created_on condition=""between"" origDateRange=""Week|-1|Week|-1|Sunday"">2018-02-25T00:00:00 and 2018-03-03T23:59:59</created_on><or><state condition=""like"">*Canceled*</state><state condition=""like"">*Closed*</state><state condition=""like"">*Closed : Conversion*</state><state condition=""like"">*Review*</state><state condition=""like"">*In Work*</state></or><or><classification>Suspect Part</classification><classification>Suspect Part/Customer</classification><classification>Suspect Part/Incoming</classification><classification>Suspect Part/Production</classification><classification condition=""like"">Suspect Part/*</classification><classification condition=""like"">Suspect Part/Customer/*</classification><classification condition=""like"">Suspect Part/Incoming/*</classification><classification condition=""like"">Suspect Part/Production/*</classification></or><owned_by_id><Item type=""Identity"" action=""get""><or><keyed_name condition=""like"">*john smith*</keyed_name><keyed_name condition=""like"">*jane doe*</keyed_name></or></Item></owned_by_id></Item>"
+        , aml);
+    }
+
+    [TestMethod()]
+    public void AmlRoundTrip_DateBetween()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item type='Concern' action='get' select='concern_id' maxRecords='250'>
+  <created_on condition='between'>2017-01-01T00:00:00 and 2017-08-01T00:00:00</created_on>
+</Item>").AssertItem();
+      var aml = item.ToQueryItem().ToAml();
+      Assert.AreEqual(@"<Item type=""Concern"" action=""get"" maxRecords=""250"" select=""concern_id""><created_on condition=""between"">2017-01-01T00:00:00 and 2017-08-01T00:00:00</created_on></Item>"
         , aml);
     }
   }

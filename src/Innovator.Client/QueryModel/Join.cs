@@ -1,17 +1,34 @@
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
+  [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class Join
   {
     public QueryItem Left { get; set; }
     public QueryItem Right { get; set; }
     public JoinType Type { get; set; }
     public IExpression Condition { get; set; }
+
+    private string DebuggerDisplay
+    {
+      get
+      {
+        using (var writer = new System.IO.StringWriter())
+        {
+          if (Type == JoinType.Inner)
+            writer.Write("inner join ");
+          else
+            writer.Write("left join ");
+
+          var visitor = new SqlServerVisitor(writer, new NullAmlSqlWriterSettings());
+          Condition?.Visit(visitor);
+          writer.Flush();
+          return writer.ToString();
+        }
+      }
+    }
 
     public Cardinality GetCardinality()
     {

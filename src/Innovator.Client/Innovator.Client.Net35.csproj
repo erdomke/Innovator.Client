@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\net35\Innovator.Client.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>1591</NoWarn>
+    <DocumentationFile>..\..\publish\Innovator.Client\lib\net35\Innovator.Client.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HttpClientPolyfill">
@@ -612,6 +614,7 @@
     <Compile Include="QueryModel\Pattern\PatternSimplifyVisitor.cs" />
     <Compile Include="QueryModel\Pattern\RegexParser.cs" />
     <Compile Include="QueryModel\Sql\OracleSqlVisitor.cs" />
+    <Compile Include="QueryModel\Version\LastVersionOfId.cs" />
     <Compile Include="QueryModel\Version\VersionCriteria.cs" />
     <Compile Include="QueryModel\Version\CurrentVersion.cs" />
     <Compile Include="QueryModel\Version\IVersionCriteria.cs" />

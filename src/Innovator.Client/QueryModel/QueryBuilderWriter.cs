@@ -390,7 +390,7 @@ namespace Innovator.Client.QueryModel
             {
               join.Type = JoinType.Inner;
             }
-            return new IgnoreNode();
+            return IgnoreNode.Instance;
           }
 
           switch (elemName)

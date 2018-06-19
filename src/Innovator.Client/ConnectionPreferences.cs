@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -362,7 +362,7 @@ namespace Innovator.Client
       private bool TryDecryptWindows(string encrypted, out SecureToken decrypted)
       {
         decrypted = string.Empty;
-#if SECURESTRING
+#if PROTECTEDDATA
         try
         {
           var data = Convert.FromBase64String(encrypted);

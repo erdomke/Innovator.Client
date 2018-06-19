@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace Innovator.Client
 {
@@ -8,10 +7,10 @@ namespace Innovator.Client
   /// </summary>
   public interface IServerContext :
 #if SERIALIZATION
-    ISerializable,
+    System.Runtime.Serialization.ISerializable,
 #endif
-    IFormatProvider
-    , ICustomFormatter
+    IFormatProvider,
+    ICustomFormatter
   {
     /// <summary>
     /// Gets the default language code configured for the Aras user

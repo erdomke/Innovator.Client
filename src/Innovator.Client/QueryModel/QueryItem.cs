@@ -27,16 +27,17 @@
 using Innovator.Client.Queryable;
 using System.Linq.Expressions;
 #endif
+using Innovator.Client.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
-using Innovator.Client.Model;
 
 namespace Innovator.Client.QueryModel
 {
+  [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class QueryItem : IAmlNode
   {
     private readonly List<Join> _joins = new List<Join>();
@@ -98,6 +99,57 @@ namespace Innovator.Client.QueryModel
     /// </summary>
     public IExpression Where { get; set; }
 
+    private string DebuggerDisplay
+    {
+      get
+      {
+        using (var writer = new System.IO.StringWriter())
+        {
+          writer.Write("select {");
+          writer.Write(Select.Count);
+          writer.Write("} from ");
+          if (string.IsNullOrEmpty(Type))
+          {
+            writer.Write("{");
+            var visitor = new SqlServerVisitor(writer, new NullAmlSqlWriterSettings());
+            TypeProvider.Visit(visitor);
+            writer.Write("}");
+          }
+          else
+          {
+            writer.Write(Type);
+          }
+          if (!string.IsNullOrEmpty(Alias))
+          {
+            writer.Write(" as ");
+            writer.Write(Alias);
+          }
+          if (Joins.Count > 0)
+          {
+            writer.Write(" join {");
+            writer.Write(Joins.Count);
+            writer.Write("}");
+          }
+
+          if (Where != null)
+            writer.Write(" where ?");
+          if (Offset > 0)
+          {
+            writer.Write(" offset ");
+            writer.Write(Offset);
+          }
+          if (Fetch > 0)
+          {
+            writer.Write(" fetch ");
+            writer.Write(Fetch);
+          }
+
+          writer.Flush();
+          return writer.ToString();
+        }
+      }
+    }
+
     /// <summary>
     /// Add a condition to the <see cref="Where"/> clause using an <see cref="AndOperator"/>.
     /// </summary>
@@ -128,6 +180,11 @@ namespace Innovator.Client.QueryModel
     public void AddCondition(IPropertyDefinition prop, string value, SimpleSearchParser parser, Condition condition = Condition.Undefined)
     {
       AddCondition(parser.Parse(this, prop, value, condition));
+    }
+
+    public QueryItem Clone()
+    {
+      return new CloneVisitor().Clone(this);
     }
 
     /// <summary>
@@ -163,7 +220,22 @@ namespace Innovator.Client.QueryModel
     public void ToArasSql(TextWriter writer, IAmlSqlWriterSettings settings)
     {
       var visitor = new ArasSqlServerVisitor(writer, settings);
-      visitor.Visit(this);
+      var clone = new CloneVisitor().WithPropertyMapper(p =>
+      {
+        var table = p.Table;
+        table.TryFillName(settings);
+        if (string.IsNullOrEmpty(table.Type))
+          return IgnoreNode.Instance;
+        var props = settings.GetProperties(table.Type);
+        if (props.Count < 1)
+          return p;
+        if (!props.TryGetValue(p.Name, out var propDefn))
+          return IgnoreNode.Instance;
+        if (propDefn.DataType().Value == "foreign")
+          return table.GetProperty(propDefn);
+        return p;
+      }).Clone(this);
+      visitor.Visit(clone);
     }
 
     public IEnumerable<Criteria> ToCriteria(SimpleSearchParser parser)
@@ -229,6 +301,24 @@ namespace Innovator.Client.QueryModel
       return prop;
     }
 
+    internal void TryFillName(IQueryWriterSettings Settings)
+    {
+      if (string.IsNullOrEmpty(Type) && TypeProvider?.Table != null)
+      {
+        TypeProvider.Table.TryFillName(Settings);
+        if (!string.IsNullOrEmpty(TypeProvider.Table.Type))
+        {
+          var props = Settings.GetProperties(TypeProvider.Table.Type);
+          if (props != null
+            && !string.IsNullOrEmpty(TypeProvider.Name)
+            && props.TryGetValue(TypeProvider.Name, out var propDefn)
+            && propDefn.DataType().Value == "item")
+          {
+            Type = propDefn.DataSource().KeyedName().Value;
+          }
+        }
+      }
+    }
 
     /// <summary>
     /// Converts an AML node into a query which can be converted to other forms (e.g. SQL, OData, ...)

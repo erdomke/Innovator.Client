@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -251,7 +251,7 @@ namespace Innovator.Client
       if (data == null)
         return null;
 
-#if SECURESTRING
+#if PROTECTEDDATA
       return Convert.ToBase64String(ProtectedData.Protect(data.UseString((ref string s) => Encoding.UTF8.GetBytes(s))
         , ConnectionPreferences.Salt, DataProtectionScope.CurrentUser));
 #else

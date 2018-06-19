@@ -12,13 +12,19 @@ namespace Innovator.Client.QueryModel
     private PropertyReference _prop;
     private QueryItem _query;
     private readonly Dictionary<QueryItem, QueryItem> _clones = new Dictionary<QueryItem, QueryItem>();
-    private Func<PropertyReference, PropertyReference> _propMapper;
-    private Func<PropertyReference, ILiteral, ILiteral> _valueMapper;
+    private Func<PropertyReference, IExpression> _propMapper;
+    private Func<PropertyReference, ILiteral, IExpression> _valueMapper;
 
-    public CloneVisitor()
+    public CloneVisitor WithPropertyMapper(Func<PropertyReference, IExpression> propMapper)
     {
-      _propMapper = op => new PropertyReference(op.Name, GetTable(op.Table));
-      _valueMapper = (prop, literal) => CloneAndReturn(literal);
+      _propMapper = propMapper;
+      return this;
+    }
+
+    public CloneVisitor WithValueMapper(Func<PropertyReference, ILiteral, IExpression> valueMapper)
+    {
+      _valueMapper = valueMapper;
+      return this;
     }
 
     public void Visit(QueryItem query)
@@ -29,42 +35,78 @@ namespace Innovator.Client.QueryModel
         Fetch = query.Fetch,
         Offset = query.Offset,
         Type = query.Type,
-        TypeProvider = query.TypeProvider
       };
       _clones[query] = newQuery;
 
-      foreach (var join in query.Joins)
+      if (query.Version is CurrentVersion)
+        newQuery.Version = new CurrentVersion();
+      else if (query.Version is LatestMatch latest)
+        newQuery.Version = new LatestMatch() { AsOf = latest.AsOf };
+      else if (query.Version is VersionCriteria crit)
+        newQuery.Version = new VersionCriteria() { Condition = CloneAndReturn(crit.Condition) };
+      else if (query.Version is LastVersionOfId last)
+        newQuery.Version = new LastVersionOfId() { Id = last.Id };
+
+      foreach (var attr in query.Attributes)
+        newQuery.Attributes.Add(attr);
+
+      if (query.TypeProvider != null)
+        newQuery.TypeProvider = Clone(query.TypeProvider) as PropertyReference;
+
+      foreach (var join in query.Joins
+        .Select(Clone)
+        .Where(j => j != null && !(j.Condition is IgnoreNode)))
       {
-        newQuery.Joins.Add(new Join()
-        {
-          Type = join.Type,
-          Left = Clone(join.Left),
-          Right = Clone(join.Right),
-          Condition = CloneAndReturn(join.Condition),
-        });
+        newQuery.Joins.Add(join);
       }
 
-      foreach (var orderBy in query.OrderBy)
+      foreach (var orderBy in query.OrderBy
+        .Select(Clone)
+        .Where(o => o != null && !(o.Expression is IgnoreNode)))
       {
-        newQuery.OrderBy.Add(new OrderByExpression()
-        {
-          Ascending = orderBy.Ascending,
-          Expression = CloneAndReturn(orderBy.Expression)
-        });
+        newQuery.OrderBy.Add(orderBy);
       }
 
-      foreach (var select in query.Select)
+      foreach (var select in query.Select
+        .Select(Clone)
+        .Where(s => s != null && !(s.Expression is IgnoreNode)))
       {
-        newQuery.Select.Add(new SelectExpression()
-        {
-          Alias = select.Alias,
-          Expression = CloneAndReturn(select.Expression),
-          OnlyReturnNonNull = select.OnlyReturnNonNull
-        });
+        newQuery.Select.Add(select);
       }
 
-      newQuery.Where = CloneAndReturn(query.Where);
+      if (query.Where != null)
+        newQuery.Where = CloneAndReturn(query.Where);
       _query = newQuery;
+    }
+
+    public virtual Join Clone(Join join)
+    {
+      return new Join()
+      {
+        Type = join.Type,
+        Left = Clone(join.Left),
+        Right = Clone(join.Right),
+        Condition = CloneAndReturn(join.Condition),
+      };
+    }
+
+    public virtual OrderByExpression Clone(OrderByExpression orderBy)
+    {
+      return new OrderByExpression()
+      {
+        Ascending = orderBy.Ascending,
+        Expression = CloneAndReturn(orderBy.Expression)
+      };
+    }
+
+    public virtual SelectExpression Clone(SelectExpression select)
+    {
+      return new SelectExpression()
+      {
+        Alias = select.Alias,
+        Expression = CloneAndReturn(select.Expression),
+        OnlyReturnNonNull = select.OnlyReturnNonNull
+      };
     }
 
     void IExpressionVisitor.Visit(AndOperator op)
@@ -78,7 +120,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneAndReturn(op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(BetweenOperator op)
@@ -93,7 +135,7 @@ namespace Innovator.Client.QueryModel
         Left = CloneAndReturn(op.Left),
         Min = CloneValue(op.Left, op.Min),
         Max = CloneValue(op.Left, op.Max)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(BooleanLiteral op)
@@ -140,7 +182,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(FloatLiteral op)
@@ -169,7 +211,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(GreaterThanOrEqualsOperator op)
@@ -183,7 +225,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(InOperator op)
@@ -198,7 +240,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneAndReturn(op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(IntegerLiteral op)
@@ -222,7 +264,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = op.Right
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(LessThanOperator op)
@@ -236,7 +278,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(LessThanOrEqualsOperator op)
@@ -250,7 +292,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(LikeOperator op)
@@ -264,7 +306,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(ListExpression op)
@@ -291,7 +333,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(NotOperator op)
@@ -304,7 +346,7 @@ namespace Innovator.Client.QueryModel
       return new NotOperator()
       {
         Arg = CloneAndReturn(op.Arg)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(ObjectLiteral op)
@@ -314,7 +356,7 @@ namespace Innovator.Client.QueryModel
 
     public virtual IExpression Clone(ObjectLiteral op)
     {
-      return new ObjectLiteral(op.Value, op.TypeProvider, op.Context);
+      return new ObjectLiteral(op.Value, Clone(op.TypeProvider) as PropertyReference, op.Context);
     }
 
     void IExpressionVisitor.Visit(OrOperator op)
@@ -328,7 +370,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneAndReturn(op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(PropertyReference op)
@@ -338,7 +380,10 @@ namespace Innovator.Client.QueryModel
 
     public virtual IExpression Clone(PropertyReference op)
     {
-      return _propMapper(op);
+      var result = new PropertyReference(op.Name, GetTable(op.Table));
+      if (_propMapper != null)
+        return _propMapper(result);
+      return result;
     }
 
     void IExpressionVisitor.Visit(StringLiteral op)
@@ -362,7 +407,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(DivisionOperator op)
@@ -376,7 +421,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(ModulusOperator op)
@@ -390,7 +435,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(AdditionOperator op)
@@ -404,7 +449,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(SubtractionOperator op)
@@ -418,7 +463,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(NegationOperator op)
@@ -431,7 +476,7 @@ namespace Innovator.Client.QueryModel
       return new NegationOperator()
       {
         Arg = CloneAndReturn(op.Arg)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(ConcatenationOperator op)
@@ -445,7 +490,7 @@ namespace Innovator.Client.QueryModel
       {
         Left = CloneAndReturn(op.Left),
         Right = CloneValue(op.Left, op.Right)
-      };
+      }.Normalize();
     }
 
     void IExpressionVisitor.Visit(ParameterReference op)
@@ -465,7 +510,10 @@ namespace Innovator.Client.QueryModel
 
     public virtual IExpression Clone(AllProperties op)
     {
-      return new AllProperties(op.Table) { XProperties = op.XProperties };
+      return new AllProperties(GetTable(op.Table))
+      {
+        XProperties = op.XProperties
+      };
     }
 
     void IExpressionVisitor.Visit(PatternList op)
@@ -495,7 +543,10 @@ namespace Innovator.Client.QueryModel
 
     protected virtual IExpression ClonePropertyValue(PropertyReference prop, ILiteral literal)
     {
-      return _valueMapper(prop, literal);
+      var result = CloneAndReturn(literal);
+      if (_valueMapper != null)
+        return _valueMapper(prop, result);
+      return result;
     }
 
     private T CloneAndReturn<T>(T expr) where T : IExpression
@@ -504,7 +555,7 @@ namespace Innovator.Client.QueryModel
       return (T)_clone;
     }
 
-    private QueryItem Clone(QueryItem query)
+    public QueryItem Clone(QueryItem query)
     {
       if (_clones.TryGetValue(query, out var result))
         return result;

@@ -40,6 +40,26 @@ namespace Innovator.Client.QueryModel
         else
           return new NotOperator() { Arg = Right }.Normalize();
       }
+      else if (Left is IgnoreNode || Right is IgnoreNode)
+      {
+        return IgnoreNode.Instance;
+      }
+      else if (Left is Functions.IndexOf_Zero indexZero && Right is IntegerLiteral intZero && intZero.Value == 0)
+      {
+        return new Functions.StartsWith()
+        {
+          String = indexZero.Target,
+          Find = indexZero.String
+        };
+      }
+      else if (Left is Functions.IndexOf_One indexOne && Right is IntegerLiteral intOne && intOne.Value == 1)
+      {
+        return new Functions.StartsWith()
+        {
+          String = indexOne.Target,
+          Find = indexOne.String
+        };
+      }
 
       SetTable();
       return this;

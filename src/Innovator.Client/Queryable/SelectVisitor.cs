@@ -55,9 +55,11 @@ namespace Innovator.Client.Queryable
       return original;
     }
 
-    protected override void VisitProperty(string name)
+    protected override object VisitProperty(Expression table, string name)
     {
+      base.VisitProperty(table, name);
       _buffer.Add(name);
+      return null;
     }
 
     protected override MemberAssignment VisitMemberAssignment(MemberAssignment assignment)

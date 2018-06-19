@@ -50,12 +50,12 @@ namespace Innovator.Client.QueryModel
         var andToken = tokens.Single(t => string.Equals(t.Text, "and", StringComparison.OrdinalIgnoreCase));
         minText = new SqlToken()
         {
-          Text = "'" + value.Substring(0, andToken.StartOffset).Trim() + "'",
+          Text = "'" + value.Substring(0, andToken.StartOffset).Trim().Replace("'", "''") + "'",
           Type = SqlType.String
         };
         maxText = new SqlToken()
         {
-          Text = "'" + value.Substring(andToken.StartOffset + 3).Trim() + "'",
+          Text = "'" + value.Substring(andToken.StartOffset + 3).Trim().Replace("'", "''") + "'",
           Type = SqlType.String
         };
       }

@@ -1,4 +1,4 @@
-﻿#if REFLECTION
+#if REFLECTION
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -465,7 +465,6 @@ namespace Innovator.Client.Queryable
 
     protected virtual Expression VisitLambda(LambdaExpression lambda)
     {
-
       Expression body = this.Visit(lambda.Body);
 
       if (body != lambda.Body)

@@ -104,7 +104,11 @@ namespace Innovator.Client.QueryModel
       foreach (var type in _conn.Apply(@"<Item type='ItemType' action='get' select='name'>
   <name condition='in'>@0</name>
   <Relationships>
-    <Item type='Property' action='get' />
+    <Item type='Property' action='get'>
+      <foreign_property>
+        <Item type='Property' action='get' select='data_source,data_type'></Item>
+      </foreign_property>
+    </Item>
   </Relationships>
 </Item>", notCachedNames)
         .Items())
@@ -144,6 +148,9 @@ namespace Innovator.Client.QueryModel
       <name>@0</name>
     </Item>
   </source_id>
+  <foreign_property>
+    <Item type='Property' action='get' select='data_source,data_type'></Item>
+  </foreign_property>
 </Item>", itemType)
           .Items()
           .OfType<Model.IPropertyDefinition>()

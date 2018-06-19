@@ -17,7 +17,8 @@ namespace Innovator.Client.QueryModel.Tests
   <owned_by_id><Item type='Identity' action='get'><keyed_name condition='like'>*super*</keyed_name></Item></owned_by_id>
 </Item>").AssertItem();
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
-      var sql = item.ToQueryItem().ToArasSql(settings);
+      var query = item.ToQueryItem();
+      var sql = query.ToArasSql(settings);
       Assert.AreEqual("select Part.* from innovator.Part inner join innovator.[Identity] on Part.owned_by_id = [Identity].id where Part.is_active_rev = '1' and Part.keyed_name like N'999-%' and ( SELECT p FROM innovator.[GetDiscoverPermissions] ('can_get', Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id, 'F13AF7BC3D7A4084AF67AB7BF938C409,A73B655731924CD0B027E4F4D5FCC0A9', null, '2D246C5838644C1C8FD34F8D2796E327', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0 and [Identity].keyed_name like N'%super%' and [Identity].is_current = '1' and ( SELECT p FROM innovator.[GetDiscoverPermissions] ('can_get', [Identity].permission_id, [Identity].created_by_id, [Identity].managed_by_id, [Identity].owned_by_id, [Identity].team_id, 'F13AF7BC3D7A4084AF67AB7BF938C409,A73B655731924CD0B027E4F4D5FCC0A9', null, '2D246C5838644C1C8FD34F8D2796E327', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0 order by Part.id"
         , sql);
     }

@@ -48,7 +48,7 @@ namespace Innovator.Client.QueryModel
           Left = this,
           Right = new PropertyReference("id", newTable)
         },
-        Type = JoinType.Inner
+        Type = JoinType.LeftOuter
       });
       return newTable;
     }

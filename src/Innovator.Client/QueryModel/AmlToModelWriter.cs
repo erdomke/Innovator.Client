@@ -164,8 +164,21 @@ namespace Innovator.Client.QueryModel
             table.Alias = value;
             break;
           case "action":
-            if (value != "get")
-              throw new NotSupportedException("The only action(s) supported are `get`");
+            switch (value)
+            {
+              case "get":
+              case "GetItemConfig":
+              case "recache":
+                table.Attributes[_name] = "get";
+                break;
+              case "getItemAllVersions":
+              case "getItemLastVersion":
+              case "getItemRelationships":
+                table.Attributes[_name] = value;
+                break;
+              default:
+                throw new NotSupportedException("The only action(s) supported are `get`");
+            }
             break;
           default:
             table.Attributes[_name] = value;
@@ -401,6 +414,7 @@ namespace Innovator.Client.QueryModel
         else if (last is Join join)
         {
           NormalizeItem(join.Right);
+          join.Type = join.Right.Where == null ? JoinType.LeftOuter : JoinType.Inner;
         }
       }
 
@@ -484,6 +498,84 @@ namespace Innovator.Client.QueryModel
 
     private void NormalizeItem(QueryItem item)
     {
+      if (!item.Attributes.TryGetValue("action", out var action))
+        action = "get";
+
+      switch (action)
+      {
+        case "get":
+          NormalizeItem_Get(item);
+          break;
+        case "getItemAllVersions":
+          if (!item.Attributes.TryGetValue("id", out var id))
+            throw new InvalidOperationException("An `id` must be specified when using the action `getItemAllVersions`");
+
+          item.Where = new EqualsOperator()
+          {
+            Left = new PropertyReference("id", item),
+            Right = new StringLiteral(id)
+          }.Normalize();
+
+          item.Version = new VersionCriteria()
+          {
+            Condition = new GreaterThanOperator()
+            {
+              Left = new PropertyReference("generation", item),
+              Right = new IntegerLiteral(0)
+            }.Normalize()
+          };
+
+          SetDefaultSelect(item);
+          item.OrderBy.Clear();
+          item.Attributes.Clear();
+          break;
+        case "getItemLastVersion":
+          if (!item.Attributes.TryGetValue("id", out var genId))
+            throw new InvalidOperationException("An `id` must be specified when using the action `getItemLastVersion`");
+
+          item.Version = new LastVersionOfId()
+          {
+            Id = genId
+          };
+
+          item.Where = null;
+          SetDefaultSelect(item);
+          item.OrderBy.Clear();
+          item.Attributes.Clear();
+          break;
+        case "getItemRelationships":
+          if (!item.Attributes.TryGetValue("id", out var sourceId))
+            throw new InvalidOperationException("An `id` must be specified when using the action `getItemRelationships`");
+          if (!item.Attributes.TryGetValue("relName", out var relName))
+            throw new InvalidOperationException("A `relName` must be specified when using the action `getItemRelationships`");
+
+          item.Type = relName;
+          item.AddCondition(new EqualsOperator()
+          {
+            Left = new PropertyReference("source_id", item),
+            Right = new StringLiteral(sourceId)
+          }.Normalize());
+
+          item.Attributes.Remove("id");
+          item.Attributes.Remove("relName");
+          NormalizeItem_Get(item);
+          break;
+      }
+      item.Attributes.Remove("action");
+    }
+
+    private void SetDefaultSelect(QueryItem item)
+    {
+      item.Select.Clear();
+      item.Select.Add(new SelectExpression()
+      {
+        Expression = new AllProperties(item),
+        OnlyReturnNonNull = true
+      });
+    }
+
+    private void NormalizeItem_Get(QueryItem item)
+    {
       if (item.Attributes.TryGetValue("select", out var selectStmt))
       {
         var node = SelectNode.FromString(selectStmt);
@@ -495,6 +587,10 @@ namespace Innovator.Client.QueryModel
           VisitSelectNode(prop, item);
         }
         item.Attributes.Remove("select");
+      }
+      else
+      {
+        SetDefaultSelect(item);
       }
 
       if (item.Attributes.TryGetValue("returnMode", out var returnMode) && returnMode == "countOnly")
@@ -520,7 +616,7 @@ namespace Innovator.Client.QueryModel
         {
           Left = new PropertyReference("id", item),
           Right = new StringLiteral(id)
-        };
+        }.Normalize();
         item.Version = new VersionCriteria()
         {
           Condition = item.Where
@@ -532,7 +628,7 @@ namespace Innovator.Client.QueryModel
         {
           Left = new PropertyReference("id", item),
           Right = new ListExpression(idlist.Split(',').Select(i => (IOperand)new StringLiteral(i)))
-        };
+        }.Normalize();
         item.Version = new VersionCriteria()
         {
           Condition = item.Where
@@ -551,7 +647,7 @@ namespace Innovator.Client.QueryModel
           {
             Left = item.Where,
             Right = clause
-          };
+          }.Normalize();
         }
       }
       item.Attributes.Remove("id");
@@ -845,7 +941,7 @@ namespace Innovator.Client.QueryModel
             {
               TypeProvider = prop
             },
-            Type = JoinType.Inner,
+            Type = JoinType.LeftOuter,
           };
 
           if (join.Left != null)
@@ -866,7 +962,7 @@ namespace Innovator.Client.QueryModel
                 Left = new PropertyReference("id", join.Left),
                 Right = new PropertyReference("source_id", join.Right)
               };
-              join.Type = JoinType.Inner;
+              join.Type = JoinType.LeftOuter;
               join.Left.Joins.Add(join);
             }
             else

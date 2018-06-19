@@ -13,10 +13,11 @@ namespace Innovator.Client.Queryable
   internal class QueryTranslator : AmlVisitor
   {
     private ElementFactory _aml;
-    private IExpression _curr;
-    private PropertyReference _lastProp;
+    private object _curr;
     private LambdaExpression _projector;
     private QueryItem _query;
+    private readonly Dictionary<ParameterExpression, QueryItem> _tables
+      = new Dictionary<ParameterExpression, QueryItem>();
 
     public QueryTranslator(ElementFactory factory)
     {
@@ -74,104 +75,12 @@ namespace Innovator.Client.Queryable
     {
       if (VisitAmlMethod(m))
         return m;
-      if (m.Method.DeclaringType == typeof(System.Linq.Queryable))
-      {
-        IEnumerable<PropertyReference> props;
-        switch (m.Method.Name)
-        {
-          case "Where":
-            this.Visit(m.Arguments[0]);
-            var lambda = (LambdaExpression)StripQuotes(m.Arguments[1]);
-            if (lambda.Body.NodeType == ExpressionType.Constant && ((ConstantExpression)lambda.Body).Value is bool)
-            {
-              if (!((bool)((ConstantExpression)lambda.Body).Value))
-              {
-                _query.Where = new BooleanLiteral(false);
-              }
-            }
-            else
-            {
-              _query.Where = VisitAndReturn(lambda.Body);
-            }
-            return m;
-          case "Take":
-            this.Visit(m.Arguments[0]);
-            _query.Fetch = (int)((ConstantExpression)m.Arguments[1]).Value;
-            return m;
-          case "Skip":
-            this.Visit(m.Arguments[0]);
-            _query.Offset = (int)((ConstantExpression)m.Arguments[1]).Value;
-            return m;
-          case "Select":
-            this.Visit(m.Arguments[0]);
-            _projector = (LambdaExpression)StripQuotes(m.Arguments[1]);
-            props = new SelectVisitor().GetProperties(_projector, _query);
-            foreach (var prop in props)
-            {
-              prop.Table.Select.Add(new SelectExpression()
-              {
-                Expression = prop
-              });
-            }
-            return m;
-          case "OrderBy":
-            this.Visit(m.Arguments[0]);
-            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
-            foreach (var prop in props)
-            {
-              prop.Table.OrderBy.Clear();
-              prop.Table.OrderBy.Add(new OrderByExpression()
-              {
-                Ascending = true,
-                Expression = prop
-              });
-            }
-            return m;
-          case "OrderByDescending":
-            this.Visit(m.Arguments[0]);
-            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
-            foreach (var prop in props)
-            {
-              prop.Table.OrderBy.Clear();
-              prop.Table.OrderBy.Add(new OrderByExpression()
-              {
-                Ascending = false,
-                Expression = prop
-              });
-            }
-            return m;
-          case "ThenBy":
-            this.Visit(m.Arguments[0]);
-            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
-            foreach (var prop in props)
-            {
-              prop.Table.OrderBy.Add(new OrderByExpression()
-              {
-                Ascending = true,
-                Expression = prop
-              });
-            }
-            return m;
-          case "ThenByDescending":
-            this.Visit(m.Arguments[0]);
-            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), _query);
-            foreach (var prop in props)
-            {
-              prop.Table.OrderBy.Add(new OrderByExpression()
-              {
-                Ascending = false,
-                Expression = prop
-              });
-            }
-            return m;
-        }
-      }
-      else if ((m.Method.DeclaringType == typeof(Enumerable) && m.Method.Name == "Contains")
+      if ((m.Method.DeclaringType == typeof(Enumerable) && m.Method.Name == "Contains")
         || (m.Method.DeclaringType.IsGenericType && m.Method.DeclaringType.GetGenericTypeDefinition() == typeof(HashSet<>) && m.Method.Name == "Contains"))
       {
         var inOp = new InOperator()
         {
-          Left = VisitAndReturn(m.Arguments.Last())
+          Left = VisitAndReturnExpr(m.Arguments.Last())
         };
 
         var enumerable = (IEnumerable)((ConstantExpression)(m.Object ?? m.Arguments[0])).Value;
@@ -187,76 +96,216 @@ namespace Innovator.Client.Queryable
         _curr = inOp.Normalize();
         return m;
       }
+      else if (m.Method.DeclaringType == typeof(System.Linq.Queryable)
+        || m.Method.DeclaringType == typeof(Enumerable))
+      {
+        IEnumerable<PropertyReference> props;
+        QueryItem query;
+        switch (m.Method.Name)
+        {
+          case "OfType":
+          case "Cast":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            return m;
+          case "Any":
+          case "Where":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            if (m.Method.Name == "Where" && m.Arguments.Count != 2)
+              throw new NotSupportedException();
+            if (m.Arguments.Count == 2)
+            {
+              var lambda = (LambdaExpression)StripQuotes(m.Arguments[1]);
+              if (lambda.Body.NodeType == ExpressionType.Constant && ((ConstantExpression)lambda.Body).Value is bool)
+              {
+                if (!((bool)((ConstantExpression)lambda.Body).Value))
+                {
+                  query.Where = new BooleanLiteral(false);
+                }
+              }
+              else
+              {
+                _tables.Add(lambda.Parameters[0], query);
+                query.Where = VisitAndReturnExpr(lambda.Body);
+                _tables.Remove(lambda.Parameters[0]);
+              }
+            }
+            _curr = m.Method.Name == "Where" ? query : null;
+            return m;
+          case "Take":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            query.Fetch = (int)((ConstantExpression)m.Arguments[1]).Value;
+            _curr = query;
+            return m;
+          case "Skip":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            query.Offset = (int)((ConstantExpression)m.Arguments[1]).Value;
+            _curr = query;
+            return m;
+          case "Select":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            _projector = (LambdaExpression)StripQuotes(m.Arguments[1]);
+            props = new SelectVisitor().GetProperties(_projector, query);
+            foreach (var prop in props)
+            {
+              prop.Table.Select.Add(new SelectExpression()
+              {
+                Expression = prop
+              });
+            }
+            _curr = query;
+            return m;
+          case "OrderBy":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Clear();
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = true,
+                Expression = prop
+              });
+            }
+            _curr = query;
+            return m;
+          case "OrderByDescending":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Clear();
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = false,
+                Expression = prop
+              });
+            }
+            _curr = query;
+            return m;
+          case "ThenBy":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = true,
+                Expression = prop
+              });
+            }
+            _curr = query;
+            return m;
+          case "ThenByDescending":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            props = new SelectVisitor().GetProperties(StripQuotes(m.Arguments[1]), query);
+            foreach (var prop in props)
+            {
+              prop.Table.OrderBy.Add(new OrderByExpression()
+              {
+                Ascending = false,
+                Expression = prop
+              });
+            }
+            _curr = query;
+            return m;
+          default:
+            throw new NotSupportedException();
+        }
+      }
+      else if (m.Method.DeclaringType == typeof(IReadOnlyItem) || m.Method.DeclaringType == typeof(IItem))
+      {
+        if (m.Method.Name == "Relationships"
+          && m.Arguments.Count == 1
+          && _paramStack.TrySimplify(m.Arguments[0]) is ConstantExpression con
+          && con.Value is string relName)
+        {
+          var table = (QueryItem)VisitAndReturnAny(m.Object);
+          var relation = new QueryItem(_aml.LocalizationContext)
+          {
+            Type = relName
+          };
+          table.Joins.Add(new Join()
+          {
+            Left = table,
+            Right = relation,
+            Condition = new EqualsOperator()
+            {
+              Left = new PropertyReference("id", table),
+              Right = new PropertyReference("source_id", relation)
+            }
+          });
+          _curr = relation;
+          return m;
+        }
+        else
+        {
+          throw new NotSupportedException();
+        }
+      }
       else if (m.Method.DeclaringType == typeof(object) && m.Method.Name == "Equals")
       {
-        if (m.Object.NodeType == ExpressionType.Parameter
-          && m.Arguments[0].NodeType == ExpressionType.Constant
-          && ((ConstantExpression)m.Arguments[0]).Value is IReadOnlyItem)
+        var left = VisitAndReturnExpr(m.Object ?? m.Arguments[0]);
+        var right = VisitAndReturnExpr(m.Arguments[m.Object == null ? 1 : 0]);
+        if (right is NullLiteral)
         {
-          _curr = new EqualsOperator()
+          _curr = new IsOperator()
           {
-            Left = new PropertyReference("id", _query),
-            Right = new StringLiteral(((IReadOnlyItem)((ConstantExpression)m.Arguments[0]).Value).Id())
+            Left = left,
+            Right = IsOperand.Null
+          }.Normalize();
+        }
+        else if (left is NullLiteral)
+        {
+          _curr = new IsOperator()
+          {
+            Left = right,
+            Right = IsOperand.Null
           }.Normalize();
         }
         else
         {
-          var left = VisitAndReturn(m.Object ?? m.Arguments[0]);
-          var right = VisitAndReturn(m.Arguments[m.Object == null ? 1 : 0]);
-          if (right is NullLiteral)
+          _curr = new EqualsOperator()
           {
-            _curr = new IsOperator()
-            {
-              Left = left,
-              Right = IsOperand.Null
-            }.Normalize();
-          }
-          else if (left is NullLiteral)
-          {
-            _curr = new IsOperator()
-            {
-              Left = right,
-              Right = IsOperand.Null
-            }.Normalize();
-          }
-          else
-          {
-            _curr = new EqualsOperator()
-            {
-              Left = left,
-              Right = right
-            }.Normalize();
-          }
+            Left = left,
+            Right = right
+          }.Normalize();
         }
         return m;
       }
-      else if (m.Method.DeclaringType == typeof(ItemExtensions) && m.Method.Name == "AsBoolean")
+      else if (m.Method.DeclaringType == typeof(ItemExtensions))
       {
+        switch (m.Method.Name)
+        {
+          case "AsBoolean":
+            _curr = new EqualsOperator()
+            {
+              Left = VisitAndReturnExpr(m.Arguments[0]),
+              Right = new BooleanLiteral(true)
+            }.Normalize();
+            return m;
+          case "AsDateTime":
+          case "AsDateTimeUtc":
+          case "AsDateTimeOffset":
+          case "AsDouble":
+          case "AsInt":
+          case "AsLong":
+          case "AsGuid":
+            Visit(m.Arguments[0]);
+            return m;
+          default:
+            throw new NotSupportedException();
+        }
+      }
+      else if (m.Method.DeclaringType == typeof(IReadOnlyProperty_Boolean))
+      {
+        if (m.Method.Name != "AsBoolean")
+          throw new NotSupportedException();
+
         _curr = new EqualsOperator()
         {
-          Left = VisitAndReturn(m.Arguments[0]),
+          Left = VisitAndReturnExpr(m.Object),
           Right = new BooleanLiteral(true)
         }.Normalize();
-        return m;
-      }
-      else if (m.Method.DeclaringType == typeof(IReadOnlyProperty_Boolean) && m.Method.Name == "AsBoolean")
-      {
-        _curr = new EqualsOperator()
-        {
-          Left = VisitAndReturn(m.Object),
-          Right = new BooleanLiteral(true)
-        }.Normalize();
-        return m;
-      }
-      else if (m.Method.DeclaringType == typeof(ItemExtensions)
-        && (m.Method.Name == "AsDateTime" || m.Method.Name == "AsDateTimeUtc"
-        || m.Method.Name == "AsDateTimeOffset"
-        || m.Method.Name == "AsDouble"
-        || m.Method.Name == "AsInt"
-        || m.Method.Name == "AsLong"
-        || m.Method.Name == "AsGuid"))
-      {
-        Visit(m.Arguments[0]);
         return m;
       }
       else if ((m.Method.DeclaringType == typeof(IReadOnlyProperty_Date) && m.Method.Name == "AsDateTime")
@@ -278,28 +327,28 @@ namespace Innovator.Client.Queryable
           case "StartsWith":
           case "EndsWith":
           case "Contains":
-            var left = VisitAndReturn(m.Object);
-            var right = VisitAndReturn(m.Arguments[0]);
+            var left = VisitAndReturnExpr(m.Object);
+            var right = VisitAndReturnExpr(m.Arguments[0]);
             _curr = LikeOperator.FromMethod(m.Method.Name, left, right);
             return m;
           case "Concat":
             if (m.Arguments.Count == 1)
             {
-              _curr = VisitAndReturn(m.Arguments[0]);
+              _curr = VisitAndReturnExpr(m.Arguments[0]);
             }
             else if (m.Arguments.Count > 1)
             {
               _curr = new ConcatenationOperator()
               {
-                Left = VisitAndReturn(m.Arguments[0]),
-                Right = VisitAndReturn(m.Arguments[1]),
+                Left = VisitAndReturnExpr(m.Arguments[0]),
+                Right = VisitAndReturnExpr(m.Arguments[1]),
               }.Normalize();
               for (var i = 2; i < m.Arguments.Count; i++)
               {
                 _curr = new ConcatenationOperator()
                 {
-                  Left = _curr,
-                  Right = VisitAndReturn(m.Arguments[i]),
+                  Left = (IExpression)_curr,
+                  Right = VisitAndReturnExpr(m.Arguments[i]),
                 }.Normalize();
               }
             }
@@ -309,24 +358,24 @@ namespace Innovator.Client.Queryable
             {
               _curr = new EqualsOperator()
               {
-                Left = VisitAndReturn(m.Arguments[0]),
-                Right = VisitAndReturn(m.Arguments[1])
+                Left = VisitAndReturnExpr(m.Arguments[0]),
+                Right = VisitAndReturnExpr(m.Arguments[1])
               }.Normalize();
             }
             else
             {
               _curr = new EqualsOperator()
               {
-                Left = VisitAndReturn(m.Object),
-                Right = VisitAndReturn(m.Arguments[0])
+                Left = VisitAndReturnExpr(m.Object),
+                Right = VisitAndReturnExpr(m.Arguments[0])
               }.Normalize();
             }
             return m;
           case "IndexOf":
             _curr = new QueryModel.Functions.IndexOf_One()
             {
-              String = VisitAndReturn(m.Object),
-              Target = VisitAndReturn(m.Arguments[0]),
+              String = VisitAndReturnExpr(m.Object),
+              Target = VisitAndReturnExpr(m.Arguments[0]),
             };
             return m;
           case "Insert":
@@ -336,27 +385,27 @@ namespace Innovator.Client.Queryable
               {
                 Left = new QueryModel.Functions.Substring_One()
                 {
-                  String = VisitAndReturn(m.Object),
+                  String = VisitAndReturnExpr(m.Object),
                   Start = new IntegerLiteral(1),
-                  Length = VisitAndReturn(m.Arguments[0])
+                  Length = VisitAndReturnExpr(m.Arguments[0])
                 },
-                Right = VisitAndReturn(m.Arguments[1])
+                Right = VisitAndReturnExpr(m.Arguments[1])
               }.Normalize(),
               Right = new QueryModel.Functions.Substring_One()
               {
-                String = VisitAndReturn(m.Object),
+                String = VisitAndReturnExpr(m.Object),
                 Start = new AdditionOperator()
                 {
-                  Left = VisitAndReturn(m.Arguments[0]),
+                  Left = VisitAndReturnExpr(m.Arguments[0]),
                   Right = new IntegerLiteral(1),
                 }.Normalize(),
                 Length = new SubtractionOperator()
                 {
                   Left = new QueryModel.Functions.Length()
                   {
-                    String = VisitAndReturn(m.Object),
+                    String = VisitAndReturnExpr(m.Object),
                   },
-                  Right = VisitAndReturn(m.Arguments[0])
+                  Right = VisitAndReturnExpr(m.Arguments[0])
                 }.Normalize()
               }
             }.Normalize();
@@ -366,12 +415,12 @@ namespace Innovator.Client.Queryable
             {
               Left = new IsOperator()
               {
-                Left = VisitAndReturn(m.Arguments[0]),
+                Left = VisitAndReturnExpr(m.Arguments[0]),
                 Right = IsOperand.Null
               }.Normalize(),
               Right = new EqualsOperator()
               {
-                Left = VisitAndReturn(m.Arguments[0]),
+                Left = VisitAndReturnExpr(m.Arguments[0]),
                 Right = new StringLiteral("")
               }
             };
@@ -381,9 +430,9 @@ namespace Innovator.Client.Queryable
             {
               _curr = new QueryModel.Functions.Substring_One()
               {
-                String = VisitAndReturn(m.Object),
+                String = VisitAndReturnExpr(m.Object),
                 Start = new IntegerLiteral(1),
-                Length = VisitAndReturn(m.Arguments[0])
+                Length = VisitAndReturnExpr(m.Arguments[0])
               };
             }
             else if (m.Arguments.Count == 2)
@@ -392,19 +441,19 @@ namespace Innovator.Client.Queryable
               {
                 Left = new QueryModel.Functions.Substring_One()
                 {
-                  String = VisitAndReturn(m.Object),
+                  String = VisitAndReturnExpr(m.Object),
                   Start = new IntegerLiteral(1),
-                  Length = VisitAndReturn(m.Arguments[0])
+                  Length = VisitAndReturnExpr(m.Arguments[0])
                 },
                 Right = new QueryModel.Functions.Substring_One()
                 {
-                  String = VisitAndReturn(m.Object),
+                  String = VisitAndReturnExpr(m.Object),
                   Start = new AdditionOperator()
                   {
                     Left = new AdditionOperator()
                     {
-                      Left = VisitAndReturn(m.Arguments[0]),
-                      Right = VisitAndReturn(m.Arguments[1]),
+                      Left = VisitAndReturnExpr(m.Arguments[0]),
+                      Right = VisitAndReturnExpr(m.Arguments[1]),
                     }.Normalize(),
                     Right = new IntegerLiteral(1)
                   }.Normalize(),
@@ -414,11 +463,11 @@ namespace Innovator.Client.Queryable
                     {
                       Left = new QueryModel.Functions.Length()
                       {
-                        String = VisitAndReturn(m.Object)
+                        String = VisitAndReturnExpr(m.Object)
                       },
-                      Right = VisitAndReturn(m.Arguments[0])
+                      Right = VisitAndReturnExpr(m.Arguments[0])
                     }.Normalize(),
-                    Right = VisitAndReturn(m.Arguments[1])
+                    Right = VisitAndReturnExpr(m.Arguments[1])
                   }.Normalize()
                 }
               }.Normalize();
@@ -427,47 +476,49 @@ namespace Innovator.Client.Queryable
           case "Replace":
             _curr = new QueryModel.Functions.Replace()
             {
-              String = VisitAndReturn(m.Object),
-              Find = VisitAndReturn(m.Arguments[0]),
-              Substitute = VisitAndReturn(m.Arguments[1]),
+              String = VisitAndReturnExpr(m.Object),
+              Find = VisitAndReturnExpr(m.Arguments[0]),
+              Substitute = VisitAndReturnExpr(m.Arguments[1]),
             };
             return m;
           case "Substring":
             if (m.Arguments.Count == 1)
-              _curr = QueryModel.Functions.Substring_One.FromZeroBased(VisitAndReturn(m.Object), VisitAndReturn(m.Arguments[0]));
+              _curr = QueryModel.Functions.Substring_One.FromZeroBased(VisitAndReturnExpr(m.Object), VisitAndReturnExpr(m.Arguments[0]));
             else if (m.Arguments.Count == 2)
-              _curr = QueryModel.Functions.Substring_One.FromZeroBased(VisitAndReturn(m.Object), VisitAndReturn(m.Arguments[0]), VisitAndReturn(m.Arguments[1]));
+              _curr = QueryModel.Functions.Substring_One.FromZeroBased(VisitAndReturnExpr(m.Object), VisitAndReturnExpr(m.Arguments[0]), VisitAndReturnExpr(m.Arguments[1]));
             return m;
           case "ToLower":
             _curr = new QueryModel.Functions.ToLower()
             {
-              String = VisitAndReturn(m.Object),
+              String = VisitAndReturnExpr(m.Object),
             };
             return m;
           case "ToUpper":
             _curr = new QueryModel.Functions.ToUpper()
             {
-              String = VisitAndReturn(m.Object),
+              String = VisitAndReturnExpr(m.Object),
             };
             return m;
           case "Trim":
             _curr = new QueryModel.Functions.Trim()
             {
-              String = VisitAndReturn(m.Object),
+              String = VisitAndReturnExpr(m.Object),
             };
             return m;
           case "TrimEnd":
             _curr = new QueryModel.Functions.RTrim()
             {
-              String = VisitAndReturn(m.Object),
+              String = VisitAndReturnExpr(m.Object),
             };
             return m;
           case "TrimStart":
             _curr = new QueryModel.Functions.LTrim()
             {
-              String = VisitAndReturn(m.Object),
+              String = VisitAndReturnExpr(m.Object),
             };
             return m;
+          default:
+            throw new NotSupportedException();
         }
       }
       else if (m.Method.DeclaringType.FullName == "Microsoft.VisualBasic.Strings")
@@ -475,45 +526,47 @@ namespace Innovator.Client.Queryable
         switch (m.Method.Name)
         {
           case "Trim":
-            _curr = new QueryModel.Functions.Trim() { String = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Trim() { String = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "LTrim":
-            _curr = new QueryModel.Functions.LTrim() { String = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.LTrim() { String = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "RTrim":
-            _curr = new QueryModel.Functions.RTrim() { String = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.RTrim() { String = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Len":
-            _curr = new QueryModel.Functions.Length() { String = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Length() { String = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Left":
             _curr = new QueryModel.Functions.Left()
             {
-              String = VisitAndReturn(m.Arguments[0]),
-              Length = VisitAndReturn(m.Arguments[1])
+              String = VisitAndReturnExpr(m.Arguments[0]),
+              Length = VisitAndReturnExpr(m.Arguments[1])
             };
             return m;
           case "Mid":
             _curr = new QueryModel.Functions.Substring_One()
             {
-              String = VisitAndReturn(m.Arguments[0]),
-              Start = VisitAndReturn(m.Arguments[1]),
-              Length = VisitAndReturn(m.Arguments[2])
+              String = VisitAndReturnExpr(m.Arguments[0]),
+              Start = VisitAndReturnExpr(m.Arguments[1]),
+              Length = VisitAndReturnExpr(m.Arguments[2])
             };
             return m;
           case "Right":
             _curr = new QueryModel.Functions.Right()
             {
-              String = VisitAndReturn(m.Arguments[0]),
-              Length = VisitAndReturn(m.Arguments[1])
+              String = VisitAndReturnExpr(m.Arguments[0]),
+              Length = VisitAndReturnExpr(m.Arguments[1])
             };
             return m;
           case "UCase":
-            _curr = new QueryModel.Functions.ToUpper() { String = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.ToUpper() { String = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "LCase":
-            _curr = new QueryModel.Functions.ToLower() { String = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.ToLower() { String = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
+          default:
+            throw new NotSupportedException();
         }
       }
       else if (m.Method.DeclaringType == typeof(DateTime) || m.Method.DeclaringType == typeof(DateTimeOffset))
@@ -525,16 +578,16 @@ namespace Innovator.Client.Queryable
             {
               _curr = new EqualsOperator()
               {
-                Left = VisitAndReturn(m.Arguments[0]),
-                Right = VisitAndReturn(m.Arguments[1]),
+                Left = VisitAndReturnExpr(m.Arguments[0]),
+                Right = VisitAndReturnExpr(m.Arguments[1]),
               }.Normalize();
             }
             else
             {
               _curr = new EqualsOperator()
               {
-                Left = VisitAndReturn(m.Object),
-                Right = VisitAndReturn(m.Arguments[0]),
+                Left = VisitAndReturnExpr(m.Object),
+                Right = VisitAndReturnExpr(m.Arguments[0]),
               }.Normalize();
             }
             return m;
@@ -545,7 +598,7 @@ namespace Innovator.Client.Queryable
               {
                 _curr = new QueryModel.Functions.AddDays()
                 {
-                  Expression = VisitAndReturn(m.Object),
+                  Expression = VisitAndReturnExpr(m.Object),
                   Number = new FloatLiteral(ts.TotalDays)
                 };
               }
@@ -553,7 +606,7 @@ namespace Innovator.Client.Queryable
               {
                 _curr = new QueryModel.Functions.AddHours()
                 {
-                  Expression = VisitAndReturn(m.Object),
+                  Expression = VisitAndReturnExpr(m.Object),
                   Number = new FloatLiteral(ts.TotalHours)
                 };
               }
@@ -561,7 +614,7 @@ namespace Innovator.Client.Queryable
               {
                 _curr = new QueryModel.Functions.AddMinutes()
                 {
-                  Expression = VisitAndReturn(m.Object),
+                  Expression = VisitAndReturnExpr(m.Object),
                   Number = new FloatLiteral(ts.TotalMinutes)
                 };
               }
@@ -569,7 +622,7 @@ namespace Innovator.Client.Queryable
               {
                 _curr = new QueryModel.Functions.AddSeconds()
                 {
-                  Expression = VisitAndReturn(m.Object),
+                  Expression = VisitAndReturnExpr(m.Object),
                   Number = new FloatLiteral(ts.TotalSeconds)
                 };
               }
@@ -577,62 +630,64 @@ namespace Innovator.Client.Queryable
               {
                 _curr = new QueryModel.Functions.AddMilliseconds()
                 {
-                  Expression = VisitAndReturn(m.Object),
+                  Expression = VisitAndReturnExpr(m.Object),
                   Number = new FloatLiteral(ts.TotalMilliseconds)
                 };
               }
               return m;
             }
-            break;
+            throw new NotSupportedException();
           case "AddDays":
             _curr = new QueryModel.Functions.AddDays()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
           case "AddHours":
             _curr = new QueryModel.Functions.AddHours()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
           case "AddMilliseconds":
             _curr = new QueryModel.Functions.AddMilliseconds()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
           case "AddMinutes":
             _curr = new QueryModel.Functions.AddMinutes()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
           case "AddMonths":
             _curr = new QueryModel.Functions.AddMonths()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
           case "AddSeconds":
             _curr = new QueryModel.Functions.AddSeconds()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
           case "AddYears":
             _curr = new QueryModel.Functions.AddYears()
             {
-              Expression = VisitAndReturn(m.Object),
-              Number = VisitAndReturn(m.Arguments[0])
+              Expression = VisitAndReturnExpr(m.Object),
+              Number = VisitAndReturnExpr(m.Arguments[0])
             };
             return m;
+          default:
+            throw new NotSupportedException();
         }
       }
       else if (m.Method.DeclaringType.FullName == "Microsoft.VisualBasic.DateAndTime")
@@ -640,22 +695,22 @@ namespace Innovator.Client.Queryable
         switch (m.Method.Name)
         {
           case "Year":
-            _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Month":
-            _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Day":
-            _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Hour":
-            _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Minute":
-            _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Second":
-            _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "DatePart":
             if (m.Arguments[0] is ConstantExpression c)
@@ -663,26 +718,26 @@ namespace Innovator.Client.Queryable
               switch ((int)c.Value)
               {
                 case 0:
-                  _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
                   return m;
                 case 2:
-                  _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
                   return m;
                 case 4:
-                  _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
                   return m;
                 case 7:
-                  _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
                   return m;
                 case 8:
-                  _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
                   return m;
                 case 9:
-                  _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturn(m.Arguments[0]) };
+                  _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturnExpr(m.Arguments[0]) };
                   return m;
               }
             }
-            break;
+            throw new NotSupportedException();
           case "DateDiff":
             if (m.Arguments[0] is ConstantExpression c1)
             {
@@ -691,48 +746,50 @@ namespace Innovator.Client.Queryable
                 case 0:
                   _curr = new QueryModel.Functions.DiffYears()
                   {
-                    StartExpression = VisitAndReturn(m.Arguments[0]),
-                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                    StartExpression = VisitAndReturnExpr(m.Arguments[0]),
+                    EndExpression = VisitAndReturnExpr(m.Arguments[1]),
                   };
                   return m;
                 case 2:
                   _curr = new QueryModel.Functions.DiffMonths()
                   {
-                    StartExpression = VisitAndReturn(m.Arguments[0]),
-                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                    StartExpression = VisitAndReturnExpr(m.Arguments[0]),
+                    EndExpression = VisitAndReturnExpr(m.Arguments[1]),
                   };
                   return m;
                 case 4:
                   _curr = new QueryModel.Functions.DiffDays()
                   {
-                    StartExpression = VisitAndReturn(m.Arguments[0]),
-                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                    StartExpression = VisitAndReturnExpr(m.Arguments[0]),
+                    EndExpression = VisitAndReturnExpr(m.Arguments[1]),
                   };
                   return m;
                 case 7:
                   _curr = new QueryModel.Functions.DiffHours()
                   {
-                    StartExpression = VisitAndReturn(m.Arguments[0]),
-                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                    StartExpression = VisitAndReturnExpr(m.Arguments[0]),
+                    EndExpression = VisitAndReturnExpr(m.Arguments[1]),
                   };
                   return m;
                 case 8:
                   _curr = new QueryModel.Functions.DiffMinutes()
                   {
-                    StartExpression = VisitAndReturn(m.Arguments[0]),
-                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                    StartExpression = VisitAndReturnExpr(m.Arguments[0]),
+                    EndExpression = VisitAndReturnExpr(m.Arguments[1]),
                   };
                   return m;
                 case 9:
                   _curr = new QueryModel.Functions.DiffSeconds()
                   {
-                    StartExpression = VisitAndReturn(m.Arguments[0]),
-                    EndExpression = VisitAndReturn(m.Arguments[1]),
+                    StartExpression = VisitAndReturnExpr(m.Arguments[0]),
+                    EndExpression = VisitAndReturnExpr(m.Arguments[1]),
                   };
                   return m;
               }
             }
-            break;
+            throw new NotSupportedException();
+          default:
+            throw new NotSupportedException();
         }
       }
       else if (m.Method.DeclaringType == typeof(Guid))
@@ -742,6 +799,8 @@ namespace Innovator.Client.Queryable
           case "NewGuid":
             _curr = new QueryModel.Functions.NewGuid();
             return m;
+          default:
+            throw new NotSupportedException();
         }
       }
       else if (m.Method.DeclaringType == typeof(Decimal))
@@ -749,29 +808,31 @@ namespace Innovator.Client.Queryable
         switch (m.Method.Name)
         {
           case "Ceiling":
-            _curr = new QueryModel.Functions.Ceiling() { Value = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Ceiling() { Value = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Floor":
-            _curr = new QueryModel.Functions.Floor() { Value = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Floor() { Value = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Round":
             if (m.Arguments.Count > 1 && m.Arguments[1].Type == typeof(int))
             {
               _curr = new QueryModel.Functions.Round()
               {
-                Value = VisitAndReturn(m.Arguments[0]),
-                Digits = VisitAndReturn(m.Arguments[1])
+                Value = VisitAndReturnExpr(m.Arguments[0]),
+                Digits = VisitAndReturnExpr(m.Arguments[1])
               };
             }
             else
             {
               _curr = new QueryModel.Functions.Round()
               {
-                Value = VisitAndReturn(m.Arguments[0]),
+                Value = VisitAndReturnExpr(m.Arguments[0]),
                 Digits = new IntegerLiteral(0)
               };
             }
             return m;
+          default:
+            throw new NotSupportedException();
         }
       }
       else if (m.Method.DeclaringType == typeof(Math))
@@ -779,28 +840,28 @@ namespace Innovator.Client.Queryable
         switch (m.Method.Name)
         {
           case "Abs":
-            _curr = new QueryModel.Functions.Abs() { Value = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Abs() { Value = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Ceiling":
-            _curr = new QueryModel.Functions.Ceiling() { Value = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Ceiling() { Value = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Floor":
-            _curr = new QueryModel.Functions.Floor() { Value = VisitAndReturn(m.Arguments[0]) };
+            _curr = new QueryModel.Functions.Floor() { Value = VisitAndReturnExpr(m.Arguments[0]) };
             return m;
           case "Round":
             if (m.Arguments.Count > 1 && m.Arguments[1].Type == typeof(int))
             {
               _curr = new QueryModel.Functions.Round()
               {
-                Value = VisitAndReturn(m.Arguments[0]),
-                Digits = VisitAndReturn(m.Arguments[1])
+                Value = VisitAndReturnExpr(m.Arguments[0]),
+                Digits = VisitAndReturnExpr(m.Arguments[1])
               };
             }
             else
             {
               _curr = new QueryModel.Functions.Round()
               {
-                Value = VisitAndReturn(m.Arguments[0]),
+                Value = VisitAndReturnExpr(m.Arguments[0]),
                 Digits = new IntegerLiteral(0)
               };
             }
@@ -808,28 +869,33 @@ namespace Innovator.Client.Queryable
           case "Power":
             _curr = new QueryModel.Functions.Power()
             {
-              Value = VisitAndReturn(m.Arguments[0]),
-              Exponent = VisitAndReturn(m.Arguments[1])
+              Value = VisitAndReturnExpr(m.Arguments[0]),
+              Exponent = VisitAndReturnExpr(m.Arguments[1])
             };
             return m;
           case "Truncate":
             _curr = new QueryModel.Functions.Truncate()
             {
-              Value = VisitAndReturn(m.Arguments[0]),
+              Value = VisitAndReturnExpr(m.Arguments[0]),
               Digits = new IntegerLiteral(0)
             };
             return m;
+          default:
+            throw new NotSupportedException();
         }
       }
-      else if (m.Method.DeclaringType == typeof(System.Text.RegularExpressions.Regex)
-        && m.Method.Name == "IsMatch" && m.Arguments[1] is ConstantExpression c && c.Value is string str)
+      else if (m.Method.DeclaringType == typeof(System.Text.RegularExpressions.Regex))
       {
-        _curr = new LikeOperator()
+        if (m.Method.Name == "IsMatch" && m.Arguments[1] is ConstantExpression c && c.Value is string str)
         {
-          Left = VisitAndReturn(m.Arguments[0]),
-          Right = RegexParser.Parse(str)
-        };
-        return m;
+          _curr = new LikeOperator()
+          {
+            Left = VisitAndReturnExpr(m.Arguments[0]),
+            Right = RegexParser.Parse(str)
+          };
+          return m;
+        }
+        throw new NotSupportedException();
       }
 
       return base.VisitMethodCall(m);
@@ -850,32 +916,32 @@ namespace Innovator.Client.Queryable
           case "Date":
             _curr = new QueryModel.Functions.TruncateTime()
             {
-              Expression = VisitAndReturn(m.Expression)
+              Expression = VisitAndReturnExpr(m.Expression)
             };
             return m;
           case "Day":
-            _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Day() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "DayOfYear":
-            _curr = new QueryModel.Functions.DayOfYear() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.DayOfYear() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "Hour":
-            _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Hour() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "Millisecond":
-            _curr = new QueryModel.Functions.Millisecond() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Millisecond() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "Minute":
-            _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Minute() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "Month":
-            _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Month() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "Second":
-            _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Second() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
           case "Year":
-            _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturn(m.Expression) };
+            _curr = new QueryModel.Functions.Year() { Expression = VisitAndReturnExpr(m.Expression) };
             return m;
         }
       }
@@ -895,7 +961,7 @@ namespace Innovator.Client.Queryable
           case "Length":
             _curr = new QueryModel.Functions.Length()
             {
-              String = VisitAndReturn(m.Expression)
+              String = VisitAndReturnExpr(m.Expression)
             };
             return m;
         }
@@ -910,36 +976,36 @@ namespace Innovator.Client.Queryable
           case "Days":
             _curr = new QueryModel.Functions.DiffDays()
             {
-              EndExpression = VisitAndReturn(binEx.Left),
-              StartExpression = VisitAndReturn(binEx.Right),
+              EndExpression = VisitAndReturnExpr(binEx.Left),
+              StartExpression = VisitAndReturnExpr(binEx.Right),
             };
             return m;
           case "TotalHours":
             _curr = new QueryModel.Functions.DiffHours()
             {
-              EndExpression = VisitAndReturn(binEx.Left),
-              StartExpression = VisitAndReturn(binEx.Right),
+              EndExpression = VisitAndReturnExpr(binEx.Left),
+              StartExpression = VisitAndReturnExpr(binEx.Right),
             };
             return m;
           case "TotalMinutes":
             _curr = new QueryModel.Functions.DiffMinutes()
             {
-              EndExpression = VisitAndReturn(binEx.Left),
-              StartExpression = VisitAndReturn(binEx.Right),
+              EndExpression = VisitAndReturnExpr(binEx.Left),
+              StartExpression = VisitAndReturnExpr(binEx.Right),
             };
             return m;
           case "TotalSeconds":
             _curr = new QueryModel.Functions.DiffSeconds()
             {
-              EndExpression = VisitAndReturn(binEx.Left),
-              StartExpression = VisitAndReturn(binEx.Right),
+              EndExpression = VisitAndReturnExpr(binEx.Left),
+              StartExpression = VisitAndReturnExpr(binEx.Right),
             };
             return m;
           case "TotalMilliseconds":
             _curr = new QueryModel.Functions.DiffMilliseconds()
             {
-              EndExpression = VisitAndReturn(binEx.Left),
-              StartExpression = VisitAndReturn(binEx.Right),
+              EndExpression = VisitAndReturnExpr(binEx.Left),
+              StartExpression = VisitAndReturnExpr(binEx.Right),
             };
             return m;
         }
@@ -953,13 +1019,16 @@ namespace Innovator.Client.Queryable
       switch (u.NodeType)
       {
         case ExpressionType.Not:
-          _curr = new NotOperator() { Arg = VisitAndReturn(u.Operand) }.Normalize();
+          _curr = new NotOperator() { Arg = VisitAndReturnExpr(u.Operand) }.Normalize();
           break;
         case ExpressionType.Convert:
-          return base.VisitUnary(u);
+          var expr = VisitAndReturnAny(_paramStack.TrySimplify(u.Operand));
+          if (expr is PropertyReference && typeof(IReadOnlyItem).IsAssignableFrom(u.Type))
+            VisitItem(expr);
+          return u;
         case ExpressionType.Negate:
         case ExpressionType.NegateChecked:
-          _curr = new NegationOperator() { Arg = VisitAndReturn(u.Operand) }.Normalize();
+          _curr = new NegationOperator() { Arg = VisitAndReturnExpr(u.Operand) }.Normalize();
           break;
         default:
           throw new NotSupportedException($"The unary operator '{u.NodeType}' is not supported");
@@ -969,8 +1038,8 @@ namespace Innovator.Client.Queryable
 
     protected override Expression VisitBinary(BinaryExpression b)
     {
-      var left = VisitAndReturn(b.Left);
-      var right = VisitAndReturn(b.Right);
+      var left = VisitAndReturnExpr(b.Left);
+      var right = VisitAndReturnExpr(b.Right);
       switch (b.NodeType)
       {
         case ExpressionType.Add:
@@ -983,11 +1052,6 @@ namespace Innovator.Client.Queryable
           _curr = new DivisionOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.Equal:
-          if (left == null && b.Left.NodeType == ExpressionType.Parameter)
-          {
-            VisitProperty("id");
-            left = _curr;
-          }
           _curr = new EqualsOperator() { Left = left, Right = right }.Normalize();
           if (right is NullLiteral)
             _curr = new IsOperator() { Left = left, Right = IsOperand.Null }.Normalize();
@@ -1011,11 +1075,6 @@ namespace Innovator.Client.Queryable
           _curr = new MultiplicationOperator() { Left = left, Right = right }.Normalize();
           break;
         case ExpressionType.NotEqual:
-          if (left == null && b.Left.NodeType == ExpressionType.Parameter)
-          {
-            VisitProperty("id");
-            left = _curr;
-          }
           _curr = new NotEqualsOperator() { Left = left, Right = right }.Normalize();
           if (right is NullLiteral)
             _curr = new IsOperator() { Left = left, Right = IsOperand.NotNull }.Normalize();
@@ -1035,31 +1094,69 @@ namespace Innovator.Client.Queryable
     protected override Expression VisitConstant(ConstantExpression c)
     {
       if (c.Value == null)
+      {
         _curr = new NullLiteral();
+      }
       else if (Expressions.TryGetLiteral(c.Value, out var lit))
+      {
         _curr = lit;
+      }
       else if (c.Value is IReadOnlyItem item)
+      {
         _curr = new StringLiteral(item.Id());
-      else if (c.Value is IInnovatorQuery query)
-        _query.Type = query.ItemType;
+      }
+      else if (c.Value is IInnovatorQuery table)
+      {
+        _query = new QueryItem(_aml.LocalizationContext)
+        {
+          Type = table.ItemType
+        };
+        _curr = _query;
+      }
       else
+      {
         throw new NotSupportedException($"Cannot handle literals of type {c.Type.Name}");
+      }
+
       return c;
     }
 
-    protected override void VisitProperty(string name)
+    protected override Expression VisitParameter(ParameterExpression p)
     {
-      if (_lastProp != null)
-        _curr = _lastProp.Table.GetProperty(new[] { _lastProp.Name, name });
-      else
-        _curr = new PropertyReference(name, _query);
-      _lastProp = (PropertyReference)_curr;
+      if (_tables.TryGetValue(p, out var queryItem))
+        _curr = queryItem;
+      return base.VisitParameter(p);
     }
 
-    private IExpression VisitAndReturn(Expression expr)
+    protected override object VisitProperty(Expression table, string name)
+    {
+      var queryItem = (QueryItem)VisitAndReturnAny(table);
+      _curr = new PropertyReference(name, queryItem);
+      return _curr;
+    }
+
+    protected override void VisitItem(object property)
+    {
+      var prop = default(PropertyReference);
+      if (property is Expression expr)
+        prop = (PropertyReference)VisitAndReturnAny(expr);
+      else
+        prop = (PropertyReference)property;
+      _curr = prop.GetOrAddTable(_aml.LocalizationContext);
+    }
+
+    private IExpression VisitAndReturnExpr(Expression expr)
     {
       _curr = null;
-      _lastProp = null;
+      this.Visit(expr);
+      if (_curr is QueryItem query)
+        return new PropertyReference("id", query);
+      return (IExpression)_curr;
+    }
+
+    private object VisitAndReturnAny(Expression expr)
+    {
+      _curr = null;
       this.Visit(expr);
       return _curr;
     }

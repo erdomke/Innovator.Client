@@ -1,4 +1,4 @@
-﻿#if REFLECTION
+#if REFLECTION
 using Innovator.Client.Model;
 using System;
 using System.Linq;
@@ -10,124 +10,117 @@ namespace Innovator.Client.Queryable
   {
     protected bool VisitAmlMethod(MethodCallExpression m)
     {
-      if ((m.Method.DeclaringType == typeof(IReadOnlyItem) && m.Method.Name == "Property"))
+      if (m.Method.DeclaringType == typeof(IReadOnlyItem) && m.Method.Name == "Property")
       {
-        Visit(m.Object);
         var arg = _paramStack.TrySimplify(m.Arguments[0]);
         var propName = ((ConstantExpression)arg).Value.ToString().ToLowerInvariant();
-        VisitProperty(propName);
+        VisitProperty(m.Object, propName);
         return true;
       }
       else if (m.Method.DeclaringType == typeof(IReadOnlyElement) && m.Method.Name == "Attribute")
       {
-        Visit(m.Object);
         var arg = _paramStack.TrySimplify(m.Arguments[0]);
         var propName = ((ConstantExpression)arg).Value.ToString().ToLowerInvariant();
         if (propName != "id")
           throw new NotSupportedException(string.Format("Unsupported attribute '{0}'", propName));
-        VisitProperty("id");
+        VisitProperty(m.Object, "id");
         return true;
       }
       else if (m.Method.DeclaringType == typeof(IItemRef) && m.Method.Name == "Id")
       {
-        Visit(m.Object);
-        VisitProperty("id");
+        VisitProperty(m.Object, "id");
         return true;
       }
       else if (m.Method.DeclaringType.IsGenericType && m.Method.DeclaringType.GetGenericTypeDefinition() == typeof(IReadOnlyProperty_Item<>)
         && (m.Method.Name == "AsItem" || m.Method.Name == "AsModel"))
       {
-        Visit(m.Object);
-        VisitItem();
+        VisitItem(m.Object);
         return true;
       }
       else if (m.Method.DeclaringType == typeof(Core))
       {
-        Visit(m.Arguments.First());
         switch (m.Method.Name)
         {
           case "Classification":
-            VisitProperty("classification");
+            VisitProperty(m.Arguments[0], "classification");
             break;
           case "ConfigId":
-            VisitProperty("config_id");
+            VisitProperty(m.Arguments[0], "config_id");
             break;
           case "CreatedById":
-            VisitProperty("created_by_id");
+            VisitProperty(m.Arguments[0], "created_by_id");
             break;
           case "CreatedOn":
-            VisitProperty("created_on");
+            VisitProperty(m.Arguments[0], "created_on");
             break;
           case "Css":
-            VisitProperty("css");
+            VisitProperty(m.Arguments[0], "css");
             break;
           case "CurrentState":
-            VisitProperty("current_state");
+            VisitProperty(m.Arguments[0], "current_state");
             break;
           case "Generation":
-            VisitProperty("generation");
+            VisitProperty(m.Arguments[0], "generation");
             break;
           case "IdProp":
-            VisitProperty("id");
+            VisitProperty(m.Arguments[0], "id");
             break;
           case "IsCurrent":
-            VisitProperty("is_current");
+            VisitProperty(m.Arguments[0], "is_current");
             break;
           case "IsReleased":
-            VisitProperty("is_released");
+            VisitProperty(m.Arguments[0], "is_released");
             break;
           case "KeyedName":
-            VisitProperty("keyed_name");
+            VisitProperty(m.Arguments[0], "keyed_name");
             break;
           case "LockedById":
-            VisitProperty("locked_by_id");
+            VisitProperty(m.Arguments[0], "locked_by_id");
             break;
           case "MajorRev":
-            VisitProperty("major_rev");
+            VisitProperty(m.Arguments[0], "major_rev");
             break;
           case "ManagedById":
-            VisitProperty("managed_by_id");
+            VisitProperty(m.Arguments[0], "managed_by_id");
             break;
           case "MinorRev":
-            VisitProperty("minor_rev");
+            VisitProperty(m.Arguments[0], "minor_rev");
             break;
           case "ModifiedById":
-            VisitProperty("modified_by_id");
+            VisitProperty(m.Arguments[0], "modified_by_id");
             break;
           case "ModifiedOn":
-            VisitProperty("modified_on");
+            VisitProperty(m.Arguments[0], "modified_on");
             break;
           case "NewVersion":
-            VisitProperty("new_version");
+            VisitProperty(m.Arguments[0], "new_version");
             break;
           case "NotLockable":
-            VisitProperty("not_lockable");
+            VisitProperty(m.Arguments[0], "not_lockable");
             break;
           case "OwnedById":
-            VisitProperty("owned_by_id");
+            VisitProperty(m.Arguments[0], "owned_by_id");
             break;
           case "PermissionId":
-            VisitProperty("permission_id");
+            VisitProperty(m.Arguments[0], "permission_id");
             break;
           case "RelatedId":
-            VisitProperty("related_id");
+            VisitProperty(m.Arguments[0], "related_id");
             break;
           case "RelatedItem":
-            VisitProperty("related_id");
-            VisitItem();
+            VisitItem(VisitProperty(m.Arguments[0], "related_id"));
             break;
           case "State":
-            VisitProperty("state");
+            VisitProperty(m.Arguments[0], "state");
             break;
           case "SourceId":
-            VisitProperty("source_id");
+            VisitProperty(m.Arguments[0], "source_id");
             break;
           case "SourceItem":
-            VisitProperty("source_id");
-            VisitItem();
+            VisitItem(VisitProperty(m.Arguments[0], "source_id"));
             break;
           case "TeamId":
-            VisitProperty("team_id");
+            VisitProperty(m.Arguments[0], "team_id");
             break;
           default:
             throw new NotSupportedException();
@@ -139,7 +132,7 @@ namespace Innovator.Client.Queryable
         var nameAttr = m.Method.GetCustomAttributes(false).OfType<ArasNameAttribute>().FirstOrDefault();
         if (nameAttr != null)
         {
-          VisitProperty(nameAttr.Name);
+          VisitProperty(m.Object ?? m.Arguments[0], nameAttr.Name);
           return true;
         }
       }
@@ -147,8 +140,17 @@ namespace Innovator.Client.Queryable
       return false;
     }
 
-    protected virtual void VisitProperty(string name) { }
-    protected virtual void VisitItem() { }
+    protected virtual object VisitProperty(Expression table, string name)
+    {
+      Visit(table);
+      return null;
+    }
+
+    protected virtual void VisitItem(object property)
+    {
+      if (property is Expression expr)
+        Visit(expr);
+    }
   }
 }
 #endif

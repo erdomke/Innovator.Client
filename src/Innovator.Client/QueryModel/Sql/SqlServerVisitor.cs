@@ -11,6 +11,7 @@ namespace Innovator.Client.QueryModel
   {
     private readonly Stack<IOperator> _operators = new Stack<IOperator>();
     private bool _hasFromOrSelect = false;
+    private readonly Dictionary<string, QueryItem> _aliases = new Dictionary<string, QueryItem>();
 
     public SqlRenderOption RenderOption { get; set; }
 
@@ -102,18 +103,35 @@ namespace Innovator.Client.QueryModel
 
     protected void TryFillName(QueryItem item)
     {
-      if (string.IsNullOrEmpty(item.Type) && !string.IsNullOrEmpty(item.TypeProvider?.Table.Type))
+      item.TryFillName(Settings);
+
+      if (string.IsNullOrEmpty(item.Alias))
       {
-        var props = Settings.GetProperties(item.TypeProvider.Table.Type);
-        if (props != null && props.TryGetValue(item.TypeProvider.Name, out var propDefn))
+        if (!string.IsNullOrEmpty(item.Type))
         {
-          item.Type = propDefn.DataSource().KeyedName().Value;
+          var alias = item.Type;
+          var i = 1;
+          while (_aliases.TryGetValue(alias, out var table) && !object.ReferenceEquals(table, item))
+            alias = item.Type + (++i).ToString();
+          _aliases[alias] = item;
+          if (i > 1)
+            item.Alias = alias;
         }
+      }
+      else if (_aliases.TryGetValue(item.Alias, out var table)
+        && !object.ReferenceEquals(table, item))
+      {
+        throw new InvalidOperationException("Two tables cannot have the same alias in a given query");
+      }
+      else
+      {
+        _aliases[item.Alias] = item;
       }
     }
 
     protected virtual void WriteAlias(QueryItem item)
     {
+      TryFillName(item);
       if (!string.IsNullOrEmpty(item.Alias) || !string.IsNullOrEmpty(item.Type))
       {
         if (string.IsNullOrEmpty(item.Alias))

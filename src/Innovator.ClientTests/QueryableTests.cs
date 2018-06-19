@@ -1,16 +1,15 @@
 #if NETFULL && !NET35
+using Innovator.Client.Model;
+using Innovator.Client.QueryModel;
+using Innovator.Client.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ODataToolkit;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Innovator.Client.Queryable;
-using System.Collections;
-using Innovator.Client.Model;
-using ODataToolkit;
-using Innovator.Client.QueryModel;
 
-namespace Innovator.Client.Tests
+namespace Innovator.Client.Queryable.Tests
 {
   [TestClass()]
   public class QueryableTests
@@ -210,6 +209,13 @@ namespace Innovator.Client.Tests
     {
       var aml = TestAml(q => q.Take(5));
       Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" maxRecords=\"5\" />", aml);
+    }
+
+    [TestMethod()]
+    public void Queryable_SkipTake()
+    {
+      var aml = TestAml(q => q.Skip(5).Take(5));
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\" page=\"2\" pagesize=\"5\" />", aml);
     }
 
     [TestMethod()]
@@ -415,6 +421,13 @@ namespace Innovator.Client.Tests
     {
       var model = QueryItem.FromLinq("Part", q => q.Where(i => System.Text.RegularExpressions.Regex.IsMatch(i.Property("item_number").Value, @"\d{3}-\d{4}")));
       Assert.IsTrue(model.Where is LikeOperator op && op.Right is PatternList);
+    }
+
+    [TestMethod()]
+    public void Queryable_Relationships()
+    {
+      var aml = TestAml(q => q.Where(i => i.Relationships("Property").Any(r => r.Property("name").Value == "ebs_orgs")));
+      Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><Relationships><Item type=\"Property\" action=\"get\"><name>ebs_orgs</name></Item></Relationships></Item>", aml);
     }
   }
 }

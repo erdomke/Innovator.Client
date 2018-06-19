@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SERIALIZATION;DBDATA;XMLLEGACY;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;TIMEZONEINFO;DATEFORMATLIST</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SERIALIZATION;DBDATA;XMLLEGACY;FILEIO;SECURECRED;SECURESTRING;PROTECTEDDATA;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;ENVIRONMENT;TIMEZONEINFO;DATEFORMATLIST</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;DATEFORMATLIST</DefineConstants>
+    <DefineConstants>TRACE;SERIALIZATION;DYNAMIC;DBDATA;XMLLEGACY;TIMEZONEINFO;FILEIO;SECURECRED;SECURESTRING;PROTECTEDDATA;REFLECTION;TASKS;MD5;SLEEP;HTTPSYNC;DATEFORMATLIST</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -607,6 +607,7 @@
     <Compile Include="QueryModel\Pattern\PatternSimplifyVisitor.cs" />
     <Compile Include="QueryModel\Pattern\RegexParser.cs" />
     <Compile Include="QueryModel\Sql\OracleSqlVisitor.cs" />
+    <Compile Include="QueryModel\Version\LastVersionOfId.cs" />
     <Compile Include="QueryModel\Version\VersionCriteria.cs" />
     <Compile Include="QueryModel\Version\CurrentVersion.cs" />
     <Compile Include="QueryModel\Version\IVersionCriteria.cs" />

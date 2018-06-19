@@ -60,14 +60,25 @@ This will install the package in your Visual Studio solution
 
 ## .Net
 
-Innovator.Client has builds for .Net 3.5+ and .Net Standard 1.1+.  It is worth noting that the .Net 
-Standard builds are largely untested while the full .Net builds are currently used in production
-deployments
+Innovator.Client has builds for .Net 3.5+ and .Net Standard 1.1+. In particular, there are builds
+for 
+
+- .Net 3.5
+- .Net 4.0
+- .Net 4.5
+- .Net 4.6
+- .Net Standard 1.1
+- .Net Standard 1.3
+- .Net Standard 2.0
+
+It is worth noting that the .Net Standard builds are largely untested while the full .Net builds 
+are currently used in production deployments
 
 ## Aras
 
 The IOM is not backwards-compatible.  For example, v11.0 of the IOM cannot be used with a v9.3
-Aras Innovator vault.  Innovator.Client strives to be compatible with all versions >= 9.3
+Aras Innovator vault.  Innovator.Client strives to be compatible with all versions >= 9.3.  It has
+been used in production deployments against Aras 9.3 and 11sp12.
 
 # Why a new IOM?
 
@@ -134,7 +145,7 @@ var promise = conn.ApplyAsync("MY_QUERY", true, false)
     .Done(result => {});
     
 // .Net 4
-var result = await conn.ApplyAsync("MY_QUERY", true, false).ToTask();
+var result = await conn.ApplyAsync("MY_QUERY", true, false);
 ```
 
 ## Support vault access via streams

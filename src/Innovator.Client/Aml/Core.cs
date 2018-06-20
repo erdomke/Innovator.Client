@@ -1,3 +1,5 @@
+using Innovator.Client.Model;
+
 namespace Innovator.Client
 {
   /// <summary>
@@ -108,20 +110,26 @@ namespace Innovator.Client
 
     #region "Item Properties"
     /// <summary>Retrieve the <c>classification</c> property of the item</summary>
+    [ArasName("classification")]
     public static IProperty_Text Classification(this IItem parent)
     {
       return parent.Property("classification");
     }
+
     /// <summary>Retrieve the <c>config_id</c> property of the item</summary>
+    [ArasName("config_id")]
     public static IProperty_Item<IItem> ConfigId(this IItem parent)
     {
       return parent.Property("config_id");
     }
+
     /// <summary>Retrieve the <c>created_by_id</c> property of the item</summary>
+    [ArasName("created_by_id")]
     public static IProperty_Item<Model.User> CreatedById(this IItem parent)
     {
       return parent.Property("created_by_id");
     }
+
     /// <summary>Retrieve the <c>created_on</c> property of the item</summary>
     /// <example>
     /// <code lang="C#">
@@ -132,115 +140,158 @@ namespace Innovator.Client
     /// }
     /// </code>
     /// </example>
+    [ArasName("created_on")]
     public static IProperty_Date CreatedOn(this IItem parent)
     {
       return parent.Property("created_on");
     }
+
     /// <summary>Retrieve the <c>css</c> property of the item</summary>
+    [ArasName("css")]
     public static IProperty_Text Css(this IItem parent)
     {
       return parent.Property("css");
     }
+
     /// <summary>Retrieve the <c>current_state</c> property of the item</summary>
+    [ArasName("current_state")]
     public static IProperty_Item<Model.LifeCycleState> CurrentState(this IItem parent)
     {
       return parent.Property("current_state");
     }
+
     /// <summary>Retrieve the <c>generation</c> property of the item</summary>
+    [ArasName("generation")]
     public static IProperty_Number Generation(this IItem parent)
     {
       return parent.Property("generation");
     }
+
     /// <summary>Retrieve the <c>id</c> property of the item</summary>
+    [ArasName("id")]
     public static IProperty_Item<IItem> IdProp(this IItem parent)
     {
       return parent.Property("id");
     }
+
     /// <summary>Retrieve the <c>is_current</c> property of the item</summary>
+    [ArasName("is_current")]
     public static IProperty_Boolean IsCurrent(this IItem parent)
     {
       return parent.Property("is_current");
     }
+
     /// <summary>Retrieve the <c>is_released</c> property of the item</summary>
+    [ArasName("is_released")]
     public static IProperty_Boolean IsReleased(this IItem parent)
     {
       return parent.Property("is_released");
     }
+
     /// <summary>Retrieve the <c>keyed_name</c> property of the item</summary>
+    [ArasName("keyed_name")]
     public static IProperty_Text KeyedName(this IItem parent)
     {
       return parent.Property("keyed_name");
     }
+
     /// <summary>Retrieve the <c>locked_by_id</c> property of the item</summary>
+    [ArasName("locked_by_id")]
     public static IProperty_Item<Model.User> LockedById(this IItem parent)
     {
       return parent.Property("locked_by_id");
     }
+
     /// <summary>Retrieve the <c>major_rev</c> property of the item</summary>
+    [ArasName("major_rev")]
     public static IProperty_Text MajorRev(this IItem parent)
     {
       return parent.Property("major_rev");
     }
+
     /// <summary>Retrieve the <c>managed_by_id</c> property of the item</summary>
+    [ArasName("managed_by_id")]
     public static IProperty_Item<Model.Identity> ManagedById(this IItem parent)
     {
       return parent.Property("managed_by_id");
     }
+
     /// <summary>Retrieve the <c>minor_rev</c> property of the item</summary>
+    [ArasName("minor_rev")]
     public static IProperty_Text MinorRev(this IItem parent)
     {
       return parent.Property("minor_rev");
     }
+
     /// <summary>Retrieve the <c>modified_by_id</c> property of the item</summary>
+    [ArasName("modified_by_id")]
     public static IProperty_Item<Model.User> ModifiedById(this IItem parent)
     {
       return parent.Property("modified_by_id");
     }
+
     /// <summary>Retrieve the <c>modified_on</c> property of the item</summary>
+    [ArasName("modified_on")]
     public static IProperty_Date ModifiedOn(this IItem parent)
     {
       return parent.Property("modified_on");
     }
+
     /// <summary>Retrieve the <c>new_version</c> property of the item</summary>
+    [ArasName("new_version")]
     public static IProperty_Boolean NewVersion(this IItem parent)
     {
       return parent.Property("new_version");
     }
+
     /// <summary>Retrieve the <c>not_lockable</c> property of the item</summary>
+    [ArasName("not_lockable")]
     public static IProperty_Boolean NotLockable(this IItem parent)
     {
       return parent.Property("not_lockable");
     }
+
     /// <summary>Retrieve the <c>owned_by_id</c> property of the item</summary>
+    [ArasName("owned_by_id")]
     public static IProperty_Item<Model.Identity> OwnedById(this IItem parent)
     {
       return parent.Property("owned_by_id");
     }
+
     /// <summary>Retrieve the <c>permission_id</c> property of the item</summary>
+    [ArasName("permission_id")]
     public static IProperty_Item<Model.Permission> PermissionId(this IItem parent)
     {
       return parent.Property("permission_id");
     }
+
     /// <summary>Retrieve the <c>related_id</c> property of the item</summary>
+    [ArasName("related_id")]
     public static IProperty_Item<IItem> RelatedId(this IItem parent)
     {
       return parent.Property("related_id");
     }
+
     /// <summary>Retrieve the value of the <c>related_id</c> property as an Item</summary>
     public static IItem RelatedItem(this IItem parent)
     {
       return parent.Property("related_id").AsItem();
     }
+
     /// <summary>Retrieve the <c>state</c> property of the item</summary>
+    [ArasName("state")]
     public static IProperty_Text State(this IItem parent)
     {
       return parent.Property("state");
     }
+
     /// <summary>Retrieve the <c>source_id</c> property of the item</summary>
+    [ArasName("source_id")]
     public static IProperty_Item<IItem> SourceId(this IItem parent)
     {
       return parent.Property("source_id");
     }
+
     /// <summary>Retrieve the value of the <c>source_id</c> property as an Item</summary>
     public static IItem SourceItem(this IItem parent)
     {
@@ -251,7 +302,9 @@ namespace Innovator.Client
       }
       return parent.Property("source_id").AsItem();
     }
+
     /// <summary>Retrieve the <c>team_id</c> property of the item</summary>
+    [ArasName("team_id")]
     public static IProperty_Item<IItem> TeamId(this IItem parent)
     {
       return parent.Property("team_id");
@@ -361,20 +414,26 @@ namespace Innovator.Client
 
     #region "Read Only Item Properties"
     /// <summary>Retrieve the <c>classification</c> property of the item</summary>
+    [ArasName("classification")]
     public static IReadOnlyProperty_Text Classification(this IReadOnlyItem parent)
     {
       return parent.Property("classification");
     }
+
     /// <summary>Retrieve the <c>config_id</c> property of the item</summary>
+    [ArasName("config_id")]
     public static IReadOnlyProperty_Item<IReadOnlyItem> ConfigId(this IReadOnlyItem parent)
     {
       return parent.Property("config_id");
     }
+
     /// <summary>Retrieve the <c>created_by_id</c> property of the item</summary>
+    [ArasName("created_by_id")]
     public static IReadOnlyProperty_Item<Model.User> CreatedById(this IReadOnlyItem parent)
     {
       return parent.Property("created_by_id");
     }
+
     /// <summary>Retrieve the <c>created_on</c> property of the item</summary>
     /// <example>
     /// <code lang="C#">
@@ -385,115 +444,158 @@ namespace Innovator.Client
     /// }
     /// </code>
     /// </example>
+    [ArasName("created_on")]
     public static IReadOnlyProperty_Date CreatedOn(this IReadOnlyItem parent)
     {
       return parent.Property("created_on");
     }
+
     /// <summary>Retrieve the <c>css</c> property of the item</summary>
+    [ArasName("css")]
     public static IReadOnlyProperty_Text Css(this IReadOnlyItem parent)
     {
       return parent.Property("css");
     }
+
     /// <summary>Retrieve the <c>current_state</c> property of the item</summary>
+    [ArasName("current_state")]
     public static IReadOnlyProperty_Item<Model.LifeCycleState> CurrentState(this IReadOnlyItem parent)
     {
       return parent.Property("current_state");
     }
+
     /// <summary>Retrieve the <c>generation</c> property of the item</summary>
+    [ArasName("generation")]
     public static IReadOnlyProperty_Number Generation(this IReadOnlyItem parent)
     {
       return parent.Property("generation");
     }
+
     /// <summary>Retrieve the <c>id</c> property of the item</summary>
+    [ArasName("id")]
     public static IReadOnlyProperty_Item<IReadOnlyItem> IdProp(this IReadOnlyItem parent)
     {
       return parent.Property("id");
     }
+
     /// <summary>Retrieve the <c>is_current</c> property of the item</summary>
+    [ArasName("is_current")]
     public static IReadOnlyProperty_Boolean IsCurrent(this IReadOnlyItem parent)
     {
       return parent.Property("is_current");
     }
+
     /// <summary>Retrieve the <c>is_released</c> property of the item</summary>
+    [ArasName("is_released")]
     public static IReadOnlyProperty_Boolean IsReleased(this IReadOnlyItem parent)
     {
       return parent.Property("is_released");
     }
+
     /// <summary>Retrieve the <c>keyed_name</c> property of the item</summary>
+    [ArasName("keyed_name")]
     public static IReadOnlyProperty_Text KeyedName(this IReadOnlyItem parent)
     {
       return parent.Property("keyed_name");
     }
+
     /// <summary>Retrieve the <c>locked_by_id</c> property of the item</summary>
+    [ArasName("locked_by_id")]
     public static IReadOnlyProperty_Item<Model.User> LockedById(this IReadOnlyItem parent)
     {
       return parent.Property("locked_by_id");
     }
+
     /// <summary>Retrieve the <c>major_rev</c> property of the item</summary>
+    [ArasName("major_rev")]
     public static IReadOnlyProperty_Text MajorRev(this IReadOnlyItem parent)
     {
       return parent.Property("major_rev");
     }
+
     /// <summary>Retrieve the <c>managed_by_id</c> property of the item</summary>
+    [ArasName("managed_by_id")]
     public static IReadOnlyProperty_Item<Model.Identity> ManagedById(this IReadOnlyItem parent)
     {
       return parent.Property("managed_by_id");
     }
+
     /// <summary>Retrieve the <c>minor_rev</c> property of the item</summary>
+    [ArasName("minor_rev")]
     public static IReadOnlyProperty_Text MinorRev(this IReadOnlyItem parent)
     {
       return parent.Property("minor_rev");
     }
+
     /// <summary>Retrieve the <c>modified_by_id</c> property of the item</summary>
+    [ArasName("modified_by_id")]
     public static IReadOnlyProperty_Item<Model.User> ModifiedById(this IReadOnlyItem parent)
     {
       return parent.Property("modified_by_id");
     }
+
     /// <summary>Retrieve the <c>modified_on</c> property of the item</summary>
+    [ArasName("modified_on")]
     public static IReadOnlyProperty_Date ModifiedOn(this IReadOnlyItem parent)
     {
       return parent.Property("modified_on");
     }
+
     /// <summary>Retrieve the <c>new_version</c> property of the item</summary>
+    [ArasName("new_version")]
     public static IReadOnlyProperty_Boolean NewVersion(this IReadOnlyItem parent)
     {
       return parent.Property("new_version");
     }
+
     /// <summary>Retrieve the <c>not_lockable</c> property of the item</summary>
+    [ArasName("not_lockable")]
     public static IReadOnlyProperty_Boolean NotLockable(this IReadOnlyItem parent)
     {
       return parent.Property("not_lockable");
     }
+
     /// <summary>Retrieve the <c>owned_by_id</c> property of the item</summary>
+    [ArasName("owned_by_id")]
     public static IReadOnlyProperty_Item<Model.Identity> OwnedById(this IReadOnlyItem parent)
     {
       return parent.Property("owned_by_id");
     }
+
     /// <summary>Retrieve the <c>permission_id</c> property of the item</summary>
+    [ArasName("permission_id")]
     public static IReadOnlyProperty_Item<Model.Permission> PermissionId(this IReadOnlyItem parent)
     {
       return parent.Property("permission_id");
     }
+
     /// <summary>Retrieve the <c>related_id</c> property of the item</summary>
+    [ArasName("related_id")]
     public static IReadOnlyProperty_Item<IReadOnlyItem> RelatedId(this IReadOnlyItem parent)
     {
       return parent.Property("related_id");
     }
+
     /// <summary>Retrieve the value of the <c>related_id</c> property as an Item</summary>
     public static IReadOnlyItem RelatedItem(this IReadOnlyItem parent)
     {
       return parent.Property("related_id").AsItem();
     }
+
     /// <summary>Retrieve the <c>state</c> property of the item</summary>
+    [ArasName("state")]
     public static IReadOnlyProperty_Text State(this IReadOnlyItem parent)
     {
       return parent.Property("state");
     }
+
     /// <summary>Retrieve the <c>source_id</c> property of the item</summary>
+    [ArasName("source_id")]
     public static IReadOnlyProperty_Item<IReadOnlyItem> SourceId(this IReadOnlyItem parent)
     {
       return parent.Property("source_id");
     }
+
     /// <summary>Retrieve the value of the <c>source_id</c> property as an Item</summary>
     public static IReadOnlyItem SourceItem(this IReadOnlyItem parent)
     {
@@ -504,7 +606,9 @@ namespace Innovator.Client
       }
       return parent.Property("source_id").AsItem();
     }
+
     /// <summary>Retrieve the <c>team_id</c> property of the item</summary>
+    [ArasName("team_id")]
     public static IReadOnlyProperty_Item<IReadOnlyItem> TeamId(this IReadOnlyItem parent)
     {
       return parent.Property("team_id");

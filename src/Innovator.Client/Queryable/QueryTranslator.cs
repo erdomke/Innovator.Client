@@ -18,6 +18,8 @@ namespace Innovator.Client.Queryable
     private QueryItem _query;
     private readonly Dictionary<ParameterExpression, QueryItem> _tables
       = new Dictionary<ParameterExpression, QueryItem>();
+    private Func<IReadOnlyResult, object> _resultAggregator;
+    private Func<IEnumerable, Type, object> _setAggregator;
 
     public QueryTranslator(ElementFactory factory)
     {
@@ -29,10 +31,13 @@ namespace Innovator.Client.Queryable
     /// </summary>
     internal AmlQuery Translate(Expression expression)
     {
-      _query = new QueryItem(_aml.LocalizationContext);
       this.Visit(expression);
       Normalize(_query);
-      return new AmlQuery(_query, _aml, _projector);
+      return new AmlQuery(_query, _aml, _projector)
+      {
+        ResultAggregator = _resultAggregator,
+        SetAggregator = _setAggregator
+      };
     }
 
     private void Normalize(QueryItem query)
@@ -69,6 +74,14 @@ namespace Innovator.Client.Queryable
         e = ((UnaryExpression)e).Operand;
 
       return e;
+    }
+
+    private void AppendWhereClause(QueryItem query, Expression e)
+    {
+      var lambda = (LambdaExpression)StripQuotes(e);
+      _tables.Add(lambda.Parameters[0], query);
+      query.AddCondition(VisitAndReturnExpr(lambda.Body));
+      _tables.Remove(lambda.Parameters[0]);
     }
 
     protected override Expression VisitMethodCall(MethodCallExpression m)
@@ -113,23 +126,218 @@ namespace Innovator.Client.Queryable
             if (m.Method.Name == "Where" && m.Arguments.Count != 2)
               throw new NotSupportedException();
             if (m.Arguments.Count == 2)
-            {
-              var lambda = (LambdaExpression)StripQuotes(m.Arguments[1]);
-              if (lambda.Body.NodeType == ExpressionType.Constant && ((ConstantExpression)lambda.Body).Value is bool)
-              {
-                if (!((bool)((ConstantExpression)lambda.Body).Value))
-                {
-                  query.Where = new BooleanLiteral(false);
-                }
-              }
-              else
-              {
-                _tables.Add(lambda.Parameters[0], query);
-                query.Where = VisitAndReturnExpr(lambda.Body);
-                _tables.Remove(lambda.Parameters[0]);
-              }
-            }
+              AppendWhereClause(query, m.Arguments[1]);
             _curr = m.Method.Name == "Where" ? query : null;
+            return m;
+          case "Count":
+          case "LongCount":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+
+            if (m.Arguments.Count == 2)
+              AppendWhereClause(query, m.Arguments[1]);
+
+            if (object.ReferenceEquals(_query, query))
+            {
+              _query.Select.Clear();
+              _query.Select.Add(new SelectExpression()
+              {
+                Expression = new CountAggregate()
+                {
+                  TablePath = { _query }
+                }
+              });
+              _curr = null;
+              if (m.Method.Name == "LongCount")
+                _resultAggregator = r => (long)r.ItemMax();
+              else
+                _resultAggregator = r => r.ItemMax();
+            }
+            else
+            {
+              _curr = new CountAggregate()
+              {
+                TablePath = { query }
+              };
+            }
+            return m;
+          case "First":
+          case "FirstOrDefault":
+          case "Last":
+          case "LastOrDefault":
+          case "Single":
+          case "SingleOrDefault":
+            var name = m.Method.Name;
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+
+            if (m.Arguments.Count == 2)
+              AppendWhereClause(query, m.Arguments[1]);
+
+            if (!object.ReferenceEquals(_query, query))
+              throw new NotSupportedException();
+
+            if (m.Method.Name == "Last" && query.OrderBy.Count > 0)
+            {
+              foreach (var orderBy in query.OrderBy)
+                orderBy.Ascending = !orderBy.Ascending;
+              name = "First";
+            }
+            else if (m.Method.Name == "LastOrDefault" && query.OrderBy.Count > 0)
+            {
+              foreach (var orderBy in query.OrderBy)
+                orderBy.Ascending = !orderBy.Ascending;
+              name = "FirstOrDefault";
+            }
+
+            switch (name)
+            {
+              case "First":
+                _setAggregator = (source, type) =>
+                {
+                  var enumerator = source.GetEnumerator();
+                  if (!enumerator.MoveNext())
+                    throw new InvalidOperationException("Sequence contains no elements");
+
+                  return enumerator.Current;
+                };
+                query.Fetch = 1;
+                break;
+              case "FirstOrDefault":
+                _setAggregator = (source, type) =>
+                {
+                  var enumerator = source.GetEnumerator();
+                  if (!enumerator.MoveNext())
+                    return Utils.Default(type);
+
+                  return enumerator.Current;
+                };
+                query.Fetch = 1;
+                break;
+              case "Last":
+                _setAggregator = (source, type) =>
+                {
+                  var enumerator = source.GetEnumerator();
+                  if (!enumerator.MoveNext())
+                    throw new InvalidOperationException("Sequence contains no elements");
+
+                  var result = default(object);
+                  do
+                  {
+                    result = enumerator.Current;
+                  }
+                  while (enumerator.MoveNext());
+                  return result;
+                };
+                break;
+              case "LastOrDefault":
+                _setAggregator = (source, type) =>
+                {
+                  var enumerator = source.GetEnumerator();
+                  if (!enumerator.MoveNext())
+                    Utils.Default(type);
+
+                  var result = default(object);
+                  do
+                  {
+                    result = enumerator.Current;
+                  }
+                  while (enumerator.MoveNext());
+                  return result;
+                };
+                break;
+              case "Single":
+                _setAggregator = (source, type) =>
+                {
+                  var enumerator = source.GetEnumerator();
+                  if (!enumerator.MoveNext())
+                    throw new InvalidOperationException("Sequence contains no elements");
+
+                  var result = enumerator.Current;
+                  if (enumerator.MoveNext())
+                    throw new InvalidOperationException("Sequence contains more than one element");
+
+                  return result;
+                };
+                query.Fetch = 2;
+                break;
+              case "SingleOrDefault":
+                _setAggregator = (source, type) =>
+                {
+                  var enumerator = source.GetEnumerator();
+                  if (!enumerator.MoveNext())
+                    return Utils.Default(type);
+
+                  var result = enumerator.Current;
+                  if (enumerator.MoveNext())
+                    throw new InvalidOperationException("Sequence contains more than one element");
+
+                  return result;
+                };
+                query.Fetch = 2;
+                break;
+            }
+            _curr = null;
+            return m;
+          case "DefaultIfEmpty":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+
+            if (!object.ReferenceEquals(_query, query))
+              throw new NotSupportedException();
+
+            _setAggregator = (source, type) =>
+            {
+              var enumerator = source.GetEnumerator();
+              if (!enumerator.MoveNext())
+              {
+#if NET35
+                var arg = m.Arguments.Count == 2 ? m.Arguments[1] : Expression.Constant(Utils.Default(type));
+#else
+                var arg = m.Arguments.Count == 2 ? m.Arguments[1] : Expression.Default(type);
+#endif
+
+                var lambda = Expression.Lambda<Func<object>>(
+                  Expression.Convert(
+                    Expression.NewArrayInit(type, arg), typeof(object)
+                  )
+                );
+
+                return lambda.Compile()();
+              }
+              return source;
+            };
+            _curr = null;
+            return m;
+          case "ElementAt":
+          case "ElementAtOrDefault":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+
+            if (!object.ReferenceEquals(_query, query))
+              throw new NotSupportedException();
+            if (!(m.Arguments[1] is ConstantExpression constant && constant.Value is int index))
+              throw new NotSupportedException();
+
+            _setAggregator = (source, type) =>
+            {
+              var enumerator = source.GetEnumerator();
+              if (!enumerator.MoveNext())
+              {
+                if (m.Method.Name == "ElementAtOrDefault")
+                  return Utils.Default(type);
+                throw new InvalidOperationException("Sequence contains no elements");
+              }
+
+              return enumerator.Current;
+            };
+            query.Offset = index;
+            query.Fetch = 1;
+            _curr = null;
+            return m;
+          case "Reverse":
+            query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
+            if (query.OrderBy.Count < 1)
+              throw new NotSupportedException();
+            foreach (var orderBy in query.OrderBy)
+              orderBy.Ascending = !orderBy.Ascending;
+            _curr = query;
             return m;
           case "Take":
             query = (QueryItem)VisitAndReturnAny(m.Arguments[0]);
@@ -1107,11 +1315,13 @@ namespace Innovator.Client.Queryable
       }
       else if (c.Value is IInnovatorQuery table)
       {
-        _query = new QueryItem(_aml.LocalizationContext)
+        var query = new QueryItem(_aml.LocalizationContext)
         {
           Type = table.ItemType
         };
-        _curr = _query;
+        _curr = query;
+        if (_query == null)
+          _query = query;
       }
       else
       {

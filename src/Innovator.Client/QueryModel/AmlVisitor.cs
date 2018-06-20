@@ -379,6 +379,12 @@ namespace Innovator.Client.QueryModel
           && cnt.TablePath[0] == query)
       {
         _writer.WriteAttributeString("returnMode", "countOnly");
+        _writer.WriteAttributeString("select", "id");
+        if (!query.Fetch.HasValue && !query.Offset.HasValue)
+        {
+          _writer.WriteAttributeString("page", "1");
+          _writer.WriteAttributeString("pagesize", "1");
+        }
       }
       else
       {

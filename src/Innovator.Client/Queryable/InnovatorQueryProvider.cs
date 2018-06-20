@@ -14,21 +14,32 @@ namespace Innovator.Client.Queryable
   /// </summary>
   internal class InnovatorQueryProvider : QueryProvider
   {
-    private IConnection _conn;
-    private QuerySettings _settings;
-    private List<string> _includePaths = new List<string>();
+    private readonly IConnection _conn;
+    private readonly ElementFactory _factory;
+    private readonly QuerySettings _settings;
+    private readonly List<string> _includePaths = new List<string>();
+    private Action<AmlQuery> _translateCallback;
+
+    internal InnovatorQueryProvider(ElementFactory factory, Action<AmlQuery> translateCallback)
+    {
+      _factory = factory;
+      _translateCallback = translateCallback;
+    }
 
     public InnovatorQueryProvider(IConnection conn, QuerySettings settings)
     {
       _conn = conn;
+      _factory = conn.AmlContext;
       _settings = settings;
     }
 
     public override object Execute(Expression expression)
     {
       var query = Translate(expression);
-      var result = _conn.Apply(query.ToAml());
-      return ConvertResult(result, expression, query);
+      if (_conn == null)
+        return Utils.Default(expression.Type);
+      else
+        return ConvertResult(_conn.Apply(query.ToAml()), expression, query);
     }
 
     public IPromise<object> ExecuteAsync(Expression expression)
@@ -44,13 +55,33 @@ namespace Innovator.Client.Queryable
 
     private object ConvertResult(IReadOnlyResult result, Expression expression, AmlQuery query)
     {
+      if (query.ResultAggregator != null)
+        return query.ResultAggregator(result);
+
       var elementType = TypeHelper.GetElementType(expression.Type);
+      var source = default(IEnumerable);
       if (query.Projection != null)
       {
         var func = query.Projection.Compile();
-        return Activator.CreateInstance(typeof(Projector<>).MakeGenericType(elementType), result, func);
+        source = (IEnumerable)Activator.CreateInstance(typeof(Projector<>).MakeGenericType(elementType), result, func);
       }
-      return new Projector<IReadOnlyItem>(result, null);
+      else if (elementType == typeof(IReadOnlyItem))
+      {
+        source = new Projector<IReadOnlyItem>(result, null);
+      }
+      else if (elementType == typeof(IItem))
+      {
+        source = new Projector<IItem>(result, null);
+      }
+      else
+      {
+        source = (IEnumerable)Activator.CreateInstance(typeof(Projector<>).MakeGenericType(elementType), result, null);
+      }
+
+      if (query.SetAggregator != null)
+        return query.SetAggregator(source, elementType);
+
+      return source;
     }
 
     public void Include(string path)
@@ -61,7 +92,7 @@ namespace Innovator.Client.Queryable
     internal AmlQuery Translate(Expression expression)
     {
       expression = Evaluator.PartialEval(expression);
-      var result = new QueryTranslator(_conn.AmlContext).Translate(expression);
+      var result = new QueryTranslator(_factory).Translate(expression);
       result.Settings = _settings;
 
       // Add AML for force propery expansion
@@ -79,6 +110,7 @@ namespace Innovator.Client.Queryable
         }
       }
 
+      _translateCallback?.Invoke(result);
       return result;
     }
 

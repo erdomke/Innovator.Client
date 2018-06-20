@@ -15,6 +15,32 @@ namespace Innovator.Client
   {
     internal const string VaultPicturePrefix = "vault:///?fileId=";
 
+#if REFLECTION
+    internal static object Default(Type type)
+    {
+#if NET35
+      var mi = typeof(Utils)
+        .GetMethod("GetDefault", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+      var generic = mi.MakeGenericMethod(type);
+      return generic.Invoke(null, new object[0]);
+#else
+      var lambda = System.Linq.Expressions.Expression.Lambda<Func<object>>(
+        System.Linq.Expressions.Expression.Convert(
+          System.Linq.Expressions.Expression.Default(type), typeof(object)
+        )
+      );
+      return lambda.Compile()();
+#endif
+    }
+
+#if NET35
+    internal static T GetDefault<T>()
+    {
+      return default(T);
+    }
+#endif
+#endif
+
     internal static string HexString(this byte[] value, int offset = 0, int length = -1)
     {
       if (length < 0)

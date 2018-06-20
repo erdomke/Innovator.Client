@@ -429,6 +429,20 @@ namespace Innovator.Client.Queryable.Tests
       var aml = TestAml(q => q.Where(i => i.Relationships("Property").Any(r => r.Property("name").Value == "ebs_orgs")));
       Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><Relationships><Item type=\"Property\" action=\"get\"><name>ebs_orgs</name></Item></Relationships></Item>", aml);
     }
+
+    [TestMethod()]
+    public void Queryable_Count()
+    {
+      var aml = QueryItem.FromLinq("Part", q => q.Where(i => i.Property("item_number").Value.StartsWith("905-")).Count()).ToAml();
+      Assert.AreEqual("<Item type=\"Part\" action=\"get\" returnMode=\"countOnly\" select=\"id\" page=\"1\" pagesize=\"1\"><item_number condition=\"like\">905-*</item_number></Item>", aml);
+
+      aml = QueryItem.FromLinq("Part", q => q.Count(i => i.Property("item_number").Value.StartsWith("905-"))).ToAml();
+      Assert.AreEqual("<Item type=\"Part\" action=\"get\" returnMode=\"countOnly\" select=\"id\" page=\"1\" pagesize=\"1\"><item_number condition=\"like\">905-*</item_number></Item>", aml);
+
+      var conn = new TestConnection();
+      var count = conn.Queryable("ItemType").Count(i => i.Property("name").Value == "Part");
+      Assert.AreEqual(1, count);
+    }
   }
 }
 #endif

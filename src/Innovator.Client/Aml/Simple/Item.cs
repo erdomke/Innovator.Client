@@ -97,27 +97,31 @@ namespace Innovator.Client
     /// </example>
     public static T GetNullItem<T>() where T : IReadOnlyItem
     {
-      IReadOnlyItem result;
-      var type = typeof(T);
-      if (_nullItems.TryGetValue(typeof(T), out result))
-        return (T)result;
+      return (T)(GetNullItem(typeof(T)) ?? default(T));
+    }
+
+    public static object GetNullItem(Type type)
+    {
+      if (_nullItems.TryGetValue(type, out IReadOnlyItem result))
+        return result;
+
       switch (type.FullName)
       {
         case "Innovator.Client.IReadOnlyItem":
         case "Innovator.Client.IItem":
-          return (T)_nullItems[typeof(Item)];
+          return _nullItems[typeof(Item)];
       }
 
       // Force a call to the static constructor
       try
       {
-        var temp = Activator.CreateInstance(typeof(T), ElementFactory.Local);
-        if (_nullItems.TryGetValue(typeof(T), out result))
-          return (T)result;
+        var temp = Activator.CreateInstance(type, ElementFactory.Local);
+        if (_nullItems.TryGetValue(type, out result))
+          return result;
       }
       catch (Exception) { }
 
-      return default(T);
+      return null;
     }
 
     internal Item SetFlag(ElementAttributes attr)

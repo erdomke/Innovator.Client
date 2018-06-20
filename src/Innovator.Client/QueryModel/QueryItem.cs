@@ -419,38 +419,24 @@ namespace Innovator.Client.QueryModel
     }
 
 #if REFLECTION
-    public static QueryItem FromLinq(string itemType, Func<IOrderedQueryable<IReadOnlyItem>, IQueryable> writer, IServerContext context = null)
+    public static QueryItem FromLinq(string itemType, Func<IOrderedQueryable<IReadOnlyItem>, object> writer, IServerContext context = null)
     {
       return FromLinq<IReadOnlyItem>(itemType, writer, context);
     }
 
-    public static QueryItem FromLinq<T>(string itemType, Func<IOrderedQueryable<T>, IQueryable> writer, IServerContext context = null) where T : IReadOnlyItem
+    public static QueryItem FromLinq<T>(string itemType, Func<IOrderedQueryable<T>, object> writer, IServerContext context = null) where T : IReadOnlyItem
     {
-      context = context ?? ElementFactory.Local.LocalizationContext;
+      var factory = ElementFactory.Local;
+      if (context != null)
+        factory = new ElementFactory(context);
+      var query = default(AmlQuery);
 
-      var queryable = writer(new InnovatorQuery<T>(new Provider(context), itemType));
-      var provider = (Provider)queryable.Provider;
-      return provider.Translate(queryable.Expression);
-    }
+      var queryable = new InnovatorQuery<T>(new InnovatorQueryProvider(factory, q => query = q), itemType);
+      var resultQuery = writer(queryable) as IQueryable;
+      if (resultQuery != null && resultQuery.Provider is InnovatorQueryProvider provider)
+        query = provider.Translate(resultQuery.Expression);
 
-    private class Provider : QueryProvider
-    {
-      private readonly IServerContext _context;
-
-      public Provider(IServerContext context)
-      {
-        _context = context;
-      }
-
-      public override object Execute(Expression expression) => throw new NotSupportedException();
-
-      internal QueryItem Translate(Expression expression)
-      {
-        expression = Evaluator.PartialEval(expression);
-        return new QueryTranslator(new ElementFactory(_context))
-          .Translate(expression)
-          .QueryItem;
-      }
+      return query.QueryItem;
     }
 #endif
   }

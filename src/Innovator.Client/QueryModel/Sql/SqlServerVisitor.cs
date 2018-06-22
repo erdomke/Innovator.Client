@@ -235,7 +235,7 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    protected virtual void VisitWhere(QueryItem query)
+    protected void VisitWhere(QueryItem query, IEnumerable<IExpression> extraCriteria = null)
     {
       var prevState = WriteState;
       try
@@ -243,8 +243,13 @@ namespace Innovator.Client.QueryModel
         WriteState = SqlRenderOption.WhereClause;
 
         var criteria = new List<IExpression>();
+        var clause = GetWhereClause(query);
+        if (clause != null)
+          criteria.Add(clause);
+        if (extraCriteria != null)
+          criteria.AddRange(extraCriteria);
         AddJoinsToCriteria(query, criteria);
-        VisitWhere(query, criteria);
+        VisitWhere(criteria);
       }
       finally
       {
@@ -252,7 +257,12 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    protected void VisitWhere(QueryItem query, List<IExpression> criteria)
+    protected virtual IExpression GetWhereClause(QueryItem query)
+    {
+      return query.Where;
+    }
+
+    private void VisitWhere(List<IExpression> criteria)
     {
       if (criteria.Count > 0)
       {
@@ -274,14 +284,23 @@ namespace Innovator.Client.QueryModel
 
     private void AddJoinsToCriteria(QueryItem query, IList<IExpression> criteria)
     {
-      foreach (var join in query.Joins.Where(j => j.GetCardinality() == Cardinality.OneToOne))
+      foreach (var join in query.Joins)
       {
-        if (join.Right.Where != null)
+        if (join.GetCardinality() == Cardinality.OneToOne)
+        {
+          var clause = GetWhereClause(join.Right);
+          if (clause != null)
+          {
+            TryFillName(join.Right);
+            criteria.Add(clause);
+          }
+          AddJoinsToCriteria(join.Right, criteria);
+        }
+        else if (join.Type == JoinType.Inner)
         {
           TryFillName(join.Right);
-          criteria.Add(join.Right.Where);
+          criteria.Add(new SubQueryExists(join));
         }
-        AddJoinsToCriteria(join.Right, criteria);
       }
     }
 
@@ -702,6 +721,30 @@ namespace Innovator.Client.QueryModel
       else
       {
         throw new NotSupportedException();
+      }
+    }
+
+    protected virtual void Visit(SubQueryExists subQuery)
+    {
+      var query = subQuery.Join.Right;
+      Writer.Write("exists (select null");
+      VisitFrom(query);
+      VisitWhere(query, new[] { subQuery.Join.Condition });
+      Writer.Write(")");
+    }
+
+    protected class SubQueryExists : IExpression
+    {
+      public Join Join { get; }
+
+      public SubQueryExists(Join join)
+      {
+        Join = join;
+      }
+
+      public void Visit(IExpressionVisitor visitor)
+      {
+        ((SqlServerVisitor)visitor).Visit(this);
       }
     }
   }

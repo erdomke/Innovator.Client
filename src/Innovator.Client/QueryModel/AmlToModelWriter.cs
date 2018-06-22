@@ -414,7 +414,9 @@ namespace Innovator.Client.QueryModel
         else if (last is Join join)
         {
           NormalizeItem(join.Right);
-          join.Type = join.Right.Where == null ? JoinType.LeftOuter : JoinType.Inner;
+          join.Type = join.Right.Where == null && !join.Right.Joins.Any(j => j.Type == JoinType.Inner)
+            ? JoinType.LeftOuter
+            : JoinType.Inner;
         }
       }
 

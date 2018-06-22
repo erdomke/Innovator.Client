@@ -115,6 +115,7 @@ namespace Innovator.Client
           }));
       return result;
     }
+
     /// <summary>
     /// Get the result of executing the specified SQL query
     /// </summary>

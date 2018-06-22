@@ -192,9 +192,8 @@ namespace Innovator.Client.QueryModel
       WriteIdentifier(item.Type.Replace(' ', '_'));
     }
 
-    protected override void VisitWhere(QueryItem query)
+    protected override IExpression GetWhereClause(QueryItem query)
     {
-      var criteria = new List<IExpression>();
       var clause = AddPermissionCheck(query);
 
       if (RenderOption == SqlRenderOption.OffsetQuery)
@@ -209,10 +208,7 @@ namespace Innovator.Client.QueryModel
         });
       }
 
-      if (clause != null)
-        criteria.Add(clause);
-      AddJoinsToCriteria(query, criteria);
-      VisitWhere(query, criteria);
+      return clause;
     }
 
     private IExpression AddPermissionCheck(QueryItem query)

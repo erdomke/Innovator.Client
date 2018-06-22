@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace Innovator.Client.QueryModel
 {
-  class AmlVisitor : IQueryVisitor
+  internal class AmlVisitor : IQueryVisitor
   {
     private static readonly HashSet<string> _attributesToWrite = new HashSet<string>()
     {

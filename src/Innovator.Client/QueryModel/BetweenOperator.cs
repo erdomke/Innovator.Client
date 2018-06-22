@@ -6,15 +6,42 @@ using System.Threading.Tasks;
 
 namespace Innovator.Client.QueryModel
 {
+  /// <summary>
+  /// Represents a comparison indicating if <see cref="Left"/> is within the range
+  /// [<see cref="Min"/>, <see cref="Max"/>] inclusive.
+  /// </summary>
+  /// <seealso cref="Innovator.Client.QueryModel.IBooleanOperator" />
+  /// <seealso cref="Innovator.Client.QueryModel.INormalize" />
   public class BetweenOperator : IBooleanOperator, INormalize
   {
+    /// <summary>
+    /// Gets or sets the expression to perform range checks on.
+    /// </summary>
     public IExpression Left { get; set; }
+
+    /// <summary>
+    /// Gets or sets the minimum value in the range
+    /// </summary>
     public IExpression Min { get; set; }
+
+    /// <summary>
+    /// Gets or sets the maximum value in the range.
+    /// </summary>
     public IExpression Max { get; set; }
 
+    /// <summary>
+    /// Gets the precedence.
+    /// </summary>
+    /// <value>
+    /// The precedence.
+    /// </value>
     public int Precedence => (int)PrecedenceLevel.Comparison;
+
     QueryItem ITableProvider.Table { get; set; }
 
+    /// <summary>
+    /// Converts to operator to an expression using simpler conditional operators.
+    /// </summary>
     public IExpression ToConditional()
     {
       return new AndOperator()
@@ -32,7 +59,7 @@ namespace Innovator.Client.QueryModel
       };
     }
 
-    public void SetMinMaxFromSql(string value)
+    internal void SetMinMaxFromSql(string value)
     {
       var tokens = new SqlTokenizer(value).ToArray();
 
@@ -68,16 +95,31 @@ namespace Innovator.Client.QueryModel
       Max = max;
     }
 
+    /// <summary>
+    /// Tell the specified visitor to process this expression component.
+    /// </summary>
+    /// <param name="visitor">The visitor.</param>
     public virtual void Visit(IExpressionVisitor visitor)
     {
       visitor.Visit(this);
     }
 
+    /// <summary>
+    /// Returns a SQL formatted string useful for debugging.
+    /// </summary>
     public override string ToString()
     {
       return this.ToSqlString();
     }
 
+    /// <summary>
+    /// Return a normalized version of the expression
+    /// </summary>
+    /// <returns>
+    /// If the expression can be normalized (e.g. by placing the property reference on the left
+    /// of a binary operator), return a new, more normalized expression.  If the expression cannot
+    /// be normalized, return the current expression.
+    /// </returns>
     public virtual IExpression Normalize()
     {
       var tables = new[] { Left, Min, Max }

@@ -2,6 +2,8 @@ using Innovator.Client.QueryModel;
 using Innovator.Client.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace Innovator.Client.QueryModel.Tests
 {
@@ -71,9 +73,13 @@ namespace Innovator.Client.QueryModel.Tests
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
       settings.PermissionOption = AmlSqlPermissionOption.None;
       settings.RenderOption = SqlRenderOption.WhereClause;
-      var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("Part.is_active_rev = '1' and Part.keyed_name like N'999-%'"
-        , sql);
+      var query = item.ToQueryItem();
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("Part.is_active_rev = '1' and Part.keyed_name like N'999-%'", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("Part.is_active_rev = '1' and Part.keyed_name like '999-%'", sql);
     }
 
     [TestMethod()]
@@ -88,9 +94,13 @@ namespace Innovator.Client.QueryModel.Tests
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
       settings.PermissionOption = AmlSqlPermissionOption.None;
       settings.RenderOption = SqlRenderOption.WhereClause;
-      var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("Can_Add.source_id = '5698BACD2A7A45D6AC3FA60EAB3E6566' and Can_Add.can_add = 1 and Can_Add.related_id = 'A73B655731924CD0B027E4F4D5FCC0A9' and Can_Add.sort_order = 128 and Can_Add.is_current = '1'"
-        , sql);
+      var query = item.ToQueryItem();
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("Can_Add.source_id = '5698BACD2A7A45D6AC3FA60EAB3E6566' and Can_Add.can_add = 1 and Can_Add.related_id = 'A73B655731924CD0B027E4F4D5FCC0A9' and Can_Add.sort_order = 128 and Can_Add.is_current = '1'", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("[Can Add].source_id = '5698BACD2A7A45D6AC3FA60EAB3E6566' and [Can Add].can_add = 1 and [Can Add].related_id = 'A73B655731924CD0B027E4F4D5FCC0A9' and [Can Add].sort_order = 128", sql);
     }
 
     [TestMethod()]
@@ -105,9 +115,13 @@ namespace Innovator.Client.QueryModel.Tests
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
       settings.PermissionOption = AmlSqlPermissionOption.None;
       settings.RenderOption = SqlRenderOption.WhereClause;
-      var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("Activity_Assignment.source_id = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and Activity_Assignment.closed_on is null and Activity_Assignment.is_disabled = '0' and Activity_Assignment.is_required = '1'"
-        , sql);
+      var query = item.ToQueryItem();
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("Activity_Assignment.source_id = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and Activity_Assignment.closed_on is null and Activity_Assignment.is_disabled = '0' and Activity_Assignment.is_required = '1'", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("[Activity Assignment].source_id = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and [Activity Assignment].closed_on is null and [Activity Assignment].is_disabled = '0' and [Activity Assignment].is_required = '1'", sql);
     }
 
     [TestMethod()]
@@ -120,9 +134,13 @@ namespace Innovator.Client.QueryModel.Tests
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
       settings.PermissionOption = AmlSqlPermissionOption.None;
       settings.RenderOption = SqlRenderOption.WhereClause;
-      var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("Activity_Assignment.source_id = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and Activity_Assignment.is_required = '1' and Activity_Assignment.closed_on is null and Activity_Assignment.is_disabled = '0'"
-        , sql);
+      var query = item.ToQueryItem();
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("Activity_Assignment.source_id = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and Activity_Assignment.is_required = '1' and Activity_Assignment.closed_on is null and Activity_Assignment.is_disabled = '0'", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("[Activity Assignment].source_id = 'E7D1C2C5431C4ECF9BA5ADAE0AC50377' and [Activity Assignment].is_required = '1' and [Activity Assignment].closed_on is null and [Activity Assignment].is_disabled = '0'", sql);
     }
 
 
@@ -136,9 +154,13 @@ namespace Innovator.Client.QueryModel.Tests
         PermissionOption = AmlSqlPermissionOption.None,
         RenderOption = SqlRenderOption.WhereClause
       };
-      var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("Activity_Assignment.closed_on is null and Activity_Assignment.is_disabled = '0'"
-        , sql);
+      var query = item.ToQueryItem();
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("Activity_Assignment.closed_on is null and Activity_Assignment.is_disabled = '0'", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("[Activity Assignment].closed_on is null and [Activity Assignment].is_disabled = '0'", sql);
     }
 
     [TestMethod()]
@@ -148,9 +170,13 @@ namespace Innovator.Client.QueryModel.Tests
   <keyed_name condition='like'>999-*</keyed_name>
 </Item>").AssertItem();
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.None };
-      var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("select Part.* from innovator.Part where Part.keyed_name like N'999-%' and Part.is_current = '1' order by Part.item_number"
-        , sql);
+      var query = item.ToQueryItem();
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("select Part.* from innovator.Part where Part.keyed_name like N'999-%' and Part.is_current = '1' order by Part.item_number", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("select Part.* from Part where Part.keyed_name like '999-%' order by Part.item_number", sql);
     }
 
     [TestMethod()]
@@ -254,6 +280,75 @@ namespace Innovator.Client.QueryModel.Tests
       };
       var sql = item.ToQueryItem().ToArasSql(settings);
       Assert.AreEqual("select Concern.name from innovator.Concern where (Concern.classification = N'Suspect Part' or Concern.classification like N'Suspect Part/%') and Concern.created_on between '2018-02-25T05:00:00' and '2018-03-04T04:59:59' and Concern.is_current = '1' order by Concern.id", sql);
+    }
+
+    [TestMethod]
+    public void Aml2Sql_Relationships()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item action='get' type='Part' select='id'>
+  <Relationships>
+    <Item action='get' type='Part CAD' select='id'>
+      <related_id>
+        <Item action='get' type='CAD' select='id'></Item>
+      </related_id>
+    </Item>
+  </Relationships>
+</Item>").AssertItem();
+      var query = item.ToQueryItem();
+      Assert.AreEqual(JoinType.LeftOuter, query.Joins.Single().Type);
+
+      item = ElementFactory.Local.FromXml(@"<Item action='get' type='Part' select='id'>
+        <Relationships>
+          <Item action='get' type='Part CAD' select='id'>
+            <related_id>
+              <Item action='get' type='CAD' select='id'>
+                <organization>158F22F4BAC8479E95D512ACEDB113C8</organization>
+              </Item>
+            </related_id>
+          </Item>
+        </Relationships>
+      </Item>").AssertItem();
+      query = item.ToQueryItem();
+      Assert.AreEqual(JoinType.Inner, query.Joins.Single().Type);
+
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        RenderOption = SqlRenderOption.SelectQuery,
+        PermissionOption = AmlSqlPermissionOption.None
+      };
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("select Part.id from innovator.Part where Part.is_current = '1' and exists (select null from innovator.Part_CAD inner join innovator.CAD on Part_CAD.related_id = CAD.id where Part_CAD.is_current = '1' and Part.id = Part_CAD.source_id and CAD.organization = '158F22F4BAC8479E95D512ACEDB113C8' and CAD.is_current = '1') order by Part.id", sql);
+
+      sql = ToBaseSql(query, settings);
+      Assert.AreEqual("select Part.id from Part where exists (select null from [Part CAD] inner join CAD on [Part CAD].related_id = CAD.id where Part.id = [Part CAD].source_id and CAD.organization = '158F22F4BAC8479E95D512ACEDB113C8')", sql);
+    }
+
+    private string ToBaseSql(QueryItem query, IAmlSqlWriterSettings settings)
+    {
+      using (var writer = new StringWriter())
+      {
+        var visitor = new SqlServerVisitor(writer, settings);
+        var clone = new CloneVisitor().WithPropertyMapper(p =>
+        {
+          var table = p.Table;
+          table.TryFillName(settings);
+          if (string.IsNullOrEmpty(table.Type))
+            return IgnoreNode.Instance;
+          var props = settings.GetProperties(table.Type);
+          if (props.Count < 1)
+            return p;
+          if (!props.TryGetValue(p.Name, out var propDefn))
+            return IgnoreNode.Instance;
+          if (propDefn.DataType().Value == "foreign")
+            return table.GetProperty(propDefn);
+          return p;
+        }).Clone(query);
+        visitor.Visit(clone);
+
+        writer.Flush();
+        return writer.ToString();
+      }
     }
   }
 }

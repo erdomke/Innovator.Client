@@ -37,6 +37,11 @@ using System.Xml;
 
 namespace Innovator.Client.QueryModel
 {
+  /// <summary>
+  /// Represents a query to retrieve information from a data store.  Can be converted to multiple
+  /// formats such as SQL, OData, AML, etc.
+  /// </summary>
+  /// <seealso cref="Innovator.Client.IAmlNode" />
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class QueryItem : IAmlNode
   {
@@ -45,6 +50,10 @@ namespace Innovator.Client.QueryModel
     private readonly List<SelectExpression> _select = new List<SelectExpression>();
     private readonly Dictionary<string, string> _attributes = new Dictionary<string, string>();
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="QueryItem"/> class.
+    /// </summary>
+    /// <param name="context">The context.</param>
     public QueryItem(IServerContext context)
     {
       Context = context;
@@ -182,6 +191,9 @@ namespace Innovator.Client.QueryModel
       AddCondition(parser.Parse(this, prop, value, condition));
     }
 
+    /// <summary>
+    /// Clones this instance.
+    /// </summary>
     public QueryItem Clone()
     {
       return new CloneVisitor().Clone(this);
@@ -238,6 +250,10 @@ namespace Innovator.Client.QueryModel
       visitor.Visit(clone);
     }
 
+    /// <summary>
+    /// Creates a list of advanced criteria to represent this query.
+    /// </summary>
+    /// <param name="parser">The parser.</param>
     public IEnumerable<Criteria> ToCriteria(SimpleSearchParser parser)
     {
       if (Where == null)
@@ -248,6 +264,13 @@ namespace Innovator.Client.QueryModel
       return visitor.Criteria;
     }
 
+    /// <summary>
+    /// Creates an OData URL string to represent the query.
+    /// </summary>
+    /// <param name="settings">The settings.</param>
+    /// <param name="context">The context.</param>
+    /// <param name="version">The version.</param>
+    /// <returns>OData URL (relative to an unspecified base), e.g. Part?$skip=10&amp;$take=20</returns>
     public string ToOData(IQueryWriterSettings settings, IServerContext context, ODataVersion version = ODataVersion.All)
     {
       using (var writer = new StringWriter())
@@ -412,6 +435,12 @@ namespace Innovator.Client.QueryModel
       }
     }
 
+    /// <summary>
+    /// Converts an OData URL into a query which can be converted to other forms (e.g. SQL, OData, ...)
+    /// </summary>
+    /// <param name="url">The OData URL.</param>
+    /// <param name="context">The context.</param>
+    /// <param name="version">The version.</param>
     public static QueryItem FromOData(string url, IServerContext context = null, ODataVersion version = ODataVersion.All)
     {
       context = context ?? ElementFactory.Local.LocalizationContext;

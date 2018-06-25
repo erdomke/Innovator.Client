@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +16,7 @@ namespace Innovator.Client.QueryModel
       var spans = new Dictionary<string, QuerySpan>(StringComparer.OrdinalIgnoreCase);
       var span = default(QuerySpan);
       var table = new QueryItem(context);
-      var funcStart = -1;
+      var segments = default(List<SegmentInfo>);
 
       using (var tokenizer = new ODataTokenizer(uri, version))
       {
@@ -24,20 +26,13 @@ namespace Innovator.Client.QueryModel
           tokens.Add(tokenizer.Current);
           if (tokenizer.Current.Type == ODataTokenType.Question)
           {
-            table.Type = tokens.LastOrDefault(t => t.Type == ODataTokenType.Identifier)?.Text;
-            funcStart = tokens.Count - 2;
-            while (funcStart >= 0 && tokens[funcStart].Type != ODataTokenType.OpenParen)
-              funcStart--;
+            segments = SegmentInfo.Create(new QuerySpan(tokens, "", 0) { Length = tokens.Count - 1 });
           }
           else if (tokenizer.Current.Type == ODataTokenType.QueryName)
           {
             if (span != null)
               span.Length = i - span.Start - 1;
-            span = new QuerySpan()
-            {
-              Name = tokenizer.Current.Text,
-              Start = i + 2
-            };
+            span = new QuerySpan(tokens, tokenizer.Current.Text, i + 2);
             spans[span.Name] = span;
           }
           i++;
@@ -47,17 +42,144 @@ namespace Innovator.Client.QueryModel
           span.Length = i - span.Start;
       }
 
-      if (!tokens.Any(t => t.Type == ODataTokenType.Question))
+      if (segments == null)
+        segments = SegmentInfo.Create(new QuerySpan(tokens, "", 0) { Length = tokens.Count });
+
+      if (segments.Any(s => string.Equals(s.Name, "$entity", StringComparison.OrdinalIgnoreCase)))
       {
-        table.Type = tokens.LastOrDefault(t => t.Type == ODataTokenType.Identifier)?.Text;
-        funcStart = tokens.Count - 1;
-        while (funcStart >= 0 && tokens[funcStart].Type != ODataTokenType.OpenParen)
-          funcStart--;
+        if (!(spans.TryGetValue("$id", out var idInfo) || spans.TryGetValue("id", out idInfo)))
+          throw new InvalidOperationException();
+        var s = idInfo.Start;
+        if (idInfo.List[s].Text.StartsWith("http", StringComparison.OrdinalIgnoreCase)
+          && idInfo.List[s].Text.EndsWith(":")
+          && idInfo.Length > 3
+          && idInfo.List[s + 1].Type == ODataTokenType.Navigation
+          && idInfo.List[s + 2].Type == ODataTokenType.Navigation)
+        {
+          s += 3;
+          while (idInfo.List[s].Type != ODataTokenType.Navigation)
+            s++;
+          s++;
+        }
+        var idSpan = new QuerySpan(idInfo.List, "", s) { Length = idInfo.Length - (s - idInfo.Start) };
+        segments = SegmentInfo.Create(idSpan);
       }
 
-      if (spans.TryGetValue("$filter", out span))
+      var end = segments.Count - 1;
+      if (string.Equals(segments.Last().Name, "$value", StringComparison.OrdinalIgnoreCase))
+        end -= 2;
+      else if (segments.Last().Name[0] == '$')
+        end--;
+
+      var start = end;
+      for (var i = 0; i <= end; i++)
       {
-        table.Where = ParseWhere(GetExpressions(tokens, table, span.Start, span.Length), table.Context);
+        if (segments[i].Args.All(a => a.Type == ODataTokenType.String) && segments[i].Args.Count() == 1)
+        {
+          start = i;
+          break;
+        }
+      }
+
+      table.Type = segments[start].Name;
+      ProcessSpans(tokens, table, spans, context);
+
+      if (segments[start].Args.Any())
+      {
+        if (start == end)
+        {
+          table.Where = new EqualsOperator()
+          {
+            Left = new PropertyReference("id", table),
+            Right = new StringLiteral((string)segments[start].Args.Single().AsPrimitive())
+          }.Normalize();
+        }
+        else if (start + 1 == end)
+        {
+          table.Type = segments[end].Name;
+          table.AddCondition(new EqualsOperator()
+          {
+            Left = new PropertyReference("source_id", table),
+            Right = new StringLiteral((string)segments[start].Args.Single().AsPrimitive())
+          }.Normalize());
+        }
+        else
+        {
+          throw new InvalidOperationException();
+        }
+
+        if (string.Equals(segments.Last().Name, "$value", StringComparison.OrdinalIgnoreCase))
+        {
+          table.Select.Clear();
+          table.Select.Add(new SelectExpression()
+          {
+            Expression = new PropertyReference(segments[end + 1].Name, table)
+          });
+        }
+      }
+
+      if (string.Equals(segments.Last().Name, "$count", StringComparison.OrdinalIgnoreCase))
+      {
+        table.Select.Clear();
+        table.Select.Add(new SelectExpression()
+        {
+          Expression = new CountAggregate()
+          {
+            TablePath = { table }
+          }
+        });
+      }
+
+      return table;
+    }
+
+    [DebuggerDisplay("{Name}")]
+    private class SegmentInfo
+    {
+      private List<ODataToken> _args;
+
+      public string Name { get; }
+      public IEnumerable<ODataToken> Args { get { return _args ?? Enumerable.Empty<ODataToken>(); } }
+
+      private SegmentInfo(string name)
+      {
+        Name = name;
+      }
+
+      public static List<SegmentInfo> Create(QuerySpan tokens)
+      {
+        var result = new List<SegmentInfo>();
+        var last = tokens.Start + tokens.Length;
+        for (var i = tokens.Start; i < last; i++)
+        {
+          if (tokens.List[i].Type == ODataTokenType.Identifier)
+          {
+            var segment = new SegmentInfo(tokens.List[i].Text);
+            if ((i + 1) < last && tokens.List[i + 1].Type == ODataTokenType.OpenParen)
+            {
+              segment._args = new List<ODataToken>();
+              i += 2;
+              while (i < last && tokens.List[i].Type != ODataTokenType.CloseParen)
+              {
+                if (tokens.List[i].Type != ODataTokenType.Comma)
+                  segment._args.Add(tokens.List[i]);
+                i++;
+              }
+            }
+            result.Add(segment);
+          }
+        }
+        return result;
+      }
+    }
+
+    private static void ProcessSpans(IList<ODataToken> tokens, QueryItem table, Dictionary<string, QuerySpan> spans, IServerContext context)
+    {
+      var span = default(QuerySpan);
+
+      if (spans.TryGetValue("$filter", out span) || spans.TryGetValue("filter", out span))
+      {
+        table.Where = ParseWhere(GetExpressions(table, span), table.Context);
 
         if (table.Where is PropertyReference)
         {
@@ -69,54 +191,24 @@ namespace Innovator.Client.QueryModel
         }
       }
 
-      if (spans.TryGetValue("$select", out span))
+      if (spans.TryGetValue("$select", out span) || spans.TryGetValue("select", out span))
       {
-        foreach (var select in GetExpressions(tokens, table, span.Start, span.Length)
-          .OfType<PropertyReference>()
-          .Select(p => new SelectExpression()
-          {
-            Expression = p
-          }))
+        foreach (var select in GetProperties(table, span, context))
         {
-          table.Select.Add(select);
-        }
-      }
-
-      if (funcStart > 0 && tokens[funcStart - 1].Type == ODataTokenType.Identifier
-        && funcStart + 1 < tokens.Count && tokens[funcStart + 1].Type == ODataTokenType.String)
-      {
-        if (tokens[funcStart - 1].Text == table.Type
-          || string.Equals(table.Type, "$value", StringComparison.OrdinalIgnoreCase))
-        {
-          table.Where = new EqualsOperator()
+          var provider = (ITableProvider)select;
+          while (provider != null)
           {
-            Left = new PropertyReference("id", table),
-            Right = new StringLiteral((string)tokens[funcStart + 1].AsPrimitive())
-          }.Normalize();
-
-          if (string.Equals(table.Type, "$value", StringComparison.OrdinalIgnoreCase))
-          {
-            table.Type = tokens[funcStart - 1].Text;
-            table.Select.Clear();
-            table.Select.Add(new SelectExpression()
-            {
-              Expression = new PropertyReference(tokens.Skip(funcStart + 1).First(t => t.Type == ODataTokenType.Identifier).Text, table)
-            });
+            AddPropToSelectIfNotThere(provider.Table, (IExpression)provider);
+            if (provider.Table == table)
+              break;
+            provider = provider.Table.TypeProvider;
           }
         }
-        else
-        {
-          table.AddCondition(new EqualsOperator()
-          {
-            Left = new PropertyReference("source_id", table),
-            Right = new StringLiteral((string)tokens[funcStart + 1].AsPrimitive())
-          }.Normalize());
-        }
       }
 
-      if (spans.TryGetValue("$orderby", out span))
+      if (spans.TryGetValue("$orderby", out span) || spans.TryGetValue("orderby", out span))
       {
-        var expressions = GetExpressions(tokens, table, span.Start, span.Length).ToList();
+        var expressions = GetExpressions(table, span).ToList();
         expressions.Add(new Comma()); // Make sure we always get the last part of the order by
 
         var pos = 0;
@@ -165,36 +257,53 @@ namespace Innovator.Client.QueryModel
         }
       }
 
-      if (spans.TryGetValue("$expand", out span))
+      if (spans.TryGetValue("$expand", out span) || spans.TryGetValue("expand", out span))
       {
-        foreach (var expandTable in GetExpressions(tokens, table, span.Start, span.Length)
-          .OfType<PropertyReference>()
+        foreach (var expandTable in GetProperties(table, span, context)
+          .ToArray()
+          .Cast<PropertyReference>()
           .Select(p => p.GetOrAddTable(context)))
         {
-          expandTable.Select.Clear();
-          expandTable.Select.Add(new SelectExpression()
+          if (expandTable.Select.Count < 1)
           {
-            Expression = new AllProperties(expandTable),
-            OnlyReturnNonNull = true
-          });
+            expandTable.Select.Add(new SelectExpression()
+            {
+              Expression = new AllProperties(expandTable),
+              OnlyReturnNonNull = true
+            });
+          }
         }
       }
 
-      if (spans.TryGetValue("$top", out span))
+      if (spans.TryGetValue("$top", out span) || spans.TryGetValue("top", out span))
       {
         if (span.Length != 1 || tokens[span.Start].Type != ODataTokenType.Integer)
           throw new InvalidOperationException();
         table.Fetch = (int)tokens[span.Start].AsPrimitive();
       }
 
-      if (spans.TryGetValue("$skip", out span))
+      if (spans.TryGetValue("$skip", out span) || spans.TryGetValue("skip", out span))
       {
         if (span.Length != 1 || tokens[span.Start].Type != ODataTokenType.Integer)
           throw new InvalidOperationException();
         table.Offset = (int)tokens[span.Start].AsPrimitive();
       }
+    }
 
-      return table;
+    private static void AddPropToSelectIfNotThere(QueryItem table, IExpression value)
+    {
+      if (value is PropertyReference prop
+        && table.Select
+          .Select(s => s.Expression)
+          .OfType<PropertyReference>()
+          .Any(p => p.Equals(prop)))
+      {
+        return;
+      }
+      table.Select.Add(new SelectExpression()
+      {
+        Expression = value
+      });
     }
 
     private static IExpression ParseWhere(IEnumerable<IExpression> expressions, IServerContext context)
@@ -329,6 +438,11 @@ namespace Innovator.Client.QueryModel
       {
         unaryOp.Arg = output.Pop();
       }
+      else if (op is InOperator inOp)
+      {
+        inOp.Right = (ListExpression)output.Pop();
+        inOp.Left = output.Pop();
+      }
       else
       {
         throw new NotSupportedException();
@@ -340,11 +454,30 @@ namespace Innovator.Client.QueryModel
       return op;
     }
 
-    private class QuerySpan
+    private class QuerySpan : IEnumerable<ODataToken>
     {
-      public string Name { get; set; }
-      public int Start { get; set; }
+      public string Name { get; }
+      public int Start { get; }
       public int Length { get; set; }
+      public IList<ODataToken> List { get; }
+
+      public QuerySpan(IList<ODataToken> list, string name, int start)
+      {
+        List = list;
+        Name = name;
+        Start = start;
+      }
+
+      public IEnumerator<ODataToken> GetEnumerator()
+      {
+        for (var i = Start; i < Start + Length; i++)
+          yield return List[i];
+      }
+
+      IEnumerator IEnumerable.GetEnumerator()
+      {
+        return GetEnumerator();
+      }
     }
 
     private class ODataFunction : FunctionExpression, INormalize
@@ -504,11 +637,93 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    private static IEnumerable<IExpression> GetExpressions(IList<ODataToken> tokens, QueryItem table, int start, int length)
+    private static IEnumerable<IExpression> GetProperties(QueryItem table, QuerySpan tokens, IServerContext context)
     {
-      for (var i = start; i < start + length; i++)
+      var depth = 0;
+      var span = new QuerySpan(tokens.List, "", tokens.Start);
+      var spans = new List<QuerySpan>() { span };
+      for (var i = tokens.Start; i < tokens.Start + tokens.Length; i++)
       {
-        var token = tokens[i];
+        if (tokens.List[i].Text == "(")
+        {
+          if (depth == 0)
+          {
+            span.Length = i - span.Start;
+            span = new QuerySpan(tokens.List, "(", i + 1);
+            spans.Add(span);
+          }
+          depth++;
+        }
+        else if (tokens.List[i].Text == ")")
+        {
+          depth--;
+          if (depth == 0)
+          {
+            span.Length = i - span.Start;
+            span = new QuerySpan(tokens.List, "", i + 1);
+            spans.Add(span);
+          }
+        }
+      }
+      span.Length = tokens.Start + tokens.Length - span.Start;
+
+      var last = default(IExpression);
+      foreach (var s in spans)
+      {
+        if (s.Name == "(")
+        {
+          if (!(last is PropertyReference prop))
+            throw new InvalidOperationException();
+          var newTable = prop.GetOrAddTable(context);
+          var dict = GetSpans(s);
+          ProcessSpans(tokens.List, newTable, dict, context);
+        }
+        else
+        {
+          foreach (var expr in GetExpressions(table, s))
+          {
+            if (expr is PropertyReference || expr is AllProperties)
+              yield return expr;
+            last = expr;
+          }
+        }
+      }
+    }
+
+    private static Dictionary<string, QuerySpan> GetSpans(QuerySpan tokens)
+    {
+      if (tokens.First().Type != ODataTokenType.Identifier)
+        throw new InvalidOperationException();
+      var span = new QuerySpan(tokens.List, tokens.First().Text, tokens.Start + 2);
+      var result = new Dictionary<string, QuerySpan>(StringComparer.OrdinalIgnoreCase)
+      {
+        [span.Name] = span
+      };
+
+      for (var i = tokens.Start + 1; i < tokens.Start + tokens.Length; i++)
+      {
+        if (tokens.List[i].Type == ODataTokenType.Semicolon)
+        {
+          span.Length = i - span.Start;
+          if ((i + 1) < tokens.Start + tokens.Length)
+          {
+            i++;
+            if (tokens.List[i].Type != ODataTokenType.Identifier)
+              throw new InvalidOperationException();
+            span = new QuerySpan(tokens.List, tokens.List[i].Text, i + 2);
+            result[span.Name] = span;
+          }
+        }
+      }
+      span.Length = tokens.Start + tokens.Length - span.Start;
+      return result;
+    }
+
+    private static IEnumerable<IExpression> GetExpressions(QueryItem table, QuerySpan tokens)
+    {
+      for (var i = tokens.Start; i < tokens.Start + tokens.Length; i++)
+      {
+        var token = tokens.List[i];
         switch (token.Type)
         {
           case ODataTokenType.Parameter:
@@ -557,7 +772,7 @@ namespace Innovator.Client.QueryModel
             yield return new NullLiteral();
             break;
           case ODataTokenType.Identifier:
-            yield return TryGetProperty(tokens, ref i, table);
+            yield return TryGetProperty(tokens.List, ref i, table);
             break;
           case ODataTokenType.And:
             yield return new AndOperator();
@@ -582,6 +797,9 @@ namespace Innovator.Client.QueryModel
             break;
           case ODataTokenType.GreaterThanOrEqual:
             yield return new GreaterThanOrEqualsOperator();
+            break;
+          case ODataTokenType.In:
+            yield return new InOperator();
             break;
           case ODataTokenType.Add:
             yield return new AdditionOperator();

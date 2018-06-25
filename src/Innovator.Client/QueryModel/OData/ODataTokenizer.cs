@@ -319,6 +319,14 @@ namespace Innovator.Client.QueryModel
                   Current = new ODataToken(ODataTokenType.Colon, _value.Substring(_idx, 1));
                   _idx = i + 1;
                   return true;
+                case '=':
+                  Current = new ODataToken(ODataTokenType.QueryAssign, _value.Substring(_idx, 1));
+                  _idx = i + 1;
+                  return true;
+                case ';':
+                  Current = new ODataToken(ODataTokenType.Semicolon, _value.Substring(_idx, 1));
+                  _idx = i + 1;
+                  return true;
                 case '$':
                   _idx++;
                   Current = TryConsumeIdentifier();
@@ -458,6 +466,9 @@ namespace Innovator.Client.QueryModel
         case "has":
           type = ODataTokenType.Has;
           break;
+        case "in":
+          type = ODataTokenType.In;
+          break;
         case "add":
           type = ODataTokenType.Add;
           break;
@@ -468,6 +479,7 @@ namespace Innovator.Client.QueryModel
           type = ODataTokenType.Multiply;
           break;
         case "div":
+        case "divby":
           type = ODataTokenType.Divide;
           break;
         case "mod":

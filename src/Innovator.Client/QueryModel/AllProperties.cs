@@ -10,7 +10,7 @@ namespace Innovator.Client.QueryModel
   /// An expression representing all properties in a select statement (e.g. <code>select *</code>)
   /// </summary>
   /// <seealso cref="Innovator.Client.QueryModel.IOperand" />
-  public class AllProperties : IOperand
+  public class AllProperties : IOperand, ITableProvider
   {
     /// <summary>
     /// Gets the table for which all properties are returned.
@@ -18,7 +18,7 @@ namespace Innovator.Client.QueryModel
     /// <value>
     /// The table.
     /// </value>
-    public QueryItem Table { get; }
+    public QueryItem Table { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether all extended properties (xProperties) should be

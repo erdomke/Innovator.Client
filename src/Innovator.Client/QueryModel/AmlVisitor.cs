@@ -390,12 +390,28 @@ namespace Innovator.Client.QueryModel
       {
         var node = new SelectNode();
         GetSelect(node, query, joins);
-        includeNodes = node.Where(SelectAllOnly).ToArray();
-        foreach (var include in includeNodes)
-          node.Remove(include);
+        if (AnyFunctions(node))
+        {
+          includeNodes = node.Where(n => n.Count > 0).ToArray();
+          foreach (var include in includeNodes)
+            node.Remove(include);
 
-        if (!SelectAllOnly(node))
+          if (!SelectAllOnly(node))
+          {
+            if (node.Count < 1)
+            {
+              _writer.WriteAttributeString("select", includeNodes.GroupConcat(",", n => n.Name));
+            }
+            else
+            {
+              _writer.WriteAttributeString("select", node.ToString());
+            }
+          }
+        }
+        else
+        {
           _writer.WriteAttributeString("select", node.ToString());
+        }
       }
 
       if (query.OrderBy.Count > 0)
@@ -452,6 +468,10 @@ namespace Innovator.Client.QueryModel
         _writer.WriteStartElement(include.Name);
         _writer.WriteStartElement("Item");
         _writer.WriteAttributeString("action", "get");
+        if (!SelectAllOnly(include))
+        {
+          _writer.WriteAttributeString("select", include.GroupConcat(","));
+        }
         _writer.WriteEndElement();
         _writer.WriteEndElement();
       }
@@ -470,6 +490,18 @@ namespace Innovator.Client.QueryModel
       _logicals.Pop();
     }
 
+    private bool AnyFunctions(SelectNode node)
+    {
+      if (!string.IsNullOrEmpty(node.Function))
+        return true;
+      foreach (var child in node)
+      {
+        if (AnyFunctions(child))
+          return true;
+      }
+      return false;
+    }
+
     private bool SelectAllOnly(SelectNode node)
     {
       return node.Count == 1 && node[0].Name == "*" && node[0].Function == "is_not_null()";
@@ -479,7 +511,7 @@ namespace Innovator.Client.QueryModel
     {
       if (item.Select.Count > 0)
       {
-        foreach (var select in item.Select)
+        foreach (var select in item.Select.OrderBy(s => s.Expression is PropertyReference ? 0 : 1))
         {
           if (select.Expression is PropertyReference prop)
           {

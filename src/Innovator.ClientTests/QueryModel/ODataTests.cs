@@ -12,6 +12,7 @@ namespace Innovator.Client.QueryModel.Tests
   public class ODataTests
   {
     [DataTestMethod]
+    [DataRow("Part?$filter=name in ('Redmond', 'London')&$format=json", "<Item type=\"Part\" action=\"get\"><name condition=\"in\">'Redmond', 'London'</name></Item>")]
     [DataRow("Part?$format=json&$filter=name eq 'Apple'", "<Item type=\"Part\" action=\"get\"><name>Apple</name></Item>")]
     [DataRow("Part?$filter=name eq 'Apple'&$format=json", "<Item type=\"Part\" action=\"get\"><name>Apple</name></Item>")]
     [DataRow("Part?$filter=complete", "<Item type=\"Part\" action=\"get\"><complete>1</complete></Item>")]
@@ -131,7 +132,19 @@ namespace Innovator.Client.QueryModel.Tests
 
     [DataTestMethod]
     [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id", "<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>")]
+    [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id($select=first_name,last_name)", "<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" select=\"first_name,last_name\" /></created_by_id></Item>")]
+    [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$select=created_by_id/first_name,created_by_id/last_name", "<Item type=\"ItemType\" action=\"get\" select=\"created_by_id(first_name,last_name)\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>")]
     public void ExpandToAml(string odata, string expected)
+    {
+      var item = QueryItem.FromOData(odata);
+      var aml = item.ToAml();
+      Assert.AreEqual(expected, aml);
+    }
+
+    [DataTestMethod]
+    [DataRow("Part/$count?$filter=name eq 'Apple'&$format=json", "<Item type=\"Part\" action=\"get\" returnMode=\"countOnly\" select=\"id\" page=\"1\" pagesize=\"1\"><name>Apple</name></Item>")]
+    [DataRow("Part('C3F13FE4A2674B9691A6B311B5CCBCDB')/Part CAD/$count", "<Item type=\"Part CAD\" action=\"get\" returnMode=\"countOnly\" select=\"id\" page=\"1\" pagesize=\"1\"><source_id>C3F13FE4A2674B9691A6B311B5CCBCDB</source_id></Item>")]
+    public void CountToAml(string odata, string expected)
     {
       var item = QueryItem.FromOData(odata);
       var aml = item.ToAml();
@@ -143,6 +156,16 @@ namespace Innovator.Client.QueryModel.Tests
     [DataRow("Part('C3F13FE4A2674B9691A6B311B5CCBCDB')/Part CAD?$expand=related_id", "<Item type=\"Part CAD\" action=\"get\"><source_id>C3F13FE4A2674B9691A6B311B5CCBCDB</source_id><related_id><Item action=\"get\" /></related_id></Item>")]
     [DataRow("Part('F45F259F527942EB8A6C4011BC784EF0')/item_number/$value", "<Item type=\"Part\" action=\"get\" select=\"item_number\"><id>F45F259F527942EB8A6C4011BC784EF0</id></Item>")]
     public void ItemById(string odata, string expected)
+    {
+      var item = QueryItem.FromOData(odata);
+      var aml = item.ToAml();
+      Assert.AreEqual(expected, aml);
+    }
+
+    [DataTestMethod]
+    [DataRow("http://host/service/$entity?$id=http://host/service/Part('F45F259F527942EB8A6C4011BC784EF0')", "<Item type=\"Part\" action=\"get\"><id>F45F259F527942EB8A6C4011BC784EF0</id></Item>")]
+    [DataRow("http://host/service/$entity?$id=Part('F45F259F527942EB8A6C4011BC784EF0')", "<Item type=\"Part\" action=\"get\"><id>F45F259F527942EB8A6C4011BC784EF0</id></Item>")]
+    public void EntityToAml(string odata, string expected)
     {
       var item = QueryItem.FromOData(odata);
       var aml = item.ToAml();

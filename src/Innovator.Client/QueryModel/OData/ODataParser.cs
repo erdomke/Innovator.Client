@@ -176,10 +176,24 @@ namespace Innovator.Client.QueryModel
     private static void ProcessSpans(IList<ODataToken> tokens, QueryItem table, Dictionary<string, QuerySpan> spans, IServerContext context)
     {
       var span = default(QuerySpan);
+      var parseContext = new ParseContext();
+
+      if (spans.TryGetValue("$compute", out span) || spans.TryGetValue("compute", out span))
+      {
+        parseContext.Name = "$compute";
+        var tree = ParseWhere(GetExpressions(table, span, parseContext), table.Context);
+        var list = new List<IExpression>();
+        FlattenArgs(list, tree);
+        foreach (var expr in list.Cast<SelectExpression>())
+        {
+          parseContext.Computed[new PropertyReference(expr.Alias, table)] = expr.Expression;
+        }
+      }
 
       if (spans.TryGetValue("$filter", out span) || spans.TryGetValue("filter", out span))
       {
-        table.Where = ParseWhere(GetExpressions(table, span), table.Context);
+        parseContext.Name = "$filter";
+        table.Where = ParseWhere(GetExpressions(table, span, parseContext), table.Context);
 
         if (table.Where is PropertyReference)
         {
@@ -193,12 +207,17 @@ namespace Innovator.Client.QueryModel
 
       if (spans.TryGetValue("$select", out span) || spans.TryGetValue("select", out span))
       {
-        foreach (var select in GetProperties(table, span, context))
+        parseContext.Name = "$select";
+        foreach (var select in GetProperties(table, span, context, parseContext))
         {
           var provider = (ITableProvider)select;
           while (provider != null)
           {
-            AddPropToSelectIfNotThere(provider.Table, (IExpression)provider);
+            var propTable = provider is PropertyReference prop && IsCollectionProperty(prop)
+              ? PropToTable(prop)
+              : provider.Table;
+            if (propTable == provider.Table)
+              AddPropToSelectIfNotThere(provider.Table, (IExpression)provider);
             if (provider.Table == table)
               break;
             provider = provider.Table.TypeProvider;
@@ -208,7 +227,8 @@ namespace Innovator.Client.QueryModel
 
       if (spans.TryGetValue("$orderby", out span) || spans.TryGetValue("orderby", out span))
       {
-        var expressions = GetExpressions(table, span).ToList();
+        parseContext.Name = "$orderby";
+        var expressions = GetExpressions(table, span, parseContext).ToList();
         expressions.Add(new Comma()); // Make sure we always get the last part of the order by
 
         var pos = 0;
@@ -259,10 +279,11 @@ namespace Innovator.Client.QueryModel
 
       if (spans.TryGetValue("$expand", out span) || spans.TryGetValue("expand", out span))
       {
-        foreach (var expandTable in GetProperties(table, span, context)
+        parseContext.Name = "$expand";
+        foreach (var expandTable in GetProperties(table, span, context, parseContext)
           .ToArray()
           .Cast<PropertyReference>()
-          .Select(p => p.GetOrAddTable(context)))
+          .Select(GetExpansionTable))
         {
           if (expandTable.Select.Count < 1)
           {
@@ -288,6 +309,43 @@ namespace Innovator.Client.QueryModel
           throw new InvalidOperationException();
         table.Offset = (int)tokens[span.Start].AsPrimitive();
       }
+    }
+
+    private static bool IsCollectionProperty(PropertyReference prop)
+    {
+      return char.IsUpper(prop.Name[0]);
+    }
+
+    private static QueryItem GetExpansionTable(PropertyReference prop)
+    {
+      if (!IsCollectionProperty(prop))
+        return prop.GetOrAddTable(prop.Table.Context);
+
+      return PropToTable(prop);
+    }
+
+    private static QueryItem PropToTable(PropertyReference prop)
+    {
+      var join = prop.Table.Joins
+        .Select(j => AmlJoin.TryCreate(prop.Table, j, out var amlJoin) ? amlJoin : null)
+        .FirstOrDefault(j => j?.IsRelationship() == true
+          && string.Equals(j.Table.Type, prop.Name, StringComparison.OrdinalIgnoreCase));
+      if (join != null)
+        return join.Table;
+
+      var right = new QueryItem(prop.Table.Context) { Type = prop.Name };
+      prop.Table.Joins.Add(new Join()
+      {
+        Condition = new EqualsOperator()
+        {
+          Left = new PropertyReference("id", prop.Table),
+          Right = new PropertyReference("source_id", right)
+        },
+        Type = JoinType.LeftOuter,
+        Left = prop.Table,
+        Right = right
+      });
+      return right;
     }
 
     private static void AddPropToSelectIfNotThere(QueryItem table, IExpression value)
@@ -404,6 +462,8 @@ namespace Innovator.Client.QueryModel
         return -1;
       else if (expr is IOperator op)
         return op.Precedence;
+      else if (expr is SelectExpression)
+        return (int)PrecedenceLevel.Comma + 1;
 
       throw new NotSupportedException();
     }
@@ -442,6 +502,11 @@ namespace Innovator.Client.QueryModel
       {
         inOp.Right = (ListExpression)output.Pop();
         inOp.Left = output.Pop();
+      }
+      else if (op is SelectExpression select)
+      {
+        select.Alias = ((PropertyReference)output.Pop()).Name;
+        select.Expression = output.Pop();
       }
       else
       {
@@ -637,7 +702,7 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    private static IEnumerable<IExpression> GetProperties(QueryItem table, QuerySpan tokens, IServerContext context)
+    private static IEnumerable<IExpression> GetProperties(QueryItem table, QuerySpan tokens, IServerContext context, ParseContext parseContext)
     {
       var depth = 0;
       var span = new QuerySpan(tokens.List, "", tokens.Start);
@@ -674,13 +739,13 @@ namespace Innovator.Client.QueryModel
         {
           if (!(last is PropertyReference prop))
             throw new InvalidOperationException();
-          var newTable = prop.GetOrAddTable(context);
+          var newTable = GetExpansionTable(prop);
           var dict = GetSpans(s);
           ProcessSpans(tokens.List, newTable, dict, context);
         }
         else
         {
-          foreach (var expr in GetExpressions(table, s))
+          foreach (var expr in GetExpressions(table, s, parseContext))
           {
             if (expr is PropertyReference || expr is AllProperties)
               yield return expr;
@@ -719,7 +784,7 @@ namespace Innovator.Client.QueryModel
       return result;
     }
 
-    private static IEnumerable<IExpression> GetExpressions(QueryItem table, QuerySpan tokens)
+    private static IEnumerable<IExpression> GetExpressions(QueryItem table, QuerySpan tokens, ParseContext context)
     {
       for (var i = tokens.Start; i < tokens.Start + tokens.Length; i++)
       {
@@ -772,7 +837,15 @@ namespace Innovator.Client.QueryModel
             yield return new NullLiteral();
             break;
           case ODataTokenType.Identifier:
-            yield return TryGetProperty(tokens.List, ref i, table);
+            if (string.Equals(context.Name, "$compute", StringComparison.OrdinalIgnoreCase)
+              && string.Equals(tokens.List[i].Text, "as", StringComparison.OrdinalIgnoreCase))
+            {
+              yield return new SelectExpression();
+            }
+            else
+            {
+              yield return TryGetProperty(tokens.List, ref i, table, context);
+            }
             break;
           case ODataTokenType.And:
             yield return new AndOperator();
@@ -848,21 +921,64 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    private static PropertyReference TryGetProperty(IList<ODataToken> tokens, ref int index, QueryItem table)
+    private static IExpression TryGetProperty(IList<ODataToken> tokens, ref int index, QueryItem table, ParseContext context)
     {
       if (tokens[index].Type != ODataTokenType.Identifier)
         throw new InvalidOperationException();
 
-      var path = new List<string>() { tokens[index].Text };
+      var path = new List<string>() { GetIdentifier(tokens, ref index, context) };
+      var prop = new PropertyReference(path[0], table);
+      if (context.Computed.TryGetValue(prop, out var expr))
+        return expr;
+
       while (index + 2 < tokens.Count
         && tokens[index + 1].Type == ODataTokenType.Navigation
         && tokens[index + 2].Type == ODataTokenType.Identifier)
       {
-        path.Add(tokens[index + 2].Text);
         index += 2;
+        path.Add(GetIdentifier(tokens, ref index, context));
       }
 
       return table.GetProperty(path);
+    }
+
+    private static string GetIdentifier(IList<ODataToken> tokens, ref int index, ParseContext context)
+    {
+      if (tokens[index].Type != ODataTokenType.Identifier)
+        throw new InvalidOperationException();
+      var builder = new StringBuilder(tokens[index].Text);
+
+      while (index + 2 < tokens.Count
+        && tokens[index + 1].Type == ODataTokenType.Whitespace
+        && tokens[index + 2].Type == ODataTokenType.Identifier
+        && !context.IsOperator(tokens[index + 2].Text))
+      {
+        builder
+          .Append(tokens[index + 1].Text)
+          .Append(tokens[index + 2].Text);
+        index += 2;
+      }
+
+      return builder.ToString();
+    }
+
+    private class ParseContext
+    {
+      private static readonly KeyValuePair<string, string>[] _dontCombine = new[]
+      {
+        new KeyValuePair<string, string>("$orderby", "asc"),
+        new KeyValuePair<string, string>("$orderby", "desc"),
+        new KeyValuePair<string, string>("$compute", "as"),
+      };
+
+      public Dictionary<PropertyReference, IExpression> Computed { get; } = new Dictionary<PropertyReference, IExpression>();
+      public string Name { get; set; }
+
+      public bool IsOperator(string identifier)
+      {
+        return _dontCombine.Any(k => string.Equals(Name, k.Key, StringComparison.OrdinalIgnoreCase)
+          && string.Equals(identifier, k.Value, StringComparison.OrdinalIgnoreCase));
+      }
     }
   }
 }

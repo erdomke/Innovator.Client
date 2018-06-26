@@ -1,9 +1,10 @@
+using System;
 using System.Diagnostics;
 
 namespace Innovator.Client.QueryModel
 {
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
-  public class SelectExpression
+  public class SelectExpression : IExpression
   {
     public IExpression Expression { get; set; }
     public string Alias { get; set; }
@@ -26,6 +27,11 @@ namespace Innovator.Client.QueryModel
           return writer.ToString();
         }
       }
+    }
+
+    public void Visit(IExpressionVisitor visitor)
+    {
+      throw new NotSupportedException();
     }
   }
 }

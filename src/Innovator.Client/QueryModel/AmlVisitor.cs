@@ -368,7 +368,7 @@ namespace Innovator.Client.QueryModel
       }
 
 
-      var joins = query.Joins.Select(j => new AmlJoin(query, j)).ToArray();
+      var joins = query.Joins.Select(j => AmlJoin.Create(query, j)).ToArray();
       if (joins.Any(j => !j.IsItemProperty() && !j.IsRelationship()))
         throw new NotSupportedException();
 
@@ -537,44 +537,7 @@ namespace Innovator.Client.QueryModel
       foreach (var join in joins.Where(j => j.IsItemProperty() && !j.HasCriteria() && j.Table.Select.Count > 0))
       {
         var node = parent.EnsurePath(join.CurrentProp.Name);
-        GetSelect(node, join.Table, join.Table.Joins.Select(j => new AmlJoin(join.Table, j)));
-      }
-    }
-
-    private class AmlJoin
-    {
-      public PropertyReference CurrentProp { get; set; }
-      public PropertyReference OtherProp { get; set; }
-      public QueryItem Table { get; set; }
-
-      public AmlJoin(QueryItem parent, Join join)
-      {
-        if (!(join.Condition is EqualsOperator eq))
-          throw new NotSupportedException();
-        var props = new[] { eq.Left, eq.Right }
-          .OfType<PropertyReference>()
-          .ToArray();
-        if (props.Length != 2)
-          throw new NotSupportedException();
-
-        CurrentProp = props.Single(p => ReferenceEquals(p.Table, parent));
-        OtherProp = props.Single(p => !ReferenceEquals(p.Table, parent));
-        Table = OtherProp.Table;
-      }
-
-      public bool IsRelationship()
-      {
-        return CurrentProp.Name == "id" && OtherProp.Name == "source_id";
-      }
-
-      public bool IsItemProperty()
-      {
-        return OtherProp.Name == "id";
-      }
-
-      public bool HasCriteria()
-      {
-        return Table.Where != null;
+        GetSelect(node, join.Table, join.Table.Joins.Select(j => AmlJoin.Create(join.Table, j)));
       }
     }
 

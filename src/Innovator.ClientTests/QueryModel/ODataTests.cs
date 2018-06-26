@@ -134,7 +134,18 @@ namespace Innovator.Client.QueryModel.Tests
     [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id", "<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" /></created_by_id></Item>")]
     [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$expand=created_by_id($select=first_name,last_name)", "<Item type=\"ItemType\" action=\"get\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id><created_by_id><Item action=\"get\" select=\"first_name,last_name\" /></created_by_id></Item>")]
     [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$select=created_by_id/first_name,created_by_id/last_name", "<Item type=\"ItemType\" action=\"get\" select=\"created_by_id(first_name,last_name)\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>")]
+    [DataRow("Part?$expand=Part%20BOM&$filter=item_number%20eq%20'ASSY-01'", "<Item type=\"Part\" action=\"get\"><item_number>ASSY-01</item_number><Relationships><Item type=\"Part BOM\" action=\"get\" /></Relationships></Item>")]
+    [DataRow("Part?$expand=Part%20BOM($expand=owned_by_id)&$filter=item_number%20eq%20'ASSY-01'", "<Item type=\"Part\" action=\"get\"><item_number>ASSY-01</item_number><Relationships><Item type=\"Part BOM\" action=\"get\"><owned_by_id><Item action=\"get\" /></owned_by_id></Item></Relationships></Item>")]
     public void ExpandToAml(string odata, string expected)
+    {
+      var item = QueryItem.FromOData(odata);
+      var aml = item.ToAml();
+      Assert.AreEqual(expected, aml);
+    }
+
+    [DataTestMethod]
+    [DataRow("Part?$filter=pn eq 'Apple'&$select=keyed_name,pn&$orderBy=pn&$compute=item_number as pn", "<Item type=\"Part\" action=\"get\" select=\"keyed_name,item_number\" orderBy=\"item_number\"><item_number>Apple</item_number></Item>")]
+    public void ComputeToAml(string odata, string expected)
     {
       var item = QueryItem.FromOData(odata);
       var aml = item.ToAml();

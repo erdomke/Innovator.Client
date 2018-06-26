@@ -3,13 +3,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Innovator.Client;
 
-namespace Innovator.ClientTests
+namespace Innovator.Client.Tests
 {
   [TestClass]
   public class CommandFileTests
   {
     static string testFilePath = "testFile.txt";
     static long testFileSize = 0;
+
     [ClassInitialize]
     public static void Init(TestContext context)
     {

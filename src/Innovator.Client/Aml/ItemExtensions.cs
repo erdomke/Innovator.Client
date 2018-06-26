@@ -1467,6 +1467,42 @@ namespace Innovator.Client
       }
     }
 
+    public static IEnumerable<IReadOnlyElement> DescendantsAndSelf(this IReadOnlyElement elem)
+    {
+      yield return elem;
+      foreach (var child in Descendants<IReadOnlyElement>(elem))
+        yield return child;
+    }
+
+    public static IEnumerable<IElement> DescendantsAndSelf(this IElement elem)
+    {
+      yield return elem;
+      foreach (var child in Descendants<IElement>(elem))
+        yield return child;
+    }
+
+    public static IEnumerable<IReadOnlyElement> Descendants(this IReadOnlyElement elem)
+    {
+      return Descendants<IReadOnlyElement>(elem);
+    }
+
+    public static IEnumerable<IElement> Descendants(this IElement elem)
+    {
+      return Descendants<IElement>(elem);
+    }
+
+    private static IEnumerable<T> Descendants<T>(T elem) where T : IReadOnlyElement
+    {
+      foreach (var child in elem.Elements().Cast<T>())
+      {
+        yield return child;
+        foreach (var desc in Descendants(child))
+        {
+          yield return desc;
+        }
+      }
+    }
+
 #if XMLLEGACY
     /// <summary>
     /// Get an XPath navigator for executing XPath against an <see cref="IReadOnlyElement"/>

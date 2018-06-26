@@ -713,7 +713,7 @@ namespace Innovator.Client.QueryModel
 
       var queryType = default(string);
       if (!item.Attributes.TryGetValue("queryType", out queryType))
-        queryType = "Current";
+        queryType = item == Query ? "Current" : "skip";
       if (item.Version != null)
       {
         // Do nothing

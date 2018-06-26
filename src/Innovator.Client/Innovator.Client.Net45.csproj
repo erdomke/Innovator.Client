@@ -58,6 +58,7 @@
     <Compile Include="Aml\ZonedDateTime.cs" />
     <Compile Include="QueryModel\AdditionOperator.cs" />
     <Compile Include="QueryModel\AllProperties.cs" />
+    <Compile Include="QueryModel\AmlJoin.cs" />
     <Compile Include="QueryModel\AnyAmlWriter.cs" />
     <Compile Include="QueryModel\Comma.cs" />
     <Compile Include="QueryModel\CountAggregate.cs" />

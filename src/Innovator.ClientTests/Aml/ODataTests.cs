@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Innovator.Client.Tests.Aml
+namespace Innovator.Client.Tests
 {
   [TestClass()]
   public class ODataTests

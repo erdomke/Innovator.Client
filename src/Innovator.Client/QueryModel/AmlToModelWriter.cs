@@ -564,6 +564,7 @@ namespace Innovator.Client.QueryModel
           break;
       }
       item.Attributes.Remove("action");
+      item.RebalanceCriteria();
     }
 
     private void SetDefaultSelect(QueryItem item)

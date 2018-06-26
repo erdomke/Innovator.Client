@@ -130,6 +130,7 @@ namespace Innovator.Client.QueryModel
         });
       }
 
+      table.RebalanceCriteria();
       return table;
     }
 

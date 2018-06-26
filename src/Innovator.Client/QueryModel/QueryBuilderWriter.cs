@@ -279,6 +279,7 @@ namespace Innovator.Client.QueryModel
             };
             Query.AddCondition(ProcessFilter(XElement.Parse(rootRef.FilterXml), settings, null));
           }
+          Query.RebalanceCriteria();
         }
       }
     }

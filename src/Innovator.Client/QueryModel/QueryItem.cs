@@ -324,6 +324,27 @@ namespace Innovator.Client.QueryModel
       return prop;
     }
 
+    internal void RebalanceCriteria()
+    {
+      if (!(Where is AndOperator and))
+        return;
+
+      var groups = BinaryOperator.Flatten(and)
+        .GroupBy(g => (g as ITableProvider)?.Table ?? this)
+        .ToArray();
+      if (groups.Length == 1)
+        return;
+
+      Where = null;
+      foreach (var group in groups)
+      {
+        foreach (var criteria in group)
+        {
+          group.Key.AddCondition(criteria);
+        }
+      }
+    }
+
     internal void TryFillName(IQueryWriterSettings Settings)
     {
       if (string.IsNullOrEmpty(Type) && TypeProvider?.Table != null)

@@ -136,6 +136,7 @@ namespace Innovator.Client.QueryModel.Tests
     [DataRow("ItemType?$filter=id eq '4F1AC04A2B484F3ABA4E20DB63808A88'&$select=created_by_id/first_name,created_by_id/last_name", "<Item type=\"ItemType\" action=\"get\" select=\"created_by_id(first_name,last_name)\"><id>4F1AC04A2B484F3ABA4E20DB63808A88</id></Item>")]
     [DataRow("Part?$expand=Part%20BOM&$filter=item_number%20eq%20'ASSY-01'", "<Item type=\"Part\" action=\"get\"><item_number>ASSY-01</item_number><Relationships><Item type=\"Part BOM\" action=\"get\" /></Relationships></Item>")]
     [DataRow("Part?$expand=Part%20BOM($expand=owned_by_id)&$filter=item_number%20eq%20'ASSY-01'", "<Item type=\"Part\" action=\"get\"><item_number>ASSY-01</item_number><Relationships><Item type=\"Part BOM\" action=\"get\"><owned_by_id><Item action=\"get\" /></owned_by_id></Item></Relationships></Item>")]
+    [DataRow("Part_bom?$filter=source_id/keyed_name%20eq%20%27Part1%27%20and%20(startswith(related_id/classification,%27PCB%20(Raw)%27)%20or%20startswith(related_id/classification,%27PCB%20Sub-assembly%27))&$expand=related_id($select=owned_by_id)", "<Item type=\"Part_bom\" action=\"get\"><source_id><Item action=\"get\"><keyed_name>Part1</keyed_name></Item></source_id><related_id><Item action=\"get\" select=\"owned_by_id\"><or><classification condition=\"like\">PCB (Raw)*</classification><classification condition=\"like\">PCB Sub-assembly*</classification></or></Item></related_id></Item>")]
     public void ExpandToAml(string odata, string expected)
     {
       var item = QueryItem.FromOData(odata);

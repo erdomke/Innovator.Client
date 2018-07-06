@@ -1,5 +1,6 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Innovator.Server
 {
@@ -17,7 +18,7 @@ namespace Innovator.Server
     /// <summary>
     /// Items that the method should act on
     /// </summary>
-    public IEnumerable<IItem> Items { get; }
+    public IList<IItem> Items { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MultiItemContext"/> class.
@@ -27,7 +28,7 @@ namespace Innovator.Server
     public MultiItemContext(IServerConnection conn, IEnumerable<IItem> items)
     {
       Conn = conn;
-      Items = items;
+      Items = items.ToList();
     }
   }
 }

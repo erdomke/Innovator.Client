@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using Innovator.Client.Model;
 using System;
 using System.Collections.Generic;
@@ -48,7 +48,7 @@ namespace Innovator.Server
     /// <summary>
     /// Items that the method should act on
     /// </summary>
-    IEnumerable<IItem> Items { get; }
+    IList<IItem> Items { get; }
   }
 
   /// <summary>

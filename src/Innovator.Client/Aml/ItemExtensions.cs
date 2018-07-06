@@ -1,5 +1,6 @@
 using Innovator.Server;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -1733,6 +1734,27 @@ namespace Innovator.Client
     public static DateTimeZone GetTimeZone(this IServerContext context)
     {
       return (context as ServerContext)?.Zone ?? DateTimeZone.ById(context.TimeZone);
+    }
+
+    /// <summary>
+    /// Sorts the specified list of objects in place.
+    /// </summary>
+    /// <param name="list">The list.</param>
+    /// <param name="comparison">The comparison.</param>
+    public static void Sort<T>(this IList<T> list, Comparison<T> comparison)
+    {
+      if (list is List<T> generic)
+      {
+        generic.Sort(comparison);
+      }
+      else
+      {
+        var array = new T[list.Count];
+        list.CopyTo(array, 0);
+        Array.Sort(array, comparison);
+        for (var i = 0; i < list.Count; i++)
+          list[i] = array[i];
+      }
     }
   }
 }

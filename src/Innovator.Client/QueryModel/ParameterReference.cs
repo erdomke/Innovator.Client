@@ -25,7 +25,7 @@ namespace Innovator.Client.QueryModel
       if (value == null || value.Length < 2) return null;
 
       var start = 0;
-      var closingBracket = false;
+      var inBrackets = false;
       var param = new ParameterReference();
 
       switch (value[0])
@@ -35,20 +35,18 @@ namespace Innovator.Client.QueryModel
           if (value[start] == '{')
           {
             start++;
-            closingBracket = true;
+            inBrackets = true;
           }
           break;
         case '$':
           if (value[1] != '{')
             return null;
           start = 2;
-          closingBracket = true;
+          inBrackets = true;
           break;
         case '{':
           start = 1;
-          if (value[start] == '@')
-            start++;
-          closingBracket = true;
+          inBrackets = true;
           break;
         default:
           return null;
@@ -61,18 +59,53 @@ namespace Innovator.Client.QueryModel
         end--;
       }
 
-      if (closingBracket)
+      if (inBrackets)
       {
         if (value[end - 1] != '}')
           return null;
         end--;
       }
 
-      for (var i = start; i < end; i++)
-      {
-        if (!char.IsLetterOrDigit(value[i]) && value[i] != '_') return null;
-      }
       param.Name = value.Substring(start, end - start);
+      if (int.TryParse(param.Name, out var integer))
+        return param;
+
+      if (inBrackets)
+      {
+        // Handle possible XPath and XML characters
+        if (param.Name.StartsWith("Item/") && param.Name.Length > 5)
+          param.Name = param.Name.Substring(5);
+
+        start = 0;
+        if (param.Name[0] == '@' && param.Name.Length > 1)
+          start++;
+
+        if (!char.IsLetter(param.Name[start]) && param.Name[start] != '_')
+          return null;
+        start++;
+        for (var i = start; i < param.Name.Length; i++)
+        {
+          if (!char.IsLetterOrDigit(param.Name[i])
+            && param.Name[i] != '_'
+            && param.Name[i] != '-'
+            && param.Name[i] != '.')
+          {
+            return null;
+          }
+        }
+      }
+      else
+      {
+        start = 0;
+        if (!char.IsLetter(param.Name[start]) && param.Name[start] != '_')
+          return null;
+        start++;
+        for (var i = start; i < param.Name.Length; i++)
+        {
+          if (!char.IsLetterOrDigit(param.Name[i]) && param.Name[i] != '_')
+            return null;
+        }
+      }
       return param;
     }
 

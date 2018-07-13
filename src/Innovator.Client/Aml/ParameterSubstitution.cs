@@ -59,6 +59,7 @@ namespace Innovator.Client
   public class ParameterSubstitution : IEnumerable<KeyValuePair<string, object>>, IFormatProvider, ICustomFormatter
   {
     internal const string DateRangeAttribute = "origDateRange";
+    private const string XslNsUri = "http://www.w3.org/1999/XSL/Transform";
 
     private const string EmptyListMatch = "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`";
 
@@ -237,6 +238,9 @@ namespace Innovator.Client
 
     private void SubstituteAml(string query, IServerContext context, XmlWriter xmlWriter)
     {
+      if (query.IndexOf("<xsl:") > 0)
+        query = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">" + query + "</xsl:stylesheet>";
+
       using (var reader = new StringReader(query))
       using (var xmlReader = XmlReader.Create(reader))
       {
@@ -252,18 +256,28 @@ namespace Innovator.Client
         {
           switch (xmlReader.NodeType)
           {
-            case XmlNodeType.CDATA:
-              param = RenderValue((string)condition, xmlReader.Value);
-              if (param.IsRaw)
-                throw new InvalidOperationException("Can't have a raw parameter in a CDATA section");
-              xmlWriter.WriteCData(param.Value);
-              break;
             case XmlNodeType.Comment:
               xmlWriter.WriteComment(xmlReader.Value);
               break;
             case XmlNodeType.Element:
               offsetStart = null;
               offsetEnd = null;
+
+              if (string.Equals(XslNsUri, xmlReader.NamespaceURI, StringComparison.OrdinalIgnoreCase))
+              {
+                if (xmlReader.LocalName == "value-of")
+                {
+                  if (!xmlReader.IsEmptyElement)
+                    throw new NotSupportedException();
+                  WriteValueWithSubstitution(xmlWriter, XmlNodeType.Text
+                    , "{" + xmlReader.GetAttribute("select") + "}", offsetStart, offsetEnd, condition, attrs);
+                }
+                else if (xmlReader.LocalName != "stylesheet")
+                {
+                  throw new NotSupportedException();
+                }
+                break;
+              }
 
               xmlWriter.WriteStartElement(xmlReader.Prefix, xmlReader.LocalName
                 , xmlReader.NamespaceURI);
@@ -336,6 +350,8 @@ namespace Innovator.Client
               }
               break;
             case XmlNodeType.EndElement:
+              if (string.Equals(XslNsUri, xmlReader.NamespaceURI, StringComparison.OrdinalIgnoreCase))
+                break;
               xmlWriter.WriteEndElement();
               tagNames.RemoveAt(tagNames.Count - 1);
               condition = null;
@@ -343,55 +359,64 @@ namespace Innovator.Client
             case XmlNodeType.SignificantWhitespace:
               xmlWriter.WriteWhitespace(xmlReader.Value);
               break;
+            case XmlNodeType.CDATA:
             case XmlNodeType.Text:
-              var value = xmlReader.Value;
-              if (offsetStart != null && offsetEnd != null)
-                value = _context.Format(new Range<DateOffset>(offsetStart.Value, offsetEnd.Value));
-              else if (offsetStart != null)
-                value = _context.Format(offsetStart.Value.AsDate(_context.Now()));
-              else if (offsetEnd != null)
-                value = _context.Format(offsetEnd.Value.AsDate(_context.Now(), true));
-              param = RenderValue((string)condition, value);
-
-              var range = param.Original as IRange;
-              if (range != null)
-              {
-                if (param.Original is Range<DateOffset>)
-                {
-                  if (condition == null)
-                    xmlWriter.WriteAttributeString("condition", "between");
-                  if (!attrs.Any(p => p.Name == DateRangeAttribute))
-                    xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange((Range<DateOffset>)param.Original));
-                }
-                else
-                {
-                  if (condition == null)
-                    xmlWriter.WriteAttributeString("condition", "between");
-                }
-              }
-              else if (param.Original is DateOffset && condition != null)
-              {
-                if (condition.Value == "le" || condition.Value == "lt")
-                  xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange(null, (DateOffset)param.Original));
-                else
-                  xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange((DateOffset)param.Original, null));
-              }
-
-              if (param.Value != null)
-              {
-                if (param.IsRaw)
-                {
-                  xmlWriter.WriteRaw(param.Value);
-                }
-                else
-                {
-                  xmlWriter.WriteValue(param.Value);
-                }
-              }
+              WriteValueWithSubstitution(xmlWriter, xmlReader.NodeType
+                , xmlReader.Value, offsetStart, offsetEnd, condition, attrs);
               break;
           }
 
         }
+      }
+    }
+
+    private void WriteValueWithSubstitution(XmlWriter xmlWriter, XmlNodeType nodeType
+      , string value, DateOffset? offsetStart, DateOffset? offsetEnd
+      , Parameter condition, List<Parameter> attrs)
+    {
+      if (offsetStart != null && offsetEnd != null)
+        value = _context.Format(new Range<DateOffset>(offsetStart.Value, offsetEnd.Value));
+      else if (offsetStart != null)
+        value = _context.Format(offsetStart.Value.AsDate(_context.Now()));
+      else if (offsetEnd != null)
+        value = _context.Format(offsetEnd.Value.AsDate(_context.Now(), true));
+      var param = RenderValue((string)condition, value);
+
+      if (nodeType == XmlNodeType.CDATA && param.IsRaw)
+        throw new InvalidOperationException("Can't have a raw parameter in a CDATA section");
+
+      var range = param.Original as IRange;
+      if (range != null)
+      {
+        if (param.Original is Range<DateOffset>)
+        {
+          if (condition == null)
+            xmlWriter.WriteAttributeString("condition", "between");
+          if (!attrs.Any(p => p.Name == DateRangeAttribute))
+            xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange((Range<DateOffset>)param.Original));
+        }
+        else
+        {
+          if (condition == null)
+            xmlWriter.WriteAttributeString("condition", "between");
+        }
+      }
+      else if (param.Original is DateOffset && condition != null)
+      {
+        if (condition.Value == "le" || condition.Value == "lt")
+          xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange(null, (DateOffset)param.Original));
+        else
+          xmlWriter.WriteAttributeString(DateRangeAttribute, SerializeDateRange((DateOffset)param.Original, null));
+      }
+
+      if (param.Value != null)
+      {
+        if (param.IsRaw)
+          xmlWriter.WriteRaw(param.Value);
+        else if (nodeType == XmlNodeType.CDATA)
+          xmlWriter.WriteCData(param.Value);
+        else
+          xmlWriter.WriteValue(param.Value);
       }
     }
 

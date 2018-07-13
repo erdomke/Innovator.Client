@@ -263,6 +263,27 @@ namespace Innovator.Client
     }
 
     /// <summary>
+    /// Specify an item to be used for parameter substitution
+    /// </summary>
+    /// <param name="item">Parameter item</param>
+    public Command WithParamItem(IReadOnlyItem item)
+    {
+      foreach (var prop in item.Elements()
+        .OfType<IReadOnlyProperty_Base>()
+        .Where(p => p.HasValue()))
+      {
+        _sub.AddParameter(prop.Name, prop.Value);
+      }
+
+      foreach (var attr in item.Attributes()
+        .Where(a => a.HasValue()))
+      {
+        _sub.AddParameter("@" + attr.Name, attr.Value);
+      }
+      return this;
+    }
+
+    /// <summary>
     /// Append a query to this request
     /// </summary>
     /// <param name="query">Query to append</param>

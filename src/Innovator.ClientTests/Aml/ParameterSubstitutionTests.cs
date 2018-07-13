@@ -30,11 +30,18 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void Substitute_XPath()
     {
-      var sub = new ParameterSubstitution();
-      sub.AddIndexedParameters(new object[] { "first & second > third", true, new DateTime(2015, 1, 1) });
-      var newQuery = sub.Substitute("<Item><name>{@0}</name><is_current>{@1}</is_current><date>{@2}</date></Item>", ElementFactory.Local.LocalizationContext);
+      var item = ElementFactory.Local.FromXml("<Item type='Method' id='3373C6B037F14CFABF9968BF9FEA5056' />").AssertItem();
+      var cmd = new Command(@"<Item type=""{@type}"" action=""get""><id><xsl:value-of select=""@id"" /></id></Item>")
+        .WithParamItem(item);
 
-      Assert.AreEqual("<Item><name>first &amp; second &gt; third</name><is_current>1</is_current><date>2015-01-01T00:00:00</date></Item>", newQuery);
+      var aml = cmd.ToNormalizedAml(ElementFactory.Local);
+      Assert.AreEqual(@"<Item type=""Method"" action=""get""><id>3373C6B037F14CFABF9968BF9FEA5056</id></Item>", aml);
+
+      cmd = new Command(@"<Item type=""${Item/@type}"" action=""get"" id=""${Item/@id}""></Item>")
+        .WithParamItem(item);
+
+      aml = cmd.ToNormalizedAml(ElementFactory.Local);
+      Assert.AreEqual(@"<Item type=""Method"" action=""get"" id=""3373C6B037F14CFABF9968BF9FEA5056"" />", aml);
     }
 
     [TestMethod()]

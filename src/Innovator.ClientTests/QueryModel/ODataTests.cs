@@ -185,6 +185,15 @@ namespace Innovator.Client.QueryModel.Tests
     }
 
     [DataTestMethod]
+    [DataRow("Part%20BOM?$filter=source_id%20eq%20%27F45F259F527942EB8A6C4011BC784EF0%27&$format=json&$select=quantity,reference_designator,related_id,source_id&$expand=related_id&$callback=jQuery1124016690295736214167_1532034753866&%24inlinecount=allpages&%24format=json", "<Item type=\"Part BOM\" action=\"get\" select=\"quantity,reference_designator,source_id,related_id\"><source_id>F45F259F527942EB8A6C4011BC784EF0</source_id><related_id><Item action=\"get\" /></related_id></Item>")]
+    public void RelatedIdSelectToAml(string odata, string expected)
+    {
+      var item = QueryItem.FromOData(odata);
+      var aml = item.ToAml();
+      Assert.AreEqual(expected, aml);
+    }
+
+    [DataTestMethod]
     [DataRow("Part?$format=json&$filter=name eq 'Apple'", "Part?$filter=name%20eq%20'Apple'")]
     [DataRow("Part?$filter=name eq 'Apple'&$format=json", "Part?$filter=name%20eq%20'Apple'")]
     [DataRow("Part?$filter=complete", "Part?$filter=complete%20eq%20true")]
@@ -243,5 +252,7 @@ namespace Innovator.Client.QueryModel.Tests
       var odata = item.ToOData(settings, ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(expected, odata);
     }
+
+
   }
 }

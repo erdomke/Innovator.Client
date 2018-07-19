@@ -398,14 +398,10 @@ namespace Innovator.Client.QueryModel
 
           if (!SelectAllOnly(node))
           {
-            if (node.Count < 1)
-            {
-              _writer.WriteAttributeString("select", includeNodes.GroupConcat(",", n => n.Name));
-            }
-            else
-            {
-              _writer.WriteAttributeString("select", node.ToString());
-            }
+            foreach (var include in includeNodes.Select(n => n.Name))
+              node.Add(include);
+
+            _writer.WriteAttributeString("select", node.ToString());
           }
         }
         else

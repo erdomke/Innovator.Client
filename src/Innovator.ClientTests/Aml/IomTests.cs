@@ -94,7 +94,11 @@ namespace Innovator.Client.Tests
       var start = CreateItem("<Item type='start'/>");
       var append = CreateItem("<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><ApplyItemResponse><Item type='append'/></ApplyItemResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>");
       start.appendItem(append);
+#if XMLLEGACY
+      Assert.AreEqual("<AML><Item type=\"start\" /><Item type=\"append\" /></AML>", start.ToAml());
+#else
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"start\" /><Item type=\"append\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", start.ToAml());
+#endif
     }
 
     [TestMethod]
@@ -103,7 +107,11 @@ namespace Innovator.Client.Tests
       var start = CreateItem("<AML><Item type='start'/></AML>");
       var append = CreateItem("<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><ApplyItemResponse><Item type='append'/></ApplyItemResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>");
       start.appendItem(append);
+#if XMLLEGACY
+      Assert.AreEqual("<AML><Item type=\"start\" /><Item type=\"append\" /></AML>", start.ToAml());
+#else
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"start\" /><Item type=\"append\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", start.ToAml());
+#endif
     }
 
     [TestMethod]
@@ -112,7 +120,11 @@ namespace Innovator.Client.Tests
       var start = CreateItem("<AML><Item type='start'/><Item type='second'/></AML>");
       var append = CreateItem("<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><ApplyItemResponse><Item type='append'/></ApplyItemResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>");
       start.appendItem(append);
+#if XMLLEGACY
+      Assert.AreEqual("<AML><Item type=\"start\" /><Item type=\"second\" /><Item type=\"append\" /></AML>", start.ToAml());
+#else
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"start\" /><Item type=\"second\" /><Item type=\"append\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", start.ToAml());
+#endif
     }
 
     [TestMethod]
@@ -230,14 +242,14 @@ namespace Innovator.Client.Tests
       inner.setProperty("test", null);
       first.setPropertyItem("owned_by_id", inner);
 
-      Assert.IsTrue(XNode.DeepEquals(target, XElement.Parse(first.ToAmlRoot())));
+      Assert.IsTrue(XNode.DeepEquals(target, XElement.Parse(first.ToAml())));
 
       var second = inn.newItemFromAml(target.ToString());
-      Assert.IsTrue(XNode.DeepEquals(target, XElement.Parse(second.ToAmlRoot())));
+      Assert.IsTrue(XNode.DeepEquals(target, XElement.Parse(second.ToAml())));
 
       var third = inn.newItem();
       third.loadAML(target.ToString());
-      Assert.IsTrue(XNode.DeepEquals(target, XElement.Parse(third.ToAmlRoot())));
+      Assert.IsTrue(XNode.DeepEquals(target, XElement.Parse(third.ToAml())));
     }
 
     [TestMethod]
@@ -346,6 +358,7 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual("0", second.getProperty("range_inclusive"));
     }
+
 #if XMLLEGACY
     //[TestMethod]
     //public void TestIomConnection()
@@ -359,6 +372,208 @@ namespace Innovator.Client.Tests
     //  var item = conn.Apply("<Item type='ItemType' action='get' id='450906E86E304F55A34B3C0D65C097EA' select='name'></Item>").AssertItem();
     //  Assert.AreEqual("ItemType", item.Property("name").Value);
     //}
+
+
+    [TestMethod]
+    public void AddRelationship()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        var newRel = inn.newItem();
+        newRel.loadAML("<Item type='relation' />");
+        item.getPropertyItem("owned_by_id").addRelationship(newRel);
+      });
+    }
+
+    [TestMethod]
+    public void Clone()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        var clone = item.clone(true);
+        clone.setID("FFEEA3C8A2AB4B6AB961CF03A4FFF519");
+        compares.Add(clone.dom.OuterXml);
+      });
+    }
+
+    [TestMethod]
+    public void CreatePropertyItem()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        var propItem = item.createPropertyItem("managed_by_id", "Identity", "get");
+        propItem.setProperty("name", "Wor*");
+        propItem.setPropertyCondition("name", "like");
+      });
+    }
+
+    [TestMethod]
+    public void CreateRelationship()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        var relItemItem = item.createRelationship("Identity", "get");
+        relItemItem.setProperty("name", "Wor*");
+        relItemItem.setPropertyCondition("name", "like");
+      });
+    }
+
+    [TestMethod]
+    public void GetAction()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get' id='DEA9466482CB4198AED0D859668D331B'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        compares.Add(item.getAction());
+        compares.Add(item.getPropertyItem("owned_by_id").getAction());
+      });
+    }
+
+    [TestMethod]
+    public void GetAttribute()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get' id='DEA9466482CB4198AED0D859668D331B'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        compares.Add(item.getAttribute("not_there"));
+        compares.Add(item.getAttribute("not_there", "default"));
+        compares.Add(item.getAttribute("id"));
+        compares.Add(item.getAttribute("id", "default"));
+        compares.Add(item.getID());
+        compares.Add(item.getItemCount());
+        compares.Add(item.getItemByIndex(0).dom.OuterXml);
+        compares.Add(item.getLockStatus());
+        compares.Add(item.getProperty("name"));
+        compares.Add(item.getProperty("name", "default"));
+        compares.Add(item.getProperty("not_there"));
+        compares.Add(item.getProperty("not_there", "default"));
+        compares.Add(item.getType());
+
+        var propItem = item.getPropertyItem("owned_by_id");
+        compares.Add(propItem.getProperty("name"));
+        compares.Add(propItem.getPropertyAttribute("test", "not_there"));
+        compares.Add(propItem.getPropertyAttribute("test", "not_there", "default"));
+        compares.Add(propItem.getPropertyAttribute("test", "is_null"));
+        compares.Add(propItem.getPropertyAttribute("test", "is_null", "default"));
+        compares.Add(propItem.getPropertyCondition("test"));
+        compares.Add(propItem.getPropertyCondition("test", "default"));
+        compares.Add(propItem.getPropertyCondition("name"));
+        compares.Add(propItem.getPropertyCondition("name", "default"));
+      });
+    }
+
+    [TestMethod]
+    public void GetErrorInfo()
+    {
+      CompareIoms(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault xmlns:af='http://www.aras.com/InnovatorFault'>
+      <faultcode>0</faultcode>
+      <faultstring>No items of type Inbox found.</faultstring>
+      <detail>Other stuff</detail>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>", (inn, item, compares) =>
+      {
+        compares.Add(item.getErrorCode());
+        compares.Add(item.getErrorDetail());
+        compares.Add(item.getErrorSource());
+        compares.Add(item.getErrorString());
+        compares.Add(item.getItemCount());
+      });
+    }
+
+
+    [TestMethod]
+    public void GetParentItem()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get' id='DEA9466482CB4198AED0D859668D331B'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        compares.Add(item.getPropertyItem("owned_by_id").getParentItem().node.OuterXml);
+        compares.Add(item.getPropertyItem("owned_by_id").getParentItem().getID());
+      });
+    }
+
+    private void CompareIoms(string aml, Action<dynamic, dynamic, List<object>> action)
+    {
+      var comparesAras = new List<object>();
+      var comparesClient = new List<object>();
+      Assert.AreEqual(PerformArasIomTest(aml, comparesAras, action), PerformClientIomTest(aml, comparesClient, action));
+      CollectionAssert.AreEqual(comparesAras, comparesClient);
+    }
+
+    private string PerformClientIomTest(string aml, List<object> compares, Action<dynamic, dynamic, List<object>> action)
+    {
+      var conn = new TestConnection();
+      var inn = new IOM.Innovator(conn);
+      var item = inn.newItemFromAml(aml);
+      action.Invoke(inn, item, compares);
+      return item.dom.OuterXml;
+    }
+
+    private string PerformArasIomTest(string aml, List<object> compares, Action<dynamic, dynamic, List<object>> action)
+    {
+      var conn = Aras.IOM.IomFactory.CreateHttpServerConnection("http://example.com");
+      var inn = Aras.IOM.IomFactory.CreateInnovator(conn);
+      var item = inn.newItem();
+      item.loadAML(aml);
+      action.Invoke(inn, item, compares);
+      return item.dom.OuterXml;
+    }
 #endif
   }
 }

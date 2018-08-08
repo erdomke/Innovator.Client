@@ -63,7 +63,8 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IOM">
+    <Reference Include="IOM, Version=11.0.0.6296, Culture=neutral, PublicKeyToken=524d880b05474146, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\IOM.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />

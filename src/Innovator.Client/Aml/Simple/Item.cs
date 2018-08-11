@@ -276,14 +276,12 @@ namespace Innovator.Client
         {
           var prop = LinkedListOps.FindAll(elem, name)
             .OfType<IReadOnlyProperty>()
-            .FirstOrDefault(p => !p.Attribute("xml:lang").Exists
-              || p.Attribute("xml:lang").Value == lang);
+            .FirstOrDefault(p => p.Attribute("xml:lang").Value == lang);
 
           if (prop != null)
             return prop;
         }
-        var result = new Property(this, name);
-        result.Add(new Attribute("xml:lang", lang));
+        var result = new Property(this, name, new Attribute("xml:lang", lang));
         return result;
       }
       return Innovator.Client.Property.NullProp;

@@ -1,3 +1,4 @@
+#if XMLLEGACY
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -97,8 +98,8 @@ namespace Innovator.Client.IOM
 
     public void Remove()
     {
-      _parent.Xml.RemoveAttribute(_node.Name);
-      _name = _node.Name;
+      _parent.Xml.RemoveAttribute(Name);
+      _name = Name;
       _node = null;
     }
 
@@ -126,3 +127,4 @@ namespace Innovator.Client.IOM
     }
   }
 }
+#endif

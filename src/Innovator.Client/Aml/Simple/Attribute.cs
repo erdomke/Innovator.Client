@@ -33,7 +33,7 @@ namespace Innovator.Client
 
     private string DebuggerDisplay
     {
-      get { return string.Format("{0}='{1}'", _name, _content); }
+      get { return string.Format("{0}='{1}'", _name, _parent?.AmlContext?.LocalizationContext.Format(_content) ?? _content); }
     }
 
     public Attribute(string name)

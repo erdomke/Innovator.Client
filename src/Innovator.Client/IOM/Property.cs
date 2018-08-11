@@ -1,3 +1,4 @@
+#if XMLLEGACY
 using System;
 using System.Linq;
 using System.Xml;
@@ -215,3 +216,4 @@ namespace Innovator.Client.IOM
     }
   }
 }
+#endif

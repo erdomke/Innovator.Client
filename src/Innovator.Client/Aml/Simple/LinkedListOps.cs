@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Innovator.Client
@@ -75,7 +75,9 @@ namespace Innovator.Client
     {
       if (lastLink == null
         || (lastLink == removeLink && removeLink.Next == removeLink))
+      {
         return null;
+      }
 
       T prev;
       var curr = lastLink;

@@ -1,14 +1,18 @@
-#if !XMLLEGACY
+#if XMLLEGACY
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 
 namespace Innovator.Client.IOM
 {
   public partial class Item : IEnumerable<Item>
   {
-#region IOM
+    public XmlDocument dom { get; set; }
+    public XmlElement node { get { return Xml; } set { Xml = value; } }
+    public XmlNodeList nodeList { get; set; }
+
     /// <summary>
     /// Add specified item as a relationship item to the instance.
     /// </summary>
@@ -19,14 +23,63 @@ namespace Innovator.Client.IOM
     }
 
     /// <summary>
-    /// Appends the item.
+    /// Appends the item(s).
     /// </summary>
-    /// <param name="item">Item to append.</param>
+    /// <param name="item">Item(s) to append.</param>
     public void appendItem(Item item)
     {
-      ((IList<IReadOnlyItem>)_content).Add(item.AssertItem());
-      if (_parent != null)
-        _parent.Add(item.AssertItem());
+      if (!Exists)
+        throw new InvalidOperationException("Cannot append an item to an item that doesn't exist");
+
+      var itemsToImport = item.AssertItems().OfType<Item>().Select(i => i.Xml).ToList();
+      if (itemsToImport.Count < 1)
+        throw new ArgumentException("Cannot append an item which doesn't exist", "item");
+
+      var first = dom.SelectSingleNode("//Item") as XmlElement;
+      var parent = first?.ParentNode as XmlElement;
+
+      if (parent == null && first != null)
+      {
+        parent = dom.CreateElement("AML");
+        dom.RemoveChild(first);
+        dom.AppendChild(parent);
+        parent.AppendChild(first);
+      }
+
+      if (parent == null)
+      {
+        var result = dom.SelectSingleNode(XPathResult) as XmlElement;
+        if (result != null)
+        {
+          result.RemoveAll();
+          parent = result;
+        }
+      }
+
+      if (parent == null)
+      {
+        var body = dom.SelectSingleNode("/*[local-name()='Envelope' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]/*[local-name()='Body' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]") as XmlElement;
+        if (body != null)
+        {
+          parent = body.ChildNodes.OfType<XmlElement>().FirstOrDefault() ?? body;
+          parent.RemoveAll();
+        }
+      }
+
+      if (parent == null)
+        throw new InvalidOperationException("Invalid item structure");
+
+      foreach (var toImport in itemsToImport)
+        parent.AppendChild(dom.ImportNode(toImport, true));
+
+      node = null;
+      nodeList = parent.SelectNodes("./Item");
+
+      if (nodeList.Count == 1)
+      {
+        node = (XmlElement)nodeList[0];
+        nodeList = null;
+      }
     }
 
     /// <summary>
@@ -45,19 +98,11 @@ namespace Innovator.Client.IOM
     /// <returns>An <see cref="Item"/> containing result of the AML call</returns>
     public Item apply(string action)
     {
-      string aml;
-      if (string.IsNullOrEmpty(action))
-      {
-        aml = this.ToAml();
-      }
-      else
-      {
-        var item = Clone();
-        item.Action().Set(action);
-        aml = item.ToAml();
-      }
+      if (!string.IsNullOrEmpty(action))
+        setAction(action);
 
-      return new Item(_conn, _conn.ApplyMutable(aml));
+      var aml = this.ToAml();
+      return getInnovator().Apply(aml);
     }
 
     //public string applyStylesheet(string xslStylesheet, string type)
@@ -80,31 +125,25 @@ namespace Innovator.Client.IOM
     /// action attributes set to 'add'.</remarks>
     public Item clone(bool cloneRelationships)
     {
-      var result = Clone();
-      var newId = _conn.AmlContext.NewId();
-      result.Attribute("id").Set(newId);
-      var prop = result.IdProp();
-      if (prop.Exists)
-        prop.Set(newId);
-      result.Action().Set("add");
-
+      AssertXml();
+      var item = getInnovator().newItemFromAml(this);
+      item.setNewID();
+      item.setAction("add");
       if (!cloneRelationships)
       {
-        result.Relationships().Remove();
+        var relElem = (XmlElement)item.node.SelectSingleNode("Relationships");
+        relElem?.ParentNode.RemoveChild(relElem);
       }
       else
       {
-        foreach (var rel in result.Relationships())
+        var rels = item.node.SelectNodes(".//Relationships/Item");
+        for (int i = 0; i < rels.Count; i++)
         {
-          newId = _conn.AmlContext.NewId();
-          rel.Attribute("id").Set(newId);
-          prop = rel.IdProp();
-          if (prop.Exists)
-            prop.Set(newId);
-          rel.Action().Set("add");
+          ((XmlElement)rels[i]).SetAttribute("id", getNewID());
+          ((XmlElement)rels[i]).SetAttribute("action", "add");
         }
       }
-      return new Item(_conn, result);
+      return item;
     }
 
     /// <summary>
@@ -122,13 +161,19 @@ namespace Innovator.Client.IOM
     /// argument and doesn't create it internally.</remarks>
     public Item createPropertyItem(string propName, string type, string action)
     {
-      // remove existing
-      Property(propName).AsItem().Remove();
-      var aml = _conn.AmlContext;
-      var newItem = aml.Item(aml.Attribute("isNew", true), aml.Attribute("isTemp", true)
-        , aml.Type(type), aml.Action(action));
-      Property(propName).Set(newItem);
-      return new Item(_conn, newItem);
+      var elem = GetPropertyForLanguage(propName, null);
+      if (elem == null)
+      {
+        elem = (XmlElement)Xml.AppendChild(dom.CreateElement(propName));
+      }
+      else
+      {
+        // remove existing
+        foreach (var child in elem.ChildNodes.OfType<XmlNode>().ToList())
+          elem.RemoveChild(child);
+      }
+      var item = Innovator.AppendNewItem(elem, type, action);
+      return new Item(getInnovator(), item);
     }
 
     /// <summary>
@@ -160,11 +205,10 @@ namespace Innovator.Client.IOM
     /// <remarks>If a <c>&lt;Relationships&gt;</c> node doesn't exist, it's created.</remarks>
     public Item createRelationship(string type, string action)
     {
-      var aml = _conn.AmlContext;
-      var newItem = aml.Item(aml.Attribute("isNew", true), aml.Attribute("isTemp", true)
-        , aml.Type(type), aml.Action(action));
-      Relationships().Add(newItem);
-      return new Item(_conn, newItem);
+      var elem = ItemElement("Relationships")
+        ?? (XmlElement)Xml.AppendChild(dom.CreateElement("Relationships"));
+      var item = Innovator.AppendNewItem(elem, type, action);
+      return new Item(getInnovator(), item);
     }
 
     //public bool email(Item emailItem, Item identityItem) { }
@@ -180,7 +224,7 @@ namespace Innovator.Client.IOM
     /// <remarks>If a property doesn't have a default value, the property is not set.</remarks>
     public Item fetchDefaultPropertyValues(bool overwrite_current)
     {
-      var props = _conn.Apply(@"<Item type='ItemType' action='get' select='id'>
+      var props = getInnovator().getConnection().Apply(@"<Item type='ItemType' action='get' select='id'>
   <name>@0</name>
   <Relationships>
     <Item type='Property' action='get' select='name,default_value' />
@@ -216,7 +260,7 @@ namespace Innovator.Client.IOM
     /// <c>locked_by_id</c>.</remarks>
     public int fetchLockStatus()
     {
-      return (int)this.FetchLockStatus(_conn);
+      return (int)this.FetchLockStatus(getInnovator().getConnection());
     }
 
     /// <summary>
@@ -259,10 +303,10 @@ namespace Innovator.Client.IOM
       if (relationshipTypeName == null || relationshipTypeName.Trim().Length == 0)
         throw new ArgumentException("Relationship type is not specified");
 
-      var rels = _conn.Apply("<Item type='@0' action='get' select='@1' orderBy='@2'><source_id>@3</source_id></Item>"
+      var rels = getInnovator().getConnection().Apply("<Item type='@0' action='get' select='@1' orderBy='@2'><source_id>@3</source_id></Item>"
         , relationshipTypeName, selectList, orderBy, id).Items();
 
-      var existing = Relationships(relationshipTypeName).ToArray();
+      var existing = Relationships(relationshipTypeName).ToList();
       foreach (var rel in existing)
       {
         rel.Remove();
@@ -314,8 +358,7 @@ namespace Innovator.Client.IOM
     /// is returned.</returns>
     public string getErrorCode()
     {
-      var ex = Exception as ServerException;
-      return ex?.FaultCode;
+      return GetErrorDetail("faultcode");
     }
 
     /// <summary>
@@ -326,10 +369,7 @@ namespace Innovator.Client.IOM
     /// error message) obtained from server.</remarks>
     public string getErrorDetail()
     {
-      var ex = Exception as ServerException;
-      if (ex == null)
-        return null;
-      return ex.Fault.Element("detail").InnerText();
+      return GetErrorDetail("detail");
     }
 
     /// <summary>
@@ -338,10 +378,7 @@ namespace Innovator.Client.IOM
     /// <returns>If the instance is not an error item, <c>null</c> is returned.</returns>
     public string getErrorSource()
     {
-      var ex = Exception as ServerException;
-      if (ex == null)
-        return null;
-      return ex.Fault.Element("faultactor").Value;
+      return GetErrorDetail("faultactor");
     }
 
     /// <summary>
@@ -351,7 +388,19 @@ namespace Innovator.Client.IOM
     /// <c>&lt;Fault&gt;</c>. If the instance is not an error item, <c>null</c> is returned.</returns>
     public string getErrorString()
     {
-      return Exception?.Message;
+      return GetErrorDetail("faultstring");
+    }
+
+    private string GetErrorDetail(string tagName)
+    {
+      if (dom == null)
+        return string.Empty;
+
+      var node = dom.SelectSingleNode(XPathFault + "/" + tagName);
+      if (node == null)
+        return string.Empty;
+
+      return node.InnerText;
     }
 
     /// <summary>
@@ -371,7 +420,7 @@ namespace Innovator.Client.IOM
     /// <returns>An <see cref="Innovator"/> for creating AML</returns>
     public Innovator getInnovator()
     {
-      return new Innovator(_conn);
+      return (Innovator)AmlContext;
     }
 
     /// <summary>
@@ -381,7 +430,7 @@ namespace Innovator.Client.IOM
     /// <returns>Found item</returns>
     public Item getItemByIndex(int index)
     {
-      return new Item(_conn, Items().ElementAt(index));
+      return AssertItems().OfType<Item>().ElementAt(index);
     }
 
     /// <summary>
@@ -397,14 +446,15 @@ namespace Innovator.Client.IOM
     /// </returns>
     public int getItemCount()
     {
-      if (Exception != null)
-        return Exception is NoItemsFoundException ? 0 : -1;
-
-      var items = _content as IEnumerable<IReadOnlyItem>;
-      if (items == null)
+      if (dom == null)
         return -1;
-
-      return items.Count();
+      if (nodeList != null)
+        return nodeList.Count;
+      if (isError())
+        return getErrorCode() == "0" ? 0 : -1;
+      if (node == null)
+        return -1;
+      return 1;
     }
 
     // public Item getItemsByXPath(string xpath)
@@ -422,11 +472,19 @@ namespace Innovator.Client.IOM
     /// </returns>
     public int getLockStatus()
     {
-      return (int)this.LockStatus(_conn);
+      return (int)this.LockStatus(getInnovator().getConnection());
     }
 
-    // public Item getLogicalChildren()
-    // public Item getLogicalItems()
+    public Item getLogicalChildren()
+    {
+      var logical = AssertXml().SelectNodes("./*[local-name()='and' or local-name()='or' or local-name()='not']");
+      return new Item(getInnovator(), this)
+      {
+        dom = dom,
+        node = null,
+        nodeList = logical
+      };
+    }
 
     /// <summary>
     /// Generate new 32 character hex string globally unique identifier.
@@ -434,7 +492,7 @@ namespace Innovator.Client.IOM
     /// <returns>GUID as a string</returns>
     public string getNewID()
     {
-      return _conn.AmlContext.NewId();
+      return getInnovator().NewId();
     }
 
     /// <summary>
@@ -443,11 +501,12 @@ namespace Innovator.Client.IOM
     /// <returns>If there is no parent, <c>null</c> is returned</returns>
     public Item getParentItem()
     {
-      var itemParent = this.Parents().OfType<IReadOnlyItem>().FirstOrDefault();
-      if (itemParent == null)
+      var elem = AssertXml();
+      var parent = elem.SelectSingleNode("ancestor::Item") as XmlElement;
+      if (parent == null)
         return null;
 
-      return new Item(_conn, itemParent);
+      return new Item(getInnovator(), parent);
     }
 
     /// <summary>
@@ -529,10 +588,7 @@ namespace Innovator.Client.IOM
       if (propertyName == "id")
         return this;
 
-      var result = ((IItem)this).Property(propertyName, null).AsItem();
-      if (result.Exists)
-        return new Item(_conn, result);
-      return null;
+      return this.Property(propertyName, null).AsItem() as Item;
     }
 
     public Item getRelatedItem()
@@ -547,13 +603,12 @@ namespace Innovator.Client.IOM
 
     public Item getRelationships()
     {
-      return getRelationships(null);
+      return (Item)Relationships();
     }
 
     public Item getRelationships(string itemTypeName)
     {
-      var rels = Relationships();
-      return new Item(_conn, rels.Where(r => string.IsNullOrEmpty(itemTypeName) || r.TypeName() == itemTypeName).OfType<IReadOnlyItem>().ToList(), rels);
+      return (Item)Relationships(itemTypeName);
     }
 
     public string getResult()
@@ -575,17 +630,21 @@ namespace Innovator.Client.IOM
 
     public bool isEmpty()
     {
-      return this.Exception is NoItemsFoundException;
+      if (isError())
+        return getErrorCode() == "0";
+      return false;
     }
 
     public bool isError()
     {
-      return this.Exception != null;
+      if (dom == null)
+        return false;
+      return dom.SelectSingleNode(XPathFault) != null;
     }
 
     public bool isLogical()
     {
-      return (_content as IEnumerable)?.OfType<ILogical>()?.Count() == 1;
+      return this is ILogical;
     }
 
     public bool isNew()
@@ -595,61 +654,86 @@ namespace Innovator.Client.IOM
 
     public bool isRoot()
     {
-      return !this.Parent.Exists;
+      return node != null
+        && node.LocalName == "Item"
+        && node.SelectNodes("ancestor::node()[local-name()='Item']").Count <= 0
+        && node.ParentNode.SelectNodes("Item").Count == 1;
     }
 
     public void loadAML(string AML)
     {
-      loadAML(_conn.AmlContext.FromXml(AML));
-    }
-
-    private void loadAML(IReadOnlyResult result)
-    {
-      _content = (object)result.Exception ?? (object)result.Value ?? result.Items().ToList();
+      dom.XmlResolver = null;
+      dom.LoadXml(AML);
+      InitNodes();
     }
 
     public Item lockItem()
     {
       var id = AssertId();
       var type = AssertTypeName();
-      var result = _conn.Apply("<Item type='@0' id='@1' action='lock'/>", type, id);
+      var result = getInnovator().Apply(new Command("<Item type='@0' id='@1' action='lock'/>", type, id));
       if (result.Exception == null)
       {
         this.LockedById().Set(result.AssertItem().LockedById().Value);
       }
-      return new Item(_conn, result);
+      return result;
     }
 
-    // public Item newAND()
+    public Item newAND()
+    {
+      var andElem = AssertXml().OwnerDocument.CreateElement("and");
+      node.AppendChild(andElem);
+      return new Logical(getInnovator(), this, andElem);
+    }
 
     public Item newItem()
     {
-      return new Item(_conn);
+      return getInnovator().newItem();
     }
 
     public Item newItem(string itemTypeName)
     {
-      var aml = _conn.AmlContext;
-      return new Item(_conn, aml.Type(itemTypeName));
+      return getInnovator().newItem(itemTypeName);
     }
 
     public Item newItem(string itemTypeName, string action)
     {
-      var aml = _conn.AmlContext;
-      return new Item(_conn, aml.Type(itemTypeName), aml.Action(action));
+      return getInnovator().newItem(itemTypeName, action);
     }
 
-    // public Item newNOT()
+    public Item newNOT()
+    {
+      var andElem = AssertXml().OwnerDocument.CreateElement("not");
+      node.AppendChild(andElem);
+      return new Logical(getInnovator(), this, andElem);
+    }
 
-    // public Item newOR()
+    public Item newOR()
+    {
+      var andElem = AssertXml().OwnerDocument.CreateElement("or");
+      node.AppendChild(andElem);
+      return new Logical(getInnovator(), this, andElem);
+    }
 
-    // public XmlDocument newXMLDocument()
+    public XmlDocument newXMLDocument()
+    {
+      return Innovator.NewXmlDocument();
+    }
 
     public Item promote(string state, string comments)
     {
       if (state == null || state.Trim().Length == 0)
         throw new ArgumentException("'state' is either 'null' or an empty string");
-      return new Item(_conn, this.Promote(_conn, state, comments));
+
+      var aml = AmlContext;
+      var promoteItem = aml.Item(aml.Action("promoteItem"),
+        aml.Type(TypeName()),
+        aml.Id(Id()),
+        aml.State(state)
+      );
+      if (!string.IsNullOrEmpty(comments)) promoteItem.Add(aml.Property("comments", comments));
+
+      return getInnovator().Apply(new Command(promoteItem.ToAml()));
     }
 
     public void removeAttribute(string attributeName)
@@ -659,16 +743,29 @@ namespace Innovator.Client.IOM
 
     public void removeItem(Item item)
     {
-      var list = _content as IList<IReadOnlyItem>;
-      if (list == null)
+      if (item.dom != dom)
+        throw new ArgumentException("Itemmust be from the same document");
+      if (nodeList == null)
         throw new Exception("Not a collection of items");
-      if (item == null)
-        throw new ArgumentNullException("item");
 
-      list.Remove(item.AssertItem());
+      var toRemove = item.Items().Cast<Item>();
+      var parent = nodeList[0].ParentNode as XmlElement;
+      foreach (var remove in toRemove)
+        parent.RemoveChild(remove.node);
+
+      nodeList = parent.SelectNodes("./Item");
+      if (nodeList.Count == 1)
+      {
+        node = (XmlElement)nodeList[0];
+        nodeList = null;
+      }
     }
 
-    // public void removeLogical(Item logicalItem)
+    public void removeLogical(Item logicalItem)
+    {
+      var logical = logicalItem.AssertXml();
+      AssertXml().RemoveChild(logical);
+    }
 
     public void removeProperty(string propertyName)
     {
@@ -705,10 +802,41 @@ namespace Innovator.Client.IOM
       Attribute(attributeName).Set(attributeValue);
     }
 
-    // public void setErrorCode(string errcode)
-    // public void setErrorDetail(string detail)
-    // public void setErrorSource(string source)
-    // public void setErrorString(string errorMessage)
+    public void setErrorCode(string errcode)
+    {
+      SetErrorDetail("faultcode", errcode);
+    }
+
+    public void setErrorDetail(string detail)
+    {
+      SetErrorDetail("detail", detail);
+    }
+
+    public void setErrorSource(string source)
+    {
+      SetErrorDetail("faultactor", source);
+    }
+
+    public void setErrorString(string errorMessage)
+    {
+      SetErrorDetail("faultstring", errorMessage);
+    }
+
+    private void SetErrorDetail(string errorDetailTagName, string errorDetailValue)
+    {
+      if (dom == null)
+        return;
+
+      var fault = dom.SelectSingleNode(XPathFault);
+      if (fault == null)
+        return;
+
+      var tag = fault.SelectSingleNode(errorDetailTagName);
+      if (tag == null)
+        tag = fault.AppendChild(dom.CreateElement(errorDetailTagName));
+
+      tag.InnerText = errorDetailValue;
+    }
 
     // public Item setFileProperty(string propertyName, string pathToFile)
 
@@ -720,7 +848,7 @@ namespace Innovator.Client.IOM
         prop.Set(id);
     }
 
-    public void setNewId()
+    public void setNewID()
     {
       setID(getNewID());
     }
@@ -775,12 +903,11 @@ namespace Innovator.Client.IOM
     {
       var id = AssertId();
       var type = AssertTypeName();
-      var result = _conn.Apply("<Item type='@0' id='@1' action='unlock'/>", type, id);
+      var result = getInnovator().Apply(new Command("<Item type='@0' id='@1' action='unlock'/>", type, id));
       if (result.Exception == null)
         this.LockedById().Remove();
-      return new Item(_conn, result);
+      return result;
     }
-#endregion
 
     /// <summary>
     /// Returns an enumerator that iterates through the items in the collection.
@@ -790,7 +917,7 @@ namespace Innovator.Client.IOM
     /// </returns>
     public IEnumerator<Item> GetEnumerator()
     {
-      return Items().Select(i => new Item(_conn, i)).GetEnumerator();
+      return Items().Cast<Item>().GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()

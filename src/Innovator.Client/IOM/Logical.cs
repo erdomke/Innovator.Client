@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+#if XMLLEGACY
 using System.Xml;
 
 namespace Innovator.Client.IOM
@@ -17,3 +13,4 @@ namespace Innovator.Client.IOM
     }
   }
 }
+#endif

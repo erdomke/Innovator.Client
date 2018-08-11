@@ -35,10 +35,15 @@ namespace Innovator.Client
         Add(content);
     }
 
-    public Property(IElement parent, string name)
+    public Property(IElement parent, string name, params object[] content)
     {
       Name = name;
       _parent = parent;
+      if (content?.Length > 0)
+      {
+        for (var i = 0; i < content.Length; i++)
+          base.Add(content[i]);
+      }
     }
 
     private Property(IElement parent, Property clone)

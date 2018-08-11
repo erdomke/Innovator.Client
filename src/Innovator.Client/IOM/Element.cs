@@ -1,3 +1,4 @@
+#if XMLLEGACY
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace Innovator.Client.IOM
     IReadOnlyElement IReadOnlyElement.Parent => this.Parent;
 
     /// <summary>String value of the element</summary>
-    public virtual string Value { get { return Xml.ChildNodes.OfType<XmlElement>().Any() ? null : Xml.InnerText; } }
+    public virtual string Value { get { return Xml?.ChildNodes.OfType<XmlElement>().Any() != false ? null : Xml.InnerText; } }
 
     internal XmlElement Xml { get; set; }
 
@@ -131,12 +132,12 @@ namespace Innovator.Client.IOM
       var elem = AssertXml();
       if (elem == null)
         return Enumerable.Empty<IAttribute>();
-      return Xml.Attributes.OfType<XmlAttribute>().Select(a => new Attribute(this, a));
+      return Xml.Attributes.OfType<XmlAttribute>().Select(a => (IAttribute)new Attribute(this, a));
     }
 
     public IEnumerable<IElement> Elements()
     {
-      throw new NotImplementedException();
+      return Xml.ChildNodes.OfType<XmlElement>().Select(e => (IElement)Factory(e, this));
     }
 
     public void Remove()
@@ -185,5 +186,23 @@ namespace Innovator.Client.IOM
     {
       return Xml;
     }
+
+    internal static Element Factory(XmlElement elem, Element parent)
+    {
+      switch (elem.LocalName)
+      {
+        case "Item":
+          return new Item((Innovator)parent.AmlContext, elem) { Parent = parent };
+        case "Relationships":
+          return new Relationships((Innovator)parent.AmlContext, parent, elem);
+        case "and":
+        case "or":
+        case "not":
+          return new Logical((Innovator)parent.AmlContext, parent, elem);
+        default:
+          return new Property(parent, elem);
+      }
+    }
   }
 }
+#endif

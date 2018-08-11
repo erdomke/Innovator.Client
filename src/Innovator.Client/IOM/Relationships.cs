@@ -1,3 +1,4 @@
+#if XMLLEGACY
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -113,3 +114,4 @@ namespace Innovator.Client.IOM
     }
   }
 }
+#endif

@@ -1,5 +1,6 @@
-#if !XMLLEGACY
+#if XMLLEGACY
 using System;
+using System.Xml;
 
 namespace Innovator.Client.IOM
 {
@@ -35,7 +36,7 @@ namespace Innovator.Client.IOM
     /// containing the XML response returned from the server.</remarks>
     public Item applyAML(string AML, params object[] args)
     {
-      return new Item(_conn, _conn.ApplyMutable(new Command(AML, args).WithAction(CommandAction.ApplyAML)));
+      return Apply(new Command(AML, args).WithAction(CommandAction.ApplyAML));
     }
 
     /// <summary>
@@ -50,8 +51,8 @@ namespace Innovator.Client.IOM
     /// be applied, and methods written in JavaScript cannot be applied.</remarks>
     public Item applyMethod(string methodName, string body)
     {
-      return new Item(_conn, _conn.ApplyMutable(new Command("<Item type='Method' action='@0'>@1!</Item>", methodName, body)
-        .WithAction(CommandAction.ApplyMethod)));
+      return Apply(new Command("<Item type='Method' action='@0'>@1!</Item>", methodName, body)
+        .WithAction(CommandAction.ApplyMethod));
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ namespace Innovator.Client.IOM
       {
         sql = "<sql>" + ServerContext.XmlEscape(sql) + "</sql>";
       }
-      return new Item(_conn, _conn.ApplyMutable(new Command(sql, args).WithAction(CommandAction.ApplySQL)));
+      return Apply(new Command(sql, args).WithAction(CommandAction.ApplySQL));
     }
 
     /// <summary>
@@ -104,8 +105,8 @@ namespace Innovator.Client.IOM
       if (id.IsNullOrWhiteSpace())
         throw new ArgumentException("ID must be specified", nameof(id));
 
-      return new Item(_conn, _conn.ApplyMutable(new Command("<Item type='@0' id='@1' action=\"get\" />", itemTypeName, id)
-                          .WithAction(CommandAction.ApplyItem)));
+      return Apply(new Command("<Item type='@0' id='@1' action=\"get\" />", itemTypeName, id)
+                          .WithAction(CommandAction.ApplyItem));
     }
 
     /// <summary>
@@ -129,8 +130,8 @@ namespace Innovator.Client.IOM
       if (keyedName.IsNullOrWhiteSpace())
         throw new ArgumentException("Keyed name must be specified", nameof(keyedName));
 
-      return new Item(_conn, _conn.ApplyMutable(new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
-                          .WithAction(CommandAction.ApplyItem)));
+      return Apply(new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
+                          .WithAction(CommandAction.ApplyItem));
     }
 
     /// <summary>
@@ -139,7 +140,7 @@ namespace Innovator.Client.IOM
     /// <returns>New GUID.</returns>
     public string getNewID()
     {
-      return _conn.AmlContext.NewId();
+      return NewId();
     }
 
     /// <summary>
@@ -178,7 +179,12 @@ namespace Innovator.Client.IOM
     /// <returns></returns>
     public Item newError(string explanation)
     {
-      return new Item(_conn, _conn.AmlContext.ServerException(explanation));
+      var dom = NewXmlDocument();
+      using (var writer = dom.CreateNavigator().AppendChild())
+      {
+        _conn.AmlContext.ServerException(explanation).ToAml(writer);
+      }
+      return new Item(this, dom);
     }
 
     /// <summary>
@@ -188,7 +194,7 @@ namespace Innovator.Client.IOM
     /// <remarks>The new <see cref="Item"/> will have no properties.</remarks>
     public Item newItem()
     {
-      return new Item(_conn);
+      return newItem(null, null);
     }
 
     /// <summary>
@@ -202,8 +208,7 @@ namespace Innovator.Client.IOM
     /// on the item.</remarks>
     public Item newItem(string itemTypeName)
     {
-      var aml = _conn.AmlContext;
-      return new Item(_conn, aml.Type(itemTypeName));
+      return newItem(itemTypeName, null);
     }
 
     /// <summary>
@@ -219,8 +224,33 @@ namespace Innovator.Client.IOM
     /// <see cref="Item.fetchDefaultPropertyValues(bool)"/> on the item.</remarks>
     public Item newItem(string itemTypeName, string action)
     {
-      var aml = _conn.AmlContext;
-      return new Item(_conn, aml.Type(itemTypeName), aml.Action(action));
+      var dom = NewXmlDocument();
+      var elem = AppendNewItem(dom, itemTypeName, action);
+      return new Item(this, elem);
+    }
+
+    internal static XmlElement AppendNewItem(XmlNode parent, string itemTypeName, string action)
+    {
+      var node = (parent as XmlDocument ?? parent.OwnerDocument).CreateElement("Item");
+      parent.AppendChild(node);
+      node.SetAttribute("isNew", "1");
+      node.SetAttribute("isTemp", "1");
+
+      if (itemTypeName?.Trim().Length > 0)
+      {
+        node.SetAttribute("type", itemTypeName);
+        if (action?.Trim().Length > 0)
+        {
+          node.SetAttribute("action", action);
+          if (string.Equals(action, "add", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(action, "create", StringComparison.OrdinalIgnoreCase))
+          {
+            node.SetAttribute("id", Guid.NewGuid().ToArasId());
+          }
+        }
+      }
+
+      return node;
     }
 
     /// <summary>
@@ -230,7 +260,33 @@ namespace Innovator.Client.IOM
     /// <param name="args">Parameters to be injected into the query</param>
     public Item newItemFromAml(string aml, params object[] args)
     {
-      return new Item(_conn, _conn.AmlContext.FromXml(aml, args));
+      var dom = NewXmlDocument();
+      if (args?.Length > 0)
+      {
+        using (var writer = dom.CreateNavigator().AppendChild())
+        {
+          var sub = new ParameterSubstitution();
+          sub.AddIndexedParameters(args);
+          sub.Substitute(aml, LocalizationContext, writer);
+        }
+      }
+      else
+      {
+        dom.LoadXml(aml);
+      }
+
+      return new Item(this, dom);
+    }
+
+    public Item newItemFromAml(IAmlNode aml)
+    {
+      var dom = NewXmlDocument();
+      using (var writer = dom.CreateNavigator().AppendChild())
+      {
+        aml.ToAml(writer);
+      }
+
+      return new Item(this, dom);
     }
 
     /// <summary>
@@ -241,7 +297,8 @@ namespace Innovator.Client.IOM
     /// <returns>Created item.</returns>
     public Item newResult(string text)
     {
-      return new Item(_conn, text);
+      var xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><Result>" + ServerContext.XmlEscape(text) + "</Result></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      return newItemFromAml(xml);
     }
 
     /// <summary>
@@ -252,6 +309,24 @@ namespace Innovator.Client.IOM
     public static string ScalcMD5(string val)
     {
       return MD5.ComputeHash(Utils.AsciiGetBytes(val)).ToLowerInvariant();
+    }
+
+    internal Item Apply(Command command)
+    {
+      var stream = _conn.Process(command);
+      var xmlStream = stream as IXmlStream;
+      var dom = new XmlDocument();
+      using (var xmlReader = (xmlStream == null ? XmlReader.Create(stream) : xmlStream.CreateReader()))
+      {
+        dom.Load(xmlReader);
+      }
+
+      return new Item(this, dom);
+    }
+
+    internal static XmlDocument NewXmlDocument()
+    {
+      return new XmlDocument() { PreserveWhitespace = true };
     }
   }
 }

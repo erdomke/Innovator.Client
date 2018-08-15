@@ -728,6 +728,7 @@ namespace Innovator.Client.QueryModel
     {
       var query = subQuery.Join.Right;
       Writer.Write("exists (select null");
+      _hasFromOrSelect = true;
       VisitFrom(query);
       VisitWhere(query, new[] { subQuery.Join.Condition });
       Writer.Write(")");

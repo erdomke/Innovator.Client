@@ -602,6 +602,7 @@ namespace Innovator.Client.Tests
       str = result.ToAml();
       Assert.AreEqual(outputWithMessage, str);
     }
+
     [TestMethod]
     public void GetItemsWithNoAccessCount()
     {

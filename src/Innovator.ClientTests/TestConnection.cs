@@ -25,6 +25,21 @@ namespace Innovator.Client.Tests
 
     public Version Version => new Version(11, 0);
 
+    public Action<string, string> QueryCallback { get; set; }
+
+    public string DefaultResponse { get; set; } = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault xmlns:af='http://www.aras.com/InnovatorFault'>
+      <faultcode>0</faultcode>
+      <faultstring>No items of type found.</faultstring>
+      <detail>
+        <af:legacy_detail>No items of type found.</af:legacy_detail>
+        <af:legacy_faultstring>No items of type '' found using the criteria: </af:legacy_faultstring>
+      </detail>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>";
+
     public TestConnection()
     {
       _vaultConn = new ArasVaultConnection(this);
@@ -48,18 +63,8 @@ namespace Innovator.Client.Tests
 
       LastRequest = request;
       var elem = XElement.Parse(request.ToNormalizedAml(this.AmlContext.LocalizationContext));
-      var result = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
-  <SOAP-ENV:Body>
-    <SOAP-ENV:Fault xmlns:af='http://www.aras.com/InnovatorFault'>
-      <faultcode>0</faultcode>
-      <faultstring>No items of type found.</faultstring>
-      <detail>
-        <af:legacy_detail>No items of type found.</af:legacy_detail>
-        <af:legacy_faultstring>No items of type '' found using the criteria: </af:legacy_faultstring>
-      </detail>
-    </SOAP-ENV:Fault>
-  </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>";
+      QueryCallback?.Invoke(request.ActionString, elem.ToString(SaveOptions.DisableFormatting));
+      var result = DefaultResponse;
 
       if (request.Action == CommandAction.GetIdentityList)
       {

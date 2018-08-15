@@ -324,6 +324,34 @@ namespace Innovator.Client.QueryModel.Tests
       Assert.AreEqual("select Part.id from Part where exists (select null from [Part CAD] inner join CAD on [Part CAD].related_id = CAD.id where Part.id = [Part CAD].source_id and CAD.organization = '158F22F4BAC8479E95D512ACEDB113C8')", sql);
     }
 
+    [TestMethod]
+    public void Aml2Sql_Relationships2()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Item action='get' type='Alert'>
+  <state>Open</state>
+  <Relationships>
+    <Item action='get' type='Alert Entity' related_expand='0'>
+      <related_id>
+        <Item action='get' type='Entity'>
+          <criteria>thing</criteria>
+        </Item>
+      </related_id>
+    </Item>
+  </Relationships>
+</Item>");
+
+      var query = item.ToQueryItem();
+
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        RenderOption = SqlRenderOption.WhereClause,
+        PermissionOption = AmlSqlPermissionOption.None
+      };
+
+      var sql = query.ToArasSql(settings);
+      Assert.AreEqual("Alert.state = N'Open' and Alert.is_current = '1' and exists (select null from innovator.Alert_Entity inner join innovator.Entity on Alert_Entity.related_id = Entity.id where Alert.id = Alert_Entity.source_id and Entity.criteria = N'thing')", sql);
+    }
+
     private string ToBaseSql(QueryItem query, IAmlSqlWriterSettings settings)
     {
       using (var writer = new StringWriter())

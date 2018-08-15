@@ -39,13 +39,28 @@ namespace Innovator.Client.IOM
     {
       get
       {
-        if (dom?.SelectSingleNode(XPathFault) != null)
+        if (dom?.SelectSingleNode(XPathFault) != null
+          || dom?.SelectSingleNode("//CompileMethodResponse/Result/status")?.InnerText?.StartsWith("ERROR: ") == true)
+        {
           return AmlContext.FromXml(dom).Exception;
+        }
         return null;
       }
     }
 
-    public IReadOnlyElement Message => throw new NotImplementedException();
+    public IReadOnlyElement Message
+    {
+      get
+      {
+        var node = dom?.SelectSingleNode("/*[local-name()='Envelope' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]/*[local-name()='Body' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]/Message") as XmlElement;
+        if (node == null)
+          return Client.AmlElement.NullElem;
+        return new AmlElement()
+        {
+          Xml = node
+        };
+      }
+    }
 
     IReadOnlyItem ISingleItemContext.Item => this;
 

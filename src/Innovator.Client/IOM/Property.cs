@@ -11,6 +11,19 @@ namespace Innovator.Client.IOM
 
     public override string Name => base.Name ?? _name;
     public override IElement Parent { get; set; }
+    public override string Value
+    {
+      get
+      {
+        var result = base.Value;
+        if (result != null)
+          return result;
+        var item = Xml?.ChildNodes.OfType<XmlElement>().FirstOrDefault(e => e.LocalName == "Item");
+        if (item == null)
+          return result;
+        return item.GetAttribute("id");
+      }
+    }
 
     public Property(Element parent, string name)
     {

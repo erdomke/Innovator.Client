@@ -260,7 +260,20 @@ namespace Innovator.Client.IOM
     /// <c>locked_by_id</c>.</remarks>
     public int fetchLockStatus()
     {
-      return (int)this.FetchLockStatus(getInnovator().getConnection());
+      var id = AssertId();
+      var type = AssertTypeName();
+      var result = getInnovator().getConnection().Apply("<Item isNew='1' isTemp='1' type='@0' action='get' select='locked_by_id' id='@1' />", type, id);
+
+      if (result.Exception != null)
+        return -1;
+
+      var lockedById = result.AssertItem().LockedById().Value ?? "";
+      this.LockedById().Set(lockedById);
+      if (string.IsNullOrEmpty(lockedById))
+        return 0;
+      if (lockedById == getInnovator().getConnection().UserId)
+        return 1;
+      return 2;
     }
 
     /// <summary>
@@ -296,14 +309,12 @@ namespace Innovator.Client.IOM
     /// <exception cref="ServerException">If an error was returned from the server</exception>
     public Item fetchRelationships(string relationshipTypeName, string selectList, string orderBy)
     {
-      var id = Id();
+      var id = AssertId();
 
-      if (string.IsNullOrEmpty(id))
-        throw new Exception("ID is not set");
-      if (relationshipTypeName == null || relationshipTypeName.Trim().Length == 0)
+      if (relationshipTypeName?.Trim().Length < 1)
         throw new ArgumentException("Relationship type is not specified");
 
-      var rels = getInnovator().getConnection().Apply("<Item type='@0' action='get' select='@1' orderBy='@2'><source_id>@3</source_id></Item>"
+      var result = getInnovator().getConnection().Apply("<Item type='@0' action='get' select='@1' orderBy='@2'><source_id>@3</source_id></Item>"
         , relationshipTypeName, selectList, orderBy, id).Items();
 
       var existing = Relationships(relationshipTypeName).ToList();
@@ -311,9 +322,10 @@ namespace Innovator.Client.IOM
       {
         rel.Remove();
       }
-      foreach (var rel in rels)
+      var relTag = Relationships();
+      foreach (var rel in result)
       {
-        Relationships().Add(rel);
+        relTag.Add(rel);
       }
 
       return this;
@@ -621,7 +633,27 @@ namespace Innovator.Client.IOM
       return TypeName();
     }
 
-    // public Item instantiateWorkflow(string workflowMapID)
+    public Item instantiateWorkflow(string workflowMapID)
+    {
+      if (workflowMapID?.Trim().Length < 1)
+        throw new ArgumentException("WorkflowMap ID is either 'null' or empty string");
+      AssertXml();
+      if (isNew())
+        throw new Exception("The item is a new item");
+      var id = AssertId();
+      var type = AssertTypeName();
+
+      var conn = getInnovator().getConnection();
+      var process = conn.Apply("<Item isNew='1' isTemp='1' type='@0' action='instantiateWorkflow' id='@1'><WorkflowMap>@2</WorkflowMap></Item>"
+        , type, id, workflowMapID).AssertItem();
+      conn.Apply(@"<Item isNew='1' isTemp='1' type='Workflow' action='add'>
+  <locked_by_id>@0</locked_by_id>
+  <source_id>@1</source_id>
+  <related_id>@2</related_id>
+  <source_type>@3</source_type>
+</Item>", conn.UserId, id, process.Id(), getAttribute("typeId")).AssertNoError();
+      return this;
+    }
 
     public bool isCollection()
     {
@@ -671,7 +703,7 @@ namespace Innovator.Client.IOM
     {
       var id = AssertId();
       var type = AssertTypeName();
-      var result = getInnovator().Apply(new Command("<Item type='@0' id='@1' action='lock'/>", type, id));
+      var result = getInnovator().Apply(new Command("<Item isNew='1' isTemp='1' type='@0' action='lock' id='@1' />", type, id));
       if (result.Exception == null)
       {
         this.LockedById().Set(result.AssertItem().LockedById().Value);
@@ -726,12 +758,11 @@ namespace Innovator.Client.IOM
         throw new ArgumentException("'state' is either 'null' or an empty string");
 
       var aml = AmlContext;
-      var promoteItem = aml.Item(aml.Action("promoteItem"),
-        aml.Type(TypeName()),
-        aml.Id(Id()),
-        aml.State(state)
-      );
-      if (!string.IsNullOrEmpty(comments)) promoteItem.Add(aml.Property("comments", comments));
+      var promoteItem = aml.FromXml(AssertXml()).AssertItem();
+      promoteItem.Action().Set("promoteItem");
+      promoteItem.State().Set(state);
+      if (!string.IsNullOrEmpty(comments))
+        promoteItem.Property("comments").Set(comments);
 
       return getInnovator().Apply(new Command(promoteItem.ToAml()));
     }
@@ -903,7 +934,7 @@ namespace Innovator.Client.IOM
     {
       var id = AssertId();
       var type = AssertTypeName();
-      var result = getInnovator().Apply(new Command("<Item type='@0' id='@1' action='unlock'/>", type, id));
+      var result = getInnovator().Apply(new Command("<Item isNew='1' isTemp='1' type='@0' action='unlock' id='@1' />", type, id));
       if (result.Exception == null)
         this.LockedById().Remove();
       return result;

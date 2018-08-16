@@ -1018,6 +1018,23 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod]
+    public void XPathHandling()
+    {
+      CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>
+  <name>A new method</name>
+  <owned_by_id>
+    <Item type='Identity' action='get' id='DEA9466482CB4198AED0D859668D331B'>
+      <name condition='like'>Admin*</name>
+      <test is_null='1' />
+    </Item>
+  </owned_by_id>
+</Item>", (inn, item, compares) =>
+      {
+        compares.Add(item.getItemsByXPath("//Item[@type='Identity']").node.OuterXml);
+      });
+    }
+
+    [TestMethod]
     public void Call_Apply()
     {
       CompareIoms(@"<Item type='Method' action='add' id='46D9FDF379AD4B4DA0143C92BBA16720'>

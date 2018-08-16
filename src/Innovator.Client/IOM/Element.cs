@@ -196,8 +196,11 @@ namespace Innovator.Client.IOM
         case "Relationships":
           return new Relationships((Innovator)parent.AmlContext, parent, elem);
         case "and":
+        case "AND":
         case "or":
+        case "OR":
         case "not":
+        case "NOT":
           return new Logical((Innovator)parent.AmlContext, parent, elem);
         default:
           return new Property(parent, elem);

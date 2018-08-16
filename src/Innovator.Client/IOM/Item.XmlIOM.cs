@@ -9,8 +9,19 @@ namespace Innovator.Client.IOM
 {
   public partial class Item : IEnumerable<Item>
   {
+    /// <summary>
+    /// A reference to the instance of <see cref="XmlDocument"/> that holds the data for the Item in the AML format.
+    /// </summary>
     public XmlDocument dom { get; set; }
+
+    /// <summary>
+    /// A reference to the <c>&lt;Item&gt;</c> node in the <see cref="dom"/> for this Item instance.
+    /// </summary>
     public XmlElement node { get { return Xml; } set { Xml = value; } }
+
+    /// <summary>
+    /// List of <c>&lt;Item&gt;</c> nodes from the <see cref="dom"/> for this Item instance.
+    /// </summary>
     public XmlNodeList nodeList { get; set; }
 
     /// <summary>
@@ -469,7 +480,36 @@ namespace Innovator.Client.IOM
       return 1;
     }
 
-    // public Item getItemsByXPath(string xpath)
+    /// <summary>
+    /// Gets an item (single or collection) resolving XPath specified.
+    /// </summary>
+    /// <param name="xpath">XPath for selecting <c>&lt;Item&gt;</c> nodes</param>
+    /// <returns>Instance of the class that represents either a single item or a collection of items.
+    /// The collection could be empty. The returned item shares its <see cref="dom"/> with this item,
+    /// i.e. returned item dom and <see cref="dom"/> reference the same instance </returns>
+    /// <remarks>The method applies the specified XPath on <see cref="node"/> if it's set or on
+    /// <see cref="dom"/> otherwise. If a single <c>&lt;Item&gt;</c> node was found, it's assigned
+    /// to the <see cref="node"/>. If 0 or more than 1 <c>&lt;Item&gt;</c> nodes were found, it's
+    /// referenced by the <see cref="nodeList"/> of the returned item.</remarks>
+    public Item getItemsByXPath(string xpath)
+    {
+      if (dom == null)
+        throw new Exception("Wrong internal structure of the this item; e.g. item's \"dom\" is not set; or item's \"node\" doesn't belong to the item's \"dom\"; or both \"node\" and \"nodeList\" are null; etc.");
+      var xmlNodeList = node == null ? dom.SelectNodes(xpath) : node.SelectNodes(xpath);
+      for (var i = 0; i < xmlNodeList.Count; i++)
+      {
+        if (xmlNodeList[i].LocalName != "Item")
+          throw new ArgumentException($"Specified XPath '{xpath}' doesn't resolve to <Item> nodes");
+      }
+
+      return new Item(getInnovator(), this)
+      {
+        Parent = null,
+        node = xmlNodeList.Count == 1 ? xmlNodeList[0] as XmlElement : null,
+        nodeList = xmlNodeList.Count > 1 ? xmlNodeList : null,
+        dom = dom
+      };
+    }
 
     /// <summary>
     /// Gets item's lock status based on the property <c>locked_by_id</c>.
@@ -487,6 +527,23 @@ namespace Innovator.Client.IOM
       return (int)this.LockStatus(getInnovator().getConnection());
     }
 
+    /// <summary>
+    /// Returns <see cref="IOM.Item"/> object with the <see cref="nodeList"/> containing logical
+    /// nodes that are children of the this.node.
+    /// </summary>
+    /// <returns>Item object with the <see cref="nodeList"/> containing logical nodes that are
+    /// direct children of the <see cref="node"/>. The returned item shares its <see cref="dom"/>
+    /// with this item.</returns>
+    /// <remarks>The method allows you to traverse logical nodes of an item</remarks>
+    /// <example>
+    /// <code lang="C#"><![CDATA[var lchildren = item.getLogicalChildren();
+    /// for (var i = 0; i < lchildren.getItemCount(); i++)
+    /// {
+    ///   var lchild = lchildren.getItemByIndex(i);
+    ///   // Do something
+    /// }]]>
+    /// </code>
+    /// </example>
     public Item getLogicalChildren()
     {
       var logical = AssertXml().SelectNodes("./*[local-name()='and' or local-name()='or' or local-name()='not']");
@@ -570,31 +627,96 @@ namespace Innovator.Client.IOM
       return ((IReadOnlyItem)this).Property(propertyName, lang).AsString(defaultValue);
     }
 
+    /// <summary>
+    /// Gets the specified attribute of the property with the specified name
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <param name="attributeName">Attribute name.</param>
+    /// <returns>If either property with the <paramref name="propertyName"/> or the
+    /// <paramref name="attributeName"/> on the property doesn't exist, returns the <c>null</c>;
+    /// otherwise returns value of the property attribute.</returns>
     public string getPropertyAttribute(string propertyName, string attributeName)
     {
       return this.getPropertyAttribute(propertyName, attributeName, null, null);
     }
 
+    /// <summary>
+    /// Gets the specified attribute of the property with the specified name
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <param name="attributeName">Attribute name.</param>
+    /// <param name="defaultValue">Attribute default value.</param>
+    /// <returns>If either property with the <paramref name="propertyName"/> or the
+    /// <paramref name="attributeName"/> on the property doesn't exist, returns the <paramref name="defaultValue"/>;
+    /// otherwise returns value of the property attribute.</returns>
     public string getPropertyAttribute(string propertyName, string attributeName, string defaultValue)
     {
       return this.getPropertyAttribute(propertyName, attributeName, defaultValue, null);
     }
 
+    /// <summary>
+    /// Gets the specified attribute of the property with the specified name and language.
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <param name="attributeName">Attribute name.</param>
+    /// <param name="defaultValue">Attribute default value.</param>
+    /// <param name="lang">Language for which the property attribute has to be returned. If
+    /// <c>null</c> value is passed, the language of the current session is assumed.</param>
+    /// <returns>If either property with the <paramref name="propertyName"/> or the
+    /// <paramref name="attributeName"/> on the property doesn't exist, returns the <paramref name="defaultValue"/>;
+    /// otherwise returns value of the property attribute for the specified <paramref name="lang"/>.</returns>
     public string getPropertyAttribute(string propertyName, string attributeName, string defaultValue, string lang)
     {
       return ((IReadOnlyItem)this).Property(propertyName, lang).Attribute(attributeName).AsString(defaultValue);
     }
 
+    /// <summary>
+    /// Gets the <c>condition</c> attribute of the property with the specified name.
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <returns>If either property with the specified name or attribute <c>condition</c> on the
+    /// property doesn't exist, returns <c>null</c>.</returns>
     public string getPropertyCondition(string propertyName)
     {
       return this.getPropertyCondition(propertyName, null);
     }
 
+    /// <summary>
+    /// Gets the <c>condition</c> attribute of the property with the specified name and language.
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <param name="lang">Language for which the property condition has to be returned. If
+    /// <c>null</c> value is passed, the language of the current session is assumed.</param>
+    /// <returns>If either property with the specified name or attribute <c>condition</c> on the
+    /// property doesn't exist, returns <c>null</c>.</returns>
     public string getPropertyCondition(string propertyName, string lang)
     {
       return this.getPropertyAttribute(propertyName, "condition", lang, null);
     }
 
+    /// <summary>
+    /// Gets item property by name.
+    /// </summary>
+    /// <param name="propertyName">Property name.</param>
+    /// <returns>Found item property. If by some reason an item can't be returned (e.g. <see cref="dom"/>
+    /// doesn't have a property with the specified name or the property contains just id but the
+    /// type of the item property is unknown), the method returns a "null item" (where
+    /// <see cref="IReadOnlyElement.Exists"/> = <c>false</c>). NOTE: If specified property name is
+    /// <c>id</c> then the method returns this item.</returns>
+    /// <remarks>The method tries to find the specified property on the item. If found, the propery
+    /// may contain either
+    /// <list type="bullet">
+    ///   <item><description>A child <c>&lt;Item&gt;</c> node. In this case the child <c>&lt;Item&gt;</c>
+    ///     node is used for constructing the returned Item.  Note that in this case, the returned
+    ///     item shares it's <see cref="dom"/> with this item.</description></item>
+    ///   <item><description>Just an ID. In this case, an attempt is made to construct an Item
+    ///     using the id, type, and keyed_name information is available. In this case, the returned item
+    ///     doesn't share it's <see cref="dom"/> with this</description></item>
+    ///   <item><description>A reference to a vaulted image. In this case, an attempt is made to
+    ///     construct an Item with the information that is available. In this case, the returned item
+    ///     doesn't share it's <see cref="dom"/> with this</description></item>
+    /// </list>
+    /// </remarks>
     public Item getPropertyItem(string propertyName)
     {
       if (propertyName == "id")
@@ -603,36 +725,101 @@ namespace Innovator.Client.IOM
       return this.Property(propertyName, null).AsItem() as Item;
     }
 
+    /// <summary>
+    /// Gets related item of the relationship.
+    /// </summary>
+    /// <returns>Related item. If by some reason the related item can't be returned (e.g.
+    /// <see cref="dom"/> doesn't have a <c>&lt;related_id&gt;</c> property or type of the related
+    /// item is unknown), the method returns a "null item" (where <see cref="IReadOnlyElement.Exists"/>
+    /// = <c>false</c>).</returns>
+    /// <remarks>Tries to find <c>related_id</c> property on the item.</remarks>
+    /// <seealso cref="getPropertyItem(string)"/>
     public Item getRelatedItem()
     {
       return getPropertyItem("related_id");
     }
 
+    /// <summary>
+    /// Tries to find related item (xpath: <c>./related_id</c>) on item's node and returns its ID.
+    /// </summary>
+    /// <returns>ID of the related item. If related item not found, return empty string.</returns>
     public string getRelatedItemID()
     {
       return getProperty("related_id");
     }
 
+    /// <summary>
+    /// Returns an item that is a collection of relationships item with specified type available on the instance.
+    /// </summary>
+    /// <returns>Item that is a collection of relationships items available on
+    /// the instance. If this doesn't have any relationships, the returned item
+    /// <see cref="nodeList"/> will be empty.</returns>
+    /// <remarks>The method does not make a request to the server but rather returns relationship
+    /// Items available in memory in the <see cref="dom"/>. If order to get relationships from server,
+    /// use <see cref="fetchRelationships()"/>.</remarks>
     public Item getRelationships()
     {
       return (Item)Relationships();
     }
 
+    /// <summary>
+    /// Returns an item that is a collection of relationships item with specified type available on the instance.
+    /// </summary>
+    /// <param name="itemTypeName">Type of relationship.</param>
+    /// <returns>Item that is a collection of relationships items with specified name available on
+    /// the instance. If this doesn't have any relationships of this type, the returned item
+    /// <see cref="nodeList"/> will be empty.</returns>
+    /// <remarks>The method does not make a request to the server but rather returns relationship
+    /// Items available in memory in the <see cref="dom"/>. If order to get relationships from server,
+    /// use <see cref="fetchRelationships(string)"/>.</remarks>
     public Item getRelationships(string itemTypeName)
     {
       return (Item)Relationships(itemTypeName);
     }
 
+    /// <summary>
+    /// Returns <see cref="XmlNode.InnerText"/> property of the node with XPath = <see cref="XPathResult"/>
+    /// from the item's <see cref="dom"/>.
+    /// </summary>
+    /// <returns>If <see cref="dom"/> is <c>null</c> or node with XPath = <see cref="XPathResult"/>
+    /// was not found, the method returns <c>null</c>.</returns>
     public string getResult()
     {
       return Value;
     }
 
+    /// <summary>
+    /// Returns value of the <c>type</c> attribute of the Item node.
+    /// </summary>
+    /// <returns>Value of <c>type</c> attribute if the attribute exists, empty string otherwise.</returns>
     public string getType()
     {
       return TypeName();
     }
 
+    /// <summary>
+    /// Instantiates workflow for the item using specified workflow map.
+    /// </summary>
+    /// <param name="workflowMapID">ID of a Workflow Map.</param>
+    /// <returns>Returns a Workflow Process item created by this method or throws an exception.</returns>
+    /// <exception cref="ArgumentException">WorkflowMap ID is either 'null' or empty string</exception>
+    /// <exception cref="Exception">
+    ///   <list type="bullet">
+    ///     <item><description>The instance doesn't represent a single item.</description></item>
+    ///     <item><description>Either 'id' or 'typeId' is not set on the item.</description></item>
+    ///     <item><description>The item is a new item not saved in the database yet.</description></item>
+    ///   </list>
+    /// </exception>
+    /// <remarks>
+    /// The method does the following:
+    /// <list type="number">
+    ///   <item><description>Sends a request to the server to instantiate the specified Workflow Map
+    ///   to a Workflow Process</description></item>
+    ///   <item><description>Using the ID of the Workflow Process item obtained from the server,
+    ///   sends another request to attach the Workflow Process to the controlled item via the
+    ///   "Workflow" relationship. Note, that the item itself is not modified by the method.</description></item>
+    /// </list>
+    /// </remarks>
     public Item instantiateWorkflow(string workflowMapID)
     {
       if (workflowMapID?.Trim().Length < 1)
@@ -655,11 +842,25 @@ namespace Innovator.Client.IOM
       return this;
     }
 
+    /// <summary>
+    /// Checks if the instance represents a set of items and not a single item.
+    /// </summary>
+    /// <returns>
+    ///   <c>true</c> if <c>this.nodeList != null && this.node == null</c>, <c>false</c> otherwise
+    /// </returns>
     public bool isCollection()
     {
-      return getItemCount() > 1;
+      if (isError())
+        return false;
+      return nodeList != null && node == null;
     }
 
+    /// <summary>
+    /// Determines whether this instance represents a "No items found" exception
+    /// </summary>
+    /// <returns>
+    ///   <c>true</c> if this instance is an error with a fault code of <c>0</c>; otherwise, <c>false</c>.
+    /// </returns>
     public bool isEmpty()
     {
       if (isError())
@@ -667,6 +868,13 @@ namespace Innovator.Client.IOM
       return false;
     }
 
+    /// <summary>
+    /// Checks if the item is an "error item".
+    /// </summary>
+    /// <returns>
+    ///   <c>true</c> if the item is an "error item" (i.e. <see cref="dom"/> has a top-level tag
+    ///   <see cref="XPathFault"/>); otherwise, <c>false</c>.
+    /// </returns>
     public bool isError()
     {
       if (dom == null)
@@ -674,6 +882,12 @@ namespace Innovator.Client.IOM
       return dom.SelectSingleNode(XPathFault) != null;
     }
 
+    /// <summary>
+    /// Find out if the item's node is a "logical" node (<c>and</c>, <c>or</c>, <c>not</c>).
+    /// </summary>
+    /// <returns>
+    ///   <c>true</c> if this instance is logical; otherwise, <c>false</c>.
+    /// </returns>
     public bool isLogical()
     {
       return this is ILogical;

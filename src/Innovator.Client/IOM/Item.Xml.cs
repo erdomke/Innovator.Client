@@ -11,16 +11,78 @@ namespace Innovator.Client.IOM
 {
   public partial class Item : Element, IItem, IReadOnlyResult, ISingleItemContext
   {
+    /// <summary>
+    /// XPath to the root <c>&lt;Fault&gt;</c> node in case the instance represents an "error" item.
+    /// </summary>
+    /// <remarks>
+    /// It's recommended to use get\setErrorXXX() methods (e.g. <see cref="getErrorDetail"/> or <see cref="setErrorDetail(string)"/>, etc.) in order to get\set fault information.
+    /// </remarks>
+    /// <example>
+    /// <code lang="C#"><![CDATA[var response = myitem.apply();
+    /// if (response.isError())
+    /// {
+    ///   var faultNode = response.dom.SelectNodes(Item.XPathFault);
+    ///   // Do something
+    /// }]]>
+    /// </code>
+    /// </example>
     public static readonly string XPathFault = "/*[local-name()='Envelope' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]/*[local-name()='Body' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]/*[local-name()='Fault' and (namespace-uri()='http://schemas.xmlsoap.org/soap/envelope/' or namespace-uri()='')]";
+
+    /// <summary>
+    /// XPath to the <c>&lt;Result&gt;</c> tag in server response XML.
+    /// </summary>
+    /// <example>
+    /// <code lang="C#"><![CDATA[var response = myitem.apply();
+    /// if (!response.isError())
+    /// {
+    ///   var resultNode = response.dom.SelectSingleNode(Item.XPathResult);
+    ///   // Do something
+    /// }]]>
+    /// </code>
+    /// </example>
     public static readonly string XPathResult = "//Result";
+
+    /// <summary>
+    /// XPath to the top-level <c>&lt;Item&gt;</c> tag(s) in item's internal AML.
+    /// </summary>
+    /// <example>
+    /// <code lang="C#"><![CDATA[var response = myitem.apply();
+    /// if (!response.isError())
+    /// {
+    ///   var itemNodes = response.dom.SelectNodes(Item.XPathResultItem);
+    ///   // Do something
+    /// }]]>
+    /// </code>
+    /// </example>
     public static readonly string XPathResultItem = XPathResult + "/Item";
 
     private Innovator _innovator;
 
+    /// <summary>
+    /// Retrieve the context used for rendering primitive values
+    /// </summary>
     public override ElementFactory AmlContext => _innovator;
+
+    /// <summary>
+    /// Returns <c>true</c> if this element actually exists in the underlying AML,
+    /// otherwise, returns <c>false</c> to indicate that the element is just a null placeholder
+    /// put in place to reduce unnecessary null reference checks
+    /// </summary>
     public override bool Exists => dom != null;
+
+    /// <summary>
+    /// Local XML name of the element
+    /// </summary>
     public override string Name => "Item";
+
+    /// <summary>
+    /// Retrieve the parent element
+    /// </summary>
     public override IElement Parent { get; set; }
+
+    /// <summary>
+    /// String value of the element
+    /// </summary>
     public override string Value
     {
       get
@@ -35,6 +97,9 @@ namespace Innovator.Client.IOM
       }
     }
 
+    /// <summary>
+    /// Return an exception (if there is one), otherwise, return <c>null</c>
+    /// </summary>
     public ServerException Exception
     {
       get
@@ -48,6 +113,9 @@ namespace Innovator.Client.IOM
       }
     }
 
+    /// <summary>
+    /// Get messages (such as permissions warnings) from the database
+    /// </summary>
     public IReadOnlyElement Message
     {
       get
@@ -122,6 +190,10 @@ namespace Innovator.Client.IOM
       return writer.Result.AssertItem();
     }
 
+    /// <summary>
+    /// The ID of the item as retrieved from either the attribute or the property
+    /// </summary>
+    /// <returns></returns>
     public string Id()
     {
       var attr = AssertXml().GetAttribute("id");
@@ -133,11 +205,46 @@ namespace Innovator.Client.IOM
       return null;
     }
 
+    /// <summary>
+    /// Returns a reference to the property with the specified name
+    /// </summary>
+    /// <param name="name">Name of the property</param>
+    /// <returns>
+    /// <list type="bullet">
+    ///   <item>
+    ///     <description>If the property exists, a valid <see cref="IProperty" /> will be returned</description>
+    ///   </item>
+    ///   <item>
+    ///     <description>If the property does not exists, a "null" <see cref="IProperty" /> will be returned where <see cref="IReadOnlyElement.Exists" /> = <c>false</c></description>
+    ///   </item>
+    /// </list>
+    /// </returns>
+    /// <remarks>
+    /// If the property does not exist, a non-null object will be returned that has an <c>Exists</c> member which will return <c>false</c>
+    /// </remarks>
     public IProperty Property(string name)
     {
       return Property(name, null);
     }
 
+    /// <summary>
+    /// Returns a reference to the property with the specified name and language
+    /// </summary>
+    /// <param name="name">Name of the property</param>
+    /// <param name="lang">Language of the (multilingual) property</param>
+    /// <returns>
+    /// <list type="bullet">
+    ///   <item>
+    ///     <description>If the property exists, a valid <see cref="IProperty" /> will be returned</description>
+    ///   </item>
+    ///   <item>
+    ///     <description>If the property does not exists, a "null" <see cref="IProperty" /> will be returned where <see cref="IReadOnlyElement.Exists" /> = <c>false</c></description>
+    ///   </item>
+    /// </list>
+    /// </returns>
+    /// <remarks>
+    /// If the property does not exist, a non-null object will be returned that has an <c>Exists</c> member which will return <c>false</c>
+    /// </remarks>
     public IProperty Property(string name, string lang)
     {
       if (!Exists)
@@ -146,18 +253,31 @@ namespace Innovator.Client.IOM
       return elem == null ? new Property(this, name) : new Property(this, elem);
     }
 
+    /// <summary>
+    /// Returns the set of relationships associated with this item
+    /// </summary>
+    /// <returns></returns>
     public IRelationships Relationships()
     {
       var relElem = ItemElement("Relationships");
       return new Relationships((Innovator)AmlContext, this, relElem);
     }
 
+    /// <summary>
+    /// Returns the set of relationships associated with this item of the specified type
+    /// </summary>
+    /// <param name="type">Name of the ItemType for the relationships you wish to retrieve</param>
+    /// <returns></returns>
     public IEnumerable<IItem> Relationships(string type)
     {
       var relElem = ItemElement("Relationships");
       return new Relationships((Innovator)AmlContext, this, relElem, type);
     }
 
+    /// <summary>
+    /// The type of the item as retrieved from either the attribute or the property
+    /// </summary>
+    /// <returns></returns>
     public string TypeName()
     {
       return Xml.GetAttribute("type");
@@ -202,6 +322,15 @@ namespace Innovator.Client.IOM
       return AssertXml()?.ChildNodes.OfType<XmlElement>().FirstOrDefault(e => e.LocalName == name);
     }
 
+    /// <summary>
+    /// Return a single item.  If that is not possible, throw an appropriate
+    /// exception (e.g. the exception returned by the server where possible)
+    /// </summary>
+    /// <param name="type">If specified, throw an exception if the item doesn't have the specified type</param>
+    /// <returns>
+    /// A single <see cref="IReadOnlyItem" />
+    /// </returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public IReadOnlyItem AssertItem(string type = null)
     {
       var elem = AssertXml();
@@ -210,6 +339,10 @@ namespace Innovator.Client.IOM
       return this;
     }
 
+    /// <summary>
+    /// Return an enumerable of items.  Throw an exception for any error including 'No items found'
+    /// </summary>
+    /// <returns></returns>
     public IEnumerable<IReadOnlyItem> AssertItems()
     {
       var items = Items();
@@ -218,6 +351,12 @@ namespace Innovator.Client.IOM
       return items;
     }
 
+    /// <summary>
+    /// Do nothing other than throw an exception if there is an error other than 'No Items Found'
+    /// </summary>
+    /// <returns>
+    /// The current <see cref="IReadOnlyResult" /> for chaining additional methods
+    /// </returns>
     public IReadOnlyResult AssertNoError()
     {
       var ex = Exception;
@@ -226,6 +365,10 @@ namespace Innovator.Client.IOM
       return this;
     }
 
+    /// <summary>
+    /// Return an enumerable of items.  Throw an exception if there is an error other than 'No Items Found'
+    /// </summary>
+    /// <returns></returns>
     public IEnumerable<IReadOnlyItem> Items()
     {
       if (!Exists)
@@ -235,7 +378,7 @@ namespace Innovator.Client.IOM
         return Enumerable.Repeat((IReadOnlyItem)this, 1);
 
       if (nodeList != null)
-        return nodeList.OfType<XmlElement>().Select(e => (IReadOnlyItem)new Item((Innovator)AmlContext, e));
+        return nodeList.OfType<XmlElement>().Select(e => (IReadOnlyItem)Element.Factory(e, this));
 
       var ex = Exception;
       if (ex != null && !(ex is NoItemsFoundException))
@@ -262,6 +405,11 @@ namespace Innovator.Client.IOM
       throw AmlContext.NoItemsFoundException("?", default(Command));
     }
 
+    /// <summary>
+    /// To the aml.
+    /// </summary>
+    /// <param name="writer">The writer.</param>
+    /// <param name="settings">The settings.</param>
     public override void ToAml(XmlWriter writer, AmlWriterSettings settings)
     {
       if (Xml != null)

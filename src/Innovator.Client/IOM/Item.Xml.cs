@@ -134,6 +134,13 @@ namespace Innovator.Client.IOM
 
     IServerConnection IContext.Conn => (IServerConnection)((Innovator)AmlContext).getConnection();
 
+    protected Item(Innovator innovator)
+    {
+      _innovator = innovator;
+      dom = Innovator.NewXmlDocument();
+      node = Innovator.AppendNewItem(dom, null, null);
+    }
+
     internal Item(Innovator innovator, Element parent)
     {
       _innovator = innovator;

@@ -158,6 +158,26 @@ namespace Innovator.Client
       }
     }
 
+#if XMLLEGACY
+    /// <summary>
+    /// Return a result from an XML element
+    /// </summary>
+    /// <param name="xml">The xml to process.</param>
+    public IResult FromXml(XmlElement xml)
+    {
+      return FromXml(xml.WriteTo);
+    }
+#endif
+
+    /// <summary>
+    /// Return a result from an XML element
+    /// </summary>
+    /// <param name="xml">The xml to process.</param>
+    public IResult FromXml(System.Xml.Linq.XElement xml)
+    {
+      return FromXml(xml.WriteTo);
+    }
+
     /// <summary>Return a result from a stream</summary>
     /// <param name="xml">XML data</param>
     public IResult FromXml(Stream xml)

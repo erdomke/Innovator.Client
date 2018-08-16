@@ -278,15 +278,44 @@ namespace Innovator.Client.IOM
       return new Item(this, dom);
     }
 
+    /// <summary>
+    /// Returns a new <see cref="Item"/> with the AML body.
+    /// </summary>
+    /// <param name="aml">AML to populate the item with</param>
     public Item newItemFromAml(IAmlNode aml)
     {
+      return newItemFromAml(aml.ToAml);
+    }
+
+    /// <summary>
+    /// Returns a new <see cref="Item"/> with the AML body.
+    /// </summary>
+    /// <param name="aml">AML to populate the item with</param>
+    public Item newItemFromAml(Action<XmlWriter> writer)
+    {
       var dom = NewXmlDocument();
-      using (var writer = dom.CreateNavigator().AppendChild())
-      {
-        aml.ToAml(writer);
-      }
+      using (var w = dom.CreateNavigator().AppendChild())
+        writer(w);
 
       return new Item(this, dom);
+    }
+
+    /// <summary>
+    /// Returns a new <see cref="Item"/> with the AML body.
+    /// </summary>
+    /// <param name="aml">AML to populate the item with</param>
+    public Item newItemFromAml(XmlElement aml)
+    {
+      return newItemFromAml(aml.WriteTo);
+    }
+
+    /// <summary>
+    /// Returns a new <see cref="Item"/> with the AML body.
+    /// </summary>
+    /// <param name="aml">AML to populate the item with</param>
+    public Item newItemFromAml(System.Xml.Linq.XElement aml)
+    {
+      return newItemFromAml(aml.WriteTo);
     }
 
     /// <summary>

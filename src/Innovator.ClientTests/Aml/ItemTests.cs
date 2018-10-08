@@ -742,5 +742,35 @@ namespace Innovator.Client.Tests
       item.RelatedItem().Property("name").Set("NAME");
       Assert.AreEqual("<Item><stuff>thing</stuff><related_id><Item><keyed_name>related keyed name</keyed_name><name>NAME</name></Item></related_id></Item>", item.ToAml());
     }
+
+    [TestMethod()]
+    public void AddInConditionProperty()
+    {
+      var aml = ElementFactory.Local;
+      var item = aml.Item();
+      var ids = new Dictionary<string, double>()
+      {
+        {"8227040ABF0A46A8AF06C18ABD3967B3", 1 },
+        {"81C7B50296DA460CAB9498F6A01FB568", 2 }
+      };
+      item.Add(aml.Property("id", aml.Condition(Condition.In), ids.Keys));
+      Assert.AreEqual("<Item><id condition=\"in\">'8227040ABF0A46A8AF06C18ABD3967B3','81C7B50296DA460CAB9498F6A01FB568'</id></Item>", item.ToAml());
+    }
+
+    [TestMethod()]
+    public void ZeroListResult()
+    {
+      var aml = ElementFactory.Local;
+      var list = new List<IReadOnlyItem>();
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(list).ToAml());
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(list.ToArray()).ToAml());
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(Enumerable.Empty<IReadOnlyItem>()).ToAml());
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(Enumerable.Empty<IItem>()).ToAml());
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(Enumerable.Empty<IItem>().ToArray()).ToAml());
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(Enumerable.Empty<IItem>().ToList()).ToAml());
+      list.Add(aml.Item(aml.Type("type")));
+      list.Add(aml.Item(aml.Type("type")));
+      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"type\" /><Item type=\"type\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(list).ToAml());
+    }
   }
 }

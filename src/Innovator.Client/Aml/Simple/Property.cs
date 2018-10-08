@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Linq;
 
 namespace Innovator.Client
 {
@@ -159,10 +161,12 @@ namespace Innovator.Client
       }
       return item ?? Item.GetNullItem<Item>();
     }
+
     private bool IsGuid()
     {
       return _content is Guid || (_content is string && ((string)_content).IsGuid());
     }
+
     public long? AsLong()
     {
       if (!this.Exists) return null;
@@ -217,7 +221,13 @@ namespace Innovator.Client
 
     private IElement AddBase(object content)
     {
-      var result = base.Add(content);
+      var flat = Flatten(content);
+      var result = base.Add(!(flat is string)
+          && flat is IEnumerable e
+          && !e.OfType<IReadOnlyAttribute>().Any()
+          && !e.OfType<IReadOnlyElement>().Any()
+        ? (AmlContext ?? ElementFactory.Local).LocalizationContext.Format(flat)
+        : flat);
       var isNull = this.IsNull();
       if (_content == null
 #if DBDATA
@@ -243,6 +253,38 @@ namespace Innovator.Client
         }
       }
       return result;
+    }
+
+    /// <summary>
+    /// Remove single element arrays
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <returns>Flattened value</returns>
+    private object Flatten(object value)
+    {
+      if (!(value is string) && value is IEnumerable e)
+      {
+        var enumerator = e.GetEnumerator();
+        try
+        {
+          var count = 0;
+          var single = default(object);
+          while (enumerator.MoveNext())
+          {
+            count++;
+            single = enumerator.Current;
+            if (count > 1)
+              return value;
+          }
+          if (count == 1)
+            return Flatten(single);
+        }
+        finally
+        {
+          (enumerator as IDisposable)?.Dispose();
+        }
+      }
+      return value;
     }
 
     IReadOnlyItem IReadOnlyProperty_Item<IReadOnlyItem>.AsItem()

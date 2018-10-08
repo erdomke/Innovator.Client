@@ -63,13 +63,8 @@ This will install the package in your Visual Studio solution
 Innovator.Client has builds for .Net 3.5+ and .Net Standard 1.1+. In particular, there are builds
 for 
 
-- .Net 3.5
-- .Net 4.0
-- .Net 4.5
-- .Net 4.6
-- .Net Standard 1.1
-- .Net Standard 1.3
-- .Net Standard 2.0
+- .Net 3.5, 4.0, 4.5, 4.6
+- .Net Standard 1.1, 1.3, 2.0
 
 It is worth noting that the .Net Standard builds are largely untested while the full .Net builds 
 are currently used in production deployments
@@ -80,16 +75,23 @@ The IOM is not backwards-compatible.  For example, v11.0 of the IOM cannot be us
 Aras Innovator vault.  Innovator.Client strives to be compatible with all versions >= 9.3.  It has
 been used in production deployments against Aras 9.3 and 11sp12.
 
+# Documentation
+
+- [API Documentation](https://erdomke.github.io/Innovator.Client/api/index.html) is hosted at https://erdomke.github.io/Innovator.Client/api/index.html
+- For additional documentation, check out the various pages within the [wiki](https://github.com/erdomke/Innovator.Client/wiki)
+
 # Why a new IOM?
 
-The reasons for a complete rewrite and numerous.  Some problems could not be easily solved without
-an overhaul while others reasons deal more with preference and/or coding efficiency.  A number of 
-the reasons are included below:
+Some use cases could not be addressed without a complete rewrite of the client (e.g. truly asynchronous 
+AML calls, support for all Innovator versions, support for .Net Core, etc.).  Furthermore, a rewrite
+provided the opportunity to address a number of frustrations with the current API (e.g. 'Not a single
+item' errors obscuring errors returned by the server).  A more complete list of the goals/reasons are 
+given below:
 
 ## AML in code should look like AML
 
-In `Innovator.Client`, there are two ways to include AML in code.  In the first (and preferred)
-way, AML is embedded directly, preferably as a multi-line string:
+In `Innovator.Client`, there are multiple ways to include AML in code.  In the first (and preferred)
+way, AML is embedded directly as a multi-line string:
 
 ```csharp
 // Get preliminary parts which have existed for a little bit of time

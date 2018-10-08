@@ -1,6 +1,9 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 #if DBDATA
@@ -379,8 +382,97 @@ namespace Innovator.Client
       }
       else
       {
-        return stringRenderer(value.ToString());
+        return RenderSqlEnum(value, true, numberRenderer, stringRenderer, null);
       }
+    }
+
+    internal static string RenderSqlEnum(object value, bool quoteStrings, Func<object, string> format)
+    {
+      return RenderSqlEnum(value, quoteStrings, f => format(f), format, () => "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`");
+    }
+
+    internal static string RenderSqlEnum(object value, bool quoteStrings, Func<IFormattable, string> numberRenderer, Func<object, string> stringRenderer, Func<string> emptyEnumRenderer)
+    {
+      if (value is string)
+        return stringRenderer(value);
+
+      var first = true;
+      var builder = new StringBuilder();
+
+      if (TryGetNumericEnumerable(value, out var enumerable))
+      {
+        foreach (var item in enumerable)
+        {
+          if (!first) builder.Append(",");
+          builder.Append(numberRenderer((IFormattable)item));
+          first = false;
+        }
+
+        if (first)
+          return emptyEnumRenderer?.Invoke();
+      }
+      else
+      {
+        enumerable = value as IEnumerable;
+        if (enumerable != null)
+        {
+          foreach (var item in enumerable)
+          {
+            if (!first) builder.Append(",");
+            if (quoteStrings)
+              builder.Append(SqlFormatter.Quote(stringRenderer(item).Replace("'", "''")));
+            else
+              builder.Append(stringRenderer(item));
+            first = false;
+          }
+
+          // Nothing was written as there were not values in the IEnumerable
+          // Therefore, write a bogus value to match zero results
+          if (first)
+          {
+            var empty = emptyEnumRenderer?.Invoke();
+            if (empty == null)
+              return null;
+            return quoteStrings
+              ? "N'" + emptyEnumRenderer?.Invoke() + "'"
+              : emptyEnumRenderer?.Invoke();
+          }
+        }
+        else
+        {
+          return stringRenderer(value);
+        }
+      }
+
+      return builder.ToString();
+    }
+
+    private static bool TryGetNumericEnumerable(object value, out IEnumerable enumerable)
+    {
+      if (value is IEnumerable<short>
+        || value is IEnumerable<int>
+        || value is IEnumerable<long>
+        || value is IEnumerable<ushort>
+        || value is IEnumerable<uint>
+        || value is IEnumerable<ulong>
+        || value is IEnumerable<byte>
+        || value is IEnumerable<decimal>)
+      {
+        enumerable = (IEnumerable)value;
+        return true;
+      }
+      else if (value is IEnumerable<float>)
+      {
+        enumerable = ((IEnumerable<float>)value).Cast<decimal>();
+        return true;
+      }
+      else if (value is IEnumerable<double>)
+      {
+        enumerable = ((IEnumerable<double>)value).Cast<decimal>();
+        return true;
+      }
+      enumerable = null;
+      return false;
     }
 
     private string Render(DateTime value)

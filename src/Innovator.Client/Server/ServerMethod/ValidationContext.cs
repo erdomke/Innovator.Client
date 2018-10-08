@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -180,7 +180,14 @@ namespace Innovator.Server
           var query = aml.Item(Item.Type(), aml.Id(Item.Id()), aml.Action("get"));
           if (QueryDefaults != null) QueryDefaults.Invoke(query);
           var items = query.Apply(Conn).Items();
-          if (items.Any()) _existing = items.Single();
+          if (items.Any())
+            _existing = items.Single();
+          else
+            _existing = Client.Item.GetNullItem<IReadOnlyItem>();
+        }
+        else
+        {
+          _existing = Client.Item.GetNullItem<IReadOnlyItem>();
         }
       }
     }

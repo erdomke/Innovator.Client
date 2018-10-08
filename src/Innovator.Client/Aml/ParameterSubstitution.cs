@@ -61,17 +61,14 @@ namespace Innovator.Client
     internal const string DateRangeAttribute = "origDateRange";
     private const string XslNsUri = "http://www.w3.org/1999/XSL/Transform";
 
-    private const string EmptyListMatch = "`EMTPY_LIST_MUST_MATCH_0_ITEMS!`";
-
     private IServerContext _context;
     private SqlFormatter _sqlFormatter;
     private readonly Dictionary<string, object> _parameters = new Dictionary<string, object>();
-    private int _itemCount = 0;
 
     /// <summary>
     /// Gets the number of <c>Item</c> tags found in the query
     /// </summary>
-    public int ItemCount { get { return _itemCount; } }
+    public int ItemCount { get; private set; } = 0;
 
     /// <summary>
     /// Whether the query is AML or SQL
@@ -332,7 +329,7 @@ namespace Innovator.Client
               switch (tagName)
               {
                 case "Item":
-                  if (!tagNames.Any(n => n == "Item")) _itemCount++;
+                  if (!tagNames.Any(n => n == "Item")) ItemCount++;
                   break;
                 case "sql":
                 case "SQL":
@@ -519,16 +516,16 @@ namespace Innovator.Client
         switch (context)
         {
           case "idlist":
-            return param.WithValue(RenderSqlEnum(value, false, o => _context.Format(o)));
+            return param.WithValue(ServerContext.RenderSqlEnum(value, false, o => _context.Format(o)));
           case "in":
           case "not in":
-            return param.WithValue(RenderSqlEnum(value, true, o => _context.Format(o)));
+            return param.WithValue(ServerContext.RenderSqlEnum(value, true, o => _context.Format(o)));
           case "like":
           case "not like":
             // Do something useful with context
-            return param.WithValue(RenderSqlEnum(value, false, o => _context.Format(o)));
+            return param.WithValue(ServerContext.RenderSqlEnum(value, false, o => _context.Format(o)));
           default:
-            return param.WithValue(RenderSqlEnum(value, false, o => _context.Format(o)));
+            return param.WithValue(ServerContext.RenderSqlEnum(value, false, o => _context.Format(o)));
         }
       }
       else if (context == "between" || context == "not between")
@@ -561,34 +558,6 @@ namespace Innovator.Client
       }
     }
 
-    private bool TryGetNumericEnumerable(object value, out IEnumerable enumerable)
-    {
-      if (value is IEnumerable<short>
-        || value is IEnumerable<int>
-        || value is IEnumerable<long>
-        || value is IEnumerable<ushort>
-        || value is IEnumerable<uint>
-        || value is IEnumerable<ulong>
-        || value is IEnumerable<byte>
-        || value is IEnumerable<decimal>)
-      {
-        enumerable = (IEnumerable)value;
-        return true;
-      }
-      else if (value is IEnumerable<float>)
-      {
-        enumerable = ((IEnumerable<float>)value).Cast<decimal>();
-        return true;
-      }
-      else if (value is IEnumerable<double>)
-      {
-        enumerable = ((IEnumerable<double>)value).Cast<decimal>();
-        return true;
-      }
-      enumerable = null;
-      return false;
-    }
-
     private bool TryGetParamValue(string name, out object value)
     {
       if (ParameterAccessListener != null)
@@ -605,53 +574,6 @@ namespace Innovator.Client
       param.Name = p.Name;
       param.IsRaw = p.IsRaw;
       return true;
-    }
-
-    private string RenderSqlEnum(object value, bool quoteStrings, Func<object, string> format)
-    {
-      if (value is string)
-        return format.Invoke(value);
-
-      IEnumerable enumerable = value as IEnumerable;
-      bool first = true;
-      var builder = new StringBuilder();
-      if ((!quoteStrings && enumerable != null) || TryGetNumericEnumerable(value, out enumerable))
-      {
-        foreach (var item in enumerable)
-        {
-          if (!first) builder.Append(",");
-          builder.Append(format.Invoke(item));
-          first = false;
-        }
-
-        if (first)
-          return format.Invoke(EmptyListMatch);
-      }
-      else
-      {
-        enumerable = value as IEnumerable;
-        if (enumerable != null)
-        {
-          foreach (var item in enumerable)
-          {
-            if (!first) builder.Append(",");
-            builder.Append(SqlFormatter.Quote(format.Invoke(item)));
-            first = false;
-          }
-
-          // Nothing was written as there were not values in the IEnumerable
-          // Therefore, write a bogus value to match zero results
-          if (quoteStrings && first)
-          {
-            return "N'" + format.Invoke(EmptyListMatch) + "'";
-          }
-        }
-        else
-        {
-          return format.Invoke(value);
-        }
-      }
-      return builder.ToString();
     }
 
     private string SqlReplace(string query)
@@ -701,19 +623,19 @@ namespace Innovator.Client
           }
           else if (value is string)
           {
-            return finalAction(SqlFormatter.Quote(RenderSqlEnum(value, false, o => _sqlFormatter.Format(o))));
+            return finalAction(SqlFormatter.Quote(ServerContext.RenderSqlEnum(value, false, o => _sqlFormatter.Format(o))));
           }
           else if (inClause && value is IEnumerable)
           {
-            return finalAction(RenderSqlEnum(value, true, o => _sqlFormatter.Format(o)));
+            return finalAction(ServerContext.RenderSqlEnum(value, true, o => _sqlFormatter.Format(o)));
           }
           else if (value is DateTime || value is bool || value is Guid)
           {
-            return finalAction("'" + RenderSqlEnum(value, false, o => _sqlFormatter.Format(o)) + "'");
+            return finalAction("'" + ServerContext.RenderSqlEnum(value, false, o => _sqlFormatter.Format(o)) + "'");
           }
           else
           {
-            return finalAction(SqlFormatter.Quote(RenderSqlEnum(value, false, o => _sqlFormatter.Format(o))));
+            return finalAction(SqlFormatter.Quote(ServerContext.RenderSqlEnum(value, false, o => _sqlFormatter.Format(o))));
           }
         }
         else

@@ -62,7 +62,7 @@ namespace Innovator.Server
       get
       {
         EnsureExisting();
-        return _existing == null;
+        return _existing?.Exists == true;
       }
     }
 

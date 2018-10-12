@@ -772,5 +772,37 @@ namespace Innovator.Client.Tests
       list.Add(aml.Item(aml.Type("type")));
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"type\" /><Item type=\"type\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(list).ToAml());
     }
+
+    [TestMethod()]
+    public void PropertyType()
+    {
+      var item = ElementFactory.Local.FromXml(@"<Result>
+  <Item type='Results'>
+    <q0>
+      <Item>
+        <Relationships>
+          <Item type='Part' typeId='5' id='5'>
+            <major_rev>A</major_rev>
+            <id keyed_name='999-9999-000' type='Part'>5</id>
+            <keyed_name>999-9999-000</keyed_name>
+            <itemtype>5</itemtype>
+          </Item>
+          <Item type='Part' typeId='5' id='5'>
+            <id keyed_name='999-9999-000' type='Part'>5</id>
+            <keyed_name>999-9999-000</keyed_name>
+            <major_rev>AAB</major_rev>
+            <itemtype>5</itemtype>
+          </Item>
+        </Relationships>
+      </Item>
+    </q0>
+  </Item>
+</Result>", new Command(), new TestConnection()).AssertItem();
+      var firstRel = item.Property("q0").AsItem().Relationships().First();
+      var allChildren = firstRel.Elements().ToArray();
+      Assert.AreEqual(4, allChildren.Length);
+      Assert.IsInstanceOfType(allChildren[0], typeof(Property));
+      Assert.IsInstanceOfType(firstRel.Element("major_rev"), typeof(Property));
+    }
   }
 }

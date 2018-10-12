@@ -196,12 +196,11 @@ namespace Innovator.Client
       return writer.Result.AssertItem();
     }
 
-    /// <summary>Retrieve all child elements</summary>
-    public override IEnumerable<IElement> Elements()
+    protected override IEnumerable<IReadOnlyElement> ReadOnlyElements()
     {
       if ((_attr & ElementAttributes.ItemDefaultAny) != 0)
-        return GetDefaultProperties().Concat(base.Elements());
-      return base.Elements();
+        return GetDefaultProperties().Concat(base.ReadOnlyElements());
+      return base.ReadOnlyElements();
     }
 
     private IEnumerable<IElement> GetDefaultProperties()

@@ -251,9 +251,14 @@ namespace Innovator.Client
     }
 
     /// <summary>Retrieve all child elements</summary>
-    public virtual IEnumerable<IElement> Elements()
+    public IEnumerable<IElement> Elements()
     {
-      return LinkedListOps.Enumerate(_content as ILinkedElement).OfType<IElement>();
+      return ReadOnlyElements().OfType<IElement>();
+    }
+
+    protected virtual IEnumerable<IReadOnlyElement> ReadOnlyElements()
+    {
+      return LinkedListOps.Enumerate(_content as ILinkedElement).OfType<IReadOnlyElement>();
     }
 
     internal Element ElementByName(string name)
@@ -265,7 +270,7 @@ namespace Innovator.Client
         if (result != null)
           return result;
       }
-      return new AmlElement(this, name);
+      return Elements().OfType<Element>().FirstOrDefault(e => e.Name == name) ?? new AmlElement(this, name);
     }
 
     /// <summary>Remove the element from its parent</summary>
@@ -420,7 +425,7 @@ namespace Innovator.Client
 
     IEnumerable<IReadOnlyElement> IReadOnlyElement.Elements()
     {
-      return LinkedListOps.Enumerate(_content as ILinkedElement).OfType<IReadOnlyElement>();
+      return ReadOnlyElements();
     }
 
     /// <summary>

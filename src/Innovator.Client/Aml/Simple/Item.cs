@@ -203,7 +203,7 @@ namespace Innovator.Client
       return base.ReadOnlyElements();
     }
 
-    private IEnumerable<IElement> GetDefaultProperties()
+    private IEnumerable<IReadOnlyElement> GetDefaultProperties()
     {
       if ((_attr & ElementAttributes.ItemDefaultGeneration) != 0)
         yield return Client.Property.DefaultGeneration;

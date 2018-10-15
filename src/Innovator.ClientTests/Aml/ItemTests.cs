@@ -804,5 +804,19 @@ namespace Innovator.Client.Tests
       Assert.IsInstanceOfType(allChildren[0], typeof(Property));
       Assert.IsInstanceOfType(firstRel.Element("major_rev"), typeof(Property));
     }
+
+    [TestMethod]
+    public void AddSelectAttribute()
+    {
+      var item = ElementFactory.Local.FromXml("<Item type='Part' pagesize='250' action='get'></Item>").AssertItem();
+      var selectNode = new SelectNode();
+      selectNode.EnsurePath("id");
+      selectNode.EnsurePath("state");
+      selectNode.EnsurePath("keyed_name");
+
+      item.Select().Set(selectNode);
+
+      Assert.AreEqual("id,state,keyed_name", item.Select().Value);
+    }
   }
 }

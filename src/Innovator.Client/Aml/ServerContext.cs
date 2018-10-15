@@ -380,6 +380,10 @@ namespace Innovator.Client
       {
         return attr.Value;
       }
+      else if (value is SelectNode node)
+      {
+        return node.ToString();
+      }
       else
       {
         return RenderSqlEnum(value, true, numberRenderer, stringRenderer, null);

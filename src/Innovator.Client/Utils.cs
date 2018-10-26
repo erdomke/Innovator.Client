@@ -336,6 +336,7 @@ namespace Innovator.Client
 
     internal static void Rethrow(this Exception ex)
     {
+      ex.Data["OriginalTrace"] = ex.ToString();
       if (!string.IsNullOrEmpty(ex.StackTrace))
       {
 #if REFLECTION

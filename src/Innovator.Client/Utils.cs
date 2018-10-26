@@ -336,19 +336,11 @@ namespace Innovator.Client
 
     internal static void Rethrow(this Exception ex)
     {
-      ex.Data["OriginalTrace"] = ex.ToString();
-      if (!string.IsNullOrEmpty(ex.StackTrace))
-      {
-#if REFLECTION
-        typeof(Exception).GetMethod("PrepForRemoting",
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
-            .Invoke(ex, new object[0]);
-        throw ex;
+#if NET35
+      throw new Exception(ex.Message, ex);
 #else
-        ex.Source = ex.StackTrace;
+      throw new AggregateException(ex);
 #endif
-      }
-      throw ex;
     }
 
     internal static T Single<T>(this IEnumerable<T> source, Func<T, bool> predicate, Func<int, Exception> errorHandler)

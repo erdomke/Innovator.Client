@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -37,9 +37,10 @@ namespace Innovator.Client
     }
     public SimpleContent(string content, string mediaType) : this(new MemoryStream(Encoding.UTF8.GetBytes(content)))
     {
-      var header = new MediaTypeHeaderValue((mediaType == null) ? "text/plain" : mediaType);
-      header.CharSet = Encoding.UTF8.WebName;
-      Headers.ContentType = header;
+      Headers.ContentType = new MediaTypeHeaderValue(mediaType ?? "text/plain")
+      {
+        CharSet = Encoding.UTF8.WebName
+      };
       _forceCompressionOff = DisableCompression(mediaType);
     }
     internal SimpleContent(byte[] data) : this(new MemoryStream(data)) { }

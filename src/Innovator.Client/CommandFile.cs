@@ -84,8 +84,8 @@ namespace Innovator.Client
         xml.WriteAttributeString("action", isNew ? "add" : "edit");
         xml.WriteAttributeString("id", id);
         xml.WriteElementString("actual_filename", path);
-        xml.WriteElementString("checkedout_path", System.IO.Path.GetDirectoryName(path));
-        xml.WriteElementString("filename", System.IO.Path.GetFileName(path));
+        xml.WriteElementString("checkedout_path", GetDirectoryName(path));
+        xml.WriteElementString("filename", GetFileName(path));
         xml.WriteElementString("checksum", _checksum);
         xml.WriteElementString("file_size", _length.ToString());
 
@@ -134,7 +134,7 @@ namespace Innovator.Client
 #endif
 
       var id = _id[0] == '@' ? cmd.Substitute(_id, context) : _id;
-      var path = System.IO.Path.GetFileName(_path[0] == '@' ? cmd.Substitute(_path, context) : _path);
+      var path = GetFileName(_path[0] == '@' ? cmd.Substitute(_path, context) : _path);
       if (multipart)
       {
         result.Headers.Add("Content-Disposition", string.Format("form-data; name=\"{0}\"; filename=\"{1}\"", id, path));
@@ -165,6 +165,22 @@ namespace Innovator.Client
         result.Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");
       }
       return result;
+    }
+
+    private static string GetDirectoryName(string path)
+    {
+      var idx = path.LastIndexOfAny(new char[] { '/', '\\' });
+      if (idx >= 0)
+        return path.Substring(0, idx);
+      return string.Empty;
+    }
+
+    private static string GetFileName(string path)
+    {
+      var idx = path.LastIndexOfAny(new char[] { '/', '\\' });
+      if (idx >= 0)
+        return path.Substring(idx + 1);
+      return path;
     }
 
 #if FILEIO

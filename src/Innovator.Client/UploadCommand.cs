@@ -339,6 +339,12 @@ namespace Innovator.Client
           { "vault_id", Vault.Id },
           { "version", _conn.Version }
         };
+        _conn.SetDefaultHeaders((name, value) =>
+        {
+          if (string.Equals(name, "LOCALE", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(name, "TIMEZONE_NAME", StringComparison.OrdinalIgnoreCase))
+            trace.Add(name.ToLowerInvariant(), value);
+        });
         return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
       }).Convert(r => r.AsStream);
     }

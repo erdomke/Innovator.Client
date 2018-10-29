@@ -1,4 +1,4 @@
-﻿using Innovator.Client;
+using Innovator.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -165,6 +165,8 @@ namespace Innovator.Client.Tests
       }
       catch (Exception ex)
       {
+        if (ex is AggregateException agg)
+          ex = agg.InnerException;
         Assert.AreEqual("ValidateUser", ex.Data["soap_action"]);
         Assert.AreEqual("http://invalid.example.com/Server/InnovatorServer.aspx", ex.Data["url"].ToString());
       }

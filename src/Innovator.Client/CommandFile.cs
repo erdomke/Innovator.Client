@@ -146,7 +146,6 @@ namespace Innovator.Client
 
         var hash = default(byte[]);
 
-        _data.Position = 0;
 #if FILEIO
         if (_data == null)
         {
@@ -154,12 +153,15 @@ namespace Innovator.Client
         }
         else
         {
+          _data.Position = 0;
           hash = new xxHash(32).ComputeHash(_data);
+          _data.Position = 0;
         }
 #else
-        hash = new xxHash(32).ComputeHash(_data);
-#endif
         _data.Position = 0;
+        hash = new xxHash(32).ComputeHash(_data);
+        _data.Position = 0;
+#endif
         var hashStr = BitConverter.ToUInt32(hash, 0).ToString(CultureInfo.InvariantCulture);
         result.Headers.Add("Aras-Content-Range-Checksum", hashStr);
         result.Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");

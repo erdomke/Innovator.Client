@@ -51,10 +51,8 @@ namespace Innovator.Client
         return null;
 
       var range = prop.Attribute(ParameterSubstitution.DateRangeAttribute).Value;
-      DateOffset? offsetStart;
-      DateOffset? offsetEnd;
       if (!string.IsNullOrEmpty(range)
-        && ParameterSubstitution.TryDeserializeDateRange(range, out offsetStart, out offsetEnd))
+        && ParameterSubstitution.TryDeserializeDateRange(range, out DateOffset? offsetStart, out DateOffset? offsetEnd))
       {
         if (offsetStart.HasValue && offsetEnd.HasValue)
           return new Range<DateOffset>(offsetStart.Value, offsetEnd.Value);
@@ -841,12 +839,10 @@ namespace Innovator.Client
     /// <summary>
     /// Indicates that the property is neither null nor empty
     /// </summary>
-    /// <remarks>If the property is empty but has <c>is_null='0'</c>, then this will return <c>true</c></remarks>
     public static bool HasValue(this IReadOnlyProperty_Base prop)
     {
       return prop.Exists
         && (!string.IsNullOrEmpty(prop.Value)
-          || prop.IsNull().AsBoolean() == false
           || prop.Elements().Any());
     }
 

@@ -52,7 +52,8 @@ namespace Innovator.Client
         }
 
         _length = new FileInfo(_filePath).Length;
-      } else
+      }
+      else
 #endif
       if (data == null)
       {
@@ -118,7 +119,6 @@ namespace Innovator.Client
 
     public HttpContent AsContent(Command cmd, IServerContext context, bool multipart)
     {
-      _data.Position = 0;
       HttpContent result;
 #if FILEIO
       if (_data == null)
@@ -127,9 +127,11 @@ namespace Innovator.Client
       }
       else
       {
+        _data.Position = 0;
         result = new SimpleContent(_data);
       }
 #else
+      _data.Position = 0;
       result = new SimpleContent(_data);
 #endif
 

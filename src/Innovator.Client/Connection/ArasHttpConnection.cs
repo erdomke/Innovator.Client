@@ -394,7 +394,7 @@ namespace Innovator.Client.Connection
       if (!string.IsNullOrEmpty(_userId)) _vaultConn.InitializeStrategy();
     }
 
-    private IPromise<IHttpResponse> UploadAml(Uri uri, string action, Command request, bool async)
+    private IPromise<IHttpResponse> UploadAml(Uri uri, string action, Command request, bool async, HttpClient service = null)
     {
       var req = new HttpRequest()
       {
@@ -424,7 +424,7 @@ namespace Innovator.Client.Connection
         { "user_id", _userId },
         { "version", _arasVersion }
       };
-      return _service.PostPromise(uri, async, req, trace).Always(trace.Dispose);
+      return (service ?? _service).PostPromise(uri, async, req, trace).Always(trace.Dispose);
     }
 
     void IArasConnection.SetDefaultHeaders(Action<string, string> writer)
@@ -545,7 +545,14 @@ namespace Innovator.Client.Connection
       else if (winCred != null)
       {
         var waLoginUrl = new Uri(this._innovatorClientBin, "../scripts/IOMLogin.aspx");
-        return UploadAml(waLoginUrl, "", "<Item />", async)
+        var handler = new SyncClientHandler()
+        {
+          Credentials = winCred.Credentials,
+          PreAuthenticate = true
+        };
+        var http = new SyncHttpClient(handler);
+
+        return UploadAml(waLoginUrl, "", "<Item />", async, http)
           .Convert(r =>
           {
             var result = new HashData();

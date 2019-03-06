@@ -69,9 +69,20 @@ namespace Json.Embed
     /// </summary>
     public string Value { get; set; }
 
+    public JsonTextReader(string text)
+    {
+      _reader = new StringReader(text);
+    }
+
     public JsonTextReader(TextReader reader)
     {
       _reader = reader;
+    }
+
+    public JsonTextReader(Stream stream)
+    {
+      CloseInput = true;
+      _reader = new StreamReader(stream);
     }
 
     public bool Read()
@@ -536,5 +547,95 @@ namespace Json.Embed
         _reader.Dispose();
     }
     #endregion
+
+    public IEnumerable<KeyValuePair<string, object>> Flatten()
+    {
+      var path = new Stack<object>();
+
+      while (this.Read())
+      {
+        switch (this.TokenType)
+        {
+          case JsonToken.StartArray:
+            if (path.Count == 0)
+              path.Push("$");
+            path.Push(0);
+            break;
+          case JsonToken.StartObject:
+            if (path.Count == 0)
+              path.Push("$");
+            break;
+          case JsonToken.PropertyName:
+            path.Push(this.Value);
+            break;
+          case JsonToken.Null:
+            yield return new KeyValuePair<string, object>(ToJsonPath(path), null);
+            ConsumePath(path);
+            break;
+          case JsonToken.Number:
+            if (int.TryParse(Value, out var intValue))
+              yield return new KeyValuePair<string, object>(ToJsonPath(path), intValue);
+            else if (double.TryParse(Value, out var dblValue))
+              yield return new KeyValuePair<string, object>(ToJsonPath(path), dblValue);
+            else
+              throw new InvalidOperationException();
+            ConsumePath(path);
+            break;
+          case JsonToken.Boolean:
+            if (string.Equals(Value, "true", StringComparison.OrdinalIgnoreCase))
+              yield return new KeyValuePair<string, object>(ToJsonPath(path), true);
+            else if (string.Equals(Value, "false", StringComparison.OrdinalIgnoreCase))
+              yield return new KeyValuePair<string, object>(ToJsonPath(path), false);
+            else
+              throw new InvalidOperationException();
+            ConsumePath(path);
+            break;
+          case JsonToken.String:
+            yield return new KeyValuePair<string, object>(ToJsonPath(path), Value);
+            ConsumePath(path);
+            break;
+          case JsonToken.EndArray:
+            path.Pop();
+            break;
+          case JsonToken.EndObject:
+            ConsumePath(path);
+            break;
+        }
+      }
+    }
+
+    private void ConsumePath(Stack<object> path)
+    {
+      if (path.Peek() is string)
+      {
+        path.Pop();
+      }
+      else if (path.Peek() is int index)
+      {
+        path.Pop();
+        path.Push(index + 1);
+      }
+
+    }
+
+    //https://goessner.net/articles/JsonPath/index.html#e2
+    private string ToJsonPath(Stack<object> path)
+    {
+      var builder = new StringBuilder();
+      foreach (var part in path.Reverse())
+      {
+        if (part is int)
+        {
+          builder.Append('[').Append(part).Append(']');
+        }
+        else
+        {
+          if (builder.Length > 0)
+            builder.Append('.');
+          builder.Append(part);
+        }
+      }
+      return builder.ToString();
+    }
   }
 }

@@ -146,7 +146,7 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Attach a callback that runs an error (other than a cancellation error) occurs
+    /// Attach a callback that runs when an error (other than a cancellation error) occurs
     /// </summary>
     public static IPromise<T> Error<T>(this IPromise<T> promise, Action<Exception> callback)
     {

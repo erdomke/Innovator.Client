@@ -596,6 +596,8 @@ namespace Json.Embed
             break;
           case JsonToken.EndArray:
             path.Pop();
+            if (path.Count > 0 && path.Peek() is string)
+              path.Pop();
             break;
           case JsonToken.EndObject:
             ConsumePath(path);

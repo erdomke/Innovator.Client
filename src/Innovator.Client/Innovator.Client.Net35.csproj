@@ -62,6 +62,7 @@
     <Compile Include="Aml\CloneSettings.cs" />
     <Compile Include="Aml\CommandAction.cs" />
     <Compile Include="Aml\Condition.cs" />
+    <Compile Include="Aml\TocNode.cs" />
     <Compile Include="Aml\ZonedDateTime.cs" />
     <Compile Include="Authentication\AuthenticationFactory.cs" />
     <Compile Include="Authentication\IAuthenticator.cs" />

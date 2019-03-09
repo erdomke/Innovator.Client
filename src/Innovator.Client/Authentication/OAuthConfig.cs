@@ -7,7 +7,7 @@ namespace Innovator.Client
   {
     public Uri TokenEndpoint { get; }
     public Uri AuthorizeEndpoint { get; }
-    public Version ProtocolVersion { get; }
+    public Version ProtocolVersion { get; } = new Version(0, 0);
     public ProtocolType ProtocolType { get; }
 
     public OAuthConfig(Stream json, Uri baseUri)
@@ -35,7 +35,14 @@ namespace Innovator.Client
               break;
             case "$.protocol_version":
 #if NET35
-              ProtocolVersion = new Version(0, 0);
+              try
+              {
+                ProtocolVersion = new Version(kvp.Value?.ToString());
+              }
+              catch (Exception)
+              {
+                ProtocolVersion = new Version(0, 0);
+              }
 #else
               if (Version.TryParse(kvp.Value?.ToString(), out var version))
                 ProtocolVersion = version;

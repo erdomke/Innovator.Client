@@ -111,10 +111,13 @@ namespace Innovator.Client
         switch (reader.NodeType)
         {
           case XmlNodeType.Element:
-            if (reader.LocalName == "Item")
-              elementNames.Push(reader.GetAttribute("type"));
-            else
-              elementNames.Push(reader.LocalName);
+            if (!reader.IsEmptyElement)
+            {
+              if (reader.LocalName == "Item")
+                elementNames.Push(reader.GetAttribute("type"));
+              else
+                elementNames.Push(reader.LocalName);
+            }
             if (string.Equals(reader.GetAttribute("type"), "Tree Node", StringComparison.OrdinalIgnoreCase))
             {
               var newNode = new TocNode()

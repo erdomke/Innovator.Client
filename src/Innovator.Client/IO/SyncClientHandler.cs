@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,7 +16,11 @@ namespace Innovator.Client
     {
       var req = request as HttpRequest;
       if (req == null || req.Async || (req.Content != null && !(req.Content is ISyncContent)))
-        return base.SendAsync(request, cancellationToken);
+        return base.SendAsync(request, cancellationToken).ContinueWith(t =>
+        {
+          request.Content?.Dispose();
+          return t.Result;
+        });
 
       var factory = new TaskCompletionSource<HttpResponseMessage>();
       try

@@ -151,7 +151,8 @@ namespace Innovator.Client
 #if FILEIO
         if (_data == null)
         {
-          hash = new xxHash(32).ComputeHash(new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096));
+          using (var stream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096))
+            hash = new xxHash(32).ComputeHash(stream);
         }
         else
         {

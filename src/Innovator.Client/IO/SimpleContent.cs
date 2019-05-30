@@ -15,6 +15,7 @@ namespace Innovator.Client
 
     private CompressionType _compression;
     private bool _forceCompressionOff;
+    private bool _doDispose = false;
     private Stream _stream;
 
     public CompressionType Compression
@@ -29,13 +30,13 @@ namespace Innovator.Client
       }
     }
 
-    public SimpleContent(Stream content, string mediaType) : this(content)
+    public SimpleContent(Stream content, string mediaType, bool doDispose) : this(content, doDispose)
     {
       if (!string.IsNullOrEmpty(mediaType))
         Headers.ContentType = new MediaTypeHeaderValue(mediaType);
       _forceCompressionOff = DisableCompression(mediaType);
     }
-    public SimpleContent(string content, string mediaType) : this(new MemoryStream(Encoding.UTF8.GetBytes(content)))
+    public SimpleContent(string content, string mediaType) : this(new MemoryStream(Encoding.UTF8.GetBytes(content)), true)
     {
       Headers.ContentType = new MediaTypeHeaderValue(mediaType ?? "text/plain")
       {
@@ -43,10 +44,11 @@ namespace Innovator.Client
       };
       _forceCompressionOff = DisableCompression(mediaType);
     }
-    internal SimpleContent(byte[] data) : this(new MemoryStream(data)) { }
-    internal SimpleContent(Stream stream) : base(stream)
+    internal SimpleContent(byte[] data) : this(new MemoryStream(data), true) { }
+    internal SimpleContent(Stream stream, bool doDispose) : base(stream)
     {
       _stream = stream;
+      _doDispose = doDispose;
     }
 
     protected override bool TryComputeLength(out long length)
@@ -105,6 +107,17 @@ namespace Innovator.Client
         if (compressedStream != null)
           compressedStream.Dispose();
       });
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+      base.Dispose(disposing);
+      try
+      {
+        if (disposing && _doDispose && _stream != null)
+          _stream.Dispose();
+      }
+      catch (Exception) { }
     }
 
     /// <summary>

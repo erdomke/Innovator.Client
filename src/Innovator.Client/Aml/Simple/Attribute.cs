@@ -129,7 +129,7 @@ namespace Innovator.Client
     {
       if (!this.Exists)
         return defaultValue;
-      return this.Value;
+      return this.Value ?? defaultValue;
     }
 
     public static Attribute TryGet(object value, Element newParent)

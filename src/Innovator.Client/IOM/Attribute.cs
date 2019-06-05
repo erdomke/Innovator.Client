@@ -93,7 +93,7 @@ namespace Innovator.Client.IOM
     public string AsString(string defaultValue)
     {
       if (_node == null) return defaultValue;
-      return this.Value;
+      return this.Value ?? defaultValue;
     }
 
     public void Remove()

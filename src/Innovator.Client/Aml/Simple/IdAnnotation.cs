@@ -37,9 +37,10 @@ namespace Innovator.Client
     {
       return _value;
     }
+
     public string AsString(string defaultValue)
     {
-      return this.Value;
+      return this.Value ?? defaultValue;
     }
 
     #region IReadOnlyProperty

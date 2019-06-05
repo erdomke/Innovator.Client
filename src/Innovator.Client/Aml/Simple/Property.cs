@@ -183,7 +183,7 @@ namespace Innovator.Client
     {
       if (!this.Exists || Attribute("is_null").AsBoolean(false))
         return defaultValue;
-      return this.Value;
+      return this.Value ?? defaultValue;
     }
 
     public override IElement Add(object content)

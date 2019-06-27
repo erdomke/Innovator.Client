@@ -80,7 +80,7 @@ namespace Innovator.Client
 
       var timeout = new TimeoutSource();
       timeout.CancelAfter((int)req.Timeout.TotalMilliseconds);
-      var respTask = service.SendAsync(req, timeout.Source.Token);
+      var respTask = service.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeout.Source.Token);
 
       var result = respTask
         .ContinueWith((Func<Task<HttpResponseMessage>, Task<IHttpResponse>>)HttpResponse.Create, TaskScheduler.Default)

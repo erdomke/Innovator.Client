@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -72,19 +73,14 @@ namespace Innovator.Client
 
     private HttpResponseMsg CreateResponseMessage(HttpWebResponse webResponse, HttpRequestMessage request)
     {
-      var httpResponseMessage = new HttpResponseMsg(webResponse.StatusCode);
-      httpResponseMessage.ReasonPhrase = webResponse.StatusDescription;
-      httpResponseMessage.Version = webResponse.ProtocolVersion;
-      httpResponseMessage.RequestMessage = request;
-
-      var content = new MemoryTributary();
-      using (var stream = webResponse.GetResponseStream())
+      var httpResponseMessage = new HttpResponseMsg(webResponse.StatusCode)
       {
-        stream.CopyTo(content);
-      }
-      content.Position = 0;
+        ReasonPhrase = webResponse.StatusDescription,
+        Version = webResponse.ProtocolVersion,
+        RequestMessage = request
+      };
 
-      httpResponseMessage.Content = new ResponseContent(content);
+      httpResponseMessage.Content = new ResponseContent(new ResponseStreamWrapper(webResponse));
       request.RequestUri = webResponse.ResponseUri;
       WebHeaderCollection headers = webResponse.Headers;
       HttpContentHeaders headers2 = httpResponseMessage.Content.Headers;
@@ -106,9 +102,86 @@ namespace Innovator.Client
           }
         }
       }
-      webResponse.Close();
       return httpResponseMessage;
     }
+
+    private class ResponseStreamWrapper : Stream
+    {
+      private readonly Stream _stream;
+      private readonly HttpWebResponse _webResponse;
+      private readonly long? _length;
+
+      public ResponseStreamWrapper(HttpWebResponse webResponse)
+      {
+        _stream = webResponse.GetResponseStream();
+        if (!_stream.CanSeek && webResponse.ContentLength > 0L)
+          _length = webResponse.ContentLength;
+        _webResponse = webResponse;
+      }
+
+      public override bool CanRead => _stream.CanRead;
+
+      public override bool CanSeek => _stream.CanSeek;
+
+      public override bool CanWrite => _stream.CanWrite;
+
+      public override long Length => _length ?? _stream.Length;
+
+      public override long Position { get => _stream.Position; set => _stream.Position = value; }
+
+      public override void Flush()
+      {
+        _stream.Flush();
+      }
+
+      public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
+      {
+        return _stream.BeginRead(buffer, offset, count, callback, state);
+      }
+
+      public override int EndRead(IAsyncResult asyncResult)
+      {
+        return _stream.EndRead(asyncResult);
+      }
+
+#if TASKS
+      public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+      {
+        return _stream.ReadAsync(buffer, offset, count, cancellationToken);
+      }
+#endif
+
+      public override int Read(byte[] buffer, int offset, int count)
+      {
+        return _stream.Read(buffer, offset, count);
+      }
+
+      public override long Seek(long offset, SeekOrigin origin)
+      {
+        return _stream.Seek(offset, origin);
+      }
+
+      public override void SetLength(long value)
+      {
+        _stream.SetLength(value);
+      }
+
+      public override void Write(byte[] buffer, int offset, int count)
+      {
+        _stream.Write(buffer, offset, count);
+      }
+
+      protected override void Dispose(bool disposing)
+      {
+        base.Dispose(disposing);
+        if (disposing)
+        {
+          _stream.Dispose();
+          _webResponse.Close();
+        }
+      }
+    }
+
 
     private HttpWebRequest CreateAndPrepareWebRequest(HttpRequestMessage request)
     {

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -34,9 +34,11 @@ namespace Innovator.Client
       }
       else
       {
-        var result = new HttpResponse();
-        result._statusCode = task.Result.StatusCode;
-        result._headers = task.Result.Headers.ToDictionary(k => k.Key, k => k.Value.First());
+        var result = new HttpResponse
+        {
+          _statusCode = task.Result.StatusCode,
+          _headers = task.Result.Headers.ToDictionary(k => k.Key, k => k.Value.First())
+        };
         task.Result.Content.ReadAsStreamAsync().ContinueWith(t =>
         {
           if (t.IsCanceled)
@@ -50,6 +52,8 @@ namespace Innovator.Client
           else
           {
             result._stream = t.Result;
+            if (!result._stream.CanSeek && task.Result.Content.Headers.ContentLength.HasValue)
+              result._stream = result._stream.WithLength(task.Result.Content.Headers.ContentLength.Value);
             if (task.Result.IsSuccessStatusCode)
             {
               factory.SetResult(result);

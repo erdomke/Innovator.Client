@@ -73,9 +73,9 @@ namespace Innovator.Client
       return _lastPromise;
     }
 
-    public override IPromise<string> UploadFile(string id, string path, Stream data, bool async)
+    public override IPromise<string> UploadFile(string id, string path, Stream data, bool async, bool calcChecksum = true)
     {
-      var aml = AddFile(id, path, data);
+      var aml = AddFile(id, path, data, true, calcChecksum);
       var files = new[] { Files.Single(f => f.Id == id) };
       files[0].UploadPromise = this.UploadAndApply("ApplyItem", aml, files, async);
       return files[0].UploadPromise

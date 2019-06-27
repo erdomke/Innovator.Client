@@ -98,10 +98,11 @@ namespace Innovator.Client
     /// <param name="path">Path (or pseudo path) of the file</param>
     /// <param name="data">Stream of data representing the file</param>
     /// <param name="isNew">Is this a new file being added to the database for the first time?</param>
+    /// <param name="calcChecksum">Whether to buffer the stream for the purposes of calculating a checksum</param>
     /// <returns>AML file string useful for building a larger AML statement</returns>
-    public string AddFile(string id, string path, Stream data, bool isNew = true)
+    public string AddFile(string id, string path, Stream data, bool isNew = true, bool calcChecksum = true)
     {
-      var file = new CommandFile(id, path, data, Vault.Id, isNew);
+      var file = new CommandFile(id, path, data, Vault.Id, isNew, calcChecksum);
       _files.Add(file);
       return file.Aml;
     }
@@ -184,8 +185,9 @@ namespace Innovator.Client
     /// <param name="path">Path (or pseudo path) of the file</param>
     /// <param name="data">Stream of data representing the file</param>
     /// <param name="async">Whether to perform this action asynchronously</param>
+    /// <param name="calcChecksum">Whether to buffer the stream for the purposes of calculating a checksum</param>
     /// <returns>AML file string useful for building a larger AML statement</returns>
-    public abstract IPromise<string> UploadFile(string id, string path, Stream data, bool async);
+    public abstract IPromise<string> UploadFile(string id, string path, Stream data, bool async, bool calcChecksum = true);
 
     /// <summary>
     /// Add a file to the request without specifying an ID

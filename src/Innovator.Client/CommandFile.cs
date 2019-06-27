@@ -14,7 +14,7 @@ namespace Innovator.Client
     private string _checksum;
     private Stream _data;
     private string _id;
-    private long _length;
+    private long? _length;
     private string _path;
 #if FILEIO
     private string _filePath;
@@ -22,13 +22,13 @@ namespace Innovator.Client
 
     public string Aml { get { return _aml; } }
     public string Id { get { return _id; } }
-    public long Length { get { return _length; } }
+    public long Length { get { return _length ?? -1; } }
     public string Path { get { return _path; } }
     public IPromise<Stream> UploadPromise { get; set; }
 
-    public CommandFile(string id, string path, Stream data, string vaultId, bool isNew = true)
+    public CommandFile(string id, string path, Stream data, string vaultId, bool isNew = true, bool calcChecksum = true)
     {
-      _id = id;
+      _id = id ?? ElementFactory.Local.NewId();
 
 #if FILEIO
       var fileStream = data as FileStream;
@@ -61,9 +61,12 @@ namespace Innovator.Client
       }
       else
       {
-        _data = data.Seekable();
-        _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
-        _data.Position = 0;
+        _data = calcChecksum ? data.Seekable() : data;
+        if (calcChecksum)
+        {
+          _checksum = MD5.ComputeHash(_data).ToUpperInvariant();
+          _data.Position = 0;
+        }
         _length = _data.Length;
       }
       _aml = GetFileItem(id, path, vaultId, isNew);
@@ -87,8 +90,10 @@ namespace Innovator.Client
         xml.WriteElementString("actual_filename", path);
         xml.WriteElementString("checkedout_path", GetDirectoryName(path));
         xml.WriteElementString("filename", GetFileName(path));
-        xml.WriteElementString("checksum", _checksum);
-        xml.WriteElementString("file_size", _length.ToString());
+        if (!string.IsNullOrEmpty(_checksum))
+          xml.WriteElementString("checksum", _checksum);
+        if (_length.HasValue)
+          xml.WriteElementString("file_size", _length.Value.ToString());
 
         xml.WriteStartElement("Relationships");
         xml.WriteStartElement("Item");
@@ -127,11 +132,13 @@ namespace Innovator.Client
       }
       else
       {
-        _data.Position = 0;
+        if (_data.CanSeek)
+          _data.Position = 0;
         result = new SimpleContent(_data, false);
       }
 #else
-      _data.Position = 0;
+      if (_data.CanSeek)
+        _data.Position = 0;
       result = new SimpleContent(_data, false);
 #endif
 
@@ -144,7 +151,8 @@ namespace Innovator.Client
       else
       {
         result.Headers.Add("Content-Disposition", "attachment; filename*=" + Encode5987(path));
-        result.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", 0, _length - 1, _length));
+        if (_length.HasValue && _length.Value > 0)
+          result.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", 0, _length - 1, _length));
 
         var hash = default(byte[]);
 
@@ -154,20 +162,25 @@ namespace Innovator.Client
           using (var stream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096))
             hash = new xxHash(32).ComputeHash(stream);
         }
-        else
+        else if (_data.CanSeek)
         {
           _data.Position = 0;
           hash = new xxHash(32).ComputeHash(_data);
           _data.Position = 0;
         }
 #else
-        _data.Position = 0;
-        hash = new xxHash(32).ComputeHash(_data);
-        _data.Position = 0;
+        if (_data.CanSeek) {
+          _data.Position = 0;
+          hash = new xxHash(32).ComputeHash(_data);
+          _data.Position = 0;
+        }
 #endif
-        var hashStr = BitConverter.ToUInt32(hash, 0).ToString(CultureInfo.InvariantCulture);
-        result.Headers.Add("Aras-Content-Range-Checksum", hashStr);
-        result.Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");
+        if (hash != null)
+        {
+          var hashStr = BitConverter.ToUInt32(hash, 0).ToString(CultureInfo.InvariantCulture);
+          result.Headers.Add("Aras-Content-Range-Checksum", hashStr);
+          result.Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");
+        }
       }
       return result;
     }

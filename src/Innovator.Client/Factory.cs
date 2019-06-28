@@ -116,8 +116,10 @@ namespace Innovator.Client
     /// </example>
     public static IRemoteConnection GetConnection(string url, string userAgent)
     {
-      var prefs = new ConnectionPreferences();
-      prefs.Url = url;
+      var prefs = new ConnectionPreferences
+      {
+        Url = url
+      };
       prefs.Headers.UserAgent = userAgent;
       return GetConnection(prefs, false).Value;
     }
@@ -185,8 +187,10 @@ namespace Innovator.Client
       };
 
       var result = new Promise<IRemoteConnection>();
-      var req = new HttpRequest();
-      req.UserAgent = preferences.Headers.UserAgent;
+      var req = new HttpRequest
+      {
+        UserAgent = preferences.Headers.UserAgent
+      };
       req.SetHeader("Accept", "text/xml");
       foreach (var header in preferences.Headers.NonUserAgentHeaders())
       {
@@ -257,10 +261,13 @@ namespace Innovator.Client
     private static IRemoteConnection ArasConn(HttpClient arasService, string url, ConnectionPreferences preferences)
     {
       var result = new Connection.ArasHttpConnection(arasService, url, preferences.ItemFactory);
-      if (preferences.Headers.Any())
+      if (preferences.Headers.Any() || preferences.DefaultTimeout.HasValue)
       {
         result.DefaultSettings(r =>
         {
+          if (preferences.DefaultTimeout.HasValue)
+            r.Timeout = TimeSpan.FromMilliseconds(preferences.DefaultTimeout.Value);
+
           if (!string.IsNullOrEmpty(preferences.Headers.UserAgent))
             r.UserAgent = preferences.Headers.UserAgent;
 

@@ -42,7 +42,6 @@ namespace Innovator.Client
 #if FILEIO
       if (!string.IsNullOrEmpty(_filePath))
       {
-        _id = id;
         if (!File.Exists(_filePath)) throw new IOException("File " + _filePath + " does not exist");
 
         using (var file = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -69,7 +68,7 @@ namespace Innovator.Client
         }
         _length = _data.Length;
       }
-      _aml = GetFileItem(id, path, vaultId, isNew);
+      _aml = GetFileItem(_id, path, vaultId, isNew);
     }
 
     private string GetFileItem(string id, string path, string vaultId, bool isNew)

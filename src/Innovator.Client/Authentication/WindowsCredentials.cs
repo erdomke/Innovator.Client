@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace Innovator.Client
 {
@@ -6,7 +6,7 @@ namespace Innovator.Client
   /// Credentials leveraged with Windows authentication (a.k.a. NTML or Kerberos)
   /// </summary>
   [DebuggerDisplay("Windows: {Database}")]
-  public class WindowsCredentials : INetCredentials
+  public class WindowsCredentials : INetCredentials, IUserCredentials
   {
     /// <summary>
     /// An <see cref="System.Net.ICredentials"/> instance with the same user name and password
@@ -16,6 +16,17 @@ namespace Innovator.Client
     /// The database to connect to
     /// </summary>
     public string Database { get; }
+
+    string IUserCredentials.Username
+    {
+      get
+      {
+        if (Credentials is System.Net.NetworkCredential netCred
+          && !string.IsNullOrEmpty(netCred.UserName))
+          return netCred.UserName;
+        return null;
+      }
+    }
 
     /// <summary>
     /// Instantiate a <c>WindowsCredentials</c> instance with the current Windows user credentials

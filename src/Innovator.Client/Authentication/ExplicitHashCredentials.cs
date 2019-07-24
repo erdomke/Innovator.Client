@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace Innovator.Client
@@ -7,7 +7,7 @@ namespace Innovator.Client
   /// Credentials with a specified user name and password hash provided by the user
   /// </summary>
   [DebuggerDisplay("Hash: {Database}, {Username}")]
-  public class ExplicitHashCredentials : ICredentials
+  public class ExplicitHashCredentials : IUserCredentials
   {
     /// <summary>
     /// The database to connect to

@@ -1,20 +1,26 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
-  internal class TokenCredentials : ICredentials
+  public class TokenCredentials : IUserCredentials
   {
     public string AccessToken { get; }
-    public DateTime Expires { get; }
-    public string Database { get; }
+    public DateTime Expires { get; private set; }
+    public string Database { get; private set; }
     public string TokenType { get; }
+    public string Username { get; private set; }
 
-    public TokenCredentials(Stream json, string database)
+    public TokenCredentials(string token)
+    {
+      TokenType = "Bearer";
+      AccessToken = token;
+
+      InitAccessToken();
+    }
+
+    internal TokenCredentials(Stream json, string database)
     {
       Database = database;
       using (var reader = new Json.Embed.JsonTextReader(json))
@@ -39,28 +45,38 @@ namespace Innovator.Client
       if (string.IsNullOrEmpty(AccessToken))
         throw new InvalidOperationException("An access token must be specified.");
 
+      InitAccessToken();
+    }
+
+    private void InitAccessToken()
+    {
       var parts = AccessToken.Split('.');
-      if (parts.Length > 1)
+      if (parts.Length < 2)
+        throw new ArgumentException("Invalid JWT token");
+
+      var body = parts[1];
+      body = body.Replace('-', '+').Replace('_', '/');
+      var diff = body.Length % 4;
+      if (diff > 0)
+        body += new string('=', 4 - diff);
+
+      var bytes = Convert.FromBase64String(body);
+      var jsonBody = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+      using (var reader = new Json.Embed.JsonTextReader(jsonBody))
       {
-        var body = parts[1];
-        body.Replace('-', '+').Replace('_', '/');
-        while ((body.Length % 4) != 0)
-          body += "=";
-        var bytes = Convert.FromBase64String(body);
-        var jsonBody = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
-        using (var reader = new Json.Embed.JsonTextReader(jsonBody))
+        foreach (var kvp in reader.Flatten())
         {
-          foreach (var kvp in reader.Flatten())
+          switch (kvp.Key)
           {
-            switch (kvp.Key)
-            {
-              case "$.exp":
-                Expires = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((int)kvp.Value);
-                break;
-              case "$.database":
-                Database = kvp.Value?.ToString() ?? Database;
-                break;
-            }
+            case "$.exp":
+              Expires = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds((int)kvp.Value);
+              break;
+            case "$.database":
+              Database = kvp.Value?.ToString() ?? Database;
+              break;
+            case "$.username":
+              Username = kvp.Value?.ToString();
+              break;
           }
         }
       }

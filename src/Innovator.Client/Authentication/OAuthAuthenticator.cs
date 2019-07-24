@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Innovator.Client
 {
@@ -18,7 +16,10 @@ namespace Innovator.Client
     {
       _config = config;
       _service = service;
-      _hashCred = HashCredentials(creds);
+      if (creds is TokenCredentials token)
+        _tokenCreds = Promises.Resolved(token);
+      else
+        _hashCred = HashCredentials(creds);
     }
 
     private IPromise<TokenCredentials> GetCredentials(bool async)

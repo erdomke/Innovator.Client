@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Net;
 
 namespace Innovator.Client
@@ -7,7 +7,7 @@ namespace Innovator.Client
   /// Credentials with a specified user name and password provided by the user
   /// </summary>
   [DebuggerDisplay("Explicit: {Database}, {Username}")]
-  public class ExplicitCredentials : INetCredentials
+  public class ExplicitCredentials : INetCredentials, IUserCredentials
   {
 
 #if SECURECRED

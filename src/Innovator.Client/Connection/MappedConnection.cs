@@ -25,8 +25,7 @@ namespace Innovator.Client.Connection
     {
       get
       {
-        var exp = _lastCredentials as ExplicitCredentials;
-        if (exp != null)
+        if (_lastCredentials is IUserCredentials exp && !string.IsNullOrEmpty(exp.Username))
           return string.Format("[Connection] {0} | {1} | {2}", exp.Username, Database, Url);
         return string.Format("[Connection] {0} | {1} | {2}", UserId, Database, Url);
       }

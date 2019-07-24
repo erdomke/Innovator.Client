@@ -219,8 +219,8 @@ namespace Innovator.Client
 
       elem.EnsureElement("Url").Value = prefs.Url;
       buffer = elem.EnsureElement("UserName");
-      if (explicitCred != null)
-        buffer.Value = explicitCred.Username;
+      if (prefs.Credentials is IUserCredentials userCred)
+        buffer.Value = userCred.Username;
 
       buffer = elem.EnsureElement("Color");
       if (string.IsNullOrEmpty(buffer.Value))

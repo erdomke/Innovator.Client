@@ -1,4 +1,4 @@
-﻿namespace Innovator.Client
+namespace Innovator.Client
 {
   /// <summary>
   /// Credentials for authenticating to an Aras Innovator instance
@@ -9,5 +9,10 @@
     /// The database to connect to
     /// </summary>
     string Database { get; }
+  }
+
+  internal interface IUserCredentials : ICredentials
+  {
+    string Username { get; }
   }
 }

@@ -1,4 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Innovator.Client.Tests
@@ -45,6 +47,17 @@ where (
   isnull(c.VIEWABLE_FILE, '') &lt;&gt; isnull(c.VIEWABLE_Watermark, '')
 )
 and c.state = N'Preliminary'</sql>", aml);
+    }
+
+    [TestMethod()]
+    public void TokenParsing()
+    {
+      var tokenStr = "thing.eyJuYmYiOjE1NjM5MDUzNzIsImV4cCI6MTU2MzkwODk3MiwiaXNzIjoiT0F1dGhTZXJ2ZXIiLCJhdWQiOlsiT0F1dGhTZXJ2ZXIvcmVzb3VyY2VzIiwiSW5ub3ZhdG9yIl0sImNsaWVudF9pZCI6Iklubm92YXRvckNsaWVudCIsInN1YiI6ImFkbWluIiwiYXV0aF90aW1lIjoxNTYzOTA1MzcyLCJpZHAiOiJsb2NhbCIsInVzZXJuYW1lIjoiYWRtaW4iLCJkYXRhYmFzZSI6Iklubm92YXRvcjEyIiwic2NvcGUiOlsib3BlbmlkIiwiSW5ub3ZhdG9yIl0sImFtciI6WyJwd2QiXX0.other";
+      var cred = new TokenCredentials(tokenStr);
+      Assert.AreEqual("Innovator12", cred.Database);
+      Assert.AreEqual("admin", cred.Username);
+      Assert.AreEqual(DateTime.Parse("Tuesday, July 23, 2019 7:09:32 PM", CultureInfo.CurrentCulture, System.Globalization.DateTimeStyles.AssumeUniversal).ToUniversalTime()
+        , cred.Expires);
     }
   }
 }

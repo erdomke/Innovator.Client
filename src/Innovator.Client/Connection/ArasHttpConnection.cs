@@ -237,10 +237,8 @@ namespace Innovator.Client.Connection
           Database = credentials.Database;
           if (string.IsNullOrEmpty(_httpUsername))
           {
-            if (credentials is ExplicitCredentials eCred)
-              _httpUsername = eCred.Username;
-            else if (credentials is ExplicitHashCredentials hashCred)
-              _httpUsername = hashCred.Username;
+            if (credentials is IUserCredentials uCred && !string.IsNullOrEmpty(uCred.Username))
+              _httpUsername = uCred.Username;
           }
         });
     }

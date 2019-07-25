@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Innovator.Client
 {
@@ -76,11 +76,16 @@ namespace Innovator.Client
     /// <exception cref="ServerException">If the result does not have at least one item, either the exception returned from 
     /// the server or a new exception will be thrown</exception>
     IEnumerable<IReadOnlyItem> AssertItems();
-    /// <summary>Do nothing other than throw an exception if there is an error other than 'No Items Found'</summary>
+    /// <summary>Do nothing other than throw an exception if present</summary>
     /// <exception cref="ServerException">If an exception was returned from the server (including 
     /// <see cref="NoItemsFoundException"/>), the exception will be thrown</exception>
     /// <returns>The current <see cref="IReadOnlyResult"/> for chaining additional methods</returns>
     IReadOnlyResult AssertNoError();
+    /// <summary>Do nothing other than throw an exception if present, optionally ignoring <see cref="NoItemsFoundException"/></summary>
+    /// <exception cref="ServerException">If an exception was returned from the server (optionally including 
+    /// <see cref="NoItemsFoundException"/>), the exception will be thrown</exception>
+    /// <returns>The current <see cref="IReadOnlyResult"/> for chaining additional methods</returns>
+    IReadOnlyResult AssertNoError(bool ignoreNoItemsFound);
     /// <summary>Return an exception (if there is one), otherwise, return <c>null</c></summary>
     ServerException Exception { get; }
     /// <summary>Return an enumerable of items.  Throw an exception if there is an error other than 'No Items Found'</summary>

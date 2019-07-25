@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -115,9 +115,22 @@ namespace Innovator.Client
       return items;
     }
 
+    /// <summary>
+    /// Do nothing other than throw an exception if present
+    /// </summary>
     public IReadOnlyResult AssertNoError()
     {
+      this.AssertNoError(false);
+      return this;
+    }
+
+    /// <summary>
+    /// Do nothing other than throw an exception if present, optionally ignoring <see cref="NoItemsFoundException"/>
+    /// </summary>
+    public IReadOnlyResult AssertNoError(bool ignoreNoItemsFound)
+    {
       var exception = this.Exception;
+      if (exception is NoItemsFoundException && ignoreNoItemsFound) return this;
       if (exception != null) throw exception;
       return this;
     }

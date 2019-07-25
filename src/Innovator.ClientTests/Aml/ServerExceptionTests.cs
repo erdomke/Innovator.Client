@@ -107,6 +107,31 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void AssertNoErrorNoItemsFound()
+    {
+      var aml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"">
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault xmlns:af=""http://www.aras.com/InnovatorFault"">
+      <faultcode>0</faultcode>
+      <faultstring>No items of type SavedSearch found.</faultstring>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>";
+
+      var result = ElementFactory.Local.FromXml(aml);
+      try
+      {
+        result.AssertNoError(true);
+      }
+      catch (NoItemsFoundException)
+      {
+        Assert.Fail("AssertNoError(true) should not throw NoItemsFoundExceptions");
+      }
+      Assert.ThrowsException<NoItemsFoundException>(() => result.AssertNoError());
+      Assert.ThrowsException<NoItemsFoundException>(() => result.AssertNoError(false));
+    }
+
+    [TestMethod()]
     public void ValidationReportException()
     {
       var aml = ElementFactory.Local;

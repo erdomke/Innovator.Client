@@ -64,7 +64,7 @@ namespace Innovator.Client.IOM
       loadAML(result);
     }
 
-#region IReadOnlyResult    
+    #region IReadOnlyResult    
     /// <summary>
     /// Return an exception (if there is one), otherwise, return <c>null</c>
     /// </summary>
@@ -119,12 +119,21 @@ namespace Innovator.Client.IOM
     }
 
     /// <summary>
-    /// Do nothing other than throw an exception if there is an error other than 'No Items Found'
+    /// Do nothing other than throw an exception if present
     /// </summary>
-    /// <returns></returns>
     public IReadOnlyResult AssertNoError()
     {
+      this.AssertNoError(false);
+      return this;
+    }
+
+    /// <summary>
+    /// Do nothing other than throw an exception if present, optionally ignoring <see cref="NoItemsFoundException"/>
+    /// </summary>
+    public IReadOnlyResult AssertNoError(bool ignoreNoItemsFound)
+    {
       var exception = this.Exception;
+      if (exception is NoItemsFoundException && ignoreNoItemsFound) return this;
       if (exception != null) throw exception;
       return this;
     }
@@ -206,9 +215,9 @@ namespace Innovator.Client.IOM
         ? (Exception)NewNoItemsException()
         : new InvalidOperationException("Multiple items were found when only one was expected."));
     }
-#endregion
+    #endregion
 
-#region IItem
+    #region IItem
 
     /// <summary>
     /// Retrieve the parent element
@@ -479,12 +488,12 @@ namespace Innovator.Client.IOM
     {
       return AssertItem().TypeName();
     }
-#endregion
+    #endregion
 
-#region ISingleItemContext
+    #region ISingleItemContext
     IReadOnlyItem ISingleItemContext.Item { get { return AssertItem(); } }
     IServerConnection IContext.Conn { get { return (IServerConnection)_conn; } }
-#endregion
+    #endregion
 
     /// <summary>
     /// Returns a <see cref="System.String" /> that represents this instance.

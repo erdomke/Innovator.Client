@@ -182,7 +182,6 @@ guaranteed throughout the code that it actually represents an `<Item />` tag.
 ```csharp
 var result = conn.Apply("MY_QUERY");
 result.AssertNoError(); // Do nothing other than throw an exception if there is an error
-                        // other than 'No Items Found'
 result.AssertItem();    // Return a single item.  If that is not possible, throw an appropriate
                         // exception (e.g. the exception returned by the server where possible)
 result.Items();         // Return an enumerable of items.  Throw an exception if there is 

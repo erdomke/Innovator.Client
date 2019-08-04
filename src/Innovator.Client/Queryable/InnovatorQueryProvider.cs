@@ -165,6 +165,11 @@ namespace Innovator.Client.Queryable
         return _result.AssertNoError();
       }
 
+      public IReadOnlyResult AssertNoError(bool ignoreNoItemsFound)
+      {
+        return _result.AssertNoError(ignoreNoItemsFound);
+      }
+
       public IEnumerable<IReadOnlyItem> Items()
       {
         return _result.Items();

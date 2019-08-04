@@ -373,6 +373,17 @@ namespace Innovator.Client.IOM
     }
 
     /// <summary>
+    /// Do nothing other than throw an exception if present, optionally ignoring <see cref="NoItemsFoundException"/>
+    /// </summary>
+    public IReadOnlyResult AssertNoError(bool ignoreNoItemsFound)
+    {
+      var exception = Exception;
+      if (exception is NoItemsFoundException && ignoreNoItemsFound) return this;
+      if (exception != null) throw exception;
+      return this;
+    }
+
+    /// <summary>
     /// Return an enumerable of items.  Throw an exception if there is an error other than 'No Items Found'
     /// </summary>
     /// <returns></returns>

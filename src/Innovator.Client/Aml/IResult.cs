@@ -34,7 +34,7 @@ namespace Innovator.Client
     /// <summary>Add the specified item to the result</summary>
     /// <param name="item">Item to add</param>
     /// <returns>The current <see cref="IResult"/> object for chaining additional commands</returns>
-    IResult Add(IItem item);
+    IResult Add(IReadOnlyItem item);
     /// <summary>Adds content to the <c>Message</c> element of the result tag</summary>
     /// <param name="content">Content to add to the <c>Message</c> element</param>
     void AddMessage(params object[] content);

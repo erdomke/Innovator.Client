@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Innovator.Client
 {
   /// <summary>
-  /// Represents an Aras Item that is read only.  By default, the connection object returns IReadOnlyItems to encouarge
+  /// Represents an Aras Item that is read only.  By default, the connection object returns IReadOnlyItems to encourage
   /// treating the results as immutable
   /// </summary>
   /// <remarks>

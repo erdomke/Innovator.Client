@@ -62,7 +62,7 @@ namespace Innovator.Client
       _query = query;
     }
 
-    public IResult Add(IItem content)
+    public IResult Add(IReadOnlyItem content)
     {
       AddReadOnly(content);
       return this;

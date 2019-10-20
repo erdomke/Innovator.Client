@@ -818,5 +818,18 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual("id,state,keyed_name", item.Select().Value);
     }
+
+    [TestMethod]
+    public void AddReadOnlyItemsToResult()
+    {
+      var result = ElementFactory.Local.Result();
+      var resultItem = ElementFactory.Local.Item();
+      result.Add(resultItem);
+
+      var readonlyResultItem = resultItem.AsResult().AssertItem();
+      result.Add(readonlyResultItem);
+
+      Assert.AreEqual(2, result.Items().Count());
+    }
   }
 }

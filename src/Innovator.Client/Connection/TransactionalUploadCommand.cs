@@ -152,7 +152,10 @@ namespace Innovator.Client
             { "version", _conn.Version }
           };
           var uri = new Uri(Vault.Url + "?fileId=" + file.Id);
-          return Vault.HttpClient.PostPromise(uri, async, req, trace).Always(trace.Dispose);
+          return Vault.HttpClient
+          .PostPromise(uri, async, req, trace)
+          .Always(trace.Dispose)
+          .Always(req.Dispose);
         })
         .Convert(r => r.AsStream);
     }

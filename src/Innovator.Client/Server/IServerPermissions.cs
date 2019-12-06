@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Innovator.Server
@@ -27,11 +27,11 @@ namespace Innovator.Server
     /// <returns>A list of identities that the user <paramref name="userId"/> is in.</returns>
     IEnumerable<string> Identities(string userId);
     /// <summary>
-    /// Adds the <paramref name="identNames"/> identity to the identity list of the current connection
+    /// Adds the case-sensitive <paramref name="identityNames"/> to the identity list of the current connection.
     /// </summary>
-    /// <param name="identNames">Names of the identities to add</param>
+    /// <param name="identityNames">Case-sensitive names of the identities to add</param>
     /// <returns>A <see cref="IDisposable"/> object.  Calling <see cref="IDisposable.Dispose"/> will 
     /// return the identity list to its original state</returns>
-    IDisposable Escalate(params string[] identNames);
+    IDisposable Escalate(params string[] identityNames);
   }
 }

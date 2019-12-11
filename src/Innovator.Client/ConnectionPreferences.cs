@@ -19,6 +19,9 @@ namespace Innovator.Client
   {
     private ArasHeaders _headers;
 
+    private Action<HttpClientHandler> _httpClientHandlerEnricher;
+
+
     /// <summary>
     /// By default, connections to URLs with mapping files will send login requests to
     /// any defined authentication service.  If the callback is overriden, it will be used
@@ -53,6 +56,15 @@ namespace Innovator.Client
     /// The URL to use if not otherwise specified
     /// </summary>
     public string Url { get; set; }
+
+    /// <summary>
+    /// An Action that is called on the httpHandler of the DefaultHttpClient
+    /// </summary>
+    public Action<HttpClientHandler> HttpClientHandlerEnricher
+    {
+      get => _httpClientHandlerEnricher ?? (h => { });
+      set => _httpClientHandlerEnricher = HttpClientHandlerEnricher;
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConnectionPreferences"/> class.

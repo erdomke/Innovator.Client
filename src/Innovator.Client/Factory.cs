@@ -23,6 +23,7 @@ namespace Innovator.Client
   {
     private static Action<int, string, IEnumerable<KeyValuePair<string, object>>> _logListener;
     private static MemoryCache<string, byte[]> _imageCache = new MemoryCache<string, byte[]>();
+    private static ConnectionPreferences _preferences;
 
     internal static Func<HttpClient> DefaultService { get; set; }
 
@@ -60,6 +61,7 @@ namespace Innovator.Client
         {
           CookieContainer = new CookieContainer()
         };
+        _preferences.HttpClientHandlerEnricher(handler);
         var infinite = TimeSpan.FromMilliseconds(-1);
         return new SyncHttpClient(handler) { Timeout = infinite };
       };
@@ -116,12 +118,12 @@ namespace Innovator.Client
     /// </example>
     public static IRemoteConnection GetConnection(string url, string userAgent)
     {
-      var prefs = new ConnectionPreferences
+      _preferences = new ConnectionPreferences
       {
         Url = url
       };
-      prefs.Headers.UserAgent = userAgent;
-      return GetConnection(prefs, false).Value;
+      _preferences.Headers.UserAgent = userAgent;
+      return GetConnection(_preferences, false).Value;
     }
 
     /// <summary>
@@ -132,9 +134,9 @@ namespace Innovator.Client
     /// <returns>A connection object</returns>
     public static IRemoteConnection GetConnection(string url, ConnectionPreferences preferences)
     {
-      preferences = preferences ?? new ConnectionPreferences();
-      preferences.Url = url;
-      return GetConnection(preferences, false).Value;
+      _preferences = preferences ?? new ConnectionPreferences();
+      _preferences.Url = url;
+      return GetConnection(_preferences, false).Value;
     }
 
     /// <summary>
@@ -148,9 +150,9 @@ namespace Innovator.Client
     public static IPromise<IRemoteConnection> GetConnection(string url
       , ConnectionPreferences preferences, bool async)
     {
-      preferences = preferences ?? new ConnectionPreferences();
-      preferences.Url = url;
-      return GetConnection(preferences, async);
+      _preferences = preferences ?? new ConnectionPreferences();
+      _preferences.Url = url;
+      return GetConnection(_preferences, async);
     }
 
     /// <summary>
@@ -162,8 +164,8 @@ namespace Innovator.Client
     /// <returns>A promise to return a connection object</returns>
     public static IPromise<IRemoteConnection> GetConnection(ConnectionPreferences preferences, bool async)
     {
-      preferences = preferences ?? new ConnectionPreferences();
-      var url = preferences.Url;
+      _preferences = preferences ?? new ConnectionPreferences();
+      var url = _preferences.Url;
 
       url = (url ?? "").TrimEnd('/');
       if (url.EndsWith("Server/InnovatorServer.aspx", StringComparison.OrdinalIgnoreCase))
@@ -171,8 +173,8 @@ namespace Innovator.Client
       if (!url.EndsWith("/server", StringComparison.OrdinalIgnoreCase)) url += "/Server";
       var configUrl = url + "/mapping.xml";
 
-      var masterService = preferences.HttpService ?? DefaultService.Invoke();
-      var arasSerice = preferences.HttpService ?? DefaultService.Invoke();
+      var masterService = _preferences.HttpService ?? DefaultService.Invoke();
+      var arasSerice = _preferences.HttpService ?? DefaultService.Invoke();
       Func<ServerMapping, IRemoteConnection> connFactory = m =>
       {
         var uri = (m.Url ?? "").TrimEnd('/');
@@ -182,17 +184,17 @@ namespace Innovator.Client
           case ServerType.Proxy:
             throw new NotSupportedException();
           default:
-            return ArasConn(arasSerice, uri, preferences);
+            return ArasConn(arasSerice, uri, _preferences);
         }
       };
 
       var result = new Promise<IRemoteConnection>();
       var req = new HttpRequest
       {
-        UserAgent = preferences.Headers.UserAgent
+        UserAgent = _preferences.Headers.UserAgent
       };
       req.SetHeader("Accept", "text/xml");
-      foreach (var header in preferences.Headers.NonUserAgentHeaders())
+      foreach (var header in _preferences.Headers.NonUserAgentHeaders())
       {
         req.SetHeader(header.Key, header.Value);
       }
@@ -208,7 +210,7 @@ namespace Innovator.Client
           var data = r.AsString();
           if (string.IsNullOrEmpty(data))
           {
-            result.Resolve(ArasConn(arasSerice, url, preferences));
+            result.Resolve(ArasConn(arasSerice, url, _preferences));
           }
           else
           {
@@ -217,7 +219,7 @@ namespace Innovator.Client
               var servers = ServerMapping.FromXml(data).ToArray();
               if (servers.Length < 1)
               {
-                result.Resolve(ArasConn(arasSerice, url, preferences));
+                result.Resolve(ArasConn(arasSerice, url, _preferences));
               }
               else if (servers.Length == 1)
               {
@@ -229,28 +231,28 @@ namespace Innovator.Client
                 {
                   server.Factory = connFactory;
                 }
-                result.Resolve(new MappedConnection(servers, preferences.AuthCallback));
+                result.Resolve(new MappedConnection(servers, _preferences.AuthCallback));
               }
             }
             catch (XmlException)
             {
-              result.Resolve(ArasConn(arasSerice, url, preferences));
+              result.Resolve(ArasConn(arasSerice, url, _preferences));
             }
           }
         }).Fail(ex =>
         {
-          result.Resolve(ArasConn(arasSerice, url, preferences));
+          result.Resolve(ArasConn(arasSerice, url, _preferences));
         })).Always(trace.Dispose);
 
 
-      if (preferences.Credentials != null)
+      if (_preferences.Credentials != null)
       {
         IRemoteConnection conn = null;
         return result
           .Continue(c =>
           {
             conn = c;
-            return c.Login(preferences.Credentials, async);
+            return c.Login(_preferences.Credentials, async);
           })
           .Convert(u => conn);
       }
@@ -258,20 +260,21 @@ namespace Innovator.Client
       return result;
     }
 
-    private static IRemoteConnection ArasConn(HttpClient arasService, string url, ConnectionPreferences preferences)
+    private static IRemoteConnection ArasConn(HttpClient arasService, string url, ConnectionPreferences pref)
     {
-      var result = new Connection.ArasHttpConnection(arasService, url, preferences.ItemFactory);
-      if (preferences.Headers.Any() || preferences.DefaultTimeout.HasValue)
+      _preferences = pref;
+      var result = new Connection.ArasHttpConnection(arasService, url, _preferences.ItemFactory);
+      if (_preferences.Headers.Any() || _preferences.DefaultTimeout.HasValue)
       {
         result.DefaultSettings(r =>
         {
-          if (preferences.DefaultTimeout.HasValue)
-            r.Timeout = TimeSpan.FromMilliseconds(preferences.DefaultTimeout.Value);
+          if (_preferences.DefaultTimeout.HasValue)
+            r.Timeout = TimeSpan.FromMilliseconds(_preferences.DefaultTimeout.Value);
 
-          if (!string.IsNullOrEmpty(preferences.Headers.UserAgent))
-            r.UserAgent = preferences.Headers.UserAgent;
+          if (!string.IsNullOrEmpty(_preferences.Headers.UserAgent))
+            r.UserAgent = _preferences.Headers.UserAgent;
 
-          foreach (var header in preferences.Headers.NonUserAgentHeaders())
+          foreach (var header in _preferences.Headers.NonUserAgentHeaders())
           {
             r.SetHeader(header.Key, header.Value);
           }

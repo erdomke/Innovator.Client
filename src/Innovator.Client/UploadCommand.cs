@@ -347,7 +347,10 @@ namespace Innovator.Client
             || string.Equals(name, "TIMEZONE_NAME", StringComparison.OrdinalIgnoreCase))
             trace.Add(name.ToLowerInvariant(), value);
         });
-        return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
+        return Vault.HttpClient
+        .PostPromise(new Uri(Vault.Url), async, req, trace)
+        .Always(trace.Dispose)
+        .Always(req.Dispose);
       }).Convert(r => r.AsStream);
     }
 

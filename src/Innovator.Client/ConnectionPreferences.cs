@@ -55,6 +55,12 @@ namespace Innovator.Client
     public string Url { get; set; }
 
     /// <summary>
+    /// An Action that is called on the httpHandler of the DefaultHttpClient
+    /// </summary>
+    public Action<HttpClientHandler> HttpClientHandlerEnricher { get; set; } = h => { };
+
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ConnectionPreferences"/> class.
     /// </summary>
     public ConnectionPreferences()

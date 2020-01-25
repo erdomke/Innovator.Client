@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http;
 
 namespace Innovator.Client
 {
@@ -16,7 +17,7 @@ namespace Innovator.Client
     /// </value>
     public AuthenticationSchemes Authentication { get; set; }
 
-    internal SyncHttpClient HttpClient { get; }
+    internal HttpClient HttpClient { get; }
 
     /// <summary>
     /// Gets or sets the Aras ID of the vault.
@@ -56,13 +57,13 @@ namespace Innovator.Client
     string ILink<Vault>.Name { get { return Id; } }
     Vault ILink<Vault>.Next { get; set; }
 
-    internal Vault(IReadOnlyItem i)
+    internal Vault(IReadOnlyItem i, HttpClient client)
     {
       this.Id = i.Id();
       this.Url = i.Property("vault_url").Value;
       this.Authentication = AuthenticationSchemes.None;
 
-      HttpClient = (SyncHttpClient)Factory.DefaultService();
+      HttpClient = client;
     }
   }
 }

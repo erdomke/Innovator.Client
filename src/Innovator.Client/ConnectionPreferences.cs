@@ -74,7 +74,30 @@ namespace Innovator.Client
       writer.Flush();
     }
 
-    private IPromise<ICredentials> DefaultAuthCallback(INetCredentials netCred, string endpoint, bool async)
+    /// <summary>
+    /// Create a custom HTTP client that supports synchronized calls, but is configured
+    /// for your environment
+    /// </summary>
+    /// <param name="configure">Callback to configure the <see cref="HttpClientHandler"/></param>
+    /// <returns>This instance</returns>
+    public ConnectionPreferences WithConfiguredClient(Action<HttpClientHandler> configure)
+    {
+      HttpService = GetService(configure);
+      return this;
+    }
+
+    internal static HttpClient GetService(Action<HttpClientHandler> configure = null)
+    {
+      var handler = new SyncClientHandler
+      {
+        CookieContainer = new CookieContainer()
+      };
+      configure?.Invoke(handler);
+      var infinite = TimeSpan.FromMilliseconds(-1);
+      return new SyncHttpClient(handler) { Timeout = infinite };
+    }
+
+  private IPromise<ICredentials> DefaultAuthCallback(INetCredentials netCred, string endpoint, bool async)
     {
       var promise = new Promise<ICredentials>();
 

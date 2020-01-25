@@ -565,7 +565,9 @@ namespace Innovator.Client
           { "url", url },
           { "user_id", conn.UserId }
         };
-        return Factory.DefaultService.Invoke().GetPromise(new Uri(url), async, trace).Convert(r =>
+        var service = (conn as Connection.ArasHttpConnection)?.Service
+          ?? ConnectionPreferences.GetService();
+        return service.GetPromise(new Uri(url), async, trace).Convert(r =>
         {
           var download = r.AsStream;
           var buffer = download as MemoryTributary;

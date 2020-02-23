@@ -39,6 +39,14 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod]
+    public void GetItemByKeyedName()
+    {
+      var inn = new IOM.Innovator(new TestConnection());
+      var result = inn.getItemByKeyedName("Variable", "CorportateTimeZone");
+      // Not throwing an exception is good enough for now.
+    }
+
+    [TestMethod]
     public void ErrorItemTesting()
     {
       var target = CreateItem(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>

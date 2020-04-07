@@ -1,7 +1,7 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innovator.Client.Tests
 {
@@ -116,6 +116,15 @@ namespace Innovator.Client.Tests
       var item = aml.Item(aml.Property("prop1", aml.Attribute("keyed_name", "some name"), "value1"), aml.Property("prop2", aml.Attribute("keyed_name", "another name"), "value2"));
       var item2 = aml.Item(item.Property("prop1"));
       Assert.AreEqual("some name", item2.Property("prop1").KeyedName().Value);
+    }
+
+    [TestMethod()]
+    public void PropertySetCdata()
+    {
+      const string str = "<Item><name><![CDATA[first & second > third]]></name></Item>";
+      var item = ElementFactory.Local.Item();
+      item.Property("name").Set("<![CDATA[first & second > third]]>");
+      Assert.AreEqual(str, item.ToAml());
     }
   }
 }

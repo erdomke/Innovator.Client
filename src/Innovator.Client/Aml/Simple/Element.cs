@@ -376,15 +376,23 @@ namespace Innovator.Client
         {
           writer.WriteAttributeString(attr.Name, attr.Value);
         }
-
       }
-      var elem = _content as ILinkedElement;
-      if (elem == null)
+      if (!(_content is ILinkedElement))
       {
-        if (PreferCData && this.Value?.IndexOf("<![CDATA[") < 0)
+        var startsWithCData = this.Value?.StartsWith("<![CDATA[");
+        if (PreferCData && startsWithCData != true)
+        {
+          // Write a CData tag even when this.Value is null
           writer.WriteCData(this.Value);
+        }
+        else if (startsWithCData == true)
+        {
+          writer.WriteRaw(this.Value);
+        }
         else
+        {
           writer.WriteString(this.Value);
+        }
       }
       else
       {

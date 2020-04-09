@@ -213,21 +213,26 @@ namespace Innovator.Client
     /// <param name="conn">Connection to query the item on</param>
     /// <param name="itemTypeName">Name of the item type</param>
     /// <param name="id">ID of the item</param>
-    /// <returns></returns>
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
     /// <exception cref="ArgumentException">
     /// <paramref name="itemTypeName"/> is not specified
     /// - or -
     /// <paramref name="id"/> is not specified
     /// </exception>
-    public static IReadOnlyItem ItemById(this IConnection conn, string itemTypeName, string id)
+    public static IReadOnlyItem ItemById(this IConnection conn, string itemTypeName, string id, params IAttribute[] attributes)
     {
       if (itemTypeName.IsNullOrWhiteSpace())
         throw new ArgumentException("Item type must be specified", nameof(itemTypeName));
       if (id.IsNullOrWhiteSpace())
         throw new ArgumentException("ID must be specified", nameof(id));
 
-      return conn.Apply(new Command("<Item type='@0' id='@1' action=\"get\" />", itemTypeName, id)
-                          .WithAction(CommandAction.ApplyItem)).AssertItem();
+      var aml = conn.AmlContext;
+      return aml.Item(aml.Action("get"),
+        aml.Type(itemTypeName),
+        aml.Id(id),
+        attributes)
+        .Apply(conn)
+        .AssertItem();
     }
 
     /// <summary>
@@ -325,14 +330,17 @@ namespace Innovator.Client
     /// <param name="conn">The connection.</param>
     /// <param name="itemTypeName">Name of the item type.</param>
     /// <param name="id">The ID.</param>
-    /// <returns>The resulting item</returns>
-    public static IReadOnlyItem Lock(this IConnection conn, string itemTypeName, string id)
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
+    /// <returns>The lock result</returns>
+    public static IReadOnlyResult Lock(this IConnection conn, string itemTypeName, string id, params IAttribute[] attributes)
     {
       var aml = conn.AmlContext;
       return aml.Item(aml.Action("lock"),
         aml.Type(itemTypeName),
-        aml.Id(id)
-      ).Apply(conn).AssertItem();
+        aml.Id(id),
+        attributes
+      ).Apply(conn)
+      .AssertNoError();
     }
 
     /// <summary>
@@ -381,16 +389,18 @@ namespace Innovator.Client
     /// <param name="id">The Aras ID.</param>
     /// <param name="newState">The new state.</param>
     /// <param name="comments">The comments.</param>
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
     /// <returns>The result returned by the server</returns>
     /// <exception cref="ArgumentException">State must be a non-empty string to run a promotion. - newState</exception>
-    public static IReadOnlyResult Promote(this IConnection conn, string itemTypeName, string id, string newState, string comments = null)
+    public static IReadOnlyResult Promote(this IConnection conn, string itemTypeName, string id, string newState, string comments = null, params IAttribute[] attributes)
     {
-      if (newState.IsNullOrWhiteSpace()) throw new ArgumentException("State must be a non-empty string to run a promotion.", "newState");
+      if (newState.IsNullOrWhiteSpace()) throw new ArgumentException("State must be a non-empty string to run a promotion.", nameof(newState));
       var aml = conn.AmlContext;
       var promoteItem = aml.Item(aml.Action("promoteItem"),
         aml.Type(itemTypeName),
         aml.Id(id),
-        aml.State(newState)
+        aml.State(newState),
+        attributes
       );
       if (!string.IsNullOrEmpty(comments)) promoteItem.Add(aml.Property("comments", comments));
       return promoteItem.Apply(conn);
@@ -402,14 +412,17 @@ namespace Innovator.Client
     /// <param name="conn">The connection.</param>
     /// <param name="itemTypeName">Name of the item type.</param>
     /// <param name="id">The Aras ID.</param>
-    /// <returns>The new item data</returns>
-    public static IReadOnlyItem Unlock(this IConnection conn, string itemTypeName, string id)
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
+    /// <returns>The unlock result</returns>
+    public static IReadOnlyResult Unlock(this IConnection conn, string itemTypeName, string id, params IAttribute[] attributes)
     {
       var aml = conn.AmlContext;
       return aml.Item(aml.Action("unlock"),
         aml.Type(itemTypeName),
-        aml.Id(id)
-      ).Apply(conn).AssertItem();
+        aml.Id(id),
+        attributes
+      ).Apply(conn)
+      .AssertNoError();
     }
   }
 }

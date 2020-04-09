@@ -93,24 +93,8 @@ namespace Innovator.Client.QueryModel
             Writer.Write(((PropertyReference)cols[i].Expression).Name);
             Writer.Write("])");
           }
-
-          var genVisitor = new GenerationCriteriaVisitor();
-          query.Where.Visit(genVisitor);
-          if (query.Version is CurrentVersion)
-          {
-            genVisitor.Criteria = new EqualsOperator()
-            {
-              Left = new PropertyReference("is_current", query),
-              Right = new BooleanLiteral(true)
-            };
-          }
-
-          if (genVisitor.Criteria != null)
-          {
-            Writer.Write(" where ");
-            genVisitor.Criteria.Visit(this);
-          }
-
+          Writer.Write(" where ");
+          query.Where.Visit(this);
           Writer.Write(" group by ");
           WritePermissionFields(query);
           Writer.Write(" ) perm where ");

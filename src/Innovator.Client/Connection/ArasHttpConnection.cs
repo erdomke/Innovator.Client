@@ -17,7 +17,6 @@ namespace Innovator.Client.Connection
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class ArasHttpConnection : IRemoteConnection, IArasConnection
   {
-    private readonly HttpClient _service;
     private ServerContext _context = new ServerContext(false);
     private readonly Uri _innovatorServerUrl;
     private readonly Uri _innovatorClientBin;
@@ -36,6 +35,8 @@ namespace Innovator.Client.Connection
     {
       get { return string.Format("[Connection] {0} | {1} | {2}", _httpUsername, Database, Url); }
     }
+
+    internal HttpClient Service { get; }
 
     /// <summary>
     /// AML context used for creating AML objects and formatting AML statements
@@ -89,7 +90,7 @@ namespace Innovator.Client.Connection
     /// <param name="itemFactory">The item factory.</param>
     public ArasHttpConnection(HttpClient service, string innovatorServerUrl, IItemFactory itemFactory)
     {
-      _service = service;
+      Service = service;
       this.Compression = CompressionType.none;
       AmlContext = new ElementFactory(_context, itemFactory);
 
@@ -111,7 +112,7 @@ namespace Innovator.Client.Connection
       this._innovatorServerUrl = new Uri(this.Url, "InnovatorServer.aspx");
       this._innovatorClientBin = new Uri(this.Url, "../Client/cbin/");
 
-      _vaultConn = new ArasVaultConnection(this);
+      _vaultConn = new ArasVaultConnection(this, Service);
     }
 
     /// <summary>
@@ -184,7 +185,7 @@ namespace Innovator.Client.Connection
         { "version", Version }
       })
       {
-        resp = _service.GetPromise(new Uri(this.Url, "DBList.aspx"), false, trace).Wait();
+        resp = Service.GetPromise(new Uri(this.Url, "DBList.aspx"), false, trace).Wait();
       }
       using (var reader = XmlReader.Create(resp.AsStream))
       {
@@ -213,7 +214,7 @@ namespace Innovator.Client.Connection
     {
       if (_authenticator != null)
         return Promises.Resolved(_authenticator);
-      return AuthenticationFactory.GetAuthenticator(Url, _service, credentials, async)
+      return AuthenticationFactory.GetAuthenticator(Url, Service, credentials, async)
         .Done(a => _authenticator = a);
     }
 
@@ -412,7 +413,7 @@ namespace Innovator.Client.Connection
         { "user_id", UserId },
         { "version", Version }
       };
-      return (service ?? _service).PostPromise(uri, async, req, trace).Always(trace.Dispose);
+      return (service ?? Service).PostPromise(uri, async, req, trace).Always(trace.Dispose);
     }
 
     void IArasConnection.SetDefaultHeaders(Action<string, string> writer)
@@ -500,7 +501,7 @@ namespace Innovator.Client.Connection
     /// </returns>
     public IPromise<IRemoteConnection> Clone(bool async)
     {
-      var newConn = new ArasHttpConnection(Factory.DefaultService.Invoke(), _innovatorServerUrl.ToString(), AmlContext.ItemFactory)
+      var newConn = new ArasHttpConnection(Service, _innovatorServerUrl.ToString(), AmlContext.ItemFactory)
       {
         _defaults = this._defaults
       };

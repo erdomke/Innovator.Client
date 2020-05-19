@@ -23,9 +23,7 @@ namespace Innovator.Client
   {
     private static Action<int, string, IEnumerable<KeyValuePair<string, object>>> _logListener;
     private static MemoryCache<string, byte[]> _imageCache = new MemoryCache<string, byte[]>();
-
-    internal static Func<HttpClient> DefaultService { get; set; }
-
+    
     /// <summary>
     /// Gets or sets the default <see cref="IItemFactory"/> to use with new connections
     /// </summary>
@@ -54,15 +52,6 @@ namespace Innovator.Client
 
     static Factory()
     {
-      DefaultService = () =>
-      {
-        var handler = new SyncClientHandler
-        {
-          CookieContainer = new CookieContainer()
-        };
-        var infinite = TimeSpan.FromMilliseconds(-1);
-        return new SyncHttpClient(handler) { Timeout = infinite };
-      };
       DefaultItemFactory = new DefaultItemFactory();
       _logListener = DefaultLogListener;
     }
@@ -171,8 +160,8 @@ namespace Innovator.Client
       if (!url.EndsWith("/server", StringComparison.OrdinalIgnoreCase)) url += "/Server";
       var configUrl = url + "/mapping.xml";
 
-      var masterService = preferences.HttpService ?? DefaultService.Invoke();
-      var arasSerice = preferences.HttpService ?? DefaultService.Invoke();
+      var service = preferences.HttpService ?? ConnectionPreferences.GetService();
+      
       Func<ServerMapping, IRemoteConnection> connFactory = m =>
       {
         var uri = (m.Url ?? "").TrimEnd('/');
@@ -182,7 +171,7 @@ namespace Innovator.Client
           case ServerType.Proxy:
             throw new NotSupportedException();
           default:
-            return ArasConn(arasSerice, uri, preferences);
+            return ArasConn(service, uri, preferences);
         }
       };
 
@@ -201,14 +190,14 @@ namespace Innovator.Client
       {
         { "url", configUrl },
       };
-      result.CancelTarget(masterService.GetPromise(new Uri(configUrl), async, trace, req)
+      result.CancelTarget(service.GetPromise(new Uri(configUrl), async, trace, req)
         .Progress((p, m) => result.Notify(p, m))
         .Done(r =>
         {
           var data = r.AsString();
           if (string.IsNullOrEmpty(data))
           {
-            result.Resolve(ArasConn(arasSerice, url, preferences));
+            result.Resolve(ArasConn(service, url, preferences));
           }
           else
           {
@@ -217,7 +206,7 @@ namespace Innovator.Client
               var servers = ServerMapping.FromXml(data).ToArray();
               if (servers.Length < 1)
               {
-                result.Resolve(ArasConn(arasSerice, url, preferences));
+                result.Resolve(ArasConn(service, url, preferences));
               }
               else if (servers.Length == 1)
               {
@@ -234,12 +223,12 @@ namespace Innovator.Client
             }
             catch (XmlException)
             {
-              result.Resolve(ArasConn(arasSerice, url, preferences));
+              result.Resolve(ArasConn(service, url, preferences));
             }
           }
         }).Fail(ex =>
         {
-          result.Resolve(ArasConn(arasSerice, url, preferences));
+          result.Resolve(ArasConn(service, url, preferences));
         })).Always(trace.Dispose);
 
 

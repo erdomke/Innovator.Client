@@ -1,4 +1,6 @@
-﻿namespace Innovator.Client.Connection
+using System.Net.Http;
+
+namespace Innovator.Client.Connection
 {
   /// <summary>
   /// A class which creates <see cref="Vault"/> objects from AML data
@@ -9,7 +11,13 @@
   public class DefaultVaultFactory : IVaultFactory
   {
     private readonly object _lock = new object();
+    private readonly HttpClient _client;
     private Vault _last;
+
+    public DefaultVaultFactory(HttpClient client)
+    {
+      _client = client;
+    }
 
     /// <summary>
     /// Gets the <see cref="Vault" /> object from AML data.
@@ -30,7 +38,7 @@
 
           if (vault == null)
           {
-            vault = new Vault(item);
+            vault = new Vault(item, _client);
             LinkedListOps.Add(ref _last, vault);
           }
         }

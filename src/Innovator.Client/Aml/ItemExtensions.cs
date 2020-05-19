@@ -565,7 +565,9 @@ namespace Innovator.Client
           { "url", url },
           { "user_id", conn.UserId }
         };
-        return Factory.DefaultService.Invoke().GetPromise(new Uri(url), async, trace).Convert(r =>
+        var service = (conn as Connection.ArasHttpConnection)?.Service
+          ?? ConnectionPreferences.GetService();
+        return service.GetPromise(new Uri(url), async, trace).Convert(r =>
         {
           var download = r.AsStream;
           var buffer = download as MemoryTributary;
@@ -925,19 +927,26 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Lock an item
+    /// <inheritdoc cref="ConnectionExtensions.Lock(IConnection, string, string, IAttribute[])"/>
     /// </summary>
-    public static void Lock(this IItemRef item, IConnection conn)
+    /// <param name="item">The item to unlock</param>
+    /// <param name="conn">The Aras connection</param>
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
+    public static IReadOnlyResult Lock(this IItemRef item, IConnection conn, params IAttribute[] attributes)
     {
-      var result = conn.Lock(item.TypeName(), item.Id());
+      var result = conn.Lock(item.TypeName(), item.Id(), attributes);
 
-      var elem = item as Element;
-      if (elem != null && elem.ReadOnly)
-        return;
+      if (item is Element elem && elem.ReadOnly)
+        return result;
 
-      var editable = item as IItem;
-      if (editable != null)
-        editable.LockedById().Set(result.LockedById().Value);
+      if (item is IItem editable)
+      {
+        var serverResponse = result.Items().FirstOrNullItem();
+        if (serverResponse.Exists)
+          editable.LockedById().Set(serverResponse.LockedById().Value);
+      }
+
+      return result;
     }
 
     /// <summary>
@@ -964,21 +973,22 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Promote the itme to the specified state
+    /// <inheritdoc cref="ConnectionExtensions.Promote(IConnection, string, string, string, string, IAttribute[])"/>
     /// </summary>
     /// <param name="item">Item to promote</param>
     /// <param name="conn">Connection to execute the promotion on</param>
     /// <param name="state">New state of the item</param>
     /// <param name="comments">Comments to include with the promotion</param>
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
     /// <example>
     /// <code lang="C#">
     /// // Promote the item. Throw an exception if an error occurs.
     /// comp.Promote(conn, "Released").AssertNoError();
     /// </code>
     /// </example>
-    public static IReadOnlyResult Promote(this IItemRef item, IConnection conn, string state, string comments = null)
+    public static IReadOnlyResult Promote(this IItemRef item, IConnection conn, string state, string comments = null, params IAttribute[] attributes)
     {
-      return conn.Promote(item.TypeName(), item.Id(), state, comments);
+      return conn.Promote(item.TypeName(), item.Id(), state, comments, attributes);
     }
 
     /// <summary>
@@ -995,19 +1005,22 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Unlock an item
+    /// <inheritdoc cref="ConnectionExtensions.Unlock(IConnection, string, string, IAttribute[])"/>
     /// </summary>
-    public static void Unlock(this IItemRef item, IConnection conn)
+    /// <param name="item">The item to unlock</param>
+    /// <param name="conn">The Aras connection</param>
+    /// <param name="attributes">Extra parameters to pass to the aml call.</param>
+    public static IReadOnlyResult Unlock(this IItemRef item, IConnection conn, params IAttribute[] attributes)
     {
-      conn.Unlock(item.TypeName(), item.Id());
+      var result = conn.Unlock(item.TypeName(), item.Id(), attributes);
 
-      var elem = item as Element;
-      if (elem != null && elem.ReadOnly)
-        return;
+      if (item is Element elem && elem.ReadOnly)
+        return result;
 
-      var editable = item as IItem;
-      if (editable != null)
+      if (item is IItem editable)
         editable.LockedById().Remove();
+
+      return result;
     }
 
     /// <summary>

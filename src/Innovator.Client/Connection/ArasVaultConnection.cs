@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 
 namespace Innovator.Client.Connection
 {
@@ -22,7 +23,7 @@ namespace Innovator.Client.Connection
 
     private readonly IArasConnection _conn;
     private IVaultStrategy _vaultStrategy = new DefaultVaultStrategy();
-    private readonly IVaultFactory _factory = new DefaultVaultFactory();
+    private readonly IVaultFactory _factory;
 
     /// <summary>
     /// Gets or sets the vault strategy for determining which vaults to read from and write
@@ -42,9 +43,20 @@ namespace Innovator.Client.Connection
     /// a given <see cref="IArasConnection"/>
     /// </summary>
     /// <param name="conn">The corresponding <see cref="IArasConnection"/>.</param>
-    public ArasVaultConnection(IArasConnection conn)
+    public ArasVaultConnection(IArasConnection conn) : this(conn, ConnectionPreferences.GetService())
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ArasVaultConnection"/> class for 
+    /// a given <see cref="IArasConnection"/>
+    /// </summary>
+    /// <param name="conn">The corresponding <see cref="IArasConnection"/>.</param>
+    /// <param name="client">The <see cref="HttpClient"/> to use</param>
+    public ArasVaultConnection(IArasConnection conn, HttpClient client)
     {
       _conn = conn;
+      _factory = new DefaultVaultFactory(client);
     }
 
     /// <summary>

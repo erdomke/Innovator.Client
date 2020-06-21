@@ -195,7 +195,15 @@ namespace Innovator.Client
         return this;
       }
 
-      _content = content;
+      if (content is CDataValue cData)
+      {
+        _content = cData.ToString();
+        PreferCData = true;
+      }
+      else
+      {
+        _content = content;
+      }
       return this;
     }
 
@@ -381,7 +389,7 @@ namespace Innovator.Client
       var elem = _content as ILinkedElement;
       if (elem == null)
       {
-        if (PreferCData && this.Value?.IndexOf("<![CDATA[") < 0)
+        if (PreferCData)
           writer.WriteCData(this.Value);
         else
           writer.WriteString(this.Value);

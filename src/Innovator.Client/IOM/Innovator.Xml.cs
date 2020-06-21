@@ -130,7 +130,7 @@ namespace Innovator.Client.IOM
       if (keyedName.IsNullOrWhiteSpace())
         throw new ArgumentException("Keyed name must be specified", nameof(keyedName));
 
-      return Apply(new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
+      return Apply(new Command("<Item type='@0' action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
                           .WithAction(CommandAction.ApplyItem));
     }
 

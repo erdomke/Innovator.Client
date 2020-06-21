@@ -117,5 +117,14 @@ namespace Innovator.Client.Tests
       var item2 = aml.Item(item.Property("prop1"));
       Assert.AreEqual("some name", item2.Property("prop1").KeyedName().Value);
     }
+
+    [TestMethod()]
+    public void PropertySetCdata()
+    {
+      const string str = "<Item><name><![CDATA[first & second > third]]></name></Item>";
+      var item = ElementFactory.Local.Item();
+      item.Property("name").Set(new CDataValue("first & second > third"));
+      Assert.AreEqual(str, item.ToAml());
+    }
   }
 }

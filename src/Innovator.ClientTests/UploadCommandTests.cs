@@ -1,35 +1,33 @@
-using Innovator.Client.Connection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
 using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innovator.Client.Tests
 {
   [TestClass()]
   public class UploadCommandTests
   {
-    [TestMethod()]
-    public async System.Threading.Tasks.Task DownloadFile()
-    {
-      var prefs = new ConnectionPreferences()
-      {
-        Url = "http://ct.gentex.com/gentexinnovator/",
-        Credentials = new ExplicitCredentials("PROD", "username", "password")
-      };
-      var conn = Factory.GetConnection(prefs);
-      conn.Login(prefs.Credentials);
+    //[TestMethod()]
+    //public async System.Threading.Tasks.Task DownloadRaw_VerifyRangeAndContentLengthHeaders()
+    //{
+    //  var prefs = new ConnectionPreferences()
+    //  {
+    //    Url = "http://ct.gentex.com/gentexinnovator/",
+    //    Credentials = new ExplicitCredentials("PROD", "username", "password")
+    //  };
+    //  var conn = Factory.GetConnection(prefs);
+    //  conn.Login(prefs.Credentials);
 
-      var download = new Command("<Item action='get' type='File' id='3C43F9CB05F54DCC96F91DB108F1D207'></Item>")
-        .WithAction(CommandAction.DownloadFile);
+    //  var download = new Command("<Item action='get' type='File' id='3C43F9CB05F54DCC96F91DB108F1D207'></Item>")
+    //    .WithAction(CommandAction.DownloadFile);
 
-      download.Settings = x => x.SetHeader("Range", "bytes=0-100");
+    //  download.Settings = x => x.SetHeader("Range", "bytes=0-99");
 
-      var downloadResponse = await conn.VaultConn.DownloadRaw(download, true);
+    //  var downloadResponse = await conn.VaultConn.DownloadRaw(download, true);
 
-
-      Assert.IsTrue(true);
-    }
+    //  Assert.AreEqual("100", downloadResponse.Headers["Content-Length"]);
+    //}
 
     //[TestMethod()]
     //public void UploadFile11_VerifyHttp()

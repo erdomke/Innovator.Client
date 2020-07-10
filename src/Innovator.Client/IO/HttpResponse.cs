@@ -37,7 +37,7 @@ namespace Innovator.Client
         var result = new HttpResponse
         {
           _statusCode = task.Result.StatusCode,
-          _headers = task.Result.Headers.ToDictionary(k => k.Key, k => k.Value.First())
+          _headers = task.Result.Headers.Concat(task.Result.Content.Headers).ToDictionary(k => k.Key, k => k.Value.First())
         };
         task.Result.Content.ReadAsStreamAsync().ContinueWith(t =>
         {

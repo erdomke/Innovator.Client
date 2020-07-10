@@ -1,4 +1,5 @@
-﻿using System;
+using Innovator.Client.Connection;
+using System;
 using System.IO;
 using System.Threading;
 
@@ -63,6 +64,11 @@ namespace Innovator.Client
     /// ID of the authenticated user
     /// </summary>
     public string UserId { get { return _ref.UserId; } }
+
+    /// <summary>
+    /// Connection to Aras Vault
+    /// </summary>
+    public ArasVaultConnection VaultConn { get { return _ref.VaultConn; } }
 
     /// <summary>
     /// Creates an upload request used for uploading files to the server

@@ -90,6 +90,18 @@ namespace Innovator.Client.Connection
     /// <returns>A promise to return a stream of the file's bytes</returns>
     public IPromise<Stream> Download(Command request, bool async)
     {
+      return DownloadRaw(request, async).Convert(r => r.AsStream);
+    }
+
+    /// <summary>
+    /// Downloads the specified file.
+    /// </summary>
+    /// <param name="request">The file to download.</param>
+    /// <param name="async">if set to <c>true</c>, download asynchronously.  Otherwise, 
+    /// a resolved promise will be returned</param>
+    /// <returns>A promise to return a IHttpResponse of the file</returns>
+    public IPromise<IHttpResponse> DownloadRaw(Command request, bool async)
+    {
       var parsedAml = _conn.AmlContext.FromXml(request);
       var file = (IReadOnlyItem)parsedAml.AssertItem("File");
       var hasVaults = file.Relationships("Located")
@@ -110,8 +122,7 @@ namespace Innovator.Client.Connection
 
           // Download the file
           return DownloadFileFromVault(o.Result1, vault, async, request);
-        })
-        .Convert(r => r.AsStream);
+        });
     }
 
     private Vault GetReadVaultForFile(IReadOnlyItem file, IEnumerable<Vault> readPriority)

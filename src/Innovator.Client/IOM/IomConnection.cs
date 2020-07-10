@@ -24,7 +24,6 @@ namespace Innovator.Client.IOM
     protected string _httpDatabase;
     protected string _httpPassword;
     protected string _httpUsername;
-    private readonly ArasVaultConnection _vaultConn;
     protected Uri _innovatorClientBin;
     protected Uri _requestUrl;
     protected object _iomConnection;
@@ -101,7 +100,7 @@ namespace Innovator.Client.IOM
       }
 
       AmlContext = new ElementFactory(context, itemFactory);
-      _vaultConn = new ArasVaultConnection(this);
+      VaultConn = new ArasVaultConnection(this);
     }
 
     /// <summary>
@@ -153,8 +152,8 @@ namespace Innovator.Client.IOM
     {
       var version = Version ?? new Version(255, 0);
       if (version.Major > 9)
-        return new TransactionalUploadCommand(this, _vaultConn.VaultStrategy.WritePriority(false).Value.First());
-      return new NontransactionalUploadCommand(this, _vaultConn.VaultStrategy.WritePriority(false).Value.First());
+        return new TransactionalUploadCommand(this, VaultConn.VaultStrategy.WritePriority(false).Value.First());
+      return new NontransactionalUploadCommand(this, VaultConn.VaultStrategy.WritePriority(false).Value.First());
     }
 
     /// <summary>
@@ -196,7 +195,7 @@ namespace Innovator.Client.IOM
       if (upload == null)
       {
         if (request.Action == CommandAction.DownloadFile)
-          return _vaultConn.Download(request, async);
+          return VaultConn.Download(request, async);
 
         var input = new XmlDocument();
         input.LoadXml(request.ToNormalizedAml(AmlContext.LocalizationContext));
@@ -223,7 +222,7 @@ namespace Innovator.Client.IOM
       }
 
       // Files need to be uploaded, so build the vault request
-      return _vaultConn.Upload(upload, async);
+      return VaultConn.Upload(upload, async);
     }
 
     /// <summary>
@@ -270,7 +269,7 @@ namespace Innovator.Client.IOM
       return Promises.Resolved(this.Version);
     }
 
-#region "Server Connection"    
+    #region "Server Connection"    
     /// <summary>
     /// Gets the in-memory application-wide cache.
     /// </summary>
@@ -411,6 +410,8 @@ namespace Innovator.Client.IOM
       }
     }
 
+    public ArasVaultConnection VaultConn { get; }
+
     /// <summary>
     /// Gets the HTTP header by name.
     /// </summary>
@@ -520,7 +521,7 @@ namespace Innovator.Client.IOM
       }
     }
 
-#endregion
+    #endregion
 
     protected virtual void LazyLoadCreds()
     {

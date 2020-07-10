@@ -1,4 +1,6 @@
-﻿namespace Innovator.Client
+using Innovator.Client.Connection;
+
+namespace Innovator.Client
 {
   /// <summary>
   /// Interface for a connection to an Aras Innovator instance
@@ -19,6 +21,11 @@
     /// ID of the authenticated user
     /// </summary>
     string UserId { get; }
+
+    /// <summary>
+    /// Connection to Aras Vault
+    /// </summary>
+    ArasVaultConnection VaultConn { get; }
 
     /// <summary>
     /// Calls a SOAP action asynchronously

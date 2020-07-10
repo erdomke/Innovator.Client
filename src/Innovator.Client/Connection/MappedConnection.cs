@@ -58,6 +58,8 @@ namespace Innovator.Client.Connection
       }
     }
 
+    public ArasVaultConnection VaultConn { get => _current.VaultConn; }
+
     public MappedConnection(IEnumerable<ServerMapping> mappings
       , Func<INetCredentials, string, bool, IPromise<ICredentials>> authCallback)
     {

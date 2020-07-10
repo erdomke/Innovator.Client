@@ -40,6 +40,8 @@ namespace Innovator.Client.Tests
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>";
 
+    public ArasVaultConnection VaultConn { get { return _vaultConn; } }
+
     public TestConnection()
     {
       _vaultConn = new ArasVaultConnection(this);

@@ -21,7 +21,6 @@ namespace Innovator.Client.Connection
     private readonly Uri _innovatorServerUrl;
     private readonly Uri _innovatorClientBin;
     private List<Action<IHttpRequest>> _defaults = new List<Action<IHttpRequest>>();
-    private readonly ArasVaultConnection _vaultConn;
     private readonly List<KeyValuePair<string, string>> _serverInfo = new List<KeyValuePair<string, string>>();
 
 
@@ -83,6 +82,11 @@ namespace Innovator.Client.Connection
     public Version Version { get; private set; }
 
     /// <summary>
+    /// Connection to Aras Vault
+    /// </summary>
+    public ArasVaultConnection VaultConn { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="ArasHttpConnection"/> class.
     /// </summary>
     /// <param name="service">The service.</param>
@@ -112,7 +116,7 @@ namespace Innovator.Client.Connection
       this._innovatorServerUrl = new Uri(this.Url, "InnovatorServer.aspx");
       this._innovatorClientBin = new Uri(this.Url, "../Client/cbin/");
 
-      _vaultConn = new ArasVaultConnection(this, Service);
+      VaultConn = new ArasVaultConnection(this, Service);
     }
 
     /// <summary>
@@ -127,7 +131,7 @@ namespace Innovator.Client.Connection
       if (upload == null)
       {
         if (request.Action == CommandAction.DownloadFile)
-          return _vaultConn.Download(request, false).Value;
+          return VaultConn.Download(request, false).Value;
 
         return UploadAml(_innovatorServerUrl, request.Action.ToString(), request, false).Value.AsStream;
       }
@@ -145,7 +149,7 @@ namespace Innovator.Client.Connection
       if (upload == null)
       {
         if (request.Action == CommandAction.DownloadFile)
-          return _vaultConn.Download(request, async);
+          return VaultConn.Download(request, async);
 
         return UploadAml(_innovatorServerUrl, request.Action.ToString(), request, async)
           .Convert(r => r.AsStream);
@@ -156,7 +160,7 @@ namespace Innovator.Client.Connection
       }
 
       // Files need to be uploaded, so build the vault request
-      return _vaultConn.Upload(upload, async);
+      return VaultConn.Upload(upload, async);
     }
 
     /// <summary>
@@ -167,7 +171,7 @@ namespace Innovator.Client.Connection
     /// </returns>
     public UploadCommand CreateUploadCommand()
     {
-      return _vaultConn.CreateUploadCommand();
+      return VaultConn.CreateUploadCommand();
     }
 
     /// <summary>
@@ -322,7 +326,7 @@ namespace Innovator.Client.Connection
                 }
               }
 
-              _vaultConn.InitializeStrategy();
+              VaultConn.InitializeStrategy();
               result.Resolve(UserId);
             }
           }).Fail(ex =>
@@ -379,8 +383,8 @@ namespace Innovator.Client.Connection
     /// <param name="strategy">The strategy.</param>
     public void SetVaultStrategy(IVaultStrategy strategy)
     {
-      _vaultConn.VaultStrategy = strategy;
-      if (!string.IsNullOrEmpty(UserId)) _vaultConn.InitializeStrategy();
+      VaultConn.VaultStrategy = strategy;
+      if (!string.IsNullOrEmpty(UserId)) VaultConn.InitializeStrategy();
     }
 
     private IPromise<IHttpResponse> UploadAml(Uri uri, string action, Command request, bool async, HttpClient service = null)

@@ -1,3 +1,4 @@
+using Innovator.Client.Connection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
@@ -8,6 +9,28 @@ namespace Innovator.Client.Tests
   [TestClass()]
   public class UploadCommandTests
   {
+    [TestMethod()]
+    public async System.Threading.Tasks.Task DownloadFile()
+    {
+      var prefs = new ConnectionPreferences()
+      {
+        Url = "http://ct.gentex.com/gentexinnovator/",
+        Credentials = new ExplicitCredentials("PROD", "username", "password")
+      };
+      var conn = Factory.GetConnection(prefs);
+      conn.Login(prefs.Credentials);
+
+      var download = new Command("<Item action='get' type='File' id='3C43F9CB05F54DCC96F91DB108F1D207'></Item>")
+        .WithAction(CommandAction.DownloadFile);
+
+      download.Settings = x => x.SetHeader("Range", "bytes=0-100");
+
+      var downloadResponse = await conn.VaultConn.DownloadRaw(download, true);
+
+
+      Assert.IsTrue(true);
+    }
+
     //[TestMethod()]
     //public void UploadFile11_VerifyHttp()
     //{

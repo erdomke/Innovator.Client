@@ -1070,7 +1070,7 @@ namespace Innovator.Client
     {
       var results = new List<T>();
       var select = new SelectNode();
-      var missingPropsItems = new List<KeyValuePair<int, IReadOnlyItem>>();
+      var missingPropsItems = new List<KeyValuePair<int, IItem>>();
 
       foreach (var item in items)
       {
@@ -1086,7 +1086,7 @@ namespace Innovator.Client
         {
           if (string.IsNullOrEmpty(item.Id()))
             throw new ArgumentException(string.Format("No id specified for the item '{0}'", item.ToAml()));
-          missingPropsItems.Add(new KeyValuePair<int, IReadOnlyItem>(results.Count - 1, item));
+          missingPropsItems.Add(new KeyValuePair<int, IItem>(results.Count - 1, item.Clone()));
         }
       }
 
@@ -1099,36 +1099,55 @@ namespace Innovator.Client
           query.IdList().Set(ids);
         else
           query.Attribute("id").Set(ids);
-        var dict = query.Apply(conn).Items().ToDictionary(i => i.Id());
+        var databaseItemDict = query.Apply(conn).Items().ToDictionary(i => i.Id());
 
-        IReadOnlyItem item;
         foreach (var tuple in group)
         {
-          if (dict.TryGetValue(tuple.Value.Id(), out item))
+          var incomingItem = tuple.Value;
+          if (databaseItemDict.TryGetValue(incomingItem.Id(), out IReadOnlyItem databaseItem))
           {
-            results[tuple.Key] = mapper.Invoke(item);
+            // Take the database item attributes and add to the incoming item any missing attributes
+            foreach (var databaseAttribute in databaseItem.Attributes())
+            {
+              var incomingAttribute = incomingItem.Attribute(databaseAttribute.Name);
+              if (!incomingAttribute.Exists)
+              {
+                incomingAttribute.Remove();
+                incomingItem.Add(databaseAttribute);
+              }
+            }
+            // Take the database item properties and add to the incoming item any missing properties
+            foreach (var databaseElement in databaseItem.Elements())
+            {
+              var incomingProp = incomingItem.Property(databaseElement.Name);
+              if (!incomingProp.Exists)
+              {
+                incomingProp.Remove();
+                incomingItem.Add(databaseElement);
+              }
+            }
+            results[tuple.Key] = mapper.Invoke(incomingItem);
           }
           // So the top item couldn't be found (e.g. perhaps this is during an onBeforeAdd).  Now, let's try filling
           // in any multi-level selects
           else if (select[0].Any(s => s.Count > 0))
           {
-            var clone = tuple.Value.Clone();
             foreach (var multiSelect in select[0].Where(s => s.Count > 0 && s.Name != "id" && s.Name != "config_id"))
             {
-              if (clone.Property(multiSelect.Name).HasValue() && clone.Property(multiSelect.Name).Type().HasValue())
+              if (incomingItem.Property(multiSelect.Name).HasValue() && incomingItem.Property(multiSelect.Name).Type().HasValue())
               {
                 query = aml.Item(aml.Action("get")
-                  , aml.Type(clone.Property(multiSelect.Name).Type().Value)
+                  , aml.Type(incomingItem.Property(multiSelect.Name).Type().Value)
                   , aml.Select(multiSelect)
-                  , aml.Id(clone.Property(multiSelect.Name).Value));
+                  , aml.Id(incomingItem.Property(multiSelect.Name).Value));
                 var res = query.Apply(conn);
                 if (res.Items().Any())
                 {
-                  clone.Property(multiSelect.Name).Set(res.AssertItem());
+                  incomingItem.Property(multiSelect.Name).Set(res.AssertItem());
                 }
               }
             }
-            results[tuple.Key] = mapper.Invoke(clone);
+            results[tuple.Key] = mapper.Invoke(incomingItem);
           }
         }
       }

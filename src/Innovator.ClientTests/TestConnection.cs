@@ -1,9 +1,9 @@
-using Innovator.Client.Connection;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using Innovator.Client.Connection;
 
 namespace Innovator.Client.Tests
 {
@@ -90,6 +90,26 @@ namespace Innovator.Client.Tests
     </Item>
   </created_by_id>
   <id keyed_name='Another Company' type='Company'>0E086FFA6C4646F6939B74C43D094182</id>
+  <permission_id keyed_name='Company' type='Permission'>
+    <Item type='Permission' typeId='C6A89FDE1294451497801DF78341B473' id='A8FC3EC44ED0462B9A32D4564FAC0AD8'>
+      <id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</id>
+      <name>Company</name>
+    </Item>
+  </permission_id>
+  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
+</Item>";
+            }
+            else if (AttrEquals(elem, "id", "1470B001142748A5BB39CECB72CD83C8"))
+            {
+              result = @"<Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='1470B001142748A5BB39CECB72CD83C8'>
+  <created_by_id keyed_name='First Last' type='User'>
+    <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
+      <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
+      <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
+      <first_name>First</first_name>
+    </Item>
+  </created_by_id>
+  <id keyed_name='Best Company' type='Company'>1470B001142748A5BB39CECB72CD83C8</id>
   <permission_id keyed_name='Company' type='Permission'>
     <Item type='Permission' typeId='C6A89FDE1294451497801DF78341B473' id='A8FC3EC44ED0462B9A32D4564FAC0AD8'>
       <id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</id>

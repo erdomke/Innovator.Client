@@ -1120,11 +1120,16 @@ namespace Innovator.Client
             foreach (var databaseElement in databaseItem.Elements())
             {
               var incomingProp = incomingItem.Property(databaseElement.Name);
-              if (!incomingProp.Exists)
+              // We want to take the database property if:
+              // The property does not exist on the incoming item
+              // Or the database value is the same as the incoming
+              //  - In this case we may be getting additional props from the database that we don't already have
+              if (!incomingProp.Exists || incomingProp.Value == databaseElement.Value)
               {
                 incomingProp.Remove();
                 incomingItem.Add(databaseElement);
               }
+              // TODO: Retrieve the data for the new value
             }
             results[tuple.Key] = mapper.Invoke(incomingItem);
           }

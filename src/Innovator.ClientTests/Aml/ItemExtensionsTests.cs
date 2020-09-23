@@ -142,6 +142,28 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void LazyMap_NestedItem_RetrieveExtraData()
+    {
+      var conn = new TestConnection();
+      var aml = ElementFactory.Local;
+      var item = aml.FromXml(@"<Result><Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
+  <id keyed_name='Another Company' type='Company'>0E086FFA6C4646F6939B74C43D094182</id>
+  <permission_id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</permission_id>
+  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
+</Item></Result>").AssertItem();
+      var result = item.LazyMap(conn, i => new
+      {
+        ItemType = i.Property("itemtype").Value,
+        PermissionItem = i.Property("permission_id").AsItem(),
+        PermissionItemId = i.Property("permission_id").AsItem().Id(),
+        PermissionName = i.Property("permission_id").AsItem().Property("name").Value
+      });
+      Assert.AreEqual("3E71E373FC2940B288760C915120AABE", result.ItemType);
+      Assert.AreEqual("A8FC3EC44ED0462B9A32D4564FAC0AD8", result.PermissionItemId);
+      Assert.AreEqual("Company", result.PermissionName);
+    }
+
+    [TestMethod()]
     public void RenderingComposedItemsTest()
     {
       var conn = new TestConnection();

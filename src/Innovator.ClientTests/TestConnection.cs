@@ -211,7 +211,7 @@ namespace Innovator.Client.Tests
             }
             break;
           case "ItemType":
-            if (AttrEquals(elem, "id", "4F1AC04A2B484F3ABA4E20DB63808A88"))
+            if (AttrEquals(elem, "id", "4F1AC04A2B484F3ABA4E20DB63808A88") || elem.Value == "Part")
             {
               result = @"<Result>
       <Item type='ItemType' typeId='450906E86E304F55A34B3C0D65C097EA' id='4F1AC04A2B484F3ABA4E20DB63808A88'>

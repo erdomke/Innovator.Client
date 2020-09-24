@@ -46,7 +46,6 @@ namespace Innovator.Client.Tests
   <created_by_id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</created_by_id>
   <id keyed_name='Some Company' type='Company'>BF3BF6C4795F431D880E7AF4D68D7A9C</id>
   <permission_id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</permission_id>
-  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
 </Item></Result>").AssertItem();
       var result = item.LazyMap(conn, i => new
       {
@@ -69,7 +68,6 @@ namespace Innovator.Client.Tests
       var item = aml.FromXml(@"<Result><Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='BF3BF6C4795F431D880E7AF4D68D7A9C'>
   <created_by_id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</created_by_id>
   <id keyed_name='Some Company' type='Company'>BF3BF6C4795F431D880E7AF4D68D7A9C</id>
-  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
 </Item></Result>").AssertItem();
       var result = item.LazyMap(conn, i => new
       {
@@ -97,14 +95,12 @@ namespace Innovator.Client.Tests
       <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
     </Item>
   </created_by_id>
-  <id keyed_name='Another Company' type='Company'>0E086FFA6C4646F6939B74C43D094182</id>
   <permission_id keyed_name='Company' type='Permission'>
     <Item type='Permission' typeId='C6A89FDE1294451497801DF78341B473' id='A8FC3EC44ED0462B9A32D4564FAC0AD8'>
       <id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</id>
       <name>Company</name>
     </Item>
   </permission_id>
-  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
   <fake_prop>This is a fake prop for passing data</fake_prop>
 </Item></Result>").AssertItem();
       var result = item.LazyMap(conn, i => new
@@ -125,7 +121,6 @@ namespace Innovator.Client.Tests
       var item = aml.FromXml(@"<Result><Item action='update' type='Company' id='1470B001142748A5BB39CECB72CD83C8'>
   <permission_id>
     <Item type='Permission' typeId='C6A89FDE1294451497801DF78341B473' id='5B05BBB4945845248586C90BE83C7BDC'>
-      <id keyed_name='Restricted Company' type='Permission'>5B05BBB4945845248586C90BE83C7BDC</id>
       <name>Restricted Company</name>
     </Item>
   </permission_id>
@@ -134,11 +129,11 @@ namespace Innovator.Client.Tests
       {
         PermissionName = i.PermissionId().AsItem().Property("name").Value,
         TypeId = i.TypeId().Value,
-        Empty = i.CreatedById().AsItem().Property("first_name").Value
+        EmptyFirstName = i.CreatedById().AsItem().Property("first_name").Value
       });
       Assert.AreEqual("Restricted Company", result.PermissionName);
       Assert.AreEqual("3E71E373FC2940B288760C915120AABE", result.TypeId);
-      Assert.AreEqual("First", result.Empty);
+      Assert.AreEqual("First", result.EmptyFirstName);
     }
 
     [TestMethod()]
@@ -147,20 +142,52 @@ namespace Innovator.Client.Tests
       var conn = new TestConnection();
       var aml = ElementFactory.Local;
       var item = aml.FromXml(@"<Result><Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
-  <id keyed_name='Another Company' type='Company'>0E086FFA6C4646F6939B74C43D094182</id>
   <permission_id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</permission_id>
-  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
 </Item></Result>").AssertItem();
       var result = item.LazyMap(conn, i => new
       {
-        ItemType = i.Property("itemtype").Value,
-        PermissionItem = i.Property("permission_id").AsItem(),
-        PermissionItemId = i.Property("permission_id").AsItem().Id(),
         PermissionName = i.Property("permission_id").AsItem().Property("name").Value
       });
-      Assert.AreEqual("3E71E373FC2940B288760C915120AABE", result.ItemType);
-      Assert.AreEqual("A8FC3EC44ED0462B9A32D4564FAC0AD8", result.PermissionItemId);
       Assert.AreEqual("Company", result.PermissionName);
+    }
+
+    [TestMethod()]
+    public void LazyMap_ChangingProperty_NestedItem()
+    {
+      var conn = new TestConnection();
+      var aml = ElementFactory.Local;
+      var item = aml.FromXml(@"<Result><Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
+  <permission_id>F8BAD68CCADB43DF901FDCA693A22705</permission_id>
+  <owned_by_id>384C0326D719419F897C34163B8C5B2E</owned_by_id>
+</Item></Result>").AssertItem();
+      var result = item.LazyMap(conn, i => new
+      {
+        PermissionName = i.Property("permission_id").AsItem().Property("name").Value,
+        OwnedById = i.OwnedById().Value
+      });
+      Assert.AreEqual("Vault", result.PermissionName);
+      Assert.AreEqual("384C0326D719419F897C34163B8C5B2E", result.OwnedById);
+    }
+
+    [TestMethod()]
+    public void LazyMap_AddItemViaProperty()
+    {
+      var conn = new TestConnection();
+      var aml = ElementFactory.Local;
+      var item = aml.FromXml(@"<Result><Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
+  <permission_id>
+    <Item type='Permission' action='add'>
+      <name>New Company</name>
+    </Item>
+  </permission_id>
+</Item></Result>").AssertItem();
+      var result = item.LazyMap(conn, i => new
+      {
+        PermissionItemTypeName = i.Property("permission_id").AsItem().TypeName(),
+        PermissionName = i.Property("permission_id").AsItem().Property("name").Value
+      });
+      Assert.AreEqual("New Company", result.PermissionName);
+      Assert.AreEqual("Permission", result.PermissionItemTypeName);
     }
 
     [TestMethod()]

@@ -1100,6 +1100,7 @@ namespace Innovator.Client
         else
           query.Attribute("id").Set(ids);
         var databaseItemDict = query.Apply(conn).Items().ToDictionary(i => i.Id());
+        IEnumerable<Model.Property> itemTypeProperties = null;
 
         foreach (var tuple in group)
         {
@@ -1129,7 +1130,64 @@ namespace Innovator.Client
                 incomingProp.Remove();
                 incomingItem.Add(databaseElement);
               }
-              // TODO: Retrieve the data for the new value
+              // Retrieve the data for the new value
+              else if (incomingProp.HasValue() && incomingProp.Value != databaseElement.Value)
+              {
+                var propertySelect = select.SelectMany(x => x).FirstOrDefault(x => x.Name == databaseElement.Name);
+                // Count > 0 means we need to get nested properties like created_by_id(first_name,last_name)
+                if (propertySelect?.Count > 0)
+                {
+                  // We need extra data about this property
+                  var propertyItem = incomingProp.AsItem();
+
+                  // This property is an item link but without a type attribute
+                  if (!propertyItem.Exists && incomingProp.Value.IsGuid())
+                  {
+                    // Only get the itemType Properties once
+                    if (itemTypeProperties == null)
+                    {
+                      // Get the Properties for this ItemType
+                      itemTypeProperties = aml.Item(aml.Action("get"),
+                        aml.Type("Property"),
+                        aml.Select("data_source,data_type"),
+                        aml.Property("data_type", aml.Condition(Condition.In), new[] { "item", "foreign" }),
+                        aml.SourceId(aml.Item(
+                          aml.Action("get"),
+                          aml.Type("ItemType"),
+                          aml.Property("name", group.Key))))
+                        .Apply(conn).Items().OfType<Model.Property>();
+                    }
+                    var itemTypeProperty = itemTypeProperties
+                      .FirstOrNullItem(x => string.Equals(x.NameProp().Value, databaseElement.Name, StringComparison.OrdinalIgnoreCase));
+                    if (itemTypeProperty.Exists)
+                    {
+                      if (string.Equals(itemTypeProperty.DataType().Value, "foreign", StringComparison.OrdinalIgnoreCase))
+                      {
+                        // TODO: Implement Foreign property support
+                        throw new NotImplementedException("LazyMap does not support Foreign properties at this time.");
+                      }
+                      // Only do the lookup for properties with the 'item' data type
+                      else if (string.Equals(itemTypeProperty.DataType().Value, "item", StringComparison.OrdinalIgnoreCase))
+                      {
+                        propertyItem = aml.Item(aml.Type(itemTypeProperty.DataSource().Attribute("name").Value),
+                          aml.Id(incomingProp.Value));
+                      }
+                    }
+                  }
+
+                  if (propertyItem.Exists)
+                  {
+                    // Do the item lookup
+                    propertyItem.Action().Set("get");
+                    propertyItem.Select().Set(propertySelect);
+                    var propertyDatabaseItem = propertyItem.Apply(conn).Items().FirstOrNullItem();
+                    if (propertyDatabaseItem.Exists)
+                    {
+                      incomingProp.Set(propertyDatabaseItem);
+                    }
+                  }
+                }
+              }
             }
             results[tuple.Key] = mapper.Invoke(incomingItem);
           }

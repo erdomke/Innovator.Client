@@ -1,7 +1,7 @@
-using Innovator.Client;
-using Innovator.Client.Model;
 using System;
 using System.Collections.Generic;
+using Innovator.Client;
+using Innovator.Client.Model;
 
 namespace Innovator.Server
 {
@@ -90,13 +90,22 @@ namespace Innovator.Server
     IReadOnlyItem Merged { get; }
 
     /// <summary>
-    /// Indicates if a property is being set null.  Note that this does not detect if the property
-    /// already is null.
+    /// Indicates if a property is being set null. Note that this does not detect if the property
+    /// is already null.
     /// </summary>
     /// <param name="name">The name of the property to check</param>
-    /// <returns><c>true</c> if a non-null property is being set null with this query, 
-    /// <c>false</c> otherwise</returns>
+    /// <returns><c>true</c> if the item is new and there is no value, or if the item is not new and has is_null='1'.
+    /// <c>false</c> otherwise.</returns>
     bool IsBeingSetNull(string name);
+
+    /// <summary>
+    /// Indicates if a property is being set null or to empty string. Note that this does not detect if the property
+    /// is already null or empty string.
+    /// </summary>
+    /// <param name="name">The name of the property to check</param>
+    /// <returns><c>true</c> if the item is new and there is no value, or if the item is not new and has either is_null='1' or is an empty string.
+    /// <c>false</c> otherwise.</returns>
+    bool IsBeingSetNullOrEmpty(string name);
 
     /// <summary>
     /// Indicates if one or more properties in the list are changing

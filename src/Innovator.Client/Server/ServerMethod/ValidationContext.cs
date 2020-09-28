@@ -1,7 +1,7 @@
-using Innovator.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Innovator.Client;
 
 namespace Innovator.Server
 {
@@ -95,21 +95,20 @@ namespace Innovator.Server
       }
     }
 
-    /// <summary>
-    /// Indicates if a property is being set null.  Note that this does not detect if the property
-    /// already is null.
-    /// </summary>
-    /// <param name="name">The name of the property to check</param>
-    /// <returns>
-    /// <c>true</c> if a non-null property is being set null with this query,
-    /// <c>false</c> otherwise
-    /// </returns>
+    /// <inheritdoc cref="IValidationContext.IsBeingSetNull(string)"/>
     public bool IsBeingSetNull(string name)
     {
-      var isNew = this.IsNew;
-      var prop = Item.Property("name");
+      var isNew = IsNew;
+      var prop = Item.Property(name);
       return (isNew && !prop.HasValue())
-        || (!IsNew && prop.IsNull().AsBoolean(false));
+        || (!isNew && prop.IsNull().AsBoolean(false));
+    }
+
+    /// <inheritdoc cref="IValidationContext.IsBeingSetNullOrEmpty(string)"/>
+    public bool IsBeingSetNullOrEmpty(string name)
+    {
+      var prop = Item.Property(name);
+      return IsBeingSetNull(name) || (prop.Exists && string.IsNullOrEmpty(prop.Value));
     }
 
     /// <summary>
@@ -127,7 +126,7 @@ namespace Innovator.Server
       if (!propExists) return false;
 
       // Is this new?
-      if (this.IsNew) return true;
+      if (IsNew) return true;
 
       return names.Any(n => Item.Property(n).Value != _existing.Property(n).Value);
     }

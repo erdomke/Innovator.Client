@@ -1070,7 +1070,7 @@ namespace Innovator.Client
     {
       var results = new List<T>();
       var select = new SelectNode();
-      var missingPropsItems = new List<KeyValuePair<int, IReadOnlyItem>>();
+      var missingPropsItems = new List<KeyValuePair<int, IItem>>();
 
       foreach (var item in items)
       {
@@ -1086,7 +1086,7 @@ namespace Innovator.Client
         {
           if (string.IsNullOrEmpty(item.Id()))
             throw new ArgumentException(string.Format("No id specified for the item '{0}'", item.ToAml()));
-          missingPropsItems.Add(new KeyValuePair<int, IReadOnlyItem>(results.Count - 1, item));
+          missingPropsItems.Add(new KeyValuePair<int, IItem>(results.Count - 1, item.Clone()));
         }
       }
 
@@ -1099,36 +1099,118 @@ namespace Innovator.Client
           query.IdList().Set(ids);
         else
           query.Attribute("id").Set(ids);
-        var dict = query.Apply(conn).Items().ToDictionary(i => i.Id());
+        var databaseItemDict = query.Apply(conn).Items().ToDictionary(i => i.Id());
+        IEnumerable<Model.Property> itemTypeProperties = null;
 
-        IReadOnlyItem item;
         foreach (var tuple in group)
         {
-          if (dict.TryGetValue(tuple.Value.Id(), out item))
+          var incomingItem = tuple.Value;
+          if (databaseItemDict.TryGetValue(incomingItem.Id(), out IReadOnlyItem databaseItem))
           {
-            results[tuple.Key] = mapper.Invoke(item);
+            // Take the database item attributes and add to the incoming item any missing attributes
+            foreach (var databaseAttribute in databaseItem.Attributes())
+            {
+              var incomingAttribute = incomingItem.Attribute(databaseAttribute.Name);
+              if (!incomingAttribute.Exists)
+              {
+                incomingAttribute.Remove();
+                incomingItem.Add(databaseAttribute);
+              }
+            }
+            // Take the database item properties and add to the incoming item any missing properties
+            foreach (var databaseElement in databaseItem.Elements())
+            {
+              var incomingProp = incomingItem.Property(databaseElement.Name);
+              // We want to take the database property if:
+              // The property does not exist on the incoming item
+              // Or the database value is the same as the incoming
+              //  - In this case we may be getting additional props from the database that we don't already have
+              if (!incomingProp.Exists || incomingProp.Value == databaseElement.Value)
+              {
+                incomingProp.Remove();
+                incomingItem.Add(databaseElement);
+              }
+              // Retrieve the data for the new value
+              else if (incomingProp.HasValue() && incomingProp.Value != databaseElement.Value)
+              {
+                var propertySelect = select.SelectMany(x => x).FirstOrDefault(x => x.Name == databaseElement.Name);
+                // Count > 0 means we need to get nested properties like created_by_id(first_name,last_name)
+                if (propertySelect?.Count > 0)
+                {
+                  // We need extra data about this property
+                  var propertyItem = incomingProp.AsItem();
+
+                  // This property is an item link but without a type attribute
+                  if (!propertyItem.Exists && incomingProp.Value.IsGuid())
+                  {
+                    // Only get the itemType Properties once
+                    if (itemTypeProperties == null)
+                    {
+                      // Get the Properties for this ItemType
+                      itemTypeProperties = aml.Item(aml.Action("get"),
+                        aml.Type("Property"),
+                        aml.Select("data_source,data_type"),
+                        aml.Property("data_type", aml.Condition(Condition.In), new[] { "item", "foreign" }),
+                        aml.SourceId(aml.Item(
+                          aml.Action("get"),
+                          aml.Type("ItemType"),
+                          aml.Property("name", group.Key))))
+                        .Apply(conn).Items().OfType<Model.Property>();
+                    }
+                    var itemTypeProperty = itemTypeProperties
+                      .FirstOrNullItem(x => string.Equals(x.NameProp().Value, databaseElement.Name, StringComparison.OrdinalIgnoreCase));
+                    if (itemTypeProperty.Exists)
+                    {
+                      if (string.Equals(itemTypeProperty.DataType().Value, "foreign", StringComparison.OrdinalIgnoreCase))
+                      {
+                        // TODO: Implement Foreign property support
+                        throw new NotImplementedException("LazyMap does not support Foreign properties at this time.");
+                      }
+                      // Only do the lookup for properties with the 'item' data type
+                      else if (string.Equals(itemTypeProperty.DataType().Value, "item", StringComparison.OrdinalIgnoreCase))
+                      {
+                        propertyItem = aml.Item(aml.Type(itemTypeProperty.DataSource().Attribute("name").Value),
+                          aml.Id(incomingProp.Value));
+                      }
+                    }
+                  }
+
+                  if (propertyItem.Exists)
+                  {
+                    // Do the item lookup
+                    propertyItem.Action().Set("get");
+                    propertyItem.Select().Set(propertySelect);
+                    var propertyDatabaseItem = propertyItem.Apply(conn).Items().FirstOrNullItem();
+                    if (propertyDatabaseItem.Exists)
+                    {
+                      incomingProp.Set(propertyDatabaseItem);
+                    }
+                  }
+                }
+              }
+            }
+            results[tuple.Key] = mapper.Invoke(incomingItem);
           }
           // So the top item couldn't be found (e.g. perhaps this is during an onBeforeAdd).  Now, let's try filling
           // in any multi-level selects
           else if (select[0].Any(s => s.Count > 0))
           {
-            var clone = tuple.Value.Clone();
             foreach (var multiSelect in select[0].Where(s => s.Count > 0 && s.Name != "id" && s.Name != "config_id"))
             {
-              if (clone.Property(multiSelect.Name).HasValue() && clone.Property(multiSelect.Name).Type().HasValue())
+              if (incomingItem.Property(multiSelect.Name).HasValue() && incomingItem.Property(multiSelect.Name).Type().HasValue())
               {
                 query = aml.Item(aml.Action("get")
-                  , aml.Type(clone.Property(multiSelect.Name).Type().Value)
+                  , aml.Type(incomingItem.Property(multiSelect.Name).Type().Value)
                   , aml.Select(multiSelect)
-                  , aml.Id(clone.Property(multiSelect.Name).Value));
+                  , aml.Id(incomingItem.Property(multiSelect.Name).Value));
                 var res = query.Apply(conn);
                 if (res.Items().Any())
                 {
-                  clone.Property(multiSelect.Name).Set(res.AssertItem());
+                  incomingItem.Property(multiSelect.Name).Set(res.AssertItem());
                 }
               }
             }
-            results[tuple.Key] = mapper.Invoke(clone);
+            results[tuple.Key] = mapper.Invoke(incomingItem);
           }
         }
       }

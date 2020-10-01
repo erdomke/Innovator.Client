@@ -1,9 +1,9 @@
-using Innovator.Client.Connection;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using Innovator.Client.Connection;
 
 namespace Innovator.Client.Tests
 {
@@ -97,6 +97,27 @@ namespace Innovator.Client.Tests
     </Item>
   </permission_id>
   <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
+  <owned_by_id>44CC39EB107F4C02884AFF66A478202D</owned_by_id>
+</Item>";
+            }
+            else if (AttrEquals(elem, "id", "1470B001142748A5BB39CECB72CD83C8"))
+            {
+              result = @"<Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='1470B001142748A5BB39CECB72CD83C8'>
+  <created_by_id keyed_name='First Last' type='User'>
+    <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
+      <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
+      <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
+      <first_name>First</first_name>
+    </Item>
+  </created_by_id>
+  <id keyed_name='Best Company' type='Company'>1470B001142748A5BB39CECB72CD83C8</id>
+  <permission_id keyed_name='Company' type='Permission'>
+    <Item type='Permission' typeId='C6A89FDE1294451497801DF78341B473' id='A8FC3EC44ED0462B9A32D4564FAC0AD8'>
+      <id keyed_name='Company' type='Permission'>A8FC3EC44ED0462B9A32D4564FAC0AD8</id>
+      <name>Company</name>
+    </Item>
+  </permission_id>
+  <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
 </Item>";
             }
             break;
@@ -104,7 +125,7 @@ namespace Innovator.Client.Tests
             if (AttrEquals(elem, "id", "2D246C5838644C1C8FD34F8D2796E327") || elem.Element("id")?.Value == "2D246C5838644C1C8FD34F8D2796E327")
             {
               result = @"<Result>
-  <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
+  <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='2D246C5838644C1C8FD34F8D2796E327'>
     <default_vault keyed_name='Default' type='Vault'>
       <Item type='Vault' typeId='8FC29FEF933641A09CEE13A604A9DC74' id='51C2A8877C4D4038A5A0C3071A863706'>
         <id keyed_name='Default' type='Vault'>51C2A8877C4D4038A5A0C3071A863706</id>
@@ -114,7 +135,7 @@ namespace Innovator.Client.Tests
         <vault_url>http://server/innovator11sp12/vault/vaultserver.aspx</vault_url>
       </Item>
     </default_vault>
-    <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
+    <id keyed_name='First Last' type='User'>2D246C5838644C1C8FD34F8D2796E327</id>
     <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
     <Relationships>
       <Item type='ReadPriority' typeId='8CFAF78BCFFB41E6A3ED838D9EC2FD7C' id='749A3C52A15247F4AB7EDE406AA19AF8'>
@@ -130,8 +151,8 @@ namespace Innovator.Client.Tests
           </Item>
         </related_id>
         <source_id keyed_name='First Last' type='User'>
-          <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
-            <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
+          <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='2D246C5838644C1C8FD34F8D2796E327'>
+            <id keyed_name='First Last' type='User'>2D246C5838644C1C8FD34F8D2796E327</id>
             <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
           </Item>
         </source_id>
@@ -149,6 +170,30 @@ namespace Innovator.Client.Tests
 </Item></Result>";
             }
             break;
+          case "Identity":
+            if (AttrEquals(elem, "id", "44CC39EB107F4C02884AFF66A478202D"))
+            {
+              result = @"<Result>
+  <Item type='Identity' typeId='E582AB17663F4EF28460015B2BE9E094' id='44CC39EB107F4C02884AFF66A478202D'>
+    <id keyed_name='First Last' type='Identity'>44CC39EB107F4C02884AFF66A478202D</id>
+    <is_alias>1</is_alias>
+    <name>First Last</name>
+    <itemtype>E582AB17663F4EF28460015B2BE9E094</itemtype>
+  </Item>
+</Result>";
+            }
+            else if (AttrEquals(elem, "id", "384C0326D719419F897C34163B8C5B2E"))
+            {
+              result = @"<Result>
+  <Item type='Identity' typeId='E582AB17663F4EF28460015B2BE9E094' id='384C0326D719419F897C34163B8C5B2E'>
+    <id keyed_name='John Doe' type='Identity'>384C0326D719419F897C34163B8C5B2E</id>
+    <is_alias>1</is_alias>
+    <name>John Doe</name>
+    <itemtype>E582AB17663F4EF28460015B2BE9E094</itemtype>
+  </Item>
+</Result>";
+            }
+            break;
           case "Permission":
             if (AttrEquals(elem, "id", "A8FC3EC44ED0462B9A32D4564FAC0AD8"))
             {
@@ -157,11 +202,18 @@ namespace Innovator.Client.Tests
   <name>Company</name>
 </Item></Result>";
             }
+            else if (AttrEquals(elem, "id", "F8BAD68CCADB43DF901FDCA693A22705"))
+            {
+              result = @"<Result><Item type='Permission' typeId='C6A89FDE1294451497801DF78341B473' id='F8BAD68CCADB43DF901FDCA693A22705'>
+  <id keyed_name='Vault' type='Permission'>F8BAD68CCADB43DF901FDCA693A22705</id>
+  <name>Vault</name>
+</Item></Result>";
+            }
             break;
           case "ItemType":
-            result = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
-  <SOAP-ENV:Body>
-    <Result>
+            if (AttrEquals(elem, "id", "4F1AC04A2B484F3ABA4E20DB63808A88") || elem.Value == "Part")
+            {
+              result = @"<Result>
       <Item type='ItemType' typeId='450906E86E304F55A34B3C0D65C097EA' id='4F1AC04A2B484F3ABA4E20DB63808A88'>
         <allow_private_permission>1</allow_private_permission>
         <auto_search>0</auto_search>
@@ -199,9 +251,25 @@ namespace Innovator.Client.Tests
         <use_src_access>0</use_src_access>
         <name>Part</name>
       </Item>
-    </Result>
-  </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>";
+    </Result>";
+            }
+            break;
+          case "Property":
+            if (elem.Element("source_id")?.Value == "Company")
+            {
+              result = @"<Result>
+  <Item type='Property' typeId='26D7CD4E033242148E2724D3D054B4D3' id='264EA3A8B7D14D0587EFB79365FF28A2'>
+    <data_source keyed_name='Permission' type='ItemType' name='Permission'>C6A89FDE1294451497801DF78341B473</data_source>
+    <data_type>item</data_type>
+    <name>permission_id</name>
+  </Item>
+  <Item type='Property' typeId='26D7CD4E033242148E2724D3D054B4D3' id='E6B16DA893644CFDBC62A4EAF68C61A1'>
+    <data_source keyed_name='Identity' type='ItemType' name='Identity'>E582AB17663F4EF28460015B2BE9E094</data_source>
+    <data_type>item</data_type>
+    <name>owned_by_id</name>
+  </Item>
+</Result>";
+            }
             break;
         }
       }

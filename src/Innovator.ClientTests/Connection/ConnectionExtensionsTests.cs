@@ -1,7 +1,7 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Globalization;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innovator.Client.Tests
 {
@@ -17,7 +17,7 @@ namespace Innovator.Client.Tests
         FirstName = i.CreatedById().AsItem().Property("first_name").Value,
         PermName = i.PermissionId().AsItem().Property("name").Value,
         KeyedName = i.Property("id").KeyedName().Value,
-        Empty = i.OwnedById().Value
+        Empty = i.ManagedById().Value
       });
       Assert.AreEqual("First", result.FirstName);
       Assert.AreEqual("Company", result.PermName);

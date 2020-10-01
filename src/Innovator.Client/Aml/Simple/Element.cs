@@ -145,9 +145,11 @@ namespace Innovator.Client
     protected void CopyData(IReadOnlyElement elem)
     {
       Add(elem.Attributes());
-      Add(elem.Elements());
-      if (elem.Value != null)
-        Add(elem.Value);
+      var elements = elem.Elements();
+      if (elements.Any())
+        Add(elements);
+      else if (elem.Value != null)
+        Add(elem.Value); // Only set the value if there are no elements as it will overwrite the elements
     }
 
     /// <summary>Add new content to the element</summary>

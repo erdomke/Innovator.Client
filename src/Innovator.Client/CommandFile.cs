@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Data.HashFunction;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 
 namespace Innovator.Client
@@ -121,67 +124,83 @@ namespace Innovator.Client
       }
     }
 
-    public HttpContent AsContent(Command cmd, IServerContext context, bool multipart)
+    public IEnumerable<HttpContent> AsContent(Command cmd, IServerContext context, bool multipart)
     {
-      HttpContent result;
+      var stream = _data;
+      if (stream?.CanSeek == true)
+        stream.Position = 0;
+      var disposeLast = false;
 #if FILEIO
-      if (_data == null)
+      if (stream == null)
       {
-        result = new SimpleContent(new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096), true);
+        stream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096);
+        disposeLast = true;
       }
-      else
-      {
-        if (_data.CanSeek)
-          _data.Position = 0;
-        result = new SimpleContent(_data, false);
-      }
-#else
-      if (_data.CanSeek)
-        _data.Position = 0;
-      result = new SimpleContent(_data, false);
 #endif
 
-      var id = _id[0] == '@' ? cmd.Substitute(_id, context) : _id;
-      var path = GetFileName(_path[0] == '@' ? cmd.Substitute(_path, context) : _path);
-      if (multipart)
-      {
-        result.Headers.Add("Content-Disposition", string.Format("form-data; name=\"{0}\"; filename=\"{1}\"", id, path));
-      }
-      else
-      {
-        result.Headers.Add("Content-Disposition", "attachment; filename*=" + Encode5987(path));
-        if (_length.HasValue && _length.Value > 0)
-          result.Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", 0, _length - 1, _length));
+      const long chunkSize = 16 * 1024 * 1024;
+      var numChunks = _length.HasValue && !multipart ? (int)Math.Ceiling((double)_length / chunkSize) : 1;
+      var results = new HttpContent[numChunks];
 
-        var hash = default(byte[]);
+      for (var i = 0; i < numChunks; i++)
+      {
+        var chunkLength = _length;
+        if (_length.HasValue && numChunks > 1)
+        {
+          chunkLength = Math.Min(chunkSize, _length.Value - i * chunkSize);
+          results[i] = new FileStreamContent(stream, chunkLength.Value, disposeLast && i == numChunks - 1);
+        }
+        else
+        {
+          results[i] = new SimpleContent(stream, disposeLast);
+        }
 
+        var id = _id[0] == '@' ? cmd.Substitute(_id, context) : _id;
+        var path = GetFileName(_path[0] == '@' ? cmd.Substitute(_path, context) : _path);
+        if (multipart)
+        {
+          results[i].Headers.Add("Content-Disposition", string.Format("form-data; name=\"{0}\"; filename=\"{1}\"", id, path));
+        }
+        else
+        {
+          results[i].Headers.Add("Content-Disposition", "attachment; filename*=" + Encode5987(path));
+          if (chunkLength.HasValue && chunkLength.Value > 0)
+            results[i].Headers.Add("Content-Range", string.Format("bytes {0}-{1}/{2}", i * chunkSize, i * chunkSize + chunkLength - 1, _length));
+
+          if (numChunks == 1)
+          {
+            var hash = default(byte[]);
 #if FILEIO
-        if (_data == null)
-        {
-          using (var stream = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096))
-            hash = new xxHash(32).ComputeHash(stream);
-        }
-        else if (_data.CanSeek)
-        {
-          _data.Position = 0;
-          hash = new xxHash(32).ComputeHash(_data);
-          _data.Position = 0;
-        }
+            if (_data == null)
+            {
+              using (var s = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite, 4096))
+                hash = new xxHash(32).ComputeHash(s);
+            }
+            else if (_data.CanSeek)
+            {
+              _data.Position = 0;
+              hash = new xxHash(32).ComputeHash(_data);
+              _data.Position = 0;
+            }
 #else
-        if (_data.CanSeek) {
-          _data.Position = 0;
-          hash = new xxHash(32).ComputeHash(_data);
-          _data.Position = 0;
-        }
+            if (_data.CanSeek)
+            {
+              _data.Position = 0;
+              hash = new xxHash(32).ComputeHash(_data);
+              _data.Position = 0;
+            }
 #endif
-        if (hash != null)
-        {
-          var hashStr = BitConverter.ToUInt32(hash, 0).ToString(CultureInfo.InvariantCulture);
-          result.Headers.Add("Aras-Content-Range-Checksum", hashStr);
-          result.Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");
+            if (hash != null)
+            {
+              var hashStr = BitConverter.ToUInt32(hash, 0).ToString(CultureInfo.InvariantCulture);
+              results[i].Headers.Add("Aras-Content-Range-Checksum", hashStr);
+              results[i].Headers.Add("Aras-Content-Range-Checksum-Type", "xxHashAsUInt32AsDecimalString");
+            }
+          }
         }
       }
-      return result;
+      
+      return results;
     }
 
     private static string GetDirectoryName(string path)
@@ -256,6 +275,68 @@ namespace Innovator.Client
       _tokenChars[61] = false;
       _tokenChars[123] = false;
       _tokenChars[125] = false;
+    }
+
+    private class FileStreamContent : StreamContent, ISyncContent
+    {
+      private Stream _stream;
+      private long _length;
+      private bool _doDispose;
+      private const int bufferSize = 81920;
+
+      public FileStreamContent(Stream stream, long length, bool doDispose) : base(stream)
+      {
+        _stream = stream;
+        _length = length;
+        _doDispose = doDispose;
+      }
+
+      protected override void Dispose(bool disposing)
+      {
+        base.Dispose(disposing);
+        try
+        {
+          if (disposing && _doDispose && _stream != null)
+            _stream.Dispose();
+        }
+        catch (Exception) { }
+      }
+
+      protected override bool TryComputeLength(out long length)
+      {
+        length = _length;
+        return true;
+      }
+
+      protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
+      {
+        if (_length <= 0)
+          return;
+
+        var buffer = new byte[bufferSize];
+        var bytesRead = 0;
+        var totalRead = 0;
+        while ((bytesRead = await _stream.ReadAsync(buffer, 0, Math.Min(buffer.Length, (int)(_length - totalRead))).ConfigureAwait(false)) != 0)
+        {
+          await stream.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
+          totalRead += bytesRead;
+        }
+      }
+
+      public void SerializeToStream(Stream stream)
+      {
+        if (_length <= 0)
+          return;
+
+        var buffer = new byte[bufferSize];
+        var bytesRead = 0;
+        var totalRead = 0;
+        while ((bytesRead = _stream.Read(buffer, 0, Math.Min(buffer.Length, (int)(_length - totalRead)))) != 0)
+        {
+          stream.Write(buffer, 0, bytesRead);
+          totalRead += bytesRead;
+        }
+      }
     }
   }
 }

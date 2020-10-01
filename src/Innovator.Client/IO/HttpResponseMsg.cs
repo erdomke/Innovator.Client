@@ -1,4 +1,4 @@
-﻿#if HTTPSYNC
+#if HTTPSYNC
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -10,7 +10,7 @@ namespace Innovator.Client
   {
     private Dictionary<string, string> _headers;
 
-    public Stream AsStream { get { return ((ResponseContent)Content).Stream; } }
+    public Stream AsStream { get { return new HttpResponse(StatusCode, _headers, ((ResponseContent)Content).Stream); } }
 
     IDictionary<string, string> IHttpResponse.Headers { get { return _headers; } }
 

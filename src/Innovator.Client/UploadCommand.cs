@@ -314,7 +314,7 @@ namespace Innovator.Client
                                   "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>");
         foreach (var file in files)
         {
-          content.Add(file.AsContent(this, _conn.AmlContext.LocalizationContext, true));
+          content.Add(file.AsContent(this, _conn.AmlContext.LocalizationContext, true).Single());
         }
         content.Compression = _conn.Compression;
 

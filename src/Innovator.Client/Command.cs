@@ -202,6 +202,7 @@ namespace Innovator.Client
       this.Action = action;
       return this;
     }
+
     /// <summary>
     /// <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
     /// specify the SOAP action to use with the AML (as a string)
@@ -221,6 +222,7 @@ namespace Innovator.Client
       }
       return this;
     }
+
     /// <summary>
     /// <a href="https://en.wikipedia.org/wiki/Fluent_interface">Fluent</a> interface used to 
     /// specify the AML of the request.  SQL Server style numbered AML parameters (used as 
@@ -234,6 +236,14 @@ namespace Innovator.Client
     {
       this.Aml = query;
       _sub.AddIndexedParameters(args);
+      return this;
+    }
+
+    public Command WithDownload(long start = 0, long length = 0)
+    {
+      WithAction(CommandAction.DownloadFile);
+      if (length > 0)
+        Settings = req => req.SetHeader("Range", $"bytes={start}-{start + length - 1L}");
       return this;
     }
 

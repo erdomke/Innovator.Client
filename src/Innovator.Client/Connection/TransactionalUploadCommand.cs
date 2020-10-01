@@ -123,39 +123,48 @@ namespace Innovator.Client
       return BeginTransaction(async)
         .Continue(t =>
         {
-          var req = new HttpRequest()
-          {
-            Content = file.AsContent(this, _conn.AmlContext.LocalizationContext, false)
-          };
-          req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-          _conn.SetDefaultHeaders(req.SetHeader);
+          var chain = Promises.Resolved(default(IHttpResponse));
 
-          foreach (var a in _conn.DefaultSettings)
+          foreach (var content in file.AsContent(this, _conn.AmlContext.LocalizationContext, false))
           {
-            a.Invoke(req);
+            chain = chain.Continue(_ => {
+              var req = new HttpRequest()
+              {
+                Content = content
+              };
+              req.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+              _conn.SetDefaultHeaders(req.SetHeader);
+
+              foreach (var a in _conn.DefaultSettings)
+              {
+                a.Invoke(req);
+              }
+              Settings?.Invoke(req);
+              req.SetHeader("SOAPAction", "UploadFile");
+              req.SetHeader("VAULTID", Vault.Id);
+              req.SetHeader("transactionid", t);
+
+              var trace = new LogData(4
+                , "Innovator: Upload File"
+                , LogListener ?? Factory.LogListener)
+              {
+                { "aras_url", _conn.MapClientUrl("../../Server") },
+                { "database", _conn.Database },
+                { "soap_action", "UploadFile" },
+                { "url", Vault.Url },
+                { "user_id", _conn.UserId },
+                { "vault_id", Vault.Id },
+                { "version", _conn.Version }
+              };
+              var uri = new Uri(Vault.Url + "?fileId=" + file.Id);
+              return Vault.HttpClient
+                .PostPromise(uri, async, req, trace)
+                .Always(trace.Dispose)
+                .Always(req.Dispose);
+            });
           }
-          Settings?.Invoke(req);
-          req.SetHeader("SOAPAction", "UploadFile");
-          req.SetHeader("VAULTID", Vault.Id);
-          req.SetHeader("transactionid", t);
 
-          var trace = new LogData(4
-            , "Innovator: Upload File"
-            , LogListener ?? Factory.LogListener)
-          {
-            { "aras_url", _conn.MapClientUrl("../../Server") },
-            { "database", _conn.Database },
-            { "soap_action", "UploadFile" },
-            { "url", Vault.Url },
-            { "user_id", _conn.UserId },
-            { "vault_id", Vault.Id },
-            { "version", _conn.Version }
-          };
-          var uri = new Uri(Vault.Url + "?fileId=" + file.Id);
-          return Vault.HttpClient
-          .PostPromise(uri, async, req, trace)
-          .Always(trace.Dispose)
-          .Always(req.Dispose);
+          return chain;
         })
         .Convert(r => r.AsStream);
     }
@@ -205,6 +214,7 @@ namespace Innovator.Client
         { "vault_id", Vault.Id },
         { "version", _conn.Version }
       };
+
       return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
     }
   }

@@ -308,6 +308,7 @@ namespace Innovator.Client
         return true;
       }
 
+#if TASKS
       protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
       {
         if (_length <= 0)
@@ -322,6 +323,25 @@ namespace Innovator.Client
           totalRead += bytesRead;
         }
       }
+#else
+      protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+      {
+        var factory = new TaskCompletionSource<bool>();
+        factory.SetResult(true);
+        if (_length <= 0)
+          return factory.Task;
+
+        var buffer = new byte[bufferSize];
+        var bytesRead = 0;
+        var totalRead = 0;
+        while ((bytesRead = _stream.Read(buffer, 0, Math.Min(buffer.Length, (int)(_length - totalRead)))) != 0)
+        {
+          stream.Write(buffer, 0, bytesRead);
+          totalRead += bytesRead;
+        }
+        return factory.Task;
+      }
+#endif
 
       public void SerializeToStream(Stream stream)
       {

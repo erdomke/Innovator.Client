@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aml\AmlSqlPermissionOption.cs" />
+    <Compile Include="Aml\CDataValue.cs" />
     <Compile Include="Aml\DateTimeZone.cs" />
     <Compile Include="Aml\ICoercible.cs" />
     <Compile Include="Aml\SqlRenderOption.cs" />

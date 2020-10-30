@@ -10,11 +10,33 @@ namespace Innovator.Client
   {
     private Dictionary<string, string> _headers;
 
-    public Stream AsStream { get { return new HttpResponse(StatusCode, _headers, ((ResponseContent)Content).Stream); } }
+    public Stream AsStream
+    {
+      get
+      {
+        EnsureHeaders();
+        return new HttpResponse(StatusCode, _headers, ((ResponseContent)Content).Stream);
+      }
+    }
 
-    IDictionary<string, string> IHttpResponse.Headers { get { return _headers; } }
+    IDictionary<string, string> IHttpResponse.Headers
+    {
+      get
+      {
+        EnsureHeaders();
+        return _headers;
+      }
+    }
 
     public HttpResponseMsg(HttpStatusCode code) : base(code) { }
+
+    private void EnsureHeaders()
+    {
+      if (_headers == default(Dictionary<string, string>))
+      {
+        FlushHeaders();
+      }
+    }
 
     public void FlushHeaders()
     {

@@ -4,10 +4,11 @@ using System.IO;
 using System.Text;
 using System.Xml.Linq;
 using Innovator.Client.Connection;
+using Innovator.Server;
 
 namespace Innovator.Client.Tests
 {
-  internal class TestConnection : IArasConnection
+  internal class TestConnection : IArasConnection, IServerConnection
   {
     private ArasVaultConnection _vaultConn;
 
@@ -39,6 +40,18 @@ namespace Innovator.Client.Tests
     </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>";
+
+    public IServerCache ApplicationCache => throw new NotImplementedException();
+
+    public string OriginalRequest => throw new NotImplementedException();
+
+    public IServerPermissions Permissions => throw new NotImplementedException();
+
+    public IServerCache RequestState => throw new NotImplementedException();
+
+    public string RequestUrl => throw new NotImplementedException();
+
+    public IServerCache SessionCache => throw new NotImplementedException();
 
     public TestConnection()
     {
@@ -166,6 +179,15 @@ namespace Innovator.Client.Tests
               result = @"<Result><Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
   <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
   <first_name>First</first_name>
+  <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
+</Item></Result>";
+            }
+            else if (AttrEquals(elem, "id", "49403709D9F847ECA1A2DE9ADE68660F"))
+            {
+              result = @"<Result><Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='49403709D9F847ECA1A2DE9ADE68660F'>
+  <id keyed_name='John Doe' type='User'>49403709D9F847ECA1A2DE9ADE68660F</id>
+  <first_name>John</first_name>
+  <last_name>Doe</last_name>
   <itemtype>45E899CD2859442982EB22BB2DF683E5</itemtype>
 </Item></Result>";
             }
@@ -306,6 +328,11 @@ namespace Innovator.Client.Tests
     }
 
     public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)
+    {
+      throw new NotImplementedException();
+    }
+
+    public string GetHeader(string name)
     {
       throw new NotImplementedException();
     }

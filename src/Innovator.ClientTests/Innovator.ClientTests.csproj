@@ -115,6 +115,7 @@
     <Compile Include="QueryModel\PatternTests.cs" />
     <Compile Include="QueryModel\WhereParserTests.cs" />
     <Compile Include="Scratchpad.cs" />
+    <Compile Include="Server\ContextTests.cs" />
     <Compile Include="TestConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandFileTests.cs" />

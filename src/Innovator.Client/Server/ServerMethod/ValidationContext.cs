@@ -122,13 +122,14 @@ namespace Innovator.Server
     public bool IsChanging(params string[] names)
     {
       // Are any of the properties in the changing item?
-      var propExists = names.Any(n => Item.Property(n).Exists);
-      if (!propExists) return false;
+      var existingProperties = names.Where(n => Item.Property(n).Exists);
+      if (!existingProperties.Any()) return false;
 
       // Is this new?
       if (IsNew) return true;
 
-      return names.Any(n => Item.Property(n).Value != _existing.Property(n).Value);
+      // Check only the changing properties against their existing values
+      return existingProperties.Any(n => Item.Property(n).Value != _existing.Property(n).Value);
     }
 
     /// <summary>

@@ -235,7 +235,7 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    protected void VisitWhere(QueryItem query, IEnumerable<IExpression> extraCriteria = null)
+    protected void VisitWhere(QueryItem query, IEnumerable<IExpression> extraCriteria = null, bool skipIdWhereClause = false)
     {
       var prevState = WriteState;
       try
@@ -243,7 +243,7 @@ namespace Innovator.Client.QueryModel
         WriteState = SqlRenderOption.WhereClause;
 
         var criteria = new List<IExpression>();
-        var clause = GetWhereClause(query);
+        var clause = GetWhereClause(query, skipIdWhereClause);
         if (clause != null)
           criteria.Add(clause);
         if (extraCriteria != null)
@@ -257,7 +257,7 @@ namespace Innovator.Client.QueryModel
       }
     }
 
-    protected virtual IExpression GetWhereClause(QueryItem query)
+    protected virtual IExpression GetWhereClause(QueryItem query, bool skipIdWhereClause = false)
     {
       return query.Where;
     }

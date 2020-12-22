@@ -93,8 +93,7 @@ namespace Innovator.Client.QueryModel
             Writer.Write(((PropertyReference)cols[i].Expression).Name);
             Writer.Write("])");
           }
-          Writer.Write(" where ");
-          query.Where.Visit(this);
+          VisitWhere(query, skipIdWhereClause: true);
           Writer.Write(" group by ");
           WritePermissionFields(query);
           Writer.Write(" ) perm where ");
@@ -176,11 +175,11 @@ namespace Innovator.Client.QueryModel
       WriteIdentifier(item.Type.Replace(' ', '_'));
     }
 
-    protected override IExpression GetWhereClause(QueryItem query)
+    protected override IExpression GetWhereClause(QueryItem query, bool skipIdWhereClause = false)
     {
       var clause = AddPermissionCheck(query);
 
-      if (RenderOption == SqlRenderOption.OffsetQuery)
+      if (RenderOption == SqlRenderOption.OffsetQuery && !skipIdWhereClause)
       {
         if (!query.Attributes.TryGetValue("offsetId", out var offsetId))
           throw new InvalidOperationException("No `offsetId` attribute was specified");

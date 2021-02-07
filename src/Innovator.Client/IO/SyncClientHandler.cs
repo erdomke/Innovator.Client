@@ -188,6 +188,7 @@ namespace Innovator.Client
       var httpWebRequest = (HttpWebRequest)System.Net.WebRequest.Create(request.RequestUri);
       httpWebRequest.Method = request.Method.Method;
       httpWebRequest.ProtocolVersion = request.Version;
+      httpWebRequest.ClientCertificates = ClientCertificates;
       this.SetDefaultOptions(httpWebRequest);
       SyncClientHandler.SetConnectionOptions(httpWebRequest, request);
       this.SetServicePointOptions(httpWebRequest, request);

@@ -247,6 +247,19 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void CloneNullItem()
+    {
+      var nullItem = Item.GetNullItem<IReadOnlyItem>();
+      Assert.IsFalse(nullItem.Exists);
+      var clone = nullItem.Clone();
+      Assert.IsFalse(clone.Exists);
+      nullItem = Item.GetNullItem<Model.File>();
+      Assert.IsFalse(nullItem.Exists);
+      clone = nullItem.Clone();
+      Assert.IsFalse(clone.Exists);
+    }
+
+    [TestMethod()]
     public void ModelTypeTest()
     {
       var itemAml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"">

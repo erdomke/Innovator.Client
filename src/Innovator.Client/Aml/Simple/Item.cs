@@ -193,7 +193,13 @@ namespace Innovator.Client
     {
       var writer = new ResultWriter(this.AmlContext, null, null);
       ToAml(writer, new AmlWriterSettings());
-      return writer.Result.AssertItem();
+      var clone = writer.Result.AssertItem();
+      // Make sure to transfer the null status to the new item
+      if (IsNull && clone is Item item)
+      {
+        item.IsNull = true;
+      }
+      return clone;
     }
 
     protected override IEnumerable<IReadOnlyElement> ReadOnlyElements()

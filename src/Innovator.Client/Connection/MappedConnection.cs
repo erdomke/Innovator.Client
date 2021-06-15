@@ -144,11 +144,15 @@ namespace Innovator.Client.Connection
 
     public Stream Process(Command request)
     {
+      if (_current == null)
+        throw new LoggedOutException("You are not connected to Aras. Please log in.");
       return _current.Process(request);
     }
 
     public IPromise<Stream> Process(Command request, bool async)
     {
+      if (_current == null)
+        throw new LoggedOutException("You are not connected to Aras. Please log in.");
       return _current.Process(request, async);
     }
 

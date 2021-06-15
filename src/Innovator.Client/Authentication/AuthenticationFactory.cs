@@ -56,11 +56,18 @@ namespace Innovator.Client
         .Progress(result.Notify)
         .Done(r =>
         {
-          var config = new OAuthConfig(r.AsStream, oauthBaseUri);
-          if (config.ProtocolVersion >= new Version("1.0"))
-            result.Resolve(new OAuthAuthenticator(service, config, creds));
-          else
-            result.Resolve(new LegacyAuthenticator(innovatorServerBaseUrl, creds));
+          try
+          {
+            var config = new OAuthConfig(r.AsString(), oauthBaseUri);
+            if (config.ProtocolVersion >= new Version("1.0"))
+              result.Resolve(new OAuthAuthenticator(service, config, creds));
+            else
+              result.Resolve(new LegacyAuthenticator(innovatorServerBaseUrl, creds));
+          }
+          catch (Exception ex)
+          {
+            result.Reject(ex);
+          }
         })
         .Fail(e =>
         {

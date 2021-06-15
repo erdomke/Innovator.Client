@@ -10,7 +10,7 @@ namespace Innovator.Client
     public Version ProtocolVersion { get; } = new Version(0, 0);
     public ProtocolType ProtocolType { get; }
 
-    public OAuthConfig(Stream json, Uri baseUri)
+    public OAuthConfig(string json, Uri baseUri)
     {
       AuthorizeEndpoint = new Uri(baseUri, "connect/authorize");
       TokenEndpoint = new Uri(baseUri, "connect/token");

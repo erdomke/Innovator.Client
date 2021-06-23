@@ -1,3 +1,4 @@
+using Innovator.Client.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Innovator.Client.Tests
       nullItem = new IReadOnlyItem[] { }.FirstOrNullItem();
       Assert.AreNotEqual(null, nullItem);
       nullItem = new IItem[] { }.FirstOrNullItem();
+      Assert.AreNotEqual(null, nullItem);
+      nullItem = new IPropertyDefinition[] { }.FirstOrNullItem();
       Assert.AreNotEqual(null, nullItem);
     }
 

@@ -115,6 +115,13 @@ namespace Innovator.Client
       // Force a call to the static constructor
       try
       {
+        // Need to switch from the interface to the class for the call to the constructor
+        switch (type.FullName)
+        {
+          case "Innovator.Client.Model.IPropertyDefinition":
+            type = typeof(Model.Property);
+            break;
+        }
         var temp = Activator.CreateInstance(type, ElementFactory.Local);
         if (_nullItems.TryGetValue(type, out result))
           return result;

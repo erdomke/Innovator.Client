@@ -476,6 +476,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Computers", item.Property("description").Value);
       Assert.AreEqual("Computers", item.Property("description", "en").Value);
       Assert.AreEqual(null, item.Property("description", "fr").Value);
+      Assert.AreEqual("", item.Property("description", "fr").AsString(""));
     }
 
     [TestMethod]

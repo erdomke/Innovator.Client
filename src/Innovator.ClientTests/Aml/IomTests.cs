@@ -25,19 +25,6 @@ namespace Innovator.Client.Tests
       return inn.newItemFromAml(aml);
     }
 
-    private void AssertRaisesException(Action action)
-    {
-      try
-      {
-        action.Invoke();
-        Assert.Fail("Exception expected");
-      }
-      catch (Exception)
-      {
-        // Do nothing
-      }
-    }
-
     [TestMethod]
     public void GetItemByKeyedName()
     {
@@ -69,11 +56,11 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(false, target.isLogical());
       Assert.AreEqual(0, target.getItemCount());
 
-      AssertRaisesException(() => target.getProperty("something"));
-      AssertRaisesException(() => target.getPropertyItem("something"));
-      AssertRaisesException(() => target.getRelatedItem());
-      AssertRaisesException(() => target.getPropertyAttribute("first", "something"));
-      AssertRaisesException(() => target.getAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getProperty("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyItem("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getRelatedItem());
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getAttribute("first", "something"));
 
       var newItem = target.getInnovator().newError("Some new error");
       Assert.AreEqual("1", newItem.getErrorCode());
@@ -149,11 +136,11 @@ namespace Innovator.Client.Tests
       var newItem = target.getInnovator().newResult("OK");
       Assert.AreEqual("OK", newItem.getResult());
 
-      AssertRaisesException(() => newItem.getProperty("something"));
-      AssertRaisesException(() => target.getPropertyItem("something"));
-      AssertRaisesException(() => target.getRelatedItem());
-      AssertRaisesException(() => target.getPropertyAttribute("first", "something"));
-      AssertRaisesException(() => target.getAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => newItem.getProperty("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyItem("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getRelatedItem());
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getAttribute("first", "something"));
 
       Assert.AreEqual(false, target.isEmpty());
       Assert.AreEqual(false, target.isError());
@@ -338,7 +325,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(false, target.isLogical());
       Assert.AreEqual(2, target.getItemCount());
 
-      AssertRaisesException(() => target.getProperty("name"));
+      Assert.ThrowsException<InvalidOperationException>(() => target.getProperty("name"));
 
       var second = target.getItemByIndex(1);
       Assert.IsTrue(XNode.DeepEquals(XElement.Parse(second.ToString()), XElement.Parse(@"<Item type='Property' typeId='26D7CD4E033242148E2724D3D054B4D3' id='DEA9466482CB4198AED0D859668D331B'>

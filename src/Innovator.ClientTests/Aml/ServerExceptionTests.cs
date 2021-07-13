@@ -65,7 +65,6 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(expected, exAml);
     }
 
-
     [TestMethod()]
     public void ThrownExceptionStackTrace()
     {
@@ -88,16 +87,7 @@ namespace Innovator.Client.Tests
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>";
 
-      ServerException serverEx = null;
-      try
-      {
-        ElementFactory.Local.FromXml(aml).AssertNoError();
-        Assert.Fail();
-      }
-      catch (ServerException ex)
-      {
-        serverEx = ex;
-      }
+      var serverEx = Assert.ThrowsException<NoItemsFoundException>(() => ElementFactory.Local.FromXml(aml).AssertNoError());
 
       var str = serverEx.ToString();
       Assert.IsTrue(str.IndexOf("[Server") > 0);
@@ -182,19 +172,13 @@ namespace Innovator.Client.Tests
     [TestMethod]
     public void HttpExceptionMetadata()
     {
-      try
+      var ex = Assert.ThrowsException<AggregateException>(() =>
       {
         var conn = Factory.GetConnection("http://invalid.example.com", "test agent");
         conn.Login(new ExplicitCredentials("db", "user", "pass"));
-        Assert.Fail();
-      }
-      catch (Exception ex)
-      {
-        if (ex is AggregateException agg)
-          ex = agg.InnerException;
-        Assert.AreEqual("ValidateUser", ex.Data["soap_action"]);
-        Assert.AreEqual("http://invalid.example.com/Server/InnovatorServer.aspx", ex.Data["url"].ToString());
-      }
+      }).InnerException;
+      Assert.AreEqual("ValidateUser", ex.Data["soap_action"]);
+      Assert.AreEqual("http://invalid.example.com/Server/InnovatorServer.aspx", ex.Data["url"].ToString());
     }
 
     [TestMethod]

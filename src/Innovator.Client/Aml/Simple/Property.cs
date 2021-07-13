@@ -227,6 +227,12 @@ namespace Innovator.Client
 
     private IElement AddBase(object content)
     {
+      // Always remove the language on regular properties when setting to a new value
+      // This is to prevent mismatch when setting a property after a get
+      if (string.IsNullOrEmpty(Prefix) && _content != null)
+      {
+        Attribute("xml:lang").Remove();
+      }
       var flat = Flatten(content);
       var result = base.Add(!(flat is string)
           && flat is IEnumerable e

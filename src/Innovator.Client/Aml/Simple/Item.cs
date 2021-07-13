@@ -243,7 +243,7 @@ namespace Innovator.Client
           //   Do not check the language on the property, the developer will check if they need to know
           var prop = LinkedListOps.FindAll(elem, name)
             .OfType<IReadOnlyProperty>()
-            .FirstOrDefault(p => p.Prefix != "i18n");
+            .FirstOrDefault(p => string.IsNullOrEmpty(p.Prefix));
 
           if (prop != null)
             return prop;

@@ -855,5 +855,27 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual(2, result.Items().Count());
     }
+
+    [TestMethod]
+    public void LegacyElementNameRetrieval()
+    {
+      const string input = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
+  <SOAP-ENV:Body>
+    <SOAP-ENV:Fault xmlns:af='http://www.aras.com/InnovatorFault'>
+      <faultcode>0</faultcode>
+      <faultstring>No items of type File found.</faultstring>
+      <detail>
+        <af:legacy_detail>No items of type File found.</af:legacy_detail>
+      </detail>
+    </SOAP-ENV:Fault>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>";
+
+      var result = ElementFactory.Local.FromXml(input);
+      var detailElement = result.Exception.Fault.Element("detail");
+      Assert.AreEqual("No items of type File found.", detailElement.Element("af:legacy_detail").Value);
+      Assert.AreEqual("No items of type File found.", detailElement.Element("legacy_detail", "af").Value);
+      Assert.AreEqual(null, detailElement.Element("legacy_detail").Value);
+    }
   }
 }

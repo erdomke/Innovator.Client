@@ -269,21 +269,23 @@ namespace Innovator.Client
       return ReadOnlyElements().OfType<IElement>();
     }
 
+    /// <summary>Retrieve the read-only child elements</summary>
     protected virtual IEnumerable<IReadOnlyElement> ReadOnlyElements()
     {
       return LinkedListOps.Enumerate(_content as ILinkedElement).OfType<IReadOnlyElement>();
     }
 
-    internal Element ElementByName(string name)
+    internal Element ElementByName(string name, string prefix = "")
     {
-      var elem = _content as ILinkedElement;
-      if (elem != null)
+      if (_content is ILinkedElement elem)
       {
-        var result = (LinkedListOps.Find(elem, name) as Element);
+        var result = LinkedListOps.FindAll(elem, name)
+          .Cast<Element>()
+          .FirstOrDefault(e => e.Prefix == prefix);
         if (result != null)
           return result;
       }
-      return Elements().OfType<Element>().FirstOrDefault(e => e.Name == name) ?? new AmlElement(this, name);
+      return Elements().OfType<Element>().FirstOrDefault(e => e.Name == name && e.Prefix == prefix) ?? new AmlElement(this, name);
     }
 
     /// <summary>Remove the element from its parent</summary>
@@ -431,7 +433,7 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Asserts that the element is modifiable modifiable.
+    /// Asserts that the element is modifiable.
     /// </summary>
     /// <exception cref="InvalidOperationException">If the user attempts to modify a read only element</exception>
     protected void AssertModifiable()

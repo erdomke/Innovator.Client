@@ -18,6 +18,7 @@ namespace Innovator.Client
       get { return _parent ?? AmlElement.NullElem; }
       set { _parent = value; }
     }
+    public override string Prefix { get; }
 
     private object NeutralValue()
     {
@@ -30,7 +31,9 @@ namespace Innovator.Client
 
     public Property(string name, params object[] content)
     {
-      Name = name;
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      Prefix = kvp.Key;
+      Name = kvp.Value;
       if (content == null)
         this.IsNull().Set(true);
       else if (content.Length > 0)
@@ -39,7 +42,9 @@ namespace Innovator.Client
 
     public Property(IElement parent, string name, params object[] content)
     {
-      Name = name;
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      Prefix = kvp.Key;
+      Name = kvp.Value;
       _parent = parent;
       if (content?.Length > 0)
       {
@@ -51,6 +56,7 @@ namespace Innovator.Client
     private Property(IElement parent, Property clone)
     {
       Name = clone.Name;
+      Prefix = clone.Prefix;
       _parent = parent;
       CopyData(clone);
     }

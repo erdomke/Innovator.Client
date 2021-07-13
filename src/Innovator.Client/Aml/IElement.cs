@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Innovator.Client
 {
@@ -31,6 +31,8 @@ namespace Innovator.Client
     string Name { get; }
     /// <summary>Retrieve the parent element</summary>
     IReadOnlyElement Parent { get; }
+    /// <summary>The namespace prefix for the element</summary>
+    string Prefix { get; }
     /// <summary>String value of the element</summary>
     string Value { get; }
   }

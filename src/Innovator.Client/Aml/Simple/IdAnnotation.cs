@@ -20,6 +20,7 @@ namespace Innovator.Client
     public string Name { get { return "id"; } }
     public ILinkedAnnotation Next { get; set; }
     public IReadOnlyElement Parent { get { return _parent ?? Item.GetNullItem<Item>(); } }
+    public string Prefix { get { return string.Empty; } }
     public string Value { get { return _value.ToArasId(); } }
 
     public IdAnnotation(IReadOnlyElement parent, Guid value)

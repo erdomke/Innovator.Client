@@ -1358,6 +1358,11 @@ namespace Innovator.Client
         get { return _prop.Parent; }
       }
 
+      public string Prefix
+      {
+        get { return _prop.Prefix; }
+      }
+
       public string Value
       {
         get { return _prop.Value; }

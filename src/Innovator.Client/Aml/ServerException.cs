@@ -228,7 +228,7 @@ namespace Innovator.Client
     {
       var result = base.ToString();
 
-      var serverStack = _fault.Element("detail").Element("af:legacy_faultactor").Value;
+      var serverStack = _fault.Element("detail").Element("legacy_faultactor").Value;
       if (!string.IsNullOrEmpty(serverStack))
         result += Environment.NewLine + "[Server]" + Environment.NewLine + serverStack;
 

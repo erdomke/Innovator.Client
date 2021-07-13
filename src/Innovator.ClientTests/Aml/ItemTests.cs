@@ -496,7 +496,15 @@ namespace Innovator.Client.Tests
     public void LanguageHandling()
     {
       var aml = new ElementFactory(new ServerContext(false) { LanguageCode = "fr" });
-      var item = aml.FromXml("<Item type='Supplier' action='get' select='name' language='en,fr'><thing>All</thing><name xml:lang='fr'>Dell France</name><i18n:name xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Dell US</i18n:name></Item>").AssertItem();
+      var item = aml.FromXml(@"<Item type='Supplier' action='get' select='name' language='en,fr'>
+<thing>All</thing>
+<name xml:lang='fr'>Dell France</name>
+<i18n:name xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Dell US</i18n:name>
+<i18n:name xml:lang='fr' xmlns:i18n='http://www.aras.com/I18N'>Dell France</i18n:name>
+<description xml:lang='en'>Computers</description>
+<i18n:description xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Computers</i18n:description>
+<i18n:description xml:lang='fr' is_null='1' xmlns:i18n='http://www.aras.com/I18N' />
+</Item>").AssertItem();
       Assert.AreEqual("All", item.Property("thing").Value);
       Assert.AreEqual(null, item.Property("thing", "en").Value);
       Assert.AreEqual(false, item.Property("thing", "en").Exists);
@@ -505,19 +513,22 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Dell France", item.Property("name").Value);
       Assert.AreEqual("Dell US", item.Property("name", "en").Value);
       Assert.AreEqual("Dell France", item.Property("name", "fr").Value);
+      Assert.AreEqual("Computers", item.Property("description").Value);
+      Assert.AreEqual("Computers", item.Property("description", "en").Value);
+      Assert.AreEqual(null, item.Property("description", "fr").Value);
 
       item.Property("test1").Set("1");
       item.Property("test2", "fr").Set("2");
       item.Property("test3", "fr").Set("3");
       item.Property("test3", "en").Set("3.en");
-      Assert.AreEqual("<Item type=\"Supplier\" action=\"get\" select=\"name\" language=\"en,fr\"><thing>All</thing><name xml:lang=\"fr\">Dell France</name><i18n:name xml:lang=\"en\" xmlns:i18n=\"http://www.aras.com/I18N\">Dell US</i18n:name><test1>1</test1><test2 xml:lang=\"fr\">2</test2><test3 xml:lang=\"fr\">3</test3><i18n:test3 xml:lang=\"en\" xmlns:i18n=\"http://www.aras.com/I18N\">3.en</i18n:test3></Item>",
+      Assert.AreEqual("<Item type=\"Supplier\" action=\"get\" select=\"name\" language=\"en,fr\"><thing>All</thing><name xml:lang=\"fr\">Dell France</name><i18n:name xml:lang=\"en\" xmlns:i18n=\"http://www.aras.com/I18N\">Dell US</i18n:name><i18n:name xml:lang=\"fr\" xmlns:i18n=\"http://www.aras.com/I18N\">Dell France</i18n:name><description xml:lang=\"en\">Computers</description><i18n:description xml:lang=\"en\" xmlns:i18n=\"http://www.aras.com/I18N\">Computers</i18n:description><i18n:description xml:lang=\"fr\" is_null=\"1\" xmlns:i18n=\"http://www.aras.com/I18N\" /><test1>1</test1><i18n:test2 xml:lang=\"fr\" xmlns:i18n=\"http://www.aras.com/I18N\">2</i18n:test2><i18n:test3 xml:lang=\"fr\" xmlns:i18n=\"http://www.aras.com/I18N\">3</i18n:test3><i18n:test3 xml:lang=\"en\" xmlns:i18n=\"http://www.aras.com/I18N\">3.en</i18n:test3></Item>",
         item.ToAml());
     }
 
     [TestMethod()]
     public void LanguageHandling_v2()
     {
-      var aml = @"<AML xmlns:i18n='http://www.aras.com/I18N'><Item type='Property' id='1234'>
+      const string aml = @"<AML xmlns:i18n='http://www.aras.com/I18N'><Item type='Property' id='1234'>
   <label xml:lang='en'>Finished Part Diameter</label>
   <i18n:label xml:lang='de'>Fertigteildurchmesser</i18n:label>
   <i18n:label xml:lang='en'>Finished Part Diameter</i18n:label>

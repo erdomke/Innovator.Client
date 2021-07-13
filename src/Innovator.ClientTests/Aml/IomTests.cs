@@ -469,15 +469,27 @@ namespace Innovator.Client.Tests
     public void LanguageHandling()
     {
       var aml = new IOM.Innovator(new TestConnection());
-      var item = aml.newItemFromAml("<Item type='Supplier' action='get' select='name' language='en,fr'><thing>All</thing><name xml:lang='en'>Dell US</name><i18n:name xml:lang='fr' xmlns:i18n='http://www.aras.com/I18N'>Dell France</i18n:name></Item>");
+      var item = aml.newItemFromAml(@"<Item type='Supplier' action='get' select='name' language='en,fr'>
+<thing>All</thing>
+<name xml:lang='fr'>Dell France</name>
+<i18n:name xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Dell US</i18n:name>
+<i18n:name xml:lang='fr' xmlns:i18n='http://www.aras.com/I18N'>Dell France</i18n:name>
+<description xml:lang='en'>Computers</description>
+<i18n:description xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Computers</i18n:description>
+<i18n:description xml:lang='fr' is_null='1' xmlns:i18n='http://www.aras.com/I18N' />
+</Item>");
       Assert.AreEqual("All", item.Property("thing").Value);
       Assert.AreEqual(null, item.Property("thing", "en").Value);
+      Assert.AreEqual(false, item.Property("thing", "en").Exists);
       Assert.AreEqual(null, item.Property("thing", "fr").Value);
-      Assert.AreEqual("Dell US", item.Property("name").Value);
+      Assert.AreEqual(false, item.Property("thing", "fr").Exists);
+      Assert.AreEqual("Dell France", item.Property("name").Value);
       Assert.AreEqual("Dell US", item.Property("name", "en").Value);
       Assert.AreEqual("Dell France", item.Property("name", "fr").Value);
+      Assert.AreEqual("Computers", item.Property("description").Value);
+      Assert.AreEqual("Computers", item.Property("description", "en").Value);
+      Assert.AreEqual(null, item.Property("description", "fr").Value);
     }
-
 
     [TestMethod]
     public void VerifyItemCount()

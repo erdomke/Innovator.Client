@@ -49,7 +49,7 @@ namespace Innovator.Client
     private IElement CreateDetailElement()
     {
       var detail = _fault.ElementByName("detail") as Element;
-      if (!detail.Exists || string.IsNullOrEmpty(detail.ElementByName("af:legacy_detail").Value))
+      if (!detail.Exists || string.IsNullOrEmpty(detail.ElementByName("legacy_detail").Value))
         detail.Add(new AmlElement(_fault.AmlContext, "af:legacy_detail", this.Message));
       return detail;
     }

@@ -61,6 +61,9 @@ namespace Innovator.Client
       set { this.Parent = (IElement)value; }
     }
 
+    /// <inheritdoc/>
+    public abstract string Prefix { get; }
+
     /// <summary>String value of the element</summary>
     public virtual string Value
     {
@@ -332,34 +335,23 @@ namespace Innovator.Client
     /// <param name="settings">Settings controlling how the node is written</param>
     public void ToAml(XmlWriter writer, AmlWriterSettings settings)
     {
-      var name = this.Name;
+      var name = Name;
+      var prefix = Prefix;
       var i = name.IndexOf(':');
       var attrs = LinkedListOps.Enumerate(_lastAttr).OfType<IReadOnlyAttribute>().ToArray();
-      if (attrs.Any(a => a.Name == "xml:lang" && a.Value != AmlContext.LocalizationContext.LanguageCode))
+      if (string.IsNullOrEmpty(prefix) && i > 0)
       {
-        writer.WriteStartElement("i18n", name, "http://www.aras.com/I18N");
-      }
-      else if (i > 0)
-      {
-        var prefix = name.Substring(0, i);
+        prefix = name.Substring(0, i);
         name = name.Substring(i + 1);
-        var ns = "";
-        switch (prefix)
-        {
-          case "SOAP-ENV":
-            ns = "http://schemas.xmlsoap.org/soap/envelope/";
-            break;
-          case "af":
-            ns = "http://www.aras.com/InnovatorFault";
-            break;
-          default:
-            throw new NotSupportedException();
-        }
-        writer.WriteStartElement(prefix, name, ns);
+      }
+      if (string.IsNullOrEmpty(prefix))
+      {
+        writer.WriteStartElement(name);
       }
       else
       {
-        writer.WriteStartElement(name);
+        var ns = AmlReader.NamespaceFromPrefix(prefix);
+        writer.WriteStartElement(prefix, name, ns);
       }
 
       foreach (var attr in attrs)
@@ -367,29 +359,19 @@ namespace Innovator.Client
         i = attr.Name.IndexOf(':');
         if (i > 0)
         {
-          var prefix = attr.Name.Substring(0, i);
-          if (prefix == "xmlns")
+          var attributePrefix = attr.Name.Substring(0, i);
+          if (attributePrefix == "xmlns")
             continue;
           name = attr.Name.Substring(i + 1);
-          var ns = "";
-          switch (prefix)
-          {
-            case "xml":
-              ns = "http://www.w3.org/XML/1998/namespace";
-              break;
-            default:
-              throw new NotSupportedException();
-          }
-          writer.WriteAttributeString(prefix, name, ns, attr.Value);
+          var ns = AmlReader.NamespaceFromPrefix(attributePrefix);
+          writer.WriteAttributeString(attributePrefix, name, ns, attr.Value);
         }
         else
         {
           writer.WriteAttributeString(attr.Name, attr.Value);
         }
-
       }
-      var elem = _content as ILinkedElement;
-      if (elem == null)
+      if (!(_content is ILinkedElement))
       {
         if (PreferCData)
           writer.WriteCData(this.Value);
@@ -402,8 +384,7 @@ namespace Innovator.Client
         var item = elems.OfType<IReadOnlyItem>().FirstOrDefault();
         if (this is IReadOnlyProperty
           && !settings.ExpandPropertyItems
-          && item != null
-          && !item.Attribute("action").Exists)
+          && item?.Attribute("action").Exists == false)
         {
           writer.WriteAttributeString("type", item.TypeName());
           var keyedName = item.KeyedName().Value ?? item.Property("id").KeyedName().Value;
@@ -469,6 +450,7 @@ namespace Innovator.Client
       public bool Exists { get { return _elem.Exists; } }
       public string Name { get { return _elem.Name; } }
       public IElement Parent { get { return _elem.Parent; } }
+      public string Prefix { get { return _elem.Prefix; } }
       public bool ReadOnly { get { return _elem.ReadOnly; } }
       public string Value { get { return _elem.Value; } }
 

@@ -47,6 +47,9 @@ namespace Innovator.Client
       set { _parent = value ?? AmlElement.NullElem; }
     }
 
+    /// <inheritdoc/>
+    public override string Prefix { get { return string.Empty; } }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Item"/> class.
     /// </summary>
@@ -64,7 +67,7 @@ namespace Innovator.Client
         Add(content);
     }
 
-    private static Dictionary<Type, IReadOnlyItem> _nullItems = new Dictionary<Type, IReadOnlyItem>()
+    private static readonly Dictionary<Type, IReadOnlyItem> _nullItems = new Dictionary<Type, IReadOnlyItem>()
     {
       { typeof(Item), new Item(){ _attr = ElementAttributes.ReadOnly | ElementAttributes.Null } }
     };
@@ -232,19 +235,15 @@ namespace Innovator.Client
 
       if (Exists || _parent != AmlElement.NullElem)
       {
-        var elem = _content as ILinkedElement;
-        if (elem != null)
+        if (_content is ILinkedElement elem)
         {
-          var prop = LinkedListOps.Find(elem, name) as IReadOnlyProperty;
-          // The first one should be in the user's language if multiple languages
-          // exist
-          if (prop != null && prop.Attribute("xml:lang").Exists)
-          {
-            prop = LinkedListOps.FindAll(elem, name)
-              .OfType<IReadOnlyProperty>()
-              .FirstOrDefault(p => p.Attribute("xml:lang").Value == AmlContext.LocalizationContext.LanguageCode);
-
-          }
+          // Matching IOM functionality:
+          //   Return the non-i18n element when not specifying language
+          //   This is always returned by Innovator if there is a value in your language or in the corporate language
+          //   Do not check the language on the property, the developer will check if they need to know
+          var prop = LinkedListOps.FindAll(elem, name)
+            .OfType<IReadOnlyProperty>()
+            .FirstOrDefault(p => p.Prefix != "i18n");
 
           if (prop != null)
             return prop;
@@ -276,18 +275,20 @@ namespace Innovator.Client
 
       if (Exists)
       {
-        var elem = _content as ILinkedElement;
-        if (elem != null)
+        if (_content is ILinkedElement elem)
         {
+          // Matching IOM functionality:
+          //   Return the i18n element for your language
+          //   Do not fall back to another element
           var prop = LinkedListOps.FindAll(elem, name)
             .OfType<IReadOnlyProperty>()
-            .FirstOrDefault(p => p.Attribute("xml:lang").Value == lang);
+            .FirstOrDefault(p => p.Prefix == "i18n" && p.Attribute("xml:lang").Value == lang);
 
           if (prop != null)
             return prop;
         }
-        var result = new Property(this, name, new Attribute("xml:lang", lang));
-        return result;
+        // Force the i18n namespace
+        return new Property(this, "i18n:" + name, new Attribute("xml:lang", lang));
       }
       return Innovator.Client.Property.NullProp;
     }

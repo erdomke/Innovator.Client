@@ -88,6 +88,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Aml\AmlReaderTests.cs" />
+    <Compile Include="Aml\LanguageTests.cs" />
     <Compile Include="Aml\TocNodeTests.cs" />
     <Compile Include="JsonTests.cs" />
     <Compile Include="QueryModel\AmlSearchTests.cs" />

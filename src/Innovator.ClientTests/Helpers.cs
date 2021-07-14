@@ -1,8 +1,20 @@
-﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+namespace Innovator.Client.Tests
+{
+  public class AssertExtensions
+  {
+    public static void AreEqual<T>(string expected, T actual) where T : IReadOnlyItem
+    {
+      Assert.AreEqual(ElementFactory.Local.FromXml(expected).AssertItem().ToAml(), actual.ToAml());
+    }
+  }
+}
 
 namespace System.Runtime.CompilerServices
 {

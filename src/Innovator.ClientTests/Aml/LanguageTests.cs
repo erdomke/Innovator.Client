@@ -80,6 +80,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "de").Value);
       //Assert.AreEqual("Description", getEnglish.Property("label", "en").Value);
+      Assert.AreEqual(null, getEnglish.Property("label", "en").Value);
 
       var getGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
   <label xml:lang='de'>Beschreibung</label>
@@ -87,11 +88,31 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual("Beschreibung", getGerman.Property("label").Value);
       //Assert.AreEqual("Beschreibung", getGerman.Property("label", "de").Value);
+      Assert.AreEqual(null, getGerman.Property("label", "de").Value);
       Assert.AreEqual(null, getGerman.Property("label", "en").Value);
+
+      getGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label xml:lang='de'>Beschreibung2</label>
+</Item>").AssertItem();
+
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label").Value);
+      Assert.AreEqual(null, getGerman.Property("label", "de").Value);
+      Assert.AreEqual(null, getGerman.Property("label", "en").Value);
+
+      getGerman.Property("label", "en").Set("Description2");
+      getGerman.Property("label", "de").Set("Beschreibung2");
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label").Value);
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label", "de").Value);
+      Assert.AreEqual("Description2", getGerman.Property("label", "en").Value);
+      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label xml:lang='de'>Beschreibung2</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getGerman);
     }
 
     [TestMethod]
-    public void Get_AllLanguages_NoSelect()
+    public void AllLanguages_NoSelect()
     {
       var amlEnglish = new ElementFactory(new ServerContext(false) { LanguageCode = "en" });
       var amlGerman = new ElementFactory(new ServerContext(false) { LanguageCode = "de" });
@@ -100,7 +121,7 @@ namespace Innovator.Client.Tests
   <i18n:label xml:lang='de'>Beschreibung</i18n:label>
   <i18n:label xml:lang='en'>Description</i18n:label>
 </Item>").AssertItem();
-      //Assert.AreEqual("Description", getEnglish.Property("label").Value);
+      Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual("Beschreibung", getEnglish.Property("label", "de").Value);
       Assert.AreEqual("Description", getEnglish.Property("label", "en").Value);
 
@@ -109,13 +130,13 @@ namespace Innovator.Client.Tests
   <i18n:label xml:lang='en'>Description</i18n:label>
 </Item>").AssertItem();
 
-      //Assert.AreEqual("Beschreibung", getGerman.Property("label").Value);
+      Assert.AreEqual("Beschreibung", getGerman.Property("label").Value);
       Assert.AreEqual("Beschreibung", getGerman.Property("label", "de").Value);
       Assert.AreEqual("Description", getGerman.Property("label", "en").Value);
     }
 
     [TestMethod]
-    public void Get_AllLanguages_Select()
+    public void AllLanguages_Select()
     {
       var amlEnglish = new ElementFactory(new ServerContext(false) { LanguageCode = "en" });
       var amlGerman = new ElementFactory(new ServerContext(false) { LanguageCode = "de" });
@@ -145,6 +166,7 @@ namespace Innovator.Client.Tests
     {
       var amlEnglish = new ElementFactory(new ServerContext(false) { LanguageCode = "en" });
       var amlGerman = new ElementFactory(new ServerContext(false) { LanguageCode = "de" });
+      var amlSpanish = new ElementFactory(new ServerContext(false) { LanguageCode = "es" });
 
       var getEnglish = amlEnglish.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
   <label xml:lang='en'>Description</label>
@@ -152,6 +174,19 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "de").Value);
       //Assert.AreEqual("Description", getEnglish.Property("label", "en").Value);
+      Assert.AreEqual(null, getEnglish.Property("label", "en").Value);
+
+      getEnglish.Property("label", "en").Set("Description2");
+      getEnglish.Property("label", "de").Set("Beschreibung2");
+      //Assert.AreEqual("Description2", getEnglish.Property("label").Value);
+      Assert.AreEqual("Description", getEnglish.Property("label").Value);
+      Assert.AreEqual("Beschreibung2", getEnglish.Property("label", "de").Value);
+      Assert.AreEqual("Description2", getEnglish.Property("label", "en").Value);
+      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label xml:lang='en'>Description</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getEnglish);
 
       var getGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
   <label xml:lang='en'>Description</label>
@@ -159,7 +194,27 @@ namespace Innovator.Client.Tests
 
       Assert.AreEqual("Description", getGerman.Property("label").Value);
       Assert.AreEqual(null, getGerman.Property("label", "de").Value);
-      //Assert.AreEqual("Description", getGerman.Property("label", "en").Value);
+      Assert.AreEqual(null, getGerman.Property("label", "en").Value);
+
+      getGerman.Property("label", "en").Set("Description2");
+      getGerman.Property("label", "de").Set("Beschreibung2");
+      Assert.AreEqual("Description", getGerman.Property("label").Value);
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label", "de").Value);
+      Assert.AreEqual("Description2", getGerman.Property("label", "en").Value);
+      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label xml:lang='en'>Description</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getGerman);
+
+      var getSpanish = amlSpanish.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label xml:lang='en'>Description</label>
+</Item>").AssertItem();
+
+      Assert.AreEqual("Description", getSpanish.Property("label").Value);
+      Assert.AreEqual(null, getSpanish.Property("label", "de").Value);
+      Assert.AreEqual(null, getSpanish.Property("label", "es").Value);
+      Assert.AreEqual(null, getSpanish.Property("label", "en").Value);
     }
 
     [TestMethod]
@@ -171,7 +226,7 @@ namespace Innovator.Client.Tests
       var getEnglish = amlEnglish.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
   <i18n:label xml:lang='en'>Description</i18n:label>
 </Item>").AssertItem();
-      //Assert.AreEqual("Description", getEnglish.Property("label").Value);
+      Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "de").Value);
       Assert.AreEqual("Description", getEnglish.Property("label", "en").Value);
 
@@ -211,84 +266,86 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod]
-    public void Set_Property()
+    public void MissingLanguageProperties()
     {
       var amlEnglish = new ElementFactory(new ServerContext(false) { LanguageCode = "en" });
       var amlGerman = new ElementFactory(new ServerContext(false) { LanguageCode = "de" });
 
-      var itemEnglish = amlEnglish.Item(amlEnglish.Type("Property"));
-      itemEnglish.Property("label").Set("Description");
-      AssertExtensions.AreEqual(@"<Item type='Property'>
+      var getEnglish = amlEnglish.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
   <label>Description</label>
-</Item>", itemEnglish);
+</Item>").AssertItem();
+      Assert.AreEqual("Description", getEnglish.Property("label").Value);
+      Assert.AreEqual(null, getEnglish.Property("label", "de").Value);
+      Assert.AreEqual(null, getEnglish.Property("label", "en").Value);
 
-      var itemGerman = amlGerman.Item(amlGerman.Type("Property"));
-      itemGerman.Property("label").Set("Description");
-      AssertExtensions.AreEqual(@"<Item type='Property'>
-  <label>Description</label>
-</Item>", itemGerman);
+      getEnglish.Property("label").Set("Description2");
+      getEnglish.Property("label", "en").Set("Description2");
+      getEnglish.Property("label", "de").Set("Beschreibung2");
+      Assert.AreEqual("Description2", getEnglish.Property("label").Value);
+      Assert.AreEqual("Description2", getEnglish.Property("label", "en").Value);
+      Assert.AreEqual("Beschreibung2", getEnglish.Property("label", "de").Value);
+      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label>Description2</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getEnglish);
+
+      var getGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label>Beschreibung</label>
+</Item>").AssertItem();
+
+      Assert.AreEqual("Beschreibung", getGerman.Property("label").Value);
+      Assert.AreEqual(null, getGerman.Property("label", "de").Value);
+      Assert.AreEqual(null, getGerman.Property("label", "en").Value);
+
+      getGerman.Property("label").Set("Beschreibung2");
+      getGerman.Property("label", "en").Set("Description2");
+      getGerman.Property("label", "de").Set("Beschreibung2");
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label").Value);
+      Assert.AreEqual("Description2", getGerman.Property("label", "en").Value);
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label", "de").Value);
+      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
+  <label>Beschreibung2</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getGerman);
     }
 
     [TestMethod]
-    public void Set_Property_AllLanguages()
+    public void NewItem_Set()
     {
       var amlEnglish = new ElementFactory(new ServerContext(false) { LanguageCode = "en" });
       var amlGerman = new ElementFactory(new ServerContext(false) { LanguageCode = "de" });
 
-      var itemEnglish = amlEnglish.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-  <i18n:label xml:lang='de'>Beschreibung</i18n:label>
-  <i18n:label xml:lang='en'>Description</i18n:label>
+      var getEnglish = amlEnglish.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
 </Item>").AssertItem();
-      //itemEnglish.Property("label").Set("Description2");
-      //      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-      //  <i18n:label xml:lang='de'>Beschreibung</i18n:label>
-      //  <i18n:label xml:lang='en'>Description2</i18n:label>
-      //</Item>", itemEnglish);
 
-      itemEnglish.Property("label", "en").Set("Description3");
+      getEnglish.Property("label").Set("Description2");
+      getEnglish.Property("label", "en").Set("Description2");
+      getEnglish.Property("label", "de").Set("Beschreibung2");
+      Assert.AreEqual("Description2", getEnglish.Property("label").Value);
+      Assert.AreEqual("Description2", getEnglish.Property("label", "en").Value);
+      Assert.AreEqual("Beschreibung2", getEnglish.Property("label", "de").Value);
       AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-  <i18n:label xml:lang='de'>Beschreibung</i18n:label>
-  <i18n:label xml:lang='en'>Description3</i18n:label>
-</Item>", itemEnglish);
+  <label>Description2</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getEnglish);
 
-      var itemGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-  <i18n:label xml:lang='de'>Beschreibung</i18n:label>
-  <i18n:label xml:lang='en'>Description</i18n:label>
+      var getGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
 </Item>").AssertItem();
-      //itemGerman.Property("label").Set("Beschreibung2");
-      //      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-      //  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
-      //  <i18n:label xml:lang='en'>Description</i18n:label>
-      //</Item>", itemGerman);
 
-      itemGerman.Property("label", "de").Set("Beschreibung3");
+      getGerman.Property("label").Set("Beschreibung2");
+      getGerman.Property("label", "en").Set("Description2");
+      getGerman.Property("label", "de").Set("Beschreibung2");
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label").Value);
+      Assert.AreEqual("Description2", getGerman.Property("label", "en").Value);
+      Assert.AreEqual("Beschreibung2", getGerman.Property("label", "de").Value);
       AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-  <i18n:label xml:lang='de'>Beschreibung3</i18n:label>
-  <i18n:label xml:lang='en'>Description</i18n:label>
-</Item>", itemGerman);
-    }
-
-    [TestMethod]
-    public void Set_Property_Language()
-    {
-      var amlEnglish = new ElementFactory(new ServerContext(false) { LanguageCode = "en" });
-      var amlGerman = new ElementFactory(new ServerContext(false) { LanguageCode = "de" });
-
-      var itemEnglish = amlEnglish.Item(amlEnglish.Type("Property"));
-      itemEnglish.Property("label", "en").Set("Description");
-      itemEnglish.Property("label", "de").Set("Beschreibung");
-      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-  <i18n:label xml:lang='en'>Description</i18n:label>
-  <i18n:label xml:lang='de'>Beschreibung</i18n:label>
-</Item>", itemEnglish);
-
-      var itemGerman = amlGerman.Item(amlGerman.Type("Property"));
-      itemGerman.Property("label", "en").Set("Description");
-      itemGerman.Property("label", "de").Set("Beschreibung");
-      AssertExtensions.AreEqual(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
-  <i18n:label xml:lang='en'>Description</i18n:label>
-  <i18n:label xml:lang='de'>Beschreibung</i18n:label>
-</Item>", itemGerman);
+  <label>Beschreibung2</label>
+  <i18n:label xml:lang='en'>Description2</i18n:label>
+  <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
+</Item>", getGerman);
     }
   }
 }

@@ -237,13 +237,23 @@ namespace Innovator.Client
       {
         if (_content is ILinkedElement elem)
         {
-          // Matching IOM functionality:
-          //   Return the non-i18n element when not specifying language
-          //   This is always returned by Innovator if there is a value in your language or in the corporate language
-          //   Do not check the language on the property, the developer will check if they need to know
-          var prop = LinkedListOps.FindAll(elem, name)
-            .OfType<IReadOnlyProperty>()
-            .FirstOrDefault(p => string.IsNullOrEmpty(p.Prefix));
+          /* Current IOM functionality:
+           *   Return the non-i18n element regardless of any xml:lang attribute
+           * Desired functionality:
+           *   Return the non-i18n element regardless of any xml:lang attribute
+           *   If not found:
+           *     Return the i18n element that matches your current language
+           */
+          var propsOfSameName = LinkedListOps.FindAll(elem, name)
+            .OfType<IReadOnlyProperty>();
+          var prop = propsOfSameName.FirstOrDefault(p => string.IsNullOrEmpty(p.Prefix));
+
+          if (prop == null)
+          {
+            prop = propsOfSameName
+              .FirstOrDefault(p => p.Prefix == "i18n"
+              && string.Equals(p.Attribute("xml:lang").Value, AmlContext.LocalizationContext.LanguageCode, StringComparison.OrdinalIgnoreCase));
+          }
 
           if (prop != null)
             return prop;
@@ -277,12 +287,27 @@ namespace Innovator.Client
       {
         if (_content is ILinkedElement elem)
         {
-          // Matching IOM functionality:
-          //   Return the i18n element for your language
-          //   Do not fall back to another element
-          var prop = LinkedListOps.FindAll(elem, name)
-            .OfType<IReadOnlyProperty>()
-            .FirstOrDefault(p => p.Prefix == "i18n" && p.Attribute("xml:lang").Value == lang);
+          /* Current IOM functionality (This is the desired functionality):
+           *   Return the i18n element for the requested language
+           *   Do not fall back the non-i18n element
+           * Note: An attempt was made to fall back to the non-i18n element
+           *   However this breaks when setting a corporate language (en) value when on a non-corporate connection (de).
+           *   This would result in the en value being saved as a de value
+          */
+          var propsOfSameName = LinkedListOps.FindAll(elem, name)
+            .OfType<IReadOnlyProperty>();
+          var prop = propsOfSameName
+            .FirstOrDefault(p => p.Prefix == "i18n"
+            && string.Equals(p.Attribute("xml:lang").Value, lang, StringComparison.OrdinalIgnoreCase));
+
+          //var currentLanguageCode = AmlContext.LocalizationContext.LanguageCode;
+          //if (prop == null && string.Equals(lang, currentLanguageCode, StringComparison.OrdinalIgnoreCase))
+          //{
+          //  prop = propsOfSameName
+          //    .FirstOrDefault(p => string.IsNullOrEmpty(p.Prefix)
+          //    && p.Attribute("xml:lang").Value == lang
+          //    && string.Equals(lang, currentLanguageCode, StringComparison.OrdinalIgnoreCase));
+          //}
 
           if (prop != null)
             return prop;

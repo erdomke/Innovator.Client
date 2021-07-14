@@ -197,6 +197,7 @@ namespace Innovator.Client
       if (!Exists && _parent != null)
         AddToParent();
 
+      UpdateLanguageAttribute();
       return AddBase(content);
     }
 
@@ -210,6 +211,7 @@ namespace Innovator.Client
         AddToParent();
       }
 
+      UpdateLanguageAttribute();
       _content = null;
       AddBase(value);
     }
@@ -227,12 +229,6 @@ namespace Innovator.Client
 
     private IElement AddBase(object content)
     {
-      // Always remove the language on regular properties when setting to a new value
-      // This is to prevent mismatch when setting a property after a get
-      if (string.IsNullOrEmpty(Prefix) && _content != null)
-      {
-        Attribute("xml:lang").Remove();
-      }
       var flat = Flatten(content);
       var result = base.Add(!(flat is string)
           && flat is IEnumerable e
@@ -265,6 +261,17 @@ namespace Innovator.Client
         }
       }
       return result;
+    }
+
+    private void UpdateLanguageAttribute()
+    {
+      // Fix the language on non-i18n properties when changing an existing value
+      // This is to ensure language attribute consistency
+      // This only applies to non-i18n properties as these always save as the current user language
+      if (string.IsNullOrEmpty(Prefix) && _content != null && Attribute("xml:lang").Exists)
+      {
+        Attribute("xml:lang").Set(AmlContext.LocalizationContext.LanguageCode);
+      }
     }
 
     /// <summary>

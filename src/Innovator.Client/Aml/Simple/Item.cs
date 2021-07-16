@@ -300,15 +300,6 @@ namespace Innovator.Client
             .FirstOrDefault(p => p.Prefix == "i18n"
             && string.Equals(p.Attribute("xml:lang").Value, lang, StringComparison.OrdinalIgnoreCase));
 
-          //var currentLanguageCode = AmlContext.LocalizationContext.LanguageCode;
-          //if (prop == null && string.Equals(lang, currentLanguageCode, StringComparison.OrdinalIgnoreCase))
-          //{
-          //  prop = propsOfSameName
-          //    .FirstOrDefault(p => string.IsNullOrEmpty(p.Prefix)
-          //    && p.Attribute("xml:lang").Value == lang
-          //    && string.Equals(lang, currentLanguageCode, StringComparison.OrdinalIgnoreCase));
-          //}
-
           if (prop != null)
             return prop;
         }

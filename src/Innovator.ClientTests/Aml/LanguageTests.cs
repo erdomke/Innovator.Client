@@ -79,7 +79,6 @@ namespace Innovator.Client.Tests
 </Item>").AssertItem();
       Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "de").Value);
-      //Assert.AreEqual("Description", getEnglish.Property("label", "en").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "en").Value);
 
       var getGerman = amlGerman.FromXml(@"<Item type='Property' xmlns:i18n='http://www.aras.com/I18N'>
@@ -87,7 +86,6 @@ namespace Innovator.Client.Tests
 </Item>").AssertItem();
 
       Assert.AreEqual("Beschreibung", getGerman.Property("label").Value);
-      //Assert.AreEqual("Beschreibung", getGerman.Property("label", "de").Value);
       Assert.AreEqual(null, getGerman.Property("label", "de").Value);
       Assert.AreEqual(null, getGerman.Property("label", "en").Value);
 
@@ -173,12 +171,10 @@ namespace Innovator.Client.Tests
 </Item>").AssertItem();
       Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "de").Value);
-      //Assert.AreEqual("Description", getEnglish.Property("label", "en").Value);
       Assert.AreEqual(null, getEnglish.Property("label", "en").Value);
 
       getEnglish.Property("label", "en").Set("Description2");
       getEnglish.Property("label", "de").Set("Beschreibung2");
-      //Assert.AreEqual("Description2", getEnglish.Property("label").Value);
       Assert.AreEqual("Description", getEnglish.Property("label").Value);
       Assert.AreEqual("Beschreibung2", getEnglish.Property("label", "de").Value);
       Assert.AreEqual("Description2", getEnglish.Property("label", "en").Value);

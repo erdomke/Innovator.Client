@@ -301,26 +301,6 @@ namespace Innovator.Client.IOM
     }
 
     /// <summary>
-    /// Gets the string representing original AML request which eventually
-    /// resulted in the execution of the current code
-    /// </summary>
-    /// <value>
-    /// The original AML request.
-    /// </value>
-    public string OriginalRequest
-    {
-      get
-      {
-        LazyLoadCreds();
-
-        var request = _cco.GetType().GetProperty("Request").GetValue(_cco, null);
-        var inputStream = (Stream)request.GetType().GetProperty("InputStream").GetValue(request, null);
-        inputStream.Seek(0, SeekOrigin.Begin);
-        return new StreamReader(inputStream).ReadToEnd();
-      }
-    }
-
-    /// <summary>
     /// Gets the information about the current user's permissions.
     /// </summary>
     /// <value>

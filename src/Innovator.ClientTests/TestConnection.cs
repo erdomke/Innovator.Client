@@ -43,8 +43,6 @@ namespace Innovator.Client.Tests
 
     public IServerCache ApplicationCache => throw new NotImplementedException();
 
-    public string OriginalRequest => throw new NotImplementedException();
-
     public IServerPermissions Permissions => throw new NotImplementedException();
 
     public IServerCache RequestState => throw new NotImplementedException();

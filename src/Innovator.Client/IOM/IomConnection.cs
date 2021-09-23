@@ -141,7 +141,7 @@ namespace Innovator.Client.IOM
     /// <value>
     /// The major version of the Aras installation.
     /// </value>
-    public Version Version { get; }
+    public Version Version { get; set; }
 
     /// <summary>
     /// Creates an upload request used for uploading files to the server
@@ -270,7 +270,7 @@ namespace Innovator.Client.IOM
       return Promises.Resolved(this.Version);
     }
 
-#region "Server Connection"    
+    #region "Server Connection"    
     /// <summary>
     /// Gets the in-memory application-wide cache.
     /// </summary>
@@ -500,7 +500,7 @@ namespace Innovator.Client.IOM
       }
     }
 
-#endregion
+    #endregion
 
     protected virtual void LazyLoadCreds()
     {

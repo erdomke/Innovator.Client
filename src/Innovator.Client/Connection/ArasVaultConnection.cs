@@ -75,6 +75,7 @@ namespace Innovator.Client.Connection
     /// </returns>
     public UploadCommand CreateUploadCommand()
     {
+      _conn.FetchVersion(false).Wait();
       var version = _conn.Version ?? new Version(255, 0);
       if (version.Major > 9)
         return new TransactionalUploadCommand(_conn, VaultStrategy.WritePriority(false).Value.First());

@@ -51,10 +51,15 @@ namespace Innovator.Client.Connection
     {
       get
       {
-        var arasConn = _current as IArasConnection;
-        if (arasConn == null)
+        if (!(_current is IArasConnection arasConn))
           throw new NotSupportedException();
         return arasConn.Version;
+      }
+      set
+      {
+        if (!(_current is IArasConnection arasConn))
+          throw new NotSupportedException();
+        arasConn.Version = value;
       }
     }
 

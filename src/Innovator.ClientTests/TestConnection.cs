@@ -24,7 +24,7 @@ namespace Innovator.Client.Tests
 
     public CompressionType Compression => CompressionType.none;
 
-    public Version Version => new Version(11, 0);
+    public Version Version { get; set; } = new Version(11, 0);
 
     public Action<string, string> QueryCallback { get; set; }
 

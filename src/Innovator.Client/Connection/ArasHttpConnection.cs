@@ -80,7 +80,7 @@ namespace Innovator.Client.Connection
     /// <value>
     /// The major version of the Aras installation.
     /// </value>
-    public Version Version { get; private set; }
+    public Version Version { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArasHttpConnection"/> class.
@@ -305,6 +305,8 @@ namespace Innovator.Client.Connection
                     _context.Locale = elem.Element("locale").Value;
                     _context.TimeZone = elem.Element("time_zone").Value;
                     break;
+                  // Since some version in v11, ServerInfo is not returned with ValidateUser
+                  // This leaves Version as null
                   case "ServerInfo":
                     foreach (var info in elem.Elements())
                     {

@@ -170,8 +170,10 @@ namespace Innovator.Client
     /// <returns>A promise to return the version of the Aras installation.</returns>
     public static IPromise<Version> FetchVersion(this IAsyncConnection conn, bool async)
     {
-      var version = (conn as Connection.IArasConnection)?.Version;
-      if (version != default(Version) && version.Major > 0)
+      if (!(conn is Connection.IArasConnection arasConn))
+        return Promises.Resolved(default(Version));
+      var version = arasConn.Version;
+      if (version != default(Version))
         return Promises.Resolved(version);
 
       return conn.ApplyAsync(@"<Item type='Variable' action='get' select='name,value'>
@@ -183,27 +185,21 @@ namespace Innovator.Client
             .GroupBy(i => i.Property("name").AsString(""))
             .ToDictionary(g => g.Key, g => g.First().Property("value").Value);
 
-          string majorStr;
-          int major;
-          string minorStr;
-          int minor;
-          string servicePackStr;
-          int servicePack;
-          string buildStr;
-          int build;
-          if (dict.TryGetValue("VersionMajor", out majorStr) && int.TryParse(majorStr, out major)
-            && dict.TryGetValue("VersionMinor", out minorStr) && int.TryParse(minorStr, out minor)
-            && dict.TryGetValue("VersionServicePack", out servicePackStr))
-          {
-            if (!dict.TryGetValue("VersionBuild", out buildStr) || !int.TryParse(buildStr, out build))
-              build = 0;
+          var major = 0;
+          var minor = 0;
+          var servicePack = 0;
+          var build = 0;
+          // int.TryParse will default to 0 on a failure
+          // Always set a version with the pieces even if the version doesn't make sense so that we don't repeat retrieval
+          var _ = dict.TryGetValue("VersionMajor", out string majorStr) && int.TryParse(majorStr, out major);
+          _ = dict.TryGetValue("VersionMinor", out string minorStr) && int.TryParse(minorStr, out minor);
+          _ = dict.TryGetValue("VersionServicePack", out string servicePackStr)
+          && int.TryParse(servicePackStr.TrimStart('S', 'P'), out servicePack);
+          _ = dict.TryGetValue("VersionBuild", out string buildStr) && int.TryParse(buildStr, out build);
 
-            if (!int.TryParse(servicePackStr.TrimStart('S', 'P'), out servicePack))
-              servicePack = 0;
-
-            return new Version(major, minor, servicePack, build);
-          }
-          return default(Version);
+          version = new Version(major, minor, servicePack, build);
+          arasConn.Version = version;
+          return version;
         });
     }
 

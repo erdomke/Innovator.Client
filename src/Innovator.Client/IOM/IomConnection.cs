@@ -307,10 +307,15 @@ namespace Innovator.Client.IOM
     /// <value>
     /// The original AML request.
     /// </value>
+    [Obsolete("The original request can not be retrieved starting between v11sp12 and v12sp09. The source InputStream is emptied after Innovator reads the incoming AML.")]
     public string OriginalRequest
     {
       get
       {
+        if (Version >= new Version(12, 0, 9))
+        {
+          throw new NotSupportedException($"{nameof(OriginalRequest)} is not supported in this Innovator version.");
+        }
         LazyLoadCreds();
 
         var request = _cco.GetType().GetProperty("Request").GetValue(_cco, null);
@@ -545,7 +550,6 @@ namespace Innovator.Client.IOM
         {
           _innovatorClientBin = new Uri(new Uri((string)field.GetValue(_iomConnection)), "../Client/cbin/");
         }
-
       }
       else
       {

@@ -17,6 +17,14 @@ namespace Innovator.Server
     /// </value>
     IServerCache ApplicationCache { get; }
     /// <summary>
+    /// Gets the string representing original AML request which eventually
+    /// resulted in the execution of the current code
+    /// </summary>
+    /// <value>
+    /// The original AML request.
+    /// </value>
+    string OriginalRequest { get; }
+    /// <summary>
     /// Gets the information about the current user's permissions.
     /// </summary>
     /// <value>

@@ -24,11 +24,9 @@ namespace Innovator.Client.Connection
     private readonly ArasVaultConnection _vaultConn;
     private readonly List<KeyValuePair<string, string>> _serverInfo = new List<KeyValuePair<string, string>>();
 
-
     private IAuthenticator _authenticator;
     private string _httpUsername;
     private ICredentials _lastCredentials;
-
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
@@ -113,6 +111,22 @@ namespace Innovator.Client.Connection
       this._innovatorClientBin = new Uri(this.Url, "../Client/cbin/");
 
       _vaultConn = new ArasVaultConnection(this, Service);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ArasHttpConnection"/> class using an existing <see cref="IConnection"/>.
+    /// The existing credential headers should be transferred to the new service in the calling code.
+    /// Optionally also copy the session cookies to re-use the existing session and prevent a login.
+    /// </summary>
+    /// <param name="existingConnection">The existing connection</param>
+    /// <param name="service">The service.</param>
+    /// <param name="innovatorServerUrl">The innovator server URL.</param>
+    /// <param name="itemFactory">The item factory.</param>
+    /// <remarks>Primarily used in the server environment to get a new connection that won't be rolled back when the transaction encounters an error.</remarks>
+    public ArasHttpConnection(IConnection existingConnection, HttpClient service, string innovatorServerUrl, IItemFactory itemFactory) : this(service, innovatorServerUrl, itemFactory)
+    {
+      Database = existingConnection.Database;
+      UserId = existingConnection.UserId;
     }
 
     /// <summary>

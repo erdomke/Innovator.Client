@@ -434,8 +434,12 @@ namespace Innovator.Client.Connection
 
     void IArasConnection.SetDefaultHeaders(Action<string, string> writer)
     {
-      foreach (var kvp in _authenticator.GetAuthHeaders(false).Value)
-        writer(kvp.Key, kvp.Value);
+      // Support a missing authenticator when a connection has been cloned and authentication is handled outside of Innovator.Client
+      if (_authenticator != null)
+      {
+        foreach (var kvp in _authenticator.GetAuthHeaders(false).Value)
+          writer(kvp.Key, kvp.Value);
+      }
       writer.Invoke("LOCALE", this._context.Locale);
       writer.Invoke("TIMEZONE_NAME", this._context.TimeZone);
     }

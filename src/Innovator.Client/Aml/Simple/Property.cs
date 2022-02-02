@@ -191,7 +191,17 @@ namespace Innovator.Client
       if (!Exists && _parent != null)
         AddToParent();
 
-      return AddBase(content);
+      // Remove keyed_name when setting a new value as the keyed_name is now wrong
+      // This most likely does not work in every case as .ToString() on an object often gives the name of the object
+      // Note: This is very similar code to the Set() function below
+      // Could not combine as Set() sets _content to null where Add does not
+      var previousValue = _content?.ToString();
+      var element = AddBase(content);
+      if (previousValue != null && previousValue != _content?.ToString())
+      {
+        this.KeyedName().Remove();
+      }
+      return element;
     }
 
     public void Set(object value)
@@ -204,8 +214,16 @@ namespace Innovator.Client
         AddToParent();
       }
 
+      // Remove keyed_name when setting a new value as the keyed_name is now wrong
+      // Note: This is very similar code to the Add() function above
+      // Could not combine as this sets _content to null where Add does not
+      var previousValue = _content?.ToString();
       _content = null;
       AddBase(value);
+      if (previousValue != null && previousValue != _content?.ToString())
+      {
+        this.KeyedName().Remove();
+      }
     }
 
     private void AddToParent()

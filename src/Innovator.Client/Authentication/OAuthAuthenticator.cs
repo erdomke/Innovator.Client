@@ -48,10 +48,16 @@ namespace Innovator.Client
           { "user_name", _hashCred.Username },
         })
         .Convert(r => new TokenCredentials(r.AsStream, _hashCred.Database))
+        .Done(result.Resolve)
         .Fail(e =>
         {
-          if (e is HttpException httpEx)
+          try
           {
+            if (!(e is HttpException httpEx))
+            {
+              result.Reject(e);
+              return;
+            }
             var faultCode = default(string);
             var faultstring = default(string);
             using (var reader = new Json.Embed.JsonTextReader(httpEx.Response.AsStream))
@@ -80,6 +86,10 @@ namespace Innovator.Client
     </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>", faultCode, faultstring).Exception);
+          }
+          catch (Exception ex)
+          {
+            result.Reject(ex);
           }
         }));
       return result;

@@ -46,17 +46,8 @@ namespace Innovator.Client.Tests
     </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>";
-      try
-      {
-        var thing = new ClassStructure(aml);
-        Assert.Fail();
-      }
-      catch (ServerException ex)
-      {
-        Assert.AreEqual("No items of type File found.", ex.Message);
-        return;
-      }
-      Assert.Fail();
+      var ex = Assert.ThrowsException<NoItemsFoundException>(() => new ClassStructure(aml));
+      Assert.AreEqual("No items of type File found.", ex.Message);
     }
 
     private void TestStructItemType(ClassStructure cStruct)

@@ -82,7 +82,8 @@ namespace Innovator.Client.QueryModel
           return "xml";
         case "http://www.aras.com/InnovatorFault":
           return "af";
-        case "http://www.aras.com/I18N":  //return "i18n";
+        case "http://www.aras.com/I18N":
+          return "i18n";
         case "":
           return "";
       }

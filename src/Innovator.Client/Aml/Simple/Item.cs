@@ -47,6 +47,9 @@ namespace Innovator.Client
       set { _parent = value ?? AmlElement.NullElem; }
     }
 
+    /// <inheritdoc/>
+    public override string Prefix { get { return string.Empty; } }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Item"/> class.
     /// </summary>
@@ -64,7 +67,7 @@ namespace Innovator.Client
         Add(content);
     }
 
-    private static Dictionary<Type, IReadOnlyItem> _nullItems = new Dictionary<Type, IReadOnlyItem>()
+    private static readonly Dictionary<Type, IReadOnlyItem> _nullItems = new Dictionary<Type, IReadOnlyItem>()
     {
       { typeof(Item), new Item(){ _attr = ElementAttributes.ReadOnly | ElementAttributes.Null } }
     };
@@ -115,6 +118,13 @@ namespace Innovator.Client
       // Force a call to the static constructor
       try
       {
+        // Need to switch from the interface to the class for the call to the constructor
+        switch (type.FullName)
+        {
+          case "Innovator.Client.Model.IPropertyDefinition":
+            type = typeof(Model.Property);
+            break;
+        }
         var temp = Activator.CreateInstance(type, ElementFactory.Local);
         if (_nullItems.TryGetValue(type, out result))
           return result;
@@ -232,18 +242,24 @@ namespace Innovator.Client
 
       if (Exists || _parent != AmlElement.NullElem)
       {
-        var elem = _content as ILinkedElement;
-        if (elem != null)
+        if (_content is ILinkedElement elem)
         {
-          var prop = LinkedListOps.Find(elem, name) as IReadOnlyProperty;
-          // The first one should be in the user's language if multiple languages
-          // exist
-          if (prop != null && prop.Attribute("xml:lang").Exists)
-          {
-            prop = LinkedListOps.FindAll(elem, name)
-              .OfType<IReadOnlyProperty>()
-              .FirstOrDefault(p => p.Attribute("xml:lang").Value == AmlContext.LocalizationContext.LanguageCode);
+          /* Current IOM functionality:
+           *   Return the non-i18n element regardless of any xml:lang attribute
+           * Desired functionality:
+           *   Return the non-i18n element regardless of any xml:lang attribute
+           *   If not found:
+           *     Return the i18n element that matches your current language
+           */
+          var propsOfSameName = LinkedListOps.FindAll(elem, name)
+            .OfType<IReadOnlyProperty>();
+          var prop = propsOfSameName.FirstOrDefault(p => string.IsNullOrEmpty(p.Prefix));
 
+          if (prop == null)
+          {
+            prop = propsOfSameName
+              .FirstOrDefault(p => p.Prefix == "i18n"
+              && string.Equals(p.Attribute("xml:lang").Value, AmlContext.LocalizationContext.LanguageCode, StringComparison.OrdinalIgnoreCase));
           }
 
           if (prop != null)
@@ -276,18 +292,26 @@ namespace Innovator.Client
 
       if (Exists)
       {
-        var elem = _content as ILinkedElement;
-        if (elem != null)
+        if (_content is ILinkedElement elem)
         {
-          var prop = LinkedListOps.FindAll(elem, name)
-            .OfType<IReadOnlyProperty>()
-            .FirstOrDefault(p => p.Attribute("xml:lang").Value == lang);
+          /* Current IOM functionality (This is the desired functionality):
+           *   Return the i18n element for the requested language
+           *   Do not fall back the non-i18n element
+           * Note: An attempt was made to fall back to the non-i18n element
+           *   However this breaks when setting a corporate language (en) value when on a non-corporate connection (de).
+           *   This would result in the en value being saved as a de value
+          */
+          var propsOfSameName = LinkedListOps.FindAll(elem, name)
+            .OfType<IReadOnlyProperty>();
+          var prop = propsOfSameName
+            .FirstOrDefault(p => p.Prefix == "i18n"
+            && string.Equals(p.Attribute("xml:lang").Value, lang, StringComparison.OrdinalIgnoreCase));
 
           if (prop != null)
             return prop;
         }
-        var result = new Property(this, name, new Attribute("xml:lang", lang));
-        return result;
+        // Force the i18n namespace
+        return new Property(this, "i18n:" + name, new Attribute("xml:lang", lang));
       }
       return Innovator.Client.Property.NullProp;
     }

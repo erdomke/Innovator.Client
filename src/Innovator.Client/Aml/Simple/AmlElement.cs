@@ -1,4 +1,4 @@
-﻿namespace Innovator.Client
+namespace Innovator.Client
 {
   internal class AmlElement : Element
   {
@@ -6,6 +6,7 @@
     private string _name;
     private ILinkedElement _next;
     private IElement _parent;
+    private string _prefix;
 
     public override ElementFactory AmlContext { get { return _amlContext; } }
     public override bool Exists { get { return Next != null || _parent == _nullElem; } }
@@ -20,25 +21,31 @@
       get { return _parent ?? NullElem; }
       set { _parent = value; }
     }
+    public override string Prefix { get { return _prefix; } }
 
     internal AmlElement() { }
     public AmlElement(ElementFactory amlContext, string name, params object[] content)
     {
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      _prefix = kvp.Key;
+      _name = kvp.Value;
       _amlContext = amlContext;
-      _name = name;
       _parent = NullElem;
       Add(content);
     }
     public AmlElement(IElement parent, string name)
     {
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      _prefix = kvp.Key;
+      _name = kvp.Value;
       _amlContext = parent.AmlContext;
-      _name = name;
       _parent = parent;
     }
     internal AmlElement(IElement newParent, IReadOnlyElement elem) : base()
     {
       _amlContext = newParent.AmlContext;
       _name = elem.Name;
+      _prefix = elem.Prefix;
       _parent = newParent;
       CopyData(elem);
     }

@@ -2,7 +2,7 @@ using System;
 using Innovator.Server;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Innovator.Client.Tests.Server
+namespace Innovator.Client.Tests
 {
   [TestClass]
   public class ContextTests

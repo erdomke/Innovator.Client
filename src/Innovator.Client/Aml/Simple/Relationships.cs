@@ -9,6 +9,7 @@ namespace Innovator.Client
     public override string Name { get { return "Relationships"; } }
     public override ILinkedElement Next { get; set; }
     public override IElement Parent { get; set; }
+    public override string Prefix { get { return string.Empty; } }
 
     public Relationships() { }
     public Relationships(IElement parent)

@@ -25,19 +25,6 @@ namespace Innovator.Client.Tests
       return inn.newItemFromAml(aml);
     }
 
-    private void AssertRaisesException(Action action)
-    {
-      try
-      {
-        action.Invoke();
-        Assert.Fail("Exception expected");
-      }
-      catch (Exception)
-      {
-        // Do nothing
-      }
-    }
-
     [TestMethod]
     public void GetItemByKeyedName()
     {
@@ -69,11 +56,11 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(false, target.isLogical());
       Assert.AreEqual(0, target.getItemCount());
 
-      AssertRaisesException(() => target.getProperty("something"));
-      AssertRaisesException(() => target.getPropertyItem("something"));
-      AssertRaisesException(() => target.getRelatedItem());
-      AssertRaisesException(() => target.getPropertyAttribute("first", "something"));
-      AssertRaisesException(() => target.getAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getProperty("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyItem("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getRelatedItem());
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getAttribute("first", "something"));
 
       var newItem = target.getInnovator().newError("Some new error");
       Assert.AreEqual("1", newItem.getErrorCode());
@@ -149,11 +136,11 @@ namespace Innovator.Client.Tests
       var newItem = target.getInnovator().newResult("OK");
       Assert.AreEqual("OK", newItem.getResult());
 
-      AssertRaisesException(() => newItem.getProperty("something"));
-      AssertRaisesException(() => target.getPropertyItem("something"));
-      AssertRaisesException(() => target.getRelatedItem());
-      AssertRaisesException(() => target.getPropertyAttribute("first", "something"));
-      AssertRaisesException(() => target.getAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => newItem.getProperty("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyItem("something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getRelatedItem());
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getPropertyAttribute("first", "something"));
+      Assert.ThrowsException<NoItemsFoundException>(() => target.getAttribute("first", "something"));
 
       Assert.AreEqual(false, target.isEmpty());
       Assert.AreEqual(false, target.isError());
@@ -338,7 +325,7 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(false, target.isLogical());
       Assert.AreEqual(2, target.getItemCount());
 
-      AssertRaisesException(() => target.getProperty("name"));
+      Assert.ThrowsException<InvalidOperationException>(() => target.getProperty("name"));
 
       var second = target.getItemByIndex(1);
       Assert.IsTrue(XNode.DeepEquals(XElement.Parse(second.ToString()), XElement.Parse(@"<Item type='Property' typeId='26D7CD4E033242148E2724D3D054B4D3' id='DEA9466482CB4198AED0D859668D331B'>
@@ -469,15 +456,28 @@ namespace Innovator.Client.Tests
     public void LanguageHandling()
     {
       var aml = new IOM.Innovator(new TestConnection());
-      var item = aml.newItemFromAml("<Item type='Supplier' action='get' select='name' language='en,fr'><thing>All</thing><name xml:lang='en'>Dell US</name><i18n:name xml:lang='fr' xmlns:i18n='http://www.aras.com/I18N'>Dell France</i18n:name></Item>");
+      var item = aml.newItemFromAml(@"<Item type='Supplier' action='get' select='name' language='en,fr'>
+<thing>All</thing>
+<name xml:lang='fr'>Dell France</name>
+<i18n:name xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Dell US</i18n:name>
+<i18n:name xml:lang='fr' xmlns:i18n='http://www.aras.com/I18N'>Dell France</i18n:name>
+<description xml:lang='en'>Computers</description>
+<i18n:description xml:lang='en' xmlns:i18n='http://www.aras.com/I18N'>Computers</i18n:description>
+<i18n:description xml:lang='fr' is_null='1' xmlns:i18n='http://www.aras.com/I18N' />
+</Item>");
       Assert.AreEqual("All", item.Property("thing").Value);
       Assert.AreEqual(null, item.Property("thing", "en").Value);
+      Assert.AreEqual(false, item.Property("thing", "en").Exists);
       Assert.AreEqual(null, item.Property("thing", "fr").Value);
-      Assert.AreEqual("Dell US", item.Property("name").Value);
+      Assert.AreEqual(false, item.Property("thing", "fr").Exists);
+      Assert.AreEqual("Dell France", item.Property("name").Value);
       Assert.AreEqual("Dell US", item.Property("name", "en").Value);
       Assert.AreEqual("Dell France", item.Property("name", "fr").Value);
+      Assert.AreEqual("Computers", item.Property("description").Value);
+      Assert.AreEqual("Computers", item.Property("description", "en").Value);
+      Assert.AreEqual(null, item.Property("description", "fr").Value);
+      Assert.AreEqual("", item.Property("description", "fr").AsString(""));
     }
-
 
     [TestMethod]
     public void VerifyItemCount()

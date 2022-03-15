@@ -758,18 +758,35 @@ namespace Innovator.Client
     }
 
     /// <summary>
-    /// Returns either first element from the parent with a local name of <paramref name="name"/>
+    /// Returns either first element from the parent with a name of <paramref name="name"/>
+    /// or a 'null' element (where <see cref="IReadOnlyElement.Exists"/> is <c>false</c>)
+    /// if there are no elements.
+    /// </summary>
+    /// <param name="element">Parent element to search through</param>
+    /// <param name="name">Name of the element to find</param>
+    /// <remarks><paramref name="name"/> supports namespace prefix for legacy reasons.</remarks>
+    public static IReadOnlyElement Element(this IReadOnlyElement element, string name)
+    {
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      var prefix = kvp.Key;
+      name = kvp.Value;
+      return element.Element(name, prefix);
+    }
+
+    /// <summary>
+    /// Returns either first element from the parent with the name of <paramref name="name"/>
+    /// and prefix of <paramref name="prefix"/>
     /// or a 'null' element (where <see cref="IReadOnlyElement.Exists"/> is <c>false</c>)
     /// if there are no elements
     /// </summary>
     /// <param name="element">Parent element to search through</param>
     /// <param name="name">Name of the element to find</param>
-    public static IReadOnlyElement Element(this IReadOnlyElement element, string name)
+    /// <param name="prefix">The namespace prefix of the element to find</param>
+    public static IReadOnlyElement Element(this IReadOnlyElement element, string name, string prefix)
     {
-      var elem = element as Element;
-      if (elem != null)
-        return elem.ElementByName(name);
-      return element.Elements().FirstOrDefault(e => e.Name == name) ?? AmlElement.NullElem;
+      if (element is Element elem)
+        return elem.ElementByName(name, prefix);
+      return element.Elements().FirstOrDefault(e => e.Name == name && e.Prefix == prefix) ?? AmlElement.NullElem;
     }
 
     /// <summary>
@@ -1356,6 +1373,11 @@ namespace Innovator.Client
       public IReadOnlyElement Parent
       {
         get { return _prop.Parent; }
+      }
+
+      public string Prefix
+      {
+        get { return _prop.Prefix; }
       }
 
       public string Value

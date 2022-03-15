@@ -41,8 +41,18 @@ namespace Innovator.Client.IOM
     /// <summary>Retrieve the parent element</summary>
     IReadOnlyElement IReadOnlyElement.Parent => this.Parent;
 
+    /// <summary>Namespace prefix of the element name</summary>
+    public virtual string Prefix => Xml.Prefix;
+
     /// <summary>String value of the element</summary>
-    public virtual string Value { get { return Xml?.ChildNodes.OfType<XmlElement>().Any() != false ? null : Xml.InnerText; } }
+    public virtual string Value
+    {
+      get
+      {
+        // Make sure to return null instead of empty string
+        return Xml?.ChildNodes.OfType<XmlElement>().Any() != false ? null : string.IsNullOrEmpty(Xml.InnerText) ? null : Xml.InnerText;
+      }
+    }
 
     internal XmlElement Xml { get; set; }
 

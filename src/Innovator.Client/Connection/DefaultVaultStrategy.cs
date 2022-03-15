@@ -73,8 +73,7 @@ namespace Innovator.Client.Connection
               }
             }
             return result;
-          })
-          .Fail(ex => { ex.Rethrow(); });
+          });
       }
       return _userInfo;
     }

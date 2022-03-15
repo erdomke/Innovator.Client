@@ -37,7 +37,9 @@ namespace Innovator.Client
         }.Select(k => k.Key + "=" + k.Value).GroupConcat("&"), "application/x-www-form-urlencoded")
       };
       req.Headers.Add("Accept", "application/json");
-      return _service.PostPromise(_config.TokenEndpoint, async, req, new LogData(4
+      var result = new Promise<TokenCredentials>();
+      result.CancelTarget(
+       _service.PostPromise(_config.TokenEndpoint, async, req, new LogData(4
           , "Innovator: Get OAuth token"
           , Factory.LogListener)
         {
@@ -68,7 +70,7 @@ namespace Innovator.Client
               }
             }
 
-            throw ElementFactory.Local.FromXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/' xmlns:i18n='http://www.aras.com/I18N'>
+            result.Reject(ElementFactory.Local.FromXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/' xmlns:i18n='http://www.aras.com/I18N'>
   <SOAP-ENV:Body>
     <SOAP-ENV:Fault>
       <faultcode>@0</faultcode>
@@ -77,9 +79,10 @@ namespace Innovator.Client
       <detail>unknown error</detail>
     </SOAP-ENV:Fault>
   </SOAP-ENV:Body>
-</SOAP-ENV:Envelope>", faultCode, faultstring).Exception;
+</SOAP-ENV:Envelope>", faultCode, faultstring).Exception);
           }
-        });
+        }));
+      return result;
     }
 
     private IPromise<TokenCredentials> ValidCredentials(bool async)

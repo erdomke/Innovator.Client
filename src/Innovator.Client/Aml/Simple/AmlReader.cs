@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
@@ -13,7 +13,6 @@ namespace Innovator.Client
     private string _localName;
     private string _prefix;
     private XmlNameTable _table;
-
 
     internal AmlReader(ServerException ex) : this(GetElement(ex)) { }
     internal AmlReader(IReadOnlyResult result) : this(GetElement(result)) { }
@@ -251,7 +250,6 @@ namespace Innovator.Client
         case XmlNodeType.Text:
           _node = XmlNodeType.EndElement;
           return true;
-
       }
       // case XmlNodeType.EndElement:
       if (_stack.Peek().MoveNext())
@@ -270,7 +268,8 @@ namespace Innovator.Client
     {
       _current = elem;
       _node = XmlNodeType.Element;
-      SetName(elem.Name);
+      _prefix = elem.Prefix;
+      _localName = elem.Name;
       return true;
     }
     private void SetName(string name)
@@ -329,7 +328,7 @@ namespace Innovator.Client
       var curr = ex.Fault;
       while (curr.Parent.Exists && !string.IsNullOrEmpty(curr.Parent.Name))
         curr = curr.Parent;
-      if (curr.Name == "SOAP-ENV:Envelope")
+      if (curr.Name == "Envelope" && curr.Prefix == "SOAP-ENV")
         return curr;
 
       var aml = ElementFactory.Local;
@@ -343,14 +342,15 @@ namespace Innovator.Client
     private class LooseLinkElement : IReadOnlyElement, ILinkedElement
     {
       private ElementFactory _amlContext;
-      private string _name;
       private List<IReadOnlyElement> _children;
+      private string _name;
 
       public ElementFactory AmlContext { get { return _amlContext; } }
       public bool Exists { get { return true; } }
       public string Name { get { return _name; } }
       public IReadOnlyElement Parent { get; set; }
       IReadOnlyElement IReadOnlyElement.Parent { get { return this.Parent; } }
+      public string Prefix { get { return string.Empty; } }
       public string Value { get { return string.Empty; } }
       public ILinkedElement Next { get; set; }
 

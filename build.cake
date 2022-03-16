@@ -1,5 +1,5 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
-#addin "Cake.FileHelpers"
+#addin nuget:?package=Cake.FileHelpers&version=4.0.1
 
 /*
     This should be a simple file.  It is not because the new .Net Core

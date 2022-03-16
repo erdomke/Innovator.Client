@@ -1,4 +1,5 @@
-﻿using System.Text;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Innovator.Client
 {
@@ -33,6 +34,23 @@ namespace Innovator.Client
         }
       }
       return builder;
+    }
+
+    /// <summary>
+    /// Split the xml name based on namespace prefix if available
+    /// </summary>
+    /// <param name="name">The xml name</param>
+    /// <returns>KVP where the key is the prefix and the value is the adjusted name</returns>
+    public static KeyValuePair<string, string> GetXmlNamePrefix(string name)
+    {
+      var prefix = "";
+      var i = name?.IndexOf(':') ?? -1;
+      if (i >= 0)
+      {
+        prefix = name.Substring(0, i);
+        name = name.Substring(i + 1);
+      }
+      return new KeyValuePair<string, string>(prefix, name);
     }
   }
 }

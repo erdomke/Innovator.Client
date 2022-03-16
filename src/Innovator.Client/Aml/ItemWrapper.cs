@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml;
@@ -97,6 +97,11 @@ namespace Innovator.Client
     public IReadOnlyElement Parent
     {
       get { return _item.Parent; }
+    }
+    /// <inheritdoc/>
+    public string Prefix
+    {
+      get { return _item.Prefix; }
     }
     /// <inheritdoc/>
     public string Value

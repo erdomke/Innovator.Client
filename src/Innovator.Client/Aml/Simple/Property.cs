@@ -18,6 +18,7 @@ namespace Innovator.Client
       get { return _parent ?? AmlElement.NullElem; }
       set { _parent = value; }
     }
+    public override string Prefix { get; }
 
     private object NeutralValue()
     {
@@ -30,7 +31,9 @@ namespace Innovator.Client
 
     public Property(string name, params object[] content)
     {
-      Name = name;
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      Prefix = kvp.Key;
+      Name = kvp.Value;
       if (content == null)
         this.IsNull().Set(true);
       else if (content.Length > 0)
@@ -39,7 +42,9 @@ namespace Innovator.Client
 
     public Property(IElement parent, string name, params object[] content)
     {
-      Name = name;
+      var kvp = XmlUtils.GetXmlNamePrefix(name);
+      Prefix = kvp.Key;
+      Name = kvp.Value;
       _parent = parent;
       if (content?.Length > 0)
       {
@@ -51,6 +56,7 @@ namespace Innovator.Client
     private Property(IElement parent, Property clone)
     {
       Name = clone.Name;
+      Prefix = clone.Prefix;
       _parent = parent;
       CopyData(clone);
     }
@@ -196,6 +202,7 @@ namespace Innovator.Client
       // Note: This is very similar code to the Set() function below
       // Could not combine as Set() sets _content to null where Add does not
       var previousValue = _content?.ToString();
+      UpdateLanguageAttribute();
       var element = AddBase(content);
       if (previousValue != null && previousValue != _content?.ToString())
       {
@@ -219,6 +226,7 @@ namespace Innovator.Client
       // Could not combine as this sets _content to null where Add does not
       var previousValue = _content?.ToString();
       _content = null;
+      UpdateLanguageAttribute();
       AddBase(value);
       if (previousValue != null && previousValue != _content?.ToString())
       {
@@ -271,6 +279,17 @@ namespace Innovator.Client
         }
       }
       return result;
+    }
+
+    private void UpdateLanguageAttribute()
+    {
+      // Fix the language on non-i18n properties when changing an existing value
+      // This is to ensure language attribute consistency
+      // This only applies to non-i18n properties as these always save as the current user language
+      if (string.IsNullOrEmpty(Prefix) && _content != null && Attribute("xml:lang").Exists)
+      {
+        Attribute("xml:lang").Set(AmlContext.LocalizationContext.LanguageCode);
+      }
     }
 
     /// <summary>

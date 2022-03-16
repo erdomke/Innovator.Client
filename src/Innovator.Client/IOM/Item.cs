@@ -256,10 +256,11 @@ namespace Innovator.Client.IOM
       }
     }
 
-    /// <summary>
-    /// Local XML name of the element
-    /// </summary>
+    /// <inheritdoc/>
     public string Name { get { return AssertSingle<IReadOnlyElement>().Name; } }
+
+    /// <inheritdoc/>
+    public string Prefix { get { return AssertSingle<IReadOnlyElement>().Prefix; } }
 
     /// <summary>
     /// Retrieve the parent element

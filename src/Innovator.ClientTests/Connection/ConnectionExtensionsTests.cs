@@ -1,7 +1,7 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Globalization;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innovator.Client.Tests
 {
@@ -23,6 +23,14 @@ namespace Innovator.Client.Tests
       Assert.AreEqual("Company", result.PermName);
       Assert.AreEqual("Another Company", result.KeyedName);
       Assert.AreEqual(null, result.Empty);
+    }
+
+    [TestMethod()]
+    public void ItemByKeyedNameTest()
+    {
+      var conn = new TestConnection();
+      var result = conn.ItemByKeyedName("Company", "Another Company");
+      Assert.AreEqual("Another Company", result.KeyedName().Value);
     }
 
     [TestMethod()]

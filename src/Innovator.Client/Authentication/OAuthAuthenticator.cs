@@ -104,18 +104,17 @@ namespace Innovator.Client
       }
       else
       {
-        return _tokenCreds.Continue(c =>
+        // Force synchronous in order to break the always extending promise chain
+        var creds = _tokenCreds.Wait();
+        if (creds.Expires <= DateTime.UtcNow)
         {
-          if (c.Expires <= DateTime.UtcNow)
-          {
-            _tokenCreds = GetCredentials(async);
-            return _tokenCreds;
-          }
-          else
-          {
-            return Promises.Resolved(c);
-          }
-        });
+          _tokenCreds = GetCredentials(async);
+          return _tokenCreds;
+        }
+        else
+        {
+          return Promises.Resolved(creds);
+        }
       }
     }
 

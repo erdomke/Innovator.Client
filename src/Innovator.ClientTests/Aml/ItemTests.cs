@@ -94,6 +94,21 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void SetValueRemoveKeyedName()
+    {
+      var aml = ElementFactory.Local;
+      var result = aml.FromXml("<Item type='thing' id='1234'><item_prop type='another' keyed_name='stuff'>12345ABCDE12345612345ABCDE123456</item_prop></Item>").AssertItem();
+      result.Property("item_prop").Set("12345ABCDE12345612345ABCDE123456");
+      Assert.AreEqual(@"<Item type=""thing"" id=""1234""><item_prop type=""another"" keyed_name=""stuff"">12345ABCDE12345612345ABCDE123456</item_prop></Item>", result.ToString());
+      result.Property("item_prop").Set("2B2444304435441AA1137972D2B8B534");
+      Assert.AreEqual(@"<Item type=""thing"" id=""1234""><item_prop type=""another"">2B2444304435441AA1137972D2B8B534</item_prop></Item>", result.ToString());
+
+      result = aml.FromXml("<Item type='thing' id='1234'><item_prop type='another' keyed_name='stuff'>12345ABCDE12345612345ABCDE123456</item_prop></Item>").AssertItem();
+      result.Property("item_prop").Add(aml.FromXml("<Item type=\"another\" id=\"12345ABCDE12345612345ABCDE123456\"><keyed_name>stuff2</keyed_name><id keyed_name=\"stuff2\" type=\"another\">12345ABCDE12345612345ABCDE123456</id></Item>").AssertItem());
+      Assert.AreEqual(@"<Item type=""thing"" id=""1234""><item_prop type=""another""><Item type=""another"" id=""12345ABCDE12345612345ABCDE123456""><keyed_name>stuff2</keyed_name><id keyed_name=""stuff2"" type=""another"">12345ABCDE12345612345ABCDE123456</id></Item></item_prop></Item>", result.ToString());
+    }
+
+    [TestMethod()]
     public void VaultPictureUrlToItem()
     {
       var aml = ElementFactory.Local;

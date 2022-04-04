@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Innovator.Client.Tests
 {
@@ -31,5 +33,22 @@ namespace Innovator.Client.Tests
       Assert.AreEqual(pref.Url, newPref.Url);
       Assert.AreEqual(pref.Headers.Locale, newPref.Headers.Locale);
     }
+
+    //[TestMethod]
+    //public async Task Login()
+    //{
+    //  var pref = new ConnectionPreferences();
+    //  pref.Headers.UserAgent = "Innovator.Client Test";
+    //  pref.DefaultTimeout = (int)TimeSpan.FromMinutes(3).TotalMilliseconds;
+    //  var conn = Factory.GetConnection("http://localhost/Innovator/", pref, true).Continue(c =>
+    //  {
+    //    return c.Login(new ExplicitCredentials("DEV", "admin", "pass"), true)
+    //      .Convert(u =>
+    //      {
+    //        return (IAsyncConnection)c;
+    //      });
+    //  }).Wait();
+    //  conn.Apply("<Item action='get' type='User' maxRecords='1' />").AssertItem();
+    //}
   }
 }

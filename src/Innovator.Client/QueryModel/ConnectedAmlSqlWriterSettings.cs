@@ -139,18 +139,15 @@ namespace Innovator.Client.QueryModel
     /// <param name="itemType">Name of the itemtype</param>
     public IDictionary<string, Model.IPropertyDefinition> GetProperties(string itemType)
     {
-      Dictionary<string, Model.IPropertyDefinition> result;
-      if (!_props.TryGetValue(itemType, out result))
+      if (!_props.TryGetValue(itemType, out var result))
       {
-        result = _conn.Apply(@"<Item type='Property' action='get'>
+        // Make sure not to grab everything from the itemtype as it is repeated for every property
+        result = _conn.Apply(@"<Item type='Property' action='get' select='foreign_property(data_source,data_type),source_id(id),*'>
   <source_id>
     <Item type='ItemType' action='get'>
       <name>@0</name>
     </Item>
   </source_id>
-  <foreign_property>
-    <Item type='Property' action='get' select='data_source,data_type'></Item>
-  </foreign_property>
 </Item>", itemType)
           .Items()
           .OfType<Model.IPropertyDefinition>()

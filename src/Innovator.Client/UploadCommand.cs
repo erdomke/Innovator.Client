@@ -302,35 +302,46 @@ namespace Innovator.Client
     /// <returns>A promise to return an XML SOAP response as a <see cref="System.IO.Stream"/></returns>
     internal IPromise<Stream> UploadAndApply(string soapAction, string aml, IEnumerable<CommandFile> files, bool async)
     {
-      return Vault.TransformUrl(_conn, async).Continue(u =>
+      return _conn.FetchVersion(async).Continue(v =>
       {
-        // Compile the headers and AML query into the appropriate content
-        var content = new FormContent();
-        _conn.SetDefaultHeaders(content.Add);
-        content.Add("SOAPACTION", soapAction);
-        content.Add("VAULTID", Vault.Id);
-        content.Add("XMLdata", "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><ApplyItem>" +
-                                  aml +
-                                  "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>");
-        foreach (var file in files)
+        return Vault.TransformUrl(_conn, async).Continue(u =>
         {
-          content.Add(file.AsContent(this, _conn.AmlContext.LocalizationContext, true).Single());
-        }
-        content.Compression = _conn.Compression;
+          // Compile the headers and AML query into the appropriate content
+          HttpRequest req;
+          var content = new FormContent
+          {
+            {
+              "XMLdata",
+              "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><ApplyItem>" +
+              aml +
+              "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>"
+            }
+          };
+          foreach (var file in files)
+          {
+            content.Add(file.AsContent(this, _conn.AmlContext.LocalizationContext, true).Single());
+          }
+          content.Compression = _conn.Compression;
+          if (_conn.Version >= new Version(12, 0, 9))
+          {
+            req = GetUploadRequest12sp09(content, soapAction);
+          }
+          else
+          {
+            req = GetUploadRequestLegacy(content, soapAction);
+          }
+          foreach (var ac in _conn.DefaultSettings)
+          {
+            ac.Invoke(req);
+          }
+          Settings?.Invoke(req);
 
-        var req = new HttpRequest() { Content = content };
-        foreach (var ac in _conn.DefaultSettings)
-        {
-          ac.Invoke(req);
-        }
-        Settings?.Invoke(req);
+          req.Headers.TransferEncodingChunked = true;
 
-        req.Headers.TransferEncodingChunked = true;
-
-        var trace = new LogData(4
-          , "Innovator: Execute query"
-          , LogListener ?? Factory.LogListener
-          , Parameters)
+          var trace = new LogData(4
+            , "Innovator: Execute query"
+            , LogListener ?? Factory.LogListener
+            , Parameters)
         {
           { "aras_url", _conn.MapClientUrl("../../Server") },
           { "database", _conn.Database },
@@ -341,17 +352,38 @@ namespace Innovator.Client
           { "vault_id", Vault.Id },
           { "version", _conn.Version }
         };
-        _conn.SetDefaultHeaders((name, value) =>
-        {
-          if (string.Equals(name, "LOCALE", StringComparison.OrdinalIgnoreCase)
-            || string.Equals(name, "TIMEZONE_NAME", StringComparison.OrdinalIgnoreCase))
-            trace.Add(name.ToLowerInvariant(), value);
-        });
-        return Vault.HttpClient
-        .PostPromise(new Uri(Vault.Url), async, req, trace)
-        .Always(trace.Dispose)
-        .Always(req.Dispose);
-      }).Convert(r => r.AsStream);
+          _conn.SetDefaultHeaders((name, value) =>
+          {
+            if (string.Equals(name, "LOCALE", StringComparison.OrdinalIgnoreCase)
+              || string.Equals(name, "TIMEZONE_NAME", StringComparison.OrdinalIgnoreCase))
+            {
+              trace.Add(name.ToLowerInvariant(), value);
+            }
+          });
+          return Vault.HttpClient
+          .PostPromise(new Uri(Vault.Url), async, req, trace)
+          .Always(trace.Dispose)
+          .Always(req.Dispose);
+        }).Convert(r => r.AsStream);
+      });
+    }
+
+    private HttpRequest GetUploadRequestLegacy(FormContent content, string soapAction)
+    {
+      _conn.SetDefaultHeaders(content.Add);
+      content.Add("SOAPACTION", soapAction);
+      content.Add("VAULTID", Vault.Id);
+
+      return new HttpRequest() { Content = content };
+    }
+
+    private HttpRequest GetUploadRequest12sp09(FormContent content, string soapAction)
+    {
+      var req = new HttpRequest() { Content = content };
+      _conn.SetDefaultHeaders(req.SetHeader);
+      req.SetHeader("SOAPAction", soapAction);
+      req.SetHeader("VAULTID", Vault.Id);
+      return req;
     }
 
     private void MergeIfMissing(XElement source, XElement target)

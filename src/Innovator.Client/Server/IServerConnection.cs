@@ -1,4 +1,5 @@
 using Innovator.Client;
+using System;
 
 namespace Innovator.Server
 {
@@ -23,6 +24,7 @@ namespace Innovator.Server
     /// <value>
     /// The original AML request.
     /// </value>
+    [Obsolete("The original request can not be retrieved starting between v11sp12 and v12sp09. The source InputStream is emptied after Innovator reads the incoming AML.")]
     string OriginalRequest { get; }
     /// <summary>
     /// Gets the information about the current user's permissions.

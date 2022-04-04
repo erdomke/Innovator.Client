@@ -24,11 +24,9 @@ namespace Innovator.Client.Connection
     private readonly ArasVaultConnection _vaultConn;
     private readonly List<KeyValuePair<string, string>> _serverInfo = new List<KeyValuePair<string, string>>();
 
-
     private IAuthenticator _authenticator;
     private string _httpUsername;
     private ICredentials _lastCredentials;
-
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private string DebuggerDisplay
@@ -80,7 +78,7 @@ namespace Innovator.Client.Connection
     /// <value>
     /// The major version of the Aras installation.
     /// </value>
-    public Version Version { get; private set; }
+    public Version Version { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ArasHttpConnection"/> class.
@@ -113,6 +111,22 @@ namespace Innovator.Client.Connection
       this._innovatorClientBin = new Uri(this.Url, "../Client/cbin/");
 
       _vaultConn = new ArasVaultConnection(this, Service);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ArasHttpConnection"/> class using an existing <see cref="IConnection"/>.
+    /// The existing credential headers should be transferred to the new service in the calling code.
+    /// Optionally also copy the session cookies to re-use the existing session and prevent a login.
+    /// </summary>
+    /// <param name="existingConnection">The existing connection</param>
+    /// <param name="service">The service.</param>
+    /// <param name="innovatorServerUrl">The innovator server URL.</param>
+    /// <param name="itemFactory">The item factory.</param>
+    /// <remarks>Primarily used in the server environment to get a new connection that won't be rolled back when the transaction encounters an error.</remarks>
+    public ArasHttpConnection(IConnection existingConnection, HttpClient service, string innovatorServerUrl, IItemFactory itemFactory) : this(service, innovatorServerUrl, itemFactory)
+    {
+      Database = existingConnection.Database;
+      UserId = existingConnection.UserId;
     }
 
     /// <summary>
@@ -305,6 +319,8 @@ namespace Innovator.Client.Connection
                     _context.Locale = elem.Element("locale").Value;
                     _context.TimeZone = elem.Element("time_zone").Value;
                     break;
+                  // Since some version in v11, ServerInfo is not returned with ValidateUser
+                  // This leaves Version as null
                   case "ServerInfo":
                     foreach (var info in elem.Elements())
                     {
@@ -418,8 +434,12 @@ namespace Innovator.Client.Connection
 
     void IArasConnection.SetDefaultHeaders(Action<string, string> writer)
     {
-      foreach (var kvp in _authenticator.GetAuthHeaders(false).Value)
-        writer(kvp.Key, kvp.Value);
+      // Support a missing authenticator when a connection has been cloned and authentication is handled outside of Innovator.Client
+      if (_authenticator != null)
+      {
+        foreach (var kvp in _authenticator.GetAuthHeaders(false).Value)
+          writer(kvp.Key, kvp.Value);
+      }
       writer.Invoke("LOCALE", this._context.Locale);
       writer.Invoke("TIMEZONE_NAME", this._context.TimeZone);
     }

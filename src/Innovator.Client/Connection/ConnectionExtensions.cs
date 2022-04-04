@@ -263,7 +263,7 @@ namespace Innovator.Client
       if (keyedName.IsNullOrWhiteSpace())
         throw new ArgumentException("Keyed name must be specified", nameof(keyedName));
 
-      return conn.Apply(new Command("<Item type='@0 action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
+      return conn.Apply(new Command("<Item type='@0' action=\"get\"><keyed_name>@1</keyed_name></Item>", itemTypeName, keyedName)
                           .WithAction(CommandAction.ApplyItem)).AssertItem();
     }
 

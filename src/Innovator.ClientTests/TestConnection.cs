@@ -1,16 +1,16 @@
+using Innovator.Client.Connection;
+using Innovator.Server;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
-using Innovator.Client.Connection;
-using Innovator.Server;
 
 namespace Innovator.Client.Tests
 {
   internal class TestConnection : IArasConnection, IServerConnection
   {
-    private ArasVaultConnection _vaultConn;
+    private readonly ArasVaultConnection _vaultConn;
 
     public Command LastRequest { get; set; }
 
@@ -92,9 +92,11 @@ namespace Innovator.Client.Tests
         switch (AttrValue(elem, "type"))
         {
           case "Company":
-            if (AttrEquals(elem, "id", "0E086FFA6C4646F6939B74C43D094182"))
+            if (AttrEquals(elem, "id", "0E086FFA6C4646F6939B74C43D094182")
+              || elem.Element("keyed_name")?.Value == "Another Company")
             {
               result = @"<Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
+  <keyed_name>Another Company</keyed_name>
   <created_by_id keyed_name='First Last' type='User'>
     <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
       <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>

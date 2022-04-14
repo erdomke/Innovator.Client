@@ -105,15 +105,27 @@ namespace Innovator.Client
       else
       {
         // Force synchronous in order to break the always extending promise chain
-        var creds = _tokenCreds.Wait();
-        if (creds.Expires <= DateTime.UtcNow)
+        try
         {
+          // This will throw if the previous GetCredentials call failed
+          // Can commonly happen when network connection is lost
+          // This is not going to wait in practice since this location will be after the promise is already resolved
+          var creds = _tokenCreds.Wait();
+          if (creds.Expires <= DateTime.UtcNow)
+          {
+            _tokenCreds = GetCredentials(async);
+            return _tokenCreds;
+          }
+          else
+          {
+            return Promises.Resolved(creds);
+          }
+        }
+        catch
+        {
+          // Catch the exception and try getting credentials again
           _tokenCreds = GetCredentials(async);
           return _tokenCreds;
-        }
-        else
-        {
-          return Promises.Resolved(creds);
         }
       }
     }

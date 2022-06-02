@@ -1,7 +1,7 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Innovator.Client.Tests
 {
@@ -137,6 +137,23 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void LazyMap_AllDefaultsStillChecksDatabase()
+    {
+      var conn = new TestConnection();
+      var aml = ElementFactory.Local;
+      var item = aml.FromXml(@"<Result><Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='49403709D9F847ECA1A2DE9ADE68660F'>
+  <id keyed_name='John Doe' type='User'>49403709D9F847ECA1A2DE9ADE68660F</id>
+</Item></Result>").AssertItem();
+      var result = item.LazyMap(conn, i => new
+      {
+        FirstName = i.Property("first_name").AsString("Error"),
+        LastName = i.Property("last_name").AsString("Error")
+      });
+      Assert.AreEqual("John", result.FirstName);
+      Assert.AreEqual("Doe", result.LastName);
+    }
+
+    [TestMethod()]
     public void LazyMap_NestedItem_RetrieveExtraData()
     {
       var conn = new TestConnection();
@@ -222,9 +239,9 @@ namespace Innovator.Client.Tests
   </Relationships>
 </Item>";
       var item = ElementFactory.Local.FromXml(aml).AssertItem();
-      var all = ((IElement)item).Descendants().ToArray();
+      var all = item.Descendants().ToArray();
       Assert.AreEqual(11, all.Length);
-      var childItems = ((IElement)item).Descendants().OfType<IItem>().ToArray();
+      var childItems = item.Descendants().OfType<IItem>().ToArray();
       Assert.AreEqual(2, childItems.Length);
       Assert.AreEqual("FMEA Cause FMEA Control", childItems[0].TypeName());
       Assert.AreEqual("FMEA Control", childItems[1].TypeName());

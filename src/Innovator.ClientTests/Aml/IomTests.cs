@@ -4,13 +4,7 @@ using Aras.IOM;
 using Innovator.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace Innovator.Client.Tests
@@ -95,11 +89,7 @@ namespace Innovator.Client.Tests
       var start = CreateItem("<Item type='start'/>");
       var append = CreateItem("<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><ApplyItemResponse><Item type='append'/></ApplyItemResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>");
       start.appendItem(append);
-#if XMLLEGACY
       Assert.AreEqual("<AML><Item type=\"start\" /><Item type=\"append\" /></AML>", start.ToAml());
-#else
-      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"start\" /><Item type=\"append\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", start.ToAml());
-#endif
     }
 
     [TestMethod]
@@ -108,11 +98,7 @@ namespace Innovator.Client.Tests
       var start = CreateItem("<AML><Item type='start'/></AML>");
       var append = CreateItem("<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><ApplyItemResponse><Item type='append'/></ApplyItemResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>");
       start.appendItem(append);
-#if XMLLEGACY
       Assert.AreEqual("<AML><Item type=\"start\" /><Item type=\"append\" /></AML>", start.ToAml());
-#else
-      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"start\" /><Item type=\"append\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", start.ToAml());
-#endif
     }
 
     [TestMethod]
@@ -121,11 +107,7 @@ namespace Innovator.Client.Tests
       var start = CreateItem("<AML><Item type='start'/><Item type='second'/></AML>");
       var append = CreateItem("<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><ApplyItemResponse><Item type='append'/></ApplyItemResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>");
       start.appendItem(append);
-#if XMLLEGACY
       Assert.AreEqual("<AML><Item type=\"start\" /><Item type=\"second\" /><Item type=\"append\" /></AML>", start.ToAml());
-#else
-      Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"start\" /><Item type=\"second\" /><Item type=\"append\" /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>", start.ToAml());
-#endif
     }
 
     [TestMethod]
@@ -408,11 +390,7 @@ namespace Innovator.Client.Tests
       var aml = new IOM.Innovator(new TestConnection());
       var result = aml.newItemFromAml("<Item type='thing' id='1234'><item_prop type='another' keyed_name='stuff'>12345ABCDE12345612345ABCDE123456</item_prop></Item>");
       var propItem = result.AssertItem().Property("item_prop").AsItem().ToAml();
-#if XMLLEGACY
       Assert.AreEqual("<Item type=\"another\" id=\"12345ABCDE12345612345ABCDE123456\"><id type=\"another\" keyed_name=\"stuff\">12345ABCDE12345612345ABCDE123456</id><keyed_name>stuff</keyed_name></Item>", propItem);
-#else
-      Assert.AreEqual("<Item type=\"another\" id=\"12345ABCDE12345612345ABCDE123456\"><keyed_name>stuff</keyed_name><id keyed_name=\"stuff\" type=\"another\">12345ABCDE12345612345ABCDE123456</id></Item>", propItem);
-#endif
     }
 
     [TestMethod()]

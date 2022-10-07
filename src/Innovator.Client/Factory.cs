@@ -22,8 +22,8 @@ namespace Innovator.Client
   public static class Factory
   {
     private static Action<int, string, IEnumerable<KeyValuePair<string, object>>> _logListener;
-    private static MemoryCache<string, byte[]> _imageCache = new MemoryCache<string, byte[]>();
-    
+    private static readonly MemoryCache<string, byte[]> _imageCache = new MemoryCache<string, byte[]>();
+
     /// <summary>
     /// Gets or sets the default <see cref="IItemFactory"/> to use with new connections
     /// </summary>
@@ -161,7 +161,7 @@ namespace Innovator.Client
       var configUrl = url + "/mapping.xml";
 
       var service = preferences.HttpService ?? ConnectionPreferences.GetService();
-      
+
       Func<ServerMapping, IRemoteConnection> connFactory = m =>
       {
         var uri = (m.Url ?? "").TrimEnd('/');
@@ -249,7 +249,7 @@ namespace Innovator.Client
 
     private static IRemoteConnection ArasConn(HttpClient arasService, string url, ConnectionPreferences preferences)
     {
-      var result = new Connection.ArasHttpConnection(arasService, url, preferences.ItemFactory);
+      var result = new Connection.ArasHttpConnection(arasService, url, preferences.ItemFactory, preferences.UserTimeZone);
       if (preferences.Headers.Any() || preferences.DefaultTimeout.HasValue)
       {
         result.DefaultSettings(r =>

@@ -67,20 +67,21 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void SubstituteSqlString()
     {
+      var aml = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
       Assert.AreEqual(@"<sql>SELECT 5.46</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", 5.46).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", 5.46).ToNormalizedAml(aml.LocalizationContext));
       Assert.AreEqual(@"<sql>SELECT '1'</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", true).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", true).ToNormalizedAml(aml.LocalizationContext));
       Assert.AreEqual(@"<sql>SELECT '0'</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", false).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", false).ToNormalizedAml(aml.LocalizationContext));
       Assert.AreEqual(@"<sql>SELECT '2017-01-01T17:00:00'</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", DateTime.Parse("2017-01-01T12:00:00")).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", DateTime.Parse("2017-01-01T12:00:00")).ToNormalizedAml(aml.LocalizationContext));
       Assert.AreEqual(@"<sql>SELECT '3373C6B037F14CFABF9968BF9FEA5056'</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", new Guid("3373C6B037F14CFABF9968BF9FEA5056")).ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", new Guid("3373C6B037F14CFABF9968BF9FEA5056")).ToNormalizedAml(aml.LocalizationContext));
       Assert.AreEqual(@"<sql>SELECT '3373C6B037F14CFABF9968BF9FEA5056'</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", "3373C6B037F14CFABF9968BF9FEA5056").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", "3373C6B037F14CFABF9968BF9FEA5056").ToNormalizedAml(aml.LocalizationContext));
       Assert.AreEqual(@"<sql>SELECT N'Some string'</sql>"
-        , new Command(@"<sql>SELECT @0</sql>", "Some string").ToNormalizedAml(ElementFactory.Local.LocalizationContext));
+        , new Command(@"<sql>SELECT @0</sql>", "Some string").ToNormalizedAml(aml.LocalizationContext));
     }
 
     [TestMethod()]
@@ -119,11 +120,11 @@ namespace Innovator.Client.Tests
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (2)</sql>", aml);
 
-      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", (object[])null);
+      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in (@0)</sql>", null);
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (null)</sql>", aml);
 
-      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", (object[])null);
+      cmd = new Command(@"<sql>SELECT * from innovator.[User] where id in @0</sql>", null);
       aml = cmd.ToNormalizedAml(ElementFactory.Local.LocalizationContext);
       Assert.AreEqual(@"<sql>SELECT * from innovator.[User] where id in (null)</sql>", aml);
 

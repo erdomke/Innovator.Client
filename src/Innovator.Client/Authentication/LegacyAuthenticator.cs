@@ -86,7 +86,7 @@ namespace Innovator.Client
         var context = ElementFactory.Local.LocalizationContext;
         req.SetHeader("DATABASE", winCred.Database);
         req.SetHeader("LOCALE", context.Locale);
-        req.SetHeader("TIMEZONE_NAME", context.TimeZone);
+        req.SetHeader("TIMEZONE_NAME", context.TimeZoneCorporate);
 
         return http.PostPromise(waLoginUrl, async, req, new LogData(4
           , "Innovator: Execute query"

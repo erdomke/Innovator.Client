@@ -6,6 +6,13 @@ namespace Innovator.Client
 {
   internal class SqlFormatter : IFormatProvider, ICustomFormatter
   {
+    readonly IServerContext _serverContext;
+
+    public SqlFormatter(IServerContext serverContext)
+    {
+      _serverContext = serverContext;
+    }
+
     public object GetFormat(Type formatType)
     {
       if (formatType == typeof(ICustomFormatter))
@@ -144,9 +151,14 @@ namespace Innovator.Client
       {
         return numberRenderer(number);
       }
+      else if (arg is DateTime)
+      {
+        var serverContext = (ServerContext)_serverContext;
+        return stringRenderer(ElementFactory.Utc.LocalizationContext.Format(serverContext.ConvertToUtcDateTime((DateTime)arg)));
+      }
       else
       {
-        return stringRenderer(ElementFactory.Utc.LocalizationContext.Format(arg));
+        return stringRenderer(_serverContext.Format(arg));
       }
     }
   }

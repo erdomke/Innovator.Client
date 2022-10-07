@@ -9,6 +9,8 @@ namespace Innovator.Client.Tests
   [TestClass()]
   public class ItemTests
   {
+    readonly ElementFactory aml = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
+
     [TestMethod()]
     public void NullItemForInterface()
     {
@@ -27,7 +29,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void RelationshipSerialization()
     {
-      var aml = ElementFactory.Local;
       var input = @"<Item type=""List"" typeId=""5736C479A8CB49BCA20138514C637266"" id=""D7D72BF68937462B947DAC6BE7E28322""><Relationships><Item type=""Value"" /></Relationships></Item>";
       var item = aml.FromXml(input).AssertItem();
       Assert.AreEqual(input, item.ToAml());
@@ -37,7 +38,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void NullPropertySetIsNullAttribute()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Type("Stuff"), aml.Action("edit"), aml.Property("first", null), aml.Property("second", DBNull.Value), aml.Property("third", "stuff"), aml.Property("fourth"));
       Assert.AreEqual("<Item type=\"Stuff\" action=\"edit\"><first is_null=\"1\" /><second is_null=\"1\" /><third>stuff</third><fourth /></Item>", item.ToAml());
     }
@@ -45,7 +45,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void NullPropertySetIsNullAttribute()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Type("Stuff"), aml.Action("edit"), aml.Property("first", null), aml.Property("second", null), aml.Property("third", "stuff"), aml.Property("fourth"));
       Assert.AreEqual("<Item type=\"Stuff\" action=\"edit\"><first is_null=\"1\" /><second is_null=\"1\" /><third>stuff</third><fourth /></Item>", item.ToAml());
     }
@@ -54,7 +53,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void PropertySetWithNullableData()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Type("Stuff"), aml.Action("edit"));
       DateTime? someDate = null;
       DateTime? someDate2 = new DateTime(2016, 01, 01);
@@ -66,7 +64,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void PropertySetWithNumber()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Type("Stuff"), aml.Action("edit"));
       item.Property("some_val").Set(1000);
       item.Property("some_val_2").Set(0.00000000000000000000000000000000000000000000064879);
@@ -76,7 +73,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void UtcDateConversion()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Type("stuff"), aml.Property("created_on", "2016-05-24T13:22:42"));
       var localDate = item.CreatedOn().AsDateTime().Value;
       var utcDate = item.CreatedOn().AsDateTimeUtc().Value;
@@ -87,7 +83,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void PropertyItemExtraction()
     {
-      var aml = ElementFactory.Local;
       var result = aml.FromXml("<Item type='thing' id='1234'><item_prop type='another' keyed_name='stuff'>12345ABCDE12345612345ABCDE123456</item_prop></Item>");
       var propItem = result.AssertItem().Property("item_prop").AsItem().ToAml();
       Assert.AreEqual("<Item type=\"another\" id=\"12345ABCDE12345612345ABCDE123456\"><keyed_name>stuff</keyed_name><id keyed_name=\"stuff\" type=\"another\">12345ABCDE12345612345ABCDE123456</id></Item>", propItem);
@@ -96,7 +91,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void SetValueRemoveKeyedName()
     {
-      var aml = ElementFactory.Local;
       var result = aml.FromXml("<Item type='thing' id='1234'><item_prop type='another' keyed_name='stuff'>12345ABCDE12345612345ABCDE123456</item_prop></Item>").AssertItem();
       result.Property("item_prop").Set("12345ABCDE12345612345ABCDE123456");
       Assert.AreEqual(@"<Item type=""thing"" id=""1234""><item_prop type=""another"" keyed_name=""stuff"">12345ABCDE12345612345ABCDE123456</item_prop></Item>", result.ToString());
@@ -111,7 +105,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void VaultPictureUrlToItem()
     {
-      var aml = ElementFactory.Local;
       var result = aml.FromXml(@"<Item type='CAD' typeId='CCF205347C814DD1AF056875E0A880AC' id='2B2444304435441AA1137972D2B8B534'>
   <thumbnail>vault:///?fileId=1E49D4C8BE6545F9882A28C0763F473A</thumbnail>
 </Item>");
@@ -126,7 +119,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void AmlFromArray()
     {
-      var aml = ElementFactory.Local;
       IEnumerable<object> parts = new object[] { aml.Type("stuff"), aml.Attribute("keyed_name", "thingy"), "12345ABCDE12345612345ABCDE123456" };
       var item = aml.Item(aml.Type("Random Thing"),
         aml.Property("item_ref", parts)
@@ -137,7 +129,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void WhereUsedTest()
     {
-      var aml = ElementFactory.Local;
       var result = aml.FromXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'>
   <SOAP-ENV:Body>
     <Result>
@@ -160,7 +151,7 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void CloneAsNew()
     {
-      var aml = @"<Item type='PCO'>
+      var itemAml = @"<Item type='PCO'>
   <Relationships>
     <Item type='PCO Task' typeId='34D0942644C04D6D975C871961559FAA' id='A68D766FBB974F03925D9AA468F5E61C'>
       <copied_from is_null='1' />
@@ -203,7 +194,7 @@ namespace Innovator.Client.Tests
     </Item>
   </Relationships>
 </Item>";
-      var item = ElementFactory.Local.FromXml(aml).AssertItem();
+      var item = ElementFactory.Local.FromXml(itemAml).AssertItem();
       var settings = new CloneSettings()
       {
         DoCloneItem = (path, i) => !path.EndsWith("/Identity", StringComparison.OrdinalIgnoreCase)
@@ -467,7 +458,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void TestItemCreation_Constructor()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Action("get"), aml.Type("Part"),
         aml.Property("is_active_rev", "1"),
         aml.Property("item_number", aml.Attribute("condition", "like"), "905-1954-*")
@@ -499,7 +489,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void TestItemCreation_Relationships()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Type("Part"), aml.Action("get"),
         aml.Property("item_number", aml.Condition(Condition.Like), "905-1954-*"),
         aml.Relationships(
@@ -513,31 +502,31 @@ namespace Innovator.Client.Tests
     [TestMethod]
     public void VerifyItemCount()
     {
-      var aml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item type='Document' typeId='B88C14B99EF449828C5D926E39EE8B89' id='9370ECBC57DD416A9465F69F1281DB74'><classification>Miscellaneous</classification><config_id keyed_name='heart-1239269 (DOC-171531)' type='Document'>9370ECBC57DD416A9465F69F1281DB74</config_id><copyright>0</copyright><created_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</created_by_id><created_on>2016-03-04T14:34:56</created_on><current_state keyed_name='Released' type='Life Cycle State' name='Released'>C363ABDADF8D485393BB89877DBDCFD0</current_state><file_extensions>.jpg</file_extensions><generation>1</generation><has_change_pending>0</has_change_pending><has_files>1</has_files><id keyed_name='heart-1239269 (DOC-171531)' type='Document'>9370ECBC57DD416A9465F69F1281DB74</id><is_active_rev>1</is_active_rev><is_current>1</is_current><is_released>1</is_released><is_template>0</is_template><keyed_name>heart-1239269 (DOC-171531)</keyed_name><lab_controlled_document>0</lab_controlled_document><locked_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</locked_by_id><major_rev>001</major_rev><modified_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</modified_by_id><modified_on>2016-03-04T14:34:59</modified_on><new_version>1</new_version><not_lockable>0</not_lockable><permission_id keyed_name='New Document' type='Permission'>F0E3A6D242FC4889A9A119EEBC8EC79E</permission_id><release_date>2016-03-04T14:34:56</release_date><spec_regulation>0</spec_regulation><state>Released</state><team_id keyed_name='Owner: Public' type='Team'>2DEF50D558B44ECD9A603759D0B2D0DF</team_id><item_number>DOC-171531</item_number><name>heart-1239269</name><itemtype>B88C14B99EF449828C5D926E39EE8B89</itemtype><viewfile keyed_name='View' type='File'>F7584539F93F4F7F83A6EBF54072E6E4</viewfile></Item></Result><Message><Item id='F7584539F93F4F7F83A6EBF54072E6E4' type='File'><filename>f7584539f93f4f7f83a6ebf54072e6e4.jpg</filename></Item><event name='ids_modified' value='9370ECBC57DD416A9465F69F1281DB74|F7584539F93F4F7F83A6EBF54072E6E4|98F667F9CAB04528843D6D20738C46E6|527C835794B842A8B16E054E35B54F61' /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
-      var result = ElementFactory.Local.FromXml(aml);
+      var resultAml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item type='Document' typeId='B88C14B99EF449828C5D926E39EE8B89' id='9370ECBC57DD416A9465F69F1281DB74'><classification>Miscellaneous</classification><config_id keyed_name='heart-1239269 (DOC-171531)' type='Document'>9370ECBC57DD416A9465F69F1281DB74</config_id><copyright>0</copyright><created_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</created_by_id><created_on>2016-03-04T14:34:56</created_on><current_state keyed_name='Released' type='Life Cycle State' name='Released'>C363ABDADF8D485393BB89877DBDCFD0</current_state><file_extensions>.jpg</file_extensions><generation>1</generation><has_change_pending>0</has_change_pending><has_files>1</has_files><id keyed_name='heart-1239269 (DOC-171531)' type='Document'>9370ECBC57DD416A9465F69F1281DB74</id><is_active_rev>1</is_active_rev><is_current>1</is_current><is_released>1</is_released><is_template>0</is_template><keyed_name>heart-1239269 (DOC-171531)</keyed_name><lab_controlled_document>0</lab_controlled_document><locked_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</locked_by_id><major_rev>001</major_rev><modified_by_id keyed_name='Eric Domke' type='User'>2D246C5838644C1C8FD34F8D2796E327</modified_by_id><modified_on>2016-03-04T14:34:59</modified_on><new_version>1</new_version><not_lockable>0</not_lockable><permission_id keyed_name='New Document' type='Permission'>F0E3A6D242FC4889A9A119EEBC8EC79E</permission_id><release_date>2016-03-04T14:34:56</release_date><spec_regulation>0</spec_regulation><state>Released</state><team_id keyed_name='Owner: Public' type='Team'>2DEF50D558B44ECD9A603759D0B2D0DF</team_id><item_number>DOC-171531</item_number><name>heart-1239269</name><itemtype>B88C14B99EF449828C5D926E39EE8B89</itemtype><viewfile keyed_name='View' type='File'>F7584539F93F4F7F83A6EBF54072E6E4</viewfile></Item></Result><Message><Item id='F7584539F93F4F7F83A6EBF54072E6E4' type='File'><filename>f7584539f93f4f7f83a6ebf54072e6e4.jpg</filename></Item><event name='ids_modified' value='9370ECBC57DD416A9465F69F1281DB74|F7584539F93F4F7F83A6EBF54072E6E4|98F667F9CAB04528843D6D20738C46E6|527C835794B842A8B16E054E35B54F61' /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      var result = ElementFactory.Local.FromXml(resultAml);
       Assert.AreEqual(1, result.Items().Count());
     }
 
     [TestMethod]
     public void VerifyIdMethod()
     {
-      var aml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item><classification>Miscellaneous</classification><id>9370ECBC57DD416A9465F69F1281DB74</id><keyed_name>heart-1239269 (DOC-171531)</keyed_name></Item></Result><Message><Item id='F7584539F93F4F7F83A6EBF54072E6E4' type='File'><filename>f7584539f93f4f7f83a6ebf54072e6e4.jpg</filename></Item><event name='ids_modified' value='9370ECBC57DD416A9465F69F1281DB74|F7584539F93F4F7F83A6EBF54072E6E4|98F667F9CAB04528843D6D20738C46E6|527C835794B842A8B16E054E35B54F61' /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
-      var result = ElementFactory.Local.FromXml(aml);
+      var resultAml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item><classification>Miscellaneous</classification><id>9370ECBC57DD416A9465F69F1281DB74</id><keyed_name>heart-1239269 (DOC-171531)</keyed_name></Item></Result><Message><Item id='F7584539F93F4F7F83A6EBF54072E6E4' type='File'><filename>f7584539f93f4f7f83a6ebf54072e6e4.jpg</filename></Item><event name='ids_modified' value='9370ECBC57DD416A9465F69F1281DB74|F7584539F93F4F7F83A6EBF54072E6E4|98F667F9CAB04528843D6D20738C46E6|527C835794B842A8B16E054E35B54F61' /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      var result = ElementFactory.Local.FromXml(resultAml);
       Assert.AreEqual("9370ECBC57DD416A9465F69F1281DB74", result.AssertItem().Id());
     }
 
     [TestMethod]
     public void AttributeValueOnNullItem()
     {
-      var aml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item><classification>Miscellaneous</classification><id>9370ECBC57DD416A9465F69F1281DB74</id><keyed_name>heart-1239269 (DOC-171531)</keyed_name></Item></Result><Message><Item id='F7584539F93F4F7F83A6EBF54072E6E4' type='File'><filename>f7584539f93f4f7f83a6ebf54072e6e4.jpg</filename></Item><event name='ids_modified' value='9370ECBC57DD416A9465F69F1281DB74|F7584539F93F4F7F83A6EBF54072E6E4|98F667F9CAB04528843D6D20738C46E6|527C835794B842A8B16E054E35B54F61' /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
-      var result = ElementFactory.Local.FromXml(aml);
+      var resultAml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item><classification>Miscellaneous</classification><id>9370ECBC57DD416A9465F69F1281DB74</id><keyed_name>heart-1239269 (DOC-171531)</keyed_name></Item></Result><Message><Item id='F7584539F93F4F7F83A6EBF54072E6E4' type='File'><filename>f7584539f93f4f7f83a6ebf54072e6e4.jpg</filename></Item><event name='ids_modified' value='9370ECBC57DD416A9465F69F1281DB74|F7584539F93F4F7F83A6EBF54072E6E4|98F667F9CAB04528843D6D20738C46E6|527C835794B842A8B16E054E35B54F61' /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
+      var result = ElementFactory.Local.FromXml(resultAml);
       Assert.AreEqual(null, result.AssertItem().CreatedById().AsItem().Type().Value);
     }
 
     [TestMethod]
     public void ValueOfItemPropertyIsId()
     {
-      var aml = @"<Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
+      var itemAml = @"<Item type='Company' typeId='3E71E373FC2940B288760C915120AABE' id='0E086FFA6C4646F6939B74C43D094182'>
   <created_by_id keyed_name='First Last' type='User'>
     <Item type='User' typeId='45E899CD2859442982EB22BB2DF683E5' id='8227040ABF0A46A8AF06C18ABD3967B3'>
       <id keyed_name='First Last' type='User'>8227040ABF0A46A8AF06C18ABD3967B3</id>
@@ -554,7 +543,7 @@ namespace Innovator.Client.Tests
   </permission_id>
   <itemtype>3E71E373FC2940B288760C915120AABE</itemtype>
 </Item>";
-      var item = ElementFactory.Local.FromXml(aml).AssertItem();
+      var item = ElementFactory.Local.FromXml(itemAml).AssertItem();
       Assert.AreEqual("8227040ABF0A46A8AF06C18ABD3967B3", item.CreatedById().Value);
     }
 
@@ -584,7 +573,6 @@ namespace Innovator.Client.Tests
 </SOAP-ENV:Envelope>";
       const string outputWithMessage = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result><Item type=\"File\" typeId=\"8052A558B9084D41B9F11805E464F443\" id=\"1CD793698353444CA6DF901A732A523B\"><classification>/*</classification></Item></Result><Message><event name=\"items_with_no_access_count\" value=\"1\" /></Message></SOAP-ENV:Body></SOAP-ENV:Envelope>";
 
-      var aml = ElementFactory.Local;
       var result = aml.FromXml(withMessage);
       var str = result.ToAml();
       Assert.AreEqual(outputWithMessage, str);
@@ -628,7 +616,6 @@ namespace Innovator.Client.Tests
   </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>";
 
-      var aml = ElementFactory.Local;
       var result = aml.FromXml(exceptionXml);
       Assert.AreEqual(83, result.ItemsWithNoAccessCount());
 
@@ -645,7 +632,6 @@ namespace Innovator.Client.Tests
     {
       var expected = @"<Item type=""List"" id=""D7D72BF68937462B947DAC6BE7E28322""><Relationships><Item type=""Value"" /></Relationships></Item>";
 
-      var aml = ElementFactory.Local;
       var input = @"<Item type=""List"" id=""D7D72BF68937462B947DAC6BE7E28322""></Item>";
       var item = aml.FromXml(input).AssertItem();
       item.Relationships().Add(aml.Item(aml.Type("Value")));
@@ -664,7 +650,6 @@ namespace Innovator.Client.Tests
     {
       var conn = new TestConnection();
       var user = conn.Apply(@"<Item type='User' action='get' id='8227040ABF0A46A8AF06C18ABD3967B3' />").AssertItem();
-      var aml = conn.AmlContext;
       var newItem = aml.Item(user.Property("first_name"), user.Property("owned_by_id"));
       Assert.AreEqual("<Item><first_name>First</first_name><owned_by_id is_null=\"1\" /></Item>", newItem.ToAml());
     }
@@ -672,7 +657,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void ParseAttributes()
     {
-      var aml = ElementFactory.Local;
       const string xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><Result><Item id='81C7B50296DA460CAB9498F6A01FB568' type='ItemType' action='add' levels='0' isTemp='1' doGetItem='0' /></Result></SOAP-ENV:Body></SOAP-ENV:Envelope>";
       var item = aml.FromXml(xml).AssertItem();
       Assert.AreEqual("81C7B50296DA460CAB9498F6A01FB568", item.Id());
@@ -681,7 +665,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void CompileMethodResponse()
     {
-      var aml = ElementFactory.Local;
       var xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Body><CompileMethodResponse><Result><status>ERROR: method id was not provided.</status></Result></CompileMethodResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>";
       var result = aml.FromXml(xml);
       Assert.AreEqual("ERROR: method id was not provided.", result.Exception.Message);
@@ -694,7 +677,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void BuildingResult()
     {
-      var aml = ElementFactory.Local;
       var items = new List<IReadOnlyItem>()
       {
         aml.Item(aml.Type("first")), aml.Item(aml.Type("second"))
@@ -715,7 +697,6 @@ namespace Innovator.Client.Tests
     [TestMethod]
     public void CreateRelatedItem()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item(aml.Property("stuff", "thing"));
       var related = item.RelatedItem();
       var creator = related.CreatedById().AsItem();
@@ -741,7 +722,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void AddInConditionProperty()
     {
-      var aml = ElementFactory.Local;
       var item = aml.Item();
       var ids = new Dictionary<string, double>()
       {
@@ -755,7 +735,6 @@ namespace Innovator.Client.Tests
     [TestMethod()]
     public void ZeroListResult()
     {
-      var aml = ElementFactory.Local;
       var list = new List<IReadOnlyItem>();
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(list).ToAml());
       Assert.AreEqual("<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body><Result /></SOAP-ENV:Body></SOAP-ENV:Envelope>", aml.Result(list.ToArray()).ToAml());

@@ -28,7 +28,8 @@ namespace Innovator.Client
 
     private const string DoubleFixedPoint = "0.###################################################################################################################################################################################################################################################################################################################################################";
     private readonly static Regex TimeZoneMatch = new Regex(@"(^|\s)[+-]\d{1,2}(:\d{1,2})?($|\s)");
-    private DateTimeZone _timeZone;
+    private DateTimeZone _timeZoneCorporate;
+    private DateTimeZone _timeZoneUser;
 
     /// <summary>
     /// Gets the default language code configured for the Aras user
@@ -58,15 +59,29 @@ namespace Innovator.Client
     /// <summary>
     /// Gets the corporate time zone ID for the Aras installation
     /// </summary>
-    public string TimeZone
+    public string TimeZoneCorporate
     {
-      get { return _timeZone.Id; }
-      set { _timeZone = DateTimeZone.ById(value); }
+      get { return _timeZoneCorporate.Id; }
+      set { _timeZoneCorporate = DateTimeZone.ById(value); }
     }
 
-    internal DateTimeZone Zone
+    /// <summary>
+    /// Gets the user time zone ID
+    /// </summary>
+    public string TimeZoneUser
     {
-      get { return _timeZone; }
+      get { return _timeZoneUser.Id; }
+      set { _timeZoneUser = DateTimeZone.ById(value); }
+    }
+
+    internal DateTimeZone ZoneCorporate
+    {
+      get { return _timeZoneCorporate; }
+    }
+
+    internal DateTimeZone ZoneUser
+    {
+      get { return _timeZoneUser; }
     }
 
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -74,29 +89,57 @@ namespace Innovator.Client
     {
       get
       {
-        return "Context: " + Locale + " / " + TimeZone;
+        return "Context: " + Locale + " / " + TimeZoneCorporate;
       }
     }
 
     /// <summary>
-    /// Create a server context in either the local or UTC time zone
+    /// Create a server context with corporate and user timezones.
     /// </summary>
-    /// <param name="utc">Indicates the UTC time zone should be used. 
-    /// Otherwise, the local time zone will be used</param>
-    public ServerContext(bool utc)
+    /// <param name="utc">Indicates the UTC time zone should be used for corporate.
+    /// Otherwise, the local time zone will be used.</param>
+    /// <param name="userTimeZoneName">The time zone to be used for the user.</param>
+    /// <remarks>The corporate timezone will be updated after the user login</remarks>
+    public ServerContext(bool utc, string userTimeZoneName = null) : this(userTimeZoneName)
     {
-      _timeZone = utc ? DateTimeZone.Utc : DateTimeZone.Local;
-      this.DefaultLanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-      this.LanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
-      this.Locale = CultureInfo.CurrentCulture.Name;
+      if (utc)
+      {
+        _timeZoneCorporate = DateTimeZone.Utc;
+        if (string.IsNullOrEmpty(userTimeZoneName))
+        {
+          _timeZoneUser = DateTimeZone.Utc;
+        }
+      }
+      else
+      {
+        _timeZoneCorporate = DateTimeZone.Local;
+      }
     }
 
     /// <summary>
-    /// Create a server context using the specified time zone name
+    /// Create a server context using the specified corporate and user timezone names
     /// </summary>
-    public ServerContext(string timeZoneName)
+    /// <param name="corporateTimeZoneName"></param>
+    /// <param name="userTimeZoneName"></param>
+    /// <remarks>The corporate timezone will be updated after the user login</remarks>
+    public ServerContext(string corporateTimeZoneName, string userTimeZoneName = null) : this(userTimeZoneName)
     {
-      this.TimeZone = timeZoneName;
+      this.TimeZoneCorporate = corporateTimeZoneName;
+    }
+
+    private ServerContext(string userTimeZoneName = null)
+    {
+      this.DefaultLanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+      this.LanguageCode = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+      this.Locale = CultureInfo.CurrentCulture.Name;
+      if (string.IsNullOrEmpty(userTimeZoneName))
+      {
+        _timeZoneUser = DateTimeZone.Local;
+      }
+      else
+      {
+        TimeZoneUser = userTimeZoneName;
+      }
     }
 
 #if SERIALIZATION
@@ -107,7 +150,7 @@ namespace Innovator.Client
       this.LanguageCode = info.GetString("language_code");
       this.LanguageSuffix = info.GetString("language_suffix");
       this.Locale = info.GetString("locale");
-      this.TimeZone = info.GetString("time_zone");
+      this.TimeZoneCorporate = info.GetString("time_zone");
     }
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
@@ -117,7 +160,7 @@ namespace Innovator.Client
       info.AddValue("language_code", this.LanguageCode);
       info.AddValue("language_suffix", this.LanguageSuffix);
       info.AddValue("locale", this.Locale);
-      info.AddValue("time_zone", this.TimeZone);
+      info.AddValue("time_zone", this.TimeZoneCorporate);
     }
 #endif
 
@@ -481,19 +524,33 @@ namespace Innovator.Client
 
     private string Render(DateTime value)
     {
+      return ConvertDateTime(value, _timeZoneCorporate).ToString("s");
+    }
+
+    public DateTime ConvertToUtcDateTime(DateTime value)
+    {
+      return ConvertDateTime(value, DateTimeZone.Utc);
+    }
+
+    private DateTime ConvertDateTime(DateTime value, DateTimeZone to)
+    {
       var converted = value;
       if (value.Kind == DateTimeKind.Utc)
       {
-        if (_timeZone != DateTimeZone.Utc)
+        if (_timeZoneCorporate != DateTimeZone.Utc)
         {
-          converted = DateTimeZone.ConvertTime(value, DateTimeZone.Utc, _timeZone);
+          converted = DateTimeZone.ConvertTime(value, DateTimeZone.Utc, to);
         }
       }
-      else if (_timeZone != DateTimeZone.Local) // Assume local
+      else if (value.Kind == DateTimeKind.Local)
       {
-        converted = DateTimeZone.ConvertTime(value, DateTimeZone.Local, _timeZone);
+        converted = DateTimeZone.ConvertTime(value, DateTimeZone.Local, to);
       }
-      return converted.ToString("s");
+      else
+      {
+        converted = DateTimeZone.ConvertTime(value, _timeZoneUser, to);
+      }
+      return converted;
     }
 
     /// <summary>
@@ -527,7 +584,7 @@ namespace Innovator.Client
       if (arg == null) return null;
 
       var parts = (format ?? "").Split(':');
-      var sql = new SqlFormatter();
+      var sql = new SqlFormatter(this);
       string formatString;
 
       switch (parts[0])

@@ -434,7 +434,7 @@ namespace Innovator.Client.QueryModel
 
       public void SetContext(IServerContext context)
       {
-        _tz = DateTimeZone.ById(context.TimeZone);
+        _tz = DateTimeZone.ById(context.TimeZoneCorporate);
         _culture = new CultureInfo(context.Locale);
         var dateFormatting = _culture.DateTimeFormat;
         _dateFormats.Clear();

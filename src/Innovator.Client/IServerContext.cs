@@ -35,7 +35,7 @@ namespace Innovator.Client
     /// <summary>
     /// Gets the corporate time zone ID for the Aras installation
     /// </summary>
-    string TimeZone { get; }
+    string TimeZoneCorporate { get; }
 
     /// <summary>
     /// Converts the <see cref="object"/> to a <see cref="bool"/> based on 

@@ -228,7 +228,7 @@ namespace Innovator.Client
       return new Range<T>(convert(parts[0], context), convert(parts[1], context));
     }
 
-    /// <summary>Value converted to a <see cref="DateTime"/> in the local timezone using the <paramref name="defaultValue"/> if null.
+    /// <summary>Value converted to a <see cref="DateTime"/> in the user timezone using the <paramref name="defaultValue"/> if null.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <param name="prop">The property to convert</param>
     /// <param name="defaultValue">The default value to return if the value is empty</param>
@@ -250,7 +250,12 @@ namespace Innovator.Client
 
     public static DateTime? AsDateTime(this IServerContext context, object value)
     {
-      return context.AsZonedDateTime(value)?.LocalDateTime;
+      var dateTime = context.AsZonedDateTime(value)?.ZoneDateTime;
+      if (dateTime == null)
+      {
+        return null;
+      }
+      return DateTimeZone.ConvertTime(dateTime.Value, context.GetTimeZoneCorporate(), context.GetTimeZoneUser());
     }
 
     public static DateTime? AsDateTimeUtc(this IServerContext context, object value)
@@ -258,7 +263,7 @@ namespace Innovator.Client
       return context.AsZonedDateTime(value)?.UtcDateTime;
     }
 
-    /// <summary>Value converted to a <see cref="DateTime"/> in the local timezone using the <paramref name="defaultValue"/> if null.
+    /// <summary>Value converted to a <see cref="DateTime"/> in the user timezone using the <paramref name="defaultValue"/> if null.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <param name="attr">The attribute to convert</param>
     /// <param name="defaultValue">The default value to return if the value is empty</param>
@@ -269,7 +274,7 @@ namespace Innovator.Client
       return attr.AsDateTime() ?? defaultValue;
     }
 
-    /// <summary>Value converted to a <see cref="DateTimeOffset"/> in the local timezone using the <paramref name="defaultValue"/> if null.
+    /// <summary>Value converted to a <see cref="DateTimeOffset"/> in the user timezone using the <paramref name="defaultValue"/> if null.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <param name="prop">The property to convert</param>
     /// <param name="defaultValue">The default value to return if the value is empty</param>
@@ -986,7 +991,7 @@ namespace Innovator.Client
     /// </summary>
     public static IElement Add(this IElement elem, params object[] content)
     {
-      return elem.Add((object)content);
+      return elem.Add(content);
     }
 
     /// <summary>
@@ -1661,7 +1666,7 @@ namespace Innovator.Client
     /// </summary>
     public static ZonedDateTime Now(this IServerContext context)
     {
-      return ServerContext._clock().WithZone(context.GetTimeZone());
+      return ServerContext._clock().WithZone(context.GetTimeZoneUser());
     }
 
     /// <summary>
@@ -1807,7 +1812,7 @@ namespace Innovator.Client
       if (value == null)
         return true;
 
-      var zone = context.GetTimeZone();
+      var zone = context.GetTimeZoneUser();
       if (value is DateTime date)
       {
         parsed = new ZonedDateTime(date, zone);
@@ -1836,6 +1841,7 @@ namespace Innovator.Client
           return true;
         }
 
+        zone = context.GetTimeZoneCorporate();
         if (!ZonedDateTime.TryParse(str, zone, out var result))
           return false;
 
@@ -1844,9 +1850,17 @@ namespace Innovator.Client
       }
     }
 
-    public static DateTimeZone GetTimeZone(this IServerContext context)
+    public static DateTimeZone GetTimeZoneUser(this IServerContext context)
     {
-      return (context as ServerContext)?.Zone ?? DateTimeZone.ById(context.TimeZone);
+      return (context as ServerContext)?.ZoneUser
+        ?? ElementFactory.Local.LocalizationContext.GetTimeZoneUser()
+        ?? DateTimeZone.ById(context.TimeZoneCorporate);
+    }
+
+    public static DateTimeZone GetTimeZoneCorporate(this IServerContext context)
+    {
+      return (context as ServerContext)?.ZoneCorporate
+        ?? DateTimeZone.ById(context.TimeZoneCorporate);
     }
 
     /// <summary>

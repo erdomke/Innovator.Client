@@ -160,7 +160,7 @@ namespace Innovator.Client
       {
         zone = TimeZoneInfo.FindSystemTimeZoneById(WindowsToIanaName(value));
       }
-      
+
       return new DateTimeZone() { _timeZone = zone };
     }
 

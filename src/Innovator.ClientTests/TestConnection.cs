@@ -11,10 +11,11 @@ namespace Innovator.Client.Tests
   internal class TestConnection : IArasConnection, IServerConnection
   {
     private readonly ArasVaultConnection _vaultConn;
+    private readonly ElementFactory _factory = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
 
     public Command LastRequest { get; set; }
 
-    public ElementFactory AmlContext { get { return ElementFactory.Local; } }
+    public ElementFactory AmlContext { get { return _factory; } }
 
     public string Database { get { return "Test"; } }
 

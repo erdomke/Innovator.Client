@@ -17,7 +17,7 @@ namespace Innovator.Client.Connection
   [DebuggerDisplay("{DebuggerDisplay,nq}")]
   public class ArasHttpConnection : IRemoteConnection, IArasConnection
   {
-    private ServerContext _context = new ServerContext(false);
+    private readonly ServerContext _context;
     private readonly Uri _innovatorServerUrl;
     private readonly Uri _innovatorClientBin;
     private List<Action<IHttpRequest>> _defaults = new List<Action<IHttpRequest>>();
@@ -86,10 +86,23 @@ namespace Innovator.Client.Connection
     /// <param name="service">The service.</param>
     /// <param name="innovatorServerUrl">The innovator server URL.</param>
     /// <param name="itemFactory">The item factory.</param>
-    public ArasHttpConnection(HttpClient service, string innovatorServerUrl, IItemFactory itemFactory)
+    /// <param name="userTimeZone">Optional time zone of the user.</param>
+    public ArasHttpConnection(
+      HttpClient service,
+      string innovatorServerUrl,
+      IItemFactory itemFactory,
+      string userTimeZone = null)
     {
       Service = service;
       this.Compression = CompressionType.none;
+      if (string.IsNullOrEmpty(userTimeZone))
+      {
+        _context = new ServerContext(false);
+      }
+      else
+      {
+        _context = new ServerContext(userTimeZone);
+      }
       AmlContext = new ElementFactory(_context, itemFactory);
 
       if (innovatorServerUrl.EndsWith("Server/InnovatorServer.aspx", StringComparison.OrdinalIgnoreCase))
@@ -317,7 +330,7 @@ namespace Innovator.Client.Connection
                     _context.LanguageCode = elem.Element("language_code").Value;
                     _context.LanguageSuffix = elem.Element("language_suffix").Value;
                     _context.Locale = elem.Element("locale").Value;
-                    _context.TimeZone = elem.Element("time_zone").Value;
+                    _context.TimeZoneCorporate = elem.Element("time_zone").Value;
                     break;
                   // Since some version in v11, ServerInfo is not returned with ValidateUser
                   // This leaves Version as null
@@ -371,7 +384,6 @@ namespace Innovator.Client.Connection
         Process(new Command("<logoff skip_unlock=\"" + (unlockOnLogout ? 0 : 1) + "\"/>").WithAction(CommandAction.LogOff), async)
           .Done(r =>
           {
-            _context = null;
             AmlContext = null;
             Database = null;
             _httpUsername = null;
@@ -441,7 +453,7 @@ namespace Innovator.Client.Connection
           writer(kvp.Key, kvp.Value);
       }
       writer.Invoke("LOCALE", this._context.Locale);
-      writer.Invoke("TIMEZONE_NAME", this._context.TimeZone);
+      writer.Invoke("TIMEZONE_NAME", this._context.TimeZoneCorporate);
     }
 
     /// <summary>

@@ -90,23 +90,28 @@ namespace Innovator.Client.Tests
     public void DateTimeOffsetTest()
     {
       var aml = ElementFactory.Utc;
-      var item = aml.FromXml(@"<Item><end_date>1/12/2016 8:13:54 PM</end_date></Item>").AssertItem();
+      var item = aml.FromXml("<Item><end_date>1/12/2016 8:13:54 PM</end_date></Item>").AssertItem();
       var offset = item.Property("end_date").AsDateTimeOffset();
       Assert.AreEqual(DateTimeOffset.Parse("2016-01-12T20:13:54Z"), offset.Value);
 
-      item = aml.FromXml(@"<Item><end_date>2016-01-12T20:13:54</end_date></Item>").AssertItem();
+      item = aml.FromXml("<Item><end_date>2016-01-12T20:13:54</end_date></Item>").AssertItem();
       offset = item.Property("end_date").AsDateTimeOffset();
       Assert.AreEqual(DateTimeOffset.Parse("2016-01-12T20:13:54Z"), offset.Value);
 
       aml = ElementFactory.Local;
-      item = aml.FromXml(@"<Item><end_date>2016-01-12T20:13:54</end_date></Item>").AssertItem();
+      item = aml.FromXml("<Item><end_date>2016-01-12T20:13:54</end_date></Item>").AssertItem();
       offset = item.Property("end_date").AsDateTimeOffset();
       Assert.AreEqual(DateTimeOffset.Parse("2016-01-12T20:13:54"), offset.Value);
 
       aml = new ElementFactory(new ServerContext("Central Standard Time"));
-      item = aml.FromXml(@"<Item><end_date>2016-01-12T20:13:54</end_date></Item>").AssertItem();
+      item = aml.FromXml("<Item><end_date>2016-01-12T20:13:54</end_date></Item>").AssertItem();
       offset = item.Property("end_date").AsDateTimeOffset();
       Assert.AreEqual(new DateTimeOffset(DateTime.Parse("2016-01-12T20:13:54"), TimeSpan.FromHours(-6)), offset.Value);
+
+      aml = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
+      item = aml.FromXml("<Item><end_date>2022-10-04T00:00:00</end_date></Item>").AssertItem();
+      var date = item.Property("end_date").AsDateTime().Value;
+      Assert.AreEqual(new DateTime(2022, 10, 04), date);
     }
 
     [TestMethod]
@@ -125,6 +130,67 @@ namespace Innovator.Client.Tests
       var item = ElementFactory.Local.Item();
       item.Property("name").Set(new CDataValue("first & second > third"));
       Assert.AreEqual(str, item.ToAml());
+    }
+
+    [TestMethod]
+    [DataRow("Eastern Standard Time", "Eastern Standard Time", "2022-06-06T00:00:00")]
+    [DataRow("Eastern Standard Time", "Central Standard Time", "2022-06-05T23:00:00")]
+    [DataRow("Eastern Standard Time", "Pacific Standard Time", "2022-06-05T21:00:00")]
+    [DataRow("Central Standard Time", "Eastern Standard Time", "2022-06-06T01:00:00")]
+    [DataRow("Central Standard Time", "Central Standard Time", "2022-06-06T00:00:00")]
+    [DataRow("Central Standard Time", "Pacific Standard Time", "2022-06-05T22:00:00")]
+    [DataRow("Pacific Standard Time", "Eastern Standard Time", "2022-06-06T03:00:00")]
+    [DataRow("Pacific Standard Time", "Central Standard Time", "2022-06-06T02:00:00")]
+    [DataRow("Pacific Standard Time", "Pacific Standard Time", "2022-06-06T00:00:00")]
+    public void UserTimeZoneProperty(string userTimeZone, string corporateTimeZone, string corporateDate)
+    {
+      var aml = new ElementFactory(new ServerContext(corporateTimeZone, userTimeZone));
+      const string dateString = "2022-06-06T00:00:00";
+      var item = aml.Item();
+
+      var date = DateTime.Parse(dateString);
+      item.Property("start_date").Set(date);
+      Assert.AreEqual($"<Item><start_date>{corporateDate}</start_date></Item>", item.ToString());
+    }
+
+    [TestMethod]
+    [DataRow("Eastern Standard Time", "Eastern Standard Time", "2022-06-06T04:00:00")]
+    [DataRow("Eastern Standard Time", "Central Standard Time", "2022-06-06T04:00:00")]
+    [DataRow("Eastern Standard Time", "Pacific Standard Time", "2022-06-06T04:00:00")]
+    [DataRow("Central Standard Time", "Eastern Standard Time", "2022-06-06T05:00:00")]
+    [DataRow("Central Standard Time", "Central Standard Time", "2022-06-06T05:00:00")]
+    [DataRow("Central Standard Time", "Pacific Standard Time", "2022-06-06T05:00:00")]
+    [DataRow("Pacific Standard Time", "Eastern Standard Time", "2022-06-06T07:00:00")]
+    [DataRow("Pacific Standard Time", "Central Standard Time", "2022-06-06T07:00:00")]
+    [DataRow("Pacific Standard Time", "Pacific Standard Time", "2022-06-06T07:00:00")]
+    public void UserTimeZoneNormalizedAml(string userTimeZone, string corporateTimeZone, string utcDate)
+    {
+      var aml = new ElementFactory(new ServerContext(corporateTimeZone, userTimeZone));
+      const string dateString = "2022-06-06T00:00:00";
+
+      Assert.AreEqual($"<sql>SELECT '{utcDate}'</sql>"
+        , new Command("<sql>SELECT @0</sql>", DateTime.Parse(dateString)).ToNormalizedAml(aml.LocalizationContext));
+    }
+
+    [TestMethod]
+    [DataRow("Eastern Standard Time", "Eastern Standard Time", "2022-06-06T04:00:00", "2022-06-06T00:00:00")]
+    [DataRow("Eastern Standard Time", "Central Standard Time", "2022-06-06T05:00:00", "2022-06-06T01:00:00")]
+    [DataRow("Eastern Standard Time", "Pacific Standard Time", "2022-06-06T07:00:00", "2022-06-06T03:00:00")]
+    [DataRow("Central Standard Time", "Eastern Standard Time", "2022-06-06T04:00:00", "2022-06-05T23:00:00")]
+    [DataRow("Central Standard Time", "Central Standard Time", "2022-06-06T05:00:00", "2022-06-06T00:00:00")]
+    [DataRow("Central Standard Time", "Pacific Standard Time", "2022-06-06T07:00:00", "2022-06-06T02:00:00")]
+    [DataRow("Pacific Standard Time", "Eastern Standard Time", "2022-06-06T04:00:00", "2022-06-05T21:00:00")]
+    [DataRow("Pacific Standard Time", "Central Standard Time", "2022-06-06T05:00:00", "2022-06-05T22:00:00")]
+    [DataRow("Pacific Standard Time", "Pacific Standard Time", "2022-06-06T07:00:00", "2022-06-06T00:00:00")]
+    public void UserTimeZoneAsDateTime(string userTimeZone, string corporateTimeZone, string utcDate, string userDate)
+    {
+      var aml = new ElementFactory(new ServerContext(corporateTimeZone, userTimeZone));
+      const string dateString = "2022-06-06T00:00:00";
+
+      var item = aml.FromXml($"<Item><start_date>{dateString}</start_date></Item>").AssertItem();
+
+      Assert.AreEqual(DateTime.Parse(userDate), item.Property("start_date").AsDateTime());
+      Assert.AreEqual(DateTime.Parse(utcDate), item.Property("start_date").AsDateTimeUtc());
     }
   }
 }

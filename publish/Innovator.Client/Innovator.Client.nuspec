@@ -11,17 +11,7 @@
     <tags>aras innovator</tags>
     <language>en-US</language>
     <dependencies>
-      <group targetFramework=".NETFramework3.5">
-        <dependency id="HttpClientPolyfill" version="1.0.0.6" exclude="Build,Analyzers" />
-        <dependency id="TaskParallelLibrary" version="1.0.2856" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NETFramework4.0">
-        <dependency id="HttpClientPolyfill" version="1.0.0.6" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NETFramework4.5" />
-      <group targetFramework=".NETFramework4.6" />
-      <group targetFramework=".NETStandard1.1" />
-      <group targetFramework=".NETStandard1.3" />
+      <group targetFramework=".NETFramework4.7" />
       <group targetFramework=".NETStandard2.0" />
     </dependencies>
   </metadata>

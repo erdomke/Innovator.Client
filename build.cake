@@ -14,26 +14,6 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var version = DateTime.Now.ToString("yyyy.MM.dd.HHmm");
 
-private string[] MergeCompileLines(string[] file, string[] newCompiles)
-{
-  var first = int.MaxValue;
-  var last = int.MinValue;
-  
-  for (var i = 0; i < file.Length; i++)
-  {
-    if (file[i].Trim().StartsWith("<Compile Include="))
-    {
-      first = Math.Min(first, i);
-      last = Math.Max(last, i);
-    }
-  }
-  
-  return file.Take(first)
-    .Concat(newCompiles)
-    .Concat(file.Skip(last + 1))
-    .ToArray();
-}
-
 //////////////////////////////////////////////////////////////////////
 // TASKS
 //////////////////////////////////////////////////////////////////////
@@ -59,48 +39,14 @@ Task("Patch-Version")
   );
 });
 
-Task("Patch-Project-Files")
-  .IsDependentOn("Patch-Version")
-  .Does(() =>
-{
-  var compileLines = FileReadLines("./src/Innovator.Client/Innovator.Client.csproj")
-    .Where(l => l.Trim().StartsWith("<Compile Include="))
-    .ToArray();
-  
-  var newLines = MergeCompileLines(FileReadLines("./src/Innovator.Client/Innovator.Client.Net35.csproj"), compileLines);
-  FileWriteLines("./src/Innovator.Client/Innovator.Client.Net35.csproj", newLines);
-  
-  newLines = MergeCompileLines(FileReadLines("./src/Innovator.Client/Innovator.Client.Net45.csproj"), compileLines);
-  FileWriteLines("./src/Innovator.Client/Innovator.Client.Net45.csproj", newLines);
-});
-
-Task("Build-Net35")
-  .IsDependentOn("Patch-Project-Files")
-  .Does(() =>
-{
-  try
-  {
-    CleanDirectory(Directory("./src/Innovator.Client/bin/"));
-    CleanDirectory(Directory("./src/Innovator.Client/obj/"));
-    NuGetRestore("./src/Innovator.Client.Net35.sln");
-    DotNetBuild("./src/Innovator.Client/Innovator.Client.Net35.csproj", settings =>
-      settings.SetConfiguration(configuration));    
-  }
-  catch (Exception ex)
-  {
-    Error(ex.ToString());
-    throw;
-  }
-});
-
 Task("Build")
-  .IsDependentOn("Build-Net35")
+  .IsDependentOn("Patch-Version")
   .Does(() =>
 {
   CleanDirectory(Directory("./src/Innovator.Client/bin/"));
   CleanDirectory(Directory("./src/Innovator.Client/obj/"));
-  DotNetCoreRestore("./src/Innovator.Client/Innovator.Client.NetCore.csproj");
-  DotNetCoreBuild("./src/Innovator.Client/Innovator.Client.NetCore.csproj", new DotNetCoreBuildSettings
+  DotNetCoreRestore("./src/Innovator.Client/Innovator.Client.csproj");
+  DotNetCoreBuild("./src/Innovator.Client/Innovator.Client.csproj", new DotNetCoreBuildSettings
   {
      Configuration = configuration
   });

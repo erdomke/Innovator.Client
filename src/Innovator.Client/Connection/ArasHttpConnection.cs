@@ -101,7 +101,7 @@ namespace Innovator.Client.Connection
       }
       else
       {
-        _context = new ServerContext(userTimeZone);
+        _context = new ServerContext(false, userTimeZone);
       }
       AmlContext = new ElementFactory(_context, itemFactory);
 
@@ -136,7 +136,8 @@ namespace Innovator.Client.Connection
     /// <param name="innovatorServerUrl">The innovator server URL.</param>
     /// <param name="itemFactory">The item factory.</param>
     /// <remarks>Primarily used in the server environment to get a new connection that won't be rolled back when the transaction encounters an error.</remarks>
-    public ArasHttpConnection(IConnection existingConnection, HttpClient service, string innovatorServerUrl, IItemFactory itemFactory) : this(service, innovatorServerUrl, itemFactory)
+    public ArasHttpConnection(IConnection existingConnection, HttpClient service, string innovatorServerUrl, IItemFactory itemFactory)
+      : this(service, innovatorServerUrl, itemFactory)
     {
       Database = existingConnection.Database;
       UserId = existingConnection.UserId;

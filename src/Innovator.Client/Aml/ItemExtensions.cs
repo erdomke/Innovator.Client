@@ -1,8 +1,6 @@
 using Innovator.Server;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -683,15 +681,47 @@ namespace Innovator.Client
 
     /// <summary>
     /// Creates a duplicate of the item object, removing system properties, and setting a new ID.
+    /// This will also intelligently replace any links to the old ID with the new ID.
     /// </summary>
     /// <param name="item">The item to duplicate</param>
     /// <param name="cloneSettings">The clone settings.</param>
     /// <returns>The cloned/duplicated item</returns>
     public static IItem CloneAsNew(this IReadOnlyItem item, CloneSettings cloneSettings = null)
     {
+      if (cloneSettings == null)
+      {
+        cloneSettings = new CloneSettings();
+      }
       var newItem = item.Clone();
       ProcessClone(newItem, cloneSettings, item.TypeName());
+      var newIdToOld = cloneSettings.OldIdToNewGeneratedId.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+      PostProcessClone(newItem, cloneSettings, item.TypeName(), newIdToOld);
       return newItem;
+    }
+
+    private static void PostProcessClone(IItem item, CloneSettings cloneSettings, string path, Dictionary<string, string> newIdToOld)
+    {
+      foreach (var child in item.Elements().SelectMany(e => e.Elements().OfType<IItem>()))
+      {
+        var childPath = path + "/" + child.Parent.Name + "/" + child.TypeName();
+        PostProcessClone(child, cloneSettings, childPath, newIdToOld);
+      }
+      newIdToOld.TryGetValue(item.Id(), out string newId);
+      ReplaceIds(item, cloneSettings.OldIdToNewGeneratedId);
+      cloneSettings.PostProcessClonedItem?.Invoke(path, item, newId);
+    }
+
+    private static void ReplaceIds(IElement element, Dictionary<string, string> oldIdToNew)
+    {
+      foreach (var childElement in element.Elements().OfType<IProperty>())
+      {
+        var childValue = childElement.Value;
+        if (childValue?.IsGuid() == true && oldIdToNew.TryGetValue(childValue, out var newId))
+        {
+          childElement.Set(newId);
+        }
+        ReplaceIds(childElement, oldIdToNew);
+      }
     }
 
     private static void ProcessClone(IItem item, CloneSettings cloneSettings, string path)
@@ -699,8 +729,19 @@ namespace Innovator.Client
       item.Where().Remove();
       item.IdList().Remove();
       item.Action().Set("add");
-      item.RemoveSystemProperties(cloneSettings?.DoRemoveSystemProperty);
-      var newId = item.AmlContext.NewId();
+      item.RemoveSystemProperties(cloneSettings.DoRemoveSystemProperty);
+      var oldId = item.Id();
+      string newId;
+      if (string.IsNullOrEmpty(oldId))
+      {
+        newId = item.AmlContext.NewId();
+      }
+      else if (!cloneSettings.OldIdToNewGeneratedId.TryGetValue(oldId, out newId))
+      {
+        newId = item.AmlContext.NewId();
+        cloneSettings.OldIdToNewGeneratedId.Add(oldId, newId);
+      }
+
       item.Attribute("id").Set(newId);
       item.Property("id").Remove();
 
@@ -712,15 +753,16 @@ namespace Innovator.Client
       foreach (var child in item.Elements().SelectMany(e => e.Elements().OfType<IItem>()))
       {
         path += "/" + child.Parent.Name + "/" + child.TypeName();
-        if (cloneSettings?.DoCloneItem?.Invoke(path, child) == false)
-        {
-          ((IProperty_Base)child.Parent).Set(child.Id());
-        }
-        else
+        var shouldClone = cloneSettings.DoCloneItem?.Invoke(path, child) ?? true;
+        if (shouldClone)
         {
           child.Parent.Attribute("keyed_name").Remove();
           child.Parent.Attribute("type").Remove();
           ProcessClone(child, cloneSettings, path);
+        }
+        else
+        {
+          ((IProperty_Base)child.Parent).Set(child.Id());
         }
       }
     }
@@ -986,7 +1028,7 @@ namespace Innovator.Client
     /// </summary>
     public static IElement Add(this IElement elem, params object[] content)
     {
-      return elem.Add((object)content);
+      return elem.Add(content);
     }
 
     /// <summary>

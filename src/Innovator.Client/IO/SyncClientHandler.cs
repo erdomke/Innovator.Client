@@ -44,6 +44,7 @@ namespace Innovator.Client
     {
       var wReq = CreateAndPrepareWebRequest(request);
       wReq.Timeout = (int)request.Timeout.TotalMilliseconds;
+      wReq.ReadWriteTimeout = (int)request.Timeout.TotalMilliseconds;
       var syncContent = request.Content as ISyncContent;
       if (syncContent != null)
       {
@@ -65,8 +66,15 @@ namespace Innovator.Client
           case WebExceptionStatus.Timeout:
             throw new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", request.Timeout), webex);
           default:
-            var resp = CreateResponseMessage((HttpWebResponse)webex.Response, request);
-            throw new HttpException(resp);
+            if (webex.Response != null)
+            {
+              var resp = CreateResponseMessage((HttpWebResponse)webex.Response, request);
+              throw new HttpException(resp);
+            }
+            else
+            {
+              throw new HttpException("An error occurred while sending the request.", webex);
+            }
         }
       }
     }
@@ -77,10 +85,9 @@ namespace Innovator.Client
       {
         ReasonPhrase = webResponse.StatusDescription,
         Version = webResponse.ProtocolVersion,
-        RequestMessage = request
+        RequestMessage = request,
+        Content = new ResponseContent(new ResponseStreamWrapper(webResponse))
       };
-
-      httpResponseMessage.Content = new ResponseContent(new ResponseStreamWrapper(webResponse));
       request.RequestUri = webResponse.ResponseUri;
       WebHeaderCollection headers = webResponse.Headers;
       HttpContentHeaders headers2 = httpResponseMessage.Content.Headers;

@@ -191,7 +191,7 @@ namespace Innovator.Client.Queryable.Tests
     [TestMethod()]
     public void Queryable_ChildItemLogical()
     {
-      var aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().IsReleased().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0));
+      var aml = TestAml(q => q.Where(i => (i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && i.CreatedById().AsItem().IsReleased().AsBoolean(true)) || i.CreatedById().AsItem().Generation().AsInt(0) > 0));
       Assert.AreEqual("<Item type=\"ItemType\" action=\"get\"><created_by_id><Item action=\"get\"><or><and><keyed_name condition=\"like\">*Domke*</keyed_name><is_released>1</is_released></and><generation condition=\"gt\">0</generation></or></Item></created_by_id></Item>", aml);
 
       aml = TestAml(q => q.Where(i => i.CreatedById().AsItem().KeyedName().Value.Contains("Domke") && (i.CreatedById().AsItem().IsReleased().AsBoolean(true) || i.CreatedById().AsItem().Generation().AsInt(0) > 0)));

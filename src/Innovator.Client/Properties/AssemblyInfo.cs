@@ -16,4 +16,3 @@ using System.Runtime.CompilerServices;
 [assembly: NeutralResourcesLanguage("en")]
 
 [assembly: InternalsVisibleTo("Innovator.ClientTests")]
-[assembly: InternalsVisibleTo("Innovator.ClientTests.NetFull")]

@@ -37,51 +37,44 @@ namespace Innovator.Client
         return _lastPromise;
 
       Status = UploadStatus.Committed;
-      // No transaction has been started
-      if (_transactionId == null && !Files.Any(f => f.UploadPromise != null))
-      {
-        _lastPromise = UploadAndApply(async);
-      }
-      else
-      {
-        var transactionId = default(string);
-        _lastPromise = BeginTransaction(async)
-          .Continue(t =>
+      var transactionId = default(string);
+      _lastPromise = BeginTransaction(async)
+        .Continue(t =>
+        {
+          transactionId = t;
+          return Promises.All(Files
+            .Select(f => f.UploadPromise ?? UploadFile(f, async))
+            .ToArray());
+        })
+        .Continue(l =>
+        {
+          var aml = this.ToNormalizedAml(_conn.AmlContext.LocalizationContext);
+          var content = new FormContent
           {
-            transactionId = t;
-            return Promises.All(Files
-              .Select(f => f.UploadPromise ?? UploadFile(f, async))
-              .ToArray());
-          })
-          .Continue(l =>
-          {
-            var aml = this.ToNormalizedAml(_conn.AmlContext.LocalizationContext);
-            var content = new FormContent
-            {
               {
                 "XMLData",
                 "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:i18n=\"http://www.aras.com/I18N\"><SOAP-ENV:Body><ApplyItem>"
                   + aml
                   + "</ApplyItem></SOAP-ENV:Body></SOAP-ENV:Envelope>"
               }
-            };
+          };
 
-            var req = new HttpRequest() { Content = content };
-            _conn.SetDefaultHeaders(req.SetHeader);
-            foreach (var ac in _conn.DefaultSettings)
-            {
-              ac.Invoke(req);
-            }
-            Settings?.Invoke(req);
-            req.SetHeader("SOAPAction", "CommitTransaction");
-            req.SetHeader("VAULTID", Vault.Id);
-            req.SetHeader("transactionid", transactionId);
+          var req = new HttpRequest() { Content = content };
+          _conn.SetDefaultHeaders(req.SetHeader);
+          foreach (var ac in _conn.DefaultSettings)
+          {
+            ac.Invoke(req);
+          }
+          Settings?.Invoke(req);
+          req.SetHeader("SOAPAction", "CommitTransaction");
+          req.SetHeader("VAULTID", Vault.Id);
+          req.SetHeader("transactionid", transactionId);
 
-            var trace = new LogData(4
-              , "Innovator: Execute vault query"
-              , LogListener ?? Factory.LogListener
-              , Parameters)
-            {
+          var trace = new LogData(4
+            , "Innovator: Execute vault query"
+            , LogListener ?? Factory.LogListener
+            , Parameters)
+          {
               { "aras_url", _conn.MapClientUrl("../../Server") },
               { "database", _conn.Database },
               { "query", aml },
@@ -90,11 +83,10 @@ namespace Innovator.Client
               { "user_id", _conn.UserId },
               { "vault_id", Vault.Id },
               { "version", _conn.Version }
-            };
-            return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
-          })
-          .Convert(r => r.AsStream);
-      }
+          };
+          return Vault.HttpClient.PostPromise(new Uri(Vault.Url), async, req, trace).Always(trace.Dispose);
+        })
+        .Convert(r => r.AsStream);
       return _lastPromise;
     }
 
@@ -127,7 +119,8 @@ namespace Innovator.Client
 
           foreach (var content in file.AsContent(this, _conn.AmlContext.LocalizationContext, false))
           {
-            chain = chain.Continue(_ => {
+            chain = chain.Continue(_ =>
+            {
               var req = new HttpRequest()
               {
                 Content = content

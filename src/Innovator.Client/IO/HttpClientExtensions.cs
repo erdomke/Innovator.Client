@@ -9,8 +9,8 @@ namespace Innovator.Client
   {
     private static IPromise<T> ToHttpPromise<T>(this Task<T> task, TimeoutSource timeout, LogData trace)
     {
-      var result = new Promise<T>();
-      result.CancelTarget(timeout);
+      var promiseResult = new Promise<T>();
+      promiseResult.CancelTarget(timeout);
       task
         .ContinueWith(t =>
         {
@@ -27,19 +27,28 @@ namespace Innovator.Client
                 ex.Data[kvp.Key] = kvp.Value;
               }
               trace.Add("exception", ex);
+              if (ex is HttpException httpException)
+              {
+                var serverException = httpException.TryGetServerException();
+                if (serverException != null)
+                {
+                  promiseResult.Reject(serverException);
+                  return;
+                }
+              }
             }
-            result.Reject(ex);
+            promiseResult.Reject(ex);
           }
           else if (t.IsCanceled)
           {
-            result.Reject(new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", TimeSpan.FromMilliseconds(timeout.TimeoutDelay))));
+            promiseResult.Reject(new HttpTimeoutException(string.Format("A response was not received after waiting for {0:m' minutes, 's' seconds'}", TimeSpan.FromMilliseconds(timeout.TimeoutDelay))));
           }
           else
           {
-            result.Resolve(t.Result);
+            promiseResult.Resolve(t.Result);
           }
         });
-      return result;
+      return promiseResult;
     }
 
     public static IPromise<IHttpResponse> PostPromise(this HttpClient service, Uri uri, bool async, HttpRequest req, LogData trace)
@@ -57,7 +66,7 @@ namespace Innovator.Client
       timeout.CancelAfter((int)req.Timeout.TotalMilliseconds);
 
       var result = service.SendAsync(req, timeout.Source.Token)
-        .ContinueWith((Func<Task<HttpResponseMessage>, Task<IHttpResponse>>)HttpResponse.Create, TaskScheduler.Default)
+        .ContinueWith(HttpResponse.Create, TaskScheduler.Default)
         .Unwrap()
         .ToHttpPromise(timeout, trace);
       if (!async)
@@ -83,7 +92,7 @@ namespace Innovator.Client
       var respTask = service.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, timeout.Source.Token);
 
       var result = respTask
-        .ContinueWith((Func<Task<HttpResponseMessage>, Task<IHttpResponse>>)HttpResponse.Create, TaskScheduler.Default)
+        .ContinueWith(HttpResponse.Create, TaskScheduler.Default)
         .Unwrap()
         .ToHttpPromise(timeout, trace);
       if (!async)
@@ -114,6 +123,22 @@ namespace Innovator.Client
             return Promises.Rejected<IHttpResponse>(webex);
         }
       }
+      catch (HttpException httpException)
+      {
+        foreach (var kvp in trace)
+        {
+          httpException.Data[kvp.Key] = kvp.Value;
+        }
+        trace.Add("exception", httpException);
+
+        var serverException = httpException.TryGetServerException();
+        if (serverException != null)
+        {
+          return Promises.Rejected<IHttpResponse>(serverException);
+        }
+
+        return Promises.Rejected<IHttpResponse>(httpException);
+      }
       catch (Exception ex)
       {
         foreach (var kvp in trace)
@@ -125,6 +150,28 @@ namespace Innovator.Client
       }
     }
 #endif
+
+    /// <summary>
+    /// Try to get the Innovator server exception from the failed transaction response.
+    /// The vault throws a 500 on a bad upload, but we want the fault from the aml response.
+    /// </summary>
+    /// <param name="httpException"></param>
+    public static ServerException TryGetServerException(this HttpException httpException)
+    {
+      try
+      {
+        var result = ElementFactory.Local.FromXml(httpException.Response.AsXml());
+        if (result.Exception != null)
+        {
+          return result.Exception;
+        }
+      }
+      catch
+      {
+        // Do nothing as there are many scenarios where we won't have the data for a server exception
+      }
+      return null;
+    }
 
     private class TimeoutSource : IDisposable, ICancelable
     {

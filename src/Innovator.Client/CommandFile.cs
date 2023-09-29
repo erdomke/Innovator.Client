@@ -13,14 +13,14 @@ namespace Innovator.Client
 {
   internal class CommandFile
   {
-    private string _aml;
-    private string _checksum;
-    private Stream _data;
-    private string _id;
-    private long? _length;
-    private string _path;
+    private readonly string _aml;
+    private readonly string _checksum;
+    private readonly Stream _data;
+    private readonly string _id;
+    private readonly long? _length;
+    private readonly string _path;
 #if FILEIO
-    private string _filePath;
+    private readonly string _filePath;
 #endif
 
     public string Aml { get { return _aml; } }
@@ -199,7 +199,7 @@ namespace Innovator.Client
           }
         }
       }
-      
+
       return results;
     }
 
@@ -238,7 +238,7 @@ namespace Innovator.Client
             stringBuilder.Append('%').Append(character.ToString("x2"));
           }
         }
-        else if (!_tokenChars[(int)c] || c == '*' || c == '\'' || c == '%')
+        else if (!_tokenChars[c] || c == '*' || c == '\'' || c == '%')
         {
           stringBuilder.Append('%').Append(((int)c).ToString("x2"));
         }
@@ -279,9 +279,9 @@ namespace Innovator.Client
 
     private class FileStreamContent : StreamContent, ISyncContent
     {
-      private Stream _stream;
-      private long _length;
-      private bool _doDispose;
+      private readonly Stream _stream;
+      private readonly long _length;
+      private readonly bool _doDispose;
       private const int bufferSize = 81920;
 
       public FileStreamContent(Stream stream, long length, bool doDispose) : base(stream)
@@ -293,11 +293,13 @@ namespace Innovator.Client
 
       protected override void Dispose(bool disposing)
       {
-        base.Dispose(disposing);
         try
         {
-          if (disposing && _doDispose && _stream != null)
-            _stream.Dispose();
+          if (disposing && _doDispose)
+          {
+            // The base call will dispose the stream
+            base.Dispose(disposing);
+          }
         }
         catch (Exception) { }
       }

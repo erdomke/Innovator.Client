@@ -229,6 +229,88 @@ namespace Innovator.Client.Tests
     }
 
     [TestMethod()]
+    public void CloneAsNewReplacedId()
+    {
+      var aml = @"<Item type='Test' id='947E13BC9A7F44A4A9A4891B5417A625'>
+  <start_test>6DB02F304BFD4F15A294189A298B5E8B</start_test>
+  <end_test>13233A4510A84A6094C322DA3FF1E147</end_test>
+  <Relationships>
+    <Item type='Test Test' id='87C180162DAF43FC9056E3FBF663BAC2'>
+      <related_id>
+        <Item type='Test' id='6DB02F304BFD4F15A294189A298B5E8B'>
+          <root_test>947E13BC9A7F44A4A9A4891B5417A625</root_test>
+        </Item>
+      </related_id>
+    </Item>
+    <Item type='Test Test' id='161569BA825C4DFC813D2297A37C8470'>
+      <related_id>
+        <Item type='Test' id='13233A4510A84A6094C322DA3FF1E147'>
+          <root_test>947E13BC9A7F44A4A9A4891B5417A625</root_test>
+          <predecessor>6DB02F304BFD4F15A294189A298B5E8B</predecessor>
+        </Item>
+      </related_id>
+    </Item>
+  </Relationships>
+</Item>";
+      var item = ElementFactory.Local.FromXml(aml).AssertItem();
+      var settings = new CloneSettings()
+      {
+        PostProcessClonedItem = (path, item, oldId) =>
+        {
+          if (path == "Test")
+          {
+            var val = item.Relationships().First().RelatedItem().Property("root_test").Value;
+            Assert.AreEqual(oldId, "947E13BC9A7F44A4A9A4891B5417A625");
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("947E13BC9A7F44A4A9A4891B5417A625", val);
+          }
+          else if (path == "Test/Relationships/Test Test" && oldId == "87C180162DAF43FC9056E3FBF663BAC2")
+          {
+            var val = item.RelatedItem().Property("root_test").Value;
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("947E13BC9A7F44A4A9A4891B5417A625", val);
+          }
+          else if (path == "Test/Relationships/Test Test" && oldId == "161569BA825C4DFC813D2297A37C8470")
+          {
+            var val = item.RelatedItem().Property("root_test").Value;
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("947E13BC9A7F44A4A9A4891B5417A625", val);
+            val = item.RelatedItem().Property("predecessor").Value;
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("6DB02F304BFD4F15A294189A298B5E8B", val);
+          }
+          else if (path == "Test/Relationships/Test Test/related_id/Test" && oldId == "6DB02F304BFD4F15A294189A298B5E8B")
+          {
+            var val = item.Property("root_test").Value;
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("947E13BC9A7F44A4A9A4891B5417A625", val);
+          }
+          else if (path == "Test/Relationships/Test Test/related_id/Test" && oldId == "13233A4510A84A6094C322DA3FF1E147")
+          {
+            var val = item.Property("root_test").Value;
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("947E13BC9A7F44A4A9A4891B5417A625", val);
+            val = item.Property("predecessor").Value;
+            Assert.IsNotNull(val);
+            Assert.AreNotEqual("6DB02F304BFD4F15A294189A298B5E8B", val);
+          }
+          else
+          {
+            Assert.Fail("Path not handled", path);
+          }
+        }
+      };
+      var newItem = item.CloneAsNew(settings);
+
+      var newId = settings.OldIdToNewGeneratedId["947E13BC9A7F44A4A9A4891B5417A625"];
+      Assert.AreEqual(newId, newItem.Id());
+      Assert.AreEqual(newId, newItem.Relationships().First().RelatedItem().Property("root_test").Value);
+      Assert.AreEqual(newId, newItem.Relationships().Last().RelatedItem().Property("root_test").Value);
+      Assert.AreEqual(settings.OldIdToNewGeneratedId["6DB02F304BFD4F15A294189A298B5E8B"], newItem.Property("start_test").Value);
+      Assert.AreEqual(settings.OldIdToNewGeneratedId["13233A4510A84A6094C322DA3FF1E147"], newItem.Property("end_test").Value);
+    }
+
+    [TestMethod()]
     public void CloneTest()
     {
       var itemAml = @"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"">

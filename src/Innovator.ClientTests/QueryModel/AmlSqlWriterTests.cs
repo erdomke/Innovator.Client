@@ -187,8 +187,11 @@ namespace Innovator.Client.QueryModel.Tests
   <keyed_name condition='like'>999-*</keyed_name>
   <owned_by_id><Item type='Identity' action='get'><keyed_name condition='like'>*super*</keyed_name></Item></owned_by_id>
 </Item>").AssertItem();
-      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
-      settings.RenderOption = SqlRenderOption.CountQuery;
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        PermissionOption = AmlSqlPermissionOption.LegacyFunction,
+        RenderOption = SqlRenderOption.CountQuery
+      };
       var sql = item.ToQueryItem().ToArasSql(settings);
       Assert.AreEqual("select isnull(sum(cnt), 0) count from (select Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id, count(*) cnt from innovator.Part inner join innovator.[Identity] on Part.owned_by_id = [Identity].id where Part.is_active_rev = '1' and Part.keyed_name like N'999-%' and [Identity].keyed_name like N'%super%' group by Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id) perm where ( SELECT p FROM innovator.[GetDiscoverPermissions] ('can_get', perm.permission_id, perm.created_by_id, perm.managed_by_id, perm.owned_by_id, perm.team_id, 'F13AF7BC3D7A4084AF67AB7BF938C409,A73B655731924CD0B027E4F4D5FCC0A9', null, '2D246C5838644C1C8FD34F8D2796E327', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0"
         , sql);
@@ -202,8 +205,11 @@ namespace Innovator.Client.QueryModel.Tests
   <state condition='ne'>Obsolete</state>
   <is_in_service condition='ne'>1</is_in_service>
 </Item>").AssertItem();
-      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
-      settings.RenderOption = SqlRenderOption.OffsetQuery;
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        PermissionOption = AmlSqlPermissionOption.LegacyFunction,
+        RenderOption = SqlRenderOption.OffsetQuery
+      };
       var sql = item.ToQueryItem().ToArasSql(settings);
       Assert.AreEqual("select isnull(sum(cnt), 0) offset from ( select Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id, count(*) cnt from innovator.Part inner join ( select Part.item_number, Part.generation, Part.major_rev, Part.id from innovator.Part where Part.state <> N'Obsolete' and Part.is_in_service <> '1' and Part.is_current = '1' and Part.id = 'C0A0F17A9E3346D380ED015B1FD1F2A7') offset on (Part.[item_number] < offset.[item_number]) or (Part.[item_number] = offset.[item_number] and Part.[generation] < offset.[generation]) or (Part.[item_number] = offset.[item_number] and Part.[generation] = offset.[generation] and Part.[major_rev] < offset.[major_rev]) or (Part.[item_number] = offset.[item_number] and Part.[generation] = offset.[generation] and Part.[major_rev] = offset.[major_rev] and Part.[id] < offset.[id]) where Part.state <> N'Obsolete' and Part.is_in_service <> '1' and Part.is_current = '1' group by Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id ) perm where ( SELECT p FROM innovator.[GetDiscoverPermissions] ('can_get', perm.permission_id, perm.created_by_id, perm.managed_by_id, perm.owned_by_id, perm.team_id, 'F13AF7BC3D7A4084AF67AB7BF938C409,A73B655731924CD0B027E4F4D5FCC0A9', null, '2D246C5838644C1C8FD34F8D2796E327', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0"
         , sql);
@@ -213,8 +219,11 @@ namespace Innovator.Client.QueryModel.Tests
     public void Aml2Sql_Offset_NoCriteria()
     {
       var item = ElementFactory.Local.FromXml("<Item type='Part' offsetId='C0A0F17A9E3346D380ED015B1FD1F2A7' />").AssertItem();
-      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.SecuredFunctionEnviron };
-      settings.RenderOption = SqlRenderOption.OffsetQuery;
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        PermissionOption = AmlSqlPermissionOption.SecuredFunctionEnviron,
+        RenderOption = SqlRenderOption.OffsetQuery
+      };
       var sql = item.ToQueryItem().ToArasSql(settings);
       Assert.AreEqual("select isnull(sum(cnt), 0) offset from ( select Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id, count(*) cnt from innovator.Part inner join ( select Part.id from innovator.Part where Part.is_current = '1' and Part.id = 'C0A0F17A9E3346D380ED015B1FD1F2A7') offset on (Part.[id] < offset.[id]) where Part.is_current = '1' group by Part.permission_id, Part.created_by_id, Part.managed_by_id, Part.owned_by_id, Part.team_id ) perm where ( SELECT p FROM innovator.[EvaluatePermissions] ('can_get', perm.permission_id, perm.created_by_id, perm.managed_by_id, perm.owned_by_id, perm.team_id, 'F13AF7BC3D7A4084AF67AB7BF938C409,A73B655731924CD0B027E4F4D5FCC0A9', null, '2D246C5838644C1C8FD34F8D2796E327', '8FE5430B42014D94AE83246F299D9CC4', '9200A800443E4A5AAA80D0BCE5760307', '538B300BB2A347F396C436E9EEE1976C' ) ) > 0"
         , sql);
@@ -223,8 +232,9 @@ namespace Innovator.Client.QueryModel.Tests
     [TestMethod]
     public void Aml2Sql_Complex()
     {
+      var aml = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
       ServerContext._clock = () => DateTimeOffset.FromFileTime(131649408000000000);
-      var item = ElementFactory.Local.FromXml(@"<Item action=""get"" type=""Thing"" select="""">
+      var item = aml.FromXml(@"<Item action=""get"" type=""Thing"" select="""">
   <created_on condition=""between"" origDateRange=""Dynamic|Week|-1|Week|-1"">2018-02-25T00:00:00 and 2018-03-03T23:59:59</created_on>
   <or>
     <state condition=""like"">*Canceled*</state>
@@ -252,8 +262,11 @@ namespace Innovator.Client.QueryModel.Tests
     </Item>
   </owned_by_id>
 </Item>").AssertItem();
-      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection()) { PermissionOption = AmlSqlPermissionOption.LegacyFunction };
-      settings.RenderOption = SqlRenderOption.WhereClause;
+      var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
+      {
+        PermissionOption = AmlSqlPermissionOption.LegacyFunction,
+        RenderOption = SqlRenderOption.WhereClause
+      };
       settings.PermissionOption = AmlSqlPermissionOption.None;
       var sql = item.ToQueryItem().ToArasSql(settings);
       Assert.AreEqual("Thing.created_on between '2018-02-25T05:00:00' and '2018-03-04T04:59:59' and (Thing.state like N'%Canceled%' or Thing.state like N'%Closed%' or Thing.state like N'%Closed : Conversion%' or Thing.state like N'%Review%' or Thing.state like N'%In Work%') and (Thing.classification = N'Suspect Part' or Thing.classification = N'Suspect Part/Customer' or Thing.classification = N'Suspect Part/Incoming' or Thing.classification = N'Suspect Part/Production' or Thing.classification like N'Suspect Part/%' or Thing.classification like N'Suspect Part/Customer/%' or Thing.classification like N'Suspect Part/Incoming/%' or Thing.classification like N'Suspect Part/Production/%') and Thing.is_current = '1' and ([Identity].keyed_name like N'%john smith%' or [Identity].keyed_name like N'%jane doe%')"
@@ -263,7 +276,8 @@ namespace Innovator.Client.QueryModel.Tests
     [TestMethod]
     public void Aml2Sql_IdAttribute()
     {
-      var item = ElementFactory.Local.FromXml("<Item type='DFMEA' action='get' id='18427D78485C4755BA8746CF1F839405' select='id'/>").AssertItem();
+      var aml = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
+      var item = aml.FromXml("<Item type='DFMEA' action='get' id='18427D78485C4755BA8746CF1F839405' select='id'/>").AssertItem();
       var settings = new ConnectedAmlSqlWriterSettings(new TestConnection())
       {
         RenderOption = SqlRenderOption.SelectQuery,
@@ -276,8 +290,9 @@ namespace Innovator.Client.QueryModel.Tests
     [TestMethod]
     public void Aml2Sql_OrClause()
     {
+      var aml = new ElementFactory(new ServerContext("Eastern Standard Time", "Eastern Standard Time"));
       ServerContext._clock = () => DateTimeOffset.FromFileTime(131649408000000000);
-      var item = ElementFactory.Local.FromXml(@"<Item action='get' type='Concern' select='name'>
+      var item = aml.FromXml(@"<Item action='get' type='Concern' select='name'>
   <or>
     <classification condition='like'>Suspect Part</classification>
     <classification condition='like'>Suspect Part/*</classification>
@@ -290,7 +305,9 @@ namespace Innovator.Client.QueryModel.Tests
         PermissionOption = AmlSqlPermissionOption.None
       };
       var sql = item.ToQueryItem().ToArasSql(settings);
-      Assert.AreEqual("select Concern.name from innovator.Concern where (Concern.classification = N'Suspect Part' or Concern.classification like N'Suspect Part/%') and Concern.created_on between '2018-02-25T05:00:00' and '2018-03-04T04:59:59' and Concern.is_current = '1' order by Concern.id", sql);
+      Assert.AreEqual("select Concern.name from innovator.Concern where (Concern.classification = N'Suspect Part' " +
+        "or Concern.classification like N'Suspect Part/%') and Concern.created_on between '2018-02-25T05:00:00' and " +
+        "'2018-03-04T04:59:59' and Concern.is_current = '1' order by Concern.id", sql);
     }
 
     [TestMethod]

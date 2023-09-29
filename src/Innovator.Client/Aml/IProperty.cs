@@ -24,7 +24,7 @@ namespace Innovator.Client
   /// </summary>
   public interface IReadOnlyProperty_Date : IReadOnlyProperty_Base
   {
-    /// <summary>Value converted to a <see cref="Nullable{DateTime}"/> in the local timezone.
+    /// <summary>Value converted to a <see cref="Nullable{DateTime}"/> in the user timezone.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="DateTime"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
@@ -34,7 +34,7 @@ namespace Innovator.Client
     /// <returns>A <see cref="DateTime"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTime"/></exception>
     DateTime? AsDateTimeUtc();
-    /// <summary>Value converted to a <see cref="Nullable{DateTimeOffset}"/> in the local timezone.
+    /// <summary>Value converted to a <see cref="Nullable{DateTimeOffset}"/> in the user timezone.
     /// If the value cannot be converted, an exception is thrown</summary>
     /// <returns>A <see cref="DateTimeOffset"/> or <c>null</c> if the value is empty</returns>
     /// <exception cref="InvalidCastException">If the non-empty value cannot be converted to a <see cref="DateTimeOffset"/></exception>

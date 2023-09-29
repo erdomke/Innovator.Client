@@ -401,7 +401,7 @@ namespace Innovator.Client.QueryModel
       }
       else if (expression is DateTimeLiteral dateLiteral)
       {
-        value = new ZonedDateTime(dateLiteral.Value, _parser.Context.GetTimeZone());
+        value = new ZonedDateTime(dateLiteral.Value, _parser.Context.GetTimeZoneUser());
         return true;
       }
       else if (expression is ILiteral literal)

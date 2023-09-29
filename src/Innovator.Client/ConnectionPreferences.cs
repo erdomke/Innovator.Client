@@ -17,11 +17,11 @@ namespace Innovator.Client
   /// </summary>
   public class ConnectionPreferences
   {
-    private ArasHeaders _headers;
+    private readonly ArasHeaders _headers;
 
     /// <summary>
     /// By default, connections to URLs with mapping files will send login requests to
-    /// any defined authentication service.  If the callback is overriden, it will be used
+    /// any defined authentication service.  If the callback is overridden, it will be used
     /// instead.  If undefined, no authentication process will be called
     /// </summary>
     public Func<INetCredentials, string, bool, IPromise<ICredentials>> AuthCallback { get; set; }
@@ -53,6 +53,10 @@ namespace Innovator.Client
     /// The URL to use if not otherwise specified
     /// </summary>
     public string Url { get; set; }
+    /// <summary>
+    /// Optional User time zone. Will fall back to the corporate time zone.
+    /// </summary>
+    public string UserTimeZone { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConnectionPreferences"/> class.
@@ -97,7 +101,7 @@ namespace Innovator.Client
       return new SyncHttpClient(handler) { Timeout = infinite };
     }
 
-  private IPromise<ICredentials> DefaultAuthCallback(INetCredentials netCred, string endpoint, bool async)
+    private IPromise<ICredentials> DefaultAuthCallback(INetCredentials netCred, string endpoint, bool async)
     {
       var promise = new Promise<ICredentials>();
 
@@ -178,11 +182,11 @@ namespace Innovator.Client
 
     private class PreferencesWriter : XmlWriter
     {
-      private Dictionary<string, string> _attrs = new Dictionary<string, string>();
-      private Dictionary<string, string> _elemBuffer = new Dictionary<string, string>();
-      private Stack<string> _names = new Stack<string>();
-      private StringBuilder _buffer = new StringBuilder();
-      private ConnectionPreferences _prefs;
+      private readonly Dictionary<string, string> _attrs = new Dictionary<string, string>();
+      private readonly Dictionary<string, string> _elemBuffer = new Dictionary<string, string>();
+      private readonly Stack<string> _names = new Stack<string>();
+      private readonly StringBuilder _buffer = new StringBuilder();
+      private readonly ConnectionPreferences _prefs;
 
       public PreferencesWriter(ConnectionPreferences prefs)
       {

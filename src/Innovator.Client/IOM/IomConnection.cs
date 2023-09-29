@@ -87,7 +87,7 @@ namespace Innovator.Client.IOM
               context.LanguageCode = elem.Element("language_code").Value;
               context.LanguageSuffix = elem.Element("language_suffix").Value;
               context.Locale = elem.Element("locale").Value;
-              context.TimeZone = elem.Element("time_zone").Value;
+              context.TimeZoneCorporate = elem.Element("time_zone").Value;
               break;
             case "ServerInfo":
               foreach (var info in elem.Elements())
@@ -238,7 +238,7 @@ namespace Innovator.Client.IOM
       writer.Invoke("AUTHPASSWORD", this._httpPassword);
       writer.Invoke("DATABASE", this._httpDatabase);
       writer.Invoke("LOCALE", this.AmlContext.LocalizationContext.Locale);
-      writer.Invoke("TIMEZONE_NAME", this.AmlContext.LocalizationContext.TimeZone);
+      writer.Invoke("TIMEZONE_NAME", this.AmlContext.LocalizationContext.TimeZoneCorporate);
     }
 
     public IPromise<ExplicitHashCredentials> HashCredentials(ICredentials credentials, bool async)

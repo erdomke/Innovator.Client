@@ -800,7 +800,7 @@ namespace Innovator.Client.QueryModel
             var dateText = token.Text;
             if (dateText.StartsWith("datetime'"))
               dateText = dateText.Substring(9).TrimEnd('\'');
-            if (!ZonedDateTime.TryParse(dateText, table.Context.GetTimeZone(), out var date))
+            if (!ZonedDateTime.TryParse(dateText, table.Context.GetTimeZoneUser(), out var date))
               throw new InvalidOperationException();
             yield return new DateTimeLiteral(date.LocalDateTime);
             break;

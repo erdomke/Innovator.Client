@@ -225,7 +225,7 @@ namespace Innovator.Client
       if (_context != context)
       {
         _context = context;
-        _sqlFormatter = new SqlFormatter();
+        _sqlFormatter = new SqlFormatter(_context);
       }
 
       return query[i] == '<' && this.Mode == ParameterSubstitutionMode.Aml

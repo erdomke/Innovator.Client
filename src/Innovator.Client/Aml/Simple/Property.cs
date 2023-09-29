@@ -202,7 +202,12 @@ namespace Innovator.Client
       // Note: This is very similar code to the Set() function below
       // Could not combine as Set() sets _content to null where Add does not
       var previousValue = _content?.ToString();
-      UpdateLanguageAttribute();
+      var shouldUpdateLanguageAttribute = !(content is IReadOnlyAttribute || content is IAmlNode);
+      if (shouldUpdateLanguageAttribute)
+      {
+        // We don't need to update the language attribute when adding other attributes
+        UpdateLanguageAttribute();
+      }
       var element = AddBase(content);
       if (previousValue != null && previousValue != _content?.ToString())
       {
@@ -221,12 +226,12 @@ namespace Innovator.Client
         AddToParent();
       }
 
+      UpdateLanguageAttribute();
       // Remove keyed_name when setting a new value as the keyed_name is now wrong
       // Note: This is very similar code to the Add() function above
       // Could not combine as this sets _content to null where Add does not
       var previousValue = _content?.ToString();
       _content = null;
-      UpdateLanguageAttribute();
       AddBase(value);
       if (previousValue != null && previousValue != _content?.ToString())
       {
@@ -286,9 +291,22 @@ namespace Innovator.Client
       // Fix the language on non-i18n properties when changing an existing value
       // This is to ensure language attribute consistency
       // This only applies to non-i18n properties as these always save as the current user language
-      if (string.IsNullOrEmpty(Prefix) && _content != null && Attribute("xml:lang").Exists)
+      if (string.IsNullOrEmpty(Prefix) && _content != null)
       {
-        Attribute("xml:lang").Set(AmlContext.LocalizationContext.LanguageCode);
+        var langAttribute = Attribute("xml:lang");
+        if (langAttribute.Exists)
+        {
+          // If we don't have an AmlContext, remove the language attribute as a fallback
+          // We can't use the Local context as that might be mismatched
+          if (AmlContext == null)
+          {
+            langAttribute.Remove();
+          }
+          else
+          {
+            langAttribute.Set(AmlContext.LocalizationContext.LanguageCode);
+          }
+        }
       }
     }
 

@@ -343,5 +343,25 @@ namespace Innovator.Client.Tests
   <i18n:label xml:lang='de'>Beschreibung2</i18n:label>
 </Item>", getGerman);
     }
+
+    [TestMethod]
+    public void RemovedProperty_RemovesLanguageAttribute()
+    {
+      var amlSpanish = new ElementFactory(new ServerContext(false) { LanguageCode = "es" });
+
+      var getSpanish = amlSpanish.FromXml(@"<Item type='Part' xmlns:i18n='http://www.aras.com/I18N'>
+  <label xml:lang='en'>Test</label>
+</Item>").AssertItem();
+
+      var prop = getSpanish.Elements().Single(x => x.Name == "label");
+      Assert.AreEqual(getSpanish.Property("label").Attribute("xml:lang").Value, "en");
+      prop.Remove();
+      prop.Attribute("prop_label").Set("Test Label");
+      ((IProperty)prop).Set("Test Value");
+      getSpanish.Add(prop);
+      Assert.AreEqual(getSpanish.Property("label").Attribute("prop_label").Value, "Test Label");
+      Assert.AreEqual(getSpanish.Property("label").Value, "Test Value");
+      Assert.IsFalse(getSpanish.Property("label").Attribute("xml:lang").Exists);
+    }
   }
 }

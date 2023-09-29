@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Innovator.Client;
 using Innovator.Client.Model;
+using System;
+using System.Collections.Generic;
 
 namespace Innovator.Server
 {
@@ -52,26 +52,15 @@ namespace Innovator.Server
   }
 
   /// <summary>
-  /// Context for a server method which is used on before add
-  /// or update of an item.
+  /// Context for a server method which is used on before add/update of an item
   /// </summary>
-  public interface IValidationContext : IContext
+  public interface IChangingContext : IContext
   {
     /// <summary>
     /// Indicates if the argument is new (not in the database)
     /// </summary>
     /// <value><c>true</c> if the item is not in the database, <c>false</c> otherwise</value>
     bool IsNew { get; }
-
-    /// <summary>
-    /// Error builder which captures any errors which are encountered
-    /// </summary>
-    IErrorBuilder ErrorBuilder { get; }
-
-    /// <summary>
-    /// Get the exception object created for any errors that have happened so far.
-    /// </summary>
-    Exception Exception { get; }
 
     /// <summary>
     /// Get the existing item in the database
@@ -128,6 +117,22 @@ namespace Innovator.Server
     /// Method for modifying the query to get existing items
     /// </summary>
     Action<IItem> QueryDefaults { get; set; }
+  }
+
+  /// <summary>
+  /// Context for a server method which is used for validating on before add/update of an item
+  /// </summary>
+  public interface IValidationContext : IChangingContext
+  {
+    /// <summary>
+    /// Error builder which captures any errors which are encountered
+    /// </summary>
+    IErrorBuilder ErrorBuilder { get; }
+
+    /// <summary>
+    /// Get the exception object created for any errors that have happened so far.
+    /// </summary>
+    Exception Exception { get; }
   }
 
   /// <summary>

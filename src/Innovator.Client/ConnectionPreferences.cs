@@ -111,18 +111,29 @@ namespace Innovator.Client
       }
       else
       {
+        System.Net.ICredentials credentials;
+        var endpointUri = new Uri(endpoint + "?db=" + netCred.Database);
+        var networkCredentials = netCred.Credentials.GetCredential(endpointUri, null);
+        if (netCred is WindowsCredentials)
+        {
+          // .Net Core 3.1 and above needs to use the CredentialCache for NTLM
+          credentials = new CredentialCache { { new Uri(endpointUri.GetLeftPart(UriPartial.Authority)), "NTLM", networkCredentials } };
+        }
+        else
+        {
+          credentials = netCred.Credentials;
+        }
         var handler = new SyncClientHandler()
         {
-          Credentials = netCred.Credentials,
+          Credentials = credentials,
           PreAuthenticate = true
         };
         var http = new SyncHttpClient(handler);
 
-        var endpointUri = new Uri(endpoint + "?db=" + netCred.Database);
         var trace = new LogData(4, "Innovator: Authenticate user via mapping", Factory.LogListener)
         {
           { "database", netCred.Database },
-          { "user_name", netCred.Credentials.GetCredential(endpointUri, null).UserName },
+          { "user_name", networkCredentials.UserName },
           { "url", endpointUri },
         };
         http.GetPromise(endpointUri, async, trace)
